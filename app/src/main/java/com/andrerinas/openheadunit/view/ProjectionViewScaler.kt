@@ -7,6 +7,7 @@ import android.view.Gravity
 import com.andrerinas.openheadunit.App
 import com.andrerinas.openheadunit.utils.AppLog
 import com.andrerinas.openheadunit.utils.HeadUnitScreenConfig
+import com.andrerinas.openheadunit.utils.Settings
 
 object ProjectionViewScaler {
 
@@ -26,13 +27,46 @@ object ProjectionViewScaler {
         if (HeadUnitScreenConfig.forcedScale && view is ProjectionView) {
             val lp = view.layoutParams
             var paramsChanged = false
-            
-            // NOTE: For legacy forcedScale (SurfaceView), the 'stretchToFill' setting logic
-            // is historically inverted compared to its name.
-            if (settings.stretchToFill) {
-                // stretchToFill = TRUE results in Aspect Ratio preservation (Centered with bars)
-                val targetW = HeadUnitScreenConfig.getAdjustedWidth()
-                val targetH = HeadUnitScreenConfig.getAdjustedHeight()
+
+            if (settings.videoFitMode == Settings.VideoFitMode.FILL) {
+                // Stretch to fill the usable area exactly (ignores aspect ratio, no bars, no crop)
+                if (lp.width != usableW || lp.height != usableH) {
+                    lp.width = usableW
+                    lp.height = usableH
+                    paramsChanged = true
+                }
+
+                if (lp is FrameLayout.LayoutParams) {
+                    val targetGravity = Gravity.TOP or Gravity.START
+                    if (lp.gravity != targetGravity) {
+                        lp.gravity = targetGravity
+                        paramsChanged = true
+                    }
+                }
+
+                if (paramsChanged) {
+                    view.layoutParams = lp
+                }
+
+                view.scaleX = 1.0f * mirrorFactor
+                view.scaleY = 1.0f
+                view.translationX = 0f
+                view.translationY = 0f
+
+                AppLog.i("[UI_DEBUG] FORCED FILL: Resized view to match screen exactly: ${usableW}x${usableH}")
+            } else {
+                // CONTAIN: size down to fit within the usable area, centered, letterboxed.
+                // COVER: size up past the usable area, centered, the parent clips the overflow.
+                // Both preserve aspect ratio (no distortion) - only the target size differs.
+                val targetW: Int
+                val targetH: Int
+                if (settings.videoFitMode == Settings.VideoFitMode.COVER) {
+                    targetW = HeadUnitScreenConfig.getCoverWidth()
+                    targetH = HeadUnitScreenConfig.getCoverHeight()
+                } else {
+                    targetW = HeadUnitScreenConfig.getAdjustedWidth()
+                    targetH = HeadUnitScreenConfig.getAdjustedHeight()
+                }
 
                 if (lp.width != targetW || lp.height != targetH) {
                     lp.width = targetW
@@ -47,7 +81,7 @@ object ProjectionViewScaler {
                         paramsChanged = true
                     }
                 }
-                
+
                 if (paramsChanged) {
                     view.layoutParams = lp
                 }
@@ -57,33 +91,7 @@ object ProjectionViewScaler {
                 view.translationX = 0f
                 view.translationY = 0f
 
-                AppLog.i("[UI_DEBUG] FORCED & STRETCH On: Resized view to ${targetW}x${targetH} (centered)")
-            } else {
-                // Mode B: Stretch to fill the usable area exactly (ignores aspect ratio)
-                if (lp.width != usableW || lp.height != usableH) {
-                    lp.width = usableW
-                    lp.height = usableH
-                    paramsChanged = true
-                }
-                
-                if (lp is FrameLayout.LayoutParams) {
-                    val targetGravity = Gravity.TOP or Gravity.START
-                    if (lp.gravity != targetGravity) {
-                        lp.gravity = targetGravity
-                        paramsChanged = true
-                    }
-                }
-                
-                if (paramsChanged) {
-                    view.layoutParams = lp
-                }
-
-                view.scaleX = 1.0f * mirrorFactor
-                view.scaleY = 1.0f
-                view.translationX = 0f
-                view.translationY = 0f
-
-                AppLog.i("[UI_DEBUG] FORCED & STRETCH Off: Resized view to match screen exactly: ${usableW}x${usableH}")
+                AppLog.i("[UI_DEBUG] FORCED ${settings.videoFitMode}: Resized view to ${targetW}x${targetH} (centered)")
             }
         } else {
             // Modern way / TextureView: Use View scaling properties on a full-screen view
