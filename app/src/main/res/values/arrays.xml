@@ -33,4 +33,11 @@
         <item>@string/orientation_portrait_reverse</item>
     </string-array>
 
+    <!-- Order must match Settings.VideoFitMode: FILL(0), CONTAIN(1), COVER(2) -->
+    <string-array name="video_fit_mode">
+        <item>@string/video_fit_mode_fill</item>
+        <item>@string/video_fit_mode_contain</item>
+        <item>@string/video_fit_mode_cover</item>
+    </string-array>
+
 </resources>

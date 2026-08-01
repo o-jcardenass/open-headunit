@@ -66,10 +66,39 @@ class Settings(private val context: Context) {
         get() = prefs.getInt("resolutionId", 0)
         set(value) = prefs.edit().putInt("resolutionId", value).apply()
 
-    // Flag to determine if the projection should stretch and ignore aspect ratio to fill the screen
-    var stretchToFill: Boolean
-        get() = prefs.getBoolean("stretch_to_fill", true)
-        set(value) { prefs.edit().putBoolean("stretch_to_fill", value).apply() }
+    // How the negotiated video is fitted into the panel when its shape doesn't match.
+    // Mirrors the CSS object-fit vocabulary: FILL (stretch, no bars, may distort),
+    // CONTAIN (letterbox/pillarbox bars, no crop, no distortion), COVER (crop the
+    // overflow, no bars, no distortion). Migrates transparently from the older
+    // "stretch_to_fill" boolean so existing installs keep their configured *visual*
+    // behavior after updating - note the legacy forcedScale/SurfaceView path used an
+    // inverted meaning of that boolean (true = bars, false = stretch), so the migration
+    // has to branch on it too, not just map true->FILL/false->CONTAIN blindly.
+    var videoFitMode: VideoFitMode
+        get() {
+            if (prefs.contains("video-fit-mode")) {
+                return VideoFitMode.fromInt(prefs.getInt("video-fit-mode", VideoFitMode.FILL.value)) ?: VideoFitMode.FILL
+            }
+            if (prefs.contains("stretch_to_fill")) {
+                val legacyStretch = prefs.getBoolean("stretch_to_fill", true)
+                val legacyForcedScaleActive = prefs.getBoolean("forced_scale", false) && prefs.getInt("view-mode", 1) == ViewMode.SURFACE.value
+                val effectiveStretch = if (legacyForcedScaleActive) !legacyStretch else legacyStretch
+                return if (effectiveStretch) VideoFitMode.FILL else VideoFitMode.CONTAIN
+            }
+            return VideoFitMode.FILL
+        }
+        set(value) { prefs.edit().putInt("video-fit-mode", value.value).apply() }
+
+    enum class VideoFitMode(val value: Int) {
+        FILL(0),
+        CONTAIN(1),
+        COVER(2);
+
+        companion object {
+            private val map = values().associateBy(VideoFitMode::value)
+            fun fromInt(value: Int) = map[value]
+        }
+    }
 
     // Forced scale for older devices (SurfaceView fix)
     var forcedScale: Boolean

@@ -19,9 +19,9 @@ object HeadUnitScreenConfig {
     private var isInitialized: Boolean = false
     private var lastSettingsHash: Int = 0
     
-    // Flag to determine if the projection should stretch and ignore aspect ratio
-    private var stretchToFill: Boolean = false 
-    
+    // How the negotiated video is fitted into the panel (FILL/CONTAIN/COVER, see Settings.VideoFitMode).
+    private var videoFitMode: Settings.VideoFitMode = Settings.VideoFitMode.FILL
+
     // Forced scale for older devices (Legacy fix)
     var forcedScale: Boolean = false
         private set
@@ -48,7 +48,7 @@ object HeadUnitScreenConfig {
 
 
     fun init(context: Context, displayMetrics: DisplayMetrics, settings: Settings) {
-        stretchToFill = settings.stretchToFill
+        videoFitMode = settings.videoFitMode
         forcedScale = settings.forcedScale && settings.viewMode == Settings.ViewMode.SURFACE
 
         val realW: Int
@@ -336,6 +336,17 @@ object HeadUnitScreenConfig {
         return (getNegotiatedWidth() * scaleFactor).roundToInt()
     }
 
+    // COVER-mode target size for the legacy forcedScale/SurfaceView path, which sizes the view via
+    // LayoutParams rather than a View.scale transform. Mirrors coverScaleFactor()'s "never downscale
+    // below native, otherwise upscale just enough to cover both axes" rule.
+    fun getCoverWidth(): Int {
+        return (getNegotiatedWidth() * coverScaleFactor()).roundToInt()
+    }
+
+    fun getCoverHeight(): Int {
+        return (getNegotiatedHeight() * coverScaleFactor()).roundToInt()
+    }
+
     private fun getAspectRatio(): Float {
         return getNegotiatedWidth().toFloat() / getNegotiatedHeight().toFloat()
     }
@@ -381,32 +392,69 @@ object HeadUnitScreenConfig {
         return if (denominator == 0.0f) 1.0f else numerator / denominator
     }
 
+    // Uniform "contain" factor (CSS object-fit: contain): the largest scale that still fits the
+    // negotiated video entirely within the panel on both axes at once, preserving aspect ratio.
+    // Applied identically to both getScaleX() and getScaleY() so the two axes scale together
+    // instead of independently - only one axis lands margin-free; the other comes out < 1x,
+    // which is what creates the letterbox/pillarbox bar.
+    private fun containScaleFactor(): Float {
+        return minOf(
+            divideOrOne(screenWidthPx.toFloat(), getNegotiatedWidth().toFloat()),
+            divideOrOne(screenHeightPx.toFloat(), getNegotiatedHeight().toFloat())
+        )
+    }
+
+    // Uniform "cover" factor (CSS object-fit: cover): the smallest scale that still fills the
+    // panel entirely on both axes, preserving aspect ratio, cropping whichever axis overshoots.
+    // Floored at 1.0f so a video that already has enough native pixels for both axes (the
+    // pre-existing >-branch case) is shown at native resolution and cropped rather than
+    // needlessly downscaled - COVER and FILL agree in that quadrant by design.
+    private fun coverScaleFactor(): Float {
+        return maxOf(
+            1.0f,
+            maxOf(
+                divideOrOne(screenWidthPx.toFloat(), getNegotiatedWidth().toFloat()),
+                divideOrOne(screenHeightPx.toFloat(), getNegotiatedHeight().toFloat())
+            )
+        )
+    }
+
     fun getScaleX(): Float {
         if (forcedScale) {
             return 1.0f
         }
 
         if (getNegotiatedWidth() > screenWidthPx) {
-            return divideOrOne(getNegotiatedWidth().toFloat(), screenWidthPx.toFloat())
+            return when (videoFitMode) {
+                Settings.VideoFitMode.FILL -> divideOrOne(getNegotiatedWidth().toFloat(), screenWidthPx.toFloat())
+                Settings.VideoFitMode.CONTAIN -> containScaleFactor() * divideOrOne(getNegotiatedWidth().toFloat(), screenWidthPx.toFloat())
+                Settings.VideoFitMode.COVER -> coverScaleFactor() * divideOrOne(getNegotiatedWidth().toFloat(), screenWidthPx.toFloat())
+            }
         }
         if (isPortraitScaled) {
             return divideOrOne(getAspectRatio(), (screenWidthPx.toFloat() / screenHeightPx.toFloat()))
         }
-        return 1.0f
+        // Negotiated width already fits within the panel: FILL leans on the TextureView's implicit
+        // buffer-to-view stretch to cover this axis with no extra View-level scale (mirrors the
+        // >-branch's "enough native pixels, don't distort further" logic). CONTAIN/COVER apply the
+        // same uniform factor as their >-branch case so both axes keep scaling together.
+        return when (videoFitMode) {
+            Settings.VideoFitMode.FILL -> 1.0f
+            Settings.VideoFitMode.CONTAIN -> containScaleFactor() * divideOrOne(getNegotiatedWidth().toFloat(), screenWidthPx.toFloat())
+            Settings.VideoFitMode.COVER -> coverScaleFactor() * divideOrOne(getNegotiatedWidth().toFloat(), screenWidthPx.toFloat())
+        }
     }
-        // Stretch option PR #259
+
     fun getScaleY(): Float {
         if (forcedScale) {
             return 1.0f
         }
 
         if (getNegotiatedHeight() > screenHeightPx) {
-            return if (stretchToFill) {
-                // Before PR #233 Fix scaler Y
-                divideOrOne(getNegotiatedHeight().toFloat(), screenHeightPx.toFloat())
-            } else {
-                // After PR #233 Fix scaler Y
-                divideOrOne((screenWidthPx.toFloat() / screenHeightPx.toFloat()), getAspectRatio())
+            return when (videoFitMode) {
+                Settings.VideoFitMode.FILL -> divideOrOne(getNegotiatedHeight().toFloat(), screenHeightPx.toFloat())
+                Settings.VideoFitMode.CONTAIN -> containScaleFactor() * divideOrOne(getNegotiatedHeight().toFloat(), screenHeightPx.toFloat())
+                Settings.VideoFitMode.COVER -> coverScaleFactor() * divideOrOne(getNegotiatedHeight().toFloat(), screenHeightPx.toFloat())
             }
         }
 
@@ -414,7 +462,15 @@ object HeadUnitScreenConfig {
             return 1.0f
         }
 
-        return divideOrOne((screenWidthPx.toFloat() / screenHeightPx.toFloat()), getAspectRatio())
+        // Negotiated height already fits within the panel: see the matching comment in
+        // getScaleX() above - same reasoning, mirrored per axis. (Without the FILL case here,
+        // wide/ultra-wide panels whose negotiated height <= panel height, e.g. 720p on a
+        // 1440x720 panel, got an unwanted extra vertical stretch and overflowed the screen.)
+        return when (videoFitMode) {
+            Settings.VideoFitMode.FILL -> 1.0f
+            Settings.VideoFitMode.CONTAIN -> containScaleFactor() * divideOrOne(getNegotiatedHeight().toFloat(), screenHeightPx.toFloat())
+            Settings.VideoFitMode.COVER -> coverScaleFactor() * divideOrOne(getNegotiatedHeight().toFloat(), screenHeightPx.toFloat())
+        }
     }
 
     fun getDensityDpi(): Int {
@@ -506,7 +562,7 @@ object HeadUnitScreenConfig {
         hash = 31 * hash + settings.viewMode.ordinal
         hash = 31 * hash + settings.screenOrientation.ordinal
         hash = 31 * hash + settings.fullscreenMode.value
-        hash = 31 * hash + (if (settings.stretchToFill) 1 else 0)
+        hash = 31 * hash + settings.videoFitMode.value
         hash = 31 * hash + (if (settings.forcedScale) 1 else 0)
         // Include physical dimensions in the hash. If the screen rotates or a foldable is unfolded,
         // the hash will change, triggering a clean unlock and recalculation.
