@@ -1,5 +1,6 @@
 package com.andrerinas.openheadunit.aap
 
+import com.andrerinas.openheadunit.utils.Settings
 import kotlin.math.roundToInt
 
 data class TouchCoordinate(
@@ -17,7 +18,7 @@ object TouchCoordinateMapper {
         negotiatedHeight: Int,
         marginWidth: Float,
         marginHeight: Float,
-        stretchToFill: Boolean,
+        fitMode: Settings.VideoFitMode,
         hudMirroring: Boolean
     ): TouchCoordinate {
         val surfaceW = inputSurfaceWidth.coerceAtLeast(1f)
@@ -30,7 +31,7 @@ object TouchCoordinateMapper {
         val videoX: Float
         val videoY: Float
 
-        if (stretchToFill) {
+        if (fitMode == Settings.VideoFitMode.FILL) {
             videoX = (px / surfaceW) * uiW
             videoY = (rawY / surfaceH) * uiH
         } else {
@@ -40,7 +41,12 @@ object TouchCoordinateMapper {
             var displayedUiW = surfaceW
             var displayedUiH = surfaceH
 
-            if (viewRatio > uiRatio) {
+            // CONTAIN picks the smaller fit (letterboxed, <= surface); COVER picks the larger
+            // fit (cropped, >= surface) - same shape of math, opposite branch selection.
+            val screenIsRelativelyWider = viewRatio > uiRatio
+            val matchWidthToHeight = if (fitMode == Settings.VideoFitMode.COVER) !screenIsRelativelyWider else screenIsRelativelyWider
+
+            if (matchWidthToHeight) {
                 displayedUiW = surfaceH * uiRatio
             } else {
                 displayedUiH = surfaceW / uiRatio

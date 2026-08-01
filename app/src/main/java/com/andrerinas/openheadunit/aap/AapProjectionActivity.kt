@@ -1230,15 +1230,6 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         val marginW = HeadUnitScreenConfig.getWidthMargin().toFloat()
         val marginH = HeadUnitScreenConfig.getHeightMargin().toFloat()
 
-        // Logic check: When forcedScale is active, the visual behavior of 'stretchToFill'
-        // is inverted (True = Aspect Ratio Centered, False = Stretched to Screen).
-        // We adjust the touch mapping to match this visual reality.
-        val isStretch = if (HeadUnitScreenConfig.forcedScale) {
-            !settings.stretchToFill
-        } else {
-            settings.stretchToFill
-        }
-
         val pointerData = mutableListOf<Triple<Int, Int, Int>>()
         repeat(event.pointerCount) { pointerIndex ->
             val pointerId = event.getPointerId(pointerIndex)
@@ -1252,50 +1243,25 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
                     negotiatedHeight = videoH,
                     marginWidth = marginW,
                     marginHeight = marginH,
-                    stretchToFill = isStretch,
+                    fitMode = settings.videoFitMode,
                     hudMirroring = settings.hudMirroring
                 )
 
                 pointerData.add(Triple(pointerId, corrected.x, corrected.y))
             } else {
-                val rawPx = event.getX(pointerIndex)
-                val px = if (settings.hudMirroring) (viewW - rawPx) else rawPx
-                val py = event.getY(pointerIndex)
-
-                val videoX: Float
-                val videoY: Float
-
-                if (isStretch) {
-                    videoX = (px / viewW) * (videoW - marginW)
-                    videoY = (py / viewH) * (videoH - marginH)
-                } else {
-                    val uiW = videoW - marginW
-                    val uiH = videoH - marginH
-                    val uiRatio = uiW / uiH
-                    val viewRatio = viewW / viewH
-
-                    var displayedUiW = viewW
-                    var displayedUiH = viewH
-
-                    if (viewRatio > uiRatio) {
-                        displayedUiW = viewH * uiRatio
-                    } else {
-                        displayedUiH = viewW / uiRatio
-                    }
-
-                    val uiLeft = (viewW - displayedUiW) / 2f
-                    val uiTop = (viewH - displayedUiH) / 2f
-
-                    val localX = px - uiLeft
-                    val localY = py - uiTop
-
-                    videoX = (localX / displayedUiW) * uiW
-                    videoY = (localY / displayedUiH) * uiH
-                }
-
-                val correctedX = videoX.toInt().coerceIn(0, videoW)
-                val correctedY = videoY.toInt().coerceIn(0, videoH)
-                pointerData.add(Triple(pointerId, correctedX, correctedY))
+                val corrected = TouchCoordinateMapper.map(
+                    rawX = event.getX(pointerIndex),
+                    rawY = event.getY(pointerIndex),
+                    inputSurfaceWidth = viewW,
+                    inputSurfaceHeight = viewH,
+                    negotiatedWidth = videoW,
+                    negotiatedHeight = videoH,
+                    marginWidth = marginW,
+                    marginHeight = marginH,
+                    fitMode = settings.videoFitMode,
+                    hudMirroring = settings.hudMirroring
+                )
+                pointerData.add(Triple(pointerId, corrected.x, corrected.y))
             }
         }
 

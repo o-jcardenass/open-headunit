@@ -8,6 +8,7 @@ import com.andrerinas.openheadunit.App
 import com.andrerinas.openheadunit.decoder.VideoDecoder
 import com.andrerinas.openheadunit.utils.AppLog
 import com.andrerinas.openheadunit.utils.HeadUnitScreenConfig
+import com.andrerinas.openheadunit.utils.Settings
 
 class ProjectionView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -70,11 +71,14 @@ class ProjectionView @JvmOverloads constructor(
 
         if (HeadUnitScreenConfig.forcedScale) {
             val settings = App.provide(context).settings
-            if (settings.stretchToFill) {
-                holder.setSizeFromLayout()
-            } else {
+            if (settings.videoFitMode == Settings.VideoFitMode.FILL) {
                 AppLog.i("FORCED SCALE: Setting fixed size to ${width}x$height")
                 holder.setFixedSize(width, height)
+            } else {
+                // CONTAIN/COVER: the LayoutParams size set by ProjectionViewScaler (getAdjustedWidth/
+                // Height or getCoverWidth/Height) IS the deliberate final pixel size - adopt it as
+                // the buffer size directly rather than stretching from native.
+                holder.setSizeFromLayout()
             }
         } else {
             holder.setSizeFromLayout()
