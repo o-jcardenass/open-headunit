@@ -27,6 +27,7 @@ import com.andrerinas.openheadunit.R
 import com.andrerinas.openheadunit.aap.AapService
 import com.andrerinas.openheadunit.aap.MediaKeyRoutingPolicy
 import com.andrerinas.openheadunit.aap.PlaybackFocusPolicy
+import com.andrerinas.openheadunit.connection.zbt.ZbtProbe
 import com.andrerinas.openheadunit.main.settings.SettingItem
 import com.andrerinas.openheadunit.main.settings.SettingsAdapter
 import com.andrerinas.openheadunit.utils.AppLog
@@ -47,7 +48,12 @@ import com.andrerinas.openheadunit.utils.BluetoothHelper
 import androidx.lifecycle.lifecycleScope
 import java.io.File
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -139,6 +145,11 @@ class SettingsFragment : Fragment() {
     private var pendingBluetoothManagerServiceName: String? = null
     private var pendingManualSecondaryBluetoothServiceName: String? = null
     private var pendingNativeWifiVersionExchange: Boolean? = null
+
+    // The probe's verdict is not a pending setting — it changes nothing and there is nothing to
+    // save. It lives in the companion object, with the job that produces it; see there for why.
+    // This one is per-view, because it is the thing that repaints the row.
+    private var zbtProbeFollowJob: Job? = null
     private var pendingNativeApTransport: Int? = null
     private var pendingHotspotSsid: String? = null
     private var pendingHotspotPassword: String? = null
@@ -391,6 +402,81 @@ class SettingsFragment : Fragment() {
         pendingMediaVolumeOffset = settings.mediaVolumeOffset
         pendingAssistantVolumeOffset = settings.assistantVolumeOffset
         pendingNavigationVolumeOffset = settings.navigationVolumeOffset
+    }
+
+    /**
+     * Explain what the probe does, then run it off the main thread if the user agrees.
+     *
+     * Asked rather than run on tap because the name alone does not say that it touches nothing —
+     * on a head unit that already refuses to connect, an unexplained "test" invites the fear that
+     * it will make things worse.
+     */
+    private fun confirmAndRunZbtProbe() {
+        // Same builder and theme as every other dialog here. The first version used a bare
+        // AlertDialog.Builder, which on the reporter's 1024x600 unit came up unthemed and light
+        // against the dark app and — twice — with no button he could press, so the probe never ran
+        // at all. A confirmation nobody can confirm is worse than no confirmation. The message stays
+        // at two short paragraphs for the same reason: a taller one pushes the button bar off a
+        // 600-pixel screen.
+        //
+        // The two run buttons are the whole choice. Watching is inert; waking asks the module to
+        // reconnect to the phone for Android Auto, which is the only thing here that changes
+        // anything on the unit — so it is a button of its own rather than a hidden default.
+        MaterialAlertDialogBuilder(requireContext(), R.style.DarkAlertDialog)
+            .setTitle(R.string.zbt_probe_title)
+            .setMessage(R.string.zbt_probe_message)
+            .setNegativeButton(android.R.string.cancel, null)
+            .setNeutralButton(R.string.zbt_probe_watch_only) { _, _ ->
+                startZbtProbe(askModuleToReconnect = false)
+            }
+            .setPositiveButton(R.string.zbt_probe_wake_and_watch) { _, _ ->
+                startZbtProbe(askModuleToReconnect = true)
+            }
+            .show()
+    }
+
+    /**
+     * Start the probe, unless one is already running, and follow it on screen while it does.
+     *
+     * The work and the UI refresh are on deliberately different scopes. The probe outlives this
+     * screen (see the companion object); the refresh must not, so it is a view-scoped loop that
+     * reads the shared verdict and stops when the run does.
+     */
+    private fun startZbtProbe(askModuleToReconnect: Boolean) {
+        if (zbtProbeJob?.isActive != true) {
+            zbtProbeResult = getString(R.string.zbt_probe_running)
+            zbtProbeJob = zbtProbeScope.launch {
+                val verdict = try {
+                    // The row shows every stage because the run now lasts about two minutes. A
+                    // probe showing one unchanging word for that long reads as hung, and two
+                    // rounds of this investigation were already lost to one that looked like it
+                    // did nothing.
+                    ZbtProbe.run(
+                        askModuleToReconnect = askModuleToReconnect,
+                        onProgress = { text -> zbtProbeResult = text },
+                        keepGoing = { isActive }
+                    )
+                } catch (e: Throwable) {
+                    // Never let a probe take the settings screen down with it.
+                    AppLog.e("SettingsFragment: external Bluetooth probe failed", e)
+                    "Probe failed: ${e.javaClass.simpleName}"
+                }
+                zbtProbeResult = verdict
+            }
+        }
+        followZbtProbe()
+    }
+
+    /** Repaint the probe's row until the run ends. Cheap, and only alive while the view is. */
+    private fun followZbtProbe() {
+        if (zbtProbeFollowJob?.isActive == true) return
+        zbtProbeFollowJob = viewLifecycleOwner.lifecycleScope.launch {
+            do {
+                updateSettingsList()
+                delay(500)
+            } while (zbtProbeJob?.isActive == true)
+            updateSettingsList()
+        }
     }
 
     private fun setupToolbar() {
@@ -976,6 +1062,22 @@ class SettingsFragment : Fragment() {
                     checkChanges()
                     updateSettingsList()
                 }
+            ))
+        }
+
+        // Only on units whose Bluetooth is an external module, where the native route is refused
+        // outright and this is the one thing that might change that. Everywhere else it would be an
+        // action with no meaning.
+        //
+        // Deliberately outside the Native AA block: the reporters who need this are on units where
+        // that mode does not work, so requiring them to select it first would hide the diagnostic
+        // behind the very setting it is diagnosing.
+        if (BluetoothHelper.externalBtEvidence != null) {
+            items.add(SettingItem.SettingEntry(
+                stableId = "zbtProbe",
+                nameResId = R.string.zbt_probe_title,
+                value = zbtProbeResult ?: getString(R.string.zbt_probe_idle),
+                onClick = { _ -> confirmAndRunZbtProbe() }
             ))
         }
 
@@ -3015,6 +3117,10 @@ class SettingsFragment : Fragment() {
             settings = App.provide(requireContext()).settings
             updateSettingsList()
         }
+
+        // A probe started before the vendor's projection app took the screen is still running.
+        // Pick its row back up, so coming back here shows where it got to rather than a stale line.
+        if (zbtProbeJob?.isActive == true) followZbtProbe()
     }
 
     private fun getKillOnDisconnectConflicts(): List<String> {
@@ -3337,5 +3443,28 @@ class SettingsFragment : Fragment() {
 
     companion object {
         private val SAVE_ITEM_ID = 1001
+
+        /**
+         * The external-Bluetooth probe runs here rather than on the fragment's scope, and its
+         * verdict lives here rather than on the instance.
+         *
+         * Its listening phase asks the user to go and start a wireless connection, and on the head
+         * units this probe exists for that means the vendor's own projection app taking over the
+         * display — which can destroy this fragment's view and, with a view-scoped job, the probe
+         * along with it. It would then report that nothing arrived during a run it was never
+         * allowed to finish, and "nothing arrived" is precisely the answer the probe is trying to
+         * distinguish. A false one costs the reporter another round trip.
+         *
+         * Nothing here holds a Context, so outliving the screen leaks nothing, and the probe is
+         * read-only and bounded at about two minutes.
+         */
+        private val zbtProbeScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
+        @Volatile
+        private var zbtProbeJob: Job? = null
+
+        /** Latest probe verdict or progress line, or null if it has never been run. */
+        @Volatile
+        private var zbtProbeResult: String? = null
     }
 }
