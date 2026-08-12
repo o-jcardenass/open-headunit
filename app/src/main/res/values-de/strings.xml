@@ -836,8 +836,6 @@
     <string name="vehicle_make_hint">Eine echte Automarke zeigt deren Logo auf dem Beenden-Button von Android Auto. Android Auto blendet dann jedoch Apps aus, die nicht aus dem Play Store stammen. Setze es auf \"Google\" zurück, um diese wieder anzuzeigen.</string>
     <string name="external_bt_nativeaa">Natives Wireless auf dieser Headunit nicht möglich</string>
     <string name="external_bt_nativeaa_desc">Diese Headunit nutzt ein eigenes Bluetooth-Modul (%1$s), das Android nicht für Apps bereitstellt. Das Handy koppelt sich mit diesem Modul, wodurch Bluetooth-Handshake-Daten die App nicht erreichen. Bitte nutze USB, Wireless Helper oder den Headunit Server Modus.</string>
-    <string name="manual_secondary_bt_service_title">Manuelles zweites Bluetooth-Modul</string>
-    <string name="manual_secondary_bt_service_message">Fortgeschritten: Erzwingt ein zusätzliches Bluetooth-Radio bei Dual-Radio-Geräten. Leer lassen zum Deaktivieren.</string>
     <string name="native_ap_transport">Netzwerk-Transport</string>
     <string name="native_ap_transport_wifi_direct">WiFi Direct</string>
     <string name="native_ap_transport_hotspot">Hotspot</string>

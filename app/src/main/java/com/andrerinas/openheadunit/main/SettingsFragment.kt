@@ -143,7 +143,6 @@ class SettingsFragment : Fragment() {
     private var pendingWaitForWifi: Boolean? = null
     private var pendingWaitForWifiTimeout: Int? = null
     private var pendingBluetoothManagerServiceName: String? = null
-    private var pendingManualSecondaryBluetoothServiceName: String? = null
     private var pendingNativeWifiVersionExchange: Boolean? = null
 
     // The probe's verdict is not a pending setting — it changes nothing and there is nothing to
@@ -280,7 +279,6 @@ class SettingsFragment : Fragment() {
         pendingWaitForWifi = settings.waitForWifiBeforeWifiDirect
         pendingWaitForWifiTimeout = settings.waitForWifiTimeout
         pendingBluetoothManagerServiceName = settings.bluetoothManagerServiceName
-        pendingManualSecondaryBluetoothServiceName = settings.manualSecondaryBluetoothServiceName
         pendingNativeWifiVersionExchange = settings.nativeWifiVersionExchange
         pendingNativeApTransport = settings.nativeApTransport
         pendingHotspotSsid = settings.hotspotSsid
@@ -387,7 +385,6 @@ class SettingsFragment : Fragment() {
         pendingWaitForWifi = settings.waitForWifiBeforeWifiDirect
         pendingWaitForWifiTimeout = settings.waitForWifiTimeout
         pendingBluetoothManagerServiceName = settings.bluetoothManagerServiceName
-        pendingManualSecondaryBluetoothServiceName = settings.manualSecondaryBluetoothServiceName
         pendingNativeWifiVersionExchange = settings.nativeWifiVersionExchange
         pendingNativeApTransport = settings.nativeApTransport
         pendingHotspotSsid = settings.hotspotSsid
@@ -598,7 +595,6 @@ class SettingsFragment : Fragment() {
         pendingWaitForWifi?.let { settings.waitForWifiBeforeWifiDirect = it }
         pendingWaitForWifiTimeout?.let { settings.waitForWifiTimeout = it }
         pendingBluetoothManagerServiceName?.let { settings.bluetoothManagerServiceName = it }
-        pendingManualSecondaryBluetoothServiceName?.let { settings.manualSecondaryBluetoothServiceName = it }
         pendingNativeWifiVersionExchange?.let { settings.nativeWifiVersionExchange = it }
         pendingNativeApTransport?.let { settings.nativeApTransport = it }
         pendingHotspotSsid?.let { settings.hotspotSsid = it }
@@ -709,7 +705,6 @@ class SettingsFragment : Fragment() {
                         pendingWaitForWifi != settings.waitForWifiBeforeWifiDirect ||
                         pendingWaitForWifiTimeout != settings.waitForWifiTimeout ||
                         pendingBluetoothManagerServiceName != settings.bluetoothManagerServiceName ||
-                        pendingManualSecondaryBluetoothServiceName != settings.manualSecondaryBluetoothServiceName ||
                         pendingNativeWifiVersionExchange != settings.nativeWifiVersionExchange ||
                         pendingNativeApTransport != settings.nativeApTransport ||
                         pendingHotspotSsid != settings.hotspotSsid ||
@@ -1028,27 +1023,6 @@ class SettingsFragment : Fragment() {
                             updateSettingsList()
                         }
                         .show()
-                }
-            ))
-
-            val manualSecondary = pendingManualSecondaryBluetoothServiceName
-            items.add(SettingItem.SettingEntry(
-                stableId = "manualSecondaryBluetoothService",
-                nameResId = R.string.manual_secondary_bt_service_title,
-                value = if (manualSecondary.isNullOrEmpty()) getString(R.string.auto)
-                         else BluetoothHelper.getAdapterDescription(requireContext(), manualSecondary),
-                onClick = { _ ->
-                    DialogUtils.showTextInputDialogWithMessage(
-                        requireContext(),
-                        R.string.manual_secondary_bt_service_title,
-                        R.string.manual_secondary_bt_service_message,
-                        manualSecondary ?: "",
-                        { newVal ->
-                            pendingManualSecondaryBluetoothServiceName = newVal.trim()
-                            checkChanges()
-                            updateSettingsList()
-                        }
-                    )
                 }
             ))
 

@@ -8,6 +8,7 @@ import android.bluetooth.BluetoothSocket
 import android.content.Context
 import com.andrerinas.openheadunit.aap.AapService
 import com.andrerinas.openheadunit.aap.BluetoothWakePolicy
+import com.andrerinas.openheadunit.aap.ExternalBtTransportPolicy
 import com.andrerinas.openheadunit.aap.NativeCredentialsPolicy
 import com.andrerinas.openheadunit.aap.NativeHandoffPolicy
 import com.andrerinas.openheadunit.aap.NativeTransport
@@ -79,25 +80,37 @@ class NativeAaHandshakeManager(
         }
 
         /**
-         * Whether to run the Bluetooth route anyway on a unit [externalBtDiagnostic] flagged.
+         * Which Bluetooth route this unit takes, and the only place its inputs are gathered.
          *
-         * A manually configured secondary Bluetooth service is the user telling us which radio to
-         * use, having found one automatic enumeration missed. That is exactly the case the
-         * detection cannot see, so it must not be the one case we refuse to try — the diagnostic
-         * still goes in the log either way.
+         * Four callers need this answer and used to work it out for themselves; two of them drifted
+         * apart once. The decision itself is pure and tested in [ExternalBtTransportPolicy] — this
+         * only collects the evidence and the setting.
          */
-        fun externalBtOverridden(context: Context): Boolean =
-            com.andrerinas.openheadunit.App.provide(context)
-                .settings.manualSecondaryBluetoothServiceName.isNotEmpty()
+        fun transportRoute(context: Context): ExternalBtTransportPolicy.Route =
+            ExternalBtTransportPolicy.route(
+                BluetoothHelper.externalBtEvidence,
+                com.andrerinas.openheadunit.App.provide(context).settings.externalBtZbtTransport
+            )
 
         fun checkCompatibility(context: Context): Boolean {
+            if (transportRoute(context) == ExternalBtTransportPolicy.Route.ZBT) {
+                // Nothing here can answer for the module route. Every check below asks the Android
+                // adapter whether *it* could serve the handshake, and on this hardware it both can
+                // and does — while transmitting nothing the phone will ever see, which is the whole
+                // reason for taking the other route. The real test is whether the vendor daemon
+                // answers, and the only way to run it is to open the channel and see.
+                AppLog.i(
+                    "NativeAA: external Bluetooth module transport is on — compatibility will be " +
+                        "established against the vendor daemon at connection time, not here."
+                )
+                return true
+            }
             externalBtDiagnostic()?.let {
                 AppLog.w(it)
-                if (!externalBtOverridden(context)) return false
-                AppLog.w("NativeAA: continuing anyway — a secondary Bluetooth service is configured manually.")
+                return false
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.BLUETOOTH_CONNECT) 
+                if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.BLUETOOTH_CONNECT)
                     != PackageManager.PERMISSION_GRANTED) {
                     AppLog.w("NativeAA: Compatibility Check skipped - Missing BLUETOOTH_CONNECT")
                     return false
@@ -256,11 +269,8 @@ class NativeAaHandshakeManager(
         // see this as genuinely stopped. Nothing here is retryable, but a listener that was never
         // opened must not be reported as up.
         externalBtDiagnostic()?.let {
-            if (!externalBtOverridden(context)) {
-                AppLog.e(it)
-                return
-            }
-            AppLog.w("$it\nNativeAA: starting anyway — a secondary Bluetooth service is configured manually.")
+            AppLog.e(it)
+            return
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -350,27 +360,11 @@ class NativeAaHandshakeManager(
             BluetoothHelper.getAllBluetoothAdapterHandles(context)
         } catch (e: Exception) { emptyList() }
 
-        // Manual fallback: some ROMs' second radio isn't discoverable via
-        // ServiceManager.listServices() at all (blocked, or named without "bluetooth"), so
-        // automatic enumeration never finds it. Let the user force it by exact system service
-        // name instead.
-        val manualServiceName = settings.manualSecondaryBluetoothServiceName
-        val allHandles = if (manualServiceName.isNotEmpty() && handles.none { it.serviceName == manualServiceName }) {
-            val manualHandle = try { BluetoothHelper.getAdapterHandleForService(context, manualServiceName) } catch (e: Exception) { null }
-            if (manualHandle != null) {
-                AppLog.i("NativeAA: Manual secondary Bluetooth service '$manualServiceName' resolved successfully.")
-                handles + manualHandle
-            } else {
-                AppLog.w("NativeAA: Manual secondary Bluetooth service '$manualServiceName' could not be resolved to a working adapter.")
-                handles
-            }
-        } else handles
-
         val secondaryNames = filterSecondaryServiceNames(
             settings.bluetoothManagerServiceName,
-            allHandles.map { it.serviceName }
+            handles.map { it.serviceName }
         ).toSet()
-        val secondaries = allHandles.filter { it.serviceName in secondaryNames }
+        val secondaries = handles.filter { it.serviceName in secondaryNames }
         if (secondaries.isNotEmpty()) {
             AppLog.i("NativeAA: Opening AA listeners on ${secondaries.size} secondary Bluetooth radio(s) for dual-radio head units: ${secondaries.joinToString { it.serviceName }}")
             secondaries.forEach { launchExtraServers(it.serviceName, it.adapter) }

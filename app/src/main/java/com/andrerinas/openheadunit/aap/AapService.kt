@@ -1600,9 +1600,7 @@ class AapService : Service(), UsbReceiver.Listener {
                 // open would only churn the WiFi stack for nothing.
                 val externalBt = NativeAaHandshakeManager.externalBtDiagnostic()
                 if (externalBt != null) AppLog.e(externalBt)
-                val blockedByExternalBt =
-                    externalBt != null && !NativeAaHandshakeManager.externalBtOverridden(this)
-                if (!blockedByExternalBt) {
+                if (externalBt == null) {
                     if (nativeTransport() == NativeTransport.HOTSPOT) {
                         // Read this device's own access point instead of hosting a P2P group. The AP
                         // itself is the user's to switch on; the provider only resolves and watches it.

@@ -1337,11 +1337,17 @@ class Settings(private val context: Context) {
         get() = prefs.getBoolean("native-wifi-version-exchange", false)
         set(value) = prefs.edit().putBoolean("native-wifi-version-exchange", value).apply()
 
-    // Manual fallback for dual-radio head units whose second radio isn't discoverable via
-    // ServiceManager.listServices() at all. Empty = disabled (rely on automatic discovery only).
-    var manualSecondaryBluetoothServiceName: String
-        get() = prefs.getString("manual-secondary-bt-service-name", "")!!
-        set(value) = prefs.edit().putString("manual-secondary-bt-service-name", value).apply()
+    // Whether to carry the Native AA Bluetooth handshake over the head unit's external Bluetooth
+    // module, through the vendor daemon on 127.0.0.1:3152, instead of android.bluetooth.
+    //
+    // Only meaningful on units ExternalBtPolicy detects, where the Android radio transmits nothing
+    // the phone will ever see and Native AA is refused outright today. Off by default and offered
+    // only on those units: it talks to a vendor daemon this app does not own, on a protocol
+    // recovered by disassembly, and one message on it asks the module to change state. A unit that
+    // works today must not acquire any of that by upgrading.
+    var externalBtZbtTransport: Boolean
+        get() = prefs.getBoolean("external-bt-zbt-transport", false)
+        set(value) = prefs.edit().putBoolean("external-bt-zbt-transport", value).apply()
 
     // Which interface hosts the head unit's access point. Empty = work it out from the interface
     // list. Worth having because every other implementation of this protocol either creates the AP
