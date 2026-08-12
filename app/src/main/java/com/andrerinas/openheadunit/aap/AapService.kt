@@ -1595,12 +1595,16 @@ class AapService : Service(), UsbReceiver.Listener {
             // Mode 3: Native AA Wireless
             if (mode == 3) {
                 // Skip the whole route, not just the handshake, when the Bluetooth this unit's
-                // phone is bonded to isn't reachable from here: with no Bluetooth channel there is
+                // phone is bonded to isn't reachable at all: with no Bluetooth channel there is
                 // nobody to hand the credentials to, so hosting a P2P group or holding the hotspot
                 // open would only churn the WiFi stack for nothing.
-                val externalBt = NativeAaHandshakeManager.externalBtDiagnostic()
-                if (externalBt != null) AppLog.e(externalBt)
-                if (externalBt == null) {
+                val route = NativeAaHandshakeManager.transportRoute(this)
+                if (route == ExternalBtTransportPolicy.Route.BLOCKED) {
+                    NativeAaHandshakeManager.externalBtDiagnostic()?.let { AppLog.e(it) }
+                }
+                // The module route needs the WiFi half exactly as any other unit does — only the
+                // Bluetooth half changes, and the manager decides that for itself.
+                if (route != ExternalBtTransportPolicy.Route.BLOCKED) {
                     if (nativeTransport() == NativeTransport.HOTSPOT) {
                         // Read this device's own access point instead of hosting a P2P group. The AP
                         // itself is the user's to switch on; the provider only resolves and watches it.

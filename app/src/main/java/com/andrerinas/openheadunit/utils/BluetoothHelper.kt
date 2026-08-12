@@ -207,8 +207,10 @@ object BluetoothHelper {
     }
 
     /** Resolve a single, arbitrary system service name to a BluetoothAdapterHandle, if it backs a
-     *  real, enabled adapter. Used for the manual secondary-radio override in Settings, where the
-     *  user supplies a service name automatic discovery (listBluetoothServices()) didn't find.
+     *  real, enabled adapter. Currently unused: its one caller was the manual secondary-radio
+     *  override, removed once the external-module route made it unnecessary. Kept because it is the
+     *  only way to reach a service automatic discovery (listBluetoothServices()) misses, and that
+     *  gap is a property of the hardware rather than of the setting that used to cover it.
      *  Forgiving of the AIDL interface descriptor `adb shell service list` prints in brackets
      *  (e.g. "com.qf.btsdk.IBTBinderPool") in place of the actual service name before the colon
      *  (e.g. "btBinderPool"): users copy the bracketed part, it being the more distinctive-looking
