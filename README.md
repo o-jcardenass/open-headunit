@@ -36,7 +36,7 @@ Three rules from the template are worth repeating, because breaking any of them 
 
 | Thread | State | Next |
 |---|---|---|
-| `native-gps-forwarding` | **queued** | `native-gps-forwarding-round1-brief.md` — R0 is the branch's first-ever compile |
+| `native-gps-forwarding` | round 1 done | R3 (the point of the round) PASSED: `sentOnWire=true` on the first try, no LOCATION drop after channel open. R4 (cadence count) is INCONCLUSIVE — OS-level mock-injection artifact on this rig, not a code defect, confirmed with a positive control. R5 (backstop/re-arm) PASSED. R2/R6/R7 all PASSED (R2 flipped per the brief's own contingency, since this rig had a real live GPS fix). See `native-gps-forwarding-round1-results.md`. Nothing queued next; awaiting the builder's read. |
 | `video-dropped-frame-keyframe` | **queued** (fix already in PR #826) | `video-dropped-frame-keyframe-round7-brief.md` — R1 is a desk check with no rig time; R2 is optional |
 | `audio-focus` | **queued** | `audio-focus-round11-brief.md` |
 | `discovery-socket-leak` | answered at round 7 | nothing queued; awaiting a PR |
