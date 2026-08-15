@@ -204,6 +204,57 @@ Setup notes for the positive control.**
   (type 10), never LOCATION.
 - Cleanup: `cmd location set-location-enabled true` restored afterward and verified.
 
+## R8 — phone-spoofed location vs. the head unit's real GPS (added post-round, at the user's request)
+
+**FAIL for the end-to-end "map stays on the car's position" goal — but the failure does not
+implicate this branch's send path, which stayed correct and unbroken throughout. See analysis
+below.**
+
+Setup: real head-unit GPS (no mock provider), `gps-navigation=true`, `log-level=0`,
+`wifi-connection-mode=3`. Clean-run protocol; session formed normally and `GpsLocation` locked onto
+the rig's real position (satellites=24-25, hAcc≈2m, alt=1544.14 m, vel=0.0 — a stationary fix,
+confirmed unchanged before and after this run). Baseline screenshot of the head unit's screen taken
+once real fixes were flowing steadily (`evidence/native-gps-r8-baseline.png`) — Google Maps centred
+on the rig's real street (Calle 109 area). The user then set a location in a phone-installed
+GPS-spoofing app; a second head-unit screenshot was taken ~20 s later
+(`evidence/native-gps-r8-after-spoof.png`) — the map had moved to a visibly different area (Carrera
+65 / Bello-Medellín / Medellín River), with a frame-rate stall during the transition (51→21 fps,
+17 ms→143 ms frame time) consistent with a large re-centre rather than a smooth pan.
+
+**The app's send path was unaffected throughout:**
+- `Sensor Start Request sensor: LOCATION` and `LOCATION sensor requested` each appear **exactly
+  once** in the whole capture — no re-negotiation happened around the spoof event.
+- 303 `GpsLocation: fix received` lines across the session, at a steady ~1 Hz cadence, with no gap
+  spanning the spoof event (confirmed line-by-line from 00:51:20 to 00:52:09, the window either
+  side of when the spoof was set and observed).
+- The head unit's own real GPS fix was provably unchanged before and after: identical altitude
+  (1544.14 m to two decimal places), identical bearing (69.447°), `vel=0.0` throughout — this is
+  the same stationary rig, not a moved GPS.
+- The one `dropping sensor events` line naming LOCATION (`droppedByType={1=1, 10=1}` at
+  00:49:13.091) is again pre-`Sensor Start Request`, the same rescued-by-priming case as R2/R3.
+
+**What actually moved the map:** `dumpsys location` on the *phone* confirmed the spoofing app's
+target — `Location[fused/network/gps 46.689752,2.748308 ... mock]` (central France) — and, more
+importantly, that `com.google.android.apps.maps` on the phone holds active `HIGH_ACCURACY`
+listeners directly on that mocked provider. Google Maps, running as part of the projected Android
+Auto session, is subscribed to the *phone's own* location stack independent of whatever the car
+sends over the AA sensor channel this branch fixes. The map followed the phone's spoof because it
+was never sourcing its position from the car's `LOCATION` sensor channel for this purpose in the
+first place — at least not under whatever condition caused Gearhead/Maps to prefer the phone's
+provider here.
+
+This is consistent with the CLAUDE.md gotcha that wireless mode 3 depends on undocumented AA
+behaviour, and does not contradict anything R0–R7 measured: those runs test whether this app
+correctly and promptly delivers the car's own GPS over the wire, which it does. R8 shows that
+correct delivery is not, by itself, sufficient to guarantee Android Auto's map trusts it over the
+phone's own location in every circumstance — a question outside this app's control. Given the
+brief's note that an earlier build passed this exact end-to-end check on the author's own unit, this
+is worth flagging clearly rather than folding into a PASS: either something about this specific
+phone/spoofing-app/Gearhead-version combination differs from that earlier check, or the original
+end-to-end fix was never as complete as believed. Not re-verified against a non-spoofed baseline in
+this round (i.e., whether Maps also ignores the car's *correct* fix under normal, non-spoofed
+conditions) — that would need a separate, careful run.
+
 ## Anything the brief did not ask about
 
 - The rig's own real GPS hardware is live and actively locked (see R1/Setup notes) — worth knowing
@@ -229,7 +280,13 @@ Setup notes for the positive control.**
    Reported INCONCLUSIVE, not FAIL.
 3. **R5's two N values:** 62 and 60 (both within 60–66), one stale line per window, confirmed twice
    more outside the official windows with the same result.
-4. **`AapTransport: dropping sensor events` appeared in R2, R3(window edge), R6 and R7 — always for
-   type 10 (NIGHT) except R2's two pre-request LOCATION (type 1) drops, which happened before the
-   phone's own `Sensor Start Request` and are the exact case the priming fix rescues. No drop
-   naming LOCATION occurred after any session's channel opened.**
+4. **`AapTransport: dropping sensor events` appeared in R2, R3(window edge), R6, R7 and R8 — always
+   for type 10 (NIGHT) except R2's and R8's pre-request LOCATION (type 1) drops, which happened
+   before the phone's own `Sensor Start Request` and are the exact case the priming fix rescues. No
+   drop naming LOCATION occurred after any session's channel opened.**
+5. **R8 (added post-round): the end-to-end "map stays on the car's real position" behaviour FAILED
+   under a phone-side GPS spoof, but the failure is not in this branch's send path** — that stayed
+   correct and unbroken throughout (303 clean fixes, no re-priming, real GPS position verifiably
+   unchanged). The phone's own Google Maps was found holding direct `HIGH_ACCURACY` listeners on the
+   phone's own (spoofed) location provider, independent of the AA sensor channel. Worth a second,
+   more targeted round on its own — this result should not be read as reopening R0–R7.
