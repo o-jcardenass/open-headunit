@@ -36,6 +36,7 @@ Three rules from the template are worth repeating, because breaking any of them 
 
 | Thread | State | Next |
 |---|---|---|
+| `native-gps-forwarding` | **queued** | `native-gps-forwarding-round1-brief.md` — R0 is the branch's first-ever compile |
 | `video-dropped-frame-keyframe` | **queued** (fix already in PR #826) | `video-dropped-frame-keyframe-round7-brief.md` — R1 is a desk check with no rig time; R2 is optional |
 | `audio-focus` | **queued** | `audio-focus-round11-brief.md` |
 | `discovery-socket-leak` | answered at round 7 | nothing queued; awaiting a PR |
