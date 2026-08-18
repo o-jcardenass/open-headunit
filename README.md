@@ -45,6 +45,7 @@ Three rules from the template are worth repeating, because breaking any of them 
 | `media-key-routing` | closed | merged upstream |
 | `external-bt-zbt` / `zlink-wpp-channel` | answered | teardown round done |
 | `qf001-firmware-teardown` | answered | — |
+| `headunit-reloaded-decompile` | answered | PC-only, no brief. Competing app's video decoder is independently written and behind ours (H.264-only, no HEVC, hardcoded buffer size) — nothing copied, nothing worth adopting. Its Native AA wireless path (fake-HFP AT-command values, P2P/BSSID fallback chain) matches this project's current source closely enough to look copied. See `headunit-reloaded-decompile-findings.md`. |
 | `native-aa-poke-hardening` | answered | — |
 | `video-latency` | answered at round 1 | — |
 | `hotspot-unreadable-config` | closed | the round this branch was created for |
