@@ -2,20 +2,29 @@
 
 ## 1. Build and baseline
 
-**Candidate:** `fork/fix/decoder-selection-and-gles` @ `d89e26a211a0fda9cb8046dea351a8bf1fc4dfbc`
-(short `d89e26a2`), on the fork `o-jcardenass/open-headunit`.
+**Two builds this round, both on the fork `o-jcardenass/open-headunit`.** Build A carries the whole
+video stack; build B is one unrelated transport fix that could not be folded into it. Build A does
+R1-R11, build B does R12 alone, so this is one visit rather than two.
 
 ```bash
-git fetch fork fix/decoder-selection-and-gles
-git checkout d89e26a2
+# Build A - the video stack (R0-R11)
+git fetch fork fix/video-backpressure-diagnostics
+git checkout f008e3d124f7880ed0e94d886927b6236cc53b55        # short f008e3d1
+
+# Build B - the transport fix (R12 only)
+git fetch fork fix/aap-partial-read-desync
+git checkout becebffa0928028da71c110c567343818d87500f        # short becebffa
 ```
 
-**No baseline APK is needed this round.** Every measurement below is either a new log line that has
-no counterpart on `main`, or a number whose `main` value is a compile-time constant quoted in §5. If
-you build a baseline anyway, `main` is `9f7c3b20` (release 3.2.5) — but the round is designed so you
-do not have to, and §7a's `build_hur.sh`-deletes-the-previous-APK trap then cannot bite.
+**Copy each APK out of `apks/` into a round-specific folder as soon as it is built** — `build_hur.sh`
+deletes the previous one before it builds, and this round holds two.
 
-**This is a stack of three branches.** `d89e26a2` contains all of them, and the whole thing is what
+**No baseline APK is needed.** Every measurement is either a new log line with no counterpart on
+`main`, or a number whose `main` value is a compile-time constant quoted in §5. If you build a
+baseline anyway, `main` is `9f7c3b20` (release 3.2.5) — but the round is designed so you do not have
+to.
+
+**Build A is a stack of four branches.** `f008e3d1` contains all of them, and the whole thing is what
 you install:
 
 | Tip | Contains | Runs that cover it |
@@ -23,9 +32,15 @@ you install:
 | `647e7428` `fix/video-reassembly-and-diagnostics` | reassembly correctness, fragment audit, fault injection, SPS reader, memory profile | R1, R2, R3, R4, R5 |
 | `65ae5e0a` `fix/low-ram-pipeline-sizing` | codec input size, frame-pool budget, one SSL plaintext buffer per session | R1, R6 |
 | `d89e26a2` `fix/decoder-selection-and-gles` | codec-config classification, capability report, configure ladder, GLES fixes | R1, R2, R7, R8, R9 |
+| `f008e3d1` `fix/video-backpressure-diagnostics` | backpressure verdict, capability report at negotiation time | R10, R11 |
 
-History was **not** rewritten — these three branches were pushed for the first time on 2026-08-17 and
-have not moved since.
+**Build B is `becebffa` `fix/aap-partial-read-desync`**, off `main` and *not* in build A: it makes a
+short read on the socket end the session instead of skipping the message and desyncing the stream.
+It is here because its only rig-testable question is "does this cause spurious disconnects", which is
+a soak — cheap to run while you are already at the bench, and pointless as a round of its own.
+
+History was **not** rewritten. The three lower tips were pushed on 2026-08-17 and have not moved
+since; `f008e3d1` and `becebffa` were pushed on 2026-08-18.
 
 **None of this has ever been compiled.** There is no JVM on the machine that wrote it, and no PR has
 been opened, so CI has never seen it either. R0 is therefore the single most valuable run in the
@@ -59,13 +74,30 @@ input buffers**, because we asked for a flat 2 MB `KEY_MAX_INPUT_SIZE` — and a
 copying GC` every 5-10 s freeing 84-208 large objects, one of which paused 1.373 s. The large-object
 churn traces to a fresh `ByteArray` allocated per *AAP message* in `AapSslContext.decrypt`.
 
-So the three branches, in one sentence each: **B1** stops assembling frames that are known broken and
-makes every remaining failure mode visible; **B2** asks the codec for a buffer the size of the picture
-instead of a flat 2 MB and stops allocating per message; **B3** stops telling the codec a keyframe is
-only configuration, reports whether the chosen decoder can actually carry the stream, and fixes four
-defects in the GLES backend including one that could black-screen it for a whole session.
+So the four branches of build A, in one sentence each: **B1** stops assembling frames that are known
+broken and makes every remaining failure mode visible; **B2** asks the codec for a buffer the size of
+the picture instead of a flat 2 MB and stops allocating per message; **B3** stops telling the codec a
+keyframe is only configuration, reports whether the chosen decoder can actually carry the stream, and
+fixes four defects in the GLES backend including one that could black-screen it for a whole session;
+**B4** says out loud when the codec is the thing losing the frames.
 
-**The fault injector is the reason this round can exist.** A healthy rig produces none of #219's
+**B4 exists because a fifth set of logs arrived while this brief was being written**, from a #219
+reporter's Galaxy Tab S7 FE. That device negotiates **2560x1440 HEVC** — the app forces H.265
+whenever the resolution is 1440p, so the user cannot pick H.264 without dropping resolution — and its
+four captures shed frames only in throughput windows that also spent a large share waiting for a
+codec input buffer: 29 drops at `inputWait=2019ms`, 18 at 1333 ms, 11 at 804 ms, against a median of
+188 ms across 288 windows. Its reassembly counters would all read zero. Both numbers have been
+printed on every throughput line for a long time and nothing has ever read them together, which is
+how that report was mistaken for a reassembly fault for five months. B4 reads them, and asks the
+capability question at the point where the codec is actually chosen.
+
+**Build B is a separate defect found in the same logs.** `AapReadSingleMessage` returned "carry on"
+after four failure paths that leave unread bytes on the socket, and AAP over a socket cannot
+resynchronise: one measured instance was followed within four seconds by 69 `WRONG FLAG` lines with
+channel numbers like -120 and 63 `SSL Decrypt failed`. It now disconnects instead, which is
+recoverable where a desync is not.
+
+**The fault injector is the reason the injection runs can exist.** A healthy rig produces none of #219's
 conditions — three previous decoder rounds measured `dropped=0` and never reproduced it. So the
 branch ships a hidden setting that corrupts the fragment stream deliberately, in the exact shapes
 above, deterministically (every Nth matching message, not a random draw). That turns "the fix works"
@@ -74,8 +106,16 @@ fault is logged, so a capture taken with it on cannot be mistaken for a capture 
 
 ## 3. What is different about this round
 
-- **R0 is a hard gate.** First compile of 11 commits, 29 files, +3693/−325, six new pure classes. A
-  failure stops the round — quote the compiler output verbatim, it is the deliverable.
+- **R0 is a hard gate, for both builds.** First compile of either, anywhere. A failure stops the
+  round for that build — quote the compiler output verbatim, it is the deliverable.
+- **R10 and R11 came from a real device, and this rig cannot show what they were built for.** They
+  were added after four 3.2.5 logs from a #219 reporter's Galaxy Tab S7 FE, which negotiates
+  2560x1440 HEVC and sheds frames only in throughput windows that also spent a large share waiting
+  for a codec input buffer — up to 2019 ms of 5000. This rig's 1440x720 panel will never negotiate
+  that profile, so R10 has to be **provoked** with round 6's CPU-burst lever and R11 will almost
+  certainly come back adequate. Both are still worth running: R10's failure mode is firing on a
+  healthy run, and R11 tells us what an ordinary unit's line looks like so the reporter's can be read
+  against it.
 - **R1 gates R3-R5.** The injection runs target *fragmented* video messages, and this rig may barely
   produce any: round 4 measured a healthy stream whose keyframes were 67-78 KB against a 1.5 KB
   median, with single-message frames scattered up to 18 KB. If `AapRead: fragment accounting
@@ -106,6 +146,10 @@ fault is logged, so a capture taken with it on cannot be mistaken for a capture 
   API 27 and used ACodec; this rig may be on Codec2, where the equivalent is a `CCodec`/`C2` line or
   nothing at all. Grep for both. If neither appears, the app-side `Codec input buffer: requested X,
   got Y` line is the primary evidence and the framework line is a bonus — not a failed run.
+- **R12 is a soak on a different APK, and a null result is the pass.** Build B only changes what
+  happens when a socket read comes up short, which does not happen on a healthy link. Its
+  `Disconnecting to resync.` lines should never appear; if one does on an undisturbed session, the
+  policy is wrong and that is the finding of the round.
 - **Two runs deliberately produce a bad picture** (R3, R5 at their stated rates). That is the positive
   control, not a defect. R4 deliberately produces a bad picture *with a clean reassembly summary* —
   that is the whole point of it.
@@ -124,17 +168,20 @@ Types: `log-level`, `view-mode`, `software-video-decoder`, `debug-video-fault-in
 `force-software-decoding` and `debug-video-low-latency` are **boolean**. "delete" means run only the
 removal half of §1's template, so the key reads as its default.
 
-| Key | R1 | R2 | R3 | R4 | R5a | R5b | R6 | R7 | R8 | R9 |
-|---|---|---|---|---|---|---|---|---|---|---|
-| `log-level` | `2` | `2` | `2` | `2` | `2` | `2` | `2` | `2` | `2` | `2` |
-| `video-codec` | `H.264` | `H.265` | `H.264` | `H.264` | `H.264` | `H.264` | `H.264` | `H.264` | `H.265` | `H.264` |
-| `view-mode` | `0` | `0` | `0` | `0` | `0` | `0` | `0` | `2` | `2` | `0` |
-| `force-software-decoding` | delete | delete | delete | delete | delete | delete | delete | delete | `true` | delete |
-| `software-video-decoder` | delete | delete | delete | delete | delete | delete | delete | delete | `1` | delete |
-| `debug-video-fault-injection` | delete | delete | `4` | `2` | `1` | `3` | delete | delete | delete | delete |
-| `debug-video-fault-rate` | delete | delete | `2` | `3` | `2` | `2` | delete | delete | delete | delete |
-| `debug-force-memory-profile` | delete | delete | delete | delete | delete | delete | `CONSTRAINED` | delete | delete | delete |
-| `debug-video-low-latency` | delete | delete | delete | delete | delete | delete | delete | delete | delete | `true` |
+| Key | R1 | R2 | R3 | R4 | R5a | R5b | R6 | R7 | R8 | R9 | R10 | R12 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| `log-level` | `2` | `2` | `2` | `2` | `2` | `2` | `2` | `2` | `2` | `2` | `2` | `2` |
+| `video-codec` | `H.264` | `H.265` | `H.264` | `H.264` | `H.264` | `H.264` | `H.264` | `H.264` | `H.265` | `H.264` | `H.264` | `H.264` |
+| `view-mode` | `0` | `0` | `0` | `0` | `0` | `0` | `0` | `2` | `2` | `0` | `0` | `0` |
+| `force-software-decoding` | delete | delete | delete | delete | delete | delete | delete | delete | `true` | delete | delete | delete |
+| `software-video-decoder` | delete | delete | delete | delete | delete | delete | delete | delete | `1` | delete | delete | delete |
+| `debug-video-fault-injection` | delete | delete | `4` | `2` | `1` | `3` | delete | delete | delete | delete | delete | delete |
+| `debug-video-fault-rate` | delete | delete | `2` | `3` | `2` | `2` | delete | delete | delete | delete | delete | delete |
+| `debug-force-memory-profile` | delete | delete | delete | delete | delete | delete | `CONSTRAINED` | delete | delete | delete | delete | delete |
+| `debug-video-low-latency` | delete | delete | delete | delete | delete | delete | delete | delete | delete | `true` | delete | delete |
+
+R11 has no settings of its own — it is read out of R1's and R2's captures. R12 runs on **build B**,
+which has none of the `debug-*` keys at all; writing them there is harmless but pointless.
 
 `view-mode`: 0 = SURFACE, 1 = TEXTURE, 2 = GLES.
 `software-video-decoder`: 0 = DEVICE_MEDIACODEC, 1 = BUNDLED_FFMPEG.
@@ -148,8 +195,8 @@ keys and `set_hu_pref.sh` would relaunch the app between them.
 
 ## 5. The lines that decide every run
 
-All verified with `grep -F` against `d89e26a2` before this brief was written. Level is the `AppLog`
-call's own priority; every one of them survives `log-level=2`.
+All verified with `grep -F` against `f008e3d1` (build A) and `becebffa` (build B) before this brief
+was written. Level is the `AppLog` call's own priority; every one of them survives `log-level=2`.
 
 **New in this stack — these do not exist on `main` at all, so their presence also confirms which APK
 is live:**
@@ -177,6 +224,20 @@ is live:**
 | `AapVideo: FAULT INJECTION IS ON - mode=…, one in N.` | W | printed once at session start whenever injection is enabled |
 | `AapVideo: FAULT INJECTED (#N): DROP on flag 9, len=…` | W | one per injected fault; **count these** |
 | `GlProjectionView: direct YUV upload missed its 50ms deadline; using the staged copy for the rest of this session` | W | the direct path latched off — expected at most **once** per session |
+| `VideoDecoder: the codec is the bottleneck - N windows shed frames while waiting >=10% of the window for an input buffer (WxH@F on <codec>). …` | W | **R10.** One-shot. Followed by ` It claimed it could: …` or ` It said it might not: …`, quoting the configure-time capability line |
+| `[ServiceDiscovery] Negotiating a profile this device claims to carry: codec=… sizeSupported=… sustains=…` | I | **R11.** The capability question asked where the codec is actually chosen, before the phone is told anything |
+| `[ServiceDiscovery] Negotiating a profile no decoder here claims to carry: … Frames shed under load and the artifacts that follow are the expected consequence.` | W | same line when the answer is negative — the finding this was built to produce |
+| `[ServiceDiscovery] No decoder capability available for <mime> at WxH` | I | the query could not run; not a failure by itself |
+
+**New in build B (`becebffa`) only — none of these exist in build A or on `main`:**
+
+| Line | Level | Means |
+|---|---|---|
+| `AapRead: body read returned N of M expected - an unknown number of bytes were consumed, so the stream can no longer be framed. Disconnecting to resync.` | E | the path the fix exists for |
+| `AapRead: partial header, N of 4 bytes. …Disconnecting to resync.` | E | ditto, at the header |
+| `AapRead: fragment total read returned N of 4 - …Disconnecting to resync.` | E | ditto, at the 4-byte total |
+| `AapRead: declared message size N is outside the M-byte buffer - the stream is no longer framed. Disconnecting to resync.` | E | ditto, on a length that cannot be real |
+| `AapRead: WiFi read timeout (15000ms) - connection lost.` | W | **unchanged behaviour**, reworded. Nothing was consumed here, so this is the one short read that is not a desync |
 
 **Pre-existing, used as sentinels:**
 
@@ -196,7 +257,7 @@ is live:**
 
 **Numbers with a known `main` value, for the runs that need a comparison without a baseline build:**
 
-| Quantity | `main` (`9f7c3b20`) | `d89e26a2` at 1280x720 |
+| Quantity | `main` (`9f7c3b20`) | build A at 1280x720 |
 |---|---|---|
 | `KEY_MAX_INPUT_SIZE`, H.264, API ≥ 28 | flat `2097152` (2048 KB) | `691200` (675 KB) |
 | `KEY_MAX_INPUT_SIZE`, H.265, ≤ 1080p | flat `2097152` (2048 KB) | `691200` (675 KB) |
@@ -207,16 +268,21 @@ runs long enough to cross at least three keyframe intervals.
 
 ## 6. Runs
 
-### R0 — build and unit-test gate
+### R0 — build and unit-test gate, both builds
 
-`build_hur.sh`, then `run_unit_tests.sh`.
+`build_hur.sh` on each SHA, then `run_unit_tests.sh` on each. Copy each APK out of `apks/` before
+building the next one.
 
-- **PASS:** it compiles, and the suite reports **405** tests — `main`'s 312 plus 93 new:
-  `VideoFragmentAssemblerTest` 21, `CodecConfigScannerTest` 14, `ParameterSetInspectorTest` 12,
-  `FragmentedMessageAuditTest` 11, `DeviceMemoryProfileTest` 9, `CodecInputSizePolicyTest` 9,
-  `DecoderConfigLadderTest` 9, `VideoFaultInjectorTest` 8. All green.
-- **FAIL:** stops the round. Quote the compiler output in full — this is the first compile of the
-  whole stack and a failure here is the round's most useful possible result.
+- **PASS, build A (`f008e3d1`):** it compiles, and the suite reports **422** tests — `main`'s 312
+  plus 110 new: `VideoFragmentAssemblerTest` 21, `CodecConfigScannerTest` 14,
+  `ParameterSetInspectorTest` 12, `FragmentedMessageAuditTest` 11, `DecoderCapabilityReportTest` 9,
+  `DeviceMemoryProfileTest` 9, `CodecInputSizePolicyTest` 9, `DecoderConfigLadderTest` 9,
+  `VideoBackpressurePolicyTest` 8, `VideoFaultInjectorTest` 8. All green.
+- **PASS, build B (`becebffa`):** it compiles, and the suite reports **321** tests — `main`'s 312
+  plus 9 in `AapReadRecoveryPolicyTest`. All green.
+- **FAIL:** stops the round *for that build*; the other one is independent, so carry on with it and
+  say which failed. Quote the compiler output in full — this is the first compile of either, and a
+  failure here is the round's most useful possible result.
 
 ### R1 — clean hardware session, H.264, SURFACE (the point of the round)
 
@@ -397,6 +463,69 @@ decoder thread for up to 50 ms per frame and then did the staged copy anyway.
 - **FAIL:** the session fails to configure at all — the ladder's last rung is byte-for-byte the format
   `main` builds, so a total failure would mean the ladder itself is broken.
 
+### R10 — the backpressure verdict, provoked (build A)
+
+Eight minutes, R1's settings, with round 6's CPU-burst lever running throughout. That lever is the
+one method measured to produce drops on this rig; this run exists to check that when drops *do*
+happen under codec pressure, the app now says so instead of leaving it to be inferred from a column
+of numbers.
+
+```bash
+N=$(adb shell nproc | tr -d '\r')
+for i in $(seq 40); do
+  for c in $(seq $((N*2))); do adb shell "timeout 0.4 sh -c 'while :; do :; done'" & done
+  wait; sleep 10
+done
+```
+
+If that lever produces no drops at all, fall back to round 6's thermal-throttle lever
+(`cmd thermalservice override-status 3`, released with `0`), and **put it back to 0 before leaving**.
+
+- **Record, as numbers:** every `Throughput` line's `dropped=` and `inputWait=` together with the
+  window length, so the count in the verdict can be checked by hand; the verbatim
+  `the codec is the bottleneck` line if it appears, including the `It claimed it could` /
+  `It said it might not` suffix.
+- **PASS:** the line appears at most once, and the `N windows` it reports equals the number of
+  throughput lines that had **both** `dropped>0` **and** `inputWait` at or above 10 % of the window
+  length. That arithmetic is the whole check — the threshold is 10 % of `elapsed`, not a fixed
+  millisecond count.
+- **INCONCLUSIVE:** neither lever produces a drop. Then this rig cannot manufacture codec pressure
+  today, exactly as round 6 found on its own R2; say so and move on.
+- **FAIL:** the line appears during **R1** — an undisturbed five minutes with no lever. That would
+  mean the threshold is too low for healthy hardware and the number needs raising. Check R1's capture
+  for it explicitly before starting R10.
+
+### R11 — the capability line at negotiation time (build A, no new run)
+
+Read out of R1's and R2's captures. It is emitted once per connection, from
+`ServiceDiscoveryResponse`, before the phone is told which codec we want.
+
+- **Record verbatim**, for both R1 (H.264) and R2 (H.265): the
+  `[ServiceDiscovery] Negotiating a profile …` line, whichever of the three forms it took.
+- **PASS:** the line is present in both captures, its `target=WxH@F` matches the negotiated
+  resolution the neighbouring `[ServiceDiscovery] NegotiatedResolution is:` line reports, and its
+  `codec=` names a component that exists on this device.
+- On this rig it should be the **claims to carry** form at INFO. A WARN here is a finding about the
+  rig rather than about the branch — record it and carry on, do not treat it as a failure.
+- **FAIL:** no line at all in either capture, or a `target=` that disagrees with the negotiated
+  resolution.
+
+### R12 — the transport fix does not disconnect a healthy link (build B)
+
+Install `becebffa`. One 10-minute undisturbed session, screen moving, no levers, no fault injection.
+This build changes only what happens when a socket read comes up short, which should never happen
+here — so the pass is an absence.
+
+- **Record:** count of each `Disconnecting to resync.` variant (expect **0**); count of
+  `AapRead: WiFi read timeout` (expect 0 on a healthy link, and it is *not* one of the new paths);
+  `Throughput` totals; whether the session survived the full ten minutes; the discard-rule check.
+- **PASS:** zero `Disconnecting to resync.`, one session start, no unexpected reconnect.
+- **FAIL:** any `Disconnecting to resync.` on an undisturbed link. That is the policy firing where
+  nothing was actually lost, and it would make the fix worse than the bug. Attach the full capture.
+- **Not testable here, and the brief says so rather than asking you to try:** the desync itself needs
+  a link that stalls partway through a message and then *recovers*. Nothing on this rig can
+  manufacture that. Its coverage is the 9 JVM tests in R0.
+
 ## 7. Do not re-run
 
 - **Feed queue depth and the dropped-reference-frame recovery chain.** Settled in
@@ -409,12 +538,15 @@ decoder thread for up to 50 ms per frame and then did the staged copy anyway.
   do not spend a run remeasuring it.
 - **Whether a Home press tears down the projection surface.** It does not, on this unit — twelve
   scripted cycles proved it. R7 uses `headunit://exit` for that reason.
+- **The CPU-burst lever's own effect on drop counts.** Round 6 already measured it against two builds.
+  R10 uses it only to reach the new log line, not to compare drop rates with anything.
 
 ## 8. Report back
 
-Five things decide what happens next, in this order:
+Six things decide what happens next, in this order:
 
-1. **Does it compile, and do all 405 tests pass?** (R0.) Nothing else matters if not.
+1. **Do both builds compile, and do all their tests pass?** (R0 — 422 on build A, 321 on build B.)
+   Nothing else matters if not.
 2. **The verbatim `Stream SPS (H.264)` line.** (R1.) `num_ref_frames` and `num_reorder_frames` decide
    outright whether an SPS-rewrite path and a new bitstream dependency enter this project. No other
    evidence can settle it, and no reporter's log carries it.
@@ -427,9 +559,14 @@ Five things decide what happens next, in this order:
    counters at zero** for DROP_MIDDLE. The fourth is as important as the other three: it is the blind
    spot the framing audit exists for, measured rather than argued. Every one of these produced no log
    line whatsoever on `main`.
-5. **The `Decoder capability:` / `Decoder may not manage this stream:` line for H.265.** (R2.) A WARN
-   here on a unit that renders fine is still worth having: it calibrates what the same line will mean
-   when a #219 reporter finally posts one.
+5. **The `Decoder capability:` / `Decoder may not manage this stream:` line for H.265** (R2) and
+   the `[ServiceDiscovery] Negotiating a profile …` line for both codecs (R11). A WARN in either on a
+   unit that renders fine is still worth having: it calibrates what the same line will mean when a
+   #219 reporter finally posts one. The reporter these were built for negotiates 2560x1440 HEVC that
+   nothing ever asked a decoder about.
+6. **Zero `Disconnecting to resync.` on build B** (R12), and — separately — that
+   `the codec is the bottleneck` did **not** appear in R1's undisturbed capture (R10's FAIL
+   condition). Both are absences, and both are what says the two new rules are not trigger-happy.
 
 Everything else is regression cover. If a run is INCONCLUSIVE for a reason §3 already predicted, say
 so in one line and move on — those are answered in advance, not open questions.
