@@ -2,13 +2,22 @@
 
 ## 1. Build and baseline
 
-**Candidate:** `fork/fix/852-idle-screen-reconnect-overlay` @ `eec751970b58702d99fc3749475a37049ead544f`
-(short `eec75197`), two commits off `main`.
+**Candidate:** `eec751970b58702d99fc3749475a37049ead544f` (short `eec75197`), two commits off `main`.
+
+**The branch that used to carry it is gone.** `fix/852-idle-screen-reconnect-overlay` was folded into
+`fix/session-liveness` together with the partial-read-desync fix, and its ref was deleted. The commit
+is unchanged and is kept reachable by the tag **`idle-screen-round1-candidate`**, so this round still
+tests #852 on its own, with nothing else in the build:
 
 ```bash
-git fetch fork fix/852-idle-screen-reconnect-overlay
-git checkout eec75197
+git fetch fork --tags
+git checkout eec75197        # or: git checkout idle-screen-round1-candidate
 ```
+
+Do **not** build `fix/session-liveness` for this round. Its tip carries the read-desync fix as well,
+which changes transport behaviour on a failing link and would put a second variable in an A/B that
+already needs R1 to reproduce before R2 means anything. After this round closes, that branch and
+`release/next` are where the fix lives.
 
 **Baseline:** `v.3.2.5` (`9f7c3b20`) — the released build the report is against. This round **needs
 both APKs**: R1 has to reproduce the defect before R2 can mean anything.
@@ -17,7 +26,7 @@ Both are **versionCode 98**, so plain `adb install -r` works in either order and
 flag §7a documents is not needed here. Copy each APK out of `apks/` into a round-specific folder as
 soon as it is built — `build_hur.sh` deletes the previous one before it builds.
 
-History was not rewritten; this branch was pushed for the first time on 2026-08-18.
+The commit itself was never rewritten - it is the same object pushed on 2026-08-18, now reached by tag rather than by branch.
 
 ## 2. What this is and why it exists
 
