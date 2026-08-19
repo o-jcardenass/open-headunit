@@ -509,6 +509,14 @@ when a quirk changes a run.
   adb -s <phone> shell am force-stop com.spotify.music
   adb -s <phone> shell monkey -p com.spotify.music -c android.intent.category.LAUNCHER 1
   ```
+- **Always grep a capture with `-a`.** Logs come back long enough that `file(1)` calls them "ASCII
+  text, with very long lines", and `grep` then auto-detects one as **binary**: `grep -c` prints
+  *nothing at all* and exits 1, rather than printing `0`. Every count of an absent pattern and every
+  count of a present one look identical from the shell — a refused count reads as "pattern not
+  found". Round 2 of the video-pipeline stack lost real time to this on one capture before noticing
+  and redoing the round's greps. So `grep -ac`, `grep -a -o`, `grep -aP`, without exception, and if a
+  count comes back empty rather than `0`, that is the bug and not the answer.
+
 - **Inline `sh -c` over adb is unreliable, for `sed` and `cp` alike** — the quoting does not survive.
   Confirmed again in round 8: `run-as $PKG sh -c 'cp …'` fails with `cp: Needs 1 argument`, twice out
   of two attempts, while the pushed-script form worked first time, twice out of two. Push a small
