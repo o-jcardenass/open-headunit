@@ -182,6 +182,16 @@ adb shell am start -a com.andrerinas.openheadunit.ACTION_SET_NIGHT_MODE --es sta
 `headunit://disconnect` is the scripted equivalent of the user pressing Exit, which is what the
 `isUserExit` code paths are gated on. Prefer it over any UI route.
 
+**`headunit://connect` and `ACTION_CONNECT` are USB-only, and are a no-op under Native AA.** With no
+`ip` query param they map to `ACTION_CHECK_USB` (`AutomationActivity.kt:53-57`), which only scans for
+USB accessory devices. On a wireless-only rig they do nothing at all, silently: a
+`session-vpn-lever` round 1 run sat on one for about four minutes waiting for a second session that
+was never coming. There is no deep link that re-arms a mode 3 session after a user exit, because
+that exit tears down the P2P group (`AapService.kt:1218-1246`) and the only thing that rebuilds it is
+`ACTION_BT_AUTO_START`, which `AutoStartReceiver` fires on the phone's Bluetooth `ACL_CONNECTED`
+(`AapService.kt:2157-2181`). **To reconnect on Native AA, cycle the phone's Bluetooth off and on**
+and watch for `MATCH! Starting AapService`. It produces a full second session within a few seconds.
+
 ### Media transport — drives the *phone's* player through the head unit
 
 ```bash
@@ -245,6 +255,13 @@ adb -s <phone> shell svc bluetooth enable
 Coming out of airplane mode, **do not trust the toggle to restore the radios** — on at least one MIUI
 phone `airplane-mode disable` clears the flag without bringing WiFi or Bluetooth back, producing a
 run that fails for no reason visible in the head unit's log. Re-enable and verify explicitly.
+
+**Verify with `dumpsys`, never with `settings get global`.** On the POCO X3,
+`settings get global bluetooth_on` and `wifi_on` reported both radios on while
+`dumpsys bluetooth_manager` and `dumpsys wifi` showed both actually disabled. A `session-vpn-lever`
+round 1 run launched on those keys and was discarded: the head unit formed its group and retried
+three times waiting for a phone whose radios were off. `svc bluetooth enable` / `svc wifi enable`
+fixed it, but only the `dumpsys` read revealed there was anything to fix.
 
 ---
 
