@@ -480,8 +480,11 @@ when a quirk changes a run.
   `cmd wifi start-scan` works cleanly and returns real results.
 - **`cmd connectivity airplane-mode enable|disable` *does* work on this phone**, unlike the
   `am broadcast` route in the bullet below. It reliably drops Bluetooth and usually WiFi, but coming
-  back it does not reliably restore the station radio — run `svc wifi enable` explicitly afterwards
-  and verify, same as the nudge already documented for `svc wifi disable`.
+  back it restores **neither** radio reliably. `svc wifi enable` was already documented here; the
+  media-gap round 2 found the same on the other radio, where `disable` brought WiFi back and left
+  Bluetooth off, needing an explicit `svc bluetooth enable`. Run both nudges after every
+  `airplane-mode disable` and verify both, rather than treating either as automatic. Native AA needs
+  Bluetooth for the handshake, so a missed nudge here costs the whole session, not one run.
 - **Airplane mode cannot be toggled from adb on this phone.**
   `am broadcast -a android.intent.action.AIRPLANE_MODE` is refused with
   `SecurityException: Permission Denial: not allowed to send broadcast … uid=2000`, and
@@ -650,6 +653,42 @@ when a quirk changes a run.
   `AapBroadcastReceiver` relaunches `AapProjectionActivity` with `FLAG_ACTIVITY_NEW_TASK` when the
   phone re-runs media-sink setup on the video channel, so **the app can return itself to the
   foreground** with no command from the rig.
+- **This rig is permanently joined to a WiFi network** (`Pegue Cdesta`, 5500 MHz), and has been for
+  every round on record. Any run whose premise is an *unjoined* head unit is **UNTESTABLE** here, and
+  authorization to change the rig's own network association has never been given. The media-gap round
+  1 lost a run to a brief that asserted the opposite without checking. **Verify a rig-state premise
+  with a command before writing it into a brief**, not from memory of an earlier round:
+
+  ```bash
+  adb shell dumpsys wifi | grep -iE "mWifiInfo|SSID|Frequency" | head
+  ```
+- **`settings.xml` survives between rounds and carries the previous thread's non-defaults.** This
+  cuts both ways. Media-gap round 2 needed no settings writes at all because round 1 had left the
+  file exactly right, which saved a `force-stop` cycle; the same property silently imports another
+  thread's log level, view mode or codec into a round that never asked for it. **Diff against a fresh
+  backup at the start of every round** and state the delta (even if zero) in Setup notes, as round 2
+  did. Note also that a test-APK install re-runs onboarding on a fresh install and rewrites
+  resolution, DPI and codec — see §5.
+- **Video fault injection does nothing at its default rate.** `debug-video-fault-injection` selects
+  the mode, but `debug-video-fault-rate` defaults to 300 (one in three hundred candidate fragments),
+  and at 720p a five-minute capture offers only about thirty candidates for a mode like
+  `DROP_MIDDLE_FRAGMENT`. The media-gap round 1's injection run came back INCONCLUSIVE having injected
+  nothing at all. A brief that asks for injection **must set the rate explicitly and state the
+  expected number of injections**; if that number is not comfortably above one, the run is not worth
+  scheduling. Candidate scarcity, not the rate alone, is the binding constraint.
+- **The discard rule is "a *second* `createGroup SUCCESS`", not any sign of churn.** Two benign
+  patterns keep tripping the broader reading, and both have now been seen in two independent threads:
+  a `p2p-wlan0-N` index bump that happens **before** the first `createGroup SUCCESS` is a stale group
+  from a previous round being torn down at launch, and a lone `MATCH! Starting AapService` with **zero
+  group churn attached** is the phone's own Bluetooth reconnect. Neither is contamination. Count the
+  thing that actually matters:
+
+  ```bash
+  grep -c "createGroup SUCCESS" capture.txt   # more than 1 in one run is the discard
+  ```
+
+  A second SSL handshake in one run is the corroborating signal. Report the counts either way, so a
+  clean run is on the record as clean rather than merely unremarked.
 
 ---
 
@@ -681,3 +720,18 @@ dead on arrival for reasons §7a already implied — one asked for a connect wit
 Native AA cannot do, and one asked for a deep link to a settings category, which the navigation graph
 cannot do. Both cost the tester real time to prove impossible. If a run's setup depends on something
 §7a does not confirm works, either verify it first or route that coverage to a JVM test and say so.
+
+**Verify a rig-state premise, never assert one.** Distinct from the bullet above: the run is possible,
+but the brief states something about the rig that is simply not true. The media-gap round 1 asserted
+the rig had no WiFi station association; it has had one throughout, which made an arm of that round
+untestable and was caught only because the *other* arm printed something the brief said could not
+appear. Rig state drifts between threads and none of it is yours. One `adb` command in the brief's
+own preparation is the whole cost.
+
+**Say what a PASS would look like if the change did nothing.** A PASS condition satisfied by two
+different states, only one of which exercises the change, records a green that proves nothing. The
+media-gap round 2 asked for zero instrument lines on an idle screen; it got zero, but because the
+picture ran at 45 fps the entire window, so the ceiling under test was short-circuited and never
+evaluated. The run was still worth having as a regression guard, and the brief should have said which
+of the two it would be — and asked for the number that distinguishes them, here the throughput
+alongside the count. **Pair every count with the measurement that proves the condition was reachable.**
