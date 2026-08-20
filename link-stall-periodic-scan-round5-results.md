@@ -6,7 +6,18 @@ notes) — no baseline, one APK for the whole round.
 **Unit:** UNISOC MT50_YT610E4GFPSL_U, Android 14, `c2.unisoc.hevc.decoder`/`c2.unisoc.avc.decoder`
 hardware codecs, phone POCO X3 NFC (`surya`), MIUI, API 27 sensor absent — this rig's own scan cadence
 is UNISOC's, not the reporters' MediaTek `ac8227l` (see brief §2, honored throughout below).
-**Date:** 2026-08-19
+**Date:** 2026-08-19/20
+
+**The brief was revised mid-round** (commit `02e5dbbc`, pushed while R1-R2 were already captured):
+the `wifi_scan_always_available` arm was withdrawn as a no-op while WiFi is enabled, and R3 was
+redefined from "scanning suppressed" to "what actually sets the scan cadence" — a 15-minute
+characterization run against AOSP's 20/40/80/160s periodic-scan schedule, with a display off/on
+probe. R0-R2 and R4 below were run and reported against the *original* brief before the revision
+landed; **the R3 write-up below is the redefined run**, executed after rebasing onto the revised
+brief. The original R3 (`wifi_scan_always_available=0`, no suppressive effect observed) is kept
+below for the record since it independently corroborates the revision's own correction — the
+observed *lack* of an effect was already the right empirical answer, just not the interesting
+question.
 
 ## Setup notes
 
@@ -48,6 +59,24 @@ is UNISOC's, not the reporters' MediaTek `ac8227l` (see brief §2, honored throu
 - R0's short-capture scan-tag probe needed 125 s (35 s + 90 s), not the single short capture the
   brief implies, before a scan marker appeared — record this if a future round's R0 wants a faster
   gate.
+- **The redefined R3's 15-minute capture crossed local midnight (23:53→00:10)**, which broke both
+  `recv_gaps.py` and `wire_bitrate.py` — their `secs()` helper parses only the `HH:MM:SS` field, so a
+  capture spanning the day boundary reads as a ~24h span with a huge bogus dead-time figure. Fixed by
+  a one-off normalization pass (add 24 to the hour field on every line dated after the first date seen
+  in the capture) before running the analysis scripts; not added as a permanent script change since
+  it's a rare edge case, but worth a `secs()` fix in `recv_gaps.py`/`wire_bitrate.py` if midnight-
+  crossing captures become routine.
+- **`settings.xml` was restored to the pre-round backup after R4**, before the brief's mid-round
+  revision was discovered — this reverted `video-codec`/`view-mode`/`force-software-decoding` back to
+  their pre-round values. Caught immediately (settings verify before the redefined R3's capture
+  started) and the round's common settings were re-applied with `set_hu_prefs.sh` before proceeding.
+  A final restore-and-diff was done again at the true end of the round, after the redefined R3.
+- The `NetworkLocationScanner`/`WificondScannerImpl Scan Timeout` `AlarmManager` lines that turned out
+  to be the round's most useful new evidence are **not** matched by the brief's own scan-tag regex
+  (`startScan|WifiScanRequestProxy|WifiScanningService|SCAN_RESULTS|scan results|ScanRequestProxy|
+  WifiNative.*[Ss]can`) — they were found by a manual, targeted `grep -n "callingPackage"` search
+  around the unexplained gaps after the schedule analysis raised the question. Worth adding
+  `AlarmManager.*Scan|NetworkLocationScanner` to the standard regex for the next round on this thread.
 
 ## R0 — gate and preconditions
 
@@ -127,10 +156,11 @@ brief's directional claim that an unassociated-but-enabled station scans harder 
 one. But R1 already had **zero** stalls, so there is no reporter-style clean-vs-sick stall split to
 reproduce on this hardware: both arms are clean, one just scans less than the other.
 
-## R3 — scanning suppressed
+## R3 (original brief, superseded) — scanning suppressed
 
 **PASS** — setting took, no observable effect, reported as the brief instructs ("do not spend time
-forcing it").
+forcing it"). **Superseded by the redefined R3 below**; kept because the null result independently
+confirms the revision's own finding that `wifi_scan_always_available` does nothing while WiFi is on.
 
 - R1's settings and station state again (unassociated, confirmed via `Supplicant state: DISCONNECTED`
   before and after), plus `settings put global wifi_scan_always_available 0` — verified `0` before
@@ -152,6 +182,97 @@ forcing it").
   is off* (per its own `cmd wifi status` wording: "Wifi scanning is only available when wifi is
   enabled"), not the periodic scan of an enabled-but-disconnected station, which is what R1/R3 both
   exercise.
+
+## R3 (redefined) — what actually sets the scan cadence on this unit
+
+**PASS.** 15-minute live session (unassociated station, same as R1), screen untouched for the first
+10 minutes, then two display off/on power cycles (`input keyevent 26` ×4), then 5 more minutes.
+Capture crossed local midnight (23:53-00:10); timestamps normalized before analysis (see Setup
+notes) — raw capture is `r3b_capture.txt`, normalized copy `r3b_capture_norm.txt`.
+
+- Settings and station state: same as R1 (unassociated, `Supplicant state: DISCONNECTED` before and
+  after).
+- Discard-rule check: clean. `onCreate`=1, `createGroup SUCCESS`=1, `MATCH!`=1 (benign), two
+  `p2p-wlan0-{0,1}` (benign index bump, exception conditions both verified), `Magic Garbage`=0, one
+  real SSL handshake. No `onDisconnected`/`Unexpected disconnect`/underrun anywhere — **the display
+  power-toggle did not disrupt the AAP session at all**, consistent with the session living on the
+  WiFi P2P link rather than the display state.
+- Swipes issued: 36 (25s cadence for the full ~16.5 min span, continuing through the toggle window).
+- `recv_gaps.py` (normalized capture): `RECV lines 72880 over 998.8s`, `stalls > 1.2s 0`, `audio
+  delivered 192.0 kB/s = 100.0% of real time`.
+- `wire_bitrate.py`: AUDIO 1.461 Mbit/s, VIDEO 0.761 Mbit/s, 47295 frame starts = 47.4 fps.
+- **AUDIO coverage:** 182.6 / 192.0 = **95.1%**.
+- Underruns: 0. `inbound link quiet`: 0.
+- **The `dumpsys wifi | grep -aiE "periodic single scan|full band scan|scan"` instrumentation the
+  brief asked for produces nothing on this unit.** `Dump of WifiConnectivityManager` →
+  `WifiConnectivityManager - Log Begin ----` / `... Log End ----` with **no lines between them** —
+  the `localLog` is empty on this Android 14/UNISOC build. `Last periodic single scan started` and
+  `No full band scan due to ongoing traffic` never appear anywhere in the dump. This instrument is
+  dead on this hardware; the schedule characterization below relies entirely on the logcat
+  `WifiNative: Scan result ready event` markers.
+- **14 distinct scan events over 998.8s** (dedup'd on `WifiNative`, same method as R1-R3-original).
+  Timestamps and gaps (toggle window 00:05:22-00:05:32, marked):
+  ```
+  23:55:21.205
+  23:56:16.798   +55.593s
+  23:58:23.379   +126.581s
+  23:58:56.951   +33.572s
+  00:01:25.510   +148.559s
+  00:01:37.003   +11.493s
+  00:04:17.156   +160.153s
+  00:05:31.884   +74.728s   <- inside the toggle window (toggle ended 00:05:32)
+  00:05:51.683   +19.799s
+  00:06:31.921   +40.238s
+  00:07:28.033   +56.112s
+  00:07:52.811   +24.778s
+  00:10:29.796   +156.985s
+  00:10:34.091   +4.295s
+  ```
+- **Does the cadence match AOSP's 20/40/80/160s schedule?** Partially, and only right after the
+  toggle. The two gaps immediately following the toggle (**19.8s, then 40.2s**) are a close match to
+  `PERIODIC_SCAN_INTERVAL_MS=20s` followed by its first doubling — consistent with the brief's
+  `handleScreenStateChanged()` → `startPeriodicScan()` reset hypothesis. But the ramp does not
+  continue cleanly: the next gap is 56.1s, not ~80s, and the one after that drops back to 24.8s,
+  which the doubling schedule cannot produce at all. Pre-toggle gaps (55.6, 126.6, 33.6, 148.6, 11.5,
+  160.2s) do not fit the clean progression either, though two values (33.6s, 160.2/157.0s) land
+  within ~15% of schedule steps. **Verdict: suggestive but not clean** — real support for a reset
+  effect at the toggle, no support for a sustained pure-AOSP ramp either side of it.
+- **A real, named third scanner explains the pattern far better than the AOSP schedule alone.**
+  `com.google.android.gms`'s `NetworkLocationScanner` alarm (`AlarmManager: ... listenerTag=
+  NetworkLocationScanner ... callingPackage=com.google.android.gms callingUid=10101`, work-sourced to
+  `WorkSource{1001 com.unisoc.phone}`) fires within **30-200ms of nine of the fourteen scan events**,
+  including three matches inside 40ms:
+  ```
+  23:55:21.245 NetworkLocationScanner alarm  ->  23:55:21.205 scan   (Δ40ms)
+  24:01:25.540 NetworkLocationScanner alarm  ->  24:01:25.510 scan   (Δ30ms)
+  24:07:28.062 NetworkLocationScanner alarm  ->  24:07:28.033 scan   (Δ29ms)
+  24:10:29.913 NetworkLocationScanner alarm  ->  24:10:29.796 scan   (Δ117ms)
+  ```
+  This is Google Play Services' network-location WiFi scan, attributed to a UNISOC vendor work
+  source, not a pure-AOSP `WifiConnectivityManager` periodic scan and not a third-party app in the
+  sense the brief meant — but it **is** the "unexplained scan, name the calling package" case the
+  brief asked for. It also means the two clean post-toggle gaps (19.8s/40.2s) can't be attributed to
+  the AOSP reset alone with confidence: `NetworkLocationScanner` alarms sit at 00:05:25.491 and
+  00:05:28.202, inside/adjacent to the same window, and location scanners are known to run more
+  aggressively right after a screen wake for their own reasons.
+  Two `WificondScannerImpl Scan Timeout` alarms (`callingPackage=android callingUid=1000`) were also
+  found near the two shortest, most schedule-incompatible gaps (11.5s, 4.3s) — these are the
+  framework's own scan-response watchdog, not a trigger, so they explain the *infrastructure* around
+  those events without explaining *why* a scan fired there.
+- **`scan_vs_gaps.py`** (normalized capture, includes duplicate line-pair counting like R1-R3):
+  `scan markers 37, stalls > 1.2s 0`, `scan interval mean=25.4s max=160.1s` (raw, undeduplicated —
+  see the manual dedup above for the real per-event figures).
+- **§5 answer for the redefined R3:** the framework's pure 20/40/80/160s schedule is **not** the sole
+  or even primary explanation on this unit — a real, named third scanner (`com.google.android.gms`
+  `NetworkLocationScanner`, vendor work-sourced) correlates far more tightly with the observed events
+  than the AOSP ramp does. Per the brief's own framing, this keeps the theory alive as "a vendor/
+  location scanner, not a pure-framework one" for explaining a period the framework's own schedule
+  cannot produce — matching the brief's second named alternative rather than refuting the mechanism.
+  Whether the reporters' Android 8.1 units run an equivalent location-scanning component, unthrottled
+  and possibly at a different cadence, is outside what this rig can answer.
+- **Gap shape (§5's new criterion):** not applicable — R1, R2 and both R3 runs had **zero** stalls
+  > 1.2s throughout, so there is no stall list to characterize as bursty vs. a solid hole. Reported
+  as the brief instructs: a number (zero), not papered over.
 
 ## R4 — the lifecycle fixes
 
@@ -198,26 +319,37 @@ forcing it").
 ## §5 criteria, answered
 
 1. **Mechanism present?** No. R1 had zero stalls > 1.2s, so the "≥60% within 2s of a scan +
-   matching interval" test never had anything to evaluate.
+   matching interval" test never had anything to evaluate. True in every arm (R1, R2, both R3 runs).
 2. **Mechanism absent?** **Yes — this is the outcome.** R1: 0 stalls > 1.2s. Per the brief this is a
    **PASS of R1**, not a failure, exactly as pre-registered.
 3. **R2 comparison:** associating the station roughly halved the scan rate (7/733s → 3/665s), which
    reproduces the *directional* mechanism (unassociated scans harder) even though there was no stall
    difference to go with it — both arms are clean on this hardware.
+4. **R3 (redefined) — does the theory survive?** Not on pure AOSP-schedule grounds alone: the clean
+   20/40/80/160s ramp only appears (partially, two steps) right after the display toggle, and is
+   absent elsewhere. But it survives via a **named third scanner**: `com.google.android.gms`'s
+   `NetworkLocationScanner`, work-sourced to `com.unisoc.phone`, correlates within 30-200ms of 9 of
+   14 scan events across the whole run. Per the brief's own framing this is exactly "a vendor/
+   location scanner… to stay alive" — the theory is not refuted, it is narrowed to needing an
+   equivalent location-scanning component on the reporters' units, which this rig cannot confirm or
+   deny for their Android 8.1 build.
 
 **Per the brief's own §2 limit: none of this refutes the theory for `ac8227l` on Android 8.1.** This
-UNISOC/Android-14 rig's scan cadence (74.9-221.8s between events, depending on arm) is 1-2 orders of
-magnitude sparser than MediaTek's stated 8.1s dual-band-scan constant, and never produced a stall in
-2020s of combined R1-R3 capture. The honest conclusion is exactly what §2 anticipated: **this rig
-cannot carry #839/#824's fault at all** — its own radio does not blank the P2P group on the timescale
-the theory needs, so nothing here says whether the same driver behavior exists on the reporters'
-silicon.
+UNISOC/Android-14 rig's scan cadence (mostly tens to ~160s between events, with brief exceptions down
+to 4-12s that are themselves explained by framework/GMS infrastructure, not the reporters' mechanism)
+is 1-2 orders of magnitude sparser than MediaTek's stated 8.1s dual-band-scan constant, and never
+produced a stall across the full ~2600s of combined R1/R2/both-R3 capture. The honest conclusion is
+exactly what §2 anticipated: **this rig cannot carry #839/#824's fault at all** — its own radio does
+not blank the P2P group on the timescale the theory needs — but it *does* newly show that a specific,
+named, non-AOSP scanner (GMS location services) is live and firing on cadence-relevant hardware here,
+which is worth checking for on the reporters' side if their own logs are ever revisited.
 
 ## `wifi_scan_always_available` — restore confirmation
 
-Set to `0` for R3, verified `0` immediately before and after the run, then explicitly deleted
-(`settings delete global wifi_scan_always_available`) to return it to its original unset/`null`
-state, confirmed by a final `settings get` returning `null`.
+Set to `0` for the original R3, verified `0` immediately before and after that run, then explicitly
+deleted (`settings delete global wifi_scan_always_available`) to return it to its original unset/
+`null` state, confirmed by a `settings get` returning `null`. Not touched again for the redefined R3
+(withdrawn per the brief revision, so left at its restored default).
 
 ## Discard-rule counts, all captures
 
@@ -226,11 +358,14 @@ state, confirmed by a final `settings get` returning `null`.
 | R0 probe | — | 1 | 0 | — | 0 | n/a (no session) |
 | R1 | 1 | 1 | 1 (benign) | 4→5 (benign) | 0 | clean |
 | R2 | 1 | 1 | 1 (benign) | 6 (no bump) | 0 | clean |
-| R3 | 1 | 1 | 1 (benign) | 7 (no bump) | 0 | clean |
+| R3 (original, superseded) | 1 | 1 | 1 (benign) | 7 (no bump) | 0 | clean |
+| R3 (redefined) | 1 | 1 | 1 (benign) | 0→1 (benign) | 0 | clean |
 | R4 | multiple by design (lifecycle round) | — | — | — | 0 | n/a, see R4 write-up |
 
-`settings.xml` restored and diffed byte-identical against the pre-round backup at the end of the
-round.
+`settings.xml` restored once after R4 and diffed byte-identical against the pre-round backup at that
+point, then **re-diverged** for the redefined R3 run (which needed the round's common settings
+re-applied — see Setup notes) and **restored and re-diffed byte-identical a second time** at the true
+end of the round, after the redefined R3 completed.
 
 ## Anything the brief did not ask about
 
