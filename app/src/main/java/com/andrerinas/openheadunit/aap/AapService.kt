@@ -2271,14 +2271,30 @@ class AapService : Service(), UsbReceiver.Listener {
             }
         }
 
-        // Fallback: if force=true and we have a single Google VID device in normal mode,
+        // Fallback: if force=true and exactly one Android phone is attached in normal mode,
         // switch it to accessory mode. This handles cases where UsbAttachedActivity didn't fire.
+        //
+        // [BUG_FIX] This used to require vendor id 0x18D1, so it fired for a Pixel and for
+        // nothing else. Every other make fell through every branch above it and reached the end
+        // of this function having done nothing, which is why those units could only be connected
+        // by hand from the USB button. deviceList is already isAndroidDevice()-filtered, and
+        // UsbAttachPolicy applies the same allow-list rule the attach activity does.
         if (force) {
             val nonAccessoryDevices = deviceList.filter { !UsbDeviceCompat.isInAccessoryMode(it) }
-            val googleDevices = nonAccessoryDevices.filter { it.vendorId == 0x18D1 }
-            if (googleDevices.size == 1) {
-                AppLog.i("Fallback: force=true and found single Google normal-mode device ${UsbDeviceCompat(googleDevices[0]).uniqueName}. Switching to accessory mode.")
-                performSingleUsbConnect(googleDevices[0])
+            val allowList = settings.allowedDevices
+            val candidates = nonAccessoryDevices.filter {
+                UsbAttachPolicy.shouldAttemptAoaSwitch(
+                    isGoogleVendor = it.vendorId == 0x18D1,
+                    autoStartOnUsb = usbAutoStart,
+                    allowListConfigured = allowList.isNotEmpty(),
+                    deviceAllowed = settings.isConnectingDevice(UsbDeviceCompat(it)),
+                )
+            }
+            if (candidates.size == 1) {
+                AppLog.i("Fallback: force=true and found single normal-mode Android device ${UsbDeviceCompat(candidates[0]).uniqueName}. Switching to accessory mode.")
+                performSingleUsbConnect(candidates[0])
+            } else if (candidates.isNotEmpty()) {
+                AppLog.i("Fallback: force=true but ${candidates.size} candidate USB devices are attached; not guessing which is the phone")
             }
         }
     }

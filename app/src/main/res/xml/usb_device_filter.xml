@@ -2,7 +2,14 @@
 
 <resources>
 
-    <!-- Match all devices -->
+    <!--
+        Deliberately a match-all. Narrowing this to Android interface classes was considered and
+        rejected: a phone whose normal-mode interface set we failed to describe here would stop
+        producing an attach at all, which is a worse failure than being offered too often. What
+        this app is willing to act on is decided in code instead, by
+        UsbDeviceCompat.isAndroidDevice() and UsbAttachPolicy, and UsbAttachedActivity now hands
+        an attach it declines to AapService rather than swallowing it.
+    -->
     <usb-device />
 
     <usb-device vendor-id="6353" product-id="11520" />
