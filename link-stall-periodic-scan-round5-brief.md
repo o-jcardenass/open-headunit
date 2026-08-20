@@ -25,10 +25,10 @@ MediaTek's Gen3 WLAN driver — which is what `ac8227l` runs — carries this in
 #define SCN_BSS_DESC_STALE_SEC 10   /* 2.4G + 5G need 8.1s */
 ```
 
-That is **MediaTek stating that a full dual-band scan takes ~8.1 s on this driver**, with results
-treated as stale after 10 s. `roaming_fsm.h` adds `ROAMING_DISCOVERY_TIMEOUT_SEC 5`. A 10 s
-stale-refresh with a partial sweep gives an ~11.6 s period; a truncated 8.1 s sweep gives 5-6 s gaps.
-Both reporter waveforms fall inside that envelope:
+Read that constant precisely, because it was over-read once already. Its only use (`mgmt/scan.c:2427`)
+is a candidate-freshness filter when picking a BSS to join or roam to; **it schedules no scans**. What
+it supports is the comment's claim alone: **a full 2.4 + 5 GHz sweep takes ~8.1 s on this driver**.
+That is what makes a multi-second blanking plausible at all. The two reporter waveforms:
 
 | Report | Dead | Period | Dead time |
 |---|---|---|---|
@@ -39,19 +39,43 @@ While a scan runs, the single radio is off the group's channel and **everything 
 which is the observed signature: picture and sound together, every channel, decoder clean,
 `dropped=0`, `fed == rendered`.
 
-**The two obvious alternatives are ruled out on magnitude, not on taste.** MCC and NoA schedule
-absences against the beacon interval (~100 ms), so time-slicing costs throughput and tens of ms of
-jitter, never contiguous seconds. Bluetooth/WiFi coexistence arbitration (PTA) works at
-sub-millisecond to ~16 ms. Neither can produce a multi-second silence. This is the first mechanism
-proposed on this thread whose timescale actually matches the fault.
+**The mechanism is real and completely unprotected, and that is now source-verified rather than
+assumed.** Three findings decide it:
+
+- `net/mac80211/cfg.c`, `ieee80211_scan()` carries an explicit `FIXME: implement NoA while scanning`,
+  and for any driver with `hw_scan` — which is every Android chip — it simply `break`s and permits
+  the scan on a beaconing group owner **with no mitigation and no notification to clients**.
+- The only Notice-of-Absence path in wpa_supplicant is `set_noa`, whose own header says *"used only
+  for testing"*, reachable solely from the manual `P2P_SET noa` command. `nl80211` has no NoA API at
+  all. **Nothing arms NoA automatically, anywhere in the stack.** The group simply vanishes.
+- `WifiConnectivityManager.java` contains **zero** occurrences of "p2p". AOSP never suppresses a
+  connectivity scan because a projection session is running.
+
+Bluetooth coexistence (sub-ms to ~16 ms) and MCC/NoA time-slicing (~100 ms, beacon-interval
+granularity) remain ruled out on magnitude.
+
+**And one thing that does not fit, stated up front because it is the round's real question.** AOSP's
+own scan schedule is `PERIODIC_SCAN_INTERVAL_MS = 20 s` doubling to `MAX_PERIODIC_SCAN_INTERVAL_MS =
+160 s` — scans at 0, 20, 60, 140, 300 s, i.e. gaps of 20, 40, 80, 160. **That does not produce a
+10-12 s period.** So if scanning is the cause, the trigger is *not* the framework's own schedule:
+either a third-party app calling `startScan()` — which on Android 8.1 is **completely unthrottled**,
+`ScanRequestProxy` and its 4-per-2-minutes cap not arriving until API 28 — or the vendor firmware's
+own scan scheduler. Establishing which is a large part of what this round is for.
 
 **And there is a confound in the reporter evidence that this round exists partly to break.** Across
 #839's five captures, station association and codec co-vary *perfectly*: the clean capture had the
 station associated at 5745 MHz **and** ran H.265; every sick capture had no WiFi connected **and** ran
-H.264. Round 3's codec finding and this scanning theory fit exactly the same evidence. Note the
-direction is counter-intuitive — an **unassociated but enabled** station scans *more* than an
-associated one, so "I disconnected my WiFi" predicts worse, not better, which is what the reporter
-observed when he tried it.
+H.264. Round 3's codec finding and this scanning theory fit exactly the same evidence.
+
+The direction is counter-intuitive, and the reason is **cost per scan, not scan frequency** — an
+earlier draft of this brief had that wrong. The schedule is identical either way, but
+`startPeriodicSingleScan()` downgrades to a partial scan only when `mWifiState == WIFI_STATE_CONNECTED`
+and traffic is above `config_wifi_framework_max_tx_rate_for_full_scan` (8 pkt/s). **A disconnected
+station can never take that downgrade**, so every one of its scans is `WIFI_BAND_BOTH_WITH_DFS` — every
+channel, DFS included, passively. Roughly 3-4x the off-channel time of a busy connected station's
+scan. Note the irony the framework cannot see: the projected video runs on the *group owner*, and
+`mWifiInfo.txSuccessRate` measures the *station*, so the traffic that matters is invisible to the
+heuristic that would have shortened the scan.
 
 **This rig has never recorded its own station state in any round.** It is the same uncontrolled
 variable the codec was before round 3.
@@ -219,17 +243,40 @@ Same, but joined to a 5 GHz AP before launching the head unit app. This is the c
 The comparison against R1 is the round's primary result: **scan-marker interval, stall count, dead
 time, and the fraction of stalls within 2 s of a scan.**
 
-### R3 — scanning suppressed
+### R3 — what actually sets the scan cadence on this unit
 
-R1 again with scanning turned down:
+**The `wifi_scan_always_available` arm this round originally carried has been withdrawn.** Reading
+`WifiController.java`, that setting is consulted *only* to choose between `mStaDisabledWithScanState`
+and `mApStaDisabledState` — it decides whether scanning continues when the **WiFi master toggle is
+off**, and does nothing whatsoever while WiFi is enabled. Turning it off would have measured nothing
+and we would have believed it. Do not spend a run on it.
+
+What matters instead is the cadence, because AOSP's own schedule (20 → 40 → 80 → 160 s) cannot
+produce the reporters' 10-12 s period. **Fifteen minutes, live session, screen untouched for the
+first ten**, then toggle the display off and on twice and keep capturing for five more.
+
+Report:
+
+- Every scan marker's timestamp, and the intervals between them.
+- Whether the intervals match `20, 40, 80, 160, 160…` — if they do, the framework is the only scanner
+  here and the reporters' period must come from somewhere else.
+- Whether a display off/on **resets the interval back to ~20 s**. `handleScreenStateChanged()` calls
+  `startPeriodicScan()`, which reassigns `mPeriodicSingleScanInterval = PERIODIC_SCAN_INTERVAL_MS`, so
+  it should. A head unit whose screen blanks and wakes would re-arm the aggressive ramp every time,
+  which is a plausible source of outages arriving in bursts.
+- **Any scan at a cadence the framework cannot explain.** On this rig (Android 14) third-party
+  `startScan()` is throttled to 4 per 2 minutes, but on the reporters' Android 8.1 it is not throttled
+  at all, so an app polling in a loop is a live hypothesis there. If this unit shows unexplained
+  scans, name the calling package if the log gives it.
+
+Useful alongside the capture:
 
 ```bash
-adb shell settings put global wifi_scan_always_available 0
+adb shell dumpsys wifi | grep -aiE "periodic single scan|full band scan|scan" | head -40
 ```
 
-Verify it took (`settings get`), and **restore it at the end of the round** — record that you did.
-If the unit ignores the setting (scan markers keep appearing at the same cadence), that is the
-result: report it and do not spend time forcing it.
+`WifiConnectivityManager` writes `Last periodic single scan started …` and `No full band scan due to
+ongoing traffic` into its `localLog`, both of which land in that dump.
 
 ### R4 — the lifecycle fixes, which only this rig can test
 
@@ -256,6 +303,13 @@ and these paths need a live P2P stack. Two checks, no measurement:
 within 2 s of a scan marker **and** the scan-marker interval is close to the stall period. All three,
 not any one — a coincidental alignment on a handful of stalls is not evidence.
 
+**The shape of each gap is itself a finding.** A scan that interleaves — going off-channel for
+40-110 ms at a time and returning home between channels — produces a burst of many short gaps across
+several seconds. A scan that does not interleave produces one solid multi-second hole. The reporters
+see solid holes, so if this rig produces bursts instead, the two are not the same failure and the
+theory needs the vendor firmware to explain the difference. Report which shape you see, from
+`recv_gaps.py`'s stall list, not from an average.
+
 **The mechanism is absent on this rig if** R1 has zero stalls > 1.2 s, or stalls that show no
 alignment with scans (< 30 % within 2 s). **This is the expected outcome**, given five clean rounds,
 and it is a PASS of R1, not a FAIL. Report it as a number and move on.
@@ -264,9 +318,10 @@ and it is a PASS of R1, not a FAIL. Report it as a number and move on.
 markers *and* R1 had any stalls, that reproduces the reporter's own clean-vs-sick split on hardware
 we control, and it is the strongest result this round can produce.
 
-**If R3 suppresses scans and R1 had stalls that then disappear**, we have a mitigation we can hand to
-two reporters with a straight face. If R3 suppresses scans and nothing changes because there was
-nothing to change, say exactly that.
+**R3 decides whether the theory can survive at all.** If this unit's scans arrive on the framework's
+20/40/80/160 schedule and nothing else scans, then scanning cannot produce a 10-12 s period on a
+stock Android, and the theory needs a third scanner — a vendor one, or an app — to stay alive. Say
+which of those the evidence supports, and do not paper over a cadence that does not fit.
 
 **What no result here can do:** refute the theory for `ac8227l` on Android 8.1. The 8.1 s constant is
 MediaTek's and this rig is not that silicon. A clean round narrows the claim to "not universal", and
