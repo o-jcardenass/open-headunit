@@ -26,17 +26,28 @@ varied things the reporter's unit and this rig have in common, and never the two
 
 | | #839 / #824 units | this rig |
 |---|---|---|
-| Link | **2.4 GHz** WiFi Direct | 5 GHz |
+| Link | WiFi Direct, **band unrecorded** | 5 GHz |
 | RAM | ~1 GB, heap 12-20 MB | ample |
-| Android | 8.1 | 14 |
-| SoC | MediaTek `ac8227l` | UNISOC `uis7861_6h10` |
+| Android | **8.1 (API 27)** | 14 |
+| SoC | MediaTek `ac8227l` / Spreadtrum `sp7731e_1h10` | UNISOC `uis7861_6h10` |
 
-The last two cannot be changed. **The first two now can**, and that is this round.
+**Correction, and it matters for how you read this round.** An earlier version of this brief said both
+reporter units are on 2.4 GHz. That was an inference, not a measurement, and it has been withdrawn.
+What their captures actually show is `Standard createGroup SUCCESS!` and `Freq: 0 MHz (unknown)`, in
+every capture on both units: they are pre-Android-10, so the band request (API 29) never runs, and
+`getGroupFrequency` returns 0 below Q while the pre-Q reflection finds no field on either vendor
+build. **Their band is simply not recorded anywhere.** They may be on 2.4 GHz; nothing proves it.
+
+The Android version and the SoC cannot be changed. The band and the memory profile now can, and that
+is this round — with the band arm now testing a *hypothesis* about the reporters rather than
+reproducing a known configuration.
 
 - **`debug-force-p2p-band-24`** is new on this candidate. The rig could never run 2.4 GHz before, for
   two independent reasons: `createQuietGroup` asks for `GROUP_OWNER_BAND_5GHZ`, and
   `onGroupInfoAvailable` tears down and remakes any Native AA group that comes up on 2.4 GHz anyway.
-  The setting turns off both together.
+  The setting turns off both together. Note it is **inert on the reporters' own units** — on API 27
+  the requested band is only ever read inside the API-29 branch — so this arm tests what 2.4 GHz does
+  to *a* head unit, not what it does to theirs.
 - **`debug-force-memory-profile=CONSTRAINED`** already existed and has never been used on hardware.
   It makes the video pipeline size itself as though this were a 1 GB unit — smaller
   `KEY_MAX_INPUT_SIZE`, a 2 MB frame-pool budget, a 16 KB pooled-buffer floor.
