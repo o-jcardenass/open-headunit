@@ -706,6 +706,16 @@ when a quirk changes a run.
 
   A second SSL handshake in one run is the corroborating signal. Report the counts either way, so a
   clean run is on the record as clean rather than merely unremarked.
+- **Seeding a `connection-issue-*` stamp means clearing `connection-issue-dismissed-at` too.** The
+  banner compares the two directly, and the seed constants briefs use (`1755800000000` and its
+  neighbours) are *older* than any real on-device clock reading. So a dismissal left behind by an
+  earlier run in the same session silently suppresses a stamp seeded afterwards, and the run reads
+  as "no banner" when the banner logic is working exactly as designed. This cost a real false
+  negative once. Delete the key alongside every seed unless the run is specifically about dismissal.
+- **The banner is refreshed on `onResume()` and nowhere else.** Nothing re-checks while the app stays
+  foregrounded, so a condition that raises mid-session does not appear on a screen that is already
+  up. Any step phrased as "let the condition raise by itself and confirm the banner" therefore means
+  force-stop and relaunch, whatever else it says. Two runs in one round have needed this.
 
 ---
 
