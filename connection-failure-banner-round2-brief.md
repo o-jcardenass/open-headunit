@@ -1,27 +1,39 @@
 # connection-failure-banner, round 2 brief: the raise path this rig can actually produce
 
-**Candidate:** `feat/hotspot-band-control` @ `1a30045c` on `fork` (`o-jcardenass/open-headunit`).
-**No baseline.** One APK for the whole round.
+**Candidate:** `fix/session-lifecycle-and-diagnostics` @ `a2793db2` on `fork`
+(`o-jcardenass/open-headunit`). This is the head of draft PR #867, which now carries every branch
+this thread has been about. **No baseline.** One APK for the whole round.
 
 ```bash
 git fetch fork
-git checkout -B feat/hotspot-band-control fork/feat/hotspot-band-control
-git rev-parse HEAD          # must print 1a30045c...
-git log --oneline -6
-# 1a30045c Connection banner: say only what still applies, and reach both fields it names
-# 2d95ab62 Settings: show each band lever on the transport that reads it
-# 0dfa479e Hotspot: let the user pick the band, instead of only falling back to it
-# 6dca0275 Say why the connection failed on the screen the user is actually looking at
-# 93d38598 Native AA: write down why a connection failed, so it can outlive the drive
-# 84d5fa87 Native AA: stop dropping the credentials the hotspot transport resolves
+git checkout -B fix/session-lifecycle-and-diagnostics fork/fix/session-lifecycle-and-diagnostics
+git rev-parse HEAD          # must print a2793db2...
+git log --oneline -4
+# a2793db2 Head unit hotspot: let the user pick the band, and show each lever where it is read
+# 5ec0077a Native AA: keep the reason a connection failed, and say it on the main screen
+# 6d0665bf Native AA: stop dropping the credentials the hotspot transport resolves
+# afd8b7ca Native AA: ask the unit what it can tell a phone, before the user connects
 ```
 
-**History was rewritten on 2026-08-21 after round 1, so fetch and reset rather than pull.** The
-three commits round 1 built are the same three commits with the same trees and new SHAs: only their
-messages changed. `6f9c4158` became `6dca0275`, `137d28ee` became `93d38598`, `5450f1e3` became
-`84d5fa87`, and `git diff 6f9c4158 6dca0275` is empty. Nothing round 1 measured is invalidated.
-Round 2 builds the branch above, not `fix/connection-failure-banner`, because the fixes this round
-tests sit on top of the band work.
+**The branch this brief originally named is superseded, and fetch-and-reset rather than pull.** An
+earlier draft of this file said `feat/hotspot-band-control` @ `1a30045c`. That ref still exists and
+still builds the same APK, because **`a2793db2`'s tree is byte-identical to `1a30045c`'s** and
+`git diff 1a30045c a2793db2` is empty. Build the branch above anyway: it is what the PR and any
+review will be against, and the other three refs
+(`fix/809-native-hotspot-credentials-race`, `fix/connection-failure-banner`,
+`feat/hotspot-band-control`) are now superseded leftovers.
+
+Two rewrites happened on 2026-08-21, both content-preserving and both verified:
+
+- the three commits round 1 built were reworded, same trees, so `6f9c4158` became `6dca0275`,
+  `137d28ee` became `93d38598` and `5450f1e3` became `84d5fa87`;
+- those six commits were then compacted into the three above, grouped by component. `6d0665bf`
+  reproduces `84d5fa87`'s tree exactly and `a2793db2` reproduces `1a30045c`'s, so two of the three
+  are states that once existed; `5ec0077a` is a new one (the banner complete, the band work not yet
+  applied). Everything cited here is reachable from the tags `stack-pre-compaction-20260821`,
+  `banner-round1-tested` and `band-control-pre-reword` on the authoring machine.
+
+**Nothing round 1 measured is invalidated by either rewrite.**
 
 ---
 
@@ -168,8 +180,8 @@ All copied from `1a30045c` and verified with `grep -F` against the branch. Use `
 | `SoftApBandPolicyTest` | 10 |
 
 Total: expect **676**. Round 1 reported 657 against 657 `@Test` annotations, and this tip carries
-676, so the two should match again. Report the number either way. `1a30045c` and the two band-control
-commits have never been compiled.
+676, so the two should match again. Report the number either way. Nothing above `afd8b7ca` in this candidate has been compiled
+in its current, compacted form, though every line in it has been compiled at least once.
 
 ### R1 - the hotspot condition, raised by the hardware. **The point of the round.**
 
