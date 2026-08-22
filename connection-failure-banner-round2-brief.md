@@ -15,14 +15,14 @@ git log --oneline -4
 # afd8b7ca Native AA: ask the unit what it can tell a phone, before the user connects
 ```
 
-**The branch this brief originally named is superseded, and fetch-and-reset rather than pull.** An
-earlier draft of this file said `feat/hotspot-band-control` @ `1a30045c`. That ref still exists and
-builds an APK that differs from this one only in `CHANGELOG.md`, which was stripped out because it
-is the repo owner's file and not ours. `git diff 1a30045c bd3d7b99` is three deleted changelog
-lines and nothing else. Build the branch above anyway: it is what the PR and any
-review will be against, and the other three refs
-(`fix/809-native-hotspot-credentials-race`, `fix/connection-failure-banner`,
-`feat/hotspot-band-control`) are now superseded leftovers.
+**Fetch and reset rather than pull, and expect the old branches to be gone.** An earlier draft of
+this file said `feat/hotspot-band-control` @ `1a30045c`. That ref and the two beside it
+(`fix/809-native-hotspot-credentials-race`, `fix/connection-failure-banner`) were deleted on
+2026-08-21, locally and on `fork`, because every line of them is in the branch above. If a checkout
+on this rig still sits on one of them, `git fetch --prune fork` and check out the candidate; a
+`git pull` there will fail rather than move you. The only content difference between `1a30045c` and
+this tip was three `CHANGELOG.md` lines, stripped because that file is the repo owner's and not
+ours.
 
 Two rewrites happened on 2026-08-21, both content-preserving and both verified:
 
@@ -31,8 +31,8 @@ Two rewrites happened on 2026-08-21, both content-preserving and both verified:
 - those six commits were then compacted into the three above, grouped by component. `6d0665bf`
   reproduces `84d5fa87`'s tree exactly, and the tip reproduced `1a30045c`'s until the changelog
   lines were removed from it; `d5faa03d` is a new state (the banner complete, the band work not yet
-  applied). Everything cited here is reachable from the tags `stack-pre-compaction-20260821`,
-  `banner-round1-tested` and `band-control-pre-reword` on the authoring machine.
+  applied). The tags that kept those SHAs reachable were deleted with the branches, so treat every
+  pre-compaction SHA in this file as a citation only. Nothing in this round needs to build one.
 
 **Nothing round 1 measured is invalidated by either rewrite.**
 
@@ -66,7 +66,7 @@ it changes what every later run's evidence is worth. This belongs in §7a once i
 ## 1. Why this round exists
 
 Round 1 passed everything it ran, and then found four things it had not been asked to look for. All
-four are fixed in `1a30045c` and none of them has been on hardware.
+four are fixed in `bd3d7b99` and none of them has been on hardware.
 
 It also proved the round 1 brief wrong about this rig in a way that unlocks the run that was missing.
 That brief asserted §7a says this unit *can* read `getSoftApConfiguration()`, so
@@ -83,7 +83,7 @@ path for the first time**, and everything downstream of it end to end.
 
 The four fixes under test:
 
-| # | What round 1 saw | What `1a30045c` does |
+| # | What round 1 saw | What `bd3d7b99` does |
 |---|---|---|
 | 1 | The banner asked for a hotspot name and password that were already set | A condition whose own remedy is in place is not shown. The record is kept, not cleared |
 | 2 | The remedy tap surfaced the name row only, and both are required | Both rows carry one shared search phrase, and the banner seeds the same string |
@@ -144,7 +144,7 @@ ring buffer inside a run.
 
 ## 4. The lines that decide every run
 
-All copied from `1a30045c` and verified with `grep -F` against the branch. Use `grep -a`, always.
+All copied from `bd3d7b99` and re-verified with `grep -F` against that tip. Use `grep -a`, always.
 
 | Grep string | Level | Means |
 |---|---|---|
@@ -181,8 +181,7 @@ All copied from `1a30045c` and verified with `grep -F` against the branch. Use `
 | `SoftApBandPolicyTest` | 10 |
 
 Total: expect **676**. Round 1 reported 657 against 657 `@Test` annotations, and this tip carries
-676, so the two should match again. Report the number either way. Nothing above `afd8b7ca` in this candidate has been compiled
-in its current, compacted form, though every line in it has been compiled at least once.
+676, so the two should match again. Report the number either way.
 
 ### R1 - the hotspot condition, raised by the hardware. **The point of the round.**
 
@@ -313,7 +312,7 @@ this rig completes Native AA sessions routinely, so one unseeded raise here outr
 
 ## 6. Do not re-run
 
-Settled by round 1 and unaffected by anything in `1a30045c`:
+Settled by round 1 and unaffected by anything in `bd3d7b99`:
 
 - **R1 of round 1**, the credential handover race. Both arms, settled, and the mechanism is now in
   the commit message.
@@ -322,7 +321,7 @@ Settled by round 1 and unaffected by anything in `1a30045c`:
 - **Portrait layout.** This panel is natively 720x1440 presented as fixed landscape by an OS-level
   compensation and no adb lever moved it across two attempts. It is UNTESTABLE here, permanently.
   Do not spend time on it again.
-- **The dismissal rules** and **the never-beside-a-live-session rule.** Both passed, and `1a30045c`
+- **The dismissal rules** and **the never-beside-a-live-session rule.** Both passed, and `bd3d7b99`
   did not touch either.
 - **The preflight dialog and the compatibility check**, untouched by all four commits.
 
