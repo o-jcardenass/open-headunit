@@ -323,7 +323,8 @@ Settled by round 1 and unaffected by anything in `bd3d7b99`:
   Do not spend time on it again.
 - **The dismissal rules** and **the never-beside-a-live-session rule.** Both passed, and `bd3d7b99`
   did not touch either.
-- **The preflight dialog and the compatibility check**, untouched by all four commits.
+- **The preflight dialog and the compatibility check**, untouched by the four design-gap fixes.
+  The preflight is `afd8b7ca`, at the bottom of the log above, and round 1's APK already carried it.
 
 ---
 
