@@ -1,24 +1,25 @@
 # connection-failure-banner, round 2 brief: the raise path this rig can actually produce
 
-**Candidate:** `fix/session-lifecycle-and-diagnostics` @ `a2793db2` on `fork`
+**Candidate:** `fix/session-lifecycle-and-diagnostics` @ `bd3d7b99` on `fork`
 (`o-jcardenass/open-headunit`). This is the head of draft PR #867, which now carries every branch
 this thread has been about. **No baseline.** One APK for the whole round.
 
 ```bash
 git fetch fork
 git checkout -B fix/session-lifecycle-and-diagnostics fork/fix/session-lifecycle-and-diagnostics
-git rev-parse HEAD          # must print a2793db2...
+git rev-parse HEAD          # must print bd3d7b99...
 git log --oneline -4
-# a2793db2 Head unit hotspot: let the user pick the band, and show each lever where it is read
-# 5ec0077a Native AA: keep the reason a connection failed, and say it on the main screen
+# bd3d7b99 Head unit hotspot: let the user pick the band, and show each lever where it is read
+# d5faa03d Native AA: keep the reason a connection failed, and say it on the main screen
 # 6d0665bf Native AA: stop dropping the credentials the hotspot transport resolves
 # afd8b7ca Native AA: ask the unit what it can tell a phone, before the user connects
 ```
 
 **The branch this brief originally named is superseded, and fetch-and-reset rather than pull.** An
 earlier draft of this file said `feat/hotspot-band-control` @ `1a30045c`. That ref still exists and
-still builds the same APK, because **`a2793db2`'s tree is byte-identical to `1a30045c`'s** and
-`git diff 1a30045c a2793db2` is empty. Build the branch above anyway: it is what the PR and any
+builds an APK that differs from this one only in `CHANGELOG.md`, which was stripped out because it
+is the repo owner's file and not ours. `git diff 1a30045c bd3d7b99` is three deleted changelog
+lines and nothing else. Build the branch above anyway: it is what the PR and any
 review will be against, and the other three refs
 (`fix/809-native-hotspot-credentials-race`, `fix/connection-failure-banner`,
 `feat/hotspot-band-control`) are now superseded leftovers.
@@ -28,8 +29,8 @@ Two rewrites happened on 2026-08-21, both content-preserving and both verified:
 - the three commits round 1 built were reworded, same trees, so `6f9c4158` became `6dca0275`,
   `137d28ee` became `93d38598` and `5450f1e3` became `84d5fa87`;
 - those six commits were then compacted into the three above, grouped by component. `6d0665bf`
-  reproduces `84d5fa87`'s tree exactly and `a2793db2` reproduces `1a30045c`'s, so two of the three
-  are states that once existed; `5ec0077a` is a new one (the banner complete, the band work not yet
+  reproduces `84d5fa87`'s tree exactly, and the tip reproduced `1a30045c`'s until the changelog
+  lines were removed from it; `d5faa03d` is a new state (the banner complete, the band work not yet
   applied). Everything cited here is reachable from the tags `stack-pre-compaction-20260821`,
   `banner-round1-tested` and `band-control-pre-reword` on the authoring machine.
 
