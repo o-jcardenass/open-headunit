@@ -1,0 +1,21 @@
+08-31 23:10:14.799  1830  2636 D UsbHostManager: Added device UsbDevice[mName=/dev/bus/usb/002/002,mVendorId=6353,mProductId=20193,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=Xiaomi,mProductName=POCO X3 NFC,mVersion=4.14,mSerialNumberReader=com.android.server.usb.UsbSerialReader@c9c7810, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+08-31 23:10:15.216  4085  4085 W OPENHU  : [2] App.onCreate | App started in Direct Boot mode (locked). Settings access deferred.
+08-31 23:10:15.266  4085  4085 I OPENHU  : [2] UsbAttachedActivity.onCreate | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x11000000 cmp=com.andrerinas.headunitrevived/com.andrerinas.openheadunit.app.UsbAttachedActivity (has extras) }
+08-31 23:10:15.310  4085  4085 I OPENHU  : [2] UsbAttachedActivity.onCreate | USB auto-start: launching app for Xiaomi POCO X3 NFC (VID: 18D1 PID: 4EE1)
+08-31 23:10:15.313  4085  4085 W OPENHU  : [2] UsbAttachedActivity.onCreate | Could not start UI from USB auto-start: Unable to find explicit activity class {com.andrerinas.headunitrevived/com.andrerinas.openheadunit.main.MainActivity}; have you declared this activity in your AndroidManifest.xml, or does your intent not match its declared <intent-filter>?
+08-31 23:10:15.314  4085  4085 I OPENHU  : [2] UsbAttachedActivity.onCreate | Switching USB device to accessory mode Xiaomi POCO X3 NFC (VID: 18D1 PID: 4EE1)
+08-31 23:10:15.343  4085  4110 I OPENHU  : [44] UsbAccessoryMode.switch | Success controlTransfer len: 2  acc_ver: 2
+08-31 23:10:15.344  4085  4110 I OPENHU  : [44] UsbAccessoryMode.switch | acc_ver: 2
+08-31 23:10:15.345  4085  4110 I OPENHU  : [44] UsbAccessoryMode.initStringControlTransfer | Success controlTransfer len: 7  index: 0  string: "Android"
+08-31 23:10:15.346  4085  4110 I OPENHU  : [44] UsbAccessoryMode.initStringControlTransfer | Success controlTransfer len: 12  index: 1  string: "Android Auto"
+08-31 23:10:15.349  4085  4110 I OPENHU  : [44] UsbAccessoryMode.initStringControlTransfer | Success controlTransfer len: 12  index: 2  string: "Android Auto"
+08-31 23:10:15.352  4085  4110 I OPENHU  : [44] UsbAccessoryMode.initStringControlTransfer | Success controlTransfer len: 5  index: 3  string: "2.0.1"
+08-31 23:10:15.353  4085  4110 I OPENHU  : [44] UsbAccessoryMode.initStringControlTransfer | Success controlTransfer len: 45  index: 4  string: "https://developer.android.com/auto/index.html"
+08-31 23:10:15.353  4085  4110 I OPENHU  : [44] UsbAccessoryMode.initStringControlTransfer | Success controlTransfer len: 12  index: 5  string: "HU-AAAAAA001"
+08-31 23:10:15.354  4085  4110 I OPENHU  : [44] UsbAccessoryMode.switch | Sending acc start
+08-31 23:10:15.359  4085  4110 I OPENHU  : [44] UsbAccessoryMode.switch | Acc start sent (len=0). Waiting for re-enumeration...
+08-31 23:10:15.861  4085  4110 I OPENHU  : [44] UsbAccessoryMode.connectAndSwitch | Result: true
+08-31 23:10:16.606  1830  2636 D UsbHostManager: Added device UsbDevice[mName=/dev/bus/usb/002/003,mVendorId=6353,mProductId=11520,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=Xiaomi,mProductName=POCO X3 NFC,mVersion=4.14,mSerialNumberReader=com.android.server.usb.UsbSerialReader@35aedfd, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+08-31 23:10:16.636  4085  4085 I OPENHU  : [2] UsbAttachedActivity.onCreate | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x11000000 cmp=com.andrerinas.headunitrevived/com.andrerinas.openheadunit.app.UsbAttachedActivity (has extras) }
+08-31 23:10:16.643  4085  4085 W OPENHU  : [2] UsbAttachedActivity.onCreate | Usb in accessory mode, but the user has not unlocked yet and a session needs credential storage. Waiting for unlock.
+08-31 23:11:04.925  4085  4085 I OPENHU  : [2] 1.onReceive | User unlocked: credential storage is available, applying settings

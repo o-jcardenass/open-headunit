@@ -1,0 +1,14 @@
+1156:09-03 13:35:19.498 W/OPENHU  (19176): [2] AutomationEffectRunner.run | AutomationMarker: R3_bringup
+1890:09-03 13:35:44.440 I/OPENHU  (19176): [185] 1.invokeSuspend | WirelessServer: Incoming connection detected from /192.168.49.62
+1934:09-03 13:35:44.596 I/OPENHU  (19176): [215] AapSslContext.performHandshake | SSL handshake complete. Session id: yJBxFSt71AdCKcL068pLQMB+I0Z6xRw+5RsRhtVkQuM=
+2023:09-03 13:35:44.844 I/OPENHU  (19176): [2] AapService.emitSessionState | AapService: session state projecting
+2062:09-03 13:35:45.115 I/OPENHU  (19176): [220] AapControlMedia.mediaSinkSetupRequest | Media Sink Setup Request: 3 on channel VIDEO
+2063:09-03 13:35:45.149 I/OPENHU  (19176): [220] AapControlMedia.mediaSinkSetupRequest | Config response: status: HEADUNIT
+2067:09-03 13:35:45.152 I/OPENHU  (19176): [220] AapControlMedia.mediaSinkSetupRequest | Media Sink Setup Request: 1 on channel AUDIO2
+2068:09-03 13:35:45.153 I/OPENHU  (19176): [220] AapControlMedia.mediaSinkSetupRequest | Config response: status: HEADUNIT
+2074:09-03 13:35:45.158 I/OPENHU  (19176): [220] AapControlMedia.mediaSinkSetupRequest | Media Sink Setup Request: 1 on channel AUDIO1
+2075:09-03 13:35:45.158 I/OPENHU  (19176): [220] AapControlMedia.mediaSinkSetupRequest | Config response: status: HEADUNIT
+2079:09-03 13:35:45.159 I/OPENHU  (19176): [220] AapControlMedia.mediaSinkSetupRequest | Media Sink Setup Request: 1 on channel AUDIO
+2080:09-03 13:35:45.160 I/OPENHU  (19176): [220] AapControlMedia.mediaSinkSetupRequest | Config response: status: HEADUNIT
+2378:09-03 13:35:45.993 I/OPENHU  (19176): [225] VideoDecoder.outputThreadLoop | First frame rendered (hardware decode)
+7894:09-03 13:36:39.385 W/OPENHU  (19176): [2] AutomationEffectRunner.run | AutomationMarker: R3_session_up

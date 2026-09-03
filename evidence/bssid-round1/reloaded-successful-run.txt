@@ -1,0 +1,52 @@
+=== Headunit Reloaded V8.2.0 (gb.xxy.hr) — successful two-phone WiFi-Direct connection ===
+=== D-MOTO = head unit (moto edge 30 neo), D-POCO = projecting phone. 2026-09-01 ===
+
+--- D-MOTO: Reloaded's own handshake log (HUR-* / HU-*) ---
+09-01 06:06:18.169 I/HUR-A2dpNudge(22217): Poking DC:B7:2E:5E:4E:59 (RFCOMM connect to A2DP source)...
+09-01 06:06:18.721 I/HUR-A2dpNudge(22217): RFCOMM up to DC:B7:2E:5E:4E:59 - waiting up to 30s for Android Auto
+09-01 06:06:18.944 D/HUR-WirelessBT(22217): Phone connected over RFCOMM, starting handshake
+09-01 06:06:18.998 D/HUR-WirelessBT(22217): WifiVersionResponse: status=STATUS_SUCCESS serial=4f4027e9
+09-01 06:06:19.070 D/HUR-WirelessBT(22217): WifiInfoRequest -> sending creds: ssid=DIRECT-Cz-moto edge30 neo_oThE key=(8 chars) bssid=DE:B3:88:55:B3:92 security=WPA2_PERSONAL ip=192.168.49.1:5288
+09-01 06:06:20.074 D/HUR-WirelessBT(22217): Sent WifiInfoResponse for SSID=DIRECT-Cz-moto edge30 neo_oThE
+09-01 06:06:20.075 D/HUR-WirelessBT(22217): WifiStartResponse: status=STATUS_SUCCESS - phone should now open the projection socket
+09-01 06:06:23.512 D/HUR-WirelessBT(22217): WifiConnectStatus: STATUS_SUCCESS hint=
+09-01 06:06:23.663 W/HU-TransportService_HUR(22217): Service binder called: Intent { cmp=gb.xxy.hr/.TransporterService }
+09-01 06:06:23.889 D/HUR-WirelessBT(22217): VideoFocus acquired - dropping dummy HFP (bootstrap complete)
+09-01 06:06:23.890 D/HUR-WirelessBT(22217): HFP accept ended: java.io.IOException: read failed, socket might closed or timeout, read ret: -1
+09-01 06:06:23.922 W/HU-TransportService_HUR(22217): Service unbound, no more clients
+09-01 06:06:23.926 W/HU-TransportService_HUR(22217): Service re-bound!: Intent { cmp=gb.xxy.hr/.TransporterService }
+09-01 06:06:34.871 D/MediaSessionService( 1830): Media button session is changed to gb.xxy.hr/HU-TransportService_HUR (userId=0)
+
+--- D-POCO: Gearhead 17.5 — same connection (NO_HFP_FROM_HU count = 0) ---
+09-01 06:06:17.829 I/GH.WifiBluetoothRcvr(15132): Connection action: android.bluetooth.device.action.ACL_CONNECTED, device XX:XX:XX:XX:E4:95
+09-01 06:06:17.833 I/GH.WifiBluetoothRcvr(15132): Wireless projection is available on this phone.
+09-01 06:06:17.844 I/GH.WifiBluetoothRcvr(15132): Bluetooth device XX:XX:XX:XX:E4:95 is previously known to have Android Auto UUID
+09-01 06:06:17.858 I/GH.WifiBluetoothRcvr(15132): Connected: motorola edge 30 neo
+09-01 06:06:17.862 I/GH.WifiBluetoothRcvr(15132): Bluetooth XX:XX:XX:XX:E4:95 device battery level -1
+09-01 06:06:17.914 D/BluetoothAdapter(24888): HEADSET connected
+09-01 06:06:17.914 D/BluetoothAdapter(24888): A2DP connected
+09-01 06:06:18.001 I/GH.WifiBluetoothRcvr(15132): Connection action: android.bluetooth.headset.profile.action.CONNECTION_STATE_CHANGED, device XX:XX:XX:XX:E4:95
+09-01 06:06:18.006 I/GH.WifiBluetoothRcvr(15132): Wireless projection is available on this phone.
+09-01 06:06:18.010 I/GH.WifiBluetoothRcvr(15132): Processing connection state change for XX:XX:XX:XX:E4:95. Action android.bluetooth.headset.profile.action.CONNECTION_STATE_CHANGED has state 1
+09-01 06:06:18.014 I/GH.WifiBluetoothRcvr(15132): Bluetooth device XX:XX:XX:XX:E4:95 is previously known to have Android Auto UUID
+09-01 06:06:18.020 I/GH.WifiBluetoothRcvr(15132): Connected: motorola edge 30 neo
+09-01 06:06:18.026 I/GH.WifiBluetoothRcvr(15132): Bluetooth XX:XX:XX:XX:E4:95 device battery level -1
+09-01 06:06:18.049 I/GH.WifiBluetoothRcvr(15132): Connection action: android.bluetooth.headset.profile.action.CONNECTION_STATE_CHANGED, device XX:XX:XX:XX:E4:95
+09-01 06:06:18.049 I/GH.WifiBluetoothRcvr(15132): Wireless projection is available on this phone.
+09-01 06:06:18.050 I/GH.WifiBluetoothRcvr(15132): Processing connection state change for XX:XX:XX:XX:E4:95. Action android.bluetooth.headset.profile.action.CONNECTION_STATE_CHANGED has state 2
+09-01 06:06:18.054 I/GH.WifiBluetoothRcvr(15132): Bluetooth device XX:XX:XX:XX:E4:95 is previously known to have Android Auto UUID
+09-01 06:06:18.057 I/GH.WifiBluetoothRcvr(15132): Connected: motorola edge 30 neo
+09-01 06:06:18.060 I/GH.WifiBluetoothRcvr(15132): Bluetooth XX:XX:XX:XX:E4:95 device battery level -1
+09-01 06:06:18.139 I/GH.WPP.RFCOMM(24888): IO stream will sleep for 10 ms instead of flushing after each write.  SDK: 35
+
+--- contrast: OHU candidate (r2c) on the same phone pair, same window length ---
+  Connection accepted from  : 0   (Reloaded: phone connected over RFCOMM in <1s)
+  NO_HFP_FROM_HU_PRESENCE   : 7   (Reloaded: 0)
+  Creating rfcomm socket... : 0   (Reloaded: Gearhead dialled it immediately)
+
+--- Reloaded group + BSSID bring-up (from HUR-* tags) ---
+09-01 06:06:18.169 I/HUR-A2dpNudge(22217): Poking DC:B7:2E:5E:4E:59 (RFCOMM connect to A2DP source)...
+09-01 06:06:18.721 I/HUR-A2dpNudge(22217): RFCOMM up to DC:B7:2E:5E:4E:59 - waiting up to 30s for Android Auto
+09-01 06:06:18.944 D/HUR-WirelessBT(22217): Phone connected over RFCOMM, starting handshake
+09-01 06:06:19.070 D/HUR-WirelessBT(22217): WifiInfoRequest -> sending creds: ssid=DIRECT-Cz-moto edge30 neo_oThE key=(8 chars) bssid=DE:B3:88:55:B3:92 security=WPA2_PERSONAL ip=192.168.49.1:5288
+09-01 06:06:20.074 D/HUR-WirelessBT(22217): Sent WifiInfoResponse for SSID=DIRECT-Cz-moto edge30 neo_oThE

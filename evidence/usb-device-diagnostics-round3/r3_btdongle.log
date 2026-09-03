@@ -1,0 +1,45 @@
+--------- beginning of system
+08-31 19:09:58.569 D/UsbHostManager( 1809): Removed device at /dev/bus/usb/003/001 was already gone
+08-31 19:09:58.733 D/UsbHostManager( 1809): Removed device at /dev/bus/usb/002/003: USB3.0 Card Reader
+--------- beginning of main
+08-31 19:09:58.756 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+08-31 19:09:58.763 I/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 2 USB device(s), 0 usable for Android Auto
+08-31 19:09:58.763 I/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   ASIX AX88179B (VID: 0B95 PID: 1790) [class FF/FF/00, no permission] rejected: vendor-class device, not a phone | if0 FF/FF/00 (1xbulkIn+2xbulkOut+1 other)
+08-31 19:09:58.764 I/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Fresco Logic, Inc¿Ä Generic Billboard Device (VID: 1D5C PID: 7102) [class 11/00/00, no permission] rejected: device class 0x11 is not a phone | if0 11/00/00 (no endpoints)
+08-31 19:09:58.765 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+08-31 19:09:58.786 D/UsbHostManager( 1809): Removed device at /dev/bus/usb/002/007: AX88179B
+08-31 19:09:58.792 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+08-31 19:09:58.795 I/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 1 USB device(s), 0 usable for Android Auto
+08-31 19:09:58.796 I/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Fresco Logic, Inc¿Ä Generic Billboard Device (VID: 1D5C PID: 7102) [class 11/00/00, no permission] rejected: device class 0x11 is not a phone | if0 11/00/00 (no endpoints)
+08-31 19:09:58.797 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+08-31 19:09:58.821 D/UsbHostManager( 1809): Removed device at /dev/bus/usb/002/006: Generic Billboard Device
+08-31 19:09:58.826 D/OPENHU  (18395): [2] MainActivity.requestPermissions | All required permissions already granted.
+08-31 19:09:58.848 D/UsbHostManager( 1809): Removed device at /dev/bus/usb/002/004 was already gone
+08-31 19:09:58.848 I/OPENHU  (18395): [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+08-31 19:09:58.859 D/UsbHostManager( 1809): Removed device at /dev/bus/usb/002/002 was already gone
+08-31 19:09:58.882 D/UsbHostManager( 1809): Removed device at /dev/bus/usb/002/001 was already gone
+08-31 19:09:58.911 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+08-31 19:09:58.912 I/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 0 USB device(s), 0 usable for Android Auto
+08-31 19:09:58.912 I/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+08-31 19:09:58.913 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+08-31 19:09:58.939 W/ActivityTaskManager( 1809): Finishing task with all activities already finished
+08-31 19:09:58.939 W/ActivityTaskManager( 1809): Duplicate finish request for r=ActivityRecord{ba9adc9 u0 com.android.systemui/.usb.UsbResolverActivity t2917 f}}
+08-31 19:10:10.081 D/UsbHostManager( 1809): USB device attached: vidpid 0a12:4007 mfg/product/ver/serial TaiYiLian/UGREEN-BT701/31.14/20260119V1.2.14 hasAudio/HID/Storage: true/true/false
+08-31 19:10:10.096 D/UsbHostManager( 1809): Added device UsbDevice[mName=/dev/bus/usb/002/003,mVendorId=2578,mProductId=16391,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=TaiYiLian,mProductName=UGREEN-BT701,mVersion=31.14,mSerialNumberReader=com.android.server.usb.UsbSerialReader@32474e7, mHasAudioPlayback=true, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+08-31 19:10:10.096 D/UsbHostManager( 1809): UsbConfiguration[mId=1,mName=null,mAttributes=192,mMaxPower=0,mInterfaces=[
+08-31 19:10:10.096 D/UsbHostManager( 1809): UsbInterface[mId=0,mAlternateSetting=0,mName=null,mClass=3,mSubclass=0,mProtocol=0,mEndpoints=[
+08-31 19:10:10.096 D/UsbHostManager( 1809): UsbEndpoint[mAddress=129,mAttributes=3,mMaxPacketSize=64,mInterval=1]]
+08-31 19:10:10.096 D/UsbHostManager( 1809): UsbInterface[mId=1,mAlternateSetting=0,mName=null,mClass=3,mSubclass=0,mProtocol=0,mEndpoints=[
+08-31 19:10:10.096 D/UsbHostManager( 1809): UsbEndpoint[mAddress=1,mAttributes=3,mMaxPacketSize=64,mInterval=1]
+08-31 19:10:10.096 D/UsbHostManager( 1809): UsbEndpoint[mAddress=130,mAttributes=3,mMaxPacketSize=64,mInterval=1]]
+08-31 19:10:10.096 D/UsbHostManager( 1809): UsbInterface[mId=2,mAlternateSetting=0,mName=null,mClass=1,mSubclass=1,mProtocol=0,mEndpoints=[]
+08-31 19:10:10.096 D/UsbHostManager( 1809): UsbInterface[mId=3,mAlternateSetting=0,mName=null,mClass=1,mSubclass=2,mProtocol=0,mEndpoints=[]
+08-31 19:10:10.096 D/UsbHostManager( 1809): UsbInterface[mId=3,mAlternateSetting=1,mName=null,mClass=1,mSubclass=2,mProtocol=0,mEndpoints=[
+08-31 19:10:10.096 D/UsbHostManager( 1809): UsbEndpoint[mAddress=2,mAttributes=13,mMaxPacketSize=576,mInterval=1]]
+08-31 19:10:10.096 D/UsbHostManager( 1809): UsbInterface[mId=3,mAlternateSetting=2,mName=null,mClass=1,mSubclass=2,mProtocol=0,mEndpoints=[
+08-31 19:10:10.096 D/UsbHostManager( 1809): UsbEndpoint[mAddress=2,mAttributes=13,mMaxPacketSize=384,mInterval=1]]]]
+08-31 19:10:10.117 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x11000010 (has extras) }
+08-31 19:10:10.150 I/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 1 USB device(s), 0 usable for Android Auto
+08-31 19:10:10.150 I/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   TaiYiLian UGREEN-BT701 (VID: 0A12 PID: 4007) [class 00/00/00, no permission] rejected: no Android interface | if0 03/00/00 (1 other) | if1 03/00/00 (2 other) | if2 01/01/00 (no endpoints) | if3 01/02/00 (no endpoints) | if4 01/02/00 (1 other) | if5 01/02/00 (1 other)
+08-31 19:10:10.154 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x11000010 (has extras) }
+08-31 19:10:10.156 I/OPENHU  (18395): [2] UsbLauncherListener.onUsbAttach | Ignoring non-Android USB device attached in service (VID: 2578): /dev/bus/usb/002/003

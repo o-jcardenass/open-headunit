@@ -1,0 +1,14 @@
+994:09-03 13:30:57.797 W/OPENHU  (18876): [2] AutomationEffectRunner.run | AutomationMarker: R2_trigger
+1643:09-03 13:31:48.009 W/OPENHU  (18876): [2] AutomationEffectRunner.run | AutomationMarker: R2_end
+2347:09-03 13:32:29.753 W/OPENHU  (18876): [2] AutomationEffectRunner.run | AutomationMarker: R2_retrigger
+2355:09-03 13:32:29.810 I/OPENHU  (18876): [2] AapService.onStartCommand | AapService: Received manual Native-AA poke request for A0:46:5A:97:E4:95
+2356:09-03 13:32:29.811 I/OPENHU  (18876): [2] AapService.onStartCommand | AapService: manual Native-AA poke ignored: the wireless mode is not Native AA.
+3005:09-03 13:33:16.053 W/OPENHU  (18876): [2] AutomationEffectRunner.run | AutomationMarker: R2_end2
+3759:09-03 13:34:09.994 W/OPENHU  (18876): [2] AutomationEffectRunner.run | AutomationMarker: R2_inject
+3773:09-03 13:34:10.070 I/OPENHU  (18876): [2] MainActivity.handleLaunchIntent | MainActivity: Bluetooth auto-start: forcing a Self Mode launch
+3779:09-03 13:34:10.139 I/OPENHU  (18876): [2] SelfLauncherManager.isAaVersion174OrHigher | SelfMode: Installed AA version: 17.5.663204-release (major=17, minor=5)
+3781:09-03 13:34:10.145 I/OPENHU  (18876): [2] AapService.emitSessionState | AapService: session state connecting
+3803:09-03 13:34:10.157 E/OPENHU  (18876): 	at com.andrerinas.openheadunit.connection.self.launchers.SelfLauncherV17_4$run$success$1.invokeSuspend(SelfLauncherV17_4.kt:21)
+3828:09-03 13:34:10.162 W/OPENHU  (18876): [2] SelfLauncherV17_4.run | SelfMode: Headunit Server (127.0.0.1:5277) is NOT running.
+3838:09-03 13:34:10.217 E/OPENHU  (18876): [2] 1.invokeSuspend | SelfMode: All launchers failed
+4305:09-03 13:34:18.116 W/OPENHU  (18876): [2] AutomationEffectRunner.run | AutomationMarker: R2_inject_end

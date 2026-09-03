@@ -1,0 +1,299 @@
+WifiP2pService:
+ total records=995
+ rec[0]: time=09-02 11:14:31.215 processed=InactiveState org=InactiveState dest=<null> what=CMD_P2P_IDLE_SHUTDOWN sender=null(-1)
+ rec[1]: time=09-02 11:14:31.221 processed=P2pEnabledState org=InactiveState dest=P2pDisablingState what=DISABLE_P2P sender=null(-1)
+ rec[2]: time=09-02 11:14:31.221 processed=P2pDisablingState org=P2pDisablingState dest=P2pDisabledState what=WifiP2pMonitor.SUP_DISCONNECTION_EVENT sender=null(-1)
+ rec[3]: time=09-02 11:14:31.224 processed=DefaultState org=P2pDisabledState dest=<null> what=DISABLE_P2P sender=null(-1)
+ rec[4]: time=09-02 11:14:36.225 processed=DefaultState org=P2pDisabledState dest=<null> what=DISABLE_P2P_TIMED_OUT sender=null(-1)
+ rec[5]: time=09-02 11:18:57.222 processed=DefaultState org=P2pDisabledState dest=<null> what=WifiP2pManager.UPDATE_CHANNEL_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[6]: time=09-02 11:18:57.287 processed=P2pDisabledState org=P2pDisabledState dest=InactiveState what=WifiP2pManager.REQUEST_DEVICE_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[7]: time=09-02 11:18:57.376 processed=DefaultState org=InactiveState dest=<null> what=WifiP2pManager.REQUEST_DEVICE_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[8]: time=09-02 11:18:57.376 processed=DefaultState org=InactiveState dest=<null> what=WifiP2pMonitor.SUP_CONNECTION_EVENT sender=null(-1)
+ rec[9]: time=09-02 11:18:57.377 processed=P2pEnabledState org=InactiveState dest=<null> what=UPDATE_P2P_DISALLOWED_CHANNELS sender=null(-1)
+ rec[10]: time=09-02 11:18:57.379 processed=DefaultState org=InactiveState dest=<null> what=WifiP2pManager.REMOVE_GROUP sender=com.andrerinas.headunitrevived(10168)
+ rec[11]: time=09-02 11:18:57.379 processed=DefaultState org=InactiveState dest=<null> what=TETHER_INTERFACE_STATE_CHANGED sender=null(-1)
+ rec[12]: time=09-02 11:18:59.143 processed=P2pEnabledState org=InactiveState dest=<null> what=REMOVE_CLIENT_INFO sender=null(-1)
+ rec[13]: time=09-02 11:21:27.378 processed=InactiveState org=InactiveState dest=<null> what=CMD_P2P_IDLE_SHUTDOWN sender=null(-1)
+ rec[14]: time=09-02 11:21:27.385 processed=P2pEnabledState org=InactiveState dest=P2pDisablingState what=DISABLE_P2P sender=null(-1)
+ rec[15]: time=09-02 11:21:27.385 processed=P2pDisablingState org=P2pDisablingState dest=P2pDisabledState what=WifiP2pMonitor.SUP_DISCONNECTION_EVENT sender=null(-1)
+ rec[16]: time=09-02 11:21:27.387 processed=DefaultState org=P2pDisabledState dest=<null> what=DISABLE_P2P sender=null(-1)
+ rec[17]: time=09-02 11:21:32.389 processed=DefaultState org=P2pDisabledState dest=<null> what=DISABLE_P2P_TIMED_OUT sender=null(-1)
+ rec[18]: time=09-02 11:25:01.617 processed=DefaultState org=P2pDisabledState dest=<null> what=WifiP2pManager.UPDATE_CHANNEL_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[19]: time=09-02 11:25:01.678 processed=P2pDisabledState org=P2pDisabledState dest=InactiveState what=WifiP2pManager.REQUEST_DEVICE_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[20]: time=09-02 11:25:01.722 processed=DefaultState org=InactiveState dest=<null> what=WifiP2pManager.REQUEST_DEVICE_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[21]: time=09-02 11:25:01.722 processed=DefaultState org=InactiveState dest=<null> what=WifiP2pMonitor.SUP_CONNECTION_EVENT sender=null(-1)
+ rec[22]: time=09-02 11:25:01.724 processed=P2pEnabledState org=InactiveState dest=<null> what=UPDATE_P2P_DISALLOWED_CHANNELS sender=null(-1)
+ rec[23]: time=09-02 11:25:01.726 processed=DefaultState org=InactiveState dest=<null> what=WifiP2pManager.REMOVE_GROUP sender=com.andrerinas.headunitrevived(10168)
+ rec[24]: time=09-02 11:25:01.727 processed=DefaultState org=InactiveState dest=<null> what=TETHER_INTERFACE_STATE_CHANGED sender=null(-1)
+ rec[25]: time=09-02 11:25:03.506 processed=P2pEnabledState org=InactiveState dest=<null> what=REMOVE_CLIENT_INFO sender=null(-1)
+ rec[26]: time=09-02 11:27:31.725 processed=InactiveState org=InactiveState dest=<null> what=CMD_P2P_IDLE_SHUTDOWN sender=null(-1)
+ rec[27]: time=09-02 11:27:31.732 processed=P2pEnabledState org=InactiveState dest=P2pDisablingState what=DISABLE_P2P sender=null(-1)
+ rec[28]: time=09-02 11:27:31.732 processed=P2pDisablingState org=P2pDisablingState dest=P2pDisabledState what=WifiP2pMonitor.SUP_DISCONNECTION_EVENT sender=null(-1)
+ rec[29]: time=09-02 11:27:31.735 processed=DefaultState org=P2pDisabledState dest=<null> what=DISABLE_P2P sender=null(-1)
+ rec[30]: time=09-02 11:27:36.736 processed=DefaultState org=P2pDisabledState dest=<null> what=DISABLE_P2P_TIMED_OUT sender=null(-1)
+ rec[31]: time=09-02 11:29:56.033 processed=DefaultState org=P2pDisabledState dest=<null> what=WifiP2pManager.UPDATE_CHANNEL_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[32]: time=09-02 11:29:56.084 processed=P2pDisabledState org=P2pDisabledState dest=InactiveState what=WifiP2pManager.REQUEST_DEVICE_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[33]: time=09-02 11:29:56.121 processed=DefaultState org=InactiveState dest=<null> what=WifiP2pManager.REQUEST_DEVICE_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[34]: time=09-02 11:29:56.121 processed=DefaultState org=InactiveState dest=<null> what=WifiP2pMonitor.SUP_CONNECTION_EVENT sender=null(-1)
+ rec[35]: time=09-02 11:29:56.122 processed=P2pEnabledState org=InactiveState dest=<null> what=UPDATE_P2P_DISALLOWED_CHANNELS sender=null(-1)
+ rec[36]: time=09-02 11:29:56.124 processed=DefaultState org=InactiveState dest=<null> what=WifiP2pManager.REMOVE_GROUP sender=com.andrerinas.headunitrevived(10168)
+ rec[37]: time=09-02 11:29:56.124 processed=DefaultState org=InactiveState dest=<null> what=TETHER_INTERFACE_STATE_CHANGED sender=null(-1)
+ rec[38]: time=09-02 11:29:57.953 processed=P2pEnabledState org=InactiveState dest=<null> what=REMOVE_CLIENT_INFO sender=null(-1)
+ rec[39]: time=09-02 11:32:26.123 processed=InactiveState org=InactiveState dest=<null> what=CMD_P2P_IDLE_SHUTDOWN sender=null(-1)
+ rec[40]: time=09-02 11:32:26.130 processed=P2pEnabledState org=InactiveState dest=P2pDisablingState what=DISABLE_P2P sender=null(-1)
+ rec[41]: time=09-02 11:32:26.130 processed=P2pDisablingState org=P2pDisablingState dest=P2pDisabledState what=WifiP2pMonitor.SUP_DISCONNECTION_EVENT sender=null(-1)
+ rec[42]: time=09-02 11:32:26.133 processed=DefaultState org=P2pDisabledState dest=<null> what=DISABLE_P2P sender=null(-1)
+ rec[43]: time=09-02 11:32:31.133 processed=DefaultState org=P2pDisabledState dest=<null> what=DISABLE_P2P_TIMED_OUT sender=null(-1)
+ rec[44]: time=09-02 11:35:02.537 processed=DefaultState org=P2pDisabledState dest=<null> what=WifiP2pManager.UPDATE_CHANNEL_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[45]: time=09-02 11:35:02.589 processed=P2pDisabledState org=P2pDisabledState dest=InactiveState what=WifiP2pManager.REQUEST_DEVICE_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[46]: time=09-02 11:35:02.631 processed=DefaultState org=InactiveState dest=<null> what=WifiP2pManager.REQUEST_DEVICE_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[47]: time=09-02 11:35:02.631 processed=DefaultState org=InactiveState dest=<null> what=WifiP2pMonitor.SUP_CONNECTION_EVENT sender=null(-1)
+ rec[48]: time=09-02 11:35:02.632 processed=P2pEnabledState org=InactiveState dest=<null> what=UPDATE_P2P_DISALLOWED_CHANNELS sender=null(-1)
+ rec[49]: time=09-02 11:35:02.633 processed=DefaultState org=InactiveState dest=<null> what=WifiP2pManager.REMOVE_GROUP sender=com.andrerinas.headunitrevived(10168)
+ rec[50]: time=09-02 11:35:02.634 processed=DefaultState org=InactiveState dest=<null> what=TETHER_INTERFACE_STATE_CHANGED sender=null(-1)
+ rec[51]: time=09-02 11:35:03.314 processed=InactiveState org=InactiveState dest=GroupNegotiationState what=WifiP2pManager.CREATE_GROUP sender=com.andrerinas.headunitrevived(10168)
+ rec[52]: time=09-02 11:35:03.340 processed=GroupNegotiationState org=GroupNegotiationState dest=<null> what=WifiP2pMonitor.P2P_GROUP_STARTED_EVENT sender=null(-1)
+ rec[53]: time=09-02 11:35:03.367 processed=GroupNegotiationState org=GroupNegotiationState dest=GroupCreatedState what=TETHER_INTERFACE_STATE_CHANGED sender=null(-1)
+ rec[54]: time=09-02 11:35:03.400 processed=DefaultState org=GroupCreatedState dest=<null> what=WifiP2pManager.REQUEST_DEVICE_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[55]: time=09-02 11:35:03.401 processed=DefaultState org=GroupCreatedState dest=<null> what=WifiP2pManager.REQUEST_CONNECTION_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[56]: time=09-02 11:35:03.406 processed=DefaultState org=GroupCreatedState dest=<null> what=WifiP2pManager.REQUEST_DEVICE_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[57]: time=09-02 11:35:03.410 processed=DefaultState org=GroupCreatedState dest=<null> what=WifiP2pManager.REQUEST_GROUP_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[58]: time=09-02 11:35:04.318 processed=DefaultState org=GroupCreatedState dest=<null> what=WifiP2pManager.REQUEST_CONNECTION_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[59]: time=09-02 11:35:04.320 processed=DefaultState org=GroupCreatedState dest=<null> what=WifiP2pManager.REQUEST_GROUP_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[60]: time=09-02 11:35:04.323 processed=DefaultState org=GroupCreatedState dest=<null> what=WifiP2pManager.REQUEST_DEVICE_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[61]: time=09-02 11:35:04.341 processed=DefaultState org=GroupCreatedState dest=<null> what=WifiP2pManager.REQUEST_GROUP_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[62]: time=09-02 11:35:09.166 processed=GroupCreatedState org=GroupCreatedState dest=<null> what=WifiP2pMonitor.AP_STA_CONNECTED_EVENT sender=null(-1)
+ rec[63]: time=09-02 11:35:09.170 processed=DefaultState org=GroupCreatedState dest=<null> what=WifiP2pManager.REQUEST_DEVICE_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[64]: time=09-02 11:35:09.170 processed=DefaultState org=GroupCreatedState dest=<null> what=WifiP2pManager.REQUEST_CONNECTION_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[65]: time=09-02 11:35:09.174 processed=DefaultState org=GroupCreatedState dest=<null> what=WifiP2pManager.REQUEST_DEVICE_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[66]: time=09-02 11:35:09.177 processed=DefaultState org=GroupCreatedState dest=<null> what=WifiP2pManager.REQUEST_GROUP_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[67]: time=09-02 11:37:03.418 processed=DefaultState org=GroupCreatedState dest=<null> what=GROUP_CREATING_TIMED_OUT sender=null(-1)
+ rec[68]: time=09-02 11:43:37.409 processed=GroupCreatedState org=GroupCreatedState dest=OngoingGroupRemovalState what=WifiP2pManager.REMOVE_GROUP sender=com.andrerinas.headunitrevived(10168)
+ rec[69]: time=09-02 11:43:37.575 processed=GroupCreatedState org=OngoingGroupRemovalState dest=InactiveState what=WifiP2pMonitor.P2P_GROUP_REMOVED_EVENT sender=null(-1)
+ rec[70]: time=09-02 11:43:37.582 processed=<null> org=InactiveState dest=<null> what=WifiP2pMonitor.AP_STA_DISCONNECTED_EVENT sender=null(-1)
+ rec[71]: time=09-02 11:43:37.582 processed=DefaultState org=InactiveState dest=<null> what=TETHER_INTERFACE_STATE_CHANGED sender=null(-1)
+ rec[72]: time=09-02 11:46:07.582 processed=InactiveState org=InactiveState dest=<null> what=CMD_P2P_IDLE_SHUTDOWN sender=null(-1)
+ rec[73]: time=09-02 11:46:07.589 processed=P2pEnabledState org=InactiveState dest=P2pDisablingState what=DISABLE_P2P sender=null(-1)
+ rec[74]: time=09-02 11:46:07.590 processed=P2pDisablingState org=P2pDisablingState dest=P2pDisabledState what=WifiP2pMonitor.SUP_DISCONNECTION_EVENT sender=null(-1)
+ rec[75]: time=09-02 11:46:07.592 processed=DefaultState org=P2pDisabledState dest=<null> what=DISABLE_P2P sender=null(-1)
+ rec[76]: time=09-02 11:46:12.593 processed=DefaultState org=P2pDisabledState dest=<null> what=DISABLE_P2P_TIMED_OUT sender=null(-1)
+ rec[77]: time=09-02 11:53:39.969 processed=P2pDisabledState org=P2pDisabledState dest=<null> what=REMOVE_CLIENT_INFO sender=null(-1)
+ rec[78]: time=09-02 13:32:51.883 processed=DefaultState org=P2pDisabledState dest=<null> what=WifiP2pManager.UPDATE_CHANNEL_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[79]: time=09-02 13:32:51.955 processed=P2pDisabledState org=P2pDisabledState dest=InactiveState what=WifiP2pManager.REQUEST_DEVICE_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[80]: time=09-02 13:32:52.121 processed=DefaultState org=InactiveState dest=<null> what=WifiP2pManager.REQUEST_DEVICE_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[81]: time=09-02 13:32:52.121 processed=DefaultState org=InactiveState dest=<null> what=WifiP2pMonitor.SUP_CONNECTION_EVENT sender=null(-1)
+ rec[82]: time=09-02 13:32:52.122 processed=P2pEnabledState org=InactiveState dest=<null> what=UPDATE_P2P_DISALLOWED_CHANNELS sender=null(-1)
+ rec[83]: time=09-02 13:32:52.122 processed=P2pEnabledState org=InactiveState dest=<null> what=BLOCK_DISCOVERY sender=android(1000)
+ rec[84]: time=09-02 13:32:52.122 processed=DefaultState org=InactiveState dest=<null> what=TETHER_INTERFACE_STATE_CHANGED sender=null(-1)
+ rec[85]: time=09-02 13:32:53.496 processed=DefaultState org=InactiveState dest=<null> what=WifiP2pManager.REMOVE_GROUP sender=com.andrerinas.headunitrevived(10168)
+ rec[86]: time=09-02 13:32:54.041 processed=InactiveState org=InactiveState dest=GroupNegotiationState what=WifiP2pManager.CREATE_GROUP sender=com.andrerinas.headunitrevived(10168)
+ rec[87]: time=09-02 13:32:54.067 processed=GroupNegotiationState org=GroupNegotiationState dest=<null> what=WifiP2pMonitor.P2P_GROUP_STARTED_EVENT sender=null(-1)
+ rec[88]: time=09-02 13:32:54.097 processed=GroupNegotiationState org=GroupNegotiationState dest=GroupCreatedState what=TETHER_INTERFACE_STATE_CHANGED sender=null(-1)
+ rec[89]: time=09-02 13:32:54.121 processed=DefaultState org=GroupCreatedState dest=<null> what=WifiP2pManager.REQUEST_DEVICE_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[90]: time=09-02 13:32:54.121 processed=DefaultState org=GroupCreatedState dest=<null> what=WifiP2pManager.REQUEST_CONNECTION_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[91]: time=09-02 13:32:54.127 processed=DefaultState org=GroupCreatedState dest=<null> what=WifiP2pManager.REQUEST_DEVICE_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[92]: time=09-02 13:32:54.133 processed=DefaultState org=GroupCreatedState dest=<null> what=WifiP2pManager.REQUEST_GROUP_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[93]: time=09-02 13:32:55.045 processed=DefaultState org=GroupCreatedState dest=<null> what=WifiP2pManager.REQUEST_CONNECTION_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[94]: time=09-02 13:32:55.046 processed=DefaultState org=GroupCreatedState dest=<null> what=WifiP2pManager.REQUEST_GROUP_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[95]: time=09-02 13:32:55.049 processed=DefaultState org=GroupCreatedState dest=<null> what=WifiP2pManager.REQUEST_DEVICE_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[96]: time=09-02 13:32:55.063 processed=DefaultState org=GroupCreatedState dest=<null> what=WifiP2pManager.REQUEST_GROUP_INFO sender=com.andrerinas.headunitrevived(10168)
+ rec[97]: time=09-02 13:32:55.601 processed=P2pEnabledState org=GroupCreatedState dest=<null> what=BLOCK_DISCOVERY sender=android(1000)
+ rec[98]: time=09-02 13:32:55.645 processed=P2pEnabledState org=GroupCreatedState dest=<null> what=BLOCK_DISCOVERY sender=android(1000)
+ rec[99]: time=09-02 13:32:55.733 processed=P2pEnabledState org=GroupCreatedState dest=<null> what=BLOCK_DISCOVERY sender=android(1000)
+curState=GroupCreatedState
+mWifiP2pInfo groupFormed: true isGroupOwner: true groupOwnerAddress: /192.168.49.1
+mGroup network: DIRECT-D4-Navegadortz2
+ isGO: true
+ GO: Device: 
+ deviceAddress: 42:60:10:2e:b9:3c
+ primary type: null
+ secondary type: null
+ wps: 0
+ grpcapab: 0
+ devcapab: 0
+ status: 4
+ wfdInfo: null
+ vendorElements: null
+ interface: p2p-wlan0-0
+ networkId: 44
+ frequency: 5180
+mSavedPeerConfig 
+ address: 
+ wps:  setup: 0
+ BSSID: null
+ pin: null
+
+ groupOwnerIntent: -1
+ persist: -2
+ networkName: 
+ passphrase: <empty>
+ groupOwnerBand: 0
+ groupClientIpProvisioningMode: 0
+ joinExistingGroup: false
+mGroups network: DIRECT-TQ-Navegadortz2
+ isGO: true
+ GO: Device: Navegadortz2
+ deviceAddress: 42:60:10:2e:b9:3c
+ primary type: 10-0050F204-5
+ secondary type: null
+ wps: 0
+ grpcapab: 0
+ devcapab: 0
+ status: 0
+ wfdInfo: null
+ vendorElements: null
+ interface: null
+ networkId: 40
+ frequency: 0
+network: DIRECT-WC-Navegadortz2
+ isGO: true
+ GO: Device: Navegadortz2
+ deviceAddress: 42:60:10:2e:b9:3c
+ primary type: 10-0050F204-5
+ secondary type: null
+ wps: 0
+ grpcapab: 0
+ devcapab: 0
+ status: 0
+ wfdInfo: null
+ vendorElements: null
+ interface: null
+ networkId: 41
+ frequency: 0
+network: DIRECT-MR-Navegadortz2
+ isGO: true
+ GO: Device: Navegadortz2
+ deviceAddress: 42:60:10:2e:b9:3c
+ primary type: 10-0050F204-5
+ secondary type: null
+ wps: 0
+ grpcapab: 0
+ devcapab: 0
+ status: 0
+ wfdInfo: null
+ vendorElements: null
+ interface: null
+ networkId: 42
+ frequency: 0
+network: DIRECT-6J-Navegadortz2
+ isGO: true
+ GO: Device: Navegadortz2
+ deviceAddress: 42:60:10:2e:b9:3c
+ primary type: 10-0050F204-5
+ secondary type: null
+ wps: 0
+ grpcapab: 0
+ devcapab: 0
+ status: 0
+ wfdInfo: null
+ vendorElements: null
+ interface: null
+ networkId: 43
+ frequency: 0
+network: DIRECT-D4-Navegadortz2
+ isGO: true
+ GO: Device: Navegadortz2
+ deviceAddress: 42:60:10:2e:b9:3c
+ primary type: 10-0050F204-5
+ secondary type: null
+ wps: 0
+ grpcapab: 0
+ devcapab: 0
+ status: 0
+ wfdInfo: null
+ vendorElements: null
+ interface: null
+ networkId: 44
+ frequency: 0
+
+
+WifiP2pMetrics:
+mConnectionEvents:
+startTime=9-2 7:35:43.491, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=2858, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=3, freq=0, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 9:54:13.786, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=100, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=3, freq=0, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 9:57:42.532, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=156, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 9:58:35.544, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=124, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:0:48.58, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=112, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:1:51.134, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=104, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:4:18.274, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=126, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:5:11.441, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=110, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:7:35.977, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=132, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:8:29.52, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=100, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:8:33.156, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=156, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:10:42.643, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=150, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:11:30.715, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=109, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:11:35.120, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=137, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:13:9.608, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=114, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:14:2.780, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=97, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:14:6.853, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=160, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:17:41.572, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=115, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:18:42.373, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=97, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:19:42.651, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=101, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=1, freq=0, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:20:39.100, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=131, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:21:40.932, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=228, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:23:25.997, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=127, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:29:54.628, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=104, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=0, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:29:55.563, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=114, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=2462, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:30:52.425, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=97, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:38:11.76, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=115, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:42:46.45, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=127, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:47:44.830, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=134, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:52:19.945, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=134, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:55:57.739, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=103, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 10:56:58.488, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=104, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 11:0:11.694, connectionType=REINVOKE, wpsMethod=NA, durationTakenToConnectMillis=143, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=0, freq=0, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 11:2:11.552, connectionType=REINVOKE, wpsMethod=NA, durationTakenToConnectMillis=138, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=0, freq=0, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 11:35:3.292, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=106, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=3, freq=0, sta freq=5260, uid=10168, connectivityLevelFailureCode=NONE
+startTime=9-2 13:32:54.20, connectionType=FAST, wpsMethod=PBC, durationTakenToConnectMillis=93, groupRole=OWNER, tryCount=1, inviteToNeg=false, isCcWw=false, band=5, freq=5180, sta freq=0, uid=10168, connectivityLevelFailureCode=NONE
+mGroupEvents:
+netId=-1, startTime=09-02 07:35:46.348, channelFrequency=5220, groupRole=GroupOwner, numConnectedClients=0, numCumulativeClients=0, sessionDurationMillis=1252, idleDurationMillis=1252
+netId=-1, startTime=09-02 09:54:13.886, channelFrequency=5805, groupRole=GroupOwner, numConnectedClients=1, numCumulativeClients=1, sessionDurationMillis=208161, idleDurationMillis=9665
+netId=9, startTime=09-02 09:57:42.689, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=1, numCumulativeClients=1, sessionDurationMillis=45107, idleDurationMillis=22381
+netId=9, startTime=09-02 09:58:35.668, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=1, numCumulativeClients=1, sessionDurationMillis=89471, idleDurationMillis=5571
+netId=9, startTime=09-02 10:00:48.171, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=1, numCumulativeClients=1, sessionDurationMillis=55423, idleDurationMillis=30245
+netId=9, startTime=09-02 10:01:51.239, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=1, numCumulativeClients=1, sessionDurationMillis=89604, idleDurationMillis=3224
+netId=9, startTime=09-02 10:04:18.401, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=1, numCumulativeClients=1, sessionDurationMillis=45462, idleDurationMillis=21632
+netId=9, startTime=09-02 10:05:11.552, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=1, numCumulativeClients=1, sessionDurationMillis=89489, idleDurationMillis=14369
+netId=9, startTime=09-02 10:07:36.108, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=1, numCumulativeClients=1, sessionDurationMillis=45401, idleDurationMillis=20965
+netId=9, startTime=09-02 10:08:29.152, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=0, numCumulativeClients=0, sessionDurationMillis=2027, idleDurationMillis=2027
+netId=9, startTime=09-02 10:08:33.312, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=1, numCumulativeClients=1, sessionDurationMillis=85339, idleDurationMillis=43837
+netId=9, startTime=09-02 10:10:42.793, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=1, numCumulativeClients=1, sessionDurationMillis=40350, idleDurationMillis=19412
+netId=9, startTime=09-02 10:11:30.825, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=0, numCumulativeClients=0, sessionDurationMillis=2022, idleDurationMillis=2022
+netId=9, startTime=09-02 10:11:35.258, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=1, numCumulativeClients=1, sessionDurationMillis=85071, idleDurationMillis=45905
+netId=9, startTime=09-02 10:13:09.722, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=1, numCumulativeClients=1, sessionDurationMillis=45475, idleDurationMillis=21062
+netId=9, startTime=09-02 10:14:02.877, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=0, numCumulativeClients=0, sessionDurationMillis=2010, idleDurationMillis=2010
+netId=9, startTime=09-02 10:14:07.013, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=1, numCumulativeClients=1, sessionDurationMillis=85346, idleDurationMillis=43838
+netId=9, startTime=09-02 10:17:41.687, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=0, numCumulativeClients=0, sessionDurationMillis=60241, idleDurationMillis=60241
+netId=9, startTime=09-02 10:18:42.469, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=0, numCumulativeClients=0, sessionDurationMillis=60163, idleDurationMillis=60163
+netId=9, startTime=09-02 10:19:42.753, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=0, numCumulativeClients=0, sessionDurationMillis=7184, idleDurationMillis=7184
+netId=9, startTime=09-02 10:20:39.231, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=1, numCumulativeClients=1, sessionDurationMillis=40501, idleDurationMillis=19549
+netId=9, startTime=09-02 10:21:41.159, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=1, numCumulativeClients=1, sessionDurationMillis=80777, idleDurationMillis=6587
+netId=9, startTime=09-02 10:23:26.124, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=1, numCumulativeClients=1, sessionDurationMillis=350510, idleDurationMillis=27575
+netId=9, startTime=09-02 10:29:54.731, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=0, numCumulativeClients=0, sessionDurationMillis=400, idleDurationMillis=400
+netId=9, startTime=09-02 10:29:55.677, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=1, numCumulativeClients=1, sessionDurationMillis=49169, idleDurationMillis=25985
+netId=9, startTime=09-02 10:30:52.523, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=1, numCumulativeClients=1, sessionDurationMillis=89517, idleDurationMillis=6457
+netId=14, startTime=09-02 10:38:11.192, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=1, numCumulativeClients=1, sessionDurationMillis=203972, idleDurationMillis=23068
+netId=14, startTime=09-02 10:42:46.172, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=1, numCumulativeClients=1, sessionDurationMillis=210908, idleDurationMillis=32155
+netId=14, startTime=09-02 10:47:44.965, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=1, numCumulativeClients=1, sessionDurationMillis=200914, idleDurationMillis=57677
+netId=14, startTime=09-02 10:52:20.080, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=1, numCumulativeClients=1, sessionDurationMillis=185870, idleDurationMillis=51644
+netId=14, startTime=09-02 10:55:57.841, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=0, numCumulativeClients=0, sessionDurationMillis=60209, idleDurationMillis=60209
+netId=14, startTime=09-02 10:56:58.591, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=1, numCumulativeClients=1, sessionDurationMillis=163159, idleDurationMillis=18390
+netId=10, startTime=09-02 11:00:11.837, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=0, numCumulativeClients=0, sessionDurationMillis=67803, idleDurationMillis=67803
+netId=11, startTime=09-02 11:02:11.690, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=0, numCumulativeClients=0, sessionDurationMillis=77990, idleDurationMillis=77990
+netId=39, startTime=09-02 11:35:03.398, channelFrequency=5785, groupRole=GroupOwner, numConnectedClients=1, numCumulativeClients=1, sessionDurationMillis=514176, idleDurationMillis=5762
+netId=44, startTime=09-02 13:32:54.114, channelFrequency=5180, groupRole=GroupOwner, numConnectedClients=0, numCumulativeClients=0, sessionDurationMillis=0, idleDurationMillis=0 CURRENTLY OPEN EVENT
+mWifiP2pStatsProto.numPersistentGroup=5
+mWifiP2pStatsProto.numTotalPeerScans=13
+mWifiP2pStatsProto.numTotalServiceScans=0
+mAutonomousGroup true
+mJoinExistingGroup false
+mDiscoveryStarted false
+mListenStarted false
+mDetailedState CONNECTED
+mTemporarilyDisconnectedWifi false
+mServiceDiscReqId null
+mDeathDataByBinder {android.os.Binder@1b52333=mUid=1000, deathRecipient=com.android.server.wifi.p2p.WifiP2pServiceImpl$$ExternalSyntheticLambda1@fa9b62b, messenger=android.os.Messenger@105da88, worksource=WorkSource{1000 android}, displayId=0, android.os.BinderProxy@34460c=mUid=10168, deathRecipient=com.android.server.wifi.p2p.WifiP2pServiceImpl$$ExternalSyntheticLambda1@938fee0, messenger=android.os.Messenger@105da88, worksource=WorkSource{10168 com.andrerinas.headunitrevived}, displayId=0}
+mClientInfoList 2
+mActiveClients {10168=WorkSource{10168 com.andrerinas.headunitrevived}}
+mPeerAuthorizingTimestamp{}
+

@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+    <boolean name="auto-connect-single-usb" value="false" />
+    <boolean name="gps-navigation" value="true" />
+    <int name="cached-surface-settings-hash" value="-1637548318" />
+    <string name="head-unit-make">Google</string>
+    <boolean name="stretch_to_fill" value="true" />
+    <boolean name="attach_hw_dsp_equalizer" value="false" />
+    <long name="last-loc-latitude" value="4618785307005159133" />
+    <int name="log-source" value="0" />
+    <boolean name="static-audio-focus" value="false" />
+    <int name="cached-surface-height" value="2400" />
+    <set name="connection-modes">
+        <string>wifi</string>
+        <string>self</string>
+    </set>
+    <int name="wifi-connection-mode" value="2" />
+    <boolean name="fake_speed" value="true" />
+    <int name="inset-left" value="0" />
+    <int name="screen-orientation" value="2" />
+    <boolean name="has-completed-setup-wizard" value="true" />
+    <boolean name="hud_mirroring" value="false" />
+    <int name="pixel-aspect-ratio-e4" value="10000" />
+    <string name="hotspot-interface"></string>
+    <boolean name="hide-battery-level" value="false" />
+    <string name="hotspot-password"></string>
+    <string name="video-codec">H.264</string>
+    <boolean name="show-navigation-notifications" value="false" />
+    <boolean name="sync-media-session-aa-metadata" value="false" />
+    <set name="auto-start-bt-macs" />
+    <boolean name="kill-on-disconnect" value="false" />
+    <boolean name="auto-enable-hotspot" value="false" />
+    <boolean name="auto-connect-last-session" value="false" />
+    <string name="auto-connect-priority-order">last-session,self-mode,single-usb</string>
+    <string name="vehicle-make">Google</string>
+    <int name="audio-latency-multiplier" value="8" />
+    <int name="view-mode" value="2" />
+    <string name="static-bssid">0</string>
+    <int name="inset-top" value="0" />
+    <int name="dpi-pixel-density" value="218" />
+    <string name="bt-address"></string>
+    <boolean name="native-wifi-version-exchange" value="false" />
+    <int name="log-level" value="2" />
+    <string name="manual-secondary-bt-service-name"></string>
+    <int name="hotspot-band" value="0" />
+    <boolean name="use-libusb" value="false" />
+    <string name="last-connection-ip">127.0.0.1</string>
+    <int name="resolutionId" value="3" />
+    <int name="navigation-volume-offset" value="0" />
+    <long name="last-loc-longitude" value="-4588354225191523632" />
+    <int name="mic-input-source" value="0" />
+    <int name="audio-queue-capacity" value="50" />
+    <int name="wait-for-wifi-timeout" value="10" />
+    <int name="software-video-decoder" value="1" />
+    <int name="onboarding-version" value="2" />
+    <string name="last-connection-type">wifi</string>
+    <boolean name="enable-audio-sink" value="true" />
+    <int name="auto-connect-delay-seconds" value="0" />
+    <int name="helper-connection-strategy" value="2" />
+    <int name="fullscreen-mode" value="1" />
+    <int name="playback-focus-mode" value="0" />
+    <int name="assistant-volume-offset" value="0" />
+    <boolean name="auto-start-self-mode" value="false" />
+    <string name="app-language"></string>
+    <string name="bluetooth-manager-service-name">bluetooth_manager</string>
+    <boolean name="hide-clock" value="false" />
+    <boolean name="forced_scale" value="false" />
+    <boolean name="use_measured_touch_surface" value="false" />
+    <string name="last-connection-usb-device"></string>
+    <boolean name="advanced-settings-active" value="true" />
+    <boolean name="rename_notice_shown_v2" value="true" />
+    <boolean name="show-fps-counter" value="false" />
+    <int name="inset-right" value="0" />
+    <int name="wifi-direct-band" value="0" />
+    <string name="hotspot-ssid"></string>
+    <boolean name="hide-phone-signal" value="false" />
+    <boolean name="right-hand-drive" value="false" />
+    <int name="cached-surface-width" value="1080" />
+    <int name="media-key-routing" value="0" />
+    <boolean name="enable-rotary" value="false" />
+    <boolean name="has-accepted-disclaimer" value="true" />
+    <string name="vehicle-display-name">Open Headunit</string>
+    <boolean name="force-software-decoding" value="false" />
+    <boolean name="separate-audio-streams" value="false" />
+    <boolean name="show-toast-messages" value="true" />
+    <int name="media-volume-offset" value="0" />
+    <boolean name="use-aac-audio" value="false" />
+    <int name="fps-limit" value="60" />
+    <boolean name="wait-for-wifi-before-wifi-direct" value="false" />
+    <int name="inset-bottom" value="0" />
+    <boolean name="gesture_hint_shown" value="true" />
+    <int name="native-ap-transport" value="0" />
+</map>

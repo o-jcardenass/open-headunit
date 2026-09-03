@@ -1,0 +1,12 @@
+09-01 14:20:55.497 I/OPENHU  (10958): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band. Chosen by the user.
+09-01 14:20:55.498 I/OPENHU  (10958): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is channel 36 (5180 MHz), asked for as a fixed 5180 MHz.
+09-01 14:20:55.535 I/OPENHU  (10958): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+09-01 14:20:55.698 I/OPENHU  (10958): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-RM-Navegadortz2, BSSID: 8A:1D:22:94:BF:72 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-6, Freq: 5180 MHz (5GHz), 5180 MHz was asked for
+09-01 14:20:56.555 I/OPENHU  (10958): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-RM-Navegadortz2, BSSID: 8A:1D:22:94:BF:72 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-6, Freq: 5180 MHz (5GHz), 5180 MHz was asked for
+09-01 14:20:56.572 I/OPENHU  (10958): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-RM-Navegadortz2, BSSID: 8A:1D:22:94:BF:72 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-6, Freq: 5180 MHz (5GHz), 5180 MHz was asked for
+09-01 14:21:11.703 I/OPENHU  (10958): [2] AutoStartReceiver.onReceive | MATCH! Starting AapService via Bluetooth Auto-start...
+09-01 14:21:12.011 I/OPENHU  (10958): [52] 2.invokeSuspend | NativeAA: Connection accepted from POCO X3 NFC (DC:B7:2E:5E:4E:59) on local radio [Navegadortz2]
+09-01 14:21:13.784 I/OPENHU  (10958): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-RM-Navegadortz2, BSSID: 8A:1D:22:94:BF:72 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-6, Freq: 5180 MHz (5GHz), 5180 MHz was asked for
+09-01 14:21:13.987 I/OPENHU  (10958): [51] 1.invokeSuspend | WirelessServer: Incoming connection detected from /192.168.49.227
+09-01 14:21:14.197 I/OPENHU  (10958): [61] AapSslContext.performHandshake | SSL handshake complete. Session id: rUO+kb9sDv4rNKF+C567inqZ6H6R1rsIT/92wDuSPqM=
+09-01 14:21:14.198 D/OPENHU  (10958): [61] AapTransport.handshake | Handshake: SSL handshake complete. TS: 25148648

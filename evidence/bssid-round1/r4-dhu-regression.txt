@@ -1,0 +1,98 @@
+### R4 D-HU (candidate e6b19c3a) - clean healthy Native AA session
+
+# BSSID source dump:
+09-01 05:52:25.408 I/OPENHU  (28815): [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == BSSID source dump (iface=p2p-wlan0-0) ==
+09-01 05:52:25.409 I/OPENHU  (28815): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   static override (Settings)       = 0
+09-01 05:52:25.410 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:52:25.410 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:52:25.410 I/OPENHU  (28815): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   getGroupOwnerBssid()             = null
+09-01 05:52:25.413 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:52:25.413 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:52:25.414 I/FDV3    (  520): [find, 1135]: src:1920x1080 detect:256 face_num=0 1.67 ms
+09-01 05:52:25.414 I/FaceDetectSDKNode(  520): 861, fd_process: cam_id=1, 1920x1080, face_num=0, time=2 ms, frame_id=1222962, fd=0x43
+09-01 05:52:25.415 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:52:25.415 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:52:25.417 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:52:25.418 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:52:25.419 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:52:25.420 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:52:25.422 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:52:25.422 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:52:25.423 I/FDV3    (  520): [find, 1135]: src:1920x1080 detect:256 face_num=0 1.78 ms
+09-01 05:52:25.423 I/FaceDetectSDKNode(  520): 861, fd_process: cam_id=0, 1920x1080, face_num=0, time=2 ms, frame_id=313083647, fd=0x3f
+09-01 05:52:25.424 E/WindowManager( 1081): Performed 6 layouts in a row. Skipping
+09-01 05:52:25.427 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:52:25.427 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:52:25.429 I/OPENHU  (28815): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (p2p-wlan0-0)    = 7a:bb:3f:18:99:a2
+09-01 05:52:25.429 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:52:25.429 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:52:25.431 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:52:25.431 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:52:25.433 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:52:25.433 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:52:25.434 I/OPENHU  (28815): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (any p2p/ap)     = 7a:bb:3f:18:99:a2
+09-01 05:52:25.435 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:52:25.435 D/OPENHU  (28815): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: getWifiDirectMac for interface: p2p-wlan0-0
+09-01 05:52:25.435 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:52:25.437 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:52:25.437 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:52:25.438 E/WindowManager( 1081): Performed 6 layouts in a row. Skipping
+09-01 05:52:25.438 D/CompatibilityChangeReporter(28815): Compat change id reported: 170188668; UID 10168; state: ENABLED
+09-01 05:52:25.439 D/OPENHU  (28815): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: dummy0, MAC: null
+09-01 05:52:25.442 D/OPENHU  (28815): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: seth_lte0, MAC: null
+09-01 05:52:25.444 D/OPENHU  (28815): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: lo, MAC: null
+09-01 05:52:25.444 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:52:25.445 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:52:25.446 D/BLASTBufferQueue( 1466): [VRI[ZqcNavigationBar]#1](f:0,a:2) PendingRelease=1, PendingBuffersToHold=0, SyncedFrameNumbers=0, lacfnr:100384, lapfnr:100384
+09-01 05:52:25.446 D/OPENHU  (28815): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: p2p-wlan0-0, MAC: null
+09-01 05:52:25.447 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:52:25.447 W/OPENHU  (28815): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: No valid MAC found in NetworkInterface scan for p2p-wlan0-0
+09-01 05:52:25.447 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:52:25.448 I/OPENHU  (28815): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   NetworkInterface.hardwareAddress = 00:00:00:00:00:00
+09-01 05:52:25.449 I/OPENHU  (28815): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   lastKnownBssid (null)            = null
+09-01 05:52:25.449 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:52:25.449 I/OPENHU  (28815): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   requestDeviceInfo                = 02:00:00:00:00:00
+09-01 05:52:25.450 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:52:25.450 I/OPENHU  (28815): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   group.owner.deviceAddress        = 02:00:00:00:00:00
+09-01 05:52:25.443 I/headunitrevived(28815): type=1400 audit(0.0:93097): avc:  denied  { search } for  name="net" dev="sysfs" ino=17553 scontext=u:r:untrusted_app:s0:c168,c256,c512,c768 tcontext=u:object_r:sysfs_net:s0 tclass=dir permissive=1
+09-01 05:52:25.451 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:52:25.452 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:52:25.454 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:52:25.455 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:52:25.455 I/FDV3    (  520): [getDetectYoloImage, 559]: orientation: 1
+09-01 05:52:25.456 I/FDV3    (  520): [getDetectYoloImage, 662]: isTransform.
+09-01 05:52:25.456 I/OPENHU  (28815): [2] WifiDirectManager.getMacFromShell | WifiDirectManager: MAC retrieved via sysfs (p2p-wlan0-0): 7a:bb:3f:18:99:a2
+09-01 05:52:25.456 D/FDV3    (  520): [MNNRun, 126]: Now net input image size: 256, 160
+09-01 05:52:25.457 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:52:25.457 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:52:25.458 I/OPENHU  (28815): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   sysfs / ip link                  = 7a:bb:3f:18:99:a2
+09-01 05:52:25.459 E/WindowManager( 1081): Performed 6 layouts in a row. Skipping
+09-01 05:52:25.462 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:52:25.463 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:52:25.464 I/OPENHU  (28815): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   Settings.Secure p2p address      = null
+09-01 05:52:25.464 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:52:25.464 D/BLASTBufferQueue( 1466): [VRI[ZqcNavigationBar]#1](f:0,a:2) PendingRelease=1, PendingBuffersToHold=0, SyncedFrameNumbers=0, lacfnr:100385, lapfnr:100385
+09-01 05:52:25.465 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:52:25.466 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:52:25.466 I/OPENHU  (28815): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   reflection over WifiP2pGroup     = null
+09-01 05:52:25.467 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:52:25.468 I/OPENHU  (28815): [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == end BSSID source dump ==
+
+# HFP-record gate (R5): the stand-in record is correctly suppressed on a real head unit -
+09-01 05:52:24.543 I/OPENHU  (28815): [2] NativeAaHandshakeManager.shouldRegisterDummyHfp | NativeAA: radio [Navegadortz2] already advertises Hands-Free, so the stand-in HFP record is not registered - the real stack answers calls, this app cannot.
+
+# handshake + handoff:
+09-01 05:52:40.003 I/OPENHU  (28815): [53] 2.invokeSuspend | NativeAA: Connection accepted from POCO X3 NFC (DC:B7:2E:5E:4E:59) on local radio [Navegadortz2]
+09-01 05:52:40.349 I/OPENHU  (28815): [73] 2.invokeSuspend$runAction | NativeAA: [TX] Sending WifiStartRequest (Type 1)
+09-01 05:52:40.457 I/OPENHU  (28815): [72] 2.invokeSuspend$tick | NativeAA: [RX] Received Type 2 (Payload size: 0)
+09-01 05:52:40.458 I/OPENHU  (28815): [72] 2.invokeSuspend$runAction | NativeAA: [TX] Sending WifiInfoResponse (Type 3) with full credentials in 1000ms...
+09-01 05:52:41.476 I/OPENHU  (28815): [72] NativeAaHandshakeManager.logReceivedDetail | NativeAA: [RX] WifiStartResponse ip= status=SUCCESS(0)
+09-01 05:52:44.673 I/OPENHU  (28815): [52] 1.invokeSuspend | WirelessServer: Incoming connection detected from /192.168.49.187
+09-01 05:52:44.988 I/OPENHU  (28815): [61] AapSslContext.performHandshake | SSL handshake complete. Session id: UjMywYcaHCRLprGNF5jfciZ8kOr97UR/DRNXurbVo38=
+
+# throughput (steady ~50 fps, dropped=0, decodeLatency ~9 ms):
+09-01 05:53:01.926 I/OPENHU  (28815): [83] VideoDecoder.logThroughput | Throughput over 5010ms: rendered=252 (50fps), fed=253 (50fps), dropped=0, skipped=0, concealed=0, inputWait=102ms, enqueueWait=0ms, codec=c2.unisoc.hevc.decoder, presented=252 (50fps), decodeLatency=9ms p95=12ms (252 frames)
+09-01 05:53:46.941 I/OPENHU  (28815): [83] VideoDecoder.logThroughput | Throughput over 5001ms: rendered=251 (50fps), fed=251 (50fps), dropped=0, skipped=0, concealed=0, inputWait=103ms, enqueueWait=0ms, codec=c2.unisoc.hevc.decoder, presented=251 (50fps), decodeLatency=9ms p95=11ms (251 frames)
+
+# discard checks: createGroup SUCCESS=1, one p2p-wlan0-0, one SSL handshake, 0 Magic Garbage.
+#   (one benign 'MATCH! Starting AapService' = phone's own BT reconnect, zero group churn - TESTING-TEMPLATE 7a).

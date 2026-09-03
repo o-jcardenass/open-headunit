@@ -1,0 +1,465 @@
+--------- beginning of main
+09-02 13:40:44.662 D/OPENHU  (17143): [89] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=221, state=PLAYING
+09-02 13:40:45.233 I/ActivityManager( 1090): Broadcasting: Intent { act=com.andrerinas.openheadunit.ACTION_LOG_MARKER flg=0x400000 cmp=com.andrerinas.headunitrevived/com.andrerinas.openheadunit.automation.AutomationReceiver (has extras) }
+--------- beginning of system
+09-02 13:40:45.235 I/ActivityManager( 1090): Enqueued broadcast Intent { act=com.andrerinas.openheadunit.ACTION_LOG_MARKER flg=0x400000 cmp=com.andrerinas.headunitrevived/com.andrerinas.openheadunit.automation.AutomationReceiver (has extras) }: 0
+09-02 13:40:45.240 I/OPENHU  (17143): [2] AutomationReceiver.onReceive | AutomationReceiver: com.andrerinas.openheadunit.ACTION_LOG_MARKER
+09-02 13:40:45.241 W/OPENHU  (17143): [2] AutomationEffectRunner.run | AutomationMarker: 6.6-session
+09-02 13:40:45.243 I/ActivityManager( 1090): Broadcast completed: result=0, data="{"action":"com.andrerinas.openheadunit.ACTION_LOG_MARKER","ok":true}"
+09-02 13:40:45.422 I/ActivityManager( 1090): forceStop Package:com.andrerinas.headunitrevived from pid:18391 uid:0 Caller:com.android.server.am.ActivityManagerService.forceStopPackage:3891 com.android.server.am.ActivityManagerShellCommand.runForceStop:1405 com.android.server.am.ActivityManagerShellCommand.onCommand:284 com.android.server.am.UnisocActivityManagerShellCommand.onCommand:92 com.android.modules.utils.BasicShellCommandHandler.exec:97 android.os.ShellCommand.exec:38 
+09-02 13:40:45.428 I/ActivityManager( 1090): Force stopping com.andrerinas.headunitrevived appid=10168 user=0: from pid 18391
+09-02 13:40:45.436 I/ActivityManager( 1090): Killing 17143:com.andrerinas.headunitrevived/u0a168 (adj 0): stop com.andrerinas.headunitrevived due to from pid 18391
+09-02 13:40:45.837 W/ActivityManager( 1090): setHasOverlayUi called on unknown pid: 17143
+09-02 13:40:47.595 I/ActivityManager( 1090): Start proc 18425:com.andrerinas.headunitrevived/u0a168 for next-top-activity {com.andrerinas.headunitrevived/com.andrerinas.openheadunit.main.MainActivity}
+09-02 13:40:48.111 W/ActivityManager( 1090): Unable to start service Intent { act=android.intent.action.AudioRouteService cmp=com.zqc.audioroute/.AudioRouteService } U=0: not found
+09-02 13:40:48.405 D/OPENHU  (18425): [2] App.onCreate | native library dir /data/app/~~T75vzWYn7mJ6_26q1l8uww==/com.andrerinas.headunitrevived-3HO90GxOgVRug2Sg6kusmQ==/lib/arm64
+09-02 13:40:48.406 D/OPENHU  (18425): [2] App.onCreate |    libusb1.0.so
+09-02 13:40:48.407 D/OPENHU  (18425): [2] App.onCreate |    libavutil.so
+09-02 13:40:48.407 D/OPENHU  (18425): [2] App.onCreate |    libconscrypt_jni.so
+09-02 13:40:48.408 D/OPENHU  (18425): [2] App.onCreate |    libswscale.so
+09-02 13:40:48.408 D/OPENHU  (18425): [2] App.onCreate |    libusbhelper.so
+09-02 13:40:48.409 D/OPENHU  (18425): [2] App.onCreate |    libavcodec.so
+09-02 13:40:48.409 D/OPENHU  (18425): [2] App.onCreate |    libhur_soft_hevc.so
+09-02 13:40:48.428 I/ActivityManager( 1090): Flag disabled. Ignoring finishAttachApplication from uid: 10168. pid: 18425
+09-02 13:40:48.578 I/OPENHU  (18425): [2] MainActivity.logLaunchSource | App launched by third party: android-app://com.android.shell (action: null)
+09-02 13:40:48.818 W/ActivityManager( 1090): Unable to start service Intent { act=zjinnova.android.intent.action.ZLINK_SERVICE } U=0: not found
+09-02 13:40:48.820 I/ActivityManager( 1090): Background started FGS: Allowed [callingPackage: com.andrerinas.headunitrevived; callingUid: 10168; uidState: TOP ; uidBFSL: [BFSL]; intent: Intent { cmp=com.andrerinas.headunitrevived/com.andrerinas.openheadunit.aap.AapService }; code:PROC_STATE_TOP; tempAllowListReason:<null>; targetSdkVersion:36; callerTargetSdkVersion:36; startForegroundCount:0; bindFromPackage:null: isBindService:false]
+09-02 13:40:48.833 D/OPENHU  (18425): [2] UsbReceiver.<init> | UsbReceiver registered
+09-02 13:40:48.838 I/OPENHU  (18425): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 0 USB device(s), 0 usable for Android Auto
+09-02 13:40:48.839 I/OPENHU  (18425): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+09-02 13:40:49.056 D/OPENHU  (18425): [2] MainActivity.requestPermissions | All required permissions already granted.
+09-02 13:40:49.066 I/OPENHU  (18425): [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+09-02 13:40:49.524 I/OPENHU  (18425): [2] AapService.onCreate | AapService creating...
+09-02 13:40:49.573 W/OPENHU  (18425): [2] StationStandDown.restore | StationStandDown: the platform refused to re-enable this unit's WiFi network. It may have to be reconnected by hand.
+09-02 13:40:49.594 D/OPENHU  (18425): [2] UsbReceiver.<init> | UsbReceiver registered
+09-02 13:40:49.602 I/OPENHU  (18425): [2] AapService.registerReceivers | Registered runtime MEDIA_BUTTON receiver
+09-02 13:40:49.606 I/OPENHU  (18425): [2] AapService.registerReceivers | Registered dynamic WiFi Auto-start receiver
+09-02 13:40:49.609 I/OPENHU  (18425): [2] AapService.registerReceivers | Registered wake detection receiver (18 actions)
+09-02 13:40:49.612 I/OPENHU  (18425): [2] AapService.registerReceivers | Registered Bluetooth auto-disconnect receiver
+09-02 13:40:49.643 D/OPENHU  (18425): [2] AapService.updateMediaSessionState | MediaSession: State updated to STOPPED, positionMs=0
+09-02 13:40:49.650 I/OPENHU  (18425): [2] WifiLauncherManager.setActive | WifiLauncher: Initializing WiFi Mode: NATIVE
+09-02 13:40:49.665 I/OPENHU  (18425): [2] WifiDirectManager.<init> | WifiDirectManager: Device supports WiFi Direct. Initializing...
+09-02 13:40:49.672 D/OPENHU  (18425): [2] WifiDirectManager.registerReceiverIfNeeded | WifiDirectManager: BroadcastReceiver registered.
+09-02 13:40:49.675 D/OPENHU  (18425): [2] WifiLauncherSharedServices.startWirelessServer | AapService: Starting the wireless server on 5288 - no server yet.
+09-02 13:40:49.682 I/OPENHU  (18425): [2] WirelessServer.start | WirelessServer: binding port 5288...
+09-02 13:40:49.687 I/OPENHU  (18425): [61] 1.invokeSuspend | Wireless Server listening on port 5288
+09-02 13:40:49.690 I/OPENHU  (18425): [61] WirelessServer.logLocalNetworkInterfaces | Interface: seth_lte0, IP: 10.72.241.3
+09-02 13:40:49.691 I/OPENHU  (18425): [61] WirelessServer.logLocalNetworkInterfaces | Interface: p2p-wlan0-5, IP: 192.168.49.1
+09-02 13:40:49.692 I/OPENHU  (18425): [61] WirelessServer.logLocalNetworkInterfaces | Interface: wlan0, IP: 192.168.1.15
+09-02 13:40:49.693 D/OPENHU  (18425): [61] 1.invokeSuspend | WirelessServer: Waiting for TCP connection on port 5288...
+09-02 13:40:49.710 I/OPENHU  (18425): [2] StationStandDown.standDown | StationStandDown: asked this unit to leave its WiFi network so the group can have the radio to itself (disableNetwork returned false). It is rejoined when the session ends.
+09-02 13:40:49.711 I/OPENHU  (18425): [2] WifiDirectManager.claimNativeCreateWindow | WifiDirectManager: a Native AA group create is claimed (waiting for this unit to leave its own network); a refresh in the next 15s waits for it.
+09-02 13:40:49.722 I/OPENHU  (18425): [2] NativeAaHandshakeManager.start | NativeAA: Starting Bluetooth Handshake Servers (primary radio [Navegadortz2])...
+09-02 13:40:49.731 I/OPENHU  (18425): [2] NativeAaHandshakeManager.shouldRegisterDummyHfp | NativeAA: radio [Navegadortz2] already advertises Hands-Free, so the stand-in HFP record is not registered - the real stack answers calls, this app cannot.
+09-02 13:40:49.734 I/OPENHU  (18425): [62] 1.invokeSuspend | NativeAA: ACTIVELY LISTENING on Android Auto UUID (4de17a00-52cb-11e6-bdf4-0800200c9a66) on radio [Navegadortz2]... Waiting for phone to connect back!
+09-02 13:40:49.827 D/OPENHU  (18425): [2] BluetoothHelper.adapterForService | BluetoothHelper: adapterForService(android.hardware.bluetooth.audio.IBluetoothAudioProviderFactory/default) failed: android.bluetooth.BluetoothAdapter.<init> [interface android.bluetooth.IBluetoothManager]
+09-02 13:40:49.840 I/OPENHU  (18425): [2] AapService.registerNetworkMonitor | NetworkMonitor: Registered network change listener
+09-02 13:40:49.903 I/OPENHU  (18425): [2] 1.invoke | WifiDirectManager: requestDeviceInfo success: 02:00:00:00:00:00
+09-02 13:40:49.905 I/OPENHU  (18425): [2] 1.onReceive | WifiDirectManager: WIFI_P2P_STATE_CHANGED_ACTION state=2
+09-02 13:40:49.910 I/OPENHU  (18425): [2] 1.invokeSuspend | AapService: Mode requires WiFi Direct — ensuring hotspot is disabled first...
+09-02 13:40:49.913 I/OPENHU  (18425): [63] 1.invokeSuspend | WppTcpServer: listening for Android Auto on TCP 5299
+09-02 13:40:49.921 I/OPENHU  (18425): [2] HotspotManager.setHotspotEnabled | HotspotManager: Setting hotspot enabled=false (API 34, canWriteSettings=true)
+09-02 13:40:50.239 I/OPENHU  (18425): [2] StationStandDown.standDown$lambda$0 | StationStandDown: this unit has left its WiFi network.
+09-02 13:40:50.240 I/OPENHU  (18425): [2] WifiDirectManager.claimNativeCreateWindow | WifiDirectManager: a Native AA group create is claimed (bringing the Native AA group up); a refresh in the next 15s waits for it.
+09-02 13:40:50.242 I/OPENHU  (18425): [2] WifiDirectManager.startNativeAaQuietHost | WifiDirectManager: startNativeAaQuietHost() requested. Removing old group if any...
+09-02 13:40:50.244 I/OPENHU  (18425): [2] WifiDirectManager.claimNativeCreateWindow | WifiDirectManager: a Native AA group create is claimed (recreating the group); a refresh in the next 15s waits for it.
+09-02 13:40:50.246 I/OPENHU  (18425): [2] WifiDirectManager.invalidateNativeGroupCredentials | WifiDirectManager: the group is being removed (recreating the group), so its credentials are no longer handed out.
+09-02 13:40:50.758 I/OPENHU  (18425): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Attempting createGroup for Native AA (Attempt 0)...
+09-02 13:40:50.760 I/OPENHU  (18425): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: this unit's WiFi radio reports a 5 GHz band.
+09-02 13:40:50.761 I/OPENHU  (18425): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Band preference is 5 GHz only, set by the user.
+09-02 13:40:50.768 I/OPENHU  (18425): [2] WifiDirectManager.chooseNativeGroupIdentity | WifiDirectManager: group identity: asking for the kept network DIRECT-D4-Navegadortz2 again, so a phone that saved it can rejoin without being set up for a new one.
+09-02 13:40:50.771 I/OPENHU  (18425): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band. Chosen by the user.
+09-02 13:40:50.772 I/OPENHU  (18425): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is channel 36 (5180 MHz), asked for as a fixed 5180 MHz.
+09-02 13:40:50.794 I/OPENHU  (18425): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+09-02 13:40:50.875 I/OPENHU  (18425): [2] 1.onReceive | WifiDirectManager: Connected. Requesting info...
+09-02 13:40:50.881 D/OPENHU  (18425): [2] 2.invoke | WifiDirectManager: Pre-fetched localDeviceAddress on connect: 02:00:00:00:00:00
+09-02 13:40:50.882 I/OPENHU  (18425): [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-02 13:40:50.886 I/OPENHU  (18425): [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-02 13:40:50.892 I/OPENHU  (18425): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-02 13:40:50.893 I/OPENHU  (18425): [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == BSSID source dump (iface=p2p-wlan0-6) ==
+09-02 13:40:50.895 I/OPENHU  (18425): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   static override (Settings)       = 0
+09-02 13:40:50.896 I/OPENHU  (18425): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   getGroupOwnerBssid()             = null
+09-02 13:40:50.911 I/OPENHU  (18425): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (p2p-wlan0-6)    = 7a:67:4d:cf:af:76
+09-02 13:40:50.916 I/OPENHU  (18425): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (any p2p/ap)     = 7a:67:4d:cf:af:76
+09-02 13:40:50.916 D/OPENHU  (18425): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: getWifiDirectMac for interface: p2p-wlan0-6
+09-02 13:40:50.921 D/OPENHU  (18425): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: dummy0, MAC: null
+09-02 13:40:50.924 D/OPENHU  (18425): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: seth_lte0, MAC: null
+09-02 13:40:50.927 D/OPENHU  (18425): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: wlan0, MAC: null
+09-02 13:40:50.929 D/OPENHU  (18425): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: lo, MAC: null
+09-02 13:40:50.932 D/OPENHU  (18425): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: p2p-wlan0-6, MAC: null
+09-02 13:40:50.932 W/OPENHU  (18425): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: No valid MAC found in NetworkInterface scan for p2p-wlan0-6
+09-02 13:40:50.933 I/OPENHU  (18425): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   NetworkInterface.hardwareAddress = 00:00:00:00:00:00
+09-02 13:40:50.934 I/OPENHU  (18425): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   lastKnownBssid (null)            = null
+09-02 13:40:50.934 I/OPENHU  (18425): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   requestDeviceInfo                = 02:00:00:00:00:00
+09-02 13:40:50.935 I/OPENHU  (18425): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   group.owner.deviceAddress        = 02:00:00:00:00:00
+09-02 13:40:50.939 I/OPENHU  (18425): [2] WifiDirectManager.getMacFromShell | WifiDirectManager: MAC retrieved via sysfs (p2p-wlan0-6): 7a:67:4d:cf:af:76
+09-02 13:40:50.939 I/OPENHU  (18425): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   sysfs / ip link                  = 7a:67:4d:cf:af:76
+09-02 13:40:50.943 I/OPENHU  (18425): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   Settings.Secure p2p address      = null
+09-02 13:40:50.944 I/OPENHU  (18425): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   reflection over WifiP2pGroup     = null
+09-02 13:40:50.945 I/OPENHU  (18425): [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == end BSSID source dump ==
+09-02 13:40:50.950 I/OPENHU  (18425): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-6 (EUI-64): 7A:67:4D:CF:AF:76
+09-02 13:40:50.951 I/OPENHU  (18425): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: 7A:67:4D:CF:AF:76
+09-02 13:40:50.953 I/OPENHU  (18425): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-D4-Navegadortz2, BSSID: 7A:67:4D:CF:AF:76 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-6, Freq: 5180 MHz (5GHz), 5180 MHz was asked for
+09-02 13:40:50.956 I/OPENHU  (18425): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: group identity ssid=DIRECT-D4-Navegadortz2 persistent=yes (netId 44) asked=persistent matchesRequest=yes bssid=7A:67:4D:CF:AF:76 stable=no (same name but the BSSID moved from E2:3B:9B:65:D0:AF to 7A:67:4D:CF:AF:76; this unit re-addresses the group on every create) source=IPv6 link-local
+09-02 13:40:50.960 W/OPENHU  (18425): [2] WifiDirectManager.logStationCoexistence | WifiDirectManager: This unit is connected to another WiFi network on 2462 MHz while hosting the WiFi Direct group on 5180 MHz. One radio has to retune between the two, which can cost the projected video and audio a few hundred milliseconds at a time. Measured units have run clean in this state, so read this as context for a report rather than as something to change.
+09-02 13:40:50.961 I/OPENHU  (18425): [2] WifiDirectManager.notifyNativeGroupStarted | WifiDirectManager: Native AA WiFi Direct: 5GHz (5180 MHz), 5GHz requested, SSID=DIRECT-D4-Navegadortz2
+09-02 13:40:50.967 I/OPENHU  (18425): [76] WifiDirectManager.onGroupInfoAvailable$lambda$7 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-D4-Navegadortz2, IP=192.168.49.1, BSSID=7A:67:4D:CF:AF:76, identity stable=no
+09-02 13:40:50.968 I/OPENHU  (18425): [76] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-D4-Navegadortz2, IP=192.168.49.1). Updating and Triggering Poke.
+09-02 13:40:50.969 I/OPENHU  (18425): [76] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-D4-Navegadortz2, IP=192.168.49.1, BSSID=7A:67:4D:CF:AF:76, identity stable=no
+09-02 13:40:50.973 D/OPENHU  (18425): [72] 1.invokeSuspend | NativeAA: triggerPoke() delay starting (2s)...
+09-02 13:40:51.119 I/OPENHU  (18425): [64] 1.onAvailable | NetworkMonitor: Network available: 109
+09-02 13:40:51.122 D/OPENHU  (18425): [64] 1.onCapabilitiesChanged | NetworkMonitor: Capabilities changed: 109 → [ Transports: WIFI Capabilities: NOT_METERED&INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN&NOT_ROAMING&FOREGROUND&NOT_CONGESTED&NOT_SUSPENDED&NOT_VCN_MANAGED LinkUpBandwidth>=12000Kbps LinkDnBandwidth>=30000Kbps TransportInfo: <SSID: <unknown ssid>, BSSID: 02:00:00:00:00:00, MAC: 02:00:00:00:00:00, IP: /192.168.1.15, Security type: 2, Supplicant state: COMPLETED, Wi-Fi standard: 4, RSSI: -23, Link speed: 72Mbps, Tx Link speed: 72Mbps, Max Supported Tx Link speed: 72Mbps, Rx Link speed: 6Mbps, Max Supported Rx Link speed: 72Mbps, Frequency: 2462MHz, Net ID: -1, Metered hint: false, score: 60, isUsable: true, CarrierMerged: false, SubscriptionId: -1, IsPrimary: -1, Trusted: true, Restricted: false, Ephemeral: false, OEM paid: false, OEM private: false, OSU AP: false, FQDN: <none>, Provider friendly name: <none>, Requesting package name: <none><none>MLO Information: , Is TID-To-Link negotiation supported by the AP: false, AP MLD Address: <none>, AP MLO Link Id: <none>, AP MLO Affiliated links: <none>> SignalStrength: -23 UnderlyingNetworks: Null]
+09-02 13:40:51.578 D/OPENHU  (18425): [64] 1.onCapabilitiesChanged | NetworkMonitor: Capabilities changed: 109 → [ Transports: WIFI Capabilities: NOT_METERED&INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN&VALIDATED&NOT_ROAMING&FOREGROUND&NOT_CONGESTED&NOT_SUSPENDED&NOT_VCN_MANAGED LinkUpBandwidth>=12000Kbps LinkDnBandwidth>=30000Kbps TransportInfo: <SSID: <unknown ssid>, BSSID: 02:00:00:00:00:00, MAC: 02:00:00:00:00:00, IP: /192.168.1.15, Security type: 2, Supplicant state: COMPLETED, Wi-Fi standard: 4, RSSI: -23, Link speed: 72Mbps, Tx Link speed: 72Mbps, Max Supported Tx Link speed: 72Mbps, Rx Link speed: 6Mbps, Max Supported Rx Link speed: 72Mbps, Frequency: 2462MHz, Net ID: -1, Metered hint: false, score: 60, isUsable: true, CarrierMerged: false, SubscriptionId: -1, IsPrimary: -1, Trusted: true, Restricted: false, Ephemeral: false, OEM paid: false, OEM private: false, OSU AP: false, FQDN: <none>, Provider friendly name: <none>, Requesting package name: <none><none>MLO Information: , Is TID-To-Link negotiation supported by the AP: false, AP MLD Address: <none>, AP MLO Link Id: <none>, AP MLO Affiliated links: <none>> SignalStrength: -23 UnderlyingNetworks: Null]
+09-02 13:40:51.622 D/OPENHU  (18425): [2] 1.invokeSuspend | NetworkMonitor: no discovery loop to kick
+09-02 13:40:51.797 I/OPENHU  (18425): [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-02 13:40:51.799 I/OPENHU  (18425): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-02 13:40:51.806 I/OPENHU  (18425): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-6 (EUI-64): 7A:67:4D:CF:AF:76
+09-02 13:40:51.807 I/OPENHU  (18425): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: 7A:67:4D:CF:AF:76
+09-02 13:40:51.808 I/OPENHU  (18425): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-D4-Navegadortz2, BSSID: 7A:67:4D:CF:AF:76 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-6, Freq: 5180 MHz (5GHz), 5180 MHz was asked for
+09-02 13:40:51.812 I/OPENHU  (18425): [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-02 13:40:51.814 I/OPENHU  (18425): [78] WifiDirectManager.onGroupInfoAvailable$lambda$7 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-D4-Navegadortz2, IP=192.168.49.1, BSSID=7A:67:4D:CF:AF:76, identity stable=no
+09-02 13:40:51.815 I/OPENHU  (18425): [78] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-D4-Navegadortz2, IP=192.168.49.1). Updating and Triggering Poke.
+09-02 13:40:51.816 I/OPENHU  (18425): [78] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-D4-Navegadortz2, IP=192.168.49.1, BSSID=7A:67:4D:CF:AF:76, identity stable=no
+09-02 13:40:51.817 D/OPENHU  (18425): [78] NativeAaHandshakeManager.triggerPoke | NativeAA: triggerPoke() called again with unchanged credentials while a poke is already running - not restarting it.
+09-02 13:40:51.817 I/OPENHU  (18425): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-02 13:40:51.822 I/OPENHU  (18425): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-6 (EUI-64): 7A:67:4D:CF:AF:76
+09-02 13:40:51.823 I/OPENHU  (18425): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: 7A:67:4D:CF:AF:76
+09-02 13:40:51.824 I/OPENHU  (18425): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-D4-Navegadortz2, BSSID: 7A:67:4D:CF:AF:76 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-6, Freq: 5180 MHz (5GHz), 5180 MHz was asked for
+09-02 13:40:51.830 I/OPENHU  (18425): [79] WifiDirectManager.onGroupInfoAvailable$lambda$7 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-D4-Navegadortz2, IP=192.168.49.1, BSSID=7A:67:4D:CF:AF:76, identity stable=no
+09-02 13:40:51.831 I/OPENHU  (18425): [79] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-D4-Navegadortz2, IP=192.168.49.1). Updating and Triggering Poke.
+09-02 13:40:51.832 I/OPENHU  (18425): [79] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-D4-Navegadortz2, IP=192.168.49.1, BSSID=7A:67:4D:CF:AF:76, identity stable=no
+09-02 13:40:51.833 D/OPENHU  (18425): [79] NativeAaHandshakeManager.triggerPoke | NativeAA: triggerPoke() called again with unchanged credentials while a poke is already running - not restarting it.
+09-02 13:40:52.983 I/OPENHU  (18425): [72] 1.invokeSuspend | NativeAA: Attempting active poke to device: POCO X3 NFC (DC:B7:2E:5E:4E:59)...
+09-02 13:40:52.995 I/OPENHU  (18425): [72] NativeAaHandshakeManager.pokeDevice | NativeAA: Calling socket.connect() for POCO X3 NFC via HFP-AG (0000111f-0000-1000-8000-00805f9b34fb)...
+09-02 13:40:53.686 D/OPENHU  (18425): [64] 1.onCapabilitiesChanged | NetworkMonitor: Capabilities changed: 109 → [ Transports: WIFI Capabilities: NOT_METERED&INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN&VALIDATED&NOT_ROAMING&FOREGROUND&NOT_CONGESTED&NOT_SUSPENDED&NOT_VCN_MANAGED LinkUpBandwidth>=12000Kbps LinkDnBandwidth>=30000Kbps TransportInfo: <SSID: <unknown ssid>, BSSID: 02:00:00:00:00:00, MAC: 02:00:00:00:00:00, IP: /192.168.1.15, Security type: 2, Supplicant state: COMPLETED, Wi-Fi standard: 4, RSSI: -24, Link speed: 72Mbps, Tx Link speed: 72Mbps, Max Supported Tx Link speed: 72Mbps, Rx Link speed: 72Mbps, Max Supported Rx Link speed: 72Mbps, Frequency: 2462MHz, Net ID: -1, Metered hint: false, score: 60, isUsable: true, CarrierMerged: false, SubscriptionId: -1, IsPrimary: -1, Trusted: true, Restricted: false, Ephemeral: false, OEM paid: false, OEM private: false, OSU AP: false, FQDN: <none>, Provider friendly name: <none>, Requesting package name: <none><none>MLO Information: , Is TID-To-Link negotiation supported by the AP: false, AP MLD Address: <none>, AP MLO Link Id: <none>, AP MLO Affiliated links: <none>> SignalStrength: -24 UnderlyingNetworks: Null]
+09-02 13:40:54.385 I/OPENHU  (18425): [2] AutoStartReceiver.onReceive | BT Device connected: POCO X3 NFC (DC:B7:2E:5E:4E:59)
+09-02 13:40:54.386 I/OPENHU  (18425): [2] AutoStartReceiver.onReceive | MATCH! Starting AapService via Bluetooth Auto-start...
+09-02 13:40:54.431 I/OPENHU  (18425): [2] MainActivity.beginAutoConnect | Auto-connect: begin (Bluetooth auto-start, mode=PILL)
+09-02 13:40:54.460 D/OPENHU  (18425): [2] MainActivity.requestPermissions | All required permissions already granted.
+09-02 13:40:54.466 I/OPENHU  (18425): [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+09-02 13:40:54.602 I/OPENHU  (18425): [72] NativeAaHandshakeManager.pokeDevice | NativeAA: Successfully poked POCO X3 NFC via HFP-AG. Holding 15000ms...
+09-02 13:40:54.799 I/OPENHU  (18425): [62] 1.invokeSuspend | NativeAA: Connection accepted from POCO X3 NFC (DC:B7:2E:5E:4E:59) on local radio [Navegadortz2]
+09-02 13:40:54.815 I/OPENHU  (18425): [72] 2.invokeSuspend | NativeAA: Handling handshake for POCO X3 NFC (DC:B7:2E:5E:4E:59) on local radio [Navegadortz2]
+09-02 13:40:55.119 D/OPENHU  (18425): [83] 2.invokeSuspend$feed | NativeAA: Handshake stage NEW -> AWAIT_CREDENTIALS
+09-02 13:40:55.120 I/OPENHU  (18425): [83] 2.invokeSuspend | NativeAA: Phone connected. Current credentials state: SSID=DIRECT-D4-Navegadortz2, IP=192.168.49.1
+09-02 13:40:55.120 I/OPENHU  (18425): [83] 2.invokeSuspend | NativeAA: Waiting for WiFi credentials to be ready (Max 60s)...
+09-02 13:40:55.122 I/OPENHU  (18425): [83] 2.invokeSuspend | NativeAA: this unit read its own WiFi address, so the missing-BSSID record is retired.
+09-02 13:40:55.123 I/OPENHU  (18425): [83] 2.invokeSuspend | NativeAA: Starting Handshake Exchange:
+09-02 13:40:55.124 I/OPENHU  (18425): [83] 2.invokeSuspend |   > Target SSID: DIRECT-D4-Navegadortz2
+09-02 13:40:55.124 I/OPENHU  (18425): [83] 2.invokeSuspend |   > Target IP:   192.168.49.1:5288
+09-02 13:40:55.125 I/OPENHU  (18425): [83] 2.invokeSuspend |   > BSSID:       7A:67:4D:CF:AF:76
+09-02 13:40:55.126 I/OPENHU  (18425): [83] 2.invokeSuspend$runAction | NativeAA: [TX] Sending WifiStartRequest (Type 1)
+09-02 13:40:55.149 I/OPENHU  (18425): [83] NativeAaHandshakeManager.sendProtobuf | NativeAA: [TX] Wrote TYPE 1 (size 19) to Bluetooth (write() returned; delivery unconfirmed)
+09-02 13:40:55.149 D/OPENHU  (18425): [83] 2.invokeSuspend$feed | NativeAA: Handshake stage AWAIT_CREDENTIALS -> AWAIT_INFO_REQUEST
+09-02 13:40:55.282 I/OPENHU  (18425): [83] 2.invokeSuspend$tick | NativeAA: [RX] Received Type 2 (Payload size: 0)
+09-02 13:40:55.283 I/OPENHU  (18425): [83] 2.invokeSuspend$runAction | NativeAA: Phone ready for WiFi association. Delivering credentials...
+09-02 13:40:55.284 I/OPENHU  (18425): [83] 2.invokeSuspend$runAction | NativeAA: [TX] Sending WifiInfoResponse (Type 3) with full credentials in 1000ms...
+09-02 13:40:56.286 D/OPENHU  (18425): [83] 2.invokeSuspend$runAction | NativeAA: the live credentials still match the ones this handshake captured.
+09-02 13:40:56.290 I/OPENHU  (18425): [83] NativeAaHandshakeManager.sendProtobuf | NativeAA: [TX] Wrote TYPE 3 (size 61) to Bluetooth (write() returned; delivery unconfirmed)
+09-02 13:40:56.290 I/OPENHU  (18425): [83] 2.invokeSuspend$runAction | NativeAA: Handshake completed successfully on Bluetooth side.
+09-02 13:40:56.293 D/OPENHU  (18425): [83] 2.invokeSuspend$feed | NativeAA: Handshake stage AWAIT_INFO_REQUEST -> SETTLING
+09-02 13:40:56.294 I/OPENHU  (18425): [83] 2.invokeSuspend$tick | NativeAA: [RX] Received Type 7 (Payload size: 2)
+09-02 13:40:56.298 I/OPENHU  (18425): [83] NativeAaHandshakeManager.logReceivedDetail | NativeAA: [RX] WifiStartResponse ip= status=SUCCESS(0)
+09-02 13:40:56.643 I/OPENHU  (18425): [2] 1.onReceive | WifiDirectManager: Connected. Requesting info...
+09-02 13:40:56.649 D/OPENHU  (18425): [2] 2.invoke | WifiDirectManager: Pre-fetched localDeviceAddress on connect: 02:00:00:00:00:00
+09-02 13:40:56.651 I/OPENHU  (18425): [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-02 13:40:56.656 I/OPENHU  (18425): [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-02 13:40:56.662 I/OPENHU  (18425): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-02 13:40:56.672 I/OPENHU  (18425): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-6 (EUI-64): 7A:67:4D:CF:AF:76
+09-02 13:40:56.672 I/OPENHU  (18425): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: 7A:67:4D:CF:AF:76
+09-02 13:40:56.674 I/OPENHU  (18425): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-D4-Navegadortz2, BSSID: 7A:67:4D:CF:AF:76 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-6, Freq: 5180 MHz (5GHz), 5180 MHz was asked for
+09-02 13:40:56.683 I/OPENHU  (18425): [84] WifiDirectManager.onGroupInfoAvailable$lambda$7 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-D4-Navegadortz2, IP=192.168.49.1, BSSID=7A:67:4D:CF:AF:76, identity stable=no
+09-02 13:40:56.685 I/OPENHU  (18425): [84] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-D4-Navegadortz2, IP=192.168.49.1). Updating and Triggering Poke.
+09-02 13:40:56.691 I/OPENHU  (18425): [84] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-D4-Navegadortz2, IP=192.168.49.1, BSSID=7A:67:4D:CF:AF:76, identity stable=no
+09-02 13:40:56.692 I/OPENHU  (18425): [84] NativeAaHandshakeManager.triggerPoke | NativeAA: Handoff still settling — not starting a poke that would compete with the phone's WiFi association.
+09-02 13:40:56.784 I/OPENHU  (18425): [82] 2.invokeSuspend$tick | NativeAA: [RX] Received Type 6 (Payload size: 2)
+09-02 13:40:56.789 I/OPENHU  (18425): [82] NativeAaHandshakeManager.logReceivedDetail | NativeAA: [RX] WifiConnectStatus status=SUCCESS(0) (SUCCESS = the phone got onto our network)
+09-02 13:40:56.792 I/OPENHU  (18425): [82] 2.invokeSuspend$runAction | NativeAA: Phone reports it is still joining — extending the settling window.
+09-02 13:40:56.805 I/OPENHU  (18425): [61] 1.invokeSuspend | WirelessServer: Incoming connection detected from /192.168.49.54
+09-02 13:40:56.807 D/OPENHU  (18425): [61] 1.invokeSuspend | WirelessServer: Waiting for TCP connection on port 5288...
+09-02 13:40:56.809 I/OPENHU  (18425): [2] 2.invokeSuspend | WirelessServer: Accepted client connection from /192.168.49.54. Passing to CommManager...
+09-02 13:40:56.816 I/OPENHU  (18425): [82] SocketProjectionConnection.applyLowLatencySocketOptions | Socket low-latency options: tcpNoDelay=true, recvBuf=524288, sendBuf=524288
+09-02 13:40:56.819 I/OPENHU  (18425): [2] AapService.emitSessionState | AapService: session state connecting
+09-02 13:40:56.822 I/OPENHU  (18425): [2] AapService.emitSessionState | AapService: session state connected
+09-02 13:40:56.830 I/OPENHU  (18425): [2] WifiDirectManager.noteSessionHosted | WifiDirectManager: this group has carried a session, so the join watchdog will not recreate it if the phone leaves.
+09-02 13:40:56.836 I/OPENHU  (18425): [2] AapService.acquireWifiLock | WifiLock acquired (HIGH_PERF)
+09-02 13:40:56.843 D/OPENHU  (18425): [2] CarKeysManager.registerReceivers | AapService: 1 CarKeyReceivers registered
+09-02 13:40:56.845 D/OPENHU  (18425): [2] AapService.updateMediaSessionState | MediaSession: State updated to PLAYING, positionMs=0
+09-02 13:40:56.847 D/OPENHU  (18425): [2] AapService.requestPermanentAudioFocus | Audio Sink disabled - skipping permanent audio focus request.
+09-02 13:40:56.848 I/OPENHU  (18425): [2] AapService.onConnected | AapService: Starting GpsLocationService and NightModeManager since connection is established
+09-02 13:40:56.855 I/OPENHU  (18425): [2] 1.invoke | NightMode update: false
+09-02 13:40:56.889 I/OPENHU  (18425): [2] GpsLocation.start | Request location updates
+09-02 13:40:56.901 I/OPENHU  (18425): [2] GpsLocation.start | Last known location:  Location[gps 6****** , -76******  hAcc=3.861985 et=+6h5m44s181ms alt=1573.645 vAcc=10.477182 vel=0.0 sAcc=0.4387365 bear=2.7 bAcc=38.52181 {Bundle[{satellites=15, maxCn0=34, meanCn0=19}]}]
+09-02 13:40:56.928 I/OPENHU  (18425): [83] AapTransport.<init> | AapTransport: not taking the microphone (setting useHeadUnitMicrophone=false, available=true)
+09-02 13:40:56.940 I/OPENHU  (18425): [83] AudioStreamCatalog.discover | AudioStreamCatalog: 12 streams available (reported count 12): 0=VOICE_CALL, 1=SYSTEM, 2=RING, 3=MUSIC, 4=ALARM, 5=NOTIFICATION, 6=BLUETOOTH_SCO, 7=SYSTEM_ENFORCED, 8=DTMF, 9=TTS, 10=ACCESSIBILITY, 11=ASSISTANT
+09-02 13:40:56.945 I/OPENHU  (18425): [83] AapTransport.startHandshake$com_andrerinas_headunitrevived_3_3_0_githubDebug | Start Aap transport handshake for com.andrerinas.openheadunit.connection.projection.SocketProjectionConnection@8eec227
+09-02 13:40:56.947 D/OPENHU  (18425): [83] AapTransport.handshake | Handshake: Starting version request. TS: 21946105
+09-02 13:40:56.949 D/OPENHU  (18425): [83] AapTransport.handshake | Handshake: Version request sent. ret: 10. attempt: 1. TS: 21946106
+09-02 13:40:56.949 D/OPENHU  (18425): [83] AapTransport.handshake | Handshake: Waiting for version response. TS: 21946107
+09-02 13:40:56.954 I/OPENHU  (18425): [83] AapTransport.handshake | Handshake: Version response received (ret=12, attempt=1).
+09-02 13:40:56.954 I/OPENHU  (18425): [83] AapTransport.handshake | Handshake: Version response recv ret: 12
+09-02 13:40:56.955 D/OPENHU  (18425): [83] AapTransport.handshake | Handshake: Starting SSL handshake via performHandshake(). TS: 21946113
+09-02 13:40:56.969 I/OPENHU  (18425): [2] GpsLocation.onLocationChanged | GpsLocation: first fix after 0s
+09-02 13:40:57.027 I/OPENHU  (18425): [83] AapSslContext.performHandshake | SSL handshake complete. Session id: z8Tof55Vtkj3Xl8dd+sONkCbhbyKvAh7dUmLC3QG854=
+09-02 13:40:57.028 D/OPENHU  (18425): [83] AapTransport.handshake | Handshake: SSL buffers reset after handshake.
+09-02 13:40:57.028 D/OPENHU  (18425): [83] AapTransport.handshake | Handshake: SSL handshake complete. TS: 21946186
+09-02 13:40:57.029 D/OPENHU  (18425): [83] AapTransport.handshake | Handshake: Status OK sent. ret: 8. TS: 21946187
+09-02 13:40:57.030 I/OPENHU  (18425): [83] AapTransport.handshake | Handshake: Status OK sent: 8
+09-02 13:40:57.030 D/OPENHU  (18425): [83] AapTransport.handshake | Handshake: Handshake successful. TS: 21946188
+09-02 13:40:57.034 I/OPENHU  (18425): [2] 1.emit | Auto-connect overlay: handshake complete, handing off to projection
+09-02 13:40:57.066 I/OPENHU  (18425): [82] 2.invokeSuspend$runAction | NativeAA: WiFi session landed. Handshake session ending, releasing Bluetooth connection.
+09-02 13:40:57.068 D/OPENHU  (18425): [82] 2.invokeSuspend$feed | NativeAA: Handshake stage SETTLING -> DONE
+09-02 13:40:57.069 D/OPENHU  (18425): [62] 1.invokeSuspend | NativeAA: AA Server socket closed after successful handoff.
+09-02 13:40:57.072 I/OPENHU  (18425): [82] 2.invokeSuspend | NativeAA: BT Handshake socket closed.
+09-02 13:40:57.073 D/OPENHU  (18425): [71] 1.invokeSuspend | NativeAA: Bluetooth reader ended: bt socket closed, read return: -1
+09-02 13:40:57.109 I/OPENHU  (18425): [2] AapService.launchViaOverlayTrampoline | Overlay trampoline: startActivity succeeded
+09-02 13:40:57.157 W/ActivityManager( 1090): Unable to start service Intent { act=android.intent.action.AudioRouteService cmp=com.zqc.audioroute/.AudioRouteService } U=0: not found
+09-02 13:40:57.306 I/OPENHU  (18425): [2] AapProjectionActivity.onCreate | HeadUnit for Android Auto (tm) - Copyright 2011-2015 Michael A. Reid., since 2025 André Rinas All Rights Reserved...
+09-02 13:40:57.308 I/OPENHU  (18425): [2] AapProjectionActivity.setupProjectionView | Projection backend: viewMode=GLES override=false SoC=uis7861_6h10 board=uis7861_6h10 mfr=UNISOC model=MT50_YT610E4GFPSL_U API=34
+09-02 13:40:57.308 I/OPENHU  (18425): [2] AapProjectionActivity.setupProjectionView | Using GlProjectionView
+09-02 13:40:57.314 I/OPENHU  (18425): [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Raw size: 1304x720, usable: 1440x720, orientation setting: LANDSCAPE, configOrientation: 2
+09-02 13:40:57.315 I/OPENHU  (18425): [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Final normalized size: 1304x720, usable: 1440x720
+09-02 13:40:57.316 I/OPENHU  (18425): [2] HeadUnitScreenConfig.init | [UI_DEBUG_FIX] HeadUnitScreenConfig: Cache invalidated (hash mismatch: stored=-1588719331, current=-1588764691)
+09-02 13:40:57.317 I/OPENHU  (18425): [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Honest Init | Mode: IMMERSIVE | Anchor: 1304x720 | Seeded Insets: L0 T0 R0 B0
+09-02 13:40:57.476 I/OPENHU  (18425): [2] HeadUnitScreenConfig.recalculate | [RES_CAP] resolutionId=3 realScreen=1304x720 usable=1304x720 portrait=false locked=false chosen=_1920x1080 capped=_1920x1080 changed=false
+09-02 13:40:57.477 I/OPENHU  (18425): [2] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen: usable area 1304x720, using _1920x1080
+09-02 13:40:57.479 I/OPENHU  (18425): [2] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen isSmallScreen: true, scaleFactor: 1.0, margins: w=616, h=360
+09-02 13:40:57.479 I/OPENHU  (18425): [2] AapProjectionActivity.setupProjectionView | Using GLES YUV sink for bundled software HEVC
+09-02 13:40:57.491 I/OPENHU  (18425): [2] HeadUnitScreenConfig.lockResolution | [UI_DEBUG] HeadUnitScreenConfig: Locking resolution at _1920x1080
+09-02 13:40:57.494 I/OPENHU  (18425): [2] AapProjectionActivity.onNewIntent | AapProjectionActivity: onNewIntent received
+09-02 13:40:57.496 I/OPENHU  (18425): [2] AapProjectionActivity.onResume | AapProjectionActivity: onResume
+09-02 13:40:57.527 I/OPENHU  (18425): [2] 1.onReceive | Received request to resend night mode state
+09-02 13:40:57.529 I/OPENHU  (18425): [2] 1.invoke | NightMode update: false
+09-02 13:40:57.636 I/OPENHU  (18425): [88] VideoRenderer.onSurfaceCreated | GlProjectionView: onSurfaceCreated (GL Context)
+09-02 13:40:57.639 I/OPENHU  (18425): [88] VideoRenderer.onSurfaceCreated | GlProjectionView: YUV handles pos=0 tex=1 mvp=4 st=3 y=2 u=1 v=0
+09-02 13:40:57.641 I/OPENHU  (18425): [88] VideoRenderer.onSurfaceChanged | GlProjectionView: onSurfaceChanged: 1440x720
+09-02 13:40:57.669 I/OPENHU  (18425): [2] VideoRenderer.onSurfaceCreated$lambda$9 | GlProjectionView: Reporting Surface Created
+09-02 13:40:57.670 I/OPENHU  (18425): [2] AapProjectionActivity.onSurfaceCreated | [UI_DEBUG] [AapProjectionActivity] onSurfaceCreated
+09-02 13:40:57.671 I/OPENHU  (18425): [2] AapProjectionActivity.onSurfaceChanged | [UI_DEBUG] [AapProjectionActivity] onSurfaceChanged. Actual surface dimensions: width=1440, height=720
+09-02 13:40:57.671 I/OPENHU  (18425): [2] VideoDecoder.setSurface | New surface set: Surface(name=android.graphics.SurfaceTexture@58c208)/@0xbbf6b4
+09-02 13:40:57.673 I/OPENHU  (18425): [2] VideoDecoder.stop | Decoder stopped: New surface
+09-02 13:40:57.674 I/OPENHU  (18425): [2] HeadUnitScreenConfig.updateSurfaceDimensions | [UI_DEBUG_FIX] Surface mismatch detected! Usable: 1304x720, Actual surface: 1440x720 (diff: 136x0)
+09-02 13:40:57.675 I/OPENHU  (18425): [2] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen: RESOLUTION LOCKED to _1920x1080. Usable area is 1440x720. Skipping re-negotiation.
+09-02 13:40:57.676 I/OPENHU  (18425): [2] HeadUnitScreenConfig.recalculate | [RES_CAP] resolutionId=3 realScreen=1440x720 usable=1440x720 portrait=false locked=true chosen=_1920x1080 capped=_1920x1080 changed=false
+09-02 13:40:57.677 I/OPENHU  (18425): [2] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen: usable area 1440x720, using _1920x1080
+09-02 13:40:57.678 I/OPENHU  (18425): [2] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen isSmallScreen: true, scaleFactor: 1.0, margins: w=480, h=360
+09-02 13:40:57.679 I/OPENHU  (18425): [2] HeadUnitScreenConfig.updateSurfaceDimensions | [UI_DEBUG_FIX] Recalculated: usable=1440x720, margins: w=480, h=360, per-side: L=240 T=180 R=240 B=180
+09-02 13:40:57.680 I/OPENHU  (18425): [2] AapProjectionActivity.onSurfaceChanged | [UI_DEBUG_FIX] Surface mismatch! Expected: 1304x720, Actual: 1440x720
+09-02 13:40:57.687 I/OPENHU  (18425): [71] AapTransport.startReading$com_andrerinas_headunitrevived_3_3_0_githubDebug | Start Aap transport read loop
+09-02 13:40:57.710 I/OPENHU  (18425): [86] Base.auditFragment | AapRead: largest message body so far: 871 bytes (on CONTROL)
+09-02 13:40:57.712 I/OPENHU  (18425): [2] AapService.emitSessionState | AapService: session state projecting
+09-02 13:40:57.721 I/OPENHU  (18425): [86] AapControlService.serviceDiscoveryRequest | Service Discovery Request: Android
+09-02 13:40:57.722 I/OPENHU  (18425): [2] 1.onReceive | Received request to resend night mode state
+09-02 13:40:57.724 I/OPENHU  (18425): [2] 1.invoke | NightMode update: false
+09-02 13:40:57.726 I/OPENHU  (18425): [2] AapTransport.noteDroppedSensorEvent | AapTransport: dropping sensor events, isAlive=true startedSensors=[] droppedByType={10=1}
+09-02 13:40:57.730 I/OPENHU  (18425): [86] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Raw size: 1304x720, usable: 1440x720, orientation setting: LANDSCAPE, configOrientation: 2
+09-02 13:40:57.731 I/OPENHU  (18425): [86] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Final normalized size: 1304x720, usable: 1440x720
+09-02 13:40:57.732 I/OPENHU  (18425): [86] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Settings changed (-1588764691 -> -1588719331). Unlocking resolution.
+09-02 13:40:57.732 I/OPENHU  (18425): [86] HeadUnitScreenConfig.unlockResolution | [UI_DEBUG] HeadUnitScreenConfig: Unlocking resolution (was _1920x1080)
+09-02 13:40:57.733 I/OPENHU  (18425): [86] HeadUnitScreenConfig.init | [UI_DEBUG_FIX] HeadUnitScreenConfig: Using cached surface dimensions: 1440x720 (raw: 1440x720, anchor: 1440x720)
+09-02 13:40:57.734 I/OPENHU  (18425): [86] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Honest Init | Mode: IMMERSIVE | Anchor: 1440x720 | Seeded Insets: L0 T0 R0 B0
+09-02 13:40:57.735 I/OPENHU  (18425): [86] HeadUnitScreenConfig.recalculate | [RES_CAP] resolutionId=3 realScreen=1440x720 usable=1440x720 portrait=false locked=false chosen=_1920x1080 capped=_1920x1080 changed=false
+09-02 13:40:57.736 I/OPENHU  (18425): [86] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen: usable area 1440x720, using _1920x1080
+09-02 13:40:57.737 I/OPENHU  (18425): [86] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen isSmallScreen: true, scaleFactor: 1.0, margins: w=480, h=360
+09-02 13:40:57.744 I/OPENHU  (18425): [86] Companion.makeProto | [ServiceDiscovery] Announcing NIGHT sensor support. Strategy: AUTO
+09-02 13:40:57.749 I/OPENHU  (18425): [86] Companion.makeProto | [ServiceDiscovery] NegotiatedResolution is: 1920x1080
+09-02 13:40:57.754 I/OPENHU  (18425): [86] Companion.logNegotiatedCodecCapability | [ServiceDiscovery] Negotiating a profile this device claims to carry: codec=c2.unisoc.hevc.decoder mime=video/hevc target=1920x1080@60 sizeSupported=true rateSupported=true sustains=true widths=[64, 1920] heights=[64, 3840] featureLowLatency=false featureAdaptivePlayback=true
+09-02 13:40:57.756 I/OPENHU  (18425): [86] Companion.makeProto | [ServiceDiscovery] Margins are: 480x360
+09-02 13:40:57.765 I/OPENHU  (18425): [86] Companion.makeProto | Audio sink is off in Settings. Skipping the media and speech audio channels - the phone will not send audio and this is not a fault
+09-02 13:40:57.766 I/OPENHU  (18425): [86] Companion.makeProto | Head unit microphone is off in Settings. Skipping the microphone service - the phone is told this head unit cannot record, no voice request will arrive here, and this is not a fault. This needs the phone to keep our motorcycle claim, which Android 10 and older do not, so a session that connects once and then stops on an older phone may be this
+09-02 13:40:57.766 I/OPENHU  (18425): [86] Companion.makeProto | BT MAC Address is empty, so no Bluetooth service is announced. The phone is not told where to connect hands-free, and Android Auto keeps phone calls on the phone until it is
+09-02 13:40:57.882 I/OPENHU  (18425): [86] AapControlService.audioFocusRequest | Audio Focus Request: RELEASE
+09-02 13:40:57.884 I/OPENHU  (18425): [86] AapControlService.audioFocusRequest | Sending immediate AudioFocusNotification: STATE_LOSS (always-grant)
+09-02 13:40:57.886 D/OPENHU  (18425): [86] AapService.updateMediaSessionState | MediaSession: State updated to STOPPED, positionMs=0
+09-02 13:40:57.886 I/OPENHU  (18425): [86] AapControlService.audioFocusRequest | Audio Sink disabled - skipping system audio focus request for channel CONTROL
+09-02 13:40:57.914 W/OPENHU  (18425): [86] AapVideo.process | AapVideo: Dropped Flag 11 packet. len=4
+09-02 13:40:57.916 I/OPENHU  (18425): [86] AapControlMedia.mediaSinkSetupRequest | Media Sink Setup Request: 7 on channel VIDEO
+09-02 13:40:57.989 I/OPENHU  (18425): [86] AapControlMedia.mediaSinkSetupRequest | Config response: status: HEADUNIT
+09-02 13:40:57.989 I/OPENHU  (18425): max_unacked: 12
+09-02 13:40:57.989 I/OPENHU  (18425): configuration_indices: 0
+09-02 13:40:57.989 I/OPENHU  (18425):  (maxUnacked=12)
+09-02 13:40:57.994 I/OPENHU  (18425): [86] AapControlMedia.mediaSinkSetupRequest | Media Sink Setup Request: 1 on channel AUDIO2
+09-02 13:40:57.995 I/OPENHU  (18425): [86] AapControlMedia.mediaSinkSetupRequest | Config response: status: HEADUNIT
+09-02 13:40:57.995 I/OPENHU  (18425): max_unacked: 30
+09-02 13:40:57.995 I/OPENHU  (18425): configuration_indices: 0
+09-02 13:40:57.995 I/OPENHU  (18425):  (maxUnacked=30)
+09-02 13:40:58.000 I/OPENHU  (18425): [86] AapControlSensor.sensorStartRequest | Sensor Start Request sensor: DRIVING_STATUS, minUpdatePeriod: 0
+09-02 13:40:58.002 I/OPENHU  (18425): [86] AapControlSensor.sensorStartRequest | SENSOR Sensor Start Response type: 32770 flags: 11 size: 8 dataOffset: 6
+09-02 13:40:58.023 I/OPENHU  (18425): [86] AapControlSensor.sensorStartRequest | Sensor Start Request sensor: NIGHT, minUpdatePeriod: 0
+09-02 13:40:58.024 I/OPENHU  (18425): [86] AapControlSensor.sensorStartRequest | SENSOR Sensor Start Response type: 32770 flags: 11 size: 8 dataOffset: 6
+09-02 13:40:58.025 I/OPENHU  (18425): [86] AapControlSensor.sensorStartRequest | Night sensor requested. Triggering immediate update.
+09-02 13:40:58.027 I/OPENHU  (18425): [2] AapTransport.noteDroppedSensorEvent | AapTransport: dropping sensor events, isAlive=true startedSensors=[13, 10] droppedByType={1=1, 10=1}
+09-02 13:40:58.032 I/OPENHU  (18425): [2] 1.onReceive | Received request to resend night mode state
+09-02 13:40:58.035 I/OPENHU  (18425): [2] 1.invoke | NightMode update: false
+09-02 13:40:58.344 W/ActivityManager( 1090): Unable to start service Intent { act=zjinnova.android.intent.action.ZLINK_SERVICE } U=0: not found
+09-02 13:40:58.375 I/OPENHU  (18425): [86] AapControlSensor.sensorStartRequest | Sensor Start Request sensor: LOCATION, minUpdatePeriod: 0
+09-02 13:40:58.375 I/OPENHU  (18425): [86] AapControlSensor.sensorStartRequest | SENSOR Sensor Start Response type: 32770 flags: 11 size: 8 dataOffset: 6
+09-02 13:40:58.381 I/OPENHU  (18425): [86] AapControlSensor.sensorStartRequest | LOCATION sensor requested. Sending current fix immediately. sentOnWire=true
+09-02 13:40:58.493 W/OPENHU  (18425): [2] 1.run | Watchdog: No video received yet. Requesting Keyframe (Unsolicited Focus)...
+09-02 13:40:58.525 W/OPENHU  (18425): [86] AapVideo.process | AapVideo: Dropped Flag 11 packet. len=6
+09-02 13:40:58.528 I/OPENHU  (18425): [86] AapControlMedia.mediaStartRequest | Media Start Request VIDEO: session=0, config_index=0
+09-02 13:40:58.665 I/OPENHU  (18425): [86] VideoDecoder.applyStreamDimensions | H.265 SPS parsed: 1920x1080 (negotiated 1920x1080)
+09-02 13:40:58.666 I/OPENHU  (18425): [86] AapProjectionActivity.onVideoDimensionsChanged | [AapProjectionActivity] Received video dimensions: 1920x1080
+09-02 13:40:58.666 I/OPENHU  (18425): [86] VideoDecoder.applyParameterSet | Stream SPS (H.265): profile=1 level=123 chroma_format=1 bit_depth=8 size=1920x1080 max_dec_pic_buffering=2 max_num_reorder_pics=0
+09-02 13:40:58.667 I/OPENHU  (18425): [2] GlProjectionView.setVideoSize | GlProjectionView setVideoSize: 1920x1080
+09-02 13:40:58.669 I/OPENHU  (18425): [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Raw size: 1304x720, usable: 1440x720, orientation setting: LANDSCAPE, configOrientation: 2
+09-02 13:40:58.670 I/OPENHU  (18425): [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Final normalized size: 1304x720, usable: 1440x720
+09-02 13:40:58.671 I/OPENHU  (18425): [86] VideoDecoder.findBestCodec | findBestCodec: hw=c2.unisoc.hevc.decoder, sw=c2.android.hevc.decoder, preferHardware=true, selected=c2.unisoc.hevc.decoder
+09-02 13:40:58.673 I/OPENHU  (18425): [2] HeadUnitScreenConfig.init | [UI_DEBUG_FIX] HeadUnitScreenConfig: Using cached surface dimensions: 1440x720 (raw: 1440x720, anchor: 1440x720)
+09-02 13:40:58.673 I/OPENHU  (18425): [86] VideoDecoder.logDecoderCapability | Decoder capability: codec=c2.unisoc.hevc.decoder mime=video/hevc target=1920x1080@60 sizeSupported=true rateSupported=true sustains=true widths=[64, 1920] heights=[64, 3840] featureLowLatency=false featureAdaptivePlayback=true
+09-02 13:40:58.675 I/OPENHU  (18425): [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Honest Init | Mode: IMMERSIVE | Anchor: 1440x720 | Seeded Insets: L0 T0 R0 B0
+09-02 13:40:58.678 I/OPENHU  (18425): [2] HeadUnitScreenConfig.recalculate | [RES_CAP] resolutionId=3 realScreen=1440x720 usable=1440x720 portrait=false locked=false chosen=_1920x1080 capped=_1920x1080 changed=false
+09-02 13:40:58.678 I/OPENHU  (18425): [2] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen: usable area 1440x720, using _1920x1080
+09-02 13:40:58.679 I/OPENHU  (18425): [2] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen isSmallScreen: true, scaleFactor: 1.0, margins: w=480, h=360
+09-02 13:40:58.681 I/OPENHU  (18425): [2] ProjectionViewScaler.updateScale | [UI_DEBUG] Normal Scale. scaleX: 1.3333334, scaleY: 1.5
+09-02 13:40:58.707 I/OPENHU  (18425): [86] VideoDecoder.start | Configuring decoder: c2.unisoc.hevc.decoder for 1920x1080, max-input-size=1530KB, memory=AMPLE (totalRam=3745MB heapLimit=512MB memoryClass=192MB lowRamFlag=false), queue=30 frames, optionalKeys=realtime [priority, operating-rate]
+09-02 13:40:58.725 I/OPENHU  (18425): [91] VideoDecoder.outputThreadLoop | Output thread started
+09-02 13:40:58.725 I/OPENHU  (18425): [86] VideoDecoder.start | Codec initialized: c2.unisoc.hevc.decoder
+09-02 13:40:58.727 I/OPENHU  (18425): [92] VideoDecoder.feedThreadLoop | Feed thread started (queue holds 30 frames, 500ms at 60fps)
+09-02 13:40:58.729 I/OPENHU  (18425): [92] VideoDecoder.feedInputBuffer | Codec input buffer: requested 1530KB, got 1530KB per buffer
+09-02 13:40:58.733 I/OPENHU  (18425): [92] VideoDecoder.reportContentOnce | VideoDecoder: access unit classified PARAMETER_SETS_ONLY - flagged to the codec as configuration (first this session)
+09-02 13:40:58.742 I/OPENHU  (18425): [92] VideoDecoder.reportContentOnce | VideoDecoder: access unit classified PARAMETER_SETS_WITH_PICTURE - carries a picture too, so not flagged (first this session)
+09-02 13:40:58.744 I/OPENHU  (18425): [92] VideoDecoder.feedInputBuffer | VideoDecoder: keyframe reached the codec (913 bytes)
+09-02 13:40:58.746 I/OPENHU  (18425): [92] VideoDecoder.reportContentOnce | VideoDecoder: access unit classified NO_PARAMETER_SETS - an ordinary frame (first this session)
+09-02 13:40:58.755 I/OPENHU  (18425): [91] VideoDecoder.handleOutputFormatChange | Output Format Changed: {crop-right=1919, max-height=1080, sar-width=1, color-format=2130708361, mime=video/raw, hdr-static-info=java.nio.HeapByteBuffer[pos=0 lim=25 cap=25], priority=0, color-standard=1, vendor.coding.scene-mode.value=6, color-transfer=3, sar-height=1, hdr10-plus-info=java.nio.HeapByteBuffer[pos=0 lim=0 cap=0], crop-bottom=1079, max-width=1920, crop-left=0, width=1920, color-range=2, crop-top=0, rotation-degrees=0, height=1080}
+09-02 13:40:58.762 I/OPENHU  (18425): [91] VideoDecoder.outputThreadLoop | VideoDecoder: keyframe decoded - the picture is repaired
+09-02 13:40:58.764 I/OPENHU  (18425): [91] VideoDecoder.outputThreadLoop | First frame rendered (hardware decode)
+09-02 13:40:58.766 I/OPENHU  (18425): [2] AapProjectionActivity.hideLoadingOverlay | Hiding loading overlay after first video frame
+09-02 13:40:59.784 D/OPENHU  (18425): [86] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=221, state=PAUSED
+09-02 13:41:00.241 I/OPENHU  (18425): [86] Base.auditFragment | AapRead: largest message body so far: 6772 bytes (on MUSIC_PLAYBACK)
+09-02 13:41:00.650 I/OPENHU  (18425): [86] Base.auditFragment | AapRead: largest message body so far: 14125 bytes (on VIDEO)
+09-02 13:41:00.690 I/OPENHU  (18425): [86] Base.auditFragment | AapRead: fragment accounting established for VIDEO: channel=2 fragments=3 declaredTotal=38433 observed=38520 delta=-87 perFragment=-29
+09-02 13:41:01.597 D/OPENHU  (18425): [86] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=221, state=PAUSED
+09-02 13:41:01.638 D/OPENHU  (18425): [86] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=221, state=PAUSED
+09-02 13:41:01.729 D/OPENHU  (18425): [86] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=221, state=PAUSED
+09-02 13:41:01.736 D/OPENHU  (18425): [86] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=221, state=PAUSED
+09-02 13:41:01.743 D/OPENHU  (18425): [86] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=221, state=PAUSED
+09-02 13:41:02.683 D/OPENHU  (18425): [86] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=222, state=PLAYING
+09-02 13:41:02.788 D/OPENHU  (18425): [86] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=222, state=PLAYING
+09-02 13:41:03.744 I/OPENHU  (18425): [91] VideoDecoder.logThroughput | Throughput over 5000ms: rendered=231 (46fps), fed=232 (46fps), dropped=0, skipped=0, concealed=0, inputWait=79ms, enqueueWait=0ms, codec=c2.unisoc.hevc.decoder, presented=230 (46fps), decodeLatency=10ms p95=24ms (230 frames)
+09-02 13:41:03.770 I/OPENHU  (18425): [88] VideoRenderer.markFrameDrawn | GlProjectionView: displayed 221 frames in 5007ms (44fps), longFrames=0
+09-02 13:41:03.787 D/OPENHU  (18425): [86] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=223, state=PLAYING
+09-02 13:41:04.787 D/OPENHU  (18425): [86] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=224, state=PLAYING
+09-02 13:41:05.659 D/OPENHU  (18425): [64] 1.onCapabilitiesChanged | NetworkMonitor: Capabilities changed: 109 → [ Transports: WIFI Capabilities: NOT_METERED&INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN&VALIDATED&NOT_ROAMING&FOREGROUND&NOT_CONGESTED&NOT_SUSPENDED&NOT_VCN_MANAGED LinkUpBandwidth>=12000Kbps LinkDnBandwidth>=30000Kbps TransportInfo: <SSID: <unknown ssid>, BSSID: 02:00:00:00:00:00, MAC: 02:00:00:00:00:00, IP: /192.168.1.15, Security type: 2, Supplicant state: ASSOCIATED, Wi-Fi standard: 5, RSSI: -23, Link speed: 72Mbps, Tx Link speed: 72Mbps, Max Supported Tx Link speed: 433Mbps, Rx Link speed: 6Mbps, Max Supported Rx Link speed: 433Mbps, Frequency: 2462MHz, Net ID: -1, Metered hint: false, score: 60, isUsable: true, CarrierMerged: false, SubscriptionId: -1, IsPrimary: -1, Trusted: true, Restricted: false, Ephemeral: false, OEM paid: false, OEM private: false, OSU AP: false, FQDN: <none>, Provider friendly name: <none>, Requesting package name: <none><none>MLO Information: , Is TID-To-Link negotiation supported by the AP: false, AP MLD Address: <none>, AP MLO Link Id: <none>, AP MLO Affiliated links: <none>> SignalStrength: -23 UnderlyingNetworks: Null]
+09-02 13:41:05.714 D/OPENHU  (18425): [64] 1.onCapabilitiesChanged | NetworkMonitor: Capabilities changed: 109 → [ Transports: WIFI Capabilities: NOT_METERED&INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN&VALIDATED&NOT_ROAMING&FOREGROUND&NOT_CONGESTED&NOT_SUSPENDED&NOT_VCN_MANAGED LinkUpBandwidth>=12000Kbps LinkDnBandwidth>=23986Kbps TransportInfo: <SSID: <unknown ssid>, BSSID: 02:00:00:00:00:00, MAC: 02:00:00:00:00:00, IP: /192.168.1.15, Security type: 2, Supplicant state: ASSOCIATED, Wi-Fi standard: 5, RSSI: -19, Link speed: 433Mbps, Tx Link speed: 433Mbps, Max Supported Tx Link speed: 433Mbps, Rx Link speed: 6Mbps, Max Supported Rx Link speed: 433Mbps, Frequency: 5260MHz, Net ID: -1, Metered hint: false, score: 60, isUsable: true, CarrierMerged: false, SubscriptionId: -1, IsPrimary: -1, Trusted: true, Restricted: false, Ephemeral: false, OEM paid: false, OEM private: false, OSU AP: false, FQDN: <none>, Provider friendly name: <none>, Requesting package name: <none><none>MLO Information: , Is TID-To-Link negotiation supported by the AP: false, AP MLD Address: <none>, AP MLO Link Id: <none>, AP MLO Affiliated links: <none>> SignalStrength: -19 UnderlyingNetworks: Null]
+09-02 13:41:05.739 D/OPENHU  (18425): [64] 1.onCapabilitiesChanged | NetworkMonitor: Capabilities changed: 109 → [ Transports: WIFI Capabilities: NOT_METERED&INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN&VALIDATED&NOT_ROAMING&FOREGROUND&NOT_CONGESTED&NOT_SUSPENDED&NOT_VCN_MANAGED LinkUpBandwidth>=12000Kbps LinkDnBandwidth>=23986Kbps TransportInfo: <SSID: <unknown ssid>, BSSID: 02:00:00:00:00:00, MAC: 02:00:00:00:00:00, IP: /192.168.1.15, Security type: 2, Supplicant state: FOUR_WAY_HANDSHAKE, Wi-Fi standard: 5, RSSI: -19, Link speed: 433Mbps, Tx Link speed: 433Mbps, Max Supported Tx Link speed: 433Mbps, Rx Link speed: 6Mbps, Max Supported Rx Link speed: 433Mbps, Frequency: 5260MHz, Net ID: -1, Metered hint: false, score: 60, isUsable: true, CarrierMerged: false, SubscriptionId: -1, IsPrimary: -1, Trusted: true, Restricted: false, Ephemeral: false, OEM paid: false, OEM private: false, OSU AP: false, FQDN: <none>, Provider friendly name: <none>, Requesting package name: <none><none>MLO Information: , Is TID-To-Link negotiation supported by the AP: false, AP MLD Address: <none>, AP MLO Link Id: <none>, AP MLO Affiliated links: <none>> SignalStrength: -19 UnderlyingNetworks: Null]
+09-02 13:41:05.751 D/OPENHU  (18425): [64] 1.onCapabilitiesChanged | NetworkMonitor: Capabilities changed: 109 → [ Transports: WIFI Capabilities: NOT_METERED&INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN&VALIDATED&NOT_ROAMING&FOREGROUND&NOT_CONGESTED&NOT_SUSPENDED&NOT_VCN_MANAGED LinkUpBandwidth>=12000Kbps LinkDnBandwidth>=23986Kbps TransportInfo: <SSID: <unknown ssid>, BSSID: 02:00:00:00:00:00, MAC: 02:00:00:00:00:00, IP: /192.168.1.15, Security type: 2, Supplicant state: GROUP_HANDSHAKE, Wi-Fi standard: 5, RSSI: -19, Link speed: 433Mbps, Tx Link speed: 433Mbps, Max Supported Tx Link speed: 433Mbps, Rx Link speed: 6Mbps, Max Supported Rx Link speed: 433Mbps, Frequency: 5260MHz, Net ID: -1, Metered hint: false, score: 60, isUsable: true, CarrierMerged: false, SubscriptionId: -1, IsPrimary: -1, Trusted: true, Restricted: false, Ephemeral: false, OEM paid: false, OEM private: false, OSU AP: false, FQDN: <none>, Provider friendly name: <none>, Requesting package name: <none><none>MLO Information: , Is TID-To-Link negotiation supported by the AP: false, AP MLD Address: <none>, AP MLO Link Id: <none>, AP MLO Affiliated links: <none>> SignalStrength: -19 UnderlyingNetworks: Null]
+09-02 13:41:05.762 D/OPENHU  (18425): [64] 1.onCapabilitiesChanged | NetworkMonitor: Capabilities changed: 109 → [ Transports: WIFI Capabilities: NOT_METERED&INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN&VALIDATED&NOT_ROAMING&FOREGROUND&NOT_CONGESTED&NOT_SUSPENDED&NOT_VCN_MANAGED LinkUpBandwidth>=12000Kbps LinkDnBandwidth>=23986Kbps TransportInfo: <SSID: <unknown ssid>, BSSID: 02:00:00:00:00:00, MAC: 02:00:00:00:00:00, IP: /192.168.1.15, Security type: 2, Supplicant state: COMPLETED, Wi-Fi standard: 5, RSSI: -19, Link speed: 433Mbps, Tx Link speed: 433Mbps, Max Supported Tx Link speed: 433Mbps, Rx Link speed: 6Mbps, Max Supported Rx Link speed: 433Mbps, Frequency: 5260MHz, Net ID: -1, Metered hint: false, score: 60, isUsable: true, CarrierMerged: false, SubscriptionId: -1, IsPrimary: -1, Trusted: true, Restricted: false, Ephemeral: false, OEM paid: false, OEM private: false, OSU AP: false, FQDN: <none>, Provider friendly name: <none>, Requesting package name: <none><none>MLO Information: , Is TID-To-Link negotiation supported by the AP: false, AP MLD Address: <none>, AP MLO Link Id: <none>, AP MLO Affiliated links: <none>> SignalStrength: -19 UnderlyingNetworks: Null]
+09-02 13:41:05.947 D/OPENHU  (18425): [86] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=225, state=PLAYING
+09-02 13:41:05.950 D/OPENHU  (18425): [86] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=224, state=STOPPED
+09-02 13:41:05.952 D/OPENHU  (18425): [86] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=224, state=STOPPED
+09-02 13:41:05.954 D/OPENHU  (18425): [86] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=224, state=STOPPED
+09-02 13:41:07.187 W/ActivityManager( 1090): Unable to start service Intent { act=android.intent.action.AudioRouteService cmp=com.zqc.audioroute/.AudioRouteService } U=0: not found
+09-02 13:41:07.226 D/OPENHU  (18425): [86] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=0, state=STOPPED
+09-02 13:41:07.321 D/OPENHU  (18425): [86] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=0, state=STOPPED
+09-02 13:41:07.335 I/OPENHU  (18425): [86] Base.auditFragment | AapRead: fragment accounting established for MUSIC_PLAYBACK: channel=9 fragments=2 declaredTotal=29694 observed=29752 delta=-58 perFragment=-29
+09-02 13:41:07.487 D/OPENHU  (18425): [86] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=0, state=STOPPED
+09-02 13:41:07.594 D/OPENHU  (18425): [86] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=1, state=PLAYING
+09-02 13:41:07.646 D/OPENHU  (18425): [86] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=1, state=PLAYING
+09-02 13:41:08.665 D/OPENHU  (18425): [86] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=2, state=PLAYING
+09-02 13:41:08.748 I/OPENHU  (18425): [91] VideoDecoder.logThroughput | Throughput over 5004ms: rendered=245 (48fps), fed=245 (48fps), dropped=0, skipped=0, concealed=0, inputWait=99ms, enqueueWait=0ms, codec=c2.unisoc.hevc.decoder, presented=244 (48fps), decodeLatency=8ms p95=17ms (244 frames)
+09-02 13:41:08.781 W/ActivityManager( 1090): Unable to start service Intent { act=zjinnova.android.intent.action.ZLINK_SERVICE } U=0: not found
+09-02 13:41:08.790 I/OPENHU  (18425): [88] VideoRenderer.markFrameDrawn | GlProjectionView: displayed 236 frames in 5021ms (47fps), longFrames=0
+09-02 13:41:09.628 D/OPENHU  (18425): [86] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=3, state=PLAYING
+09-02 13:41:10.629 D/OPENHU  (18425): [86] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=4, state=PLAYING
+09-02 13:41:11.629 D/OPENHU  (18425): [86] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=5, state=PLAYING
+09-02 13:41:12.647 D/OPENHU  (18425): [86] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=6, state=PLAYING
+09-02 13:41:13.629 D/OPENHU  (18425): [86] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='Spotify', playbackSeconds(u32)=7, state=PLAYING
+09-02 13:41:13.753 I/OPENHU  (18425): [91] VideoDecoder.logThroughput | Throughput over 5005ms: rendered=251 (50fps), fed=251 (50fps), dropped=0, skipped=0, concealed=0, inputWait=90ms, enqueueWait=0ms, codec=c2.unisoc.hevc.decoder, presented=251 (50fps), decodeLatency=8ms p95=15ms (251 frames)
+09-02 13:41:13.805 I/OPENHU  (18425): [88] VideoRenderer.markFrameDrawn | GlProjectionView: displayed 247 frames in 5014ms (49fps), longFrames=0
+09-02 13:41:14.032 I/OPENHU  (18425): [2] AapProjectionActivity.onPause | AapProjectionActivity: onPause
+09-02 13:41:14.050 I/OPENHU  (18425): [2] AapProjectionActivity.maybeOpenCallRaiseEpisode | AapProjectionActivity: leaving this cover alone - the user left deliberately
+09-02 13:41:14.102 I/OPENHU  (18425): [2] AutomationActivity.onCreate | AutomationActivity: Received intent. Action: android.intent.action.VIEW, Data: headunit://exit
+09-02 13:41:14.144 I/OPENHU  (18425): [2] AapService.onStartCommand | Stop action received. Broadcasting finish request to activities.
+09-02 13:41:14.146 I/OPENHU  (18425): [2] 1.emit | AapProjectionActivity: Finishing because state isUserExit=true, isClean=false, killOnDisconnect=false
+09-02 13:41:14.147 I/OPENHU  (18425): [2] AapProjectionActivity.hideReconnectingOverlay | Hiding reconnecting overlay - the session ended
+09-02 13:41:14.159 I/OPENHU  (18425): [71] AapTransport.stop$com_andrerinas_headunitrevived_3_3_0_githubDebug | AapTransport stopping and sending byebye
+09-02 13:41:14.182 I/OPENHU  (18425): [2] AapService.emitSessionState | AapService: session state disconnected (user_exit)
+09-02 13:41:14.186 I/OPENHU  (18425): [2] AapService.releaseWifiLock | WifiLock released
+09-02 13:41:14.187 I/OPENHU  (18425): [2] AapService.onDisconnected | AapService: Stopping GpsLocationService and NightModeManager since connection is disconnected
+09-02 13:41:14.192 D/OPENHU  (18425): [2] AapService.updateMediaSessionState | MediaSession: State updated to STOPPED, positionMs=0
+09-02 13:41:14.195 I/OPENHU  (18425): [2] AapService.onDisconnected | AapService: User exit cooldown active for 5000ms
+09-02 13:41:14.196 I/OPENHU  (18425): [2] AapService.scheduleReconnectIfNeeded | AapService: User exit with wirelessServer active. Not restarting discovery.
+09-02 13:41:14.197 I/OPENHU  (18425): [2] 1.onReceive | MainActivity: Received finish request. Closing.
+09-02 13:41:14.199 I/OPENHU  (18425): [86] AapControlService.execute | Byebye Response received
+09-02 13:41:14.213 I/OPENHU  (18425): [2] 1.onReceive | AapProjectionActivity: Received finish request. Closing.
+09-02 13:41:14.219 I/OPENHU  (18425): [2] AapService.onDestroy | AapService destroying... (wakeLock held=false)
+09-02 13:41:14.222 W/ActivityManager( 1090): set service : ComponentInfo{com.andrerinas.headunitrevived/com.andrerinas.openheadunit.aap.AapService} to foreground failed, userId : 0 ,id : 0 ,flags : 1 ,foregroundServiceType : 0. Can not find ServiceRecord for it.
+09-02 13:41:14.231 W/OPENHU  (18425): [2] StationStandDown.restore | StationStandDown: the platform refused to re-enable this unit's WiFi network. It may have to be reconnected by hand.
+09-02 13:41:14.232 I/OPENHU  (18425): [2] WifiDirectManager.stop | WifiDirectManager: Stopping and cleaning up...
+09-02 13:41:14.235 I/OPENHU  (18425): [61] 1.invokeSuspend | WirelessServer: port 5288 released (SocketException).
+09-02 13:41:14.243 E/OPENHU  (18425): [86] SocketProjectionConnection.handleBrokenTransport | Socket broken (server disconnected ungracefully?)
+09-02 13:41:14.243 E/OPENHU  (18425): java.net.SocketException: Software caused connection abort
+09-02 13:41:14.243 E/OPENHU  (18425): 	at java.net.SocketInputStream.socketRead0(Native Method)
+09-02 13:41:14.243 E/OPENHU  (18425): 	at java.net.SocketInputStream.socketRead(SocketInputStream.java:118)
+09-02 13:41:14.243 E/OPENHU  (18425): 	at java.net.SocketInputStream.read(SocketInputStream.java:173)
+09-02 13:41:14.243 E/OPENHU  (18425): 	at java.net.SocketInputStream.read(SocketInputStream.java:143)
+09-02 13:41:14.243 E/OPENHU  (18425): 	at java.io.DataInputStream.readFully(DataInputStream.java:203)
+09-02 13:41:14.243 E/OPENHU  (18425): 	at com.andrerinas.openheadunit.connection.projection.SocketProjectionConnection.recvBlocking(SocketProjectionConnection.kt:240)
+09-02 13:41:14.243 E/OPENHU  (18425): 	at com.andrerinas.openheadunit.aap.AapReadSingleMessage.doRead(AapReadSingleMessage.kt:30)
+09-02 13:41:14.243 E/OPENHU  (18425): 	at com.andrerinas.openheadunit.aap.AapRead$Base.read(AapRead.kt:103)
+09-02 13:41:14.243 E/OPENHU  (18425): 	at com.andrerinas.openheadunit.aap.AapTransport.pollHandlerCallback$lambda$1(AapTransport.kt:132)
+09-02 13:41:14.243 E/OPENHU  (18425): 	at com.andrerinas.openheadunit.aap.AapTransport.$r8$lambda$2QTRkNv3UgWj7fb9sLTWLsWLWbc(Unknown Source:0)
+09-02 13:41:14.243 E/OPENHU  (18425): 	at com.andrerinas.openheadunit.aap.AapTransport$$ExternalSyntheticLambda0.handleMessage(D8$$SyntheticClass:0)
+09-02 13:41:14.243 E/OPENHU  (18425): 	at android.os.Handler.dispatchMessage(Handler.java:102)
+09-02 13:41:14.243 E/OPENHU  (18425): 	at android.os.Looper.loopOnce(Looper.java:205)
+09-02 13:41:14.243 E/OPENHU  (18425): 	at android.os.Looper.loop(Looper.java:294)
+09-02 13:41:14.243 E/OPENHU  (18425): 	at android.os.HandlerThread.run(HandlerThread.java:67)
+09-02 13:41:14.244 I/OPENHU  (18425): [86] AapReadSingleMessage.doRead | AapRead: Connection closed (EOF). Disconnecting.
+09-02 13:41:14.245 I/OPENHU  (18425): [86] AapTransport.pollHandlerCallback$lambda$1 | Quitting because ret < 0 (-1)
+09-02 13:41:14.245 I/OPENHU  (18425): [86] AapTransport.quit$com_andrerinas_headunitrevived_3_3_0_githubDebug | AapTransport quitting (clean=false)
+09-02 13:41:14.246 I/OPENHU  (18425): [86] MicRecorder.stop | MicRecorder: Stopping. Active: false
+09-02 13:41:14.247 I/OPENHU  (18425): [86] AapAudio.releaseAllFocus | AapAudio: Releasing all audio focus.
+09-02 13:41:14.254 I/OPENHU  (18425): [91] VideoDecoder.outputThreadLoop | Output thread stopped
+09-02 13:41:14.258 I/OPENHU  (18425): [92] VideoDecoder.feedThreadLoop | Feed thread stopped
+09-02 13:41:14.267 I/OPENHU  (18425): [2] VideoDecoder.stop | Decoder stopped: CommManager: doDisconnect
+09-02 13:41:14.302 I/OPENHU  (18425): [2] GpsLocation.stop | Remove location updates
+09-02 13:41:14.312 I/OPENHU  (18425): [71] VideoDecoder.stop | Decoder stopped: CommManager: doDisconnect
+09-02 13:41:14.378 D/OPENHU  (18425): [2] 2.onSuccess | WifiDirectManager: Final group removal success
+09-02 13:41:15.246 I/OPENHU  (18425): [2] AapProjectionActivity.onDestroy | AapProjectionActivity.onDestroy called. isFinishing=true
+09-02 13:41:15.319 I/OPENHU  (18425): [2] MainActivity.onDestroy | MainActivity finishing, resetting auto-start flag.
+09-02 13:41:17.204 W/ActivityManager( 1090): Unable to start service Intent { act=android.intent.action.AudioRouteService cmp=com.zqc.audioroute/.AudioRouteService } U=0: not found
+09-02 13:41:19.272 W/ActivityManager( 1090): Unable to start service Intent { act=zjinnova.android.intent.action.ZLINK_SERVICE } U=0: not found
+09-02 13:41:27.226 W/ActivityManager( 1090): Unable to start service Intent { act=android.intent.action.AudioRouteService cmp=com.zqc.audioroute/.AudioRouteService } U=0: not found
+09-02 13:41:29.648 W/ActivityManager( 1090): Unable to start service Intent { act=zjinnova.android.intent.action.ZLINK_SERVICE } U=0: not found
+09-02 13:41:37.247 W/ActivityManager( 1090): Unable to start service Intent { act=android.intent.action.AudioRouteService cmp=com.zqc.audioroute/.AudioRouteService } U=0: not found
+09-02 13:41:40.058 W/ActivityManager( 1090): Unable to start service Intent { act=zjinnova.android.intent.action.ZLINK_SERVICE } U=0: not found
+09-02 13:41:44.036 I/ActivityManager( 1090): Killing 17929:com.waze/u0a169 (adj 915): MemAvailable
+09-02 13:41:47.267 W/ActivityManager( 1090): Unable to start service Intent { act=android.intent.action.AudioRouteService cmp=com.zqc.audioroute/.AudioRouteService } U=0: not found
+09-02 13:41:50.457 W/ActivityManager( 1090): Unable to start service Intent { act=zjinnova.android.intent.action.ZLINK_SERVICE } U=0: not found
+09-02 13:41:57.293 W/ActivityManager( 1090): Unable to start service Intent { act=android.intent.action.AudioRouteService cmp=com.zqc.audioroute/.AudioRouteService } U=0: not found
+09-02 13:42:00.890 W/ActivityManager( 1090): Unable to start service Intent { act=zjinnova.android.intent.action.ZLINK_SERVICE } U=0: not found
+09-02 13:42:07.307 W/ActivityManager( 1090): Unable to start service Intent { act=android.intent.action.AudioRouteService cmp=com.zqc.audioroute/.AudioRouteService } U=0: not found
+09-02 13:42:11.289 W/ActivityManager( 1090): Unable to start service Intent { act=zjinnova.android.intent.action.ZLINK_SERVICE } U=0: not found
+09-02 13:42:17.324 W/ActivityManager( 1090): Unable to start service Intent { act=android.intent.action.AudioRouteService cmp=com.zqc.audioroute/.AudioRouteService } U=0: not found
+09-02 13:42:21.345 I/ActivityManager( 1090): Killing 17903:com.google.android.projection.gearhead:shared/u0a171 (adj 925): cached idle & background restricted
+09-02 13:42:21.346 I/ActivityManager( 1090): Killing 17476:com.google.android.projection.gearhead:car/u0a171 (adj 915): cached idle & background restricted
+09-02 13:42:21.347 I/ActivityManager( 1090): Killing 17993:com.google.android.projection.gearhead:provider/u0a171 (adj 925): cached idle & background restricted
+09-02 13:42:21.410 W/ActivityManager( 1090): Scheduling restart of crashed service com.google.android.projection.gearhead/com.google.android.apps.auto.carservice.service.impl.GearheadCarStartupService in 1000ms for connection
+09-02 13:42:21.681 W/ActivityManager( 1090): Unable to start service Intent { act=zjinnova.android.intent.action.ZLINK_SERVICE } U=0: not found
+09-02 13:42:22.423 I/ActivityManager( 1090): Start proc 19571:com.google.android.projection.gearhead:car/u0a171 for service {com.google.android.projection.gearhead/com.google.android.apps.auto.carservice.service.impl.GearheadCarStartupService}
+09-02 13:42:22.558 I/ActivityManager( 1090): Flag disabled. Ignoring finishAttachApplication from uid: 10171. pid: 19571
+09-02 13:42:27.348 W/ActivityManager( 1090): Unable to start service Intent { act=android.intent.action.AudioRouteService cmp=com.zqc.audioroute/.AudioRouteService } U=0: not found
+09-02 13:42:29.609 I/ActivityManager( 1090): Process com.google.process.gservices (pid 17554) early provider death
+09-02 13:42:29.609 I/ActivityManager( 1090): Process com.google.process.gservices (pid 17554) has died: cch+45 CEM 
+09-02 13:42:32.124 W/ActivityManager( 1090): Unable to start service Intent { act=zjinnova.android.intent.action.ZLINK_SERVICE } U=0: not found
+09-02 13:42:37.372 W/ActivityManager( 1090): Unable to start service Intent { act=android.intent.action.AudioRouteService cmp=com.zqc.audioroute/.AudioRouteService } U=0: not found
+09-02 13:42:42.524 W/ActivityManager( 1090): Unable to start service Intent { act=zjinnova.android.intent.action.ZLINK_SERVICE } U=0: not found
+09-02 13:42:47.392 W/ActivityManager( 1090): Unable to start service Intent { act=android.intent.action.AudioRouteService cmp=com.zqc.audioroute/.AudioRouteService } U=0: not found
+09-02 13:42:52.923 W/ActivityManager( 1090): Unable to start service Intent { act=zjinnova.android.intent.action.ZLINK_SERVICE } U=0: not found
+09-02 13:42:57.416 W/ActivityManager( 1090): Unable to start service Intent { act=android.intent.action.AudioRouteService cmp=com.zqc.audioroute/.AudioRouteService } U=0: not found
+09-02 13:43:03.360 W/ActivityManager( 1090): Unable to start service Intent { act=zjinnova.android.intent.action.ZLINK_SERVICE } U=0: not found
+09-02 13:43:07.435 W/ActivityManager( 1090): Unable to start service Intent { act=android.intent.action.AudioRouteService cmp=com.zqc.audioroute/.AudioRouteService } U=0: not found
+09-02 13:43:13.757 W/ActivityManager( 1090): Unable to start service Intent { act=zjinnova.android.intent.action.ZLINK_SERVICE } U=0: not found
+09-02 13:43:17.456 W/ActivityManager( 1090): Unable to start service Intent { act=android.intent.action.AudioRouteService cmp=com.zqc.audioroute/.AudioRouteService } U=0: not found
+09-02 13:43:22.565 I/ActivityManager( 1090): Killing 19571:com.google.android.projection.gearhead:car/u0a171 (adj 905): cached idle & background restricted
+09-02 13:43:22.605 W/ActivityManager( 1090): Scheduling restart of crashed service com.google.android.projection.gearhead/com.google.android.apps.auto.carservice.service.impl.GearheadCarStartupService in 1000ms for connection
+09-02 13:43:23.618 I/ActivityManager( 1090): Start proc 20072:com.google.android.projection.gearhead:car/u0a171 for service {com.google.android.projection.gearhead/com.google.android.apps.auto.carservice.service.impl.GearheadCarStartupService}
+09-02 13:43:23.754 I/ActivityManager( 1090): Flag disabled. Ignoring finishAttachApplication from uid: 10171. pid: 20072
+09-02 13:43:24.153 W/ActivityManager( 1090): Unable to start service Intent { act=zjinnova.android.intent.action.ZLINK_SERVICE } U=0: not found
+09-02 13:43:27.476 W/ActivityManager( 1090): Unable to start service Intent { act=android.intent.action.AudioRouteService cmp=com.zqc.audioroute/.AudioRouteService } U=0: not found
+09-02 13:43:30.818 I/ActivityManager( 1090): Start proc 20165:com.google.process.gservices/u0a101 for content provider {com.google.android.gsf/com.google.android.gsf.gservices.GservicesProvider}
+09-02 13:43:30.892 W/ActivityManager( 1090): Unable to start service Intent { act=com.google.android.gms.gservices.START pkg=com.google.android.gms } U=0: not found
+09-02 13:43:30.892 W/ActivityManager( 1090): Unbind failed: could not find connection for android.os.BinderProxy@3b05ada
+09-02 13:43:30.925 I/ActivityManager( 1090): Flag disabled. Ignoring finishAttachApplication from uid: 10101. pid: 20165
+09-02 13:43:34.586 W/ActivityManager( 1090): Unable to start service Intent { act=zjinnova.android.intent.action.ZLINK_SERVICE } U=0: not found

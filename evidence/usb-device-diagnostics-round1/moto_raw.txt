@@ -1,0 +1,52 @@
+08-30 11:19:38.731 D/UsbHostManager( 1388): Added device UsbDevice[mName=/dev/bus/usb/001/002,mVendorId=8888,mProductId=11905,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=motorola,mProductName=motorola edge 30 neo,mVersion=5.04,mSerialNumberReader=com.android.server.usb.UsbSerialReader@a5537d6, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+08-30 11:19:38.731 D/UsbHostManager( 1388): UsbConfiguration[mId=1,mName=adb,mAttributes=192,mMaxPower=0,mInterfaces=[
+08-30 11:19:38.731 D/UsbHostManager( 1388): UsbInterface[mId=0,mAlternateSetting=0,mName=ADB Interface,mClass=255,mSubclass=66,mProtocol=1,mEndpoints=[
+08-30 11:19:38.731 D/UsbHostManager( 1388): UsbEndpoint[mAddress=1,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-30 11:19:38.731 D/UsbHostManager( 1388): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]]]]
+08-30 11:19:55.009 D/UsbHostManager( 1388): Added device UsbDevice[mName=/dev/bus/usb/001/003,mVendorId=8888,mProductId=11908,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=motorola,mProductName=motorola edge 30 neo,mVersion=5.04,mSerialNumberReader=com.android.server.usb.UsbSerialReader@c82c9d8, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+08-30 11:19:55.009 D/UsbHostManager( 1388): UsbConfiguration[mId=1,mName=ptp_adb,mAttributes=192,mMaxPower=0,mInterfaces=[
+08-30 11:19:55.009 D/UsbHostManager( 1388): UsbInterface[mId=0,mAlternateSetting=0,mName=null,mClass=6,mSubclass=1,mProtocol=1,mEndpoints=[
+08-30 11:19:55.009 D/UsbHostManager( 1388): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-30 11:19:55.009 D/UsbHostManager( 1388): UsbEndpoint[mAddress=1,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-30 11:19:55.009 D/UsbHostManager( 1388): UsbEndpoint[mAddress=130,mAttributes=3,mMaxPacketSize=28,mInterval=6]]
+08-30 11:19:55.009 D/UsbHostManager( 1388): UsbInterface[mId=1,mAlternateSetting=0,mName=ADB Interface,mClass=255,mSubclass=66,mProtocol=1,mEndpoints=[
+08-30 11:19:55.009 D/UsbHostManager( 1388): UsbEndpoint[mAddress=2,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-30 11:19:55.009 D/UsbHostManager( 1388): UsbEndpoint[mAddress=131,mAttributes=2,mMaxPacketSize=512,mInterval=0]]]]
+08-30 11:19:58.447 D/UsbHostManager( 1388): Added device UsbDevice[mName=/dev/bus/usb/001/004,mVendorId=6353,mProductId=20201,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=motorola,mProductName=motorola edge 30 neo,mVersion=5.04,mSerialNumberReader=com.android.server.usb.UsbSerialReader@6da0ddd, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=true, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+08-30 11:19:58.447 D/UsbHostManager( 1388): UsbConfiguration[mId=1,mName=midi_adb,mAttributes=192,mMaxPower=0,mInterfaces=[
+08-30 11:19:58.447 D/UsbHostManager( 1388): UsbInterface[mId=0,mAlternateSetting=0,mName=MIDI function,mClass=1,mSubclass=1,mProtocol=0,mEndpoints=[]
+08-30 11:19:58.447 D/UsbHostManager( 1388): UsbInterface[mId=1,mAlternateSetting=0,mName=null,mClass=1,mSubclass=3,mProtocol=0,mEndpoints=[
+08-30 11:19:58.447 D/UsbHostManager( 1388): UsbEndpoint[mAddress=1,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-30 11:19:58.447 D/UsbHostManager( 1388): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]]
+08-30 11:19:58.447 D/UsbHostManager( 1388): UsbInterface[mId=2,mAlternateSetting=0,mName=ADB Interface,mClass=255,mSubclass=66,mProtocol=1,mEndpoints=[
+08-30 11:19:58.447 D/UsbHostManager( 1388): UsbEndpoint[mAddress=2,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-30 11:19:58.447 D/UsbHostManager( 1388): UsbEndpoint[mAddress=130,mAttributes=2,mMaxPacketSize=512,mInterval=0]]]]
+08-30 11:20:15.704 D/UsbHostManager( 1388): Added device UsbDevice[mName=/dev/bus/usb/001/005,mVendorId=8888,mProductId=11905,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=motorola,mProductName=motorola edge 30 neo,mVersion=5.04,mSerialNumberReader=com.android.server.usb.UsbSerialReader@8f39c6c, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+08-30 11:20:15.704 D/UsbHostManager( 1388): UsbConfiguration[mId=1,mName=adb,mAttributes=192,mMaxPower=0,mInterfaces=[
+08-30 11:20:15.704 D/UsbHostManager( 1388): UsbInterface[mId=0,mAlternateSetting=0,mName=ADB Interface,mClass=255,mSubclass=66,mProtocol=1,mEndpoints=[
+08-30 11:20:15.704 D/UsbHostManager( 1388): UsbEndpoint[mAddress=1,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-30 11:20:15.704 D/UsbHostManager( 1388): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]]]]
+08-30 11:20:29.582 D/UsbHostManager( 1388): Added device UsbDevice[mName=/dev/bus/usb/001/006,mVendorId=8888,mProductId=11906,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=motorola,mProductName=motorola edge 30 neo,mVersion=5.04,mSerialNumberReader=com.android.server.usb.UsbSerialReader@3d7198c, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+08-30 11:20:29.582 D/UsbHostManager( 1388): UsbConfiguration[mId=1,mName=mtp,mAttributes=192,mMaxPower=0,mInterfaces=[
+08-30 11:20:29.582 D/UsbHostManager( 1388): UsbInterface[mId=0,mAlternateSetting=0,mName=MTP,mClass=255,mSubclass=255,mProtocol=0,mEndpoints=[
+08-30 11:20:29.582 D/UsbHostManager( 1388): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-30 11:20:29.582 D/UsbHostManager( 1388): UsbEndpoint[mAddress=1,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-30 11:20:29.582 D/UsbHostManager( 1388): UsbEndpoint[mAddress=130,mAttributes=3,mMaxPacketSize=28,mInterval=6]]]]
+08-30 11:21:38.954 D/UsbHostManager( 1388): Added device UsbDevice[mName=/dev/bus/usb/001/007,mVendorId=8888,mProductId=11906,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=motorola,mProductName=motorola edge 30 neo,mVersion=5.04,mSerialNumberReader=com.android.server.usb.UsbSerialReader@b3e9981, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+08-30 11:21:38.954 D/UsbHostManager( 1388): UsbConfiguration[mId=1,mName=mtp,mAttributes=192,mMaxPower=0,mInterfaces=[
+08-30 11:21:38.954 D/UsbHostManager( 1388): UsbInterface[mId=0,mAlternateSetting=0,mName=MTP,mClass=255,mSubclass=255,mProtocol=0,mEndpoints=[
+08-30 11:21:38.954 D/UsbHostManager( 1388): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-30 11:21:38.954 D/UsbHostManager( 1388): UsbEndpoint[mAddress=1,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-30 11:21:38.954 D/UsbHostManager( 1388): UsbEndpoint[mAddress=130,mAttributes=3,mMaxPacketSize=28,mInterval=6]]]]
+08-30 11:22:18.767 D/UsbHostManager( 1388): Added device UsbDevice[mName=/dev/bus/usb/001/008,mVendorId=8888,mProductId=11907,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=motorola,mProductName=motorola edge 30 neo,mVersion=5.04,mSerialNumberReader=com.android.server.usb.UsbSerialReader@49da165, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+08-30 11:22:18.767 D/UsbHostManager( 1388): UsbConfiguration[mId=1,mName=ptp,mAttributes=192,mMaxPower=0,mInterfaces=[
+08-30 11:22:18.767 D/UsbHostManager( 1388): UsbInterface[mId=0,mAlternateSetting=0,mName=null,mClass=6,mSubclass=1,mProtocol=1,mEndpoints=[
+08-30 11:22:18.767 D/UsbHostManager( 1388): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-30 11:22:18.767 D/UsbHostManager( 1388): UsbEndpoint[mAddress=1,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-30 11:22:18.767 D/UsbHostManager( 1388): UsbEndpoint[mAddress=130,mAttributes=3,mMaxPacketSize=28,mInterval=6]]]]
+08-30 11:24:03.497 D/UsbHostManager( 1388): Added device UsbDevice[mName=/dev/bus/usb/001/009,mVendorId=8888,mProductId=11907,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=motorola,mProductName=motorola edge 30 neo,mVersion=5.04,mSerialNumberReader=com.android.server.usb.UsbSerialReader@9a3b935, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+08-30 11:24:03.497 D/UsbHostManager( 1388): UsbConfiguration[mId=1,mName=ptp,mAttributes=192,mMaxPower=0,mInterfaces=[
+08-30 11:24:03.497 D/UsbHostManager( 1388): UsbInterface[mId=0,mAlternateSetting=0,mName=null,mClass=6,mSubclass=1,mProtocol=1,mEndpoints=[
+08-30 11:24:03.497 D/UsbHostManager( 1388): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-30 11:24:03.497 D/UsbHostManager( 1388): UsbEndpoint[mAddress=1,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-30 11:24:03.497 D/UsbHostManager( 1388): UsbEndpoint[mAddress=130,mAttributes=3,mMaxPacketSize=28,mInterval=6]]]]

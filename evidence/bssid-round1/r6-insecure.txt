@@ -1,0 +1,3 @@
+### R6 (candidate, insecure-aa-rfcomm-listener=true)
+09-01 05:56:20.972 I/OPENHU  (20591): [115] NativeAaHandshakeManager.listenOnAaUuid | NativeAA: publishing the Android Auto record as insecure, at the user's request.
+Connection accepted from: 0  (still 0 - NO_HFP wall unchanged: 7)

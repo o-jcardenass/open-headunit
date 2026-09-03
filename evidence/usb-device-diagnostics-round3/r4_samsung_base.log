@@ -1,0 +1,29 @@
+--------- beginning of system
+08-31 19:26:44.998 D/UsbHostManager( 1809): Removed device at /dev/bus/usb/003/001 was already gone
+08-31 19:26:44.999 D/UsbHostManager( 1809): Removed device at /dev/bus/usb/002/003: SAMSUNG_Android
+08-31 19:26:45.007 D/UsbHostManager( 1809): Removed device at /dev/bus/usb/002/001 was already gone
+08-31 19:26:53.004 D/UsbHostManager( 1809): USB device attached: vidpid 04e8:6860 mfg/product/ver/serial SAMSUNG/SAMSUNG_Android/5.04/R5CY90XYBED hasAudio/HID/Storage: false/false/false
+08-31 19:26:53.011 D/UsbHostManager( 1809): Added device UsbDevice[mName=/dev/bus/usb/002/002,mVendorId=1256,mProductId=26720,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=SAMSUNG,mProductName=SAMSUNG_Android,mVersion=5.04,mSerialNumberReader=com.android.server.usb.UsbSerialReader@4548af2, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+08-31 19:26:53.011 D/UsbHostManager( 1809): UsbConfiguration[mId=1,mName=sec_acm,mAttributes=192,mMaxPower=0,mInterfaces=[
+08-31 19:26:53.011 D/UsbHostManager( 1809): UsbInterface[mId=0,mAlternateSetting=0,mName=MTP,mClass=6,mSubclass=1,mProtocol=1,mEndpoints=[
+08-31 19:26:53.011 D/UsbHostManager( 1809): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-31 19:26:53.011 D/UsbHostManager( 1809): UsbEndpoint[mAddress=1,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-31 19:26:53.011 D/UsbHostManager( 1809): UsbEndpoint[mAddress=130,mAttributes=3,mMaxPacketSize=28,mInterval=6]]
+08-31 19:26:53.011 D/UsbHostManager( 1809): UsbInterface[mId=1,mAlternateSetting=0,mName=CDC Abstract Control Model (ACM),mClass=2,mSubclass=2,mProtocol=1,mEndpoints=[
+08-31 19:26:53.011 D/UsbHostManager( 1809): UsbEndpoint[mAddress=132,mAttributes=3,mMaxPacketSize=10,mInterval=9]]
+08-31 19:26:53.011 D/UsbHostManager( 1809): UsbInterface[mId=2,mAlternateSetting=0,mName=CDC ACM Data,mClass=10,mSubclass=0,mProtocol=0,mEndpoints=[
+08-31 19:26:53.011 D/UsbHostManager( 1809): UsbEndpoint[mAddress=131,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-31 19:26:53.011 D/UsbHostManager( 1809): UsbEndpoint[mAddress=2,mAttributes=2,mMaxPacketSize=512,mInterval=0]]]]
+08-31 19:26:53.765 D/UsbHostManager( 1809): Removed device at /dev/bus/usb/002/002: SAMSUNG_Android
+08-31 19:26:54.347 D/UsbHostManager( 1809): USB device attached: vidpid 04e8:6860 mfg/product/ver/serial SAMSUNG/SAMSUNG_Android/5.04/R5CY90XYBED hasAudio/HID/Storage: false/false/false
+08-31 19:26:54.353 D/UsbHostManager( 1809): Added device UsbDevice[mName=/dev/bus/usb/002/003,mVendorId=1256,mProductId=26720,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=SAMSUNG,mProductName=SAMSUNG_Android,mVersion=5.04,mSerialNumberReader=com.android.server.usb.UsbSerialReader@12fd025, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+08-31 19:26:54.353 D/UsbHostManager( 1809): UsbConfiguration[mId=1,mName=mtp_acm,mAttributes=192,mMaxPower=0,mInterfaces=[
+08-31 19:26:54.353 D/UsbHostManager( 1809): UsbInterface[mId=0,mAlternateSetting=0,mName=MTP,mClass=6,mSubclass=1,mProtocol=1,mEndpoints=[
+08-31 19:26:54.353 D/UsbHostManager( 1809): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-31 19:26:54.353 D/UsbHostManager( 1809): UsbEndpoint[mAddress=1,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-31 19:26:54.353 D/UsbHostManager( 1809): UsbEndpoint[mAddress=130,mAttributes=3,mMaxPacketSize=28,mInterval=6]]
+08-31 19:26:54.353 D/UsbHostManager( 1809): UsbInterface[mId=1,mAlternateSetting=0,mName=CDC Abstract Control Model (ACM),mClass=2,mSubclass=2,mProtocol=1,mEndpoints=[
+08-31 19:26:54.353 D/UsbHostManager( 1809): UsbEndpoint[mAddress=132,mAttributes=3,mMaxPacketSize=10,mInterval=9]]
+08-31 19:26:54.353 D/UsbHostManager( 1809): UsbInterface[mId=2,mAlternateSetting=0,mName=CDC ACM Data,mClass=10,mSubclass=0,mProtocol=0,mEndpoints=[
+08-31 19:26:54.353 D/UsbHostManager( 1809): UsbEndpoint[mAddress=131,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-31 19:26:54.353 D/UsbHostManager( 1809): UsbEndpoint[mAddress=2,mAttributes=2,mMaxPacketSize=512,mInterval=0]]]]

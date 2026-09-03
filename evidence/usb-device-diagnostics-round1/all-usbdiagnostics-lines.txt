@@ -1,0 +1,100 @@
+08-30 11:28:21.545 I/OPENHU  (13951): UsbDiagnostics: USB list sees 0 USB device(s), 0 usable for Android Auto
+08-30 11:28:21.545 I/OPENHU  (13951): UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+08-30 11:28:51.951 I/OPENHU  (13951): UsbDiagnostics: USB list sees 1 USB device(s), 0 usable for Android Auto
+08-30 11:28:51.951 I/OPENHU  (13951): UsbDiagnostics:   TaiYiLian UGREEN-BT701 (VID: 0A12 PID: 4007) [class 00/00/00, no permission] rejected: no Android interface | if0 03/00/00 (1 other) | if1 03/00/00 (2 other) | if2 01/01/00 (no endpoints) | if3 01/02/00 (no endpoints) | if4 01/02/00 (1 other) | if5 01/02/00 (1 other)
+08-30 11:29:19.804 I/OPENHU  (13951): UsbDiagnostics: USB button sees 1 USB device(s), 0 usable for Android Auto
+08-30 11:29:19.804 I/OPENHU  (13951): UsbDiagnostics:   TaiYiLian UGREEN-BT701 (VID: 0A12 PID: 4007) [class 00/00/00, no permission] rejected: no Android interface | if0 03/00/00 (1 other) | if1 03/00/00 (2 other) | if2 01/01/00 (no endpoints) | if3 01/02/00 (no endpoints) | if4 01/02/00 (1 other) | if5 01/02/00 (1 other)
+08-30 11:29:22.924 I/OPENHU  (13951): UsbDiagnostics: service scan (force=true) sees 1 USB device(s), 0 usable for Android Auto
+08-30 11:29:22.925 I/OPENHU  (13951): UsbDiagnostics:   TaiYiLian UGREEN-BT701 (VID: 0A12 PID: 4007) [class 00/00/00, no permission] rejected: no Android interface | if0 03/00/00 (1 other) | if1 03/00/00 (2 other) | if2 01/01/00 (no endpoints) | if3 01/02/00 (no endpoints) | if4 01/02/00 (1 other) | if5 01/02/00 (1 other)
+08-30 11:29:26.165 I/OPENHU  (13951): UsbDiagnostics: USB attach sees 1 USB device(s), 0 usable for Android Auto
+08-30 11:29:26.165 I/OPENHU  (13951): UsbDiagnostics:   TaiYiLian UGREEN-BT701 (VID: 0A12 PID: 4007) [class 00/00/00, no permission] rejected: no Android interface | if0 03/00/00 (1 other) | if1 03/00/00 (2 other) | if2 01/01/00 (no endpoints) | if3 01/02/00 (no endpoints) | if4 01/02/00 (1 other) | if5 01/02/00 (1 other)
+08-30 11:12:44.418 I/OPENHU  (12334): UsbDiagnostics: USB list sees 0 USB device(s), 0 usable for Android Auto
+08-30 11:12:44.418 I/OPENHU  (12334): UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+08-30 11:13:48.437 I/OPENHU  (12334): UsbDiagnostics: USB list sees 1 USB device(s), 0 usable for Android Auto
+08-30 11:13:48.438 I/OPENHU  (12334): UsbDiagnostics:   General USB Flash Disk (VID: 090C PID: 1000) [class 00/00/00, no permission] rejected: no Android interface | if0 08/06/50 (bulkIn+bulkOut)
+08-30 11:17:15.048 V/OPENHU  (12797): UsbDiagnostics: USB list sees 2 USB device(s), 1 usable for Android Auto
+08-30 11:17:15.049 V/OPENHU  (12797): UsbDiagnostics:   ASIX AX88179A (VID: 0B95 PID: 1790) [class FF/FF/00, no permission] accepted: AOAP | if0 FF/FF/00 (bulkIn+bulkOut+1 other)
+08-30 11:17:15.049 V/OPENHU  (12797): UsbDiagnostics:   General USB Flash Disk (VID: 090C PID: 1000) [class 00/00/00, no permission] rejected: no Android interface | if0 08/06/50 (bulkIn+bulkOut)
+08-30 11:17:31.982 V/OPENHU  (12797): UsbDiagnostics: USB button sees 2 USB device(s), 1 usable for Android Auto
+08-30 11:17:31.982 V/OPENHU  (12797): UsbDiagnostics:   ASIX AX88179A (VID: 0B95 PID: 1790) [class FF/FF/00, no permission] accepted: AOAP | if0 FF/FF/00 (bulkIn+bulkOut+1 other)
+08-30 11:17:31.982 V/OPENHU  (12797): UsbDiagnostics:   General USB Flash Disk (VID: 090C PID: 1000) [class 00/00/00, no permission] rejected: no Android interface | if0 08/06/50 (bulkIn+bulkOut)
+08-30 11:17:35.080 V/OPENHU  (12797): UsbDiagnostics: service scan (force=true) sees 2 USB device(s), 1 usable for Android Auto
+08-30 11:17:35.081 V/OPENHU  (12797): UsbDiagnostics:   ASIX AX88179A (VID: 0B95 PID: 1790) [class FF/FF/00, no permission] accepted: AOAP | if0 FF/FF/00 (bulkIn+bulkOut+1 other)
+08-30 11:17:35.081 V/OPENHU  (12797): UsbDiagnostics:   General USB Flash Disk (VID: 090C PID: 1000) [class 00/00/00, no permission] rejected: no Android interface | if0 08/06/50 (bulkIn+bulkOut)
+08-30 11:18:36.676 I/OPENHU  (12797): UsbDiagnostics: USB list sees 1 USB device(s), 0 usable for Android Auto
+08-30 11:18:36.676 I/OPENHU  (12797): UsbDiagnostics:   General USB Flash Disk (VID: 090C PID: 1000) [class 00/00/00, no permission] rejected: no Android interface | if0 08/06/50 (bulkIn+bulkOut)
+08-30 11:18:36.736 I/OPENHU  (12797): UsbDiagnostics: USB list sees 0 USB device(s), 0 usable for Android Auto
+08-30 11:18:36.737 I/OPENHU  (12797): UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+08-30 11:18:54.416 V/OPENHU  (12797): UsbDiagnostics: USB list sees 1 USB device(s), 1 usable for Android Auto
+08-30 11:18:54.416 V/OPENHU  (12797): UsbDiagnostics:   ASIX AX88179A (VID: 0B95 PID: 1790) [class 00/00/00, no permission] accepted: AOAP | if0 FF/FF/00 (bulkIn+bulkOut+1 other) | if1 02/0D/00 (1 other) | if2 0A/00/01 (no endpoints) | if3 0A/00/01 (bulkIn+bulkOut) | if4 02/06/00 (1 other) | if5 0A/00/00 (no endpoints) | if6 0A/00/00 (bulkIn+bulkOut)
+08-30 11:18:54.450 V/OPENHU  (12797): UsbDiagnostics: USB list sees 2 USB device(s), 1 usable for Android Auto
+08-30 11:18:54.450 V/OPENHU  (12797): UsbDiagnostics:   General USB Flash Disk (VID: 090C PID: 1000) [class 00/00/00, no permission] rejected: no Android interface | if0 08/06/50 (bulkIn+bulkOut)
+08-30 11:18:54.450 V/OPENHU  (12797): UsbDiagnostics:   ASIX AX88179A (VID: 0B95 PID: 1790) [class 00/00/00, no permission] accepted: AOAP | if0 FF/FF/00 (bulkIn+bulkOut+1 other) | if1 02/0D/00 (1 other) | if2 0A/00/01 (no endpoints) | if3 0A/00/01 (bulkIn+bulkOut) | if4 02/06/00 (1 other) | if5 0A/00/00 (no endpoints) | if6 0A/00/00 (bulkIn+bulkOut)
+08-30 11:18:56.450 V/OPENHU  (12797): UsbDiagnostics: service scan (force=true) sees 2 USB device(s), 1 usable for Android Auto
+08-30 11:18:56.450 V/OPENHU  (12797): UsbDiagnostics:   General USB Flash Disk (VID: 090C PID: 1000) [class 00/00/00, no permission] rejected: no Android interface | if0 08/06/50 (bulkIn+bulkOut)
+08-30 11:18:56.451 V/OPENHU  (12797): UsbDiagnostics:   ASIX AX88179A (VID: 0B95 PID: 1790) [class 00/00/00, no permission] accepted: AOAP | if0 FF/FF/00 (bulkIn+bulkOut+1 other) | if1 02/0D/00 (1 other) | if2 0A/00/01 (no endpoints) | if3 0A/00/01 (bulkIn+bulkOut) | if4 02/06/00 (1 other) | if5 0A/00/00 (no endpoints) | if6 0A/00/00 (bulkIn+bulkOut)
+08-30 11:18:56.597 I/OPENHU  (12797): UsbDiagnostics: USB list sees 1 USB device(s), 0 usable for Android Auto
+08-30 11:18:56.598 I/OPENHU  (12797): UsbDiagnostics:   General USB Flash Disk (VID: 090C PID: 1000) [class 00/00/00, no permission] rejected: no Android interface | if0 08/06/50 (bulkIn+bulkOut)
+08-30 11:18:58.788 V/OPENHU  (12797): UsbDiagnostics: USB list sees 2 USB device(s), 1 usable for Android Auto
+08-30 11:18:58.788 V/OPENHU  (12797): UsbDiagnostics:   ASIX AX88179A (VID: 0B95 PID: 1790) [class FF/FF/00, no permission] accepted: AOAP | if0 FF/FF/00 (bulkIn+bulkOut+1 other)
+08-30 11:18:58.788 V/OPENHU  (12797): UsbDiagnostics:   General USB Flash Disk (VID: 090C PID: 1000) [class 00/00/00, no permission] rejected: no Android interface | if0 08/06/50 (bulkIn+bulkOut)
+08-30 11:18:59.716 I/OPENHU  (12797): UsbDiagnostics: USB list sees 1 USB device(s), 0 usable for Android Auto
+08-30 11:18:59.716 I/OPENHU  (12797): UsbDiagnostics:   General USB Flash Disk (VID: 090C PID: 1000) [class 00/00/00, no permission] rejected: no Android interface | if0 08/06/50 (bulkIn+bulkOut)
+08-30 11:18:59.726 I/OPENHU  (12797): UsbDiagnostics: USB list sees 0 USB device(s), 0 usable for Android Auto
+08-30 11:18:59.727 I/OPENHU  (12797): UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+08-30 11:19:00.807 I/OPENHU  (12797): UsbDiagnostics: service scan (force=true) sees 0 USB device(s), 0 usable for Android Auto
+08-30 11:19:00.807 I/OPENHU  (12797): UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+08-30 11:19:38.790 V/OPENHU  (12797): UsbDiagnostics: USB list sees 1 USB device(s), 1 usable for Android Auto
+08-30 11:19:38.790 V/OPENHU  (12797): UsbDiagnostics:   motorola motorola edge 30 neo (VID: 22B8 PID: 2E81) [class 00/00/00, no permission] accepted: ADB | if0 FF/42/01 (bulkIn+bulkOut)
+08-30 11:19:46.460 V/OPENHU  (12797): UsbDiagnostics: USB attach sees 1 USB device(s), 1 usable for Android Auto
+08-30 11:19:46.460 V/OPENHU  (12797): UsbDiagnostics:   motorola motorola edge 30 neo (VID: 22B8 PID: 2E81) [class 00/00/00, no permission] accepted: ADB | if0 FF/42/01 (bulkIn+bulkOut)
+08-30 11:19:54.300 I/OPENHU  (12797): UsbDiagnostics: USB list sees 0 USB device(s), 0 usable for Android Auto
+08-30 11:19:54.300 I/OPENHU  (12797): UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+08-30 11:19:55.026 V/OPENHU  (12797): UsbDiagnostics: USB list sees 1 USB device(s), 1 usable for Android Auto
+08-30 11:19:55.026 V/OPENHU  (12797): UsbDiagnostics:   motorola motorola edge 30 neo (VID: 22B8 PID: 2E84) [class 00/00/00, no permission] accepted: PTP | if0 06/01/01 (bulkIn+bulkOut+1 other) | if1 FF/42/01 (bulkIn+bulkOut)
+08-30 11:19:57.036 V/OPENHU  (12797): UsbDiagnostics: service scan (force=true) sees 1 USB device(s), 1 usable for Android Auto
+08-30 11:19:57.036 V/OPENHU  (12797): UsbDiagnostics:   motorola motorola edge 30 neo (VID: 22B8 PID: 2E84) [class 00/00/00, no permission] accepted: PTP | if0 06/01/01 (bulkIn+bulkOut+1 other) | if1 FF/42/01 (bulkIn+bulkOut)
+08-30 11:19:57.800 I/OPENHU  (12797): UsbDiagnostics: USB list sees 0 USB device(s), 0 usable for Android Auto
+08-30 11:19:57.800 I/OPENHU  (12797): UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+08-30 11:19:58.490 V/OPENHU  (12797): UsbDiagnostics: USB list sees 1 USB device(s), 1 usable for Android Auto
+08-30 11:19:58.490 V/OPENHU  (12797): UsbDiagnostics:   motorola motorola edge 30 neo (VID: 18D1 PID: 4EE9) [class 00/00/00, no permission] accepted: ADB | if0 01/01/00 (no endpoints) | if1 01/03/00 (bulkIn+bulkOut) | if2 FF/42/01 (bulkIn+bulkOut)
+08-30 11:20:00.521 V/OPENHU  (12797): UsbDiagnostics: service scan (force=true) sees 1 USB device(s), 1 usable for Android Auto
+08-30 11:20:00.521 V/OPENHU  (12797): UsbDiagnostics:   motorola motorola edge 30 neo (VID: 18D1 PID: 4EE9) [class 00/00/00, no permission] accepted: ADB | if0 01/01/00 (no endpoints) | if1 01/03/00 (bulkIn+bulkOut) | if2 FF/42/01 (bulkIn+bulkOut)
+08-30 11:20:15.115 I/OPENHU  (12797): UsbDiagnostics: USB list sees 0 USB device(s), 0 usable for Android Auto
+08-30 11:20:15.115 I/OPENHU  (12797): UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+08-30 11:20:15.740 V/OPENHU  (12797): UsbDiagnostics: USB list sees 1 USB device(s), 1 usable for Android Auto
+08-30 11:20:15.740 V/OPENHU  (12797): UsbDiagnostics:   motorola motorola edge 30 neo (VID: 22B8 PID: 2E81) [class 00/00/00, no permission] accepted: ADB | if0 FF/42/01 (bulkIn+bulkOut)
+08-30 11:20:17.753 V/OPENHU  (12797): UsbDiagnostics: service scan (force=true) sees 1 USB device(s), 1 usable for Android Auto
+08-30 11:20:17.753 V/OPENHU  (12797): UsbDiagnostics:   motorola motorola edge 30 neo (VID: 22B8 PID: 2E81) [class 00/00/00, no permission] accepted: ADB | if0 FF/42/01 (bulkIn+bulkOut)
+08-30 11:20:28.971 I/OPENHU  (12797): UsbDiagnostics: USB list sees 0 USB device(s), 0 usable for Android Auto
+08-30 11:20:28.972 I/OPENHU  (12797): UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+08-30 11:20:29.603 V/OPENHU  (12797): UsbDiagnostics: USB list sees 1 USB device(s), 1 usable for Android Auto
+08-30 11:20:29.604 V/OPENHU  (12797): UsbDiagnostics:   motorola motorola edge 30 neo (VID: 22B8 PID: 2E82) [class 00/00/00, no permission] accepted: AOAP | if0 FF/FF/00 (bulkIn+bulkOut+1 other)
+08-30 11:20:31.619 V/OPENHU  (12797): UsbDiagnostics: service scan (force=true) sees 1 USB device(s), 1 usable for Android Auto
+08-30 11:20:31.619 V/OPENHU  (12797): UsbDiagnostics:   motorola motorola edge 30 neo (VID: 22B8 PID: 2E82) [class 00/00/00, no permission] accepted: AOAP | if0 FF/FF/00 (bulkIn+bulkOut+1 other)
+08-30 11:20:50.539 V/OPENHU  (12797): UsbDiagnostics: USB attach sees 1 USB device(s), 1 usable for Android Auto
+08-30 11:20:50.539 V/OPENHU  (12797): UsbDiagnostics:   motorola motorola edge 30 neo (VID: 22B8 PID: 2E82) [class 00/00/00, no permission] accepted: AOAP | if0 FF/FF/00 (bulkIn+bulkOut+1 other)
+08-30 11:20:52.610 V/OPENHU  (12797): UsbDiagnostics: USB button sees 1 USB device(s), 1 usable for Android Auto
+08-30 11:20:52.610 V/OPENHU  (12797): UsbDiagnostics:   motorola motorola edge 30 neo (VID: 22B8 PID: 2E82) [class 00/00/00, no permission] accepted: AOAP | if0 FF/FF/00 (bulkIn+bulkOut+1 other)
+08-30 11:21:38.399 I/OPENHU  (12797): UsbDiagnostics: USB list sees 0 USB device(s), 0 usable for Android Auto
+08-30 11:21:38.400 I/OPENHU  (12797): UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+08-30 11:21:38.975 V/OPENHU  (12797): UsbDiagnostics: USB list sees 1 USB device(s), 1 usable for Android Auto
+08-30 11:21:38.975 V/OPENHU  (12797): UsbDiagnostics:   motorola motorola edge 30 neo (VID: 22B8 PID: 2E82) [class 00/00/00, no permission] accepted: AOAP | if0 FF/FF/00 (bulkIn+bulkOut+1 other)
+08-30 11:22:18.196 I/OPENHU  (12797): UsbDiagnostics: USB list sees 0 USB device(s), 0 usable for Android Auto
+08-30 11:22:18.196 I/OPENHU  (12797): UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+08-30 11:22:18.799 V/OPENHU  (12797): UsbDiagnostics: USB list sees 1 USB device(s), 1 usable for Android Auto
+08-30 11:22:18.800 V/OPENHU  (12797): UsbDiagnostics:   motorola motorola edge 30 neo (VID: 22B8 PID: 2E83) [class 00/00/00, no permission] accepted: PTP | if0 06/01/01 (bulkIn+bulkOut+1 other)
+08-30 11:22:20.812 V/OPENHU  (12797): UsbDiagnostics: service scan (force=true) sees 1 USB device(s), 1 usable for Android Auto
+08-30 11:22:20.812 V/OPENHU  (12797): UsbDiagnostics:   motorola motorola edge 30 neo (VID: 22B8 PID: 2E83) [class 00/00/00, no permission] accepted: PTP | if0 06/01/01 (bulkIn+bulkOut+1 other)
+08-30 11:23:48.423 V/OPENHU  (12797): UsbDiagnostics: USB attach sees 1 USB device(s), 1 usable for Android Auto
+08-30 11:23:48.423 V/OPENHU  (12797): UsbDiagnostics:   motorola motorola edge 30 neo (VID: 22B8 PID: 2E83) [class 00/00/00, no permission] accepted: PTP | if0 06/01/01 (bulkIn+bulkOut+1 other)
+08-30 11:23:51.685 V/OPENHU  (12797): UsbDiagnostics: USB button sees 1 USB device(s), 1 usable for Android Auto
+08-30 11:23:51.686 V/OPENHU  (12797): UsbDiagnostics:   motorola motorola edge 30 neo (VID: 22B8 PID: 2E83) [class 00/00/00, no permission] accepted: PTP | if0 06/01/01 (bulkIn+bulkOut+1 other)
+08-30 11:24:02.917 I/OPENHU  (12797): UsbDiagnostics: USB list sees 0 USB device(s), 0 usable for Android Auto
+08-30 11:24:02.918 I/OPENHU  (12797): UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+08-30 11:24:03.514 V/OPENHU  (12797): UsbDiagnostics: USB list sees 1 USB device(s), 1 usable for Android Auto
+08-30 11:24:03.514 V/OPENHU  (12797): UsbDiagnostics:   motorola motorola edge 30 neo (VID: 22B8 PID: 2E83) [class 00/00/00, no permission] accepted: PTP | if0 06/01/01 (bulkIn+bulkOut+1 other)
+08-30 11:24:06.580 V/OPENHU  (13669): UsbDiagnostics: USB list sees 1 USB device(s), 1 usable for Android Auto
+08-30 11:24:06.580 V/OPENHU  (13669): UsbDiagnostics:   motorola motorola edge 30 neo (VID: 22B8 PID: 2E83) [class 00/00/00, no permission] accepted: PTP | if0 06/01/01 (bulkIn+bulkOut+1 other)
+08-30 11:24:10.724 V/OPENHU  (13669): UsbDiagnostics: USB attach sees 1 USB device(s), 1 usable for Android Auto
+08-30 11:24:10.724 V/OPENHU  (13669): UsbDiagnostics:   motorola motorola edge 30 neo (VID: 22B8 PID: 2E83) [class 00/00/00, no permission] accepted: PTP | if0 06/01/01 (bulkIn+bulkOut+1 other)

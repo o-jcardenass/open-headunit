@@ -1,0 +1,22 @@
+1425:09-02 14:03:06.268 I/OPENHU  (25021): [2] AutoStartReceiver.onReceive | BT Device connected: Navegadortz2 (11:46:03:10:33:59)
+1426:09-02 14:03:06.268 I/OPENHU  (25021): [2] AutoStartReceiver.onReceive | MATCH! Starting AapService via Bluetooth Auto-start...
+1486:09-02 14:03:06.315 I/OPENHU  (25021): [2] MainActivity.handleLaunchIntent | MainActivity: Bluetooth auto-start: forcing a Self Mode launch
+1640:09-02 14:03:06.413 I/OPENHU  (25021): [2] 1.invokeSuspend | SelfMode: AA 17.4+ detected. Connecting directly to Headunit Server on 127.0.0.1:5277...
+1649:09-02 14:03:06.418 I/OPENHU  (25021): [2] AapService.emitSessionState | AapService: session state connecting
+1660:09-02 14:03:06.427 I/OPENHU  (25021): [2] AapService.emitSessionState | AapService: session state connected
+3236:09-02 14:03:07.361 I/OPENHU  (25021): [224] AapSslContext.performHandshake | SSL handshake complete. Session id: 06sb2eFbAN5OEpuOevsfUB9TQNsNqpHUyAtY0xHVwe4=
+4715:09-02 14:03:09.090 I/OPENHU  (25021): [2] AapService.emitSessionState | AapService: session state projecting
+44915:09-02 14:04:26.992 I/OPENHU  (25021): [2] AapService.armBtAutoDisconnect | AapService: Bluetooth auto-disconnect: 11:46:03:10:33:59 went away; ending the session in 5000ms unless it comes back.
+47490:09-02 14:04:31.996 I/OPENHU  (25021): [2] AapService.fireBtAutoDisconnect | AapService: Bluetooth auto-disconnect: 11:46:03:10:33:59 stayed away; ending the session the way the Exit button does.
+47495:09-02 14:04:32.006 I/OPENHU  (25021): [2] AapService.emitSessionState | AapService: session state disconnected (user_exit)
+47990:09-02 14:04:32.121 I/OPENHU  (25021): [2] AapService.scheduleReconnectIfNeeded | AapService: Self Mode disconnected. Not restarting.
+48751:09-02 14:04:33.204 I/OPENHU  (25021): [224] 2.invokeSuspend | AapService: Bluetooth auto-disconnect: keeping the wireless bring-up down until something re-arms it.
+49192:09-02 14:04:37.773 I/OPENHU  (25021): [2] AutoStartReceiver.onReceive | BT Device connected: Navegadortz2 (11:46:03:10:33:59)
+49193:09-02 14:04:37.773 I/OPENHU  (25021): [2] AutoStartReceiver.onReceive | MATCH! Starting AapService via Bluetooth Auto-start...
+49241:09-02 14:04:37.811 I/OPENHU  (25021): [2] MainActivity.handleLaunchIntent | MainActivity: Bluetooth auto-start: forcing a Self Mode launch
+49341:09-02 14:04:37.872 I/OPENHU  (25021): [2] 1.invokeSuspend | SelfMode: AA 17.4+ detected. Connecting directly to Headunit Server on 127.0.0.1:5277...
+49369:09-02 14:04:37.879 I/OPENHU  (25021): [2] AapService.emitSessionState | AapService: session state connected
+50595:09-02 14:04:38.599 I/OPENHU  (25021): [186] AapSslContext.performHandshake | SSL handshake complete. Session id: A2mBcHfUNfqv3rsJv/A+a+ww4lW7c2GlyD2Atq130Y8=
+51859:09-02 14:04:40.165 I/OPENHU  (25021): [2] AapService.emitSessionState | AapService: session state projecting
+52550:09-02 14:04:40.335 I/OPENHU  (25021): [2] AapService.emitSessionState | AapService: session state disconnected (user_exit)
+52621:09-02 14:04:40.348 I/OPENHU  (25021): [2] AapService.scheduleReconnectIfNeeded | AapService: Self Mode disconnected. Not restarting.

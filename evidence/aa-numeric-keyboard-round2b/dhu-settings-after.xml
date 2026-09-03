@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+    <int name="cached-surface-settings-hash" value="-1320146744" />
+    <boolean name="attach_hw_dsp_equalizer" value="false" />
+    <boolean name="wifi-direct-group-address-moves" value="true" />
+    <set name="connection-modes">
+        <string>wifi</string>
+    </set>
+    <int name="wifi-connection-mode" value="3" />
+    <boolean name="debug-video-low-latency" value="true" />
+    <boolean name="fake_speed" value="true" />
+    <int name="screen-orientation" value="2" />
+    <boolean name="aa174_notice_shown" value="true" />
+    <string name="video-codec">H.265</string>
+    <boolean name="auto-connect-last-session" value="false" />
+    <string name="auto-start-bt-name">POCO X3 NFC</string>
+    <string name="auto-connect-priority-order">last-session,self-mode,single-usb</string>
+    <int name="audio-latency-multiplier" value="2" />
+    <string name="bt-address"></string>
+    <boolean name="wifi-direct-stable-identity" value="true" />
+    <boolean name="use-head-unit-microphone" value="false" />
+    <int name="mic-sample-rate" value="16000" />
+    <int name="hotspot-band" value="1" />
+    <boolean name="use-libusb" value="false" />
+    <string name="last-connection-ip">192.168.49.54</string>
+    <int name="navigation-volume-offset" value="0" />
+    <int name="wifi-5ghz-channel" value="0" />
+    <int name="onboarding-version" value="2" />
+    <string name="last-connection-type">wifi</string>
+    <boolean name="enable-audio-sink" value="false" />
+    <int name="helper-connection-strategy" value="2" />
+    <long name="connection-issue-hotspot-config" value="1787376606616" />
+    <string name="last-connection-usb-device"></string>
+    <boolean name="advanced-settings-active" value="true" />
+    <boolean name="rename_notice_shown_v2" value="true" />
+    <int name="wifi-direct-band" value="1" />
+    <int name="cached-surface-width" value="1440" />
+    <int name="media-key-routing" value="0" />
+    <boolean name="enable-rotary" value="false" />
+    <boolean name="has-accepted-disclaimer" value="true" />
+    <string name="vehicle-display-name">Open Headunit</string>
+    <string name="last-nearby-device-name">motorola edge 30 neo</string>
+    <string name="wifi-direct-last-group-bssid">32:66:DE:3A:7D:B6</string>
+    <boolean name="use-aac-audio" value="false" />
+    <boolean name="wait-for-wifi-before-wifi-direct" value="false" />
+    <boolean name="native-aa-ignore-external-bt" value="false" />
+    <boolean name="hotspot-teardown-proven-unsafe" value="true" />
+    <boolean name="mic-noise-suppressor" value="false" />
+    <boolean name="auto-connect-single-usb" value="false" />
+    <boolean name="gps-navigation" value="true" />
+    <string name="head-unit-make">Google</string>
+    <boolean name="stretch_to_fill" value="true" />
+    <boolean name="raise-projection-during-call" value="true" />
+    <long name="last-loc-latitude" value="4618785449401473350" />
+    <int name="log-source" value="0" />
+    <boolean name="static-audio-focus" value="false" />
+    <int name="cached-surface-height" value="720" />
+    <int name="inset-left" value="0" />
+    <boolean name="has-completed-setup-wizard" value="true" />
+    <boolean name="hud_mirroring" value="false" />
+    <boolean name="mic-echo-canceler" value="false" />
+    <int name="pixel-aspect-ratio-e4" value="10000" />
+    <string name="hotspot-interface"></string>
+    <string name="wifi-direct-group-name">DIRECT-D4-Navegadortz2</string>
+    <boolean name="hide-battery-level" value="false" />
+    <string name="hotspot-password"></string>
+    <boolean name="show-navigation-notifications" value="false" />
+    <boolean name="sync-media-session-aa-metadata" value="false" />
+    <set name="auto-start-bt-macs">
+        <string>DC:B7:2E:5E:4E:59</string>
+    </set>
+    <boolean name="kill-on-disconnect" value="false" />
+    <boolean name="auto-enable-hotspot" value="true" />
+    <string name="vehicle-make">Google</string>
+    <int name="view-mode" value="2" />
+    <string name="static-bssid">0</string>
+    <int name="inset-top" value="0" />
+    <int name="dpi-pixel-density" value="218" />
+    <boolean name="native-wifi-version-exchange" value="false" />
+    <int name="log-level" value="2" />
+    <string name="manual-secondary-bt-service-name"></string>
+    <int name="resolutionId" value="3" />
+    <boolean name="mic-auto-gain-control" value="false" />
+    <long name="last-loc-longitude" value="-4588354232786891316" />
+    <int name="mic-input-source" value="0" />
+    <int name="audio-queue-capacity" value="20" />
+    <int name="wait-for-wifi-timeout" value="10" />
+    <int name="software-video-decoder" value="1" />
+    <int name="auto-connect-delay-seconds" value="0" />
+    <int name="fullscreen-mode" value="1" />
+    <int name="playback-focus-mode" value="0" />
+    <int name="assistant-volume-offset" value="0" />
+    <boolean name="auto-start-self-mode" value="false" />
+    <boolean name="native-aa-complete-hfp-slc" value="true" />
+    <string name="app-language"></string>
+    <string name="bluetooth-manager-service-name">bluetooth_manager</string>
+    <boolean name="hide-clock" value="false" />
+    <boolean name="forced_scale" value="false" />
+    <boolean name="use_measured_touch_surface" value="false" />
+    <boolean name="show-fps-counter" value="true" />
+    <int name="inset-right" value="0" />
+    <string name="hotspot-ssid"></string>
+    <boolean name="hide-phone-signal" value="false" />
+    <boolean name="force-software-decoding" value="false" />
+    <boolean name="separate-audio-streams" value="false" />
+    <boolean name="show-toast-messages" value="true" />
+    <int name="media-volume-offset" value="0" />
+    <string name="wifi-direct-group-passphrase">9cufLb8Da9IW</string>
+    <int name="fps-limit" value="60" />
+    <int name="inset-bottom" value="0" />
+    <string name="wifi-direct-last-group-ssid">DIRECT-D4-Navegadortz2</string>
+    <boolean name="gesture_hint_shown" value="true" />
+    <int name="native-ap-transport" value="0" />
+</map>

@@ -1,0 +1,110 @@
+### R1 D-MOTO: ip -6 addr show dev p2p0  +  ip addr show dev p2p0
+25: p2p0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 state UP qlen 3000
+    link/ether de:b3:88:55:b3:92 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.49.1/24 brd 192.168.49.255 scope global p2p0
+    inet6 fe80::dcb3:88ff:fe55:b392/64 scope link
+  -> fe80::dcb3:88ff:fe55:b392 carries ff:fe at bytes 11-12 (EUI-64); derived MAC DE:B3:88:55:B3:92 == link/ether. PASS (route exists).
+
+### R1 D-MOTO BSSID source dump:
+09-01 05:22:36.443 I/OPENHU  (14478): [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == BSSID source dump (iface=p2p0) ==
+09-01 05:22:36.444 I/OPENHU  (14478): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   static override (Settings)       = 0
+09-01 05:22:36.446 I/OPENHU  (14478): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   getGroupOwnerBssid()             = null
+09-01 05:22:36.479 I/OPENHU  (14478): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (p2p0)           = de:b3:88:55:b3:92
+09-01 05:22:36.484 I/OPENHU  (14478): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (any p2p/ap)     = de:b3:88:55:b3:92
+09-01 05:22:36.485 D/OPENHU  (14478): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: getWifiDirectMac for interface: p2p0
+09-01 05:22:36.490 D/CompatibilityChangeReporter(14478): Compat change id reported: 170188668; UID 10491; state: ENABLED
+09-01 05:22:36.491 D/OPENHU  (14478): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: rmnet_data0, MAC: null
+09-01 05:22:36.495 D/OPENHU  (14478): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: dummy0, MAC: null
+09-01 05:22:36.498 D/OPENHU  (14478): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: p2p0, MAC: null
+09-01 05:22:36.500 D/OPENHU  (14478): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: wlan0, MAC: null
+09-01 05:22:36.502 D/OPENHU  (14478): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: r_rmnet_data0, MAC: null
+09-01 05:22:36.503 D/OPENHU  (14478): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: rmnet_data1, MAC: null
+09-01 05:22:36.505 D/OPENHU  (14478): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: lo, MAC: null
+09-01 05:22:36.505 W/OPENHU  (14478): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: No valid MAC found in NetworkInterface scan for p2p0
+09-01 05:22:36.506 I/OPENHU  (14478): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   NetworkInterface.hardwareAddress = 00:00:00:00:00:00
+09-01 05:22:36.506 I/OPENHU  (14478): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   lastKnownBssid (null)            = null
+09-01 05:22:36.506 I/OPENHU  (14478): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   requestDeviceInfo                = 02:00:00:00:00:00
+09-01 05:22:36.506 I/OPENHU  (14478): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   group.owner.deviceAddress        = 02:00:00:00:00:00
+09-01 05:22:36.505 W/headunitrevived(14478): type=1400 audit(0.0:2195): avc:  denied  { search } for  name="net" dev="sysfs" ino=36911 scontext=u:r:untrusted_app:s0:c235,c257,c512,c768 tcontext=u:object_r:sysfs_net:s0 tclass=dir permissive=0 app=com.andrerinas.headunitrevived
+09-01 05:22:36.521 W/ip      (14529): type=1400 audit(0.0:2196): avc:  denied  { bind } for  scontext=u:r:untrusted_app:s0:c235,c257,c512,c768 tcontext=u:r:untrusted_app:s0:c235,c257,c512,c768 tclass=netlink_route_socket permissive=0 bug=b/155595000 app=com.andrerinas.headunitrevived
+09-01 05:22:36.528 I/OPENHU  (14478): [2] WifiDirectManager.getMacFromShell | WifiDirectManager: getMacFromShell: Target failed, scanning ALL interfaces in sysfs...
+09-01 05:22:36.525 W/headunitrevived(14478): type=1400 audit(0.0:2197): avc:  denied  { read } for  name="net" dev="sysfs" ino=36911 scontext=u:r:untrusted_app:s0:c235,c257,c512,c768 tcontext=u:object_r:sysfs_net:s0 tclass=dir permissive=0 app=com.andrerinas.headunitrevived
+09-01 05:22:36.529 I/OPENHU  (14478): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   sysfs / ip link                  = null
+09-01 05:22:36.532 I/OPENHU  (14478): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   Settings.Secure p2p address      = null
+09-01 05:22:36.533 I/OPENHU  (14478): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   reflection over WifiP2pGroup     = null
+09-01 05:22:36.534 I/OPENHU  (14478): [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == end BSSID source dump ==
+
+================================================================
+
+### R1 D-HU: ip -6 addr show dev p2p-wlan0-0  +  ip addr show dev p2p-wlan0-0
+92: p2p-wlan0-0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 state UP qlen 1000
+    link/ether e2:32:8f:43:50:0f brd ff:ff:ff:ff:ff:ff
+    inet 192.168.49.1/24 brd 192.168.49.255 scope global p2p-wlan0-0
+    inet6 fd21:fec7:69ef::c5/64 scope global
+    inet6 fe80::e032:8fff:fe43:500f/64 scope link
+  -> fe80::e032:8fff:fe43:500f carries ff:fe at bytes 11-12 (EUI-64); derived MAC E2:32:8F:43:50:0F == link/ether. PASS (route exists).
+
+### R1 D-HU BSSID source dump:
+09-01 05:24:56.748 I/OPENHU  (15181): [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == BSSID source dump (iface=p2p-wlan0-0) ==
+09-01 05:24:56.748 I/OPENHU  (15181): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   static override (Settings)       = 0
+09-01 05:24:56.749 I/OPENHU  (15181): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   getGroupOwnerBssid()             = null
+09-01 05:24:56.757 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:24:56.758 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:24:56.760 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:24:56.760 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:24:56.763 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:24:56.763 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:24:56.764 I/FDV3    (  520): [getDetectYoloImage, 559]: orientation: 1
+09-01 05:24:56.765 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:24:56.765 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:24:56.766 I/FDV3    (  520): [getDetectYoloImage, 662]: isTransform.
+09-01 05:24:56.767 D/FDV3    (  520): [MNNRun, 126]: Now net input image size: 256, 160
+09-01 05:24:56.767 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:24:56.768 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:24:56.768 I/OPENHU  (15181): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (p2p-wlan0-0)    = e2:32:8f:43:50:0f
+09-01 05:24:56.769 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:24:56.770 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:24:56.771 E/WindowManager( 1081): Performed 6 layouts in a row. Skipping
+09-01 05:24:56.773 I/OPENHU  (15181): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (any p2p/ap)     = e2:32:8f:43:50:0f
+09-01 05:24:56.774 D/OPENHU  (15181): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: getWifiDirectMac for interface: p2p-wlan0-0
+09-01 05:24:56.775 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:24:56.776 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:24:56.778 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:24:56.778 D/CompatibilityChangeReporter(15181): Compat change id reported: 170188668; UID 10168; state: ENABLED
+09-01 05:24:56.778 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:24:56.779 D/OPENHU  (15181): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: dummy0, MAC: null
+09-01 05:24:56.780 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:24:56.780 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:24:56.781 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:24:56.781 D/OPENHU  (15181): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: seth_lte0, MAC: null
+09-01 05:24:56.782 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:24:56.783 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:24:56.783 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:24:56.784 D/OPENHU  (15181): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: lo, MAC: null
+09-01 05:24:56.785 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:24:56.785 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:24:56.787 D/OPENHU  (15181): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: p2p-wlan0-0, MAC: null
+09-01 05:24:56.787 E/WindowManager( 1081): Performed 6 layouts in a row. Skipping
+09-01 05:24:56.787 W/OPENHU  (15181): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: No valid MAC found in NetworkInterface scan for p2p-wlan0-0
+09-01 05:24:56.788 I/OPENHU  (15181): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   NetworkInterface.hardwareAddress = 00:00:00:00:00:00
+09-01 05:24:56.789 I/OPENHU  (15181): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   lastKnownBssid (null)            = null
+09-01 05:24:56.789 I/OPENHU  (15181): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   requestDeviceInfo                = 02:00:00:00:00:00
+09-01 05:24:56.790 I/OPENHU  (15181): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   group.owner.deviceAddress        = 02:00:00:00:00:00
+09-01 05:24:56.793 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:24:56.793 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:24:56.794 I/OPENHU  (15181): [2] WifiDirectManager.getMacFromShell | WifiDirectManager: MAC retrieved via sysfs (p2p-wlan0-0): e2:32:8f:43:50:0f
+09-01 05:24:56.795 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:24:56.795 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:24:56.796 I/OPENHU  (15181): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   sysfs / ip link                  = e2:32:8f:43:50:0f
+09-01 05:24:56.797 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:24:56.797 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:24:56.798 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:24:56.798 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:24:56.799 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:24:56.800 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:24:56.801 E/WindowManager( 1081): Unknown window type: 2004
+09-01 05:24:56.801 I/OPENHU  (15181): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   Settings.Secure p2p address      = null
+09-01 05:24:56.801 D/WindowManager( 1081): isSupportDynamicNavbar user0, navBarMode = 0, is3buttonModeNavbar = true
+09-01 05:24:56.803 E/WindowManager( 1081): Performed 6 layouts in a row. Skipping
+09-01 05:24:56.803 I/OPENHU  (15181): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   reflection over WifiP2pGroup     = null
+09-01 05:24:56.804 I/OPENHU  (15181): [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == end BSSID source dump ==

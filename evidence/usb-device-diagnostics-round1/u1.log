@@ -1,0 +1,248 @@
+--------- beginning of system
+08-30 11:12:42.574 W/ActivityTaskManager( 1388): Permission Denial: starting Intent { flg=0x10000000 cmp=com.andrerinas.headunitrevived/com.andrerinas.openheadunit.main.SettingsActivity } from null (pid=12319, uid=2000) not exported from uid 10268
+08-30 11:12:42.575 I/ActivityTaskManager( 1388): START u0 {flg=0x10000000 cmp=com.andrerinas.headunitrevived/com.andrerinas.openheadunit.main.SettingsActivity} with LAUNCH_MULTIPLE from uid 2000 result code=0
+08-30 11:12:43.368 W/ActivityTaskManager( 1388): callingPackage for (uid=2000, pid=12322) has no WPC
+08-30 11:12:43.385 I/ActivityTaskManager( 1388): START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=com.andrerinas.headunitrevived/com.andrerinas.openheadunit.main.MainActivity} with LAUNCH_SINGLE_TASK from uid 2000 (BAL_ALLOW_PERMISSION) result code=0
+--------- beginning of main
+08-30 11:12:44.006 I/OPENHU  (12334): [2] BootCompleteReceiver.onReceive | Boot auto-start: received action=android.intent.action.LOCKED_BOOT_COMPLETED
+08-30 11:12:44.007 I/OPENHU  (12334): [2] BootCompleteReceiver.onReceive | Boot auto-start: disabled, skipping
+08-30 11:12:44.071 I/ActivityTaskManager( 1388): Config changes=20000480 {1.0 732mcc123mnc [en_AU_#u-mu-celsius,es_CO_#u-mu-celsius] ldltr sw393dp w873dp h393dp 440dpi nrml long hdr widecg land night finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 2400, 1080) mAppBounds=Rect(0, 0 - 2400, 1080) mMaxBounds=Rect(0, 0 - 2400, 1080) mDisplayRotation=ROTATION_270 mWindowingMode=fullscreen mActivityType=undefined mAlwaysOnTop=undefined mRotation=ROTATION_270} as.3 s.741 fontWeightAdjustment=0}
+08-30 11:12:44.206 I/OPENHU  (12334): [2] MainActivity.logLaunchSource | App launched by user tap (referrer: android-app://com.android.shell)
+08-30 11:12:44.418 I/OPENHU  (12334): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 0 USB device(s), 0 usable for Android Auto
+08-30 11:12:44.418 I/OPENHU  (12334): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+08-30 11:12:44.543 I/OPENHU  (12334): [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+08-30 11:12:44.573 I/OPENHU  (12334): [2] BootCompleteReceiver.onReceive | Boot auto-start: received action=android.intent.action.BOOT_COMPLETED
+08-30 11:12:44.574 I/OPENHU  (12334): [2] BootCompleteReceiver.onReceive | Boot auto-start: disabled, skipping
+08-30 11:12:44.627 I/OPENHU  (12334): [2] MainActivity.logLaunchSource | App launched by user tap (referrer: android-app://com.android.shell)
+08-30 11:12:44.710 I/OPENHU  (12334): [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+08-30 11:12:44.734 I/OPENHU  (12334): [2] AapService.onCreate | AapService creating...
+08-30 11:12:44.780 I/ActivityTaskManager( 1388): Config changes=200 {1.0 732mcc123mnc [en_AU_#u-mu-celsius,es_CO_#u-mu-celsius] ldltr sw393dp w873dp h393dp 440dpi nrml long hdr widecg land car night finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 2400, 1080) mAppBounds=Rect(0, 0 - 2400, 1080) mMaxBounds=Rect(0, 0 - 2400, 1080) mDisplayRotation=ROTATION_270 mWindowingMode=fullscreen mActivityType=undefined mAlwaysOnTop=undefined mRotation=ROTATION_270} as.3 s.828 fontWeightAdjustment=0}
+08-30 11:12:44.787 I/OPENHU  (12334): [2] AapService.registerReceivers | Registered runtime MEDIA_BUTTON receiver
+08-30 11:12:44.789 I/OPENHU  (12334): [2] AapService.registerReceivers | Registered dynamic WiFi Auto-start receiver
+08-30 11:12:44.792 I/OPENHU  (12334): [2] AapService.registerReceivers | Registered wake detection receiver (18 actions)
+08-30 11:12:44.845 I/OPENHU  (12334): [2] WifiLauncherManager.setActive | WifiLauncher: Initializing WiFi Mode: AUTO
+08-30 11:12:44.859 I/OPENHU  (12334): [2] WirelessServer.start | WirelessServer: binding port 5288...
+08-30 11:12:44.863 I/OPENHU  (12334): [2] NetworkDiscovery.startScan | NetworkDiscovery: Starting scan...
+08-30 11:12:44.865 I/OPENHU  (12334): [36] 1.invokeSuspend | Wireless Server listening on port 5288
+08-30 11:12:44.866 I/OPENHU  (12334): [38] 1.invokeSuspend | NetworkDiscovery: Step 1 - Quick Gateway Scan
+08-30 11:12:44.869 I/OPENHU  (12334): [2] AapService.registerNetworkMonitor | NetworkMonitor: Registered network change listener
+08-30 11:12:44.875 I/OPENHU  (12334): [39] 1.onAvailable | NetworkMonitor: Network available: 106
+08-30 11:12:44.883 I/OPENHU  (12334): [36] WirelessServer.logLocalNetworkInterfaces | Interface: wlan0, IP: 192.168.1.189
+08-30 11:12:44.884 I/OPENHU  (12334): [36] WirelessServer.logLocalNetworkInterfaces | Interface: rmnet_data1, IP: 9.3.231.241
+08-30 11:12:44.920 I/OPENHU  (12334): [38] NetworkDiscovery.scanGateways | NetworkDiscovery: Checking suspects: [192.168.1.254, 192.168.1.1, 9.3.231.1]
+08-30 11:12:45.351 I/ActivityTaskManager( 1388): Displayed com.andrerinas.headunitrevived/com.andrerinas.openheadunit.main.MainActivity for user 0: +1s974ms
+08-30 11:12:45.550 I/OPENHU  (12334): [38] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Gateway scan — 3 probed, 0 responded, 3 silent on 5289 (last: SocketTimeoutException)
+08-30 11:12:45.551 I/OPENHU  (12334): [38] 1.invokeSuspend | NetworkDiscovery: Step 2 - Full Subnet Scan
+08-30 11:12:45.560 I/OPENHU  (12334): [38] 2.invokeSuspend | NetworkDiscovery: Scanning subnet: 192.168.1.*
+08-30 11:12:45.788 I/OPENHU  (12334): [39] 1.onServiceRegistered | NSD Registered: AAWireless
+08-30 11:12:45.852 I/OPENHU  (12334): [2] 1.invokeSuspend | NetworkMonitor: a scan was already in flight; the next one will not wait
+08-30 11:12:48.058 I/OPENHU  (12334): [95] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Swept 192.168.1.* — 253 probed, 0 responded, 253 silent on 5289 (last: SocketTimeoutException)
+08-30 11:12:48.061 I/OPENHU  (12334): [2] 1.onScanFinished | AapService: network changed during the last scan; rescanning immediately
+08-30 11:12:48.064 I/OPENHU  (12334): [2] NetworkDiscovery.startScan | NetworkDiscovery: Starting scan...
+08-30 11:12:48.066 I/OPENHU  (12334): [95] 1.invokeSuspend | NetworkDiscovery: Step 1 - Quick Gateway Scan
+08-30 11:12:48.071 I/OPENHU  (12334): [95] NetworkDiscovery.scanGateways | NetworkDiscovery: Checking suspects: [192.168.1.254, 192.168.1.1, 9.3.231.1]
+08-30 11:12:48.692 I/OPENHU  (12334): [95] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Gateway scan — 3 probed, 0 responded, 3 silent on 5289 (last: SocketTimeoutException)
+08-30 11:12:48.692 I/OPENHU  (12334): [95] 1.invokeSuspend | NetworkDiscovery: Step 2 - Full Subnet Scan
+08-30 11:12:48.698 I/OPENHU  (12334): [95] 2.invokeSuspend | NetworkDiscovery: Scanning subnet: 192.168.1.*
+08-30 11:12:51.171 I/OPENHU  (12334): [75] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Swept 192.168.1.* — 253 probed, 0 responded, 253 silent on 5289 (last: SocketTimeoutException)
+08-30 11:12:57.617 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:12:57.671 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:00.792 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:00.850 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:01.190 I/OPENHU  (12334): [2] NetworkDiscovery.startScan | NetworkDiscovery: Starting scan...
+08-30 11:13:01.193 I/OPENHU  (12334): [75] 1.invokeSuspend | NetworkDiscovery: Step 1 - Quick Gateway Scan
+08-30 11:13:01.200 I/OPENHU  (12334): [75] NetworkDiscovery.scanGateways | NetworkDiscovery: Checking suspects: [192.168.1.254, 192.168.1.1, 9.3.231.1]
+08-30 11:13:01.827 I/OPENHU  (12334): [75] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Gateway scan — 3 probed, 0 responded, 3 silent on 5289 (last: SocketTimeoutException)
+08-30 11:13:01.827 I/OPENHU  (12334): [75] 1.invokeSuspend | NetworkDiscovery: Step 2 - Full Subnet Scan
+08-30 11:13:01.834 I/OPENHU  (12334): [75] 2.invokeSuspend | NetworkDiscovery: Scanning subnet: 192.168.1.*
+08-30 11:13:03.901 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:03.968 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:04.310 I/OPENHU  (12334): [108] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Swept 192.168.1.* — 253 probed, 0 responded, 253 silent on 5289 (last: SocketTimeoutException)
+08-30 11:13:07.029 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:07.073 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:10.214 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:10.263 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:13.387 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:13.436 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:14.327 I/OPENHU  (12334): [2] NetworkDiscovery.startScan | NetworkDiscovery: Starting scan...
+08-30 11:13:14.329 I/OPENHU  (12334): [63] 1.invokeSuspend | NetworkDiscovery: Step 1 - Quick Gateway Scan
+08-30 11:13:14.339 I/OPENHU  (12334): [63] NetworkDiscovery.scanGateways | NetworkDiscovery: Checking suspects: [192.168.1.254, 192.168.1.1, 9.3.231.1]
+08-30 11:13:14.961 I/OPENHU  (12334): [63] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Gateway scan — 3 probed, 0 responded, 3 silent on 5289 (last: SocketTimeoutException)
+08-30 11:13:14.961 I/OPENHU  (12334): [63] 1.invokeSuspend | NetworkDiscovery: Step 2 - Full Subnet Scan
+08-30 11:13:14.968 I/OPENHU  (12334): [63] 2.invokeSuspend | NetworkDiscovery: Scanning subnet: 192.168.1.*
+08-30 11:13:16.500 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:16.550 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:17.438 I/OPENHU  (12334): [63] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Swept 192.168.1.* — 253 probed, 0 responded, 253 silent on 5289 (last: SocketTimeoutException)
+08-30 11:13:19.613 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:19.662 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:22.727 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:22.779 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:25.844 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:25.903 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:27.455 I/OPENHU  (12334): [2] NetworkDiscovery.startScan | NetworkDiscovery: Starting scan...
+08-30 11:13:27.458 I/OPENHU  (12334): [86] 1.invokeSuspend | NetworkDiscovery: Step 1 - Quick Gateway Scan
+08-30 11:13:27.466 I/OPENHU  (12334): [86] NetworkDiscovery.scanGateways | NetworkDiscovery: Checking suspects: [192.168.1.254, 192.168.1.1, 9.3.231.1]
+08-30 11:13:28.085 I/OPENHU  (12334): [86] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Gateway scan — 3 probed, 0 responded, 3 silent on 5289 (last: SocketTimeoutException)
+08-30 11:13:28.085 I/OPENHU  (12334): [86] 1.invokeSuspend | NetworkDiscovery: Step 2 - Full Subnet Scan
+08-30 11:13:28.092 I/OPENHU  (12334): [86] 2.invokeSuspend | NetworkDiscovery: Scanning subnet: 192.168.1.*
+08-30 11:13:28.956 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:29.006 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:30.564 I/OPENHU  (12334): [105] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Swept 192.168.1.* — 253 probed, 0 responded, 253 silent on 5289 (last: SocketTimeoutException)
+08-30 11:13:32.126 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:32.192 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:35.303 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:35.348 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:38.475 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:38.536 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:40.584 I/OPENHU  (12334): [2] NetworkDiscovery.startScan | NetworkDiscovery: Starting scan...
+08-30 11:13:40.586 I/OPENHU  (12334): [105] 1.invokeSuspend | NetworkDiscovery: Step 1 - Quick Gateway Scan
+08-30 11:13:40.597 I/OPENHU  (12334): [105] NetworkDiscovery.scanGateways | NetworkDiscovery: Checking suspects: [192.168.1.254, 192.168.1.1, 9.3.231.1]
+08-30 11:13:41.218 I/OPENHU  (12334): [105] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Gateway scan — 3 probed, 0 responded, 3 silent on 5289 (last: SocketTimeoutException)
+08-30 11:13:41.219 I/OPENHU  (12334): [105] 1.invokeSuspend | NetworkDiscovery: Step 2 - Full Subnet Scan
+08-30 11:13:41.224 I/OPENHU  (12334): [105] 2.invokeSuspend | NetworkDiscovery: Scanning subnet: 192.168.1.*
+08-30 11:13:41.589 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:41.624 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:41.703 D/UsbDeviceManager( 1388): push notification:Charging connected device via USB
+08-30 11:13:43.688 I/OPENHU  (12334): [96] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Swept 192.168.1.* — 253 probed, 0 responded, 253 silent on 5289 (last: SocketTimeoutException)
+08-30 11:13:44.693 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:44.765 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:44.812 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:46.091 D/UsbHostManager( 1388): USB device attached: vidpid 0b95:1790 mfg/product/ver/serial ASIX/AX88179A/2.00/008151BD hasAudio/HID/Storage: false/false/false
+08-30 11:13:46.208 D/UsbHostManager( 1388): Added device UsbDevice[mName=/dev/bus/usb/001/003,mVendorId=2965,mProductId=6032,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=ASIX,mProductName=AX88179A,mVersion=2.00,mSerialNumberReader=com.android.server.usb.UsbSerialReader@6fbd7dd, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+08-30 11:13:46.208 D/UsbHostManager( 1388): UsbConfiguration[mId=1,mName=null,mAttributes=160,mMaxPower=50,mInterfaces=[
+08-30 11:13:46.208 D/UsbHostManager( 1388): UsbInterface[mId=0,mAlternateSetting=0,mName=Network_Interface,mClass=255,mSubclass=255,mProtocol=0,mEndpoints=[
+08-30 11:13:46.208 D/UsbHostManager( 1388): UsbEndpoint[mAddress=129,mAttributes=3,mMaxPacketSize=16,mInterval=11]
+08-30 11:13:46.208 D/UsbHostManager( 1388): UsbEndpoint[mAddress=130,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-30 11:13:46.208 D/UsbHostManager( 1388): UsbEndpoint[mAddress=3,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-30 11:13:46.208 D/UsbHostManager( 1388): UsbEndpoint[mAddress=5,mAttributes=2,mMaxPacketSize=512,mInterval=0]]]
+08-30 11:13:46.208 D/UsbHostManager( 1388): UsbConfiguration[mId=2,mName=null,mAttributes=160,mMaxPower=50,mInterfaces=[
+08-30 11:13:46.208 D/UsbHostManager( 1388): UsbInterface[mId=0,mAlternateSetting=0,mName=null,mClass=2,mSubclass=13,mProtocol=0,mEndpoints=[
+08-30 11:13:46.208 D/UsbHostManager( 1388): UsbEndpoint[mAddress=129,mAttributes=3,mMaxPacketSize=16,mInterval=11]]
+08-30 11:13:46.208 D/UsbHostManager( 1388): UsbInterface[mId=1,mAlternateSetting=0,mName=null,mClass=10,mSubclass=0,mProtocol=1,mEndpoints=[]
+08-30 11:13:46.208 D/UsbHostManager( 1388): UsbInterface[mId=1,mAlternateSetting=1,mName=null,mClass=10,mSubclass=0,mProtocol=1,mEndpoints=[
+08-30 11:13:46.208 D/UsbHostManager( 1388): UsbEndpoint[mAddress=130,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-30 11:13:46.208 D/UsbHostManager( 1388): UsbEndpoint[mAddress=3,mAttributes=2,mMaxPacketSize=512,mInterval=0]]]
+08-30 11:13:46.208 D/UsbHostManager( 1388): UsbConfiguration[mId=3,mName=null,mAttributes=160,mMaxPower=50,mInterfaces=[
+08-30 11:13:46.208 D/UsbHostManager( 1388): UsbInterface[mId=0,mAlternateSetting=0,mName=null,mClass=2,mSubclass=6,mProtocol=0,mEndpoints=[
+08-30 11:13:46.208 D/UsbHostManager( 1388): UsbEndpoint[mAddress=129,mAttributes=3,mMaxPacketSize=16,mInterval=11]]
+08-30 11:13:46.208 D/UsbHostManager( 1388): UsbInterface[mId=1,mAlternateSetting=0,mName=null,mClass=10,mSubclass=0,mProtocol=0,mEndpoints=[]
+08-30 11:13:46.208 D/UsbHostManager( 1388): UsbInterface[mId=1,mAlternateSetting=1,mName=null,mClass=10,mSubclass=0,mProtocol=0,mEndpoints=[
+08-30 11:13:46.208 D/UsbHostManager( 1388): UsbEndpoint[mAddress=130,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-30 11:13:46.208 D/UsbHostManager( 1388): UsbEndpoint[mAddress=3,mAttributes=2,mMaxPacketSize=512,mInterval=0]]]]
+08-30 11:13:46.220 I/OPENHU  (12334): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x11000010 (has extras) }
+08-30 11:13:46.245 W/ActivityTaskManager( 1388): callingPackage for (uid=1000, pid=1388) is ambiguous: [android, com.android.providers.settings, org.lineageos.lineagesettings, com.android.server.telecom, com.android.location.fused, com.dsi.ant.server]
+08-30 11:13:46.274 I/ActivityTaskManager( 1388): START u0 {flg=0x10000000 cmp=com.android.systemui/.usb.UsbConfirmActivity (has extras)} with LAUNCH_MULTIPLE from uid 1000 (BAL_ALLOW_ALLOWLISTED_UID) result code=0
+08-30 11:13:46.279 D/UsbHostManager( 1388): USB device attached: vidpid 090c:1000 mfg/product/ver/serial General/USB Flash Disk/11.00/1305120000004129 hasAudio/HID/Storage: false/false/true
+08-30 11:13:46.283 D/UsbHostManager( 1388): Added device UsbDevice[mName=/dev/bus/usb/001/004,mVendorId=2316,mProductId=4096,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=General,mProductName=USB Flash Disk,mVersion=11.00,mSerialNumberReader=com.android.server.usb.UsbSerialReader@621746f, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+08-30 11:13:46.283 D/UsbHostManager( 1388): UsbConfiguration[mId=1,mName=null,mAttributes=128,mMaxPower=250,mInterfaces=[
+08-30 11:13:46.283 D/UsbHostManager( 1388): UsbInterface[mId=0,mAlternateSetting=0,mName=null,mClass=8,mSubclass=6,mProtocol=80,mEndpoints=[
+08-30 11:13:46.283 D/UsbHostManager( 1388): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=255]
+08-30 11:13:46.283 D/UsbHostManager( 1388): UsbEndpoint[mAddress=2,mAttributes=2,mMaxPacketSize=512,mInterval=255]]]]
+08-30 11:13:46.294 W/ActivityTaskManager( 1388): callingPackage for (uid=1000, pid=1388) is ambiguous: [android, com.android.providers.settings, org.lineageos.lineagesettings, com.android.server.telecom, com.android.location.fused, com.dsi.ant.server]
+08-30 11:13:46.300 I/ActivityTaskManager( 1388): START u0 {flg=0x10000000 cmp=com.android.systemui/.usb.UsbConfirmActivity (has extras)} with LAUNCH_MULTIPLE from uid 1000 (BAL_ALLOW_ALLOWLISTED_UID) result code=3
+08-30 11:13:46.302 I/OPENHU  (12334): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x11000010 (has extras) }
+08-30 11:13:46.303 I/OPENHU  (12334): [2] UsbLauncherListener.onUsbAttach | Normal USB device attached: ASIX AX88179A (VID: 0B95 PID: 1790). Will check auto-connect in 2000ms...
+08-30 11:13:46.317 I/OPENHU  (12334): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x11000010 (has extras) }
+08-30 11:13:46.322 I/OPENHU  (12334): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x11000010 (has extras) }
+08-30 11:13:46.322 I/OPENHU  (12334): [2] UsbLauncherListener.onUsbAttach | Ignoring non-Android USB device attached in service (VID: 2316): /dev/bus/usb/001/004
+08-30 11:13:46.376 I/ActivityTaskManager( 1388): Displayed com.android.systemui/.usb.UsbConfirmActivity for user 0: +135ms
+08-30 11:13:48.326 I/OPENHU  (12334): [2] 1.invokeSuspend | UsbAttachedActivity didn't handle ASIX AX88179A (VID: 0B95 PID: 1790). Trying from service...
+08-30 11:13:48.423 D/UsbHostManager( 1388): Removed device at /dev/bus/usb/001/003: AX88179A
+08-30 11:13:48.430 I/OPENHU  (12334): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+08-30 11:13:48.437 I/OPENHU  (12334): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 1 USB device(s), 0 usable for Android Auto
+08-30 11:13:48.438 I/OPENHU  (12334): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   General USB Flash Disk (VID: 090C PID: 1000) [class 00/00/00, no permission] rejected: no Android interface | if0 08/06/50 (bulkIn+bulkOut)
+08-30 11:13:48.443 I/OPENHU  (12334): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+08-30 11:13:48.479 I/OPENHU  (12334): [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+08-30 11:13:50.463 D/UsbHostManager( 1388): USB device attached: vidpid 0b95:1790 mfg/product/ver/serial ASIX/AX88179A/2.00/008151BD hasAudio/HID/Storage: false/false/false
+08-30 11:13:50.567 D/UsbHostManager( 1388): Added device UsbDevice[mName=/dev/bus/usb/001/005,mVendorId=2965,mProductId=6032,mClass=255,mSubclass=255,mProtocol=0,mManufacturerName=ASIX,mProductName=AX88179A,mVersion=2.00,mSerialNumberReader=com.android.server.usb.UsbSerialReader@b181e3c, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+08-30 11:13:50.567 D/UsbHostManager( 1388): UsbConfiguration[mId=1,mName=null,mAttributes=160,mMaxPower=50,mInterfaces=[
+08-30 11:13:50.567 D/UsbHostManager( 1388): UsbInterface[mId=0,mAlternateSetting=0,mName=Network_Interface,mClass=255,mSubclass=255,mProtocol=0,mEndpoints=[
+08-30 11:13:50.567 D/UsbHostManager( 1388): UsbEndpoint[mAddress=129,mAttributes=3,mMaxPacketSize=16,mInterval=11]
+08-30 11:13:50.567 D/UsbHostManager( 1388): UsbEndpoint[mAddress=130,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-30 11:13:50.567 D/UsbHostManager( 1388): UsbEndpoint[mAddress=3,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-30 11:13:50.567 D/UsbHostManager( 1388): UsbEndpoint[mAddress=5,mAttributes=2,mMaxPacketSize=512,mInterval=0]]]]
+08-30 11:13:50.577 I/OPENHU  (12334): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x11000010 (has extras) }
+08-30 11:13:50.584 W/ActivityTaskManager( 1388): callingPackage for (uid=1000, pid=1388) is ambiguous: [android, com.android.providers.settings, org.lineageos.lineagesettings, com.android.server.telecom, com.android.location.fused, com.dsi.ant.server]
+08-30 11:13:50.608 I/ActivityTaskManager( 1388): START u0 {flg=0x10000000 cmp=com.android.systemui/.usb.UsbResolverActivity (has extras)} with LAUNCH_MULTIPLE from uid 1000 (BAL_ALLOW_ALLOWLISTED_UID) result code=0
+08-30 11:13:50.613 I/OPENHU  (12334): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x11000010 (has extras) }
+08-30 11:13:50.614 I/OPENHU  (12334): [2] UsbLauncherListener.onUsbAttach | Normal USB device attached: ASIX AX88179A (VID: 0B95 PID: 1790). Will check auto-connect in 2000ms...
+08-30 11:13:50.712 I/ActivityTaskManager( 1388): Displayed com.android.systemui/.usb.UsbResolverActivity for user 0: +116ms
+08-30 11:13:52.097 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:13:52.627 I/OPENHU  (12334): [2] 1.invokeSuspend | UsbAttachedActivity didn't handle ASIX AX88179A (VID: 0B95 PID: 1790). Trying from service...
+08-30 11:13:53.702 I/OPENHU  (12334): [2] NetworkDiscovery.startScan | NetworkDiscovery: Starting scan...
+08-30 11:13:53.704 I/OPENHU  (12334): [49] 1.invokeSuspend | NetworkDiscovery: Step 1 - Quick Gateway Scan
+08-30 11:13:53.716 I/OPENHU  (12334): [49] NetworkDiscovery.scanGateways | NetworkDiscovery: Checking suspects: [192.168.1.254, 192.168.1.1, 9.3.231.1]
+08-30 11:13:54.342 I/OPENHU  (12334): [49] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Gateway scan — 3 probed, 0 responded, 3 silent on 5289 (last: SocketTimeoutException)
+08-30 11:13:54.343 I/OPENHU  (12334): [49] 1.invokeSuspend | NetworkDiscovery: Step 2 - Full Subnet Scan
+08-30 11:13:54.353 I/OPENHU  (12334): [49] 2.invokeSuspend | NetworkDiscovery: Scanning subnet: 192.168.1.*
+08-30 11:13:54.423 I/OPENHU  (12334): [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+08-30 11:13:54.799 W/ActivityTaskManager( 1388): Finishing task with all activities already finished
+08-30 11:13:54.799 W/ActivityTaskManager( 1388): Duplicate finish request for r=ActivityRecord{241887462 u0 com.android.systemui/.usb.UsbResolverActivity t105 f}}
+08-30 11:13:56.827 I/OPENHU  (12334): [96] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Swept 192.168.1.* — 253 probed, 0 responded, 253 silent on 5289 (last: SocketTimeoutException)
+08-30 11:14:06.846 I/OPENHU  (12334): [2] NetworkDiscovery.startScan | NetworkDiscovery: Starting scan...
+08-30 11:14:06.847 I/OPENHU  (12334): [96] 1.invokeSuspend | NetworkDiscovery: Step 1 - Quick Gateway Scan
+08-30 11:14:06.856 I/OPENHU  (12334): [96] NetworkDiscovery.scanGateways | NetworkDiscovery: Checking suspects: [192.168.1.254, 192.168.1.1, 9.3.231.1]
+08-30 11:14:07.477 I/OPENHU  (12334): [96] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Gateway scan — 3 probed, 0 responded, 3 silent on 5289 (last: SocketTimeoutException)
+08-30 11:14:07.478 I/OPENHU  (12334): [96] 1.invokeSuspend | NetworkDiscovery: Step 2 - Full Subnet Scan
+08-30 11:14:07.484 I/OPENHU  (12334): [96] 2.invokeSuspend | NetworkDiscovery: Scanning subnet: 192.168.1.*
+08-30 11:14:09.956 I/OPENHU  (12334): [102] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Swept 192.168.1.* — 253 probed, 0 responded, 253 silent on 5289 (last: SocketTimeoutException)
+08-30 11:14:19.973 I/OPENHU  (12334): [2] NetworkDiscovery.startScan | NetworkDiscovery: Starting scan...
+08-30 11:14:19.975 I/OPENHU  (12334): [104] 1.invokeSuspend | NetworkDiscovery: Step 1 - Quick Gateway Scan
+08-30 11:14:19.984 I/OPENHU  (12334): [104] NetworkDiscovery.scanGateways | NetworkDiscovery: Checking suspects: [192.168.1.254, 192.168.1.1, 9.3.231.1]
+08-30 11:14:20.611 I/OPENHU  (12334): [104] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Gateway scan — 3 probed, 0 responded, 3 silent on 5289 (last: SocketTimeoutException)
+08-30 11:14:20.611 I/OPENHU  (12334): [104] 1.invokeSuspend | NetworkDiscovery: Step 2 - Full Subnet Scan
+08-30 11:14:20.618 I/OPENHU  (12334): [104] 2.invokeSuspend | NetworkDiscovery: Scanning subnet: 192.168.1.*
+08-30 11:14:23.091 I/OPENHU  (12334): [96] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Swept 192.168.1.* — 253 probed, 0 responded, 253 silent on 5289 (last: SocketTimeoutException)
+08-30 11:14:33.108 I/OPENHU  (12334): [2] NetworkDiscovery.startScan | NetworkDiscovery: Starting scan...
+08-30 11:14:33.110 I/OPENHU  (12334): [79] 1.invokeSuspend | NetworkDiscovery: Step 1 - Quick Gateway Scan
+08-30 11:14:33.120 I/OPENHU  (12334): [79] NetworkDiscovery.scanGateways | NetworkDiscovery: Checking suspects: [192.168.1.254, 192.168.1.1, 9.3.231.1]
+08-30 11:14:33.747 I/OPENHU  (12334): [79] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Gateway scan — 3 probed, 0 responded, 3 silent on 5289 (last: SocketTimeoutException)
+08-30 11:14:33.748 I/OPENHU  (12334): [79] 1.invokeSuspend | NetworkDiscovery: Step 2 - Full Subnet Scan
+08-30 11:14:33.754 I/OPENHU  (12334): [79] 2.invokeSuspend | NetworkDiscovery: Scanning subnet: 192.168.1.*
+08-30 11:14:36.225 I/OPENHU  (12334): [70] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Swept 192.168.1.* — 253 probed, 0 responded, 253 silent on 5289 (last: SocketTimeoutException)
+08-30 11:14:42.277 W/UsbDeviceManager( 1388): Ignore missing legacy kernel path in bugreport dump: kernel function list:/sys/class/android_usb/android0/functions
+08-30 11:14:42.388 I/OPENHU  (12334): [2] HomeFragment.setupListeners$lambda$16 | USB button: Single device found - ASIX AX88179A (VID: 0B95 PID: 1790), auto-connecting
+08-30 11:14:42.388 I/OPENHU  (12334): [2] MainActivity.beginAutoConnect | Auto-connect: begin (USB button auto-connect, mode=OVERLAY)
+08-30 11:14:42.413 W/ActivityTaskManager( 1388): callingPackage for (uid=1000, pid=1388) is ambiguous: [android, com.android.providers.settings, org.lineageos.lineagesettings, com.android.server.telecom, com.android.location.fused, com.dsi.ant.server]
+08-30 11:14:42.431 I/ActivityTaskManager( 1388): START u0 {flg=0x10000000 cmp=com.android.systemui/.usb.UsbPermissionActivity (has extras)} with LAUNCH_MULTIPLE from uid 1000 (BAL_ALLOW_ALLOWLISTED_UID) result code=0
+08-30 11:14:42.513 I/ActivityTaskManager( 1388): Displayed com.android.systemui/.usb.UsbPermissionActivity for user 0: +89ms
+08-30 11:14:45.551 W/ActivityTaskManager( 1388): callingPackage for (uid=2000, pid=12695) has no WPC
+08-30 11:14:45.572 I/ActivityTaskManager( 1388): START u0 {act=android.intent.action.VIEW dat=headunit://connect/... flg=0x10000000 cmp=com.andrerinas.headunitrevived/com.andrerinas.openheadunit.main.AutomationActivity} with LAUNCH_MULTIPLE from uid 2000 (BAL_ALLOW_PERMISSION) result code=0
+08-30 11:14:45.594 I/OPENHU  (12334): [2] AutomationActivity.onCreate | AutomationActivity: Received intent. Action: android.intent.action.VIEW, Data: headunit://connect
+08-30 11:14:45.614 I/OPENHU  (12334): [2] AapService.acquireBootWakeLock | Boot WakeLock acquired (10min timeout)
+08-30 11:14:45.616 I/OPENHU  (12334): [2] AapService.acquireBootWakeLock | Battery optimization exempt: false
+08-30 11:14:46.235 I/OPENHU  (12334): [2] NetworkDiscovery.startScan | NetworkDiscovery: Starting scan...
+08-30 11:14:46.237 I/OPENHU  (12334): [70] 1.invokeSuspend | NetworkDiscovery: Step 1 - Quick Gateway Scan
+08-30 11:14:46.247 I/OPENHU  (12334): [70] NetworkDiscovery.scanGateways | NetworkDiscovery: Checking suspects: [192.168.1.254, 192.168.1.1, 9.3.231.1]
+08-30 11:14:46.873 I/OPENHU  (12334): [70] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Gateway scan — 3 probed, 0 responded, 3 silent on 5289 (last: SocketTimeoutException)
+08-30 11:14:46.874 I/OPENHU  (12334): [70] 1.invokeSuspend | NetworkDiscovery: Step 2 - Full Subnet Scan
+08-30 11:14:46.883 I/OPENHU  (12334): [70] 2.invokeSuspend | NetworkDiscovery: Scanning subnet: 192.168.1.*
+08-30 11:14:49.349 I/OPENHU  (12334): [53] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Swept 192.168.1.* — 253 probed, 0 responded, 253 silent on 5289 (last: SocketTimeoutException)
+08-30 11:14:59.358 I/OPENHU  (12334): [2] NetworkDiscovery.startScan | NetworkDiscovery: Starting scan...
+08-30 11:14:59.360 I/OPENHU  (12334): [53] 1.invokeSuspend | NetworkDiscovery: Step 1 - Quick Gateway Scan
+08-30 11:14:59.365 I/OPENHU  (12334): [53] NetworkDiscovery.scanGateways | NetworkDiscovery: Checking suspects: [192.168.1.254, 192.168.1.1, 9.3.231.1]
+08-30 11:15:00.000 I/OPENHU  (12334): [53] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Gateway scan — 3 probed, 0 responded, 3 silent on 5289 (last: SocketTimeoutException)
+08-30 11:15:00.000 I/OPENHU  (12334): [53] 1.invokeSuspend | NetworkDiscovery: Step 2 - Full Subnet Scan
+08-30 11:15:00.011 I/OPENHU  (12334): [53] 2.invokeSuspend | NetworkDiscovery: Scanning subnet: 192.168.1.*
+08-30 11:15:02.455 I/OPENHU  (12334): [111] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Swept 192.168.1.* — 253 probed, 0 responded, 253 silent on 5289 (last: SocketTimeoutException)
+08-30 11:15:05.594 I/OPENHU  (12334): [2] UsbReceiver.onReceive | USB Intent: Intent { act=com.andrerinas.openheadunit.ACTION_USB_DEVICE_PERMISSION flg=0x10 pkg=com.andrerinas.headunitrevived (has extras) }
+08-30 11:15:05.604 I/OPENHU  (12334): [2] UsbReceiver.onReceive | USB Intent: Intent { act=com.andrerinas.openheadunit.ACTION_USB_DEVICE_PERMISSION flg=0x10 pkg=com.andrerinas.headunitrevived (has extras) }
+08-30 11:15:05.606 W/OPENHU  (12334): [2] UsbLauncherListener.onUsbPermission | USB permission denied for ASIX AX88179A (VID: 0B95 PID: 1790)
+08-30 11:15:05.635 I/OPENHU  (12334): [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+08-30 11:15:08.989 I/OPENHU  (12334): [2] MainActivity.cancelAutoConnect | Auto-connect: cancelled by user
+08-30 11:15:12.467 I/OPENHU  (12334): [2] NetworkDiscovery.startScan | NetworkDiscovery: Starting scan...
+08-30 11:15:12.469 I/OPENHU  (12334): [111] 1.invokeSuspend | NetworkDiscovery: Step 1 - Quick Gateway Scan
+08-30 11:15:12.481 I/OPENHU  (12334): [111] NetworkDiscovery.scanGateways | NetworkDiscovery: Checking suspects: [192.168.1.254, 192.168.1.1, 9.3.231.1]
+08-30 11:15:13.107 I/OPENHU  (12334): [111] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Gateway scan — 3 probed, 0 responded, 3 silent on 5289 (last: SocketTimeoutException)
+08-30 11:15:13.107 I/OPENHU  (12334): [111] 1.invokeSuspend | NetworkDiscovery: Step 2 - Full Subnet Scan
+08-30 11:15:13.114 I/OPENHU  (12334): [111] 2.invokeSuspend | NetworkDiscovery: Scanning subnet: 192.168.1.*
+08-30 11:15:15.578 I/OPENHU  (12334): [93] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Swept 192.168.1.* — 253 probed, 0 responded, 253 silent on 5289 (last: SocketTimeoutException)
+08-30 11:15:25.594 I/OPENHU  (12334): [2] NetworkDiscovery.startScan | NetworkDiscovery: Starting scan...
+08-30 11:15:25.596 I/OPENHU  (12334): [114] 1.invokeSuspend | NetworkDiscovery: Step 1 - Quick Gateway Scan
+08-30 11:15:25.604 I/OPENHU  (12334): [114] NetworkDiscovery.scanGateways | NetworkDiscovery: Checking suspects: [192.168.1.254, 192.168.1.1, 9.3.231.1]
+08-30 11:15:26.228 I/OPENHU  (12334): [114] NetworkDiscovery.reportProbeTally | NetworkDiscovery: Gateway scan — 3 probed, 0 responded, 3 silent on 5289 (last: SocketTimeoutException)
+08-30 11:15:26.229 I/OPENHU  (12334): [114] 1.invokeSuspend | NetworkDiscovery: Step 2 - Full Subnet Scan
+08-30 11:15:26.236 I/OPENHU  (12334): [114] 2.invokeSuspend | NetworkDiscovery: Scanning subnet: 192.168.1.*
+08-30 11:15:27.131 I/OPENHU  (12334): [2] MainActivity.dispatchKeyEvent | dispatchKeyEvent: keyCode=4, action=0
+08-30 11:15:27.136 I/OPENHU  (12334): [2] MainActivity.dispatchKeyEvent | dispatchKeyEvent: keyCode=4, action=1
+08-30 11:15:28.206 W/ActivityTaskManager( 1388): Force removing ActivityRecord{186952915 u0 com.andrerinas.headunitrevived/com.andrerinas.openheadunit.main.MainActivity t103 f}}: app died, no saved state

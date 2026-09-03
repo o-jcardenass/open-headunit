@@ -1,0 +1,38 @@
+u1.log:08-30 11:13:46.091 D/UsbHostManager( 1388): USB device attached: vidpid 0b95:1790 mfg/product/ver/serial ASIX/AX88179A/2.00/008151BD hasAudio/HID/Storage: false/false/false
+u1.log-08-30 11:13:46.208 D/UsbHostManager( 1388): Added device UsbDevice[mName=/dev/bus/usb/001/003,mVendorId=2965,mProductId=6032,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=ASIX,mProductName=AX88179A,mVersion=2.00,mSerialNumberReader=com.android.server.usb.UsbSerialReader@6fbd7dd, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+u1.log-08-30 11:13:46.208 D/UsbHostManager( 1388): UsbConfiguration[mId=1,mName=null,mAttributes=160,mMaxPower=50,mInterfaces=[
+u1.log-08-30 11:13:46.208 D/UsbHostManager( 1388): UsbInterface[mId=0,mAlternateSetting=0,mName=Network_Interface,mClass=255,mSubclass=255,mProtocol=0,mEndpoints=[
+u1.log-08-30 11:13:46.208 D/UsbHostManager( 1388): UsbConfiguration[mId=2,mName=null,mAttributes=160,mMaxPower=50,mInterfaces=[
+u1.log-08-30 11:13:46.208 D/UsbHostManager( 1388): UsbInterface[mId=0,mAlternateSetting=0,mName=null,mClass=2,mSubclass=13,mProtocol=0,mEndpoints=[
+u1.log-08-30 11:13:46.208 D/UsbHostManager( 1388): UsbInterface[mId=1,mAlternateSetting=0,mName=null,mClass=10,mSubclass=0,mProtocol=1,mEndpoints=[]
+u1.log-08-30 11:13:46.208 D/UsbHostManager( 1388): UsbInterface[mId=1,mAlternateSetting=1,mName=null,mClass=10,mSubclass=0,mProtocol=1,mEndpoints=[
+u1.log-08-30 11:13:46.208 D/UsbHostManager( 1388): UsbConfiguration[mId=3,mName=null,mAttributes=160,mMaxPower=50,mInterfaces=[
+u1.log-08-30 11:13:46.208 D/UsbHostManager( 1388): UsbInterface[mId=0,mAlternateSetting=0,mName=null,mClass=2,mSubclass=6,mProtocol=0,mEndpoints=[
+u1.log-08-30 11:13:46.208 D/UsbHostManager( 1388): UsbInterface[mId=1,mAlternateSetting=0,mName=null,mClass=10,mSubclass=0,mProtocol=0,mEndpoints=[]
+u1.log-08-30 11:13:46.208 D/UsbHostManager( 1388): UsbInterface[mId=1,mAlternateSetting=1,mName=null,mClass=10,mSubclass=0,mProtocol=0,mEndpoints=[
+u1.log-08-30 11:13:46.279 D/UsbHostManager( 1388): USB device attached: vidpid 090c:1000 mfg/product/ver/serial General/USB Flash Disk/11.00/1305120000004129 hasAudio/HID/Storage: false/false/true
+u1.log-08-30 11:13:46.283 D/UsbHostManager( 1388): Added device UsbDevice[mName=/dev/bus/usb/001/004,mVendorId=2316,mProductId=4096,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=General,mProductName=USB Flash Disk,mVersion=11.00,mSerialNumberReader=com.android.server.usb.UsbSerialReader@621746f, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+u1.log-08-30 11:13:46.283 D/UsbHostManager( 1388): UsbConfiguration[mId=1,mName=null,mAttributes=128,mMaxPower=250,mInterfaces=[
+u1.log-08-30 11:13:46.283 D/UsbHostManager( 1388): UsbInterface[mId=0,mAlternateSetting=0,mName=null,mClass=8,mSubclass=6,mProtocol=80,mEndpoints=[
+u1.log:08-30 11:13:50.463 D/UsbHostManager( 1388): USB device attached: vidpid 0b95:1790 mfg/product/ver/serial ASIX/AX88179A/2.00/008151BD hasAudio/HID/Storage: false/false/false
+u1.log-08-30 11:13:50.567 D/UsbHostManager( 1388): Added device UsbDevice[mName=/dev/bus/usb/001/005,mVendorId=2965,mProductId=6032,mClass=255,mSubclass=255,mProtocol=0,mManufacturerName=ASIX,mProductName=AX88179A,mVersion=2.00,mSerialNumberReader=com.android.server.usb.UsbSerialReader@b181e3c, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+u1.log-08-30 11:13:50.567 D/UsbHostManager( 1388): UsbConfiguration[mId=1,mName=null,mAttributes=160,mMaxPower=50,mInterfaces=[
+u1.log-08-30 11:13:50.567 D/UsbHostManager( 1388): UsbInterface[mId=0,mAlternateSetting=0,mName=Network_Interface,mClass=255,mSubclass=255,mProtocol=0,mEndpoints=[
+u1b.log:08-30 11:18:54.243 D/UsbHostManager( 1388): USB device attached: vidpid 0b95:1790 mfg/product/ver/serial ASIX/AX88179A/2.00/008151BD hasAudio/HID/Storage: false/false/false
+u1b.log-08-30 11:18:54.361 D/UsbHostManager( 1388): Added device UsbDevice[mName=/dev/bus/usb/001/003,mVendorId=2965,mProductId=6032,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=ASIX,mProductName=AX88179A,mVersion=2.00,mSerialNumberReader=com.android.server.usb.UsbSerialReader@5e3c14, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+u1b.log-08-30 11:18:54.361 D/UsbHostManager( 1388): UsbConfiguration[mId=1,mName=null,mAttributes=160,mMaxPower=50,mInterfaces=[
+u1b.log-08-30 11:18:54.361 D/UsbHostManager( 1388): UsbInterface[mId=0,mAlternateSetting=0,mName=Network_Interface,mClass=255,mSubclass=255,mProtocol=0,mEndpoints=[
+u1b.log-08-30 11:18:54.361 D/UsbHostManager( 1388): UsbConfiguration[mId=2,mName=null,mAttributes=160,mMaxPower=50,mInterfaces=[
+u1b.log-08-30 11:18:54.361 D/UsbHostManager( 1388): UsbInterface[mId=0,mAlternateSetting=0,mName=null,mClass=2,mSubclass=13,mProtocol=0,mEndpoints=[
+u1b.log-08-30 11:18:54.361 D/UsbHostManager( 1388): UsbInterface[mId=1,mAlternateSetting=0,mName=null,mClass=10,mSubclass=0,mProtocol=1,mEndpoints=[]
+u1b.log-08-30 11:18:54.361 D/UsbHostManager( 1388): UsbInterface[mId=1,mAlternateSetting=1,mName=null,mClass=10,mSubclass=0,mProtocol=1,mEndpoints=[
+u1b.log-08-30 11:18:54.361 D/UsbHostManager( 1388): UsbConfiguration[mId=3,mName=null,mAttributes=160,mMaxPower=50,mInterfaces=[
+u1b.log-08-30 11:18:54.361 D/UsbHostManager( 1388): UsbInterface[mId=0,mAlternateSetting=0,mName=null,mClass=2,mSubclass=6,mProtocol=0,mEndpoints=[
+u1b.log-08-30 11:18:54.361 D/UsbHostManager( 1388): UsbInterface[mId=1,mAlternateSetting=0,mName=null,mClass=10,mSubclass=0,mProtocol=0,mEndpoints=[]
+u1b.log-08-30 11:18:54.361 D/UsbHostManager( 1388): UsbInterface[mId=1,mAlternateSetting=1,mName=null,mClass=10,mSubclass=0,mProtocol=0,mEndpoints=[
+u1b.log-08-30 11:18:54.418 D/UsbHostManager( 1388): USB device attached: vidpid 090c:1000 mfg/product/ver/serial General/USB Flash Disk/11.00/1305120000004129 hasAudio/HID/Storage: false/false/true
+u1b.log-08-30 11:18:54.420 D/UsbHostManager( 1388): Added device UsbDevice[mName=/dev/bus/usb/001/004,mVendorId=2316,mProductId=4096,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=General,mProductName=USB Flash Disk,mVersion=11.00,mSerialNumberReader=com.android.server.usb.UsbSerialReader@9b674f1, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+u1b.log:08-30 11:18:58.632 D/UsbHostManager( 1388): USB device attached: vidpid 0b95:1790 mfg/product/ver/serial ASIX/AX88179A/2.00/008151BD hasAudio/HID/Storage: false/false/false
+u1b.log-08-30 11:18:58.736 D/UsbHostManager( 1388): Added device UsbDevice[mName=/dev/bus/usb/001/005,mVendorId=2965,mProductId=6032,mClass=255,mSubclass=255,mProtocol=0,mManufacturerName=ASIX,mProductName=AX88179A,mVersion=2.00,mSerialNumberReader=com.android.server.usb.UsbSerialReader@aa50e9c, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+u1b.log-08-30 11:18:58.736 D/UsbHostManager( 1388): UsbConfiguration[mId=1,mName=null,mAttributes=160,mMaxPower=50,mInterfaces=[
+u1b.log-08-30 11:18:58.736 D/UsbHostManager( 1388): UsbInterface[mId=0,mAlternateSetting=0,mName=Network_Interface,mClass=255,mSubclass=255,mProtocol=0,mEndpoints=[

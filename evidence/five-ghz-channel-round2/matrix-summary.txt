@@ -1,0 +1,36 @@
+--- station at launch: mWifiInfo SSID: "Pegue Cdesta", BSSID: f4:52:46:60:8d:4e, MAC: fe:87:f2:8d:8f:91, IP: /192.168.1.15, Security type: 2, Supplicant state: COMPLETED, Wi-Fi standard: 5, RSSI: -18, Link speed: 433Mbps, Tx Link speed: 433Mbps, Max Supported Tx Link speed: 433Mbps, Rx Link speed: 433Mbps, Max Supported Rx Link speed: 433Mbps, Frequency: 5260MHz
+--- dumpsys wifip2p freq/channel ---
+----- channel=36  (launched 16:23:34) -----
+  09-01 16:23:37.461 I/OPENHU  ( 5033): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band. Chosen by the user.
+  09-01 16:23:37.462 I/OPENHU  ( 5033): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is channel 36 (5180 MHz), asked for as a fixed 5180 MHz.
+  09-01 16:23:37.491 I/OPENHU  ( 5033): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+  09-01 16:23:37.659 I/OPENHU  ( 5033): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-FI-Navegadortz2, BSSID: 5E:5F:69:1B:91:4F (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-0, Freq: 5180 MHz (5GHz), 5180 MHz was asked for
+  09-01 16:23:38.511 I/OPENHU  ( 5033): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-FI-Navegadortz2, BSSID: 5E:5F:69:1B:91:4F (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-0, Freq: 5180 MHz (5GHz), 5180 MHz was asked for
+  09-01 16:23:38.529 I/OPENHU  ( 5033): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-FI-Navegadortz2, BSSID: 5E:5F:69:1B:91:4F (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-0, Freq: 5180 MHz (5GHz), 5180 MHz was asked for
+  createGroup SUCCESS count: 1
+  p2p ifaces: p2p-wlan0-0 
+
+--- station at launch: mWifiInfo SSID: "Pegue Cdesta", BSSID: f4:52:46:60:8d:4e, MAC: fe:87:f2:8d:8f:91, IP: /192.168.1.15, Security type: 2, Supplicant state: COMPLETED, Wi-Fi standard: 5, RSSI: -18, Link speed: 433Mbps, Tx Link speed: 433Mbps, Max Supported Tx Link speed: 433Mbps, Rx Link speed: 6Mbps, Max Supported Rx Link speed: 433Mbps, Frequency: 5260MHz
+--- dumpsys wifip2p freq/channel ---
+----- channel=149  (launched 16:24:39) -----
+  09-01 16:24:42.317 I/OPENHU  ( 5719): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band. Chosen by the user.
+  09-01 16:24:42.318 I/OPENHU  ( 5719): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is channel 149 (5745 MHz), asked for as a fixed 5745 MHz.
+  09-01 16:24:42.358 I/OPENHU  ( 5719): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+  09-01 16:24:42.532 I/OPENHU  ( 5719): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-X4-Navegadortz2, BSSID: 0E:5E:04:CB:87:92 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-1, Freq: 5745 MHz (5GHz), 5745 MHz was asked for
+  09-01 16:24:43.378 I/OPENHU  ( 5719): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-X4-Navegadortz2, BSSID: 0E:5E:04:CB:87:92 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-1, Freq: 5745 MHz (5GHz), 5745 MHz was asked for
+  09-01 16:24:43.395 I/OPENHU  ( 5719): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-X4-Navegadortz2, BSSID: 0E:5E:04:CB:87:92 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-1, Freq: 5745 MHz (5GHz), 5745 MHz was asked for
+  createGroup SUCCESS count: 1
+  p2p ifaces: p2p-wlan0-0 p2p-wlan0-1 
+
+--- station at launch: mWifiInfo SSID: "Pegue Cdesta", BSSID: f4:52:46:60:8d:4e, MAC: fe:87:f2:8d:8f:91, IP: /192.168.1.15, Security type: 2, Supplicant state: COMPLETED, Wi-Fi standard: 5, RSSI: -18, Link speed: 292Mbps, Tx Link speed: 292Mbps, Max Supported Tx Link speed: 433Mbps, Rx Link speed: 6Mbps, Max Supported Rx Link speed: 433Mbps, Frequency: 5260MHz
+--- dumpsys wifip2p freq/channel ---
+----- channel=0  (launched 16:25:44) -----
+  09-01 16:25:47.152 I/OPENHU  ( 6348): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band. Chosen by the user.
+  09-01 16:25:47.153 I/OPENHU  ( 6348): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is automatic, so the driver picks within the band.
+  09-01 16:25:47.190 I/OPENHU  ( 6348): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+  09-01 16:25:47.373 I/OPENHU  ( 6348): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-0Q-Navegadortz2, BSSID: 2A:83:5D:18:48:32 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-2, Freq: 5240 MHz (5GHz)
+  09-01 16:25:48.205 I/OPENHU  ( 6348): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-0Q-Navegadortz2, BSSID: 2A:83:5D:18:48:32 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-2, Freq: 5240 MHz (5GHz)
+  09-01 16:25:48.223 I/OPENHU  ( 6348): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-0Q-Navegadortz2, BSSID: 2A:83:5D:18:48:32 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-2, Freq: 5240 MHz (5GHz)
+  createGroup SUCCESS count: 1
+  p2p ifaces: p2p-wlan0-1 p2p-wlan0-2 
+

@@ -1,0 +1,10 @@
+769:09-03 13:28:43.364 I/OPENHU  (18616): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+1361:09-03 13:29:02.774 W/OPENHU  (18616): [2] AutomationEffectRunner.run | AutomationMarker: R1_trigger
+1529:09-03 13:29:16.042 I/OPENHU  (18616): [2] AutoStartReceiver.onReceive | BT Device connected: motorola edge 30 neo (A0:46:5A:97:E4:95)
+1530:09-03 13:29:16.042 I/OPENHU  (18616): [2] AutoStartReceiver.onReceive | MATCH! Starting AapService via Bluetooth Auto-start...
+1586:09-03 13:29:16.088 I/OPENHU  (18616): [2] MainActivity.handleLaunchIntent | MainActivity: Bluetooth auto-start: leaving Self Mode alone
+1890:09-03 13:29:21.599 I/OPENHU  (18616): [185] 1.invokeSuspend | WirelessServer: Incoming connection detected from /192.168.49.62
+1892:09-03 13:29:21.605 I/OPENHU  (18616): [2] AapService.emitSessionState | AapService: session state connecting
+1894:09-03 13:29:21.607 I/OPENHU  (18616): [2] AapService.emitSessionState | AapService: session state connected
+2036:09-03 13:29:22.109 I/OPENHU  (18616): [2] AapService.emitSessionState | AapService: session state projecting
+6615:09-03 13:30:02.881 W/OPENHU  (18616): [2] AutomationEffectRunner.run | AutomationMarker: R1_end

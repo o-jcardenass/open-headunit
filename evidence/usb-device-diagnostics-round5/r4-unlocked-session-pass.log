@@ -1,0 +1,85 @@
+08-31 23:15:21.089 20483 20540 I OPENHU  : [51] UsbAccessoryMode.connectAndSwitch | Result: true
+08-31 23:15:21.231 20483 20483 V OPENHU  : [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Xiaomi POCO X3 NFC (VID: 18D1 PID: 2D00) [class 00/00/00, permission] accepted: already in accessory mode | if0 FF/FF/00 (1xbulkIn+1xbulkOut)
+08-31 23:15:21.232 20483 20483 I OPENHU  : [2] UsbLauncherListener.onUsbAttach | USB accessory device attached, connecting.
+08-31 23:15:21.235 20483 20483 V OPENHU  : [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Xiaomi POCO X3 NFC (VID: 18D1 PID: 2D00) [class 00/00/00, permission] accepted: already in accessory mode | if0 FF/FF/00 (1xbulkIn+1xbulkOut)
+08-31 23:15:21.237 20483 20483 I OPENHU  : [2] UsbLauncherManager.checkAlreadyConnected | Found device already in accessory mode: Xiaomi POCO X3 NFC (VID: 18D1 PID: 2D00)
+08-31 23:15:21.251 20483 20540 I OPENHU  : [51] StandardUsbProjectionConnection.usbOpen | Established connection: android.hardware.usb.UsbDeviceConnection@e51f6d0
+08-31 23:15:21.251 20483 20540 I OPENHU  : [51] StandardUsbProjectionConnection.usbOpen | interfaceCount: 1
+08-31 23:15:21.251 20483 20540 I OPENHU  : [51] StandardUsbProjectionConnection.initEndpoint | Check accessory endpoints
+08-31 23:15:21.251 20483 20540 I OPENHU  : [51] StandardUsbProjectionConnection.initEndpoint | Connected have EPs
+08-31 23:15:21.256 20483 20483 V OPENHU  : [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Xiaomi POCO X3 NFC (VID: 18D1 PID: 2D00) [class 00/00/00, permission] accepted: already in accessory mode | if0 FF/FF/00 (1xbulkIn+1xbulkOut)
+08-31 23:15:21.257 20483 20483 I OPENHU  : [2] UsbAttachedActivity.onCreate | Usb in accessory mode and has permission. Starting AapService.
+08-31 23:15:21.271 20483 20483 I OPENHU  : [2] AapService.quiesceWirelessForWiredSession | AapService: USB session established while wireless mode HELPER/NEARBY_DEVICES was armed — stopping the wireless stack for the duration of it
+08-31 23:15:21.277 20483 20483 D OPENHU  : [2] CarKeysManager.registerReceivers | AapService: 1 CarKeyReceivers registered
+08-31 23:15:21.278 20483 20483 D OPENHU  : [2] AapService.updateMediaSessionState | MediaSession: State updated to PLAYING, positionMs=0
+08-31 23:15:21.279 20483 20483 D OPENHU  : [2] AapService.requestPermanentAudioFocus | Static Audio Focus disabled - skipping permanent audio focus request; focus will be acquired on demand.
+08-31 23:15:21.279 20483 20483 I OPENHU  : [2] AapService.onConnected | AapService: Starting GpsLocationService and NightModeManager since connection is established
+08-31 23:15:21.283 20483 20483 I OPENHU  : [2] 1.invoke | NightMode update: true
+08-31 23:15:21.304 20483 20483 I OPENHU  : [2] AapService.acquireBootWakeLock | Boot WakeLock acquired (10min timeout)
+08-31 23:15:21.306 20483 20483 I OPENHU  : [2] AapService.acquireBootWakeLock | Battery optimization exempt: false
+08-31 23:15:21.355 20483 20538 I OPENHU  : [49] AapTransport.startHandshake$com_andrerinas_headunitrevived_3_3_0_beta4_githubDebug | Start Aap transport handshake for com.andrerinas.openheadunit.connection.projection.StandardUsbProjectionConnection@3033a73
+08-31 23:15:21.506 20483 20483 I OPENHU  : [2] AapProjectionActivity.onCreate | HeadUnit for Android Auto (tm) - Copyright 2011-2015 Michael A. Reid., since 2025 André Rinas All Rights Reserved...
+08-31 23:15:21.506 20483 20483 I OPENHU  : [2] AapProjectionActivity.setupProjectionView | Projection backend: viewMode=GLES override=false SoC=qcom board=miami mfr=motorola model=motorola edge 30 neo API=34
+08-31 23:15:21.507 20483 20483 I OPENHU  : [2] AapProjectionActivity.setupProjectionView | Using GlProjectionView
+08-31 23:15:21.555 20483 20483 I OPENHU  : [2] AapProjectionActivity.setupProjectionView | Using GLES YUV sink for bundled software HEVC
+08-31 23:15:21.560 20483 20483 I OPENHU  : [2] AapProjectionActivity.onResume | AapProjectionActivity: onResume
+08-31 23:15:21.602 20483 20793 I OPENHU  : [63] VideoRenderer.onSurfaceCreated | GlProjectionView: onSurfaceCreated (GL Context)
+08-31 23:15:21.608 20483 20483 I OPENHU  : [2] 1.invoke | NightMode update: true
+08-31 23:15:21.618 20483 20793 I OPENHU  : [63] VideoRenderer.onSurfaceCreated | GlProjectionView: YUV handles pos=0 tex=1 mvp=0 st=1 y=6 u=7 v=8
+08-31 23:15:21.619 20483 20793 I OPENHU  : [63] VideoRenderer.onSurfaceChanged | GlProjectionView: onSurfaceChanged: 2400x1080
+08-31 23:15:21.630 20483 20483 I OPENHU  : [2] VideoRenderer.onSurfaceCreated$lambda$9 | GlProjectionView: Reporting Surface Created
+08-31 23:15:21.630 20483 20483 I OPENHU  : [2] AapProjectionActivity.onSurfaceCreated | [UI_DEBUG] [AapProjectionActivity] onSurfaceCreated
+08-31 23:15:21.630 20483 20483 I OPENHU  : [2] AapProjectionActivity.onSurfaceChanged | [UI_DEBUG] [AapProjectionActivity] onSurfaceChanged. Actual surface dimensions: width=2400, height=1080
+08-31 23:15:21.631 20483 20483 I OPENHU  : [2] VideoDecoder.setSurface | New surface set: Surface(name=android.graphics.SurfaceTexture@8070be0)/@0x501060c
+08-31 23:15:21.631 20483 20483 I OPENHU  : [2] VideoDecoder.stop | Decoder stopped: New surface
+08-31 23:15:21.912 20483 20538 D OPENHU  : [49] AapTransport.handshake | Handshake: Starting version request. TS: 339848
+08-31 23:15:21.913 20483 20538 D OPENHU  : [49] AapTransport.handshake | Handshake: Version request sent. ret: 10. attempt: 1. TS: 339849
+08-31 23:15:21.913 20483 20538 D OPENHU  : [49] AapTransport.handshake | Handshake: Waiting for version response. TS: 339849
+08-31 23:15:21.917 20483 20538 I OPENHU  : [49] StandardUsbProjectionConnection.recvBlocking | USB reads recovered after 1 errors
+08-31 23:15:21.918 20483 20538 I OPENHU  : [49] AapTransport.handshake | Handshake: Version response received (ret=12, attempt=1).
+08-31 23:15:21.918 20483 20538 I OPENHU  : [49] AapTransport.handshake | Handshake: Version response recv ret: 12
+08-31 23:15:21.918 20483 20538 D OPENHU  : [49] AapTransport.handshake | Handshake: Starting SSL handshake via performHandshake(). TS: 339853
+08-31 23:15:21.955 20483 20538 I OPENHU  : [49] AapSslContext.performHandshake | SSL handshake complete. Session id: 8X5BHtUfED1xNrnKEAzhgTamE2mMNAMco5ZLNEIzYRw=
+08-31 23:15:21.955 20483 20538 D OPENHU  : [49] AapTransport.handshake | Handshake: SSL buffers reset after handshake.
+08-31 23:15:21.955 20483 20538 D OPENHU  : [49] AapTransport.handshake | Handshake: SSL handshake complete. TS: 339891
+08-31 23:15:21.955 20483 20538 D OPENHU  : [49] AapTransport.handshake | Handshake: Status OK sent. ret: 8. TS: 339891
+08-31 23:15:21.956 20483 20538 I OPENHU  : [49] AapTransport.handshake | Handshake: Status OK sent: 8
+08-31 23:15:21.956 20483 20538 D OPENHU  : [49] AapTransport.handshake | Handshake: Handshake successful. TS: 339891
+08-31 23:15:21.988 20483 20483 I OPENHU  : [2] AapService.launchViaOverlayTrampoline | Overlay trampoline: startActivity succeeded
+08-31 23:15:21.998 20483 20483 I OPENHU  : [2] AapProjectionActivity.onPause | AapProjectionActivity: onPause
+08-31 23:15:22.000 20483 20483 I OPENHU  : [2] AapProjectionActivity.onNewIntent | AapProjectionActivity: onNewIntent received
+08-31 23:15:22.000 20483 20483 I OPENHU  : [2] AapProjectionActivity.onResume | AapProjectionActivity: onResume
+08-31 23:15:22.011 20483 20483 I OPENHU  : [2] AapProjectionActivity.onPause | AapProjectionActivity: onPause
+08-31 23:15:22.013 20483 20483 I OPENHU  : [2] AapProjectionActivity.onNewIntent | AapProjectionActivity: onNewIntent received
+08-31 23:15:22.014 20483 20483 I OPENHU  : [2] AapProjectionActivity.onResume | AapProjectionActivity: onResume
+08-31 23:15:22.038 20483 20483 I OPENHU  : [2] 1.invoke | NightMode update: true
+08-31 23:15:22.040 20483 20483 I OPENHU  : [2] 1.invoke | NightMode update: true
+08-31 23:15:22.042 20483 20483 I OPENHU  : [2] 1.invoke | NightMode update: true
+08-31 23:15:22.150 20483 20790 D OPENHU  : [62] AapService.updateMediaSessionState | MediaSession: State updated to STOPPED, positionMs=0
+08-31 23:15:22.239 20483 20483 I OPENHU  : [2] 1.invoke | NightMode update: true
+08-31 23:15:25.161 20483 20790 I OPENHU  : [62] VideoDecoder.applyStreamDimensions | H.264 SPS parsed: 1920x1080 (negotiated 1920x1080)
+08-31 23:15:25.162 20483 20790 I OPENHU  : [62] AapProjectionActivity.onVideoDimensionsChanged | [AapProjectionActivity] Received video dimensions: 1920x1080
+08-31 23:15:25.162 20483 20790 I OPENHU  : [62] VideoDecoder.applyParameterSet | Stream SPS (H.264): profile=66 level=42 poc_type=2 num_ref_frames=1 size=1920x1080 vui=true bitstream_restriction=true num_reorder_frames=0 max_dec_frame_buffering=1
+08-31 23:15:25.163 20483 20483 I OPENHU  : [2] GlProjectionView.setVideoSize | GlProjectionView setVideoSize: 1920x1080
+08-31 23:15:25.165 20483 20790 I OPENHU  : [62] VideoDecoder.findBestCodec | findBestCodec: hw=c2.qti.avc.decoder, sw=c2.android.avc.decoder, preferHardware=true, selected=c2.qti.avc.decoder
+08-31 23:15:25.165 20483 20790 I OPENHU  : [62] VideoDecoder.logDecoderCapability | Decoder capability: codec=c2.qti.avc.decoder mime=video/avc target=1920x1080@60 sizeSupported=true rateSupported=true sustains=true widths=[96, 1920] heights=[96, 1920] featureLowLatency=false featureAdaptivePlayback=true
+08-31 23:15:25.166 20483 20483 I OPENHU  : [2] ProjectionViewScaler.updateScale | [UI_DEBUG] Normal Scale. scaleX: 1.0, scaleY: 1.0619469
+08-31 23:15:25.184 20483 20790 I OPENHU  : [62] VideoDecoder.start | Configuring decoder: c2.qti.avc.decoder for 1920x1080, max-input-size=1530KB, memory=AMPLE (totalRam=7462MB heapLimit=512MB memoryClass=256MB lowRamFlag=false), queue=30 frames, optionalKeys=none
+08-31 23:15:25.231 20483 20790 I OPENHU  : [62] VideoDecoder.start | Codec initialized: c2.qti.avc.decoder
+08-31 23:15:25.231 20483 21195 I OPENHU  : [67] VideoDecoder.outputThreadLoop | Output thread started
+08-31 23:15:25.232 20483 21196 I OPENHU  : [68] VideoDecoder.feedThreadLoop | Feed thread started (queue holds 30 frames, 500ms at 60fps)
+08-31 23:15:25.243 20483 21196 I OPENHU  : [68] VideoDecoder.feedInputBuffer | Codec input buffer: requested 1530KB, got 3060KB per buffer
+08-31 23:15:25.245 20483 21196 I OPENHU  : [68] VideoDecoder.reportContentOnce | VideoDecoder: access unit classified PARAMETER_SETS_ONLY - flagged to the codec as configuration (first this session)
+08-31 23:15:25.254 20483 21196 I OPENHU  : [68] VideoDecoder.reportContentOnce | VideoDecoder: access unit classified PARAMETER_SETS_WITH_PICTURE - carries a picture too, so not flagged (first this session)
+08-31 23:15:25.257 20483 21196 I OPENHU  : [68] VideoDecoder.feedInputBuffer | VideoDecoder: keyframe reached the codec (8200 bytes)
+08-31 23:15:25.258 20483 21196 I OPENHU  : [68] VideoDecoder.reportContentOnce | VideoDecoder: access unit classified NO_PARAMETER_SETS - an ordinary frame (first this session)
+08-31 23:15:25.300 20483 21195 I OPENHU  : [67] VideoDecoder.handleOutputFormatChange | Output Format Changed: {crop-right=1919, max-height=1079, sar-width=1, color-format=2130708361, mime=video/raw, hdr-static-info=java.nio.HeapByteBuffer[pos=0 lim=25 cap=25], priority=0, color-standard=1, feature-secure-playback=0, color-transfer=3, sar-height=1, crop-bottom=1079, max-width=1920, crop-left=0, width=1920, color-range=2, crop-top=0, rotation-degrees=0, frame-rate=30, height=1088}
+08-31 23:15:25.307 20483 21195 I OPENHU  : [67] VideoDecoder.outputThreadLoop | VideoDecoder: keyframe decoded - the picture is repaired
+08-31 23:15:25.307 20483 21195 I OPENHU  : [67] VideoDecoder.outputThreadLoop | First frame rendered (hardware decode)
+08-31 23:15:25.308 20483 20483 I OPENHU  : [2] AapProjectionActivity.hideLoadingOverlay | Hiding loading overlay after first video frame
+08-31 23:15:30.263 20483 21195 I OPENHU  : [67] VideoDecoder.logThroughput | Throughput over 5006ms: rendered=262 (52fps), fed=263 (52fps), dropped=0, skipped=0, concealed=0, inputWait=134ms, enqueueWait=0ms, codec=c2.qti.avc.decoder, presented=261 (52fps), decodeLatency=18ms p95=22ms (261 frames)
+08-31 23:15:30.320 20483 20793 I OPENHU  : [63] VideoRenderer.markFrameDrawn | GlProjectionView: displayed 262 frames in 5010ms (52fps), longFrames=0
+08-31 23:15:35.261 20483 21195 I OPENHU  : [67] VideoDecoder.logThroughput | Throughput over 5000ms: rendered=241 (48fps), fed=241 (48fps), dropped=0, skipped=0, concealed=0, inputWait=116ms, enqueueWait=0ms, codec=c2.qti.avc.decoder, presented=241 (48fps), decodeLatency=18ms p95=20ms (241 frames)
+08-31 23:15:35.327 20483 20793 I OPENHU  : [63] VideoRenderer.markFrameDrawn | GlProjectionView: displayed 240 frames in 5008ms (47fps), longFrames=0
+08-31 23:15:40.267 20483 21195 I OPENHU  : [67] VideoDecoder.logThroughput | Throughput over 5005ms: rendered=243 (48fps), fed=243 (48fps), dropped=0, skipped=0, concealed=0, inputWait=198ms, enqueueWait=0ms, codec=c2.qti.avc.decoder, presented=243 (48fps), decodeLatency=20ms p95=25ms (243 frames)
+08-31 23:15:40.343 20483 20793 I OPENHU  : [63] VideoRenderer.markFrameDrawn | GlProjectionView: displayed 245 frames in 5016ms (48fps), longFrames=0

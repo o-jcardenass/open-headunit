@@ -1,0 +1,41 @@
+ASIX AX88179B built into the round-2 USB-C dock, as UsbHostManager logged it on the
+motorola edge 30 neo (host). VID:PID 0B95:1790, same pair as round 1's AX88179A
+(0B95:1790) but a newer silicon revision (mProductName=AX88179B).
+
+The device stays in configuration 1 (the vendor form) on every plug on this host. The
+CDC configurations exist in the descriptor but are never made active, and — this is the
+point of the R1 FAIL — UsbDevice.getInterfaceList() as seen by the app returns only
+configuration 1's single interface, so the policy's CDC-sibling veto has nothing to act
+on.
+
+USB device attached: vidpid 0b95:1790  ASIX/AX88179B/2.00/006C1FF7C0DD09
+  hasAudio/HID/Storage: false/false/false
+Added device UsbDevice[mVendorId=2965, mProductId=6032, mClass=0, mSubclass=0, mProtocol=0,
+  mManufacturerName=ASIX, mProductName=AX88179B, mVersion=2.00, mConfigurations=[
+
+  UsbConfiguration[mId=1, mAttributes=160, mMaxPower=50, mInterfaces=[
+    UsbInterface[mId=0, mName=Network_Interface, mClass=255, mSubclass=255, mProtocol=0,
+      mEndpoints=[
+        UsbEndpoint[mAddress=129, mAttributes=3 (interrupt), mMaxPacketSize=16]
+        UsbEndpoint[mAddress=130, mAttributes=2 (bulk in),   mMaxPacketSize=512]
+        UsbEndpoint[mAddress=3,   mAttributes=2 (bulk out),  mMaxPacketSize=512]
+        UsbEndpoint[mAddress=5,   mAttributes=2 (bulk out),  mMaxPacketSize=512]]]]
+
+  UsbConfiguration[mId=2, mAttributes=160, mMaxPower=50, mInterfaces=[
+    UsbInterface[mId=0, mName=null, mClass=2,  mSubclass=13, mProtocol=0]   CDC NCM control
+    UsbInterface[mId=1, mName=null, mClass=10, mSubclass=0,  mProtocol=1]   CDC data
+    UsbInterface[mId=1, alt=1,      mClass=10, mSubclass=0,  mProtocol=1, bulk in + bulk out]]]
+
+  UsbConfiguration[mId=3, mAttributes=160, mMaxPower=50, mInterfaces=[
+    UsbInterface[mId=0, mName=null, mClass=2,  mSubclass=6,  mProtocol=0]   CDC ECM control
+    UsbInterface[mId=1, mName=null, mClass=10, mSubclass=0,  mProtocol=0]   CDC data
+    UsbInterface[mId=1, alt=1,      mClass=10, mSubclass=0,  mProtocol=0, bulk in + bulk out]]]
+
+What UsbDeviceCompat.describe() actually received (from the diagnostic line, both plugs):
+  if0 FF/FF/00 (bulkIn+bulkOut+1 other)
+  -- one interface, name blank ("unnamed vendor interface"), no CDC sibling.
+
+Other dock devices, for completeness:
+  Kingston DataTraveler G3   0930:6545  if0 08/06/50   mass storage, bulk-only
+  Generic USB3.0 Card Reader 05E3:0749  if0 08/06/50   mass storage, bulk-only
+  Fresco Logic Billboard     1D5C:7102  if0 11/00/00   USB-C billboard, no endpoints

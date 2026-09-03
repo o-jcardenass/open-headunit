@@ -1,0 +1,13 @@
+09-02 13:32:51.968 I/OPENHU  (12575): [2] StationStandDown.standDown | StationStandDown: asked this unit to leave its WiFi network so the group can have the radio to itself (disableNetwork returned false). It is rejoined when the session ends.
+09-02 13:32:51.969 I/OPENHU  (12575): [2] WifiDirectManager.claimNativeCreateWindow | WifiDirectManager: a Native AA group create is claimed (waiting for this unit to leave its own network); a refresh in the next 15s waits for it.
+09-02 13:32:52.170 I/OPENHU  (12575): [2] 1.onReceive | WifiDirectManager: WIFI_P2P_STATE_CHANGED_ACTION state=2
+09-02 13:32:53.486 I/OPENHU  (12575): [2] StationStandDown.standDown$lambda$0 | StationStandDown: this unit has left its WiFi network.
+09-02 13:32:53.488 I/OPENHU  (12575): [2] WifiDirectManager.claimNativeCreateWindow | WifiDirectManager: a Native AA group create is claimed (bringing the Native AA group up); a refresh in the next 15s waits for it.
+09-02 13:32:53.490 I/OPENHU  (12575): [2] WifiDirectManager.startNativeAaQuietHost | WifiDirectManager: startNativeAaQuietHost() requested. Removing old group if any...
+09-02 13:32:53.491 I/OPENHU  (12575): [2] WifiDirectManager.claimNativeCreateWindow | WifiDirectManager: a Native AA group create is claimed (recreating the group); a refresh in the next 15s waits for it.
+09-02 13:32:54.042 I/OPENHU  (12575): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+09-02 13:33:14.398 I/OPENHU  (12575): [2] AutoStartReceiver.onReceive | MATCH! Starting AapService via Bluetooth Auto-start...
+09-02 13:33:16.552 I/OPENHU  (12575): [61] 1.invokeSuspend | WirelessServer: Incoming connection detected from /192.168.49.54
+09-02 13:33:16.852 I/OPENHU  (12575): [83] AapSslContext.performHandshake | SSL handshake complete. Session id: 5v3Rs+NcA3QMJm52ozTuoNto2v+Hf7mBMgMYv5yXj3E=
+09-02 13:33:16.853 D/OPENHU  (12575): [83] AapTransport.handshake | Handshake: SSL handshake complete. TS: 21485021
+09-02 13:33:23.752 W/OPENHU  (12575): [2] StationStandDown.restore | StationStandDown: the platform refused to re-enable this unit's WiFi network. It may have to be reconnected by hand.

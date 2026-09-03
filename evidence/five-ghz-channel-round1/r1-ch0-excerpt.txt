@@ -1,0 +1,29 @@
+### R1 ch0 decisive lines
+09-01 14:15:13.280 I/OPENHU  ( 7531): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band. Chosen by the user.
+09-01 14:15:13.281 I/OPENHU  ( 7531): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is automatic, so the driver picks within the band.
+09-01 14:15:13.320 I/OPENHU  ( 7531): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+09-01 14:15:13.489 I/OPENHU  ( 7531): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-SW-Navegadortz2, BSSID: D2:BE:15:96:BE:D7 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-0, Freq: 5805 MHz (5GHz)
+09-01 14:15:14.335 I/OPENHU  ( 7531): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-SW-Navegadortz2, BSSID: D2:BE:15:96:BE:D7 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-0, Freq: 5805 MHz (5GHz)
+09-01 14:15:14.352 I/OPENHU  ( 7531): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-SW-Navegadortz2, BSSID: D2:BE:15:96:BE:D7 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-0, Freq: 5805 MHz (5GHz)
+
+### R1 ch0 BSSID source dump
+WifiDirectManager: == BSSID source dump (iface=p2p-wlan0-0) ==
+WifiDirectManager:   static override (Settings)       = 0
+WifiDirectManager:   getGroupOwnerBssid()             = null
+WifiDirectManager:   IPv6 link-local (p2p-wlan0-0)    = d2:be:15:96:be:d7
+WifiDirectManager:   IPv6 link-local (any p2p/ap)     = d2:be:15:96:be:d7
+WifiDirectManager: getWifiDirectMac for interface: p2p-wlan0-0
+WifiDirectManager: Found interface: dummy0, MAC: null
+WifiDirectManager: Found interface: seth_lte0, MAC: null
+WifiDirectManager: Found interface: lo, MAC: null
+WifiDirectManager: Found interface: p2p-wlan0-0, MAC: null
+WifiDirectManager: No valid MAC found in NetworkInterface scan for p2p-wlan0-0
+WifiDirectManager:   NetworkInterface.hardwareAddress = 00:00:00:00:00:00
+WifiDirectManager:   lastKnownBssid (null)            = null
+WifiDirectManager:   requestDeviceInfo                = 02:00:00:00:00:00
+WifiDirectManager:   group.owner.deviceAddress        = 02:00:00:00:00:00
+WifiDirectManager: MAC retrieved via sysfs (p2p-wlan0-0): d2:be:15:96:be:d7
+WifiDirectManager:   sysfs / ip link                  = d2:be:15:96:be:d7
+WifiDirectManager:   Settings.Secure p2p address      = null
+WifiDirectManager:   reflection over WifiP2pGroup     = null
+WifiDirectManager: == end BSSID source dump ==

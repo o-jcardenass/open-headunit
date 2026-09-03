@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+    <boolean name="auto-start-on-wifi" value="false" />
+    <set name="usb-blacklist">
+        <string>name:xiaomi poco x3 nfc</string>
+    </set>
+    <boolean name="auto-start-on-boot" value="false" />
+    <set name="auto-start-bt-macs" />
+    <boolean name="auto-start-on-usb" value="false" />
+    <string name="auto-start-wifi-ssid"></string>
+</map>

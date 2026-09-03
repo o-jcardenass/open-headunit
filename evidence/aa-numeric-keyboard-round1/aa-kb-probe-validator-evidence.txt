@@ -1,0 +1,24 @@
+# aa-numeric-keyboard round 1 — Gearhead CAR.VALIDATOR / CarApp.H evidence
+# D-POCO (POCO X3 NFC, Gearhead 17.5.663204), captured 2026-09-02
+
+==================================================================
+A. MAP_TEMPLATES-only rebuild (md5 8b4ecc08) — STILL DENIED
+   from round-aa-numeric-keyboard-r1/reconnect-capture.txt (15:20-15:25)
+==================================================================
+09-02 15:20:55.707 W/CAR.VALIDATOR(32216): Package DENIED; Uses for TEMPLATE not defined [com.example.aakbprobe]
+09-02 15:20:55.837 W/CAR.VALIDATOR(32216): Package DENIED; Uses for TEMPLATE not defined [com.example.aakbprobe]
+09-02 15:20:56.285 W/CAR.VALIDATOR(32216): Package DENIED; Uses for TEMPLATE not defined [com.example.aakbprobe]
+09-02 15:20:56.339 W/CAR.VALIDATOR(32216): Package DENIED; Uses for TEMPLATE not defined [com.example.aakbprobe]
+09-02 15:20:56.445 W/CAR.VALIDATOR(32216): Package DENIED; Uses for TEMPLATE not defined [com.example.aakbprobe]
+09-02 15:20:56.513 W/CAR.VALIDATOR(32216): Package DENIED; Uses for TEMPLATE not defined [com.example.aakbprobe]
+   ... 34 DENIED lines total; aakbprobe never in 'Raw list of car apps found'
+
+==================================================================
+B. descriptor rebuild (uses name=template; md5 658af979 / c4420d1c) — ENUMERATED
+   from round-aa-numeric-keyboard-r1/reconnect-capture-2.txt (15:25-15:49)
+==================================================================
+   CAR.VALIDATOR DENIED for aakbprobe: 0
+09-02 15:26:01.220 D/CarApp.H( 1513): Raw list of car apps found: [ResolveInfo{d912ca7 com.google.android.projection.gearhead/com.google.android.apps.auto.components.settings.ui.CarSettingsService m=0 ... /.ProbeCarAppService m=0x108000 userHand ...
+09-02 15:26:21.886 D/CarApp.H.Tem( 1513): Creating car host instance for com.example.aakbprobe/com.example.aakbprobe.ProbeCarAppService
+09-02 15:26:22.806 I/HostConfig( 1513): App: [com.example.aakbprobe/.ProbeCarAppService] app info: [Library version: [1.4.0] Min Car Api Level: [2] Latest Car App Api Level: [7]] Host min api: [1]  Host max api: [8] [CONTEXT ratelimit_period="5 SECONDS" ]
+09-02 15:26:22.808 D/HostConfig( 1513): App: [com.example.aakbprobe/.ProbeCarAppService], Host negotiated api: [7] [CONTEXT ratelimit_period="5 SECONDS" ]

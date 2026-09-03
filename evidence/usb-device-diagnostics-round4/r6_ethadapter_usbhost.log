@@ -1,0 +1,88 @@
+--------- beginning of system
+08-31 21:42:57.278 D/UsbHostManager( 1855): Removed device at /dev/bus/usb/003/001 was already gone
+08-31 21:42:57.427 D/UsbHostManager( 1855): Removed device at /dev/bus/usb/002/003: USB3.0 Card Reader
+08-31 21:42:57.479 D/UsbHostManager( 1855): Removed device at /dev/bus/usb/002/007: AX88179B
+08-31 21:42:57.495 D/UsbHostManager( 1855): Removed device at /dev/bus/usb/002/006: Generic Billboard Device
+08-31 21:42:57.503 D/UsbHostManager( 1855): Removed device at /dev/bus/usb/002/004 was already gone
+08-31 21:42:57.533 D/UsbHostManager( 1855): Removed device at /dev/bus/usb/002/002 was already gone
+08-31 21:42:57.564 D/UsbHostManager( 1855): Removed device at /dev/bus/usb/002/001 was already gone
+08-31 21:43:11.369 D/UsbHostManager( 1855): USB device attached: vidpid 05e3:0749 mfg/product/ver/serial Generic/USB3.0 Card Reader/15.35/000000001536 hasAudio/HID/Storage: false/false/true
+08-31 21:43:11.374 D/UsbHostManager( 1855): Added device UsbDevice[mName=/dev/bus/usb/002/003,mVendorId=1507,mProductId=1865,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=Generic,mProductName=USB3.0 Card Reader,mVersion=15.35,mSerialNumberReader=com.android.server.usb.UsbSerialReader@6515a6e, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+08-31 21:43:11.374 D/UsbHostManager( 1855): UsbConfiguration[mId=1,mName=null,mAttributes=128,mMaxPower=250,mInterfaces=[
+08-31 21:43:11.374 D/UsbHostManager( 1855): UsbInterface[mId=0,mAlternateSetting=0,mName=null,mClass=8,mSubclass=6,mProtocol=80,mEndpoints=[
+08-31 21:43:11.374 D/UsbHostManager( 1855): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-31 21:43:11.374 D/UsbHostManager( 1855): UsbEndpoint[mAddress=2,mAttributes=2,mMaxPacketSize=512,mInterval=0]]]]
+08-31 21:43:13.168 D/UsbHostManager( 1855): USB device attached: vidpid 0b95:1790 mfg/product/ver/serial ASIX/AX88179B/2.00/006C1FF7C0DD09 hasAudio/HID/Storage: false/false/false
+08-31 21:43:13.173 D/UsbHostManager( 1855): Added device UsbDevice[mName=/dev/bus/usb/002/005,mVendorId=2965,mProductId=6032,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=ASIX,mProductName=AX88179B,mVersion=2.00,mSerialNumberReader=com.android.server.usb.UsbSerialReader@7e98ff6, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+08-31 21:43:13.173 D/UsbHostManager( 1855): UsbConfiguration[mId=1,mName=null,mAttributes=160,mMaxPower=50,mInterfaces=[
+08-31 21:43:13.173 D/UsbHostManager( 1855): UsbInterface[mId=0,mAlternateSetting=0,mName=Network_Interface,mClass=255,mSubclass=255,mProtocol=0,mEndpoints=[
+08-31 21:43:13.173 D/UsbHostManager( 1855): UsbEndpoint[mAddress=129,mAttributes=3,mMaxPacketSize=16,mInterval=11]
+08-31 21:43:13.173 D/UsbHostManager( 1855): UsbEndpoint[mAddress=130,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-31 21:43:13.173 D/UsbHostManager( 1855): UsbEndpoint[mAddress=3,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-31 21:43:13.173 D/UsbHostManager( 1855): UsbEndpoint[mAddress=5,mAttributes=2,mMaxPacketSize=512,mInterval=0]]]
+08-31 21:43:13.173 D/UsbHostManager( 1855): UsbConfiguration[mId=2,mName=null,mAttributes=160,mMaxPower=50,mInterfaces=[
+08-31 21:43:13.173 D/UsbHostManager( 1855): UsbInterface[mId=0,mAlternateSetting=0,mName=null,mClass=2,mSubclass=13,mProtocol=0,mEndpoints=[
+08-31 21:43:13.173 D/UsbHostManager( 1855): UsbEndpoint[mAddress=129,mAttributes=3,mMaxPacketSize=16,mInterval=11]]
+08-31 21:43:13.173 D/UsbHostManager( 1855): UsbInterface[mId=1,mAlternateSetting=0,mName=null,mClass=10,mSubclass=0,mProtocol=1,mEndpoints=[]
+08-31 21:43:13.173 D/UsbHostManager( 1855): UsbInterface[mId=1,mAlternateSetting=1,mName=null,mClass=10,mSubclass=0,mProtocol=1,mEndpoints=[
+08-31 21:43:13.173 D/UsbHostManager( 1855): UsbEndpoint[mAddress=130,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-31 21:43:13.173 D/UsbHostManager( 1855): UsbEndpoint[mAddress=3,mAttributes=2,mMaxPacketSize=512,mInterval=0]]]
+08-31 21:43:13.173 D/UsbHostManager( 1855): UsbConfiguration[mId=3,mName=null,mAttributes=160,mMaxPower=50,mInterfaces=[
+08-31 21:43:13.173 D/UsbHostManager( 1855): UsbInterface[mId=0,mAlternateSetting=0,mName=null,mClass=2,mSubclass=6,mProtocol=0,mEndpoints=[
+08-31 21:43:13.173 D/UsbHostManager( 1855): UsbEndpoint[mAddress=129,mAttributes=3,mMaxPacketSize=16,mInterval=11]]
+08-31 21:43:13.173 D/UsbHostManager( 1855): UsbInterface[mId=1,mAlternateSetting=0,mName=null,mClass=10,mSubclass=0,mProtocol=0,mEndpoints=[]
+08-31 21:43:13.173 D/UsbHostManager( 1855): UsbInterface[mId=1,mAlternateSetting=1,mName=null,mClass=10,mSubclass=0,mProtocol=0,mEndpoints=[
+08-31 21:43:13.173 D/UsbHostManager( 1855): UsbEndpoint[mAddress=130,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-31 21:43:13.173 D/UsbHostManager( 1855): UsbEndpoint[mAddress=3,mAttributes=2,mMaxPacketSize=512,mInterval=0]]]]
+08-31 21:43:13.334 D/UsbHostManager( 1855): USB device attached: vidpid 1d5c:7102 mfg/product/ver/serial Fresco Logic, Inc¿Ä/Generic Billboard Device/1.00/null hasAudio/HID/Storage: false/false/false
+08-31 21:43:13.336 D/UsbHostManager( 1855): Added device UsbDevice[mName=/dev/bus/usb/002/006,mVendorId=7516,mProductId=28930,mClass=17,mSubclass=0,mProtocol=0,mManufacturerName=Fresco Logic, Inc¿Ä,mProductName=Generic Billboard Device,mVersion=1.00,mSerialNumberReader=com.android.server.usb.UsbSerialReader@6983965, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+08-31 21:43:13.336 D/UsbHostManager( 1855): UsbConfiguration[mId=1,mName=null,mAttributes=192,mMaxPower=0,mInterfaces=[
+08-31 21:43:13.336 D/UsbHostManager( 1855): UsbInterface[mId=0,mAlternateSetting=0,mName=null,mClass=17,mSubclass=0,mProtocol=0,mEndpoints=[]]]
+08-31 21:43:15.159 D/UsbHostManager( 1855): Removed device at /dev/bus/usb/002/005: AX88179B
+08-31 21:43:15.922 D/UsbHostManager( 1855): USB device attached: vidpid 0b95:1790 mfg/product/ver/serial ASIX/AX88179B/2.00/006C1FF7C0DD09 hasAudio/HID/Storage: false/false/false
+08-31 21:43:15.928 D/UsbHostManager( 1855): Added device UsbDevice[mName=/dev/bus/usb/002/007,mVendorId=2965,mProductId=6032,mClass=255,mSubclass=255,mProtocol=0,mManufacturerName=ASIX,mProductName=AX88179B,mVersion=2.00,mSerialNumberReader=com.android.server.usb.UsbSerialReader@6b05011, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+08-31 21:43:15.928 D/UsbHostManager( 1855): UsbConfiguration[mId=1,mName=null,mAttributes=160,mMaxPower=50,mInterfaces=[
+08-31 21:43:15.928 D/UsbHostManager( 1855): UsbInterface[mId=0,mAlternateSetting=0,mName=Network_Interface,mClass=255,mSubclass=255,mProtocol=0,mEndpoints=[
+08-31 21:43:15.928 D/UsbHostManager( 1855): UsbEndpoint[mAddress=129,mAttributes=3,mMaxPacketSize=16,mInterval=11]
+08-31 21:43:15.928 D/UsbHostManager( 1855): UsbEndpoint[mAddress=130,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-31 21:43:15.928 D/UsbHostManager( 1855): UsbEndpoint[mAddress=3,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-31 21:43:15.928 D/UsbHostManager( 1855): UsbEndpoint[mAddress=5,mAttributes=2,mMaxPacketSize=512,mInterval=0]]]]
+08-31 21:43:58.512 D/UsbHostManager( 1855): Removed device at /dev/bus/usb/003/001 was already gone
+08-31 21:43:58.636 D/UsbHostManager( 1855): Removed device at /dev/bus/usb/002/003: USB3.0 Card Reader
+08-31 21:43:58.691 D/UsbHostManager( 1855): Removed device at /dev/bus/usb/002/007: AX88179B
+08-31 21:43:58.712 D/UsbHostManager( 1855): Removed device at /dev/bus/usb/002/006: Generic Billboard Device
+08-31 21:43:58.716 D/UsbHostManager( 1855): Removed device at /dev/bus/usb/002/004 was already gone
+08-31 21:43:58.747 D/UsbHostManager( 1855): Removed device at /dev/bus/usb/002/002 was already gone
+08-31 21:43:58.780 D/UsbHostManager( 1855): Removed device at /dev/bus/usb/002/001 was already gone
+08-31 21:44:08.363 D/UsbHostManager( 1855): USB device attached: vidpid 0a12:4007 mfg/product/ver/serial TaiYiLian/UGREEN-BT701/31.14/20260119V1.2.14 hasAudio/HID/Storage: true/true/false
+08-31 21:44:08.377 D/UsbHostManager( 1855): Added device UsbDevice[mName=/dev/bus/usb/002/003,mVendorId=2578,mProductId=16391,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=TaiYiLian,mProductName=UGREEN-BT701,mVersion=31.14,mSerialNumberReader=com.android.server.usb.UsbSerialReader@6b71288, mHasAudioPlayback=true, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+08-31 21:44:08.377 D/UsbHostManager( 1855): UsbConfiguration[mId=1,mName=null,mAttributes=192,mMaxPower=0,mInterfaces=[
+08-31 21:44:08.377 D/UsbHostManager( 1855): UsbInterface[mId=0,mAlternateSetting=0,mName=null,mClass=3,mSubclass=0,mProtocol=0,mEndpoints=[
+08-31 21:44:08.377 D/UsbHostManager( 1855): UsbEndpoint[mAddress=129,mAttributes=3,mMaxPacketSize=64,mInterval=1]]
+08-31 21:44:08.377 D/UsbHostManager( 1855): UsbInterface[mId=1,mAlternateSetting=0,mName=null,mClass=3,mSubclass=0,mProtocol=0,mEndpoints=[
+08-31 21:44:08.377 D/UsbHostManager( 1855): UsbEndpoint[mAddress=1,mAttributes=3,mMaxPacketSize=64,mInterval=1]
+08-31 21:44:08.377 D/UsbHostManager( 1855): UsbEndpoint[mAddress=130,mAttributes=3,mMaxPacketSize=64,mInterval=1]]
+08-31 21:44:08.377 D/UsbHostManager( 1855): UsbInterface[mId=2,mAlternateSetting=0,mName=null,mClass=1,mSubclass=1,mProtocol=0,mEndpoints=[]
+08-31 21:44:08.377 D/UsbHostManager( 1855): UsbInterface[mId=3,mAlternateSetting=0,mName=null,mClass=1,mSubclass=2,mProtocol=0,mEndpoints=[]
+08-31 21:44:08.377 D/UsbHostManager( 1855): UsbInterface[mId=3,mAlternateSetting=1,mName=null,mClass=1,mSubclass=2,mProtocol=0,mEndpoints=[
+08-31 21:44:08.377 D/UsbHostManager( 1855): UsbEndpoint[mAddress=2,mAttributes=13,mMaxPacketSize=576,mInterval=1]]
+08-31 21:44:08.377 D/UsbHostManager( 1855): UsbInterface[mId=3,mAlternateSetting=2,mName=null,mClass=1,mSubclass=2,mProtocol=0,mEndpoints=[
+08-31 21:44:08.377 D/UsbHostManager( 1855): UsbEndpoint[mAddress=2,mAttributes=13,mMaxPacketSize=384,mInterval=1]]]]
+08-31 21:45:09.252 D/UsbHostManager( 1855): Removed device at /dev/bus/usb/003/001 was already gone
+08-31 21:45:09.281 D/UsbHostManager( 1855): Removed device at /dev/bus/usb/002/003: UGREEN-BT701
+08-31 21:45:09.336 D/UsbHostManager( 1855): Removed device at /dev/bus/usb/002/002 was already gone
+08-31 21:45:09.460 D/UsbHostManager( 1855): Removed device at /dev/bus/usb/002/001 was already gone
+08-31 21:45:43.149 D/UsbHostManager( 1855): USB device attached: vidpid 18d1:4ee1 mfg/product/ver/serial Xiaomi/POCO X3 NFC/4.14/4f4027e9 hasAudio/HID/Storage: false/false/false
+08-31 21:45:43.156 D/UsbHostManager( 1855): Added device UsbDevice[mName=/dev/bus/usb/002/002,mVendorId=6353,mProductId=20193,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=Xiaomi,mProductName=POCO X3 NFC,mVersion=4.14,mSerialNumberReader=com.android.server.usb.UsbSerialReader@a13bf0c, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+08-31 21:45:43.156 D/UsbHostManager( 1855): UsbConfiguration[mId=1,mName=android,mAttributes=128,mMaxPower=250,mInterfaces=[
+08-31 21:45:43.156 D/UsbHostManager( 1855): UsbInterface[mId=0,mAlternateSetting=0,mName=MTP,mClass=6,mSubclass=1,mProtocol=1,mEndpoints=[
+08-31 21:45:43.156 D/UsbHostManager( 1855): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-31 21:45:43.156 D/UsbHostManager( 1855): UsbEndpoint[mAddress=1,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-31 21:45:43.156 D/UsbHostManager( 1855): UsbEndpoint[mAddress=130,mAttributes=3,mMaxPacketSize=28,mInterval=6]]]]
+08-31 21:45:43.265 D/UsbHostManager( 1855): Removed device at /dev/bus/usb/002/002: POCO X3 NFC
+08-31 21:45:43.836 D/UsbHostManager( 1855): USB device attached: vidpid 18d1:2d00 mfg/product/ver/serial Xiaomi/POCO X3 NFC/4.14/4f4027e9 hasAudio/HID/Storage: false/false/false
+08-31 21:45:43.842 D/UsbHostManager( 1855): Added device UsbDevice[mName=/dev/bus/usb/002/003,mVendorId=6353,mProductId=11520,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=Xiaomi,mProductName=POCO X3 NFC,mVersion=4.14,mSerialNumberReader=com.android.server.usb.UsbSerialReader@536f10b, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+08-31 21:45:43.842 D/UsbHostManager( 1855): UsbConfiguration[mId=1,mName=android,mAttributes=128,mMaxPower=250,mInterfaces=[
+08-31 21:45:43.842 D/UsbHostManager( 1855): UsbInterface[mId=0,mAlternateSetting=0,mName=Android Accessory Interface,mClass=255,mSubclass=255,mProtocol=0,mEndpoints=[
+08-31 21:45:43.842 D/UsbHostManager( 1855): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-31 21:45:43.842 D/UsbHostManager( 1855): UsbEndpoint[mAddress=1,mAttributes=2,mMaxPacketSize=512,mInterval=0]]]]

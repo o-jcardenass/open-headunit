@@ -1,0 +1,31 @@
+09-02 10:29:53.602 I/OPENHU  ( 6164): [2] StationStandDown.standDown | StationStandDown: asked this unit to leave its WiFi network so the group can have the radio to itself (disableNetwork returned false). It is rejoined when the session ends.
+09-02 10:29:53.603 I/OPENHU  ( 6164): [2] WifiDirectManager.claimNativeCreateWindow | WifiDirectManager: a Native AA group create is claimed (waiting for this unit to leave its own network); a refresh in the next 15s waits for it.
+09-02 10:29:53.818 I/OPENHU  ( 6164): [2] WifiDirectManager.claimNativeCreateWindow | WifiDirectManager: a Native AA group create is claimed (bringing the Native AA group up); a refresh in the next 15s waits for it.
+09-02 10:29:53.823 I/OPENHU  ( 6164): [2] WifiDirectManager.startNativeAaQuietHost | WifiDirectManager: startNativeAaQuietHost() requested. Removing old group if any...
+09-02 10:29:53.823 I/OPENHU  ( 6164): [2] WifiDirectManager.claimNativeCreateWindow | WifiDirectManager: a Native AA group create is claimed (recreating the group); a refresh in the next 15s waits for it.
+09-02 10:29:53.824 I/OPENHU  ( 6164): [2] WifiDirectManager.invalidateNativeGroupCredentials | WifiDirectManager: the group is being removed (recreating the group), so its credentials are no longer handed out.
+09-02 10:29:54.659 I/OPENHU  ( 6164): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+09-02 10:29:55.040 I/OPENHU  ( 6164): [2] StationStandDown.standDown$lambda$0 | StationStandDown: this unit has left its WiFi network.
+09-02 10:29:55.041 I/OPENHU  ( 6164): [2] WifiDirectManager.claimNativeCreateWindow | WifiDirectManager: a Native AA group create is claimed (bringing the Native AA group up); a refresh in the next 15s waits for it.
+09-02 10:29:55.042 I/OPENHU  ( 6164): [2] WifiDirectManager.startNativeAaQuietHost | WifiDirectManager: startNativeAaQuietHost() requested. Removing old group if any...
+09-02 10:29:55.043 I/OPENHU  ( 6164): [2] WifiDirectManager.claimNativeCreateWindow | WifiDirectManager: a Native AA group create is claimed (recreating the group); a refresh in the next 15s waits for it.
+09-02 10:29:55.044 I/OPENHU  ( 6164): [2] WifiDirectManager.invalidateNativeGroupCredentials | WifiDirectManager: the group is being removed (recreating the group), so its credentials are no longer handed out.
+09-02 10:29:55.589 I/OPENHU  ( 6164): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+09-02 10:30:14.423 I/OPENHU  ( 6164): [79] NativeAaHandshakeManager.sendProtobuf | NativeAA: [TX] Wrote TYPE 3 (size 61) to Bluetooth (write() returned; delivery unconfirmed)
+09-02 10:30:21.876 I/OPENHU  ( 6164): [61] 1.invokeSuspend | WirelessServer: Incoming connection detected from /192.168.49.54
+09-02 10:30:22.095 I/OPENHU  ( 6164): [72] AapSslContext.performHandshake | SSL handshake complete. Session id: 5mF1D4YPOD/kCZHClOxHDmanwAkzQ/gNH/P3JSJBYKA=
+09-02 10:30:22.096 D/OPENHU  ( 6164): [72] AapTransport.handshake | Handshake: SSL handshake complete. TS: 10510278
+09-02 10:30:44.745 W/OPENHU  ( 6164): [2] StationStandDown.restore | StationStandDown: the platform refused to re-enable this unit's WiFi network. It may have to be reconnected by hand.
+09-02 10:30:51.773 W/OPENHU  ( 6164): [2] StationStandDown.standDown | StationStandDown: this unit is joined to a network the app is not allowed to name, so it will not be disabled. Turning Location on usually makes it readable.
+09-02 10:30:51.775 I/OPENHU  ( 6164): [2] WifiDirectManager.claimNativeCreateWindow | WifiDirectManager: a Native AA group create is claimed (bringing the Native AA group up); a refresh in the next 15s waits for it.
+09-02 10:30:51.777 I/OPENHU  ( 6164): [2] WifiDirectManager.startNativeAaQuietHost | WifiDirectManager: startNativeAaQuietHost() requested. Removing old group if any...
+09-02 10:30:51.778 I/OPENHU  ( 6164): [2] WifiDirectManager.claimNativeCreateWindow | WifiDirectManager: a Native AA group create is claimed (recreating the group); a refresh in the next 15s waits for it.
+09-02 10:30:51.778 I/OPENHU  ( 6164): [2] WifiDirectManager.invalidateNativeGroupCredentials | WifiDirectManager: the group is being removed (recreating the group), so its credentials are no longer handed out.
+09-02 10:30:51.917 I/OPENHU  ( 6164): [2] WifiDirectManager.refreshNativeCredentials$lambda$19 | WifiDirectManager: refresh: a group was asked for 138ms ago and has not answered yet, so nothing is remade underneath it.
+09-02 10:30:51.917 I/OPENHU  ( 6164): [2] WifiDirectManager.refreshNativeCredentials$lambda$19 | WifiDirectManager: refresh: asking again in 15362ms, once that create's grace is up.
+09-02 10:30:52.446 I/OPENHU  ( 6164): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+09-02 10:30:57.189 I/OPENHU  ( 6164): [79] NativeAaHandshakeManager.sendProtobuf | NativeAA: [TX] Wrote TYPE 3 (size 61) to Bluetooth (write() returned; delivery unconfirmed)
+09-02 10:30:59.199 I/OPENHU  ( 6164): [72] 1.invokeSuspend | WirelessServer: Incoming connection detected from /192.168.49.54
+09-02 10:30:59.383 I/OPENHU  ( 6164): [81] AapSslContext.performHandshake | SSL handshake complete. Session id: kqnhy9L84EIxol6snPvrmeNVpqzhHKNTBMnR8JYLyqo=
+09-02 10:30:59.384 D/OPENHU  ( 6164): [81] AapTransport.handshake | Handshake: SSL handshake complete. TS: 10547566
+09-02 10:31:07.287 I/OPENHU  ( 6164): [2] WifiDirectManager.refreshNativeCredentials$lambda$19 | WifiDirectManager: refresh: the group DIRECT-D4-Navegadortz2 is up, so its credentials are read again rather than the group remade.

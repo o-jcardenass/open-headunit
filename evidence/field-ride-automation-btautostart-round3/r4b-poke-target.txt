@@ -1,0 +1,28 @@
+841:09-03 13:53:13.383 I/OPENHU  (20284): [201] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-M1-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=unproven
+856:09-03 13:53:14.271 I/OPENHU  (20284): [203] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-M1-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=unproven
+864:09-03 13:53:14.287 I/OPENHU  (20284): [204] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-M1-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=unproven
+1585:09-03 13:53:26.891 W/OPENHU  (20284): [2] AutomationEffectRunner.run | AutomationMarker: R4b_start
+2379:09-03 13:54:14.049 I/OPENHU  (20284): [208] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-7I-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=unproven
+2390:09-03 13:54:14.939 I/OPENHU  (20284): [209] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-7I-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=unproven
+2399:09-03 13:54:14.952 I/OPENHU  (20284): [210] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-7I-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=unproven
+3144:09-03 13:54:21.856 I/OPENHU  (20284): [187] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [POCO X3 NFC]
+3146:09-03 13:54:21.870 I/OPENHU  (20284): [193] 2.invokeSuspend | NativeAA: Handling handshake for motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [POCO X3 NFC]
+3147:09-03 13:54:21.872 I/OPENHU  (20284): [193] 2.invokeSuspend | NativeAA: Saving A0:46:5A:97:E4:95 (motorola edge 30 neo) as the wake poke device.
+3169:09-03 13:54:22.317 I/OPENHU  (20284): [213] 2.invokeSuspend$runAction | NativeAA: [TX] Sending WifiInfoResponse (Type 3) with full credentials in 1000ms...
+5149:09-03 13:55:04.555 I/OPENHU  (20284): [187] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [POCO X3 NFC]
+5151:09-03 13:55:04.560 I/OPENHU  (20284): [218] 2.invokeSuspend | NativeAA: Handling handshake for motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [POCO X3 NFC]
+5174:09-03 13:55:05.006 I/OPENHU  (20284): [218] 2.invokeSuspend$runAction | NativeAA: [TX] Sending WifiInfoResponse (Type 3) with full credentials in 1000ms...
+5346:09-03 13:55:12.595 I/OPENHU  (20284): [220] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-7I-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=unproven
+5405:09-03 13:55:12.755 I/OPENHU  (20284): [221] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-7I-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=unproven
+5425:09-03 13:55:13.356 I/OPENHU  (20284): [186] 1.invokeSuspend | WirelessServer: Incoming connection detected from /192.168.49.132
+5427:09-03 13:55:13.361 I/OPENHU  (20284): [2] AapService.emitSessionState | AapService: session state connecting
+5429:09-03 13:55:13.367 I/OPENHU  (20284): [2] AapService.emitSessionState | AapService: session state connected
+5474:09-03 13:55:13.562 I/OPENHU  (20284): [215] AapSslContext.performHandshake | SSL handshake complete. Session id: UssSVyxFP2PnVzRKZja37+oNwFmJLpxZ+Vv1QUeL/dE=
+5561:09-03 13:55:13.809 I/OPENHU  (20284): [2] AapService.emitSessionState | AapService: session state projecting
+7666:09-03 13:55:29.878 W/OPENHU  (20284): [2] AutomationEffectRunner.run | AutomationMarker: R4b_done
+
+=== settings.xml readback after R4b (run-as, app force-stopped, before restore) ===
+    <set name="auto-start-bt-macs" />
+    <set name="native-poke-bt-macs">
+        <string>A0:46:5A:97:E4:95</string>
+    </set>

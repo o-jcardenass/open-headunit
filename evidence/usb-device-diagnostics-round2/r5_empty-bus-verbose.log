@@ -1,0 +1,35 @@
+--------- beginning of main
+08-31 17:30:28.137 D/OPENHU  (24343): [2] App.onCreate | native library dir /data/app/~~P_mPv6ix-Km1-qDlVd6Ytg==/com.andrerinas.headunitrevived-W0fbQWyeKGvBzSVN6jlo3Q==/lib/arm64
+08-31 17:30:28.139 D/OPENHU  (24343): [2] App.onCreate |    libusb1.0.so
+08-31 17:30:28.139 D/OPENHU  (24343): [2] App.onCreate |    libavutil.so
+08-31 17:30:28.140 D/OPENHU  (24343): [2] App.onCreate |    libconscrypt_jni.so
+08-31 17:30:29.102 D/OPENHU  (24343): [2] App.onCreate |    libswscale.so
+08-31 17:30:29.103 D/OPENHU  (24343): [2] App.onCreate |    libusbhelper.so
+08-31 17:30:29.104 D/OPENHU  (24343): [2] App.onCreate |    libavcodec.so
+08-31 17:30:29.105 D/OPENHU  (24343): [2] App.onCreate |    libhur_soft_hevc.so
+08-31 17:30:30.436 I/OPENHU  (24343): [2] MainActivity.logLaunchSource | App launched by user tap (referrer: android-app://com.android.shell)
+08-31 17:30:33.843 D/OPENHU  (24343): [2] UsbReceiver.<init> | UsbReceiver registered
+08-31 17:30:33.854 I/OPENHU  (24343): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 0 USB device(s), 0 usable for Android Auto
+08-31 17:30:33.854 I/OPENHU  (24343): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+08-31 17:30:33.953 D/OPENHU  (24343): [2] MainActivity.requestPermissions | All required permissions already granted.
+08-31 17:30:33.958 I/OPENHU  (24343): [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+08-31 17:30:35.376 I/OPENHU  (24343): [2] AapService.onCreate | AapService creating...
+08-31 17:30:35.419 D/OPENHU  (24343): [2] UsbReceiver.<init> | UsbReceiver registered
+08-31 17:30:35.426 I/OPENHU  (24343): [2] AapService.registerReceivers | Registered runtime MEDIA_BUTTON receiver
+08-31 17:30:35.428 I/OPENHU  (24343): [2] AapService.registerReceivers | Registered dynamic WiFi Auto-start receiver
+08-31 17:30:35.429 I/OPENHU  (24343): [2] AapService.registerReceivers | Registered wake detection receiver (18 actions)
+08-31 17:30:35.452 D/OPENHU  (24343): [2] AapService.updateMediaSessionState | MediaSession: State updated to STOPPED, positionMs=0
+08-31 17:30:35.455 I/OPENHU  (24343): [2] WifiLauncherManager.setActive | WifiLauncher: Initializing WiFi Mode: HELPER
+08-31 17:30:35.455 D/OPENHU  (24343): [2] WifiLauncherSharedServices.startWirelessServer | AapService: Starting the wireless server on 5288 - no server yet.
+08-31 17:30:35.459 I/OPENHU  (24343): [2] WirelessServer.start | WirelessServer: binding port 5288...
+08-31 17:30:35.460 I/OPENHU  (24343): [2] WifiLauncherHelper.start | WifiLauncher: Using strategy NEARBY_DEVICES.
+08-31 17:30:35.462 I/OPENHU  (24343): [2749] 1.invokeSuspend | Wireless Server listening on port 5288
+08-31 17:30:35.469 I/OPENHU  (24343): [2749] WirelessServer.logLocalNetworkInterfaces | Interface: wlan0, IP: 192.168.1.5
+08-31 17:30:35.470 D/OPENHU  (24343): [2749] 1.invokeSuspend | WirelessServer: Waiting for TCP connection on port 5288...
+08-31 17:30:35.474 I/OPENHU  (24343): [2] NearbyManager.start | NearbyManager: Starting Nearby (Discoverer only)...
+08-31 17:30:35.474 I/OPENHU  (24343): [2] NearbyManager.startDiscovery | NearbyManager: Requesting Discovery with SERVICE_ID: com.andrerinas.openhu (Strategy: P2P_POINT_TO_POINT)
+08-31 17:30:35.481 I/OPENHU  (24343): [2] AapService.registerNetworkMonitor | NetworkMonitor: Registered network change listener
+08-31 17:30:35.488 I/OPENHU  (24343): [2750] 1.onAvailable | NetworkMonitor: Network available: 408
+08-31 17:30:35.490 D/OPENHU  (24343): [2750] 1.onCapabilitiesChanged | NetworkMonitor: Capabilities changed: 408 → [ Transports: WIFI Capabilities: NOT_METERED&INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN&VALIDATED&NOT_ROAMING&FOREGROUND&NOT_CONGESTED&NOT_SUSPENDED&NOT_VCN_MANAGED LinkUpBandwidth>=58601Kbps LinkDnBandwidth>=56319Kbps TransportInfo: <SSID: <unknown ssid>, BSSID: 02:00:00:00:00:00, MAC: 02:00:00:00:00:00, IP: /192.168.1.5, Security type: 2, Supplicant state: COMPLETED, Wi-Fi standard: 11ac, RSSI: -42, Link speed: 433Mbps, Tx Link speed: 433Mbps, Max Supported Tx Link speed: 433Mbps, Calculated Tx : 387Mbps, Rx Link speed: 433Mbps, Max Supported Rx Link speed: 433Mbps, Calculated Rx : 5Mbps, Frequency: 5260MHz, Net ID: -1, Metered hint: false, score: 100, isUsable: true, CarrierMerged: false, SubscriptionId: -1, IsPrimary: -1, Trusted: true, Restricted: false, Ephemeral: false, OEM paid: false, OEM private: false, OSU AP: false, FQDN: <none>, Provider friendly name: <none>, Requesting package name: <none><none>MLO Information: , Is TID-To-Link negotiation supported by the AP: false, AP MLD Address: <none>, AP MLO Link Id: <none>, AP MLO Affiliated links: <none>, Vendor Data: <none>> SignalStrength: -42 UnderlyingNetworks: Null]
+08-31 17:30:35.550 E/OPENHU  (24343): [2] NearbyManager.startDiscovery$lambda$5 | NearbyManager: [ERROR] Discovery failed: 8034: MISSING_PERMISSION_ACCESS_COARSE_LOCATION
+08-31 17:30:36.745 D/OPENHU  (24343): [2] 1.invokeSuspend | NetworkMonitor: no discovery loop to kick

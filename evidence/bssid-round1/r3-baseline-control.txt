@@ -1,0 +1,23 @@
+### R3 BASELINE (10bd1ea9) - two-phone handshake completed once (attempt 1), hit the abort this round targets:
+09-01 05:38:53.112 I/OPENHU  (17684): [103] 2.invokeSuspend | NativeAA: Connection accepted from POCO X3 NFC (DC:B7:2E:5E:4E:59) on local radio [motorola edge 30 neo]
+09-01 05:38:53.129 I/OPENHU  (17684): [113] 2.invokeSuspend | NativeAA: Handling handshake for POCO X3 NFC (DC:B7:2E:5E:4E:59) on local radio [motorola edge 30 neo]
+09-01 05:38:53.434 D/OPENHU  (17684): [110] 2.invokeSuspend$feed | NativeAA: Handshake stage NEW -> AWAIT_CREDENTIALS
+09-01 05:38:53.435 I/OPENHU  (17684): [110] 2.invokeSuspend | NativeAA: Phone connected. Current credentials state: SSID=DIRECT-68-HeadUnit, IP=192.168.49.1
+09-01 05:38:53.438 E/OPENHU  (17684): [110] 2.invokeSuspend | NativeAA: BSSID is still masked/empty (00:00:00:00:00:00) at Type 3 time — phone WILL reject these credentials. Aborting handshake. PLEASE CHECK IF LOCATION (GPS) IS ENABLED ON THIS DEVICE!
+09-01 05:38:53.580 I/OPENHU  (17684): [103] 2.invokeSuspend | NativeAA: Connection accepted from POCO X3 NFC (DC:B7:2E:5E:4E:59) on local radio [motorola edge 30 neo]
+09-01 05:38:53.585 I/OPENHU  (17684): [112] 2.invokeSuspend | NativeAA: Handling handshake for POCO X3 NFC (DC:B7:2E:5E:4E:59) on local radio [motorola edge 30 neo]
+09-01 05:38:53.891 D/OPENHU  (17684): [112] 2.invokeSuspend$feed | NativeAA: Handshake stage NEW -> AWAIT_CREDENTIALS
+09-01 05:38:53.892 I/OPENHU  (17684): [112] 2.invokeSuspend | NativeAA: Phone connected. Current credentials state: SSID=<null>, IP=<null>
+09-01 05:38:54.408 E/OPENHU  (17684): [112] 2.invokeSuspend | NativeAA: BSSID is still masked/empty (00:00:00:00:00:00) at Type 3 time — phone WILL reject these credentials. Aborting handshake. PLEASE CHECK IF LOCATION (GPS) IS ENABLED ON THIS DEVICE!
+
+### R3 BASELINE onGroupInfoAvailable (BSSID 00:00:00:00:00:00, all rungs masked, no IPv6 route):
+onGroupInfoAvailable: SSID: DIRECT-68-HeadUnit, BSSID: 00:00:00:00:00:00
+onGroupInfoAvailable: SSID: DIRECT-G3-motoedge30neooThE, BSSID: 00:00:00:00:00:00
+onGroupInfoAvailable: SSID: DIRECT-JI-motoedge30neooThE, BSSID: 00:00:00:00:00:00
+onGroupInfoAvailable: SSID: DIRECT-Y6-motoedge30neooThE, BSSID: 00:00:00:00:00:00
+
+### R3 BASELINE - Gearhead DID dial the AA RFCOMM on the lucky attempt:
+09-01 05:38:52.209 I/GH.WIRELESS.BT(24888): Creating rfcomm socket for device: A0:46:5A:97:E4:95 and uuid: 4de17a00-52cb-11e6-bdf4-0800200c9a66
+09-01 05:38:52.784 I/GH.WIRELESS.BT(24888): Creating rfcomm socket for device: A0:46:5A:97:E4:95 and uuid: 4de17a00-52cb-11e6-bdf4-0800200c9a66
+
+### R3b BASELINE (attempt 2) - 0 Connection accepted (same flaky NO_HFP wall)

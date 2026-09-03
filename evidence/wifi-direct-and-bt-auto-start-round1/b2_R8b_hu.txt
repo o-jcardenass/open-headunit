@@ -1,0 +1,5 @@
+09-02 11:02:11.147 I/OPENHU  (25734): [2] WifiLauncherManager.setActive | WifiLauncher: Initializing WiFi Mode: HELPER
+09-02 11:02:11.577 I/OPENHU  (25734): [2] 1.onSuccess | WifiDirectManager: P2P Group created (fresh this session).
+09-02 11:02:47.230 I/OPENHU  (25734): [2] AutoStartReceiver.onReceive | BT Device connected: POCO X3 NFC (DC:B7:2E:5E:4E:59)
+09-02 11:02:47.231 I/OPENHU  (25734): [2] AutoStartReceiver.onReceive | MATCH! Starting AapService via Bluetooth Auto-start...
+09-02 11:02:47.313 I/OPENHU  (25734): [2] AapService.onStartCommand | AapService: Bluetooth auto-start: BtAutoStartActions(clearUserExit=true, forceRearmWireless=false, armWirelessIfIdle=false)

@@ -1,0 +1,2 @@
+    BSSID              Frequency      RSSI           Age(sec)     SSID                                 Flags
+  8a:1d:22:94:bf:72       5180    -22(0:-26/1:-24)     3.192    DIRECT-RM-Navegadortz2            [WPA2-PSK-CCMP][RSN-PSK-CCMP][ESS][WPS]

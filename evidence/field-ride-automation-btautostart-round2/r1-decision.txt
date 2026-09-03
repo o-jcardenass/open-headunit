@@ -1,0 +1,28 @@
+09-03 12:56:20.151 I/OPENHU  (15291): [2] AutomationReceiver.onReceive | AutomationReceiver: com.andrerinas.openheadunit.ACTION_LOG_MARKER
+09-03 12:56:20.157 W/OPENHU  (15291): [2] AutomationEffectRunner.run | AutomationMarker: R1_trigger
+09-03 12:56:20.230 I/OPENHU  (15291): [2] AutomationReceiver.onReceive | AutomationReceiver: com.andrerinas.openheadunit.ACTION_QUERY_STATE
+09-03 12:56:30.793 I/OPENHU  (15291): [2] AutoStartReceiver.onReceive | BT Device connected: POCO X3 NFC (DC:B7:2E:5E:4E:59)
+09-03 12:56:30.793 I/OPENHU  (15291): [2] AutoStartReceiver.onReceive | MATCH! Starting AapService via Bluetooth Auto-start...
+09-03 12:56:30.871 I/OPENHU  (15291): [2] MainActivity.beginAutoConnect | Auto-connect: begin (Bluetooth auto-start, mode=PILL)
+09-03 12:56:30.892 I/OPENHU  (15291): [2] MainActivity.handleLaunchIntent | MainActivity: Bluetooth auto-start: leaving Self Mode alone
+09-03 12:56:30.928 I/OPENHU  (15291): [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+09-03 12:56:30.942 I/OPENHU  (15291): [61] NativeAaHandshakeManager.pokeDevice | NativeAA: Successfully poked POCO X3 NFC via HSP-AG. Holding 15000ms...
+09-03 12:56:31.032 I/OPENHU  (15291): [52] 1.invokeSuspend | NativeAA: Connection accepted from POCO X3 NFC (DC:B7:2E:5E:4E:59) on local radio [Navegadortz2]
+09-03 12:56:31.059 I/OPENHU  (15291): [61] 2.invokeSuspend | NativeAA: Handling handshake for POCO X3 NFC (DC:B7:2E:5E:4E:59) on local radio [Navegadortz2]
+09-03 12:56:31.365 I/OPENHU  (15291): [72] 2.invokeSuspend | NativeAA: Phone connected. Current credentials state: SSID=DIRECT-D4-Navegadortz2, IP=192.168.49.1
+09-03 12:56:31.367 I/OPENHU  (15291): [72] 2.invokeSuspend | NativeAA: Waiting for WiFi credentials to be ready (Max 60s)...
+09-03 12:56:31.370 I/OPENHU  (15291): [72] 2.invokeSuspend | NativeAA: this unit read its own WiFi address, so the missing-BSSID record is retired.
+09-03 12:56:31.372 I/OPENHU  (15291): [72] 2.invokeSuspend | NativeAA: Starting Handshake Exchange:
+09-03 12:56:31.374 I/OPENHU  (15291): [72] 2.invokeSuspend |   > Target SSID: DIRECT-D4-Navegadortz2
+09-03 12:56:31.375 I/OPENHU  (15291): [72] 2.invokeSuspend |   > Target IP:   192.168.49.1:5288
+09-03 12:56:31.376 I/OPENHU  (15291): [72] 2.invokeSuspend |   > BSSID:       FE:AD:1B:65:8A:D6
+09-03 12:56:31.378 I/OPENHU  (15291): [72] 2.invokeSuspend$runAction | NativeAA: [TX] Sending WifiStartRequest (Type 1)
+2436:09-03 12:55:58.065 I/OPENHU  (15291): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+23341:09-03 12:56:20.157 W/OPENHU  (15291): [2] AutomationEffectRunner.run | AutomationMarker: R1_trigger
+33213:09-03 12:56:30.793 I/OPENHU  (15291): [2] AutoStartReceiver.onReceive | BT Device connected: POCO X3 NFC (DC:B7:2E:5E:4E:59)
+33214:09-03 12:56:30.793 I/OPENHU  (15291): [2] AutoStartReceiver.onReceive | MATCH! Starting AapService via Bluetooth Auto-start...
+33359:09-03 12:56:30.892 I/OPENHU  (15291): [2] MainActivity.handleLaunchIntent | MainActivity: Bluetooth auto-start: leaving Self Mode alone
+37721:09-03 12:56:34.822 I/OPENHU  (15291): [2] AapService.emitSessionState | AapService: session state connecting
+37730:09-03 12:56:34.835 I/OPENHU  (15291): [2] AapService.emitSessionState | AapService: session state connected
+39099:09-03 12:56:35.850 I/OPENHU  (15291): [2] AapService.emitSessionState | AapService: session state projecting
+137751:09-03 12:57:22.892 W/OPENHU  (15291): [2] AutomationEffectRunner.run | AutomationMarker: R1_end

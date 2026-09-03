@@ -1,0 +1,4 @@
+09-01 14:26:06.834 I/ActivityTaskManager( 1422): START u0 {act=android.intent.action.VIEW dat=https://androidauto.com/... flg=0x10000000 cmp=com.google.android.projection.gearhead/com.google.android.apps.auto.wireless.deeplink.DeepLinkResolver} with LAUNCH_MULTIPLE from uid 2000 (BAL_ALLOW_PERMISSION) result code=0
+09-01 14:26:06.936 I/GH.QR   (18510): Experiment DEEP_LINK_ENABLED is disabled. Showing error.
+09-01 14:26:06.945 I/GH.ConnLoggerV2( 5448): Session 35a6412b-b9fa-4a84-993b-d1312f326c4f, event 1, detail OptionalInt.empty, QR_CODE_NOT_SUPPORTED, at 53619935 
+09-01 14:26:07.083 I/ActivityTaskManager( 1422): Displayed com.google.android.projection.gearhead/com.google.android.apps.auto.wireless.deeplink.DeepLinkResolver for user 0: +267ms

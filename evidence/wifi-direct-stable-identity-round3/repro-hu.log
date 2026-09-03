@@ -1,0 +1,1041 @@
+--------- beginning of main
+09-01 22:00:48.056 I/OPENHU  ( 3364): [52] 1.invokeSuspend | NativeAA: Manual poke to POCO X3 NFC finished.
+09-01 22:00:55.435 W/OPENHU  ( 3364): [2] WifiDirectManager.recoverNativeGroup | WifiDirectManager: Native AA recovery (no phone joined within 60s): recreate attempt 1/4.
+09-01 22:00:55.940 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Attempting createGroup for Native AA (Attempt 0)...
+09-01 22:00:55.942 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: this unit's WiFi radio reports a 5 GHz band.
+09-01 22:00:55.943 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Band preference is 5 GHz only, set by the user.
+09-01 22:00:55.946 I/OPENHU  ( 3364): [2] WifiDirectManager.chooseNativeGroupIdentity | WifiDirectManager: group identity: a new network on every create (DIRECT-PC-Navegadortz2), because this unit gives the group a new address every time and a kept name only makes the phone try a saved network it cannot find first. "New WiFi Direct network identity" in Settings measures again.
+09-01 22:00:55.950 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band. Chosen by the user.
+09-01 22:00:55.951 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is automatic, so the driver picks within the band.
+09-01 22:00:55.979 I/OPENHU  ( 3364): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+09-01 22:00:56.047 I/OPENHU  ( 3364): [2] 1.onReceive | WifiDirectManager: Connected. Requesting info...
+09-01 22:00:56.052 I/OPENHU  ( 3364): [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-01 22:00:56.057 I/OPENHU  ( 3364): [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-01 22:00:56.064 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-01 22:00:56.066 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == BSSID source dump (iface=p2p-wlan0-20) ==
+09-01 22:00:56.066 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   static override (Settings)       = 0
+09-01 22:00:56.067 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   getGroupOwnerBssid()             = null
+09-01 22:00:56.072 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (p2p-wlan0-20)   = ba:c2:cd:12:79:1a
+09-01 22:00:56.077 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (any p2p/ap)     = ba:c2:cd:12:79:1a
+09-01 22:00:56.087 W/OPENHU  ( 3364): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: No valid MAC found in NetworkInterface scan for p2p-wlan0-20
+09-01 22:00:56.088 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   NetworkInterface.hardwareAddress = 00:00:00:00:00:00
+09-01 22:00:56.089 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   lastKnownBssid (null)            = null
+09-01 22:00:56.089 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   requestDeviceInfo                = 02:00:00:00:00:00
+09-01 22:00:56.090 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   group.owner.deviceAddress        = 02:00:00:00:00:00
+09-01 22:00:56.092 I/OPENHU  ( 3364): [2] WifiDirectManager.getMacFromShell | WifiDirectManager: MAC retrieved via sysfs (p2p-wlan0-20): ba:c2:cd:12:79:1a
+09-01 22:00:56.093 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   sysfs / ip link                  = ba:c2:cd:12:79:1a
+09-01 22:00:56.094 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   Settings.Secure p2p address      = null
+09-01 22:00:56.095 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   reflection over WifiP2pGroup     = null
+09-01 22:00:56.096 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == end BSSID source dump ==
+09-01 22:00:56.102 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-20 (EUI-64): BA:C2:CD:12:79:1A
+09-01 22:00:56.103 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: BA:C2:CD:12:79:1A
+09-01 22:00:56.104 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-PC-Navegadortz2, BSSID: BA:C2:CD:12:79:1A (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-20, Freq: 5180 MHz (5GHz)
+09-01 22:00:56.106 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: group identity ssid=DIRECT-PC-Navegadortz2 persistent=no (temporary) asked=temporary matchesRequest=yes bssid=BA:C2:CD:12:79:1A stable=unproven (a new network is made on every create) source=IPv6 link-local
+09-01 22:00:56.112 W/OPENHU  ( 3364): [2] WifiDirectManager.logStationCoexistence | WifiDirectManager: This unit is connected to another WiFi network on 5260 MHz while hosting the WiFi Direct group on 5180 MHz. One radio has to retune between the two, which can cost the projected video and audio a few hundred milliseconds at a time. Measured units have run clean in this state, so read this as context for a report rather than as something to change.
+09-01 22:00:56.114 I/OPENHU  ( 3364): [2] WifiDirectManager.notifyNativeGroupStarted | WifiDirectManager: Native AA WiFi Direct: 5GHz (5180 MHz), 5GHz requested, SSID=DIRECT-PC-Navegadortz2
+09-01 22:00:56.121 I/OPENHU  ( 3364): [209] WifiDirectManager.onGroupInfoAvailable$lambda$6 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-PC-Navegadortz2, IP=192.168.49.1, BSSID=BA:C2:CD:12:79:1A, identity stable=unproven
+09-01 22:00:56.122 I/OPENHU  ( 3364): [209] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-PC-Navegadortz2, IP=192.168.49.1). Updating and Triggering Poke.
+09-01 22:00:56.122 I/OPENHU  ( 3364): [209] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-PC-Navegadortz2, IP=192.168.49.1, BSSID=BA:C2:CD:12:79:1A, identity stable=unproven
+09-01 22:00:56.983 I/OPENHU  ( 3364): [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-01 22:00:56.987 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-01 22:00:56.996 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-20 (EUI-64): BA:C2:CD:12:79:1A
+09-01 22:00:56.996 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: BA:C2:CD:12:79:1A
+09-01 22:00:56.998 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-PC-Navegadortz2, BSSID: BA:C2:CD:12:79:1A (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-20, Freq: 5180 MHz (5GHz)
+09-01 22:00:57.002 I/OPENHU  ( 3364): [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-01 22:00:57.004 I/OPENHU  ( 3364): [211] WifiDirectManager.onGroupInfoAvailable$lambda$6 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-PC-Navegadortz2, IP=192.168.49.1, BSSID=BA:C2:CD:12:79:1A, identity stable=unproven
+09-01 22:00:57.005 I/OPENHU  ( 3364): [211] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-PC-Navegadortz2, IP=192.168.49.1). Updating and Triggering Poke.
+09-01 22:00:57.006 I/OPENHU  ( 3364): [211] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-PC-Navegadortz2, IP=192.168.49.1, BSSID=BA:C2:CD:12:79:1A, identity stable=unproven
+09-01 22:00:57.007 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-01 22:00:57.012 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-20 (EUI-64): BA:C2:CD:12:79:1A
+09-01 22:00:57.013 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: BA:C2:CD:12:79:1A
+09-01 22:00:57.014 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-PC-Navegadortz2, BSSID: BA:C2:CD:12:79:1A (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-20, Freq: 5180 MHz (5GHz)
+09-01 22:00:57.022 I/OPENHU  ( 3364): [212] WifiDirectManager.onGroupInfoAvailable$lambda$6 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-PC-Navegadortz2, IP=192.168.49.1, BSSID=BA:C2:CD:12:79:1A, identity stable=unproven
+09-01 22:00:57.022 I/OPENHU  ( 3364): [212] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-PC-Navegadortz2, IP=192.168.49.1). Updating and Triggering Poke.
+09-01 22:00:57.023 I/OPENHU  ( 3364): [212] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-PC-Navegadortz2, IP=192.168.49.1, BSSID=BA:C2:CD:12:79:1A, identity stable=unproven
+09-01 22:00:57.315 W/OPENHU  ( 3364): [2] 1.invokeSuspend | Auto-connect overlay: watchdog timeout, hiding
+09-01 22:00:58.129 I/OPENHU  ( 3364): [52] 1.invokeSuspend | NativeAA: Attempting active poke to device: POCO X3 NFC (DC:B7:2E:5E:4E:59)...
+09-01 22:00:58.132 I/OPENHU  ( 3364): [52] NativeAaHandshakeManager.pokeDevice | NativeAA: Calling socket.connect() for POCO X3 NFC via HFP-AG (0000111f-0000-1000-8000-00805f9b34fb)...
+09-01 22:00:58.906 I/OPENHU  ( 3364): [2] AutoStartReceiver.onReceive | BT Device connected: POCO X3 NFC (DC:B7:2E:5E:4E:59)
+09-01 22:00:58.907 I/OPENHU  ( 3364): [2] AutoStartReceiver.onReceive | MATCH! Starting AapService via Bluetooth Auto-start...
+09-01 22:00:58.944 I/OPENHU  ( 3364): [52] NativeAaHandshakeManager.pokeDevice | NativeAA: Successfully poked POCO X3 NFC via HFP-AG. Holding 15000ms...
+09-01 22:00:59.025 I/OPENHU  ( 3364): [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+09-01 22:00:59.125 I/OPENHU  ( 3364): [60] 1.invokeSuspend | NativeAA: Connection accepted from POCO X3 NFC (DC:B7:2E:5E:4E:59) on local radio [Navegadortz2]
+09-01 22:00:59.132 I/OPENHU  ( 3364): [52] 2.invokeSuspend | NativeAA: Handling handshake for POCO X3 NFC (DC:B7:2E:5E:4E:59) on local radio [Navegadortz2]
+09-01 22:00:59.436 I/OPENHU  ( 3364): [52] 2.invokeSuspend | NativeAA: Phone connected. Current credentials state: SSID=DIRECT-PC-Navegadortz2, IP=192.168.49.1
+09-01 22:00:59.437 I/OPENHU  ( 3364): [52] 2.invokeSuspend | NativeAA: Waiting for WiFi credentials to be ready (Max 60s)...
+09-01 22:00:59.439 I/OPENHU  ( 3364): [52] 2.invokeSuspend | NativeAA: this unit read its own WiFi address, so the missing-BSSID record is retired.
+09-01 22:00:59.440 I/OPENHU  ( 3364): [52] 2.invokeSuspend | NativeAA: Starting Handshake Exchange:
+09-01 22:00:59.441 I/OPENHU  ( 3364): [52] 2.invokeSuspend |   > Target SSID: DIRECT-PC-Navegadortz2
+09-01 22:00:59.443 I/OPENHU  ( 3364): [52] 2.invokeSuspend |   > Target IP:   192.168.49.1:5288
+09-01 22:00:59.444 I/OPENHU  ( 3364): [52] 2.invokeSuspend |   > BSSID:       BA:C2:CD:12:79:1A
+09-01 22:00:59.445 I/OPENHU  ( 3364): [52] 2.invokeSuspend$runAction | NativeAA: [TX] Sending WifiStartRequest (Type 1)
+09-01 22:00:59.446 I/OPENHU  ( 3364): [52] NativeAaHandshakeManager.sendProtobuf | NativeAA: [TX] Wrote TYPE 1 (size 19) to Bluetooth (write() returned; delivery unconfirmed)
+09-01 22:00:59.499 I/OPENHU  ( 3364): [52] 2.invokeSuspend$tick | NativeAA: [RX] Received Type 2 (Payload size: 0)
+09-01 22:00:59.500 I/OPENHU  ( 3364): [52] 2.invokeSuspend$runAction | NativeAA: Phone ready for WiFi association. Delivering credentials...
+09-01 22:00:59.500 I/OPENHU  ( 3364): [52] 2.invokeSuspend$runAction | NativeAA: [TX] Sending WifiInfoResponse (Type 3) with full credentials in 1000ms...
+09-01 22:01:00.502 I/OPENHU  ( 3364): [52] NativeAaHandshakeManager.sendProtobuf | NativeAA: [TX] Wrote TYPE 3 (size 61) to Bluetooth (write() returned; delivery unconfirmed)
+09-01 22:01:00.503 I/OPENHU  ( 3364): [52] 2.invokeSuspend$runAction | NativeAA: Handshake completed successfully on Bluetooth side.
+09-01 22:01:00.505 I/OPENHU  ( 3364): [52] 2.invokeSuspend$tick | NativeAA: [RX] Received Type 7 (Payload size: 2)
+09-01 22:01:00.505 I/OPENHU  ( 3364): [52] NativeAaHandshakeManager.logReceivedDetail | NativeAA: [RX] WifiStartResponse ip= status=SUCCESS(0)
+09-01 22:01:02.451 I/OPENHU  ( 3364): [2] 1.onReceive | WifiDirectManager: Connected. Requesting info...
+09-01 22:01:02.457 I/OPENHU  ( 3364): [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-01 22:01:02.463 I/OPENHU  ( 3364): [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-01 22:01:02.469 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-01 22:01:02.479 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-20 (EUI-64): BA:C2:CD:12:79:1A
+09-01 22:01:02.479 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: BA:C2:CD:12:79:1A
+09-01 22:01:02.481 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-PC-Navegadortz2, BSSID: BA:C2:CD:12:79:1A (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-20, Freq: 5180 MHz (5GHz)
+09-01 22:01:02.487 I/OPENHU  ( 3364): [213] WifiDirectManager.onGroupInfoAvailable$lambda$6 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-PC-Navegadortz2, IP=192.168.49.1, BSSID=BA:C2:CD:12:79:1A, identity stable=unproven
+09-01 22:01:02.488 I/OPENHU  ( 3364): [213] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-PC-Navegadortz2, IP=192.168.49.1). Updating and Triggering Poke.
+09-01 22:01:02.488 I/OPENHU  ( 3364): [213] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-PC-Navegadortz2, IP=192.168.49.1, BSSID=BA:C2:CD:12:79:1A, identity stable=unproven
+09-01 22:01:02.489 I/OPENHU  ( 3364): [213] NativeAaHandshakeManager.triggerPoke | NativeAA: Handoff still settling — not starting a poke that would compete with the phone's WiFi association.
+09-01 22:01:02.619 I/OPENHU  ( 3364): [161] 2.invokeSuspend$tick | NativeAA: [RX] Received Type 6 (Payload size: 2)
+09-01 22:01:02.622 I/OPENHU  ( 3364): [161] NativeAaHandshakeManager.logReceivedDetail | NativeAA: [RX] WifiConnectStatus status=SUCCESS(0) (SUCCESS = the phone got onto our network)
+09-01 22:01:02.623 I/OPENHU  ( 3364): [161] 2.invokeSuspend$runAction | NativeAA: Phone reports it is still joining — extending the settling window.
+09-01 22:01:02.653 I/OPENHU  ( 3364): [51] 1.invokeSuspend | WirelessServer: Incoming connection detected from /192.168.49.147
+09-01 22:01:02.654 I/OPENHU  ( 3364): [2] 2.invokeSuspend | WirelessServer: Accepted client connection from /192.168.49.147. Passing to CommManager...
+09-01 22:01:02.660 I/OPENHU  ( 3364): [161] SocketProjectionConnection.applyLowLatencySocketOptions | Socket low-latency options: tcpNoDelay=true, recvBuf=524288, sendBuf=524288
+09-01 22:01:02.675 I/OPENHU  ( 3364): [2] WifiDirectManager.noteSessionHosted | WifiDirectManager: this group has carried a session, so the join watchdog will not recreate it if the phone leaves.
+09-01 22:01:02.678 I/OPENHU  ( 3364): [2] AapService.acquireWifiLock | WifiLock acquired (HIGH_PERF)
+09-01 22:01:02.686 I/OPENHU  ( 3364): [2] AapService.onConnected | AapService: Starting GpsLocationService and NightModeManager since connection is established
+09-01 22:01:02.691 I/OPENHU  ( 3364): [2] 1.invoke | NightMode update: true
+09-01 22:01:02.700 I/OPENHU  ( 3364): [2] GpsLocation.start | Request location updates
+09-01 22:01:02.710 I/OPENHU  ( 3364): [2] GpsLocation.start | Last known location:  Location[gps 6****** , -76******  hAcc=12.3071785 et=+14h38m55s459ms alt=1599.157 vAcc=21.690023 vel=0.175274 sAcc=1.505387 bear=347.877 bAcc=55.67302 {Bundle[{satellites=3, maxCn0=27, meanCn0=23}]}]
+09-01 22:01:02.723 I/OPENHU  ( 3364): [161] AapTransport.<init> | AapTransport: not taking the microphone (setting useHeadUnitMicrophone=false, available=true)
+09-01 22:01:02.724 I/OPENHU  ( 3364): [161] AapTransport.startHandshake$com_andrerinas_headunitrevived_3_3_0_githubDebug | Start Aap transport handshake for com.andrerinas.openheadunit.connection.projection.SocketProjectionConnection@5f59e21
+09-01 22:01:02.732 I/OPENHU  ( 3364): [161] AapTransport.handshake | Handshake: Version response received (ret=12, attempt=1).
+09-01 22:01:02.733 I/OPENHU  ( 3364): [161] AapTransport.handshake | Handshake: Version response recv ret: 12
+09-01 22:01:02.804 I/OPENHU  ( 3364): [161] AapSslContext.performHandshake | SSL handshake complete. Session id: u2awNiFA/w5J4igakQnr8WUa1Bi0IHuZsJIf1yCt5w4=
+09-01 22:01:02.805 I/OPENHU  ( 3364): [161] AapTransport.handshake | Handshake: Status OK sent: 8
+09-01 22:01:02.844 I/OPENHU  ( 3364): [2] AapService.launchViaOverlayTrampoline | Overlay trampoline: startActivity succeeded
+09-01 22:01:02.886 I/OPENHU  ( 3364): [52] 2.invokeSuspend$runAction | NativeAA: WiFi session landed. Handshake session ending, releasing Bluetooth connection.
+09-01 22:01:02.892 I/OPENHU  ( 3364): [52] 2.invokeSuspend | NativeAA: BT Handshake socket closed.
+09-01 22:01:03.010 I/OPENHU  ( 3364): [2] AapProjectionActivity.onCreate | HeadUnit for Android Auto (tm) - Copyright 2011-2015 Michael A. Reid., since 2025 André Rinas All Rights Reserved...
+09-01 22:01:03.011 I/OPENHU  ( 3364): [2] AapProjectionActivity.setupProjectionView | Projection backend: viewMode=GLES override=false SoC=uis7861_6h10 board=uis7861_6h10 mfr=UNISOC model=MT50_YT610E4GFPSL_U API=34
+09-01 22:01:03.011 I/OPENHU  ( 3364): [2] AapProjectionActivity.setupProjectionView | Using GlProjectionView
+09-01 22:01:03.014 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Raw size: 1304x720, usable: 1440x720, orientation setting: LANDSCAPE, configOrientation: 2
+09-01 22:01:03.015 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Final normalized size: 1304x720, usable: 1440x720
+09-01 22:01:03.016 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.init | [UI_DEBUG_FIX] HeadUnitScreenConfig: Using cached surface dimensions: 1440x720 (raw: 1440x720, anchor: 1440x720)
+09-01 22:01:03.016 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Honest Init | Mode: IMMERSIVE | Anchor: 1440x720 | Seeded Insets: L0 T0 R0 B0
+09-01 22:01:03.018 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.recalculate | [RES_CAP] resolutionId=3 realScreen=1440x720 usable=1440x720 portrait=false locked=false chosen=_1920x1080 capped=_1920x1080 changed=false
+09-01 22:01:03.018 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen: usable area 1440x720, using _1920x1080
+09-01 22:01:03.019 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen isSmallScreen: true, scaleFactor: 1.0, margins: w=480, h=360
+09-01 22:01:03.020 I/OPENHU  ( 3364): [2] AapProjectionActivity.setupProjectionView | Using GLES YUV sink for bundled software HEVC
+09-01 22:01:03.031 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.lockResolution | [UI_DEBUG] HeadUnitScreenConfig: Locking resolution at _1920x1080
+09-01 22:01:03.034 I/OPENHU  ( 3364): [2] AapProjectionActivity.onResume | AapProjectionActivity: onResume
+09-01 22:01:03.062 I/OPENHU  ( 3364): [2] GpsLocation.onLocationChanged | GpsLocation: first fix after 0s
+09-01 22:01:03.064 I/OPENHU  ( 3364): [2] 1.onReceive | Received request to resend night mode state
+09-01 22:01:03.066 I/OPENHU  ( 3364): [2] 1.invoke | NightMode update: true
+09-01 22:01:03.127 I/OPENHU  ( 3364): [217] VideoRenderer.onSurfaceCreated | GlProjectionView: onSurfaceCreated (GL Context)
+09-01 22:01:03.129 I/OPENHU  ( 3364): [217] VideoRenderer.onSurfaceCreated | GlProjectionView: YUV handles pos=0 tex=1 mvp=4 st=3 y=2 u=1 v=0
+09-01 22:01:03.131 I/OPENHU  ( 3364): [217] VideoRenderer.onSurfaceChanged | GlProjectionView: onSurfaceChanged: 1440x720
+09-01 22:01:03.160 I/OPENHU  ( 3364): [2] VideoRenderer.onSurfaceCreated$lambda$9 | GlProjectionView: Reporting Surface Created
+09-01 22:01:03.161 I/OPENHU  ( 3364): [2] AapProjectionActivity.onSurfaceCreated | [UI_DEBUG] [AapProjectionActivity] onSurfaceCreated
+09-01 22:01:03.162 I/OPENHU  ( 3364): [2] AapProjectionActivity.onSurfaceChanged | [UI_DEBUG] [AapProjectionActivity] onSurfaceChanged. Actual surface dimensions: width=1440, height=720
+09-01 22:01:03.162 I/OPENHU  ( 3364): [2] VideoDecoder.setSurface | New surface set: Surface(name=android.graphics.SurfaceTexture@41fe43e)/@0xae4b669
+09-01 22:01:03.163 I/OPENHU  ( 3364): [2] VideoDecoder.stop | Decoder stopped: New surface
+09-01 22:01:03.166 I/OPENHU  ( 3364): [61] AapTransport.startReading$com_andrerinas_headunitrevived_3_3_0_githubDebug | Start Aap transport read loop
+09-01 22:01:03.169 I/OPENHU  ( 3364): [215] Base.auditFragment | AapRead: largest message body so far: 871 bytes (on CONTROL)
+09-01 22:01:03.171 I/OPENHU  ( 3364): [215] AapControlService.serviceDiscoveryRequest | Service Discovery Request: Android
+09-01 22:01:03.172 I/OPENHU  ( 3364): [215] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Raw size: 1304x720, usable: 1440x720, orientation setting: LANDSCAPE, configOrientation: 2
+09-01 22:01:03.172 I/OPENHU  ( 3364): [215] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Final normalized size: 1304x720, usable: 1440x720
+09-01 22:01:03.173 I/OPENHU  ( 3364): [215] HeadUnitScreenConfig.init | [UI_DEBUG_FIX] HeadUnitScreenConfig: Using cached surface dimensions: 1440x720 (raw: 1440x720, anchor: 1440x720)
+09-01 22:01:03.174 I/OPENHU  ( 3364): [215] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Honest Init | Mode: IMMERSIVE | Anchor: 1440x720 | Seeded Insets: L0 T0 R0 B0
+09-01 22:01:03.175 I/OPENHU  ( 3364): [215] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen: RESOLUTION LOCKED to _1920x1080. Usable area is 1440x720. Skipping re-negotiation.
+09-01 22:01:03.176 I/OPENHU  ( 3364): [215] HeadUnitScreenConfig.recalculate | [RES_CAP] resolutionId=3 realScreen=1440x720 usable=1440x720 portrait=false locked=true chosen=_1920x1080 capped=_1920x1080 changed=false
+09-01 22:01:03.177 I/OPENHU  ( 3364): [215] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen: usable area 1440x720, using _1920x1080
+09-01 22:01:03.177 I/OPENHU  ( 3364): [2] 1.onReceive | Received request to resend night mode state
+09-01 22:01:03.178 I/OPENHU  ( 3364): [215] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen isSmallScreen: true, scaleFactor: 1.0, margins: w=480, h=360
+09-01 22:01:03.179 I/OPENHU  ( 3364): [215] Companion.makeProto | [ServiceDiscovery] Announcing NIGHT sensor support. Strategy: AUTO
+09-01 22:01:03.179 I/OPENHU  ( 3364): [2] 1.invoke | NightMode update: true
+09-01 22:01:03.181 I/OPENHU  ( 3364): [215] Companion.makeProto | [ServiceDiscovery] NegotiatedResolution is: 1920x1080
+09-01 22:01:03.181 I/OPENHU  ( 3364): [2] AapTransport.noteDroppedSensorEvent | AapTransport: dropping sensor events, isAlive=true startedSensors=[] droppedByType={10=1}
+09-01 22:01:03.184 I/OPENHU  ( 3364): [215] Companion.logNegotiatedCodecCapability | [ServiceDiscovery] Negotiating a profile this device claims to carry: codec=c2.unisoc.hevc.decoder mime=video/hevc target=1920x1080@60 sizeSupported=true rateSupported=true sustains=true widths=[64, 1920] heights=[64, 3840] featureLowLatency=false featureAdaptivePlayback=true
+09-01 22:01:03.187 I/OPENHU  ( 3364): [215] Companion.makeProto | [ServiceDiscovery] Margins are: 480x360
+09-01 22:01:03.189 I/OPENHU  ( 3364): [215] Companion.makeProto | Audio sink is off in Settings. Skipping the media and speech audio channels - the phone will not send audio and this is not a fault
+09-01 22:01:03.190 I/OPENHU  ( 3364): [215] Companion.makeProto | Head unit microphone is off in Settings. Skipping the microphone service - the phone is told this head unit cannot record, no voice request will arrive here, and this is not a fault. This needs the phone to keep our motorcycle claim, which Android 10 and older do not, so a session that connects once and then stops on an older phone may be this
+09-01 22:01:03.190 I/OPENHU  ( 3364): [215] Companion.makeProto | BT MAC Address is empty, so no Bluetooth service is announced. The phone is not told where to connect hands-free, and Android Auto keeps phone calls on the phone until it is
+09-01 22:01:03.332 I/OPENHU  ( 3364): [215] AapControlService.audioFocusRequest | Audio Focus Request: RELEASE
+09-01 22:01:03.333 I/OPENHU  ( 3364): [215] AapControlService.audioFocusRequest | Sending immediate AudioFocusNotification: STATE_LOSS (always-grant)
+09-01 22:01:03.334 I/OPENHU  ( 3364): [215] AapControlService.audioFocusRequest | Audio Sink disabled - skipping system audio focus request for channel CONTROL
+09-01 22:01:03.343 I/OPENHU  ( 3364): [215] AapControlSensor.sensorStartRequest | Sensor Start Request sensor: DRIVING_STATUS, minUpdatePeriod: 0
+09-01 22:01:03.344 I/OPENHU  ( 3364): [215] AapControlSensor.sensorStartRequest | SENSOR Sensor Start Response type: 32770 flags: 11 size: 8 dataOffset: 6
+09-01 22:01:03.345 W/OPENHU  ( 3364): [215] AapVideo.process | AapVideo: Dropped Flag 11 packet. len=4
+09-01 22:01:03.346 I/OPENHU  ( 3364): [215] AapControlMedia.mediaSinkSetupRequest | Media Sink Setup Request: 7 on channel VIDEO
+09-01 22:01:03.348 I/OPENHU  ( 3364): [215] AapControlMedia.mediaSinkSetupRequest | Config response: status: HEADUNIT
+09-01 22:01:03.348 I/OPENHU  ( 3364): max_unacked: 12
+09-01 22:01:03.348 I/OPENHU  ( 3364): configuration_indices: 0
+09-01 22:01:03.348 I/OPENHU  ( 3364):  (maxUnacked=12)
+09-01 22:01:03.353 I/OPENHU  ( 3364): [215] AapControlMedia.mediaSinkSetupRequest | Media Sink Setup Request: 1 on channel AUDIO2
+09-01 22:01:03.354 I/OPENHU  ( 3364): [215] AapControlMedia.mediaSinkSetupRequest | Config response: status: HEADUNIT
+09-01 22:01:03.354 I/OPENHU  ( 3364): max_unacked: 30
+09-01 22:01:03.354 I/OPENHU  ( 3364): configuration_indices: 0
+09-01 22:01:03.354 I/OPENHU  ( 3364):  (maxUnacked=30)
+09-01 22:01:03.357 I/OPENHU  ( 3364): [215] AapControlSensor.sensorStartRequest | Sensor Start Request sensor: NIGHT, minUpdatePeriod: 0
+09-01 22:01:03.358 I/OPENHU  ( 3364): [215] AapControlSensor.sensorStartRequest | SENSOR Sensor Start Response type: 32770 flags: 11 size: 8 dataOffset: 6
+09-01 22:01:03.358 I/OPENHU  ( 3364): [215] AapControlSensor.sensorStartRequest | Night sensor requested. Triggering immediate update.
+09-01 22:01:03.361 I/OPENHU  ( 3364): [2] 1.onReceive | Received request to resend night mode state
+09-01 22:01:03.363 I/OPENHU  ( 3364): [2] 1.invoke | NightMode update: true
+09-01 22:01:03.741 I/OPENHU  ( 3364): [215] AapControlSensor.sensorStartRequest | Sensor Start Request sensor: LOCATION, minUpdatePeriod: 0
+09-01 22:01:03.741 I/OPENHU  ( 3364): [215] AapControlSensor.sensorStartRequest | SENSOR Sensor Start Response type: 32770 flags: 11 size: 8 dataOffset: 6
+09-01 22:01:03.746 I/OPENHU  ( 3364): [215] AapControlSensor.sensorStartRequest | LOCATION sensor requested. Sending current fix immediately. sentOnWire=true
+09-01 22:01:04.032 W/OPENHU  ( 3364): [2] 1.run | Watchdog: No video received yet. Requesting Keyframe (Unsolicited Focus)...
+09-01 22:01:04.038 W/OPENHU  ( 3364): [215] AapVideo.process | AapVideo: Dropped Flag 11 packet. len=6
+09-01 22:01:04.040 I/OPENHU  ( 3364): [215] AapControlMedia.mediaStartRequest | Media Start Request VIDEO: session=0, config_index=0
+09-01 22:01:04.203 I/OPENHU  ( 3364): [215] VideoDecoder.applyStreamDimensions | H.265 SPS parsed: 1920x1080 (negotiated 1920x1080)
+09-01 22:01:04.203 I/OPENHU  ( 3364): [215] AapProjectionActivity.onVideoDimensionsChanged | [AapProjectionActivity] Received video dimensions: 1920x1080
+09-01 22:01:04.204 I/OPENHU  ( 3364): [215] VideoDecoder.applyParameterSet | Stream SPS (H.265): profile=1 level=123 chroma_format=1 bit_depth=8 size=1920x1080 max_dec_pic_buffering=2 max_num_reorder_pics=0
+09-01 22:01:04.205 I/OPENHU  ( 3364): [2] GlProjectionView.setVideoSize | GlProjectionView setVideoSize: 1920x1080
+09-01 22:01:04.207 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Raw size: 1304x720, usable: 1440x720, orientation setting: LANDSCAPE, configOrientation: 2
+09-01 22:01:04.207 I/OPENHU  ( 3364): [215] VideoDecoder.findBestCodec | findBestCodec: hw=c2.unisoc.hevc.decoder, sw=c2.android.hevc.decoder, preferHardware=true, selected=c2.unisoc.hevc.decoder
+09-01 22:01:04.209 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Final normalized size: 1304x720, usable: 1440x720
+09-01 22:01:04.209 I/OPENHU  ( 3364): [215] VideoDecoder.logDecoderCapability | Decoder capability: codec=c2.unisoc.hevc.decoder mime=video/hevc target=1920x1080@60 sizeSupported=true rateSupported=true sustains=true widths=[64, 1920] heights=[64, 3840] featureLowLatency=false featureAdaptivePlayback=true
+09-01 22:01:04.211 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.init | [UI_DEBUG_FIX] HeadUnitScreenConfig: Using cached surface dimensions: 1440x720 (raw: 1440x720, anchor: 1440x720)
+09-01 22:01:04.212 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Honest Init | Mode: IMMERSIVE | Anchor: 1440x720 | Seeded Insets: L0 T0 R0 B0
+09-01 22:01:04.214 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen: RESOLUTION LOCKED to _1920x1080. Usable area is 1440x720. Skipping re-negotiation.
+09-01 22:01:04.216 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.recalculate | [RES_CAP] resolutionId=3 realScreen=1440x720 usable=1440x720 portrait=false locked=true chosen=_1920x1080 capped=_1920x1080 changed=false
+09-01 22:01:04.218 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen: usable area 1440x720, using _1920x1080
+09-01 22:01:04.219 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen isSmallScreen: true, scaleFactor: 1.0, margins: w=480, h=360
+09-01 22:01:04.220 I/OPENHU  ( 3364): [2] ProjectionViewScaler.updateScale | [UI_DEBUG] Normal Scale. scaleX: 1.3333334, scaleY: 1.5
+09-01 22:01:04.234 I/OPENHU  ( 3364): [215] VideoDecoder.start | Configuring decoder: c2.unisoc.hevc.decoder for 1920x1080, max-input-size=1530KB, memory=AMPLE (totalRam=3745MB heapLimit=512MB memoryClass=192MB lowRamFlag=false), queue=30 frames, optionalKeys=realtime [priority, operating-rate]
+09-01 22:01:04.248 I/OPENHU  ( 3364): [219] VideoDecoder.outputThreadLoop | Output thread started
+09-01 22:01:04.249 I/OPENHU  ( 3364): [215] VideoDecoder.start | Codec initialized: c2.unisoc.hevc.decoder
+09-01 22:01:04.250 I/OPENHU  ( 3364): [220] VideoDecoder.feedThreadLoop | Feed thread started (queue holds 30 frames, 500ms at 60fps)
+09-01 22:01:04.251 I/OPENHU  ( 3364): [220] VideoDecoder.feedInputBuffer | Codec input buffer: requested 1530KB, got 1530KB per buffer
+09-01 22:01:04.254 I/OPENHU  ( 3364): [220] VideoDecoder.reportContentOnce | VideoDecoder: access unit classified PARAMETER_SETS_ONLY - flagged to the codec as configuration (first this session)
+09-01 22:01:04.259 I/OPENHU  ( 3364): [220] VideoDecoder.reportContentOnce | VideoDecoder: access unit classified PARAMETER_SETS_WITH_PICTURE - carries a picture too, so not flagged (first this session)
+09-01 22:01:04.262 I/OPENHU  ( 3364): [220] VideoDecoder.feedInputBuffer | VideoDecoder: keyframe reached the codec (627 bytes)
+09-01 22:01:04.263 I/OPENHU  ( 3364): [220] VideoDecoder.reportContentOnce | VideoDecoder: access unit classified NO_PARAMETER_SETS - an ordinary frame (first this session)
+09-01 22:01:04.276 I/OPENHU  ( 3364): [219] VideoDecoder.handleOutputFormatChange | Output Format Changed: {crop-right=1919, max-height=1080, sar-width=1, color-format=2130708361, mime=video/raw, hdr-static-info=java.nio.HeapByteBuffer[pos=0 lim=25 cap=25], priority=0, color-standard=1, vendor.coding.scene-mode.value=6, color-transfer=3, sar-height=1, hdr10-plus-info=java.nio.HeapByteBuffer[pos=0 lim=0 cap=0], crop-bottom=1079, max-width=1920, crop-left=0, width=1920, color-range=2, crop-top=0, rotation-degrees=0, height=1080}
+09-01 22:01:04.279 I/OPENHU  ( 3364): [219] VideoDecoder.outputThreadLoop | VideoDecoder: keyframe decoded - the picture is repaired
+09-01 22:01:04.281 I/OPENHU  ( 3364): [219] VideoDecoder.outputThreadLoop | First frame rendered (hardware decode)
+09-01 22:01:04.283 I/OPENHU  ( 3364): [2] AapProjectionActivity.hideLoadingOverlay | Hiding loading overlay after first video frame
+09-01 22:01:05.467 I/OPENHU  ( 3364): [215] Base.auditFragment | AapRead: largest message body so far: 6772 bytes (on MUSIC_PLAYBACK)
+09-01 22:01:06.202 I/OPENHU  ( 3364): [215] Base.auditFragment | AapRead: largest message body so far: 16149 bytes (on VIDEO)
+09-01 22:01:06.206 I/OPENHU  ( 3364): [215] Base.auditFragment | AapRead: fragment accounting established for VIDEO: channel=2 fragments=2 declaredTotal=16205 observed=16263 delta=-58 perFragment=-29
+09-01 22:01:09.267 I/OPENHU  ( 3364): [219] VideoDecoder.logThroughput | Throughput over 5002ms: rendered=242 (48fps), fed=243 (48fps), dropped=0, skipped=0, concealed=0, inputWait=87ms, enqueueWait=0ms, codec=c2.unisoc.hevc.decoder, presented=241 (48fps), decodeLatency=10ms p95=17ms (241 frames)
+09-01 22:01:09.283 I/OPENHU  ( 3364): [217] VideoRenderer.markFrameDrawn | GlProjectionView: displayed 231 frames in 5003ms (46fps), longFrames=0
+09-01 22:01:14.273 I/OPENHU  ( 3364): [219] VideoDecoder.logThroughput | Throughput over 5007ms: rendered=251 (50fps), fed=251 (50fps), dropped=0, skipped=0, concealed=0, inputWait=80ms, enqueueWait=0ms, codec=c2.unisoc.hevc.decoder, presented=251 (50fps), decodeLatency=8ms p95=15ms (251 frames)
+09-01 22:01:14.288 I/OPENHU  ( 3364): [217] VideoRenderer.markFrameDrawn | GlProjectionView: displayed 249 frames in 5005ms (49fps), longFrames=0
+09-01 22:01:19.277 I/OPENHU  ( 3364): [219] VideoDecoder.logThroughput | Throughput over 5005ms: rendered=250 (49fps), fed=250 (49fps), dropped=0, skipped=0, concealed=0, inputWait=91ms, enqueueWait=0ms, codec=c2.unisoc.hevc.decoder, presented=250 (49fps), decodeLatency=8ms p95=15ms (250 frames)
+09-01 22:01:19.317 I/OPENHU  ( 3364): [217] VideoRenderer.markFrameDrawn | GlProjectionView: displayed 232 frames in 5029ms (46fps), longFrames=0
+09-01 22:01:19.550 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.unlockResolution | [UI_DEBUG] HeadUnitScreenConfig: Unlocking resolution (was _1920x1080)
+09-01 22:01:19.551 I/OPENHU  ( 3364): [2] 1.emit | AapProjectionActivity: Finishing because state isUserExit=true, isClean=false, killOnDisconnect=false
+09-01 22:01:19.552 I/OPENHU  ( 3364): [2] AapProjectionActivity.hideReconnectingOverlay | Hiding reconnecting overlay - the session ended
+09-01 22:01:19.571 I/OPENHU  ( 3364): [61] AapTransport.stop$com_andrerinas_headunitrevived_3_3_0_githubDebug | AapTransport stopping and sending byebye
+09-01 22:01:19.602 I/OPENHU  ( 3364): [215] AapControlService.execute | Byebye Response received
+09-01 22:01:19.612 I/OPENHU  ( 3364): [2] AapProjectionActivity.onPause | AapProjectionActivity: onPause
+09-01 22:01:19.616 I/OPENHU  ( 3364): [2] AapProjectionActivity.maybeOpenCallRaiseEpisode | AapProjectionActivity: leaving this cover alone - not Self Mode
+09-01 22:01:19.639 I/OPENHU  ( 3364): [2] AapService.releaseWifiLock | WifiLock released
+09-01 22:01:19.640 I/OPENHU  ( 3364): [2] AapService.onDisconnected | AapService: Stopping GpsLocationService and NightModeManager since connection is disconnected
+09-01 22:01:19.653 I/OPENHU  ( 3364): [2] AapService.onDisconnected | AapService: User exit cooldown active for 5000ms
+09-01 22:01:19.654 I/OPENHU  ( 3364): [2] AapService.scheduleReconnectIfNeeded | AapService: User exit with wirelessServer active. Not restarting discovery.
+09-01 22:01:19.685 I/OPENHU  ( 3364): [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+09-01 22:01:19.692 I/OPENHU  ( 3364): [2] GpsLocation.stop | Remove location updates
+09-01 22:01:19.723 I/OPENHU  ( 3364): [61] AapTransport.quit$com_andrerinas_headunitrevived_3_3_0_githubDebug | AapTransport quitting (clean=false)
+09-01 22:01:19.725 I/OPENHU  ( 3364): [61] MicRecorder.stop | MicRecorder: Stopping. Active: false
+09-01 22:01:19.736 I/OPENHU  ( 3364): [61] AapAudio.releaseAllFocus | AapAudio: Releasing all audio focus.
+09-01 22:01:20.357 I/OPENHU  ( 3364): [2] AapProjectionActivity.onDestroy | AapProjectionActivity.onDestroy called. isFinishing=true
+09-01 22:01:20.746 I/OPENHU  ( 3364): [219] VideoDecoder.outputThreadLoop | Output thread stopped
+09-01 22:01:20.748 I/OPENHU  ( 3364): [220] VideoDecoder.feedThreadLoop | Feed thread stopped
+09-01 22:01:20.755 I/OPENHU  ( 3364): [61] VideoDecoder.stop | Decoder stopped: CommManager: doDisconnect
+09-01 22:01:20.756 I/OPENHU  ( 3364): [61] 2.invokeSuspend | AapService: Native AA user exit. Stopping active launcher.
+09-01 22:01:20.758 I/OPENHU  ( 3364): [61] WifiDirectManager.stop | WifiDirectManager: Stopping and cleaning up...
+09-01 22:01:20.761 I/OPENHU  ( 3364): [61] VideoDecoder.stop | Decoder stopped: AapService::onDisconnect
+09-01 22:01:20.762 I/OPENHU  ( 3364): [51] 1.invokeSuspend | WirelessServer: port 5288 released (SocketException).
+09-01 22:01:20.767 E/OPENHU  ( 3364): [215] SocketProjectionConnection.handleBrokenTransport | Socket broken (server disconnected ungracefully?)
+09-01 22:01:20.767 E/OPENHU  ( 3364): java.net.SocketException: Socket closed
+09-01 22:01:20.767 E/OPENHU  ( 3364): 	at java.net.SocketInputStream.read(SocketInputStream.java:188)
+09-01 22:01:20.767 E/OPENHU  ( 3364): 	at java.net.SocketInputStream.read(SocketInputStream.java:143)
+09-01 22:01:20.767 E/OPENHU  ( 3364): 	at java.io.DataInputStream.readFully(DataInputStream.java:203)
+09-01 22:01:20.767 E/OPENHU  ( 3364): 	at com.andrerinas.openheadunit.connection.projection.SocketProjectionConnection.recvBlocking(SocketProjectionConnection.kt:240)
+09-01 22:01:20.767 E/OPENHU  ( 3364): 	at com.andrerinas.openheadunit.aap.AapReadSingleMessage.doRead(AapReadSingleMessage.kt:30)
+09-01 22:01:20.767 E/OPENHU  ( 3364): 	at com.andrerinas.openheadunit.aap.AapRead$Base.read(AapRead.kt:103)
+09-01 22:01:20.767 E/OPENHU  ( 3364): 	at com.andrerinas.openheadunit.aap.AapTransport.pollHandlerCallback$lambda$1(AapTransport.kt:132)
+09-01 22:01:20.767 E/OPENHU  ( 3364): 	at com.andrerinas.openheadunit.aap.AapTransport.$r8$lambda$2QTRkNv3UgWj7fb9sLTWLsWLWbc(Unknown Source:0)
+09-01 22:01:20.767 E/OPENHU  ( 3364): 	at com.andrerinas.openheadunit.aap.AapTransport$$ExternalSyntheticLambda0.handleMessage(D8$$SyntheticClass:0)
+09-01 22:01:20.767 E/OPENHU  ( 3364): 	at android.os.Handler.dispatchMessage(Handler.java:102)
+09-01 22:01:20.767 E/OPENHU  ( 3364): 	at android.os.Looper.loopOnce(Looper.java:205)
+09-01 22:01:20.767 E/OPENHU  ( 3364): 	at android.os.Looper.loop(Looper.java:294)
+09-01 22:01:20.767 E/OPENHU  ( 3364): 	at android.os.HandlerThread.run(HandlerThread.java:67)
+09-01 22:01:20.769 I/OPENHU  ( 3364): [215] AapReadSingleMessage.doRead | AapRead: Connection closed (EOF). Disconnecting.
+09-01 22:01:20.770 I/OPENHU  ( 3364): [215] AapTransport.pollHandlerCallback$lambda$1 | Quitting because ret < 0 (-1)
+09-01 22:01:23.221 I/OPENHU  ( 3364): [2] HomeFragment.showNativeAaDeviceSelector$lambda$27 | HomeFragment: Manually selected POCO X3 NFC for Native-AA poke
+09-01 22:01:23.222 I/OPENHU  ( 3364): [2] MainActivity.beginAutoConnect | Auto-connect: begin (manual Native-AA poke, mode=OVERLAY)
+09-01 22:01:23.287 I/OPENHU  ( 3364): [2] AapService.onStartCommand | AapService: Received manual Native-AA poke request for DC:B7:2E:5E:4E:59
+09-01 22:01:23.287 I/OPENHU  ( 3364): [2] AapService.onStartCommand | AapService: Initializing Native AA mode before poke...
+09-01 22:01:23.289 I/OPENHU  ( 3364): [2] WifiLauncherManager.setActive | WifiLauncher: Initializing WiFi Mode: NATIVE
+09-01 22:01:23.290 I/OPENHU  ( 3364): [2] WifiDirectManager.<init> | WifiDirectManager: Device supports WiFi Direct. Initializing...
+09-01 22:01:23.296 I/OPENHU  ( 3364): [2] WirelessServer.start | WirelessServer: binding port 5288...
+09-01 22:01:23.298 I/OPENHU  ( 3364): [2] WifiDirectManager.startNativeAaQuietHost | WifiDirectManager: startNativeAaQuietHost() requested. Removing old group if any...
+09-01 22:01:23.300 I/OPENHU  ( 3364): [51] 1.invokeSuspend | Wireless Server listening on port 5288
+09-01 22:01:23.306 I/OPENHU  ( 3364): [51] WirelessServer.logLocalNetworkInterfaces | Interface: seth_lte0, IP: 172.28.253.68
+09-01 22:01:23.308 I/OPENHU  ( 3364): [51] WirelessServer.logLocalNetworkInterfaces | Interface: wlan0, IP: 192.168.1.15
+09-01 22:01:23.311 I/OPENHU  ( 3364): [2] NativeAaHandshakeManager.start | NativeAA: Starting Bluetooth Handshake Servers (primary radio [Navegadortz2])...
+09-01 22:01:23.319 I/OPENHU  ( 3364): [72] 1.invokeSuspend | NativeAA: ACTIVELY LISTENING on Android Auto UUID (4de17a00-52cb-11e6-bdf4-0800200c9a66) on radio [Navegadortz2]... Waiting for phone to connect back!
+09-01 22:01:23.320 I/OPENHU  ( 3364): [2] NativeAaHandshakeManager.shouldRegisterDummyHfp | NativeAA: radio [Navegadortz2] already advertises Hands-Free, so the stand-in HFP record is not registered - the real stack answers calls, this app cannot.
+09-01 22:01:23.385 I/OPENHU  ( 3364): [2] NativeAaHandshakeManager.manualPoke | NativeAA: Manual poke requested for POCO X3 NFC (DC:B7:2E:5E:4E:59)
+09-01 22:01:23.389 I/OPENHU  ( 3364): [60] 1.invokeSuspend | NativeAA: WiFi credentials not ready before manual poke. Requesting WiFi refresh...
+09-01 22:01:23.393 I/OPENHU  ( 3364): [2] 1.invokeSuspend | AapService: Mode requires WiFi Direct — ensuring hotspot is disabled first...
+09-01 22:01:23.393 I/OPENHU  ( 3364): [60] WifiLauncherNative.triggerWifiDirectRefresh | AapService: WiFi Direct credential refresh requested.
+09-01 22:01:23.396 I/OPENHU  ( 3364): [2] HotspotManager.setHotspotEnabled | HotspotManager: Setting hotspot enabled=false (API 34, canWriteSettings=true)
+09-01 22:01:23.409 I/OPENHU  ( 3364): [2] 1.onReceive | WifiDirectManager: WIFI_P2P_STATE_CHANGED_ACTION state=2
+09-01 22:01:23.411 I/OPENHU  ( 3364): [2] 1.invoke | WifiDirectManager: requestDeviceInfo success: 02:00:00:00:00:00
+09-01 22:01:23.444 I/OPENHU  ( 3364): [2] WifiDirectManager.refreshNativeCredentials$lambda$18 | WifiDirectManager: refresh: no group is up, so one is created.
+09-01 22:01:23.446 I/OPENHU  ( 3364): [2] WifiDirectManager.startNativeAaQuietHost | WifiDirectManager: startNativeAaQuietHost() requested. Removing old group if any...
+09-01 22:01:23.476 I/OPENHU  ( 3364): [61] 1.invokeSuspend | WppTcpServer: listening for Android Auto on TCP 5299
+09-01 22:01:23.915 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Attempting createGroup for Native AA (Attempt 0)...
+09-01 22:01:23.916 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: this unit's WiFi radio reports a 5 GHz band.
+09-01 22:01:23.917 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Band preference is 5 GHz only, set by the user.
+09-01 22:01:23.921 I/OPENHU  ( 3364): [2] WifiDirectManager.chooseNativeGroupIdentity | WifiDirectManager: group identity: a new network on every create (DIRECT-VQ-Navegadortz2), because this unit gives the group a new address every time and a kept name only makes the phone try a saved network it cannot find first. "New WiFi Direct network identity" in Settings measures again.
+09-01 22:01:23.924 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band. Chosen by the user.
+09-01 22:01:23.925 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is automatic, so the driver picks within the band.
+09-01 22:01:23.950 I/OPENHU  ( 3364): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+09-01 22:01:23.966 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Attempting createGroup for Native AA (Attempt 0)...
+09-01 22:01:23.966 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: this unit's WiFi radio reports a 5 GHz band.
+09-01 22:01:23.967 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Band preference is 5 GHz only, set by the user.
+09-01 22:01:23.968 I/OPENHU  ( 3364): [2] WifiDirectManager.chooseNativeGroupIdentity | WifiDirectManager: group identity: a new network on every create (DIRECT-E0-Navegadortz2), because this unit gives the group a new address every time and a kept name only makes the phone try a saved network it cannot find first. "New WiFi Direct network identity" in Settings measures again.
+09-01 22:01:23.970 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band. Chosen by the user.
+09-01 22:01:23.971 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is automatic, so the driver picks within the band.
+09-01 22:01:23.975 W/OPENHU  ( 3364): [2] WifiDirectManager.onQuietGroupFailed | WifiDirectManager: 5GHz createGroup failed (BUSY (System is busy, retry needed)), removing group and retrying in 2s (retry 1/4)...
+09-01 22:01:24.013 I/OPENHU  ( 3364): [2] 1.onReceive | WifiDirectManager: Connected. Requesting info...
+09-01 22:01:24.018 I/OPENHU  ( 3364): [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-01 22:01:24.023 I/OPENHU  ( 3364): [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-01 22:01:24.029 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-01 22:01:24.030 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == BSSID source dump (iface=p2p-wlan0-21) ==
+09-01 22:01:24.030 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   static override (Settings)       = 0
+09-01 22:01:24.031 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   getGroupOwnerBssid()             = null
+09-01 22:01:24.036 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (p2p-wlan0-21)   = 7a:3e:20:5a:12:2f
+09-01 22:01:24.040 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (any p2p/ap)     = 7a:3e:20:5a:12:2f
+09-01 22:01:24.050 W/OPENHU  ( 3364): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: No valid MAC found in NetworkInterface scan for p2p-wlan0-21
+09-01 22:01:24.050 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   NetworkInterface.hardwareAddress = 00:00:00:00:00:00
+09-01 22:01:24.051 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   lastKnownBssid (null)            = null
+09-01 22:01:24.051 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   requestDeviceInfo                = 02:00:00:00:00:00
+09-01 22:01:24.052 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   group.owner.deviceAddress        = 02:00:00:00:00:00
+09-01 22:01:24.054 I/OPENHU  ( 3364): [2] WifiDirectManager.getMacFromShell | WifiDirectManager: MAC retrieved via sysfs (p2p-wlan0-21): 7a:3e:20:5a:12:2f
+09-01 22:01:24.055 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   sysfs / ip link                  = 7a:3e:20:5a:12:2f
+09-01 22:01:24.056 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   Settings.Secure p2p address      = null
+09-01 22:01:24.058 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   reflection over WifiP2pGroup     = null
+09-01 22:01:24.058 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == end BSSID source dump ==
+09-01 22:01:24.064 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-21 (EUI-64): 7A:3E:20:5A:12:2F
+09-01 22:01:24.064 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: 7A:3E:20:5A:12:2F
+09-01 22:01:24.065 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-VQ-Navegadortz2, BSSID: 7A:3E:20:5A:12:2F (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-21, Freq: 5745 MHz (5GHz)
+09-01 22:01:24.067 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: group identity ssid=DIRECT-VQ-Navegadortz2 persistent=no (temporary) asked=temporary matchesRequest=no (the platform renamed or re-keyed the group; the kept pair is not what is on the air) bssid=7A:3E:20:5A:12:2F stable=unproven (a new network is made on every create) source=IPv6 link-local
+09-01 22:01:24.070 W/OPENHU  ( 3364): [2] WifiDirectManager.logStationCoexistence | WifiDirectManager: This unit is connected to another WiFi network on 5260 MHz while hosting the WiFi Direct group on 5745 MHz. One radio has to retune between the two, which can cost the projected video and audio a few hundred milliseconds at a time. Measured units have run clean in this state, so read this as context for a report rather than as something to change.
+09-01 22:01:24.071 I/OPENHU  ( 3364): [2] WifiDirectManager.notifyNativeGroupStarted | WifiDirectManager: Native AA WiFi Direct: 5GHz (5745 MHz), 5GHz requested, SSID=DIRECT-VQ-Navegadortz2
+09-01 22:01:24.075 I/OPENHU  ( 3364): [222] WifiDirectManager.onGroupInfoAvailable$lambda$6 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-VQ-Navegadortz2, IP=192.168.49.1, BSSID=7A:3E:20:5A:12:2F, identity stable=unproven
+09-01 22:01:24.076 I/OPENHU  ( 3364): [222] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-VQ-Navegadortz2, IP=192.168.49.1). Updating and Triggering Poke.
+09-01 22:01:24.076 I/OPENHU  ( 3364): [222] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-VQ-Navegadortz2, IP=192.168.49.1, BSSID=7A:3E:20:5A:12:2F, identity stable=unproven
+09-01 22:01:24.954 I/OPENHU  ( 3364): [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-01 22:01:24.958 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-01 22:01:24.970 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-21 (EUI-64): 7A:3E:20:5A:12:2F
+09-01 22:01:24.970 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: 7A:3E:20:5A:12:2F
+09-01 22:01:24.972 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-VQ-Navegadortz2, BSSID: 7A:3E:20:5A:12:2F (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-21, Freq: 5745 MHz (5GHz)
+09-01 22:01:24.977 I/OPENHU  ( 3364): [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-01 22:01:24.979 I/OPENHU  ( 3364): [223] WifiDirectManager.onGroupInfoAvailable$lambda$6 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-VQ-Navegadortz2, IP=192.168.49.1, BSSID=7A:3E:20:5A:12:2F, identity stable=unproven
+09-01 22:01:24.980 I/OPENHU  ( 3364): [223] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-VQ-Navegadortz2, IP=192.168.49.1). Updating and Triggering Poke.
+09-01 22:01:24.980 I/OPENHU  ( 3364): [223] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-VQ-Navegadortz2, IP=192.168.49.1, BSSID=7A:3E:20:5A:12:2F, identity stable=unproven
+09-01 22:01:24.990 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-01 22:01:24.995 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-21 (EUI-64): 7A:3E:20:5A:12:2F
+09-01 22:01:24.996 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: 7A:3E:20:5A:12:2F
+09-01 22:01:24.997 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-VQ-Navegadortz2, BSSID: 7A:3E:20:5A:12:2F (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-21, Freq: 5745 MHz (5GHz)
+09-01 22:01:25.004 I/OPENHU  ( 3364): [224] WifiDirectManager.onGroupInfoAvailable$lambda$6 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-VQ-Navegadortz2, IP=192.168.49.1, BSSID=7A:3E:20:5A:12:2F, identity stable=unproven
+09-01 22:01:25.005 I/OPENHU  ( 3364): [224] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-VQ-Navegadortz2, IP=192.168.49.1). Updating and Triggering Poke.
+09-01 22:01:25.005 I/OPENHU  ( 3364): [224] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-VQ-Navegadortz2, IP=192.168.49.1, BSSID=7A:3E:20:5A:12:2F, identity stable=unproven
+09-01 22:01:25.981 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Attempting createGroup for Native AA (Attempt 1)...
+09-01 22:01:25.983 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: this unit's WiFi radio reports a 5 GHz band.
+09-01 22:01:25.985 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Band preference is 5 GHz only, set by the user.
+09-01 22:01:25.989 I/OPENHU  ( 3364): [2] WifiDirectManager.chooseNativeGroupIdentity | WifiDirectManager: group identity: a new network on every create (DIRECT-YW-Navegadortz2), because this unit gives the group a new address every time and a kept name only makes the phone try a saved network it cannot find first. "New WiFi Direct network identity" in Settings measures again.
+09-01 22:01:25.993 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band. Chosen by the user.
+09-01 22:01:25.994 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is automatic, so the driver picks within the band.
+09-01 22:01:25.997 W/OPENHU  ( 3364): [2] WifiDirectManager.onQuietGroupFailed | WifiDirectManager: 5GHz createGroup failed (BUSY (System is busy, retry needed)), removing group and retrying in 2s (retry 2/4)...
+09-01 22:01:26.084 I/OPENHU  ( 3364): [52] 1.invokeSuspend | NativeAA: Attempting active poke to device: POCO X3 NFC (DC:B7:2E:5E:4E:59)...
+09-01 22:01:26.090 I/OPENHU  ( 3364): [52] NativeAaHandshakeManager.pokeDevice | NativeAA: Calling socket.connect() for POCO X3 NFC via HFP-AG (0000111f-0000-1000-8000-00805f9b34fb)...
+09-01 22:01:27.530 I/OPENHU  ( 3364): [2] AutoStartReceiver.onReceive | BT Device connected: POCO X3 NFC (DC:B7:2E:5E:4E:59)
+09-01 22:01:27.532 I/OPENHU  ( 3364): [2] AutoStartReceiver.onReceive | MATCH! Starting AapService via Bluetooth Auto-start...
+09-01 22:01:27.598 I/OPENHU  ( 3364): [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+09-01 22:01:27.660 I/OPENHU  ( 3364): [52] NativeAaHandshakeManager.pokeDevice | NativeAA: Successfully poked POCO X3 NFC via HFP-AG. Holding 15000ms...
+09-01 22:01:27.850 I/OPENHU  ( 3364): [72] 1.invokeSuspend | NativeAA: Connection accepted from POCO X3 NFC (DC:B7:2E:5E:4E:59) on local radio [Navegadortz2]
+09-01 22:01:27.856 I/OPENHU  ( 3364): [52] 2.invokeSuspend | NativeAA: Handling handshake for POCO X3 NFC (DC:B7:2E:5E:4E:59) on local radio [Navegadortz2]
+09-01 22:01:28.003 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Attempting createGroup for Native AA (Attempt 2)...
+09-01 22:01:28.005 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: this unit's WiFi radio reports a 5 GHz band.
+09-01 22:01:28.006 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Band preference is 5 GHz only, set by the user.
+09-01 22:01:28.010 I/OPENHU  ( 3364): [2] WifiDirectManager.chooseNativeGroupIdentity | WifiDirectManager: group identity: a new network on every create (DIRECT-ET-Navegadortz2), because this unit gives the group a new address every time and a kept name only makes the phone try a saved network it cannot find first. "New WiFi Direct network identity" in Settings measures again.
+09-01 22:01:28.014 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band. Chosen by the user.
+09-01 22:01:28.015 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is automatic, so the driver picks within the band.
+09-01 22:01:28.040 I/OPENHU  ( 3364): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+09-01 22:01:28.138 I/OPENHU  ( 3364): [2] 1.onReceive | WifiDirectManager: Connected. Requesting info...
+09-01 22:01:28.148 I/OPENHU  ( 3364): [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-01 22:01:28.154 I/OPENHU  ( 3364): [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-01 22:01:28.159 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-01 22:01:28.160 I/OPENHU  ( 3364): [52] 2.invokeSuspend | NativeAA: Phone connected. Current credentials state: SSID=DIRECT-VQ-Navegadortz2, IP=192.168.49.1
+09-01 22:01:28.160 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == BSSID source dump (iface=p2p-wlan0-22) ==
+09-01 22:01:28.161 I/OPENHU  ( 3364): [52] 2.invokeSuspend | NativeAA: Waiting for WiFi credentials to be ready (Max 60s)...
+09-01 22:01:28.162 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   static override (Settings)       = 0
+09-01 22:01:28.163 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   getGroupOwnerBssid()             = null
+09-01 22:01:28.163 I/OPENHU  ( 3364): [52] 2.invokeSuspend | NativeAA: this unit read its own WiFi address, so the missing-BSSID record is retired.
+09-01 22:01:28.165 I/OPENHU  ( 3364): [52] 2.invokeSuspend | NativeAA: Starting Handshake Exchange:
+09-01 22:01:28.166 I/OPENHU  ( 3364): [52] 2.invokeSuspend |   > Target SSID: DIRECT-VQ-Navegadortz2
+09-01 22:01:28.167 I/OPENHU  ( 3364): [52] 2.invokeSuspend |   > Target IP:   192.168.49.1:5288
+09-01 22:01:28.168 I/OPENHU  ( 3364): [52] 2.invokeSuspend |   > BSSID:       7A:3E:20:5A:12:2F
+09-01 22:01:28.169 I/OPENHU  ( 3364): [52] 2.invokeSuspend$runAction | NativeAA: [TX] Sending WifiStartRequest (Type 1)
+09-01 22:01:28.171 I/OPENHU  ( 3364): [52] NativeAaHandshakeManager.sendProtobuf | NativeAA: [TX] Wrote TYPE 1 (size 19) to Bluetooth (write() returned; delivery unconfirmed)
+09-01 22:01:28.171 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (p2p-wlan0-22)   = 7e:d6:68:ac:67:06
+09-01 22:01:28.176 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (any p2p/ap)     = 7e:d6:68:ac:67:06
+09-01 22:01:28.186 W/OPENHU  ( 3364): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: No valid MAC found in NetworkInterface scan for p2p-wlan0-22
+09-01 22:01:28.187 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   NetworkInterface.hardwareAddress = 00:00:00:00:00:00
+09-01 22:01:28.188 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   lastKnownBssid (p2p-wlan0-21)    = 7A:3E:20:5A:12:2F
+09-01 22:01:28.188 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   requestDeviceInfo                = 02:00:00:00:00:00
+09-01 22:01:28.189 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   group.owner.deviceAddress        = 02:00:00:00:00:00
+09-01 22:01:28.191 I/OPENHU  ( 3364): [2] WifiDirectManager.getMacFromShell | WifiDirectManager: MAC retrieved via sysfs (p2p-wlan0-22): 7e:d6:68:ac:67:06
+09-01 22:01:28.192 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   sysfs / ip link                  = 7e:d6:68:ac:67:06
+09-01 22:01:28.193 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   Settings.Secure p2p address      = null
+09-01 22:01:28.194 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   reflection over WifiP2pGroup     = null
+09-01 22:01:28.194 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == end BSSID source dump ==
+09-01 22:01:28.200 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-22 (EUI-64): 7E:D6:68:AC:67:06
+09-01 22:01:28.200 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: 7E:D6:68:AC:67:06
+09-01 22:01:28.202 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-ET-Navegadortz2, BSSID: 7E:D6:68:AC:67:06 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-22, Freq: 5765 MHz (5GHz)
+09-01 22:01:28.203 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: group identity ssid=DIRECT-ET-Navegadortz2 persistent=no (temporary) asked=temporary matchesRequest=yes bssid=7E:D6:68:AC:67:06 stable=unproven (a new network is made on every create) source=IPv6 link-local
+09-01 22:01:28.206 W/OPENHU  ( 3364): [2] WifiDirectManager.logStationCoexistence | WifiDirectManager: This unit is connected to another WiFi network on 5260 MHz while hosting the WiFi Direct group on 5765 MHz. One radio has to retune between the two, which can cost the projected video and audio a few hundred milliseconds at a time. Measured units have run clean in this state, so read this as context for a report rather than as something to change.
+09-01 22:01:28.207 I/OPENHU  ( 3364): [2] WifiDirectManager.notifyNativeGroupStarted | WifiDirectManager: Native AA WiFi Direct: 5GHz (5765 MHz), 5GHz requested, SSID=DIRECT-ET-Navegadortz2
+09-01 22:01:28.210 I/OPENHU  ( 3364): [226] WifiDirectManager.onGroupInfoAvailable$lambda$6 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-ET-Navegadortz2, IP=192.168.49.1, BSSID=7E:D6:68:AC:67:06, identity stable=unproven
+09-01 22:01:28.211 I/OPENHU  ( 3364): [226] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-ET-Navegadortz2, IP=192.168.49.1). Updating and Triggering Poke.
+09-01 22:01:28.211 I/OPENHU  ( 3364): [226] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-ET-Navegadortz2, IP=192.168.49.1, BSSID=7E:D6:68:AC:67:06, identity stable=unproven
+09-01 22:01:28.224 I/OPENHU  ( 3364): [52] 2.invokeSuspend$tick | NativeAA: [RX] Received Type 2 (Payload size: 0)
+09-01 22:01:28.224 I/OPENHU  ( 3364): [52] 2.invokeSuspend$runAction | NativeAA: Phone ready for WiFi association. Delivering credentials...
+09-01 22:01:28.225 I/OPENHU  ( 3364): [52] 2.invokeSuspend$runAction | NativeAA: [TX] Sending WifiInfoResponse (Type 3) with full credentials in 1000ms...
+09-01 22:01:29.044 I/OPENHU  ( 3364): [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-01 22:01:29.048 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-01 22:01:29.056 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-22 (EUI-64): 7E:D6:68:AC:67:06
+09-01 22:01:29.057 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: 7E:D6:68:AC:67:06
+09-01 22:01:29.058 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-ET-Navegadortz2, BSSID: 7E:D6:68:AC:67:06 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-22, Freq: 5765 MHz (5GHz)
+09-01 22:01:29.063 I/OPENHU  ( 3364): [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-01 22:01:29.065 I/OPENHU  ( 3364): [227] WifiDirectManager.onGroupInfoAvailable$lambda$6 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-ET-Navegadortz2, IP=192.168.49.1, BSSID=7E:D6:68:AC:67:06, identity stable=unproven
+09-01 22:01:29.066 I/OPENHU  ( 3364): [227] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-ET-Navegadortz2, IP=192.168.49.1). Updating and Triggering Poke.
+09-01 22:01:29.067 I/OPENHU  ( 3364): [227] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-ET-Navegadortz2, IP=192.168.49.1, BSSID=7E:D6:68:AC:67:06, identity stable=unproven
+09-01 22:01:29.067 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-01 22:01:29.073 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-22 (EUI-64): 7E:D6:68:AC:67:06
+09-01 22:01:29.073 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: 7E:D6:68:AC:67:06
+09-01 22:01:29.075 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-ET-Navegadortz2, BSSID: 7E:D6:68:AC:67:06 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-22, Freq: 5765 MHz (5GHz)
+09-01 22:01:29.081 I/OPENHU  ( 3364): [228] WifiDirectManager.onGroupInfoAvailable$lambda$6 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-ET-Navegadortz2, IP=192.168.49.1, BSSID=7E:D6:68:AC:67:06, identity stable=unproven
+09-01 22:01:29.082 I/OPENHU  ( 3364): [228] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-ET-Navegadortz2, IP=192.168.49.1). Updating and Triggering Poke.
+09-01 22:01:29.082 I/OPENHU  ( 3364): [228] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-ET-Navegadortz2, IP=192.168.49.1, BSSID=7E:D6:68:AC:67:06, identity stable=unproven
+09-01 22:01:29.227 I/OPENHU  ( 3364): [52] NativeAaHandshakeManager.sendProtobuf | NativeAA: [TX] Wrote TYPE 3 (size 61) to Bluetooth (write() returned; delivery unconfirmed)
+09-01 22:01:29.228 I/OPENHU  ( 3364): [52] 2.invokeSuspend$runAction | NativeAA: Handshake completed successfully on Bluetooth side.
+09-01 22:01:29.230 I/OPENHU  ( 3364): [52] 2.invokeSuspend$tick | NativeAA: [RX] Received Type 7 (Payload size: 2)
+09-01 22:01:29.230 I/OPENHU  ( 3364): [52] NativeAaHandshakeManager.logReceivedDetail | NativeAA: [RX] WifiStartResponse ip= status=SUCCESS(0)
+09-01 22:01:53.224 W/OPENHU  ( 3364): [2] 1.invokeSuspend | Auto-connect overlay: watchdog timeout, hiding
+09-01 22:01:55.956 I/OPENHU  ( 3364): [2] HomeFragment.showNativeAaDeviceSelector$lambda$27 | HomeFragment: Manually selected POCO X3 NFC for Native-AA poke
+09-01 22:01:55.957 I/OPENHU  ( 3364): [2] MainActivity.beginAutoConnect | Auto-connect: begin (manual Native-AA poke, mode=OVERLAY)
+09-01 22:01:56.023 I/OPENHU  ( 3364): [2] AapService.onStartCommand | AapService: Received manual Native-AA poke request for DC:B7:2E:5E:4E:59
+09-01 22:01:56.028 I/OPENHU  ( 3364): [2] NativeAaHandshakeManager.manualPoke | NativeAA: Manual poke requested for POCO X3 NFC (DC:B7:2E:5E:4E:59)
+09-01 22:01:56.033 I/OPENHU  ( 3364): [52] 1.invokeSuspend | NativeAA: Attempting manual poke to POCO X3 NFC...
+09-01 22:01:56.039 I/OPENHU  ( 3364): [52] NativeAaHandshakeManager.pokeDevice | NativeAA: Calling socket.connect() for POCO X3 NFC via HFP-AG (0000111f-0000-1000-8000-00805f9b34fb)...
+09-01 22:01:56.597 I/OPENHU  ( 3364): [52] NativeAaHandshakeManager.pokeDevice | NativeAA: Successfully poked POCO X3 NFC via HFP-AG. Holding 20000ms...
+09-01 22:02:05.340 I/OPENHU  ( 3364): [60] 2.invokeSuspend$tick | NativeAA: [RX] Received Type 6 (Payload size: 11)
+09-01 22:02:05.342 I/OPENHU  ( 3364): [60] NativeAaHandshakeManager.logReceivedDetail | NativeAA: [RX] WifiConnectStatus status=unknown(-11) (SUCCESS = the phone got onto our network)
+09-01 22:02:05.344 W/OPENHU  ( 3364): [60] 2.invokeSuspend$runAction | NativeAA: Handshake failed — phone reported join failure (type 6, status=unknown(-11)).
+09-01 22:02:05.348 I/OPENHU  ( 3364): [60] 2.invokeSuspend | NativeAA: BT Handshake socket closed.
+09-01 22:02:16.604 I/OPENHU  ( 3364): [60] 1.invokeSuspend | NativeAA: Manual poke to POCO X3 NFC finished.
+09-01 22:02:25.960 W/OPENHU  ( 3364): [2] 1.invokeSuspend | Auto-connect overlay: watchdog timeout, hiding
+09-01 22:02:28.210 W/OPENHU  ( 3364): [2] WifiDirectManager.recoverNativeGroup | WifiDirectManager: Native AA recovery (no phone joined within 60s): recreate attempt 1/4.
+09-01 22:02:28.714 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Attempting createGroup for Native AA (Attempt 0)...
+09-01 22:02:28.714 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: this unit's WiFi radio reports a 5 GHz band.
+09-01 22:02:28.715 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Band preference is 5 GHz only, set by the user.
+09-01 22:02:28.716 I/OPENHU  ( 3364): [2] WifiDirectManager.chooseNativeGroupIdentity | WifiDirectManager: group identity: a new network on every create (DIRECT-7Z-Navegadortz2), because this unit gives the group a new address every time and a kept name only makes the phone try a saved network it cannot find first. "New WiFi Direct network identity" in Settings measures again.
+09-01 22:02:28.718 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band. Chosen by the user.
+09-01 22:02:28.719 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is automatic, so the driver picks within the band.
+09-01 22:02:28.746 I/OPENHU  ( 3364): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+09-01 22:02:28.804 I/OPENHU  ( 3364): [2] 1.onReceive | WifiDirectManager: Connected. Requesting info...
+09-01 22:02:28.808 I/OPENHU  ( 3364): [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-01 22:02:28.812 I/OPENHU  ( 3364): [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-01 22:02:28.818 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-01 22:02:28.819 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == BSSID source dump (iface=p2p-wlan0-23) ==
+09-01 22:02:28.819 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   static override (Settings)       = 0
+09-01 22:02:28.820 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   getGroupOwnerBssid()             = null
+09-01 22:02:28.825 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (p2p-wlan0-23)   = 26:0b:0d:d2:cb:2c
+09-01 22:02:28.829 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (any p2p/ap)     = 26:0b:0d:d2:cb:2c
+09-01 22:02:28.839 W/OPENHU  ( 3364): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: No valid MAC found in NetworkInterface scan for p2p-wlan0-23
+09-01 22:02:28.840 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   NetworkInterface.hardwareAddress = 00:00:00:00:00:00
+09-01 22:02:28.840 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   lastKnownBssid (null)            = null
+09-01 22:02:28.841 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   requestDeviceInfo                = 02:00:00:00:00:00
+09-01 22:02:28.841 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   group.owner.deviceAddress        = 02:00:00:00:00:00
+09-01 22:02:28.844 I/OPENHU  ( 3364): [2] WifiDirectManager.getMacFromShell | WifiDirectManager: MAC retrieved via sysfs (p2p-wlan0-23): 26:0b:0d:d2:cb:2c
+09-01 22:02:28.844 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   sysfs / ip link                  = 26:0b:0d:d2:cb:2c
+09-01 22:02:28.845 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   Settings.Secure p2p address      = null
+09-01 22:02:28.847 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   reflection over WifiP2pGroup     = null
+09-01 22:02:28.847 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == end BSSID source dump ==
+09-01 22:02:28.852 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-23 (EUI-64): 26:0B:0D:D2:CB:2C
+09-01 22:02:28.853 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: 26:0B:0D:D2:CB:2C
+09-01 22:02:28.855 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-7Z-Navegadortz2, BSSID: 26:0B:0D:D2:CB:2C (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-23, Freq: 5785 MHz (5GHz)
+09-01 22:02:28.856 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: group identity ssid=DIRECT-7Z-Navegadortz2 persistent=no (temporary) asked=temporary matchesRequest=yes bssid=26:0B:0D:D2:CB:2C stable=unproven (a new network is made on every create) source=IPv6 link-local
+09-01 22:02:28.859 W/OPENHU  ( 3364): [2] WifiDirectManager.logStationCoexistence | WifiDirectManager: This unit is connected to another WiFi network on 5260 MHz while hosting the WiFi Direct group on 5785 MHz. One radio has to retune between the two, which can cost the projected video and audio a few hundred milliseconds at a time. Measured units have run clean in this state, so read this as context for a report rather than as something to change.
+09-01 22:02:28.860 I/OPENHU  ( 3364): [2] WifiDirectManager.notifyNativeGroupStarted | WifiDirectManager: Native AA WiFi Direct: 5GHz (5785 MHz), 5GHz requested, SSID=DIRECT-7Z-Navegadortz2
+09-01 22:02:28.865 I/OPENHU  ( 3364): [229] WifiDirectManager.onGroupInfoAvailable$lambda$6 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-7Z-Navegadortz2, IP=192.168.49.1, BSSID=26:0B:0D:D2:CB:2C, identity stable=unproven
+09-01 22:02:28.865 I/OPENHU  ( 3364): [229] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-7Z-Navegadortz2, IP=192.168.49.1). Updating and Triggering Poke.
+09-01 22:02:28.866 I/OPENHU  ( 3364): [229] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-7Z-Navegadortz2, IP=192.168.49.1, BSSID=26:0B:0D:D2:CB:2C, identity stable=unproven
+09-01 22:02:29.750 I/OPENHU  ( 3364): [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-01 22:02:29.752 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-01 22:02:29.757 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-23 (EUI-64): 26:0B:0D:D2:CB:2C
+09-01 22:02:29.758 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: 26:0B:0D:D2:CB:2C
+09-01 22:02:29.759 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-7Z-Navegadortz2, BSSID: 26:0B:0D:D2:CB:2C (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-23, Freq: 5785 MHz (5GHz)
+09-01 22:02:29.763 I/OPENHU  ( 3364): [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-01 22:02:29.765 I/OPENHU  ( 3364): [231] WifiDirectManager.onGroupInfoAvailable$lambda$6 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-7Z-Navegadortz2, IP=192.168.49.1, BSSID=26:0B:0D:D2:CB:2C, identity stable=unproven
+09-01 22:02:29.766 I/OPENHU  ( 3364): [231] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-7Z-Navegadortz2, IP=192.168.49.1). Updating and Triggering Poke.
+09-01 22:02:29.766 I/OPENHU  ( 3364): [231] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-7Z-Navegadortz2, IP=192.168.49.1, BSSID=26:0B:0D:D2:CB:2C, identity stable=unproven
+09-01 22:02:29.767 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-01 22:02:29.773 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-23 (EUI-64): 26:0B:0D:D2:CB:2C
+09-01 22:02:29.773 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: 26:0B:0D:D2:CB:2C
+09-01 22:02:29.775 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-7Z-Navegadortz2, BSSID: 26:0B:0D:D2:CB:2C (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-23, Freq: 5785 MHz (5GHz)
+09-01 22:02:29.782 I/OPENHU  ( 3364): [232] WifiDirectManager.onGroupInfoAvailable$lambda$6 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-7Z-Navegadortz2, IP=192.168.49.1, BSSID=26:0B:0D:D2:CB:2C, identity stable=unproven
+09-01 22:02:29.782 I/OPENHU  ( 3364): [232] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-7Z-Navegadortz2, IP=192.168.49.1). Updating and Triggering Poke.
+09-01 22:02:29.783 I/OPENHU  ( 3364): [232] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-7Z-Navegadortz2, IP=192.168.49.1, BSSID=26:0B:0D:D2:CB:2C, identity stable=unproven
+09-01 22:02:30.873 I/OPENHU  ( 3364): [161] 1.invokeSuspend | NativeAA: Attempting active poke to device: POCO X3 NFC (DC:B7:2E:5E:4E:59)...
+09-01 22:02:30.879 I/OPENHU  ( 3364): [161] NativeAaHandshakeManager.pokeDevice | NativeAA: Calling socket.connect() for POCO X3 NFC via HFP-AG (0000111f-0000-1000-8000-00805f9b34fb)...
+09-01 22:02:32.203 I/OPENHU  ( 3364): [2] AutoStartReceiver.onReceive | BT Device connected: POCO X3 NFC (DC:B7:2E:5E:4E:59)
+09-01 22:02:32.204 I/OPENHU  ( 3364): [2] AutoStartReceiver.onReceive | MATCH! Starting AapService via Bluetooth Auto-start...
+09-01 22:02:32.261 I/OPENHU  ( 3364): [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+09-01 22:02:32.348 I/OPENHU  ( 3364): [161] NativeAaHandshakeManager.pokeDevice | NativeAA: Successfully poked POCO X3 NFC via HFP-AG. Holding 15000ms...
+09-01 22:02:32.556 I/OPENHU  ( 3364): [72] 1.invokeSuspend | NativeAA: Connection accepted from POCO X3 NFC (DC:B7:2E:5E:4E:59) on local radio [Navegadortz2]
+09-01 22:02:32.562 I/OPENHU  ( 3364): [161] 2.invokeSuspend | NativeAA: Handling handshake for POCO X3 NFC (DC:B7:2E:5E:4E:59) on local radio [Navegadortz2]
+09-01 22:02:32.867 I/OPENHU  ( 3364): [161] 2.invokeSuspend | NativeAA: Phone connected. Current credentials state: SSID=DIRECT-7Z-Navegadortz2, IP=192.168.49.1
+09-01 22:02:32.868 I/OPENHU  ( 3364): [161] 2.invokeSuspend | NativeAA: Waiting for WiFi credentials to be ready (Max 60s)...
+09-01 22:02:32.871 I/OPENHU  ( 3364): [161] 2.invokeSuspend | NativeAA: this unit read its own WiFi address, so the missing-BSSID record is retired.
+09-01 22:02:32.872 I/OPENHU  ( 3364): [161] 2.invokeSuspend | NativeAA: Starting Handshake Exchange:
+09-01 22:02:32.874 I/OPENHU  ( 3364): [161] 2.invokeSuspend |   > Target SSID: DIRECT-7Z-Navegadortz2
+09-01 22:02:32.875 I/OPENHU  ( 3364): [161] 2.invokeSuspend |   > Target IP:   192.168.49.1:5288
+09-01 22:02:32.876 I/OPENHU  ( 3364): [161] 2.invokeSuspend |   > BSSID:       26:0B:0D:D2:CB:2C
+09-01 22:02:32.877 I/OPENHU  ( 3364): [161] 2.invokeSuspend$runAction | NativeAA: [TX] Sending WifiStartRequest (Type 1)
+09-01 22:02:32.879 I/OPENHU  ( 3364): [161] NativeAaHandshakeManager.sendProtobuf | NativeAA: [TX] Wrote TYPE 1 (size 19) to Bluetooth (write() returned; delivery unconfirmed)
+09-01 22:02:32.931 I/OPENHU  ( 3364): [161] 2.invokeSuspend$tick | NativeAA: [RX] Received Type 2 (Payload size: 0)
+09-01 22:02:32.931 I/OPENHU  ( 3364): [161] 2.invokeSuspend$runAction | NativeAA: Phone ready for WiFi association. Delivering credentials...
+09-01 22:02:32.932 I/OPENHU  ( 3364): [161] 2.invokeSuspend$runAction | NativeAA: [TX] Sending WifiInfoResponse (Type 3) with full credentials in 1000ms...
+09-01 22:02:33.934 I/OPENHU  ( 3364): [161] NativeAaHandshakeManager.sendProtobuf | NativeAA: [TX] Wrote TYPE 3 (size 61) to Bluetooth (write() returned; delivery unconfirmed)
+09-01 22:02:33.935 I/OPENHU  ( 3364): [161] 2.invokeSuspend$runAction | NativeAA: Handshake completed successfully on Bluetooth side.
+09-01 22:02:33.937 I/OPENHU  ( 3364): [161] 2.invokeSuspend$tick | NativeAA: [RX] Received Type 7 (Payload size: 2)
+09-01 22:02:33.938 I/OPENHU  ( 3364): [161] NativeAaHandshakeManager.logReceivedDetail | NativeAA: [RX] WifiStartResponse ip= status=SUCCESS(0)
+09-01 22:02:35.840 I/OPENHU  ( 3364): [2] 1.onReceive | WifiDirectManager: Connected. Requesting info...
+09-01 22:02:35.844 I/OPENHU  ( 3364): [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-01 22:02:35.848 I/OPENHU  ( 3364): [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-01 22:02:35.852 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-01 22:02:35.858 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-23 (EUI-64): 26:0B:0D:D2:CB:2C
+09-01 22:02:35.859 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: 26:0B:0D:D2:CB:2C
+09-01 22:02:35.860 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-7Z-Navegadortz2, BSSID: 26:0B:0D:D2:CB:2C (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-23, Freq: 5785 MHz (5GHz)
+09-01 22:02:35.868 I/OPENHU  ( 3364): [234] WifiDirectManager.onGroupInfoAvailable$lambda$6 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-7Z-Navegadortz2, IP=192.168.49.1, BSSID=26:0B:0D:D2:CB:2C, identity stable=unproven
+09-01 22:02:35.868 I/OPENHU  ( 3364): [234] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-7Z-Navegadortz2, IP=192.168.49.1). Updating and Triggering Poke.
+09-01 22:02:35.869 I/OPENHU  ( 3364): [234] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-7Z-Navegadortz2, IP=192.168.49.1, BSSID=26:0B:0D:D2:CB:2C, identity stable=unproven
+09-01 22:02:35.870 I/OPENHU  ( 3364): [234] NativeAaHandshakeManager.triggerPoke | NativeAA: Handoff still settling — not starting a poke that would compete with the phone's WiFi association.
+09-01 22:02:36.022 I/OPENHU  ( 3364): [161] 2.invokeSuspend$tick | NativeAA: [RX] Received Type 6 (Payload size: 2)
+09-01 22:02:36.024 I/OPENHU  ( 3364): [161] NativeAaHandshakeManager.logReceivedDetail | NativeAA: [RX] WifiConnectStatus status=SUCCESS(0) (SUCCESS = the phone got onto our network)
+09-01 22:02:36.025 I/OPENHU  ( 3364): [51] 1.invokeSuspend | WirelessServer: Incoming connection detected from /192.168.49.254
+09-01 22:02:36.026 I/OPENHU  ( 3364): [161] 2.invokeSuspend$runAction | NativeAA: Phone reports it is still joining — extending the settling window.
+09-01 22:02:36.027 I/OPENHU  ( 3364): [2] 2.invokeSuspend | WirelessServer: Accepted client connection from /192.168.49.254. Passing to CommManager...
+09-01 22:02:36.031 I/OPENHU  ( 3364): [161] SocketProjectionConnection.applyLowLatencySocketOptions | Socket low-latency options: tcpNoDelay=true, recvBuf=524288, sendBuf=524288
+09-01 22:02:36.045 I/OPENHU  ( 3364): [2] WifiDirectManager.noteSessionHosted | WifiDirectManager: this group has carried a session, so the join watchdog will not recreate it if the phone leaves.
+09-01 22:02:36.049 I/OPENHU  ( 3364): [2] AapService.acquireWifiLock | WifiLock acquired (HIGH_PERF)
+09-01 22:02:36.057 I/OPENHU  ( 3364): [2] AapService.onConnected | AapService: Starting GpsLocationService and NightModeManager since connection is established
+09-01 22:02:36.063 I/OPENHU  ( 3364): [2] 1.invoke | NightMode update: true
+09-01 22:02:36.071 I/OPENHU  ( 3364): [2] GpsLocation.start | Request location updates
+09-01 22:02:36.080 I/OPENHU  ( 3364): [2] GpsLocation.start | Last known location:  Location[gps 6****** , -76******  hAcc=15.0 et=+14h40m29s459ms alt=1599.157 vAcc=7.8275576 vel=0.0 sAcc=0.64084375 bear=347.877 bAcc=41.641342 {Bundle[{satellites=4, maxCn0=29, meanCn0=25}]}]
+09-01 22:02:36.093 I/OPENHU  ( 3364): [161] AapTransport.<init> | AapTransport: not taking the microphone (setting useHeadUnitMicrophone=false, available=true)
+09-01 22:02:36.095 I/OPENHU  ( 3364): [161] AapTransport.startHandshake$com_andrerinas_headunitrevived_3_3_0_githubDebug | Start Aap transport handshake for com.andrerinas.openheadunit.connection.projection.SocketProjectionConnection@79b52ff
+09-01 22:02:36.102 I/OPENHU  ( 3364): [161] AapTransport.handshake | Handshake: Version response received (ret=12, attempt=1).
+09-01 22:02:36.103 I/OPENHU  ( 3364): [161] AapTransport.handshake | Handshake: Version response recv ret: 12
+09-01 22:02:36.145 I/OPENHU  ( 3364): [161] AapSslContext.performHandshake | SSL handshake complete. Session id: DWuGMBcbFLIIkPLzCNLOJxynuAYKZW4KsR0WrXbAjIM=
+09-01 22:02:36.146 I/OPENHU  ( 3364): [161] AapTransport.handshake | Handshake: Status OK sent: 8
+09-01 22:02:36.176 I/OPENHU  ( 3364): [2] AapService.launchViaOverlayTrampoline | Overlay trampoline: startActivity succeeded
+09-01 22:02:36.287 I/OPENHU  ( 3364): [161] 2.invokeSuspend$runAction | NativeAA: WiFi session landed. Handshake session ending, releasing Bluetooth connection.
+09-01 22:02:36.290 I/OPENHU  ( 3364): [161] 2.invokeSuspend | NativeAA: BT Handshake socket closed.
+09-01 22:02:36.360 I/OPENHU  ( 3364): [2] AapProjectionActivity.onCreate | HeadUnit for Android Auto (tm) - Copyright 2011-2015 Michael A. Reid., since 2025 André Rinas All Rights Reserved...
+09-01 22:02:36.362 I/OPENHU  ( 3364): [2] AapProjectionActivity.setupProjectionView | Projection backend: viewMode=GLES override=false SoC=uis7861_6h10 board=uis7861_6h10 mfr=UNISOC model=MT50_YT610E4GFPSL_U API=34
+09-01 22:02:36.363 I/OPENHU  ( 3364): [2] AapProjectionActivity.setupProjectionView | Using GlProjectionView
+09-01 22:02:36.366 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Raw size: 1304x720, usable: 1440x720, orientation setting: LANDSCAPE, configOrientation: 2
+09-01 22:02:36.367 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Final normalized size: 1304x720, usable: 1440x720
+09-01 22:02:36.370 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.init | [UI_DEBUG_FIX] HeadUnitScreenConfig: Using cached surface dimensions: 1440x720 (raw: 1440x720, anchor: 1440x720)
+09-01 22:02:36.371 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Honest Init | Mode: IMMERSIVE | Anchor: 1440x720 | Seeded Insets: L0 T0 R0 B0
+09-01 22:02:36.372 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.recalculate | [RES_CAP] resolutionId=3 realScreen=1440x720 usable=1440x720 portrait=false locked=false chosen=_1920x1080 capped=_1920x1080 changed=false
+09-01 22:02:36.373 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen: usable area 1440x720, using _1920x1080
+09-01 22:02:36.374 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen isSmallScreen: true, scaleFactor: 1.0, margins: w=480, h=360
+09-01 22:02:36.375 I/OPENHU  ( 3364): [2] AapProjectionActivity.setupProjectionView | Using GLES YUV sink for bundled software HEVC
+09-01 22:02:36.386 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.lockResolution | [UI_DEBUG] HeadUnitScreenConfig: Locking resolution at _1920x1080
+09-01 22:02:36.396 I/OPENHU  ( 3364): [2] AapProjectionActivity.onResume | AapProjectionActivity: onResume
+09-01 22:02:36.429 I/OPENHU  ( 3364): [2] 1.onReceive | Received request to resend night mode state
+09-01 22:02:36.431 I/OPENHU  ( 3364): [2] 1.invoke | NightMode update: true
+09-01 22:02:36.486 I/OPENHU  ( 3364): [238] VideoRenderer.onSurfaceCreated | GlProjectionView: onSurfaceCreated (GL Context)
+09-01 22:02:36.488 I/OPENHU  ( 3364): [238] VideoRenderer.onSurfaceCreated | GlProjectionView: YUV handles pos=0 tex=1 mvp=4 st=3 y=2 u=1 v=0
+09-01 22:02:36.490 I/OPENHU  ( 3364): [238] VideoRenderer.onSurfaceChanged | GlProjectionView: onSurfaceChanged: 1440x720
+09-01 22:02:36.519 I/OPENHU  ( 3364): [2] VideoRenderer.onSurfaceCreated$lambda$9 | GlProjectionView: Reporting Surface Created
+09-01 22:02:36.519 I/OPENHU  ( 3364): [2] AapProjectionActivity.onSurfaceCreated | [UI_DEBUG] [AapProjectionActivity] onSurfaceCreated
+09-01 22:02:36.520 I/OPENHU  ( 3364): [2] AapProjectionActivity.onSurfaceChanged | [UI_DEBUG] [AapProjectionActivity] onSurfaceChanged. Actual surface dimensions: width=1440, height=720
+09-01 22:02:36.521 I/OPENHU  ( 3364): [2] VideoDecoder.setSurface | New surface set: Surface(name=android.graphics.SurfaceTexture@1148202)/@0xeb71dbd
+09-01 22:02:36.522 I/OPENHU  ( 3364): [2] VideoDecoder.stop | Decoder stopped: New surface
+09-01 22:02:36.524 I/OPENHU  ( 3364): [60] AapTransport.startReading$com_andrerinas_headunitrevived_3_3_0_githubDebug | Start Aap transport read loop
+09-01 22:02:36.526 I/OPENHU  ( 3364): [236] Base.auditFragment | AapRead: largest message body so far: 871 bytes (on CONTROL)
+09-01 22:02:36.528 I/OPENHU  ( 3364): [236] AapControlService.serviceDiscoveryRequest | Service Discovery Request: Android
+09-01 22:02:36.530 I/OPENHU  ( 3364): [236] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Raw size: 1304x720, usable: 1440x720, orientation setting: LANDSCAPE, configOrientation: 2
+09-01 22:02:36.530 I/OPENHU  ( 3364): [236] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Final normalized size: 1304x720, usable: 1440x720
+09-01 22:02:36.531 I/OPENHU  ( 3364): [236] HeadUnitScreenConfig.init | [UI_DEBUG_FIX] HeadUnitScreenConfig: Using cached surface dimensions: 1440x720 (raw: 1440x720, anchor: 1440x720)
+09-01 22:02:36.532 I/OPENHU  ( 3364): [236] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Honest Init | Mode: IMMERSIVE | Anchor: 1440x720 | Seeded Insets: L0 T0 R0 B0
+09-01 22:02:36.533 I/OPENHU  ( 3364): [236] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen: RESOLUTION LOCKED to _1920x1080. Usable area is 1440x720. Skipping re-negotiation.
+09-01 22:02:36.535 I/OPENHU  ( 3364): [236] HeadUnitScreenConfig.recalculate | [RES_CAP] resolutionId=3 realScreen=1440x720 usable=1440x720 portrait=false locked=true chosen=_1920x1080 capped=_1920x1080 changed=false
+09-01 22:02:36.535 I/OPENHU  ( 3364): [236] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen: usable area 1440x720, using _1920x1080
+09-01 22:02:36.536 I/OPENHU  ( 3364): [236] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen isSmallScreen: true, scaleFactor: 1.0, margins: w=480, h=360
+09-01 22:02:36.537 I/OPENHU  ( 3364): [236] Companion.makeProto | [ServiceDiscovery] Announcing NIGHT sensor support. Strategy: AUTO
+09-01 22:02:36.539 I/OPENHU  ( 3364): [236] Companion.makeProto | [ServiceDiscovery] NegotiatedResolution is: 1920x1080
+09-01 22:02:36.540 I/OPENHU  ( 3364): [2] 1.onReceive | Received request to resend night mode state
+09-01 22:02:36.542 I/OPENHU  ( 3364): [2] 1.invoke | NightMode update: true
+09-01 22:02:36.542 I/OPENHU  ( 3364): [236] Companion.logNegotiatedCodecCapability | [ServiceDiscovery] Negotiating a profile this device claims to carry: codec=c2.unisoc.hevc.decoder mime=video/hevc target=1920x1080@60 sizeSupported=true rateSupported=true sustains=true widths=[64, 1920] heights=[64, 3840] featureLowLatency=false featureAdaptivePlayback=true
+09-01 22:02:36.543 I/OPENHU  ( 3364): [2] AapTransport.noteDroppedSensorEvent | AapTransport: dropping sensor events, isAlive=true startedSensors=[] droppedByType={10=1}
+09-01 22:02:36.544 I/OPENHU  ( 3364): [236] Companion.makeProto | [ServiceDiscovery] Margins are: 480x360
+09-01 22:02:36.546 I/OPENHU  ( 3364): [236] Companion.makeProto | Audio sink is off in Settings. Skipping the media and speech audio channels - the phone will not send audio and this is not a fault
+09-01 22:02:36.546 I/OPENHU  ( 3364): [236] Companion.makeProto | Head unit microphone is off in Settings. Skipping the microphone service - the phone is told this head unit cannot record, no voice request will arrive here, and this is not a fault. This needs the phone to keep our motorcycle claim, which Android 10 and older do not, so a session that connects once and then stops on an older phone may be this
+09-01 22:02:36.547 I/OPENHU  ( 3364): [236] Companion.makeProto | BT MAC Address is empty, so no Bluetooth service is announced. The phone is not told where to connect hands-free, and Android Auto keeps phone calls on the phone until it is
+09-01 22:02:36.630 I/OPENHU  ( 3364): [236] AapControlService.audioFocusRequest | Audio Focus Request: RELEASE
+09-01 22:02:36.631 I/OPENHU  ( 3364): [236] AapControlService.audioFocusRequest | Sending immediate AudioFocusNotification: STATE_LOSS (always-grant)
+09-01 22:02:36.633 I/OPENHU  ( 3364): [236] AapControlService.audioFocusRequest | Audio Sink disabled - skipping system audio focus request for channel CONTROL
+09-01 22:02:36.647 I/OPENHU  ( 3364): [236] AapControlSensor.sensorStartRequest | Sensor Start Request sensor: DRIVING_STATUS, minUpdatePeriod: 0
+09-01 22:02:36.648 I/OPENHU  ( 3364): [236] AapControlSensor.sensorStartRequest | SENSOR Sensor Start Response type: 32770 flags: 11 size: 8 dataOffset: 6
+09-01 22:02:36.650 I/OPENHU  ( 3364): [236] AapControlMedia.mediaSinkSetupRequest | Media Sink Setup Request: 1 on channel AUDIO2
+09-01 22:02:36.652 I/OPENHU  ( 3364): [236] AapControlMedia.mediaSinkSetupRequest | Config response: status: HEADUNIT
+09-01 22:02:36.652 I/OPENHU  ( 3364): max_unacked: 30
+09-01 22:02:36.652 I/OPENHU  ( 3364): configuration_indices: 0
+09-01 22:02:36.652 I/OPENHU  ( 3364):  (maxUnacked=30)
+09-01 22:02:36.654 W/OPENHU  ( 3364): [236] AapVideo.process | AapVideo: Dropped Flag 11 packet. len=4
+09-01 22:02:36.655 I/OPENHU  ( 3364): [236] AapControlMedia.mediaSinkSetupRequest | Media Sink Setup Request: 7 on channel VIDEO
+09-01 22:02:36.657 I/OPENHU  ( 3364): [236] AapControlMedia.mediaSinkSetupRequest | Config response: status: HEADUNIT
+09-01 22:02:36.657 I/OPENHU  ( 3364): max_unacked: 12
+09-01 22:02:36.657 I/OPENHU  ( 3364): configuration_indices: 0
+09-01 22:02:36.657 I/OPENHU  ( 3364):  (maxUnacked=12)
+09-01 22:02:36.661 I/OPENHU  ( 3364): [236] AapControlSensor.sensorStartRequest | Sensor Start Request sensor: NIGHT, minUpdatePeriod: 0
+09-01 22:02:36.662 I/OPENHU  ( 3364): [236] AapControlSensor.sensorStartRequest | SENSOR Sensor Start Response type: 32770 flags: 11 size: 8 dataOffset: 6
+09-01 22:02:36.663 I/OPENHU  ( 3364): [236] AapControlSensor.sensorStartRequest | Night sensor requested. Triggering immediate update.
+09-01 22:02:36.686 I/OPENHU  ( 3364): [2] 1.onReceive | Received request to resend night mode state
+09-01 22:02:36.688 I/OPENHU  ( 3364): [2] 1.invoke | NightMode update: true
+09-01 22:02:36.998 I/OPENHU  ( 3364): [2] GpsLocation.onLocationChanged | GpsLocation: first fix after 0s
+09-01 22:02:37.008 I/OPENHU  ( 3364): [2] AapTransport.noteDroppedSensorEvent | AapTransport: dropping sensor events, isAlive=true startedSensors=[13, 10] droppedByType={1=1, 10=1}
+09-01 22:02:37.050 I/OPENHU  ( 3364): [236] AapControlSensor.sensorStartRequest | Sensor Start Request sensor: LOCATION, minUpdatePeriod: 0
+09-01 22:02:37.051 I/OPENHU  ( 3364): [236] AapControlSensor.sensorStartRequest | SENSOR Sensor Start Response type: 32770 flags: 11 size: 8 dataOffset: 6
+09-01 22:02:37.057 I/OPENHU  ( 3364): [236] AapControlSensor.sensorStartRequest | LOCATION sensor requested. Sending current fix immediately. sentOnWire=true
+09-01 22:02:37.389 W/OPENHU  ( 3364): [2] 1.run | Watchdog: No video received yet. Requesting Keyframe (Unsolicited Focus)...
+09-01 22:02:37.465 W/OPENHU  ( 3364): [236] AapVideo.process | AapVideo: Dropped Flag 11 packet. len=6
+09-01 22:02:37.466 I/OPENHU  ( 3364): [236] AapControlMedia.mediaStartRequest | Media Start Request VIDEO: session=0, config_index=0
+09-01 22:02:37.627 I/OPENHU  ( 3364): [236] VideoDecoder.applyStreamDimensions | H.265 SPS parsed: 1920x1080 (negotiated 1920x1080)
+09-01 22:02:37.628 I/OPENHU  ( 3364): [236] AapProjectionActivity.onVideoDimensionsChanged | [AapProjectionActivity] Received video dimensions: 1920x1080
+09-01 22:02:37.628 I/OPENHU  ( 3364): [236] VideoDecoder.applyParameterSet | Stream SPS (H.265): profile=1 level=123 chroma_format=1 bit_depth=8 size=1920x1080 max_dec_pic_buffering=2 max_num_reorder_pics=0
+09-01 22:02:37.629 I/OPENHU  ( 3364): [2] GlProjectionView.setVideoSize | GlProjectionView setVideoSize: 1920x1080
+09-01 22:02:37.632 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Raw size: 1304x720, usable: 1440x720, orientation setting: LANDSCAPE, configOrientation: 2
+09-01 22:02:37.632 I/OPENHU  ( 3364): [236] VideoDecoder.findBestCodec | findBestCodec: hw=c2.unisoc.hevc.decoder, sw=c2.android.hevc.decoder, preferHardware=true, selected=c2.unisoc.hevc.decoder
+09-01 22:02:37.633 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Final normalized size: 1304x720, usable: 1440x720
+09-01 22:02:37.634 I/OPENHU  ( 3364): [236] VideoDecoder.logDecoderCapability | Decoder capability: codec=c2.unisoc.hevc.decoder mime=video/hevc target=1920x1080@60 sizeSupported=true rateSupported=true sustains=true widths=[64, 1920] heights=[64, 3840] featureLowLatency=false featureAdaptivePlayback=true
+09-01 22:02:37.635 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.init | [UI_DEBUG_FIX] HeadUnitScreenConfig: Using cached surface dimensions: 1440x720 (raw: 1440x720, anchor: 1440x720)
+09-01 22:02:37.636 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Honest Init | Mode: IMMERSIVE | Anchor: 1440x720 | Seeded Insets: L0 T0 R0 B0
+09-01 22:02:37.638 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen: RESOLUTION LOCKED to _1920x1080. Usable area is 1440x720. Skipping re-negotiation.
+09-01 22:02:37.640 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.recalculate | [RES_CAP] resolutionId=3 realScreen=1440x720 usable=1440x720 portrait=false locked=true chosen=_1920x1080 capped=_1920x1080 changed=false
+09-01 22:02:37.641 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen: usable area 1440x720, using _1920x1080
+09-01 22:02:37.642 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen isSmallScreen: true, scaleFactor: 1.0, margins: w=480, h=360
+09-01 22:02:37.644 I/OPENHU  ( 3364): [2] ProjectionViewScaler.updateScale | [UI_DEBUG] Normal Scale. scaleX: 1.3333334, scaleY: 1.5
+09-01 22:02:37.658 I/OPENHU  ( 3364): [236] VideoDecoder.start | Configuring decoder: c2.unisoc.hevc.decoder for 1920x1080, max-input-size=1530KB, memory=AMPLE (totalRam=3745MB heapLimit=512MB memoryClass=192MB lowRamFlag=false), queue=30 frames, optionalKeys=realtime [priority, operating-rate]
+09-01 22:02:37.673 I/OPENHU  ( 3364): [241] VideoDecoder.feedThreadLoop | Feed thread started (queue holds 30 frames, 500ms at 60fps)
+09-01 22:02:37.674 I/OPENHU  ( 3364): [236] VideoDecoder.start | Codec initialized: c2.unisoc.hevc.decoder
+09-01 22:02:37.674 I/OPENHU  ( 3364): [240] VideoDecoder.outputThreadLoop | Output thread started
+09-01 22:02:37.675 I/OPENHU  ( 3364): [241] VideoDecoder.feedInputBuffer | Codec input buffer: requested 1530KB, got 1530KB per buffer
+09-01 22:02:37.676 I/OPENHU  ( 3364): [241] VideoDecoder.reportContentOnce | VideoDecoder: access unit classified PARAMETER_SETS_ONLY - flagged to the codec as configuration (first this session)
+09-01 22:02:37.680 I/OPENHU  ( 3364): [241] VideoDecoder.reportContentOnce | VideoDecoder: access unit classified PARAMETER_SETS_WITH_PICTURE - carries a picture too, so not flagged (first this session)
+09-01 22:02:37.683 I/OPENHU  ( 3364): [241] VideoDecoder.feedInputBuffer | VideoDecoder: keyframe reached the codec (627 bytes)
+09-01 22:02:37.685 I/OPENHU  ( 3364): [241] VideoDecoder.reportContentOnce | VideoDecoder: access unit classified NO_PARAMETER_SETS - an ordinary frame (first this session)
+09-01 22:02:37.694 I/OPENHU  ( 3364): [240] VideoDecoder.handleOutputFormatChange | Output Format Changed: {crop-right=1919, max-height=1080, sar-width=1, color-format=2130708361, mime=video/raw, hdr-static-info=java.nio.HeapByteBuffer[pos=0 lim=25 cap=25], priority=0, color-standard=1, vendor.coding.scene-mode.value=6, color-transfer=3, sar-height=1, hdr10-plus-info=java.nio.HeapByteBuffer[pos=0 lim=0 cap=0], crop-bottom=1079, max-width=1920, crop-left=0, width=1920, color-range=2, crop-top=0, rotation-degrees=0, height=1080}
+09-01 22:02:37.700 I/OPENHU  ( 3364): [240] VideoDecoder.outputThreadLoop | VideoDecoder: keyframe decoded - the picture is repaired
+09-01 22:02:37.701 I/OPENHU  ( 3364): [240] VideoDecoder.outputThreadLoop | First frame rendered (hardware decode)
+09-01 22:02:37.702 I/OPENHU  ( 3364): [2] AapProjectionActivity.hideLoadingOverlay | Hiding loading overlay after first video frame
+09-01 22:02:38.958 I/OPENHU  ( 3364): [236] Base.auditFragment | AapRead: largest message body so far: 6772 bytes (on MUSIC_PLAYBACK)
+09-01 22:02:39.618 I/OPENHU  ( 3364): [236] Base.auditFragment | AapRead: largest message body so far: 16149 bytes (on VIDEO)
+09-01 22:02:39.621 I/OPENHU  ( 3364): [236] Base.auditFragment | AapRead: fragment accounting established for VIDEO: channel=2 fragments=2 declaredTotal=22057 observed=22115 delta=-58 perFragment=-29
+09-01 22:02:42.691 I/OPENHU  ( 3364): [240] VideoDecoder.logThroughput | Throughput over 5005ms: rendered=206 (41fps), fed=208 (41fps), dropped=0, skipped=0, concealed=0, inputWait=190ms, enqueueWait=0ms, codec=c2.unisoc.hevc.decoder, presented=205 (40fps), decodeLatency=14ms p95=48ms (205 frames)
+09-01 22:02:42.712 I/OPENHU  ( 3364): [238] VideoRenderer.markFrameDrawn | GlProjectionView: displayed 167 frames in 5010ms (33fps), longFrames=0
+09-01 22:02:45.129 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.unlockResolution | [UI_DEBUG] HeadUnitScreenConfig: Unlocking resolution (was _1920x1080)
+09-01 22:02:45.130 I/OPENHU  ( 3364): [2] 1.emit | AapProjectionActivity: Finishing because state isUserExit=true, isClean=false, killOnDisconnect=false
+09-01 22:02:45.131 I/OPENHU  ( 3364): [2] AapProjectionActivity.hideReconnectingOverlay | Hiding reconnecting overlay - the session ended
+09-01 22:02:45.153 I/OPENHU  ( 3364): [60] AapTransport.stop$com_andrerinas_headunitrevived_3_3_0_githubDebug | AapTransport stopping and sending byebye
+09-01 22:02:45.162 I/OPENHU  ( 3364): [236] AapControlService.execute | Byebye Response received
+09-01 22:02:45.191 I/OPENHU  ( 3364): [2] AapProjectionActivity.onPause | AapProjectionActivity: onPause
+09-01 22:02:45.194 I/OPENHU  ( 3364): [2] AapProjectionActivity.maybeOpenCallRaiseEpisode | AapProjectionActivity: leaving this cover alone - not Self Mode
+09-01 22:02:45.213 I/OPENHU  ( 3364): [2] AapService.releaseWifiLock | WifiLock released
+09-01 22:02:45.214 I/OPENHU  ( 3364): [2] AapService.onDisconnected | AapService: Stopping GpsLocationService and NightModeManager since connection is disconnected
+09-01 22:02:45.229 I/OPENHU  ( 3364): [2] AapService.onDisconnected | AapService: User exit cooldown active for 5000ms
+09-01 22:02:45.230 I/OPENHU  ( 3364): [2] AapService.scheduleReconnectIfNeeded | AapService: User exit with wirelessServer active. Not restarting discovery.
+09-01 22:02:45.258 I/OPENHU  ( 3364): [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+09-01 22:02:45.264 I/OPENHU  ( 3364): [2] GpsLocation.stop | Remove location updates
+09-01 22:02:45.305 I/OPENHU  ( 3364): [60] AapTransport.quit$com_andrerinas_headunitrevived_3_3_0_githubDebug | AapTransport quitting (clean=false)
+09-01 22:02:45.307 I/OPENHU  ( 3364): [60] MicRecorder.stop | MicRecorder: Stopping. Active: false
+09-01 22:02:45.317 I/OPENHU  ( 3364): [60] AapAudio.releaseAllFocus | AapAudio: Releasing all audio focus.
+09-01 22:02:45.924 I/OPENHU  ( 3364): [2] AapProjectionActivity.onDestroy | AapProjectionActivity.onDestroy called. isFinishing=true
+09-01 22:02:46.319 I/OPENHU  ( 3364): [240] VideoDecoder.outputThreadLoop | Output thread stopped
+09-01 22:02:46.321 I/OPENHU  ( 3364): [241] VideoDecoder.feedThreadLoop | Feed thread stopped
+09-01 22:02:46.328 I/OPENHU  ( 3364): [60] VideoDecoder.stop | Decoder stopped: CommManager: doDisconnect
+09-01 22:02:46.331 I/OPENHU  ( 3364): [60] 2.invokeSuspend | AapService: Native AA user exit. Stopping active launcher.
+09-01 22:02:46.335 I/OPENHU  ( 3364): [60] WifiDirectManager.stop | WifiDirectManager: Stopping and cleaning up...
+09-01 22:02:46.336 E/OPENHU  ( 3364): [236] SocketProjectionConnection.handleBrokenTransport | Socket broken (server disconnected ungracefully?)
+09-01 22:02:46.336 E/OPENHU  ( 3364): java.net.SocketException: Socket closed
+09-01 22:02:46.336 E/OPENHU  ( 3364): 	at java.net.SocketInputStream.read(SocketInputStream.java:188)
+09-01 22:02:46.336 E/OPENHU  ( 3364): 	at java.net.SocketInputStream.read(SocketInputStream.java:143)
+09-01 22:02:46.336 E/OPENHU  ( 3364): 	at java.io.DataInputStream.readFully(DataInputStream.java:203)
+09-01 22:02:46.336 E/OPENHU  ( 3364): 	at com.andrerinas.openheadunit.connection.projection.SocketProjectionConnection.recvBlocking(SocketProjectionConnection.kt:240)
+09-01 22:02:46.336 E/OPENHU  ( 3364): 	at com.andrerinas.openheadunit.aap.AapReadSingleMessage.doRead(AapReadSingleMessage.kt:30)
+09-01 22:02:46.336 E/OPENHU  ( 3364): 	at com.andrerinas.openheadunit.aap.AapRead$Base.read(AapRead.kt:103)
+09-01 22:02:46.336 E/OPENHU  ( 3364): 	at com.andrerinas.openheadunit.aap.AapTransport.pollHandlerCallback$lambda$1(AapTransport.kt:132)
+09-01 22:02:46.336 E/OPENHU  ( 3364): 	at com.andrerinas.openheadunit.aap.AapTransport.$r8$lambda$2QTRkNv3UgWj7fb9sLTWLsWLWbc(Unknown Source:0)
+09-01 22:02:46.336 E/OPENHU  ( 3364): 	at com.andrerinas.openheadunit.aap.AapTransport$$ExternalSyntheticLambda0.handleMessage(D8$$SyntheticClass:0)
+09-01 22:02:46.336 E/OPENHU  ( 3364): 	at android.os.Handler.dispatchMessage(Handler.java:102)
+09-01 22:02:46.336 E/OPENHU  ( 3364): 	at android.os.Looper.loopOnce(Looper.java:205)
+09-01 22:02:46.336 E/OPENHU  ( 3364): 	at android.os.Looper.loop(Looper.java:294)
+09-01 22:02:46.336 E/OPENHU  ( 3364): 	at android.os.HandlerThread.run(HandlerThread.java:67)
+09-01 22:02:46.338 I/OPENHU  ( 3364): [236] AapReadSingleMessage.doRead | AapRead: Connection closed (EOF). Disconnecting.
+09-01 22:02:46.339 I/OPENHU  ( 3364): [236] AapTransport.pollHandlerCallback$lambda$1 | Quitting because ret < 0 (-1)
+09-01 22:02:46.341 I/OPENHU  ( 3364): [60] VideoDecoder.stop | Decoder stopped: AapService::onDisconnect
+09-01 22:02:46.341 I/OPENHU  ( 3364): [51] 1.invokeSuspend | WirelessServer: port 5288 released (SocketException).
+09-01 22:03:07.345 I/OPENHU  ( 3364): [2] HomeFragment.showNativeAaDeviceSelector$lambda$27 | HomeFragment: Manually selected POCO X3 NFC for Native-AA poke
+09-01 22:03:07.347 I/OPENHU  ( 3364): [2] MainActivity.beginAutoConnect | Auto-connect: begin (manual Native-AA poke, mode=OVERLAY)
+09-01 22:03:07.410 I/OPENHU  ( 3364): [2] AapService.onStartCommand | AapService: Received manual Native-AA poke request for DC:B7:2E:5E:4E:59
+09-01 22:03:07.411 I/OPENHU  ( 3364): [2] AapService.onStartCommand | AapService: Initializing Native AA mode before poke...
+09-01 22:03:07.413 I/OPENHU  ( 3364): [2] WifiLauncherManager.setActive | WifiLauncher: Initializing WiFi Mode: NATIVE
+09-01 22:03:07.414 I/OPENHU  ( 3364): [2] WifiDirectManager.<init> | WifiDirectManager: Device supports WiFi Direct. Initializing...
+09-01 22:03:07.420 I/OPENHU  ( 3364): [2] WirelessServer.start | WirelessServer: binding port 5288...
+09-01 22:03:07.422 I/OPENHU  ( 3364): [2] WifiDirectManager.startNativeAaQuietHost | WifiDirectManager: startNativeAaQuietHost() requested. Removing old group if any...
+09-01 22:03:07.423 I/OPENHU  ( 3364): [51] 1.invokeSuspend | Wireless Server listening on port 5288
+09-01 22:03:07.427 I/OPENHU  ( 3364): [51] WirelessServer.logLocalNetworkInterfaces | Interface: seth_lte0, IP: 172.28.253.68
+09-01 22:03:07.427 I/OPENHU  ( 3364): [51] WirelessServer.logLocalNetworkInterfaces | Interface: wlan0, IP: 192.168.1.15
+09-01 22:03:07.431 I/OPENHU  ( 3364): [2] NativeAaHandshakeManager.start | NativeAA: Starting Bluetooth Handshake Servers (primary radio [Navegadortz2])...
+09-01 22:03:07.437 I/OPENHU  ( 3364): [2] NativeAaHandshakeManager.shouldRegisterDummyHfp | NativeAA: radio [Navegadortz2] already advertises Hands-Free, so the stand-in HFP record is not registered - the real stack answers calls, this app cannot.
+09-01 22:03:07.438 I/OPENHU  ( 3364): [61] 1.invokeSuspend | NativeAA: ACTIVELY LISTENING on Android Auto UUID (4de17a00-52cb-11e6-bdf4-0800200c9a66) on radio [Navegadortz2]... Waiting for phone to connect back!
+09-01 22:03:07.473 I/OPENHU  ( 3364): [2] NativeAaHandshakeManager.manualPoke | NativeAA: Manual poke requested for POCO X3 NFC (DC:B7:2E:5E:4E:59)
+09-01 22:03:07.475 I/OPENHU  ( 3364): [72] 1.invokeSuspend | NativeAA: WiFi credentials not ready before manual poke. Requesting WiFi refresh...
+09-01 22:03:07.477 I/OPENHU  ( 3364): [72] WifiLauncherNative.triggerWifiDirectRefresh | AapService: WiFi Direct credential refresh requested.
+09-01 22:03:07.479 I/OPENHU  ( 3364): [2] 1.onReceive | WifiDirectManager: WIFI_P2P_STATE_CHANGED_ACTION state=2
+09-01 22:03:07.480 I/OPENHU  ( 3364): [2] 1.invokeSuspend | AapService: Mode requires WiFi Direct — ensuring hotspot is disabled first...
+09-01 22:03:07.482 I/OPENHU  ( 3364): [2] HotspotManager.setHotspotEnabled | HotspotManager: Setting hotspot enabled=false (API 34, canWriteSettings=true)
+09-01 22:03:07.488 I/OPENHU  ( 3364): [2] 1.invoke | WifiDirectManager: requestDeviceInfo success: 02:00:00:00:00:00
+09-01 22:03:07.508 I/OPENHU  ( 3364): [2] WifiDirectManager.refreshNativeCredentials$lambda$18 | WifiDirectManager: refresh: no group is up, so one is created.
+09-01 22:03:07.509 I/OPENHU  ( 3364): [2] WifiDirectManager.startNativeAaQuietHost | WifiDirectManager: startNativeAaQuietHost() requested. Removing old group if any...
+09-01 22:03:07.533 I/OPENHU  ( 3364): [60] 1.invokeSuspend | WppTcpServer: listening for Android Auto on TCP 5299
+09-01 22:03:07.992 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Attempting createGroup for Native AA (Attempt 0)...
+09-01 22:03:07.993 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: this unit's WiFi radio reports a 5 GHz band.
+09-01 22:03:07.997 I/OPENHU  ( 3364): [2] WifiDirectManager.chooseNativeGroupIdentity | WifiDirectManager: group identity: a new network on every create (DIRECT-28-Navegadortz2), because this unit gives the group a new address every time and a kept name only makes the phone try a saved network it cannot find first. "New WiFi Direct network identity" in Settings measures again.
+09-01 22:03:08.001 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band. Chosen by the user.
+09-01 22:03:08.002 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is automatic, so the driver picks within the band.
+09-01 22:03:08.023 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Attempting createGroup for Native AA (Attempt 0)...
+09-01 22:03:08.024 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: this unit's WiFi radio reports a 5 GHz band.
+09-01 22:03:08.024 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Band preference is 5 GHz only, set by the user.
+09-01 22:03:08.026 I/OPENHU  ( 3364): [2] WifiDirectManager.chooseNativeGroupIdentity | WifiDirectManager: group identity: a new network on every create (DIRECT-YP-Navegadortz2), because this unit gives the group a new address every time and a kept name only makes the phone try a saved network it cannot find first. "New WiFi Direct network identity" in Settings measures again.
+09-01 22:03:08.028 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band. Chosen by the user.
+09-01 22:03:08.028 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is automatic, so the driver picks within the band.
+09-01 22:03:08.038 I/OPENHU  ( 3364): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+09-01 22:03:08.047 W/OPENHU  ( 3364): [2] WifiDirectManager.onQuietGroupFailed | WifiDirectManager: 5GHz createGroup failed (BUSY (System is busy, retry needed)), removing group and retrying in 2s (retry 1/4)...
+09-01 22:03:08.102 I/OPENHU  ( 3364): [2] 1.onReceive | WifiDirectManager: Connected. Requesting info...
+09-01 22:03:08.107 I/OPENHU  ( 3364): [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-01 22:03:08.112 I/OPENHU  ( 3364): [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-01 22:03:08.116 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-01 22:03:08.117 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == BSSID source dump (iface=p2p-wlan0-24) ==
+09-01 22:03:08.118 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   static override (Settings)       = 0
+09-01 22:03:08.119 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   getGroupOwnerBssid()             = null
+09-01 22:03:08.123 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (p2p-wlan0-24)   = 9e:e6:9b:1d:1b:88
+09-01 22:03:08.127 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (any p2p/ap)     = 9e:e6:9b:1d:1b:88
+09-01 22:03:08.138 W/OPENHU  ( 3364): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: No valid MAC found in NetworkInterface scan for p2p-wlan0-24
+09-01 22:03:08.138 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   NetworkInterface.hardwareAddress = 00:00:00:00:00:00
+09-01 22:03:08.139 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   lastKnownBssid (null)            = null
+09-01 22:03:08.140 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   requestDeviceInfo                = 02:00:00:00:00:00
+09-01 22:03:08.140 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   group.owner.deviceAddress        = 02:00:00:00:00:00
+09-01 22:03:08.143 I/OPENHU  ( 3364): [2] WifiDirectManager.getMacFromShell | WifiDirectManager: MAC retrieved via sysfs (p2p-wlan0-24): 9e:e6:9b:1d:1b:88
+09-01 22:03:08.144 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   sysfs / ip link                  = 9e:e6:9b:1d:1b:88
+09-01 22:03:08.144 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   Settings.Secure p2p address      = null
+09-01 22:03:08.146 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   reflection over WifiP2pGroup     = null
+09-01 22:03:08.146 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == end BSSID source dump ==
+09-01 22:03:08.152 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-24 (EUI-64): 9E:E6:9B:1D:1B:88
+09-01 22:03:08.152 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: 9E:E6:9B:1D:1B:88
+09-01 22:03:08.153 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-28-Navegadortz2, BSSID: 9E:E6:9B:1D:1B:88 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-24, Freq: 5765 MHz (5GHz)
+09-01 22:03:08.154 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: group identity ssid=DIRECT-28-Navegadortz2 persistent=no (temporary) asked=temporary matchesRequest=no (the platform renamed or re-keyed the group; the kept pair is not what is on the air) bssid=9E:E6:9B:1D:1B:88 stable=unproven (a new network is made on every create) source=IPv6 link-local
+09-01 22:03:08.158 W/OPENHU  ( 3364): [2] WifiDirectManager.logStationCoexistence | WifiDirectManager: This unit is connected to another WiFi network on 5260 MHz while hosting the WiFi Direct group on 5765 MHz. One radio has to retune between the two, which can cost the projected video and audio a few hundred milliseconds at a time. Measured units have run clean in this state, so read this as context for a report rather than as something to change.
+09-01 22:03:08.158 I/OPENHU  ( 3364): [2] WifiDirectManager.notifyNativeGroupStarted | WifiDirectManager: Native AA WiFi Direct: 5GHz (5765 MHz), 5GHz requested, SSID=DIRECT-28-Navegadortz2
+09-01 22:03:08.164 I/OPENHU  ( 3364): [243] WifiDirectManager.onGroupInfoAvailable$lambda$6 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-28-Navegadortz2, IP=192.168.49.1, BSSID=9E:E6:9B:1D:1B:88, identity stable=unproven
+09-01 22:03:08.164 I/OPENHU  ( 3364): [243] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-28-Navegadortz2, IP=192.168.49.1). Updating and Triggering Poke.
+09-01 22:03:08.165 I/OPENHU  ( 3364): [243] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-28-Navegadortz2, IP=192.168.49.1, BSSID=9E:E6:9B:1D:1B:88, identity stable=unproven
+09-01 22:03:09.040 I/OPENHU  ( 3364): [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-01 22:03:09.044 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-01 22:03:09.052 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-24 (EUI-64): 9E:E6:9B:1D:1B:88
+09-01 22:03:09.053 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: 9E:E6:9B:1D:1B:88
+09-01 22:03:09.055 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-28-Navegadortz2, BSSID: 9E:E6:9B:1D:1B:88 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-24, Freq: 5765 MHz (5GHz)
+09-01 22:03:09.059 I/OPENHU  ( 3364): [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-01 22:03:09.062 I/OPENHU  ( 3364): [244] WifiDirectManager.onGroupInfoAvailable$lambda$6 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-28-Navegadortz2, IP=192.168.49.1, BSSID=9E:E6:9B:1D:1B:88, identity stable=unproven
+09-01 22:03:09.063 I/OPENHU  ( 3364): [244] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-28-Navegadortz2, IP=192.168.49.1). Updating and Triggering Poke.
+09-01 22:03:09.063 I/OPENHU  ( 3364): [244] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-28-Navegadortz2, IP=192.168.49.1, BSSID=9E:E6:9B:1D:1B:88, identity stable=unproven
+09-01 22:03:09.064 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-01 22:03:09.070 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-24 (EUI-64): 9E:E6:9B:1D:1B:88
+09-01 22:03:09.070 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: 9E:E6:9B:1D:1B:88
+09-01 22:03:09.072 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-28-Navegadortz2, BSSID: 9E:E6:9B:1D:1B:88 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-24, Freq: 5765 MHz (5GHz)
+09-01 22:03:09.079 I/OPENHU  ( 3364): [245] WifiDirectManager.onGroupInfoAvailable$lambda$6 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-28-Navegadortz2, IP=192.168.49.1, BSSID=9E:E6:9B:1D:1B:88, identity stable=unproven
+09-01 22:03:09.080 I/OPENHU  ( 3364): [245] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-28-Navegadortz2, IP=192.168.49.1). Updating and Triggering Poke.
+09-01 22:03:09.081 I/OPENHU  ( 3364): [245] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-28-Navegadortz2, IP=192.168.49.1, BSSID=9E:E6:9B:1D:1B:88, identity stable=unproven
+09-01 22:03:10.052 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Attempting createGroup for Native AA (Attempt 1)...
+09-01 22:03:10.054 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: this unit's WiFi radio reports a 5 GHz band.
+09-01 22:03:10.056 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Band preference is 5 GHz only, set by the user.
+09-01 22:03:10.060 I/OPENHU  ( 3364): [2] WifiDirectManager.chooseNativeGroupIdentity | WifiDirectManager: group identity: a new network on every create (DIRECT-5C-Navegadortz2), because this unit gives the group a new address every time and a kept name only makes the phone try a saved network it cannot find first. "New WiFi Direct network identity" in Settings measures again.
+09-01 22:03:10.063 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band. Chosen by the user.
+09-01 22:03:10.063 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is automatic, so the driver picks within the band.
+09-01 22:03:10.066 W/OPENHU  ( 3364): [2] WifiDirectManager.onQuietGroupFailed | WifiDirectManager: 5GHz createGroup failed (BUSY (System is busy, retry needed)), removing group and retrying in 2s (retry 2/4)...
+09-01 22:03:10.173 I/OPENHU  ( 3364): [72] 1.invokeSuspend | NativeAA: Attempting active poke to device: POCO X3 NFC (DC:B7:2E:5E:4E:59)...
+09-01 22:03:10.179 I/OPENHU  ( 3364): [72] NativeAaHandshakeManager.pokeDevice | NativeAA: Calling socket.connect() for POCO X3 NFC via HFP-AG (0000111f-0000-1000-8000-00805f9b34fb)...
+09-01 22:03:11.249 I/OPENHU  ( 3364): [2] AutoStartReceiver.onReceive | BT Device connected: POCO X3 NFC (DC:B7:2E:5E:4E:59)
+09-01 22:03:11.250 I/OPENHU  ( 3364): [2] AutoStartReceiver.onReceive | MATCH! Starting AapService via Bluetooth Auto-start...
+09-01 22:03:11.319 I/OPENHU  ( 3364): [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+09-01 22:03:11.395 I/OPENHU  ( 3364): [72] NativeAaHandshakeManager.pokeDevice | NativeAA: Successfully poked POCO X3 NFC via HFP-AG. Holding 15000ms...
+09-01 22:03:11.695 I/OPENHU  ( 3364): [61] 1.invokeSuspend | NativeAA: Connection accepted from POCO X3 NFC (DC:B7:2E:5E:4E:59) on local radio [Navegadortz2]
+09-01 22:03:11.713 I/OPENHU  ( 3364): [72] 2.invokeSuspend | NativeAA: Handling handshake for POCO X3 NFC (DC:B7:2E:5E:4E:59) on local radio [Navegadortz2]
+09-01 22:03:12.018 I/OPENHU  ( 3364): [53] 2.invokeSuspend | NativeAA: Phone connected. Current credentials state: SSID=DIRECT-28-Navegadortz2, IP=192.168.49.1
+09-01 22:03:12.019 I/OPENHU  ( 3364): [53] 2.invokeSuspend | NativeAA: Waiting for WiFi credentials to be ready (Max 60s)...
+09-01 22:03:12.022 I/OPENHU  ( 3364): [53] 2.invokeSuspend | NativeAA: this unit read its own WiFi address, so the missing-BSSID record is retired.
+09-01 22:03:12.024 I/OPENHU  ( 3364): [53] 2.invokeSuspend | NativeAA: Starting Handshake Exchange:
+09-01 22:03:12.026 I/OPENHU  ( 3364): [53] 2.invokeSuspend |   > Target SSID: DIRECT-28-Navegadortz2
+09-01 22:03:12.027 I/OPENHU  ( 3364): [53] 2.invokeSuspend |   > Target IP:   192.168.49.1:5288
+09-01 22:03:12.028 I/OPENHU  ( 3364): [53] 2.invokeSuspend |   > BSSID:       9E:E6:9B:1D:1B:88
+09-01 22:03:12.029 I/OPENHU  ( 3364): [53] 2.invokeSuspend$runAction | NativeAA: [TX] Sending WifiStartRequest (Type 1)
+09-01 22:03:12.030 I/OPENHU  ( 3364): [53] NativeAaHandshakeManager.sendProtobuf | NativeAA: [TX] Wrote TYPE 1 (size 19) to Bluetooth (write() returned; delivery unconfirmed)
+09-01 22:03:12.069 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Attempting createGroup for Native AA (Attempt 2)...
+09-01 22:03:12.070 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: this unit's WiFi radio reports a 5 GHz band.
+09-01 22:03:12.072 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Band preference is 5 GHz only, set by the user.
+09-01 22:03:12.075 I/OPENHU  ( 3364): [2] WifiDirectManager.chooseNativeGroupIdentity | WifiDirectManager: group identity: a new network on every create (DIRECT-SR-Navegadortz2), because this unit gives the group a new address every time and a kept name only makes the phone try a saved network it cannot find first. "New WiFi Direct network identity" in Settings measures again.
+09-01 22:03:12.079 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band. Chosen by the user.
+09-01 22:03:12.080 I/OPENHU  ( 3364): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is automatic, so the driver picks within the band.
+09-01 22:03:12.082 I/OPENHU  ( 3364): [53] 2.invokeSuspend$tick | NativeAA: [RX] Received Type 2 (Payload size: 0)
+09-01 22:03:12.083 I/OPENHU  ( 3364): [53] 2.invokeSuspend$runAction | NativeAA: Phone ready for WiFi association. Delivering credentials...
+09-01 22:03:12.084 I/OPENHU  ( 3364): [53] 2.invokeSuspend$runAction | NativeAA: [TX] Sending WifiInfoResponse (Type 3) with full credentials in 1000ms...
+09-01 22:03:12.100 I/OPENHU  ( 3364): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+09-01 22:03:12.163 I/OPENHU  ( 3364): [2] 1.onReceive | WifiDirectManager: Connected. Requesting info...
+09-01 22:03:12.168 I/OPENHU  ( 3364): [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-01 22:03:12.173 I/OPENHU  ( 3364): [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-01 22:03:12.179 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-01 22:03:12.180 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == BSSID source dump (iface=p2p-wlan0-25) ==
+09-01 22:03:12.180 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   static override (Settings)       = 0
+09-01 22:03:12.181 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   getGroupOwnerBssid()             = null
+09-01 22:03:12.186 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (p2p-wlan0-25)   = 4e:0a:af:fe:b7:89
+09-01 22:03:12.191 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (any p2p/ap)     = 4e:0a:af:fe:b7:89
+09-01 22:03:12.201 W/OPENHU  ( 3364): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: No valid MAC found in NetworkInterface scan for p2p-wlan0-25
+09-01 22:03:12.201 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   NetworkInterface.hardwareAddress = 00:00:00:00:00:00
+09-01 22:03:12.202 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   lastKnownBssid (p2p-wlan0-24)    = 9E:E6:9B:1D:1B:88
+09-01 22:03:12.202 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   requestDeviceInfo                = 02:00:00:00:00:00
+09-01 22:03:12.203 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   group.owner.deviceAddress        = 02:00:00:00:00:00
+09-01 22:03:12.205 I/OPENHU  ( 3364): [2] WifiDirectManager.getMacFromShell | WifiDirectManager: MAC retrieved via sysfs (p2p-wlan0-25): 4e:0a:af:fe:b7:89
+09-01 22:03:12.206 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   sysfs / ip link                  = 4e:0a:af:fe:b7:89
+09-01 22:03:12.206 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   Settings.Secure p2p address      = null
+09-01 22:03:12.208 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   reflection over WifiP2pGroup     = null
+09-01 22:03:12.208 I/OPENHU  ( 3364): [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == end BSSID source dump ==
+09-01 22:03:12.213 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-25 (EUI-64): 4E:0A:AF:FE:B7:89
+09-01 22:03:12.214 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: 4E:0A:AF:FE:B7:89
+09-01 22:03:12.216 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-SR-Navegadortz2, BSSID: 4E:0A:AF:FE:B7:89 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-25, Freq: 5240 MHz (5GHz)
+09-01 22:03:12.217 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: group identity ssid=DIRECT-SR-Navegadortz2 persistent=no (temporary) asked=temporary matchesRequest=yes bssid=4E:0A:AF:FE:B7:89 stable=unproven (a new network is made on every create) source=IPv6 link-local
+09-01 22:03:12.221 W/OPENHU  ( 3364): [2] WifiDirectManager.logStationCoexistence | WifiDirectManager: This unit is connected to another WiFi network on 5260 MHz while hosting the WiFi Direct group on 5240 MHz. One radio has to retune between the two, which can cost the projected video and audio a few hundred milliseconds at a time. Measured units have run clean in this state, so read this as context for a report rather than as something to change.
+09-01 22:03:12.222 I/OPENHU  ( 3364): [2] WifiDirectManager.notifyNativeGroupStarted | WifiDirectManager: Native AA WiFi Direct: 5GHz (5240 MHz), 5GHz requested, SSID=DIRECT-SR-Navegadortz2
+09-01 22:03:12.226 I/OPENHU  ( 3364): [247] WifiDirectManager.onGroupInfoAvailable$lambda$6 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-SR-Navegadortz2, IP=192.168.49.1, BSSID=4E:0A:AF:FE:B7:89, identity stable=unproven
+09-01 22:03:12.227 I/OPENHU  ( 3364): [247] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-SR-Navegadortz2, IP=192.168.49.1). Updating and Triggering Poke.
+09-01 22:03:12.227 I/OPENHU  ( 3364): [247] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-SR-Navegadortz2, IP=192.168.49.1, BSSID=4E:0A:AF:FE:B7:89, identity stable=unproven
+09-01 22:03:13.086 I/OPENHU  ( 3364): [52] NativeAaHandshakeManager.sendProtobuf | NativeAA: [TX] Wrote TYPE 3 (size 61) to Bluetooth (write() returned; delivery unconfirmed)
+09-01 22:03:13.088 I/OPENHU  ( 3364): [52] 2.invokeSuspend$runAction | NativeAA: Handshake completed successfully on Bluetooth side.
+09-01 22:03:13.092 I/OPENHU  ( 3364): [52] 2.invokeSuspend$tick | NativeAA: [RX] Received Type 7 (Payload size: 2)
+09-01 22:03:13.094 I/OPENHU  ( 3364): [52] NativeAaHandshakeManager.logReceivedDetail | NativeAA: [RX] WifiStartResponse ip= status=SUCCESS(0)
+09-01 22:03:13.104 I/OPENHU  ( 3364): [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-01 22:03:13.107 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-01 22:03:13.116 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-25 (EUI-64): 4E:0A:AF:FE:B7:89
+09-01 22:03:13.117 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: 4E:0A:AF:FE:B7:89
+09-01 22:03:13.118 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-SR-Navegadortz2, BSSID: 4E:0A:AF:FE:B7:89 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-25, Freq: 5240 MHz (5GHz)
+09-01 22:03:13.122 I/OPENHU  ( 3364): [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-01 22:03:13.125 I/OPENHU  ( 3364): [248] WifiDirectManager.onGroupInfoAvailable$lambda$6 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-SR-Navegadortz2, IP=192.168.49.1, BSSID=4E:0A:AF:FE:B7:89, identity stable=unproven
+09-01 22:03:13.125 I/OPENHU  ( 3364): [248] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-SR-Navegadortz2, IP=192.168.49.1). Updating and Triggering Poke.
+09-01 22:03:13.126 I/OPENHU  ( 3364): [248] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-SR-Navegadortz2, IP=192.168.49.1, BSSID=4E:0A:AF:FE:B7:89, identity stable=unproven
+09-01 22:03:13.127 I/OPENHU  ( 3364): [248] NativeAaHandshakeManager.triggerPoke | NativeAA: Handoff still settling — not starting a poke that would compete with the phone's WiFi association.
+09-01 22:03:13.128 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-01 22:03:13.134 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-25 (EUI-64): 4E:0A:AF:FE:B7:89
+09-01 22:03:13.134 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: 4E:0A:AF:FE:B7:89
+09-01 22:03:13.136 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-SR-Navegadortz2, BSSID: 4E:0A:AF:FE:B7:89 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-25, Freq: 5240 MHz (5GHz)
+09-01 22:03:13.142 I/OPENHU  ( 3364): [249] WifiDirectManager.onGroupInfoAvailable$lambda$6 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-SR-Navegadortz2, IP=192.168.49.1, BSSID=4E:0A:AF:FE:B7:89, identity stable=unproven
+09-01 22:03:13.143 I/OPENHU  ( 3364): [249] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-SR-Navegadortz2, IP=192.168.49.1). Updating and Triggering Poke.
+09-01 22:03:13.143 I/OPENHU  ( 3364): [249] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-SR-Navegadortz2, IP=192.168.49.1, BSSID=4E:0A:AF:FE:B7:89, identity stable=unproven
+09-01 22:03:13.144 I/OPENHU  ( 3364): [249] NativeAaHandshakeManager.triggerPoke | NativeAA: Handoff still settling — not starting a poke that would compete with the phone's WiFi association.
+09-01 22:03:37.350 W/OPENHU  ( 3364): [2] 1.invokeSuspend | Auto-connect overlay: watchdog timeout, hiding
+09-01 22:03:49.346 I/OPENHU  ( 3364): [72] 2.invokeSuspend$tick | NativeAA: [RX] Received Type 6 (Payload size: 11)
+09-01 22:03:49.347 I/OPENHU  ( 3364): [72] NativeAaHandshakeManager.logReceivedDetail | NativeAA: [RX] WifiConnectStatus status=unknown(-11) (SUCCESS = the phone got onto our network)
+09-01 22:03:49.349 W/OPENHU  ( 3364): [72] 2.invokeSuspend$runAction | NativeAA: Handshake failed — phone reported join failure (type 6, status=unknown(-11)).
+09-01 22:03:49.354 I/OPENHU  ( 3364): [72] 2.invokeSuspend | NativeAA: BT Handshake socket closed.
+09-01 22:03:51.356 I/OPENHU  ( 3364): [72] 1.invokeSuspend | NativeAA: Attempting active poke to device: POCO X3 NFC (DC:B7:2E:5E:4E:59)...
+09-01 22:03:51.360 I/OPENHU  ( 3364): [72] NativeAaHandshakeManager.pokeDevice | NativeAA: Calling socket.connect() for POCO X3 NFC via HFP-AG (0000111f-0000-1000-8000-00805f9b34fb)...
+09-01 22:03:51.511 I/OPENHU  ( 3364): [72] NativeAaHandshakeManager.pokeDevice | NativeAA: Successfully poked POCO X3 NFC via HFP-AG. Holding 15000ms...
+09-01 22:03:54.294 I/OPENHU  ( 3364): [61] 1.invokeSuspend | NativeAA: Connection accepted from POCO X3 NFC (DC:B7:2E:5E:4E:59) on local radio [Navegadortz2]
+09-01 22:03:54.299 I/OPENHU  ( 3364): [72] 2.invokeSuspend | NativeAA: Handling handshake for POCO X3 NFC (DC:B7:2E:5E:4E:59) on local radio [Navegadortz2]
+09-01 22:03:54.602 I/OPENHU  ( 3364): [161] 2.invokeSuspend | NativeAA: Phone connected. Current credentials state: SSID=DIRECT-SR-Navegadortz2, IP=192.168.49.1
+09-01 22:03:54.603 I/OPENHU  ( 3364): [161] 2.invokeSuspend | NativeAA: Waiting for WiFi credentials to be ready (Max 60s)...
+09-01 22:03:54.606 I/OPENHU  ( 3364): [161] 2.invokeSuspend | NativeAA: this unit read its own WiFi address, so the missing-BSSID record is retired.
+09-01 22:03:54.607 I/OPENHU  ( 3364): [161] 2.invokeSuspend | NativeAA: Starting Handshake Exchange:
+09-01 22:03:54.608 I/OPENHU  ( 3364): [161] 2.invokeSuspend |   > Target SSID: DIRECT-SR-Navegadortz2
+09-01 22:03:54.610 I/OPENHU  ( 3364): [161] 2.invokeSuspend |   > Target IP:   192.168.49.1:5288
+09-01 22:03:54.612 I/OPENHU  ( 3364): [161] 2.invokeSuspend |   > BSSID:       4E:0A:AF:FE:B7:89
+09-01 22:03:54.613 I/OPENHU  ( 3364): [161] 2.invokeSuspend$runAction | NativeAA: [TX] Sending WifiStartRequest (Type 1)
+09-01 22:03:54.614 I/OPENHU  ( 3364): [161] NativeAaHandshakeManager.sendProtobuf | NativeAA: [TX] Wrote TYPE 1 (size 19) to Bluetooth (write() returned; delivery unconfirmed)
+09-01 22:03:54.693 I/OPENHU  ( 3364): [161] 2.invokeSuspend$tick | NativeAA: [RX] Received Type 2 (Payload size: 0)
+09-01 22:03:54.694 I/OPENHU  ( 3364): [161] 2.invokeSuspend$runAction | NativeAA: Phone ready for WiFi association. Delivering credentials...
+09-01 22:03:54.694 I/OPENHU  ( 3364): [161] 2.invokeSuspend$runAction | NativeAA: [TX] Sending WifiInfoResponse (Type 3) with full credentials in 1000ms...
+09-01 22:03:55.696 I/OPENHU  ( 3364): [161] NativeAaHandshakeManager.sendProtobuf | NativeAA: [TX] Wrote TYPE 3 (size 61) to Bluetooth (write() returned; delivery unconfirmed)
+09-01 22:03:55.696 I/OPENHU  ( 3364): [161] 2.invokeSuspend$runAction | NativeAA: Handshake completed successfully on Bluetooth side.
+09-01 22:03:55.698 I/OPENHU  ( 3364): [161] 2.invokeSuspend$tick | NativeAA: [RX] Received Type 7 (Payload size: 2)
+09-01 22:03:55.699 I/OPENHU  ( 3364): [161] NativeAaHandshakeManager.logReceivedDetail | NativeAA: [RX] WifiStartResponse ip= status=SUCCESS(0)
+09-01 22:03:56.028 I/OPENHU  ( 3364): [2] 1.onReceive | WifiDirectManager: Connected. Requesting info...
+09-01 22:03:56.034 I/OPENHU  ( 3364): [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-01 22:03:56.039 I/OPENHU  ( 3364): [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-01 22:03:56.044 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-01 22:03:56.050 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-25 (EUI-64): 4E:0A:AF:FE:B7:89
+09-01 22:03:56.051 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: 4E:0A:AF:FE:B7:89
+09-01 22:03:56.052 I/OPENHU  ( 3364): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-SR-Navegadortz2, BSSID: 4E:0A:AF:FE:B7:89 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-25, Freq: 5240 MHz (5GHz)
+09-01 22:03:56.059 I/OPENHU  ( 3364): [250] WifiDirectManager.onGroupInfoAvailable$lambda$6 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-SR-Navegadortz2, IP=192.168.49.1, BSSID=4E:0A:AF:FE:B7:89, identity stable=unproven
+09-01 22:03:56.060 I/OPENHU  ( 3364): [250] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-SR-Navegadortz2, IP=192.168.49.1). Updating and Triggering Poke.
+09-01 22:03:56.061 I/OPENHU  ( 3364): [250] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-SR-Navegadortz2, IP=192.168.49.1, BSSID=4E:0A:AF:FE:B7:89, identity stable=unproven
+09-01 22:03:56.061 I/OPENHU  ( 3364): [250] NativeAaHandshakeManager.triggerPoke | NativeAA: Handoff still settling — not starting a poke that would compete with the phone's WiFi association.
+09-01 22:03:56.171 I/OPENHU  ( 3364): [52] 2.invokeSuspend$tick | NativeAA: [RX] Received Type 6 (Payload size: 2)
+09-01 22:03:56.172 I/OPENHU  ( 3364): [52] NativeAaHandshakeManager.logReceivedDetail | NativeAA: [RX] WifiConnectStatus status=SUCCESS(0) (SUCCESS = the phone got onto our network)
+09-01 22:03:56.174 I/OPENHU  ( 3364): [52] 2.invokeSuspend$runAction | NativeAA: Phone reports it is still joining — extending the settling window.
+09-01 22:03:56.223 I/OPENHU  ( 3364): [51] 1.invokeSuspend | WirelessServer: Incoming connection detected from /192.168.49.15
+09-01 22:03:56.224 I/OPENHU  ( 3364): [2] 2.invokeSuspend | WirelessServer: Accepted client connection from /192.168.49.15. Passing to CommManager...
+09-01 22:03:56.229 I/OPENHU  ( 3364): [52] SocketProjectionConnection.applyLowLatencySocketOptions | Socket low-latency options: tcpNoDelay=true, recvBuf=524288, sendBuf=524288
+09-01 22:03:56.243 I/OPENHU  ( 3364): [2] WifiDirectManager.noteSessionHosted | WifiDirectManager: this group has carried a session, so the join watchdog will not recreate it if the phone leaves.
+09-01 22:03:56.246 I/OPENHU  ( 3364): [2] AapService.acquireWifiLock | WifiLock acquired (HIGH_PERF)
+09-01 22:03:56.256 I/OPENHU  ( 3364): [2] AapService.onConnected | AapService: Starting GpsLocationService and NightModeManager since connection is established
+09-01 22:03:56.262 I/OPENHU  ( 3364): [2] 1.invoke | NightMode update: true
+09-01 22:03:56.269 I/OPENHU  ( 3364): [2] GpsLocation.start | Request location updates
+09-01 22:03:56.277 I/OPENHU  ( 3364): [2] GpsLocation.start | Last known location:  Location[gps 6****** , -76******  hAcc=15.0 et=+14h41m49s459ms alt=1599.157 vAcc=6.9406013 vel=0.0 sAcc=0.5041835 bear=347.877 bAcc=48.983494 {Bundle[{satellites=5, maxCn0=29, meanCn0=21}]}]
+09-01 22:03:56.291 I/OPENHU  ( 3364): [52] AapTransport.<init> | AapTransport: not taking the microphone (setting useHeadUnitMicrophone=false, available=true)
+09-01 22:03:56.293 I/OPENHU  ( 3364): [52] AapTransport.startHandshake$com_andrerinas_headunitrevived_3_3_0_githubDebug | Start Aap transport handshake for com.andrerinas.openheadunit.connection.projection.SocketProjectionConnection@c00d6f8
+09-01 22:03:56.301 I/OPENHU  ( 3364): [52] AapTransport.handshake | Handshake: Version response received (ret=12, attempt=1).
+09-01 22:03:56.303 I/OPENHU  ( 3364): [52] AapTransport.handshake | Handshake: Version response recv ret: 12
+09-01 22:03:56.399 I/OPENHU  ( 3364): [52] AapSslContext.performHandshake | SSL handshake complete. Session id: D/AqARN/zbUgMERX4KSdssYNMPZ60rri/Icf7juoYuU=
+09-01 22:03:56.400 I/OPENHU  ( 3364): [52] AapTransport.handshake | Handshake: Status OK sent: 8
+09-01 22:03:56.431 I/OPENHU  ( 3364): [2] AapService.launchViaOverlayTrampoline | Overlay trampoline: startActivity succeeded
+09-01 22:03:56.437 I/OPENHU  ( 3364): [52] 2.invokeSuspend$runAction | NativeAA: WiFi session landed. Handshake session ending, releasing Bluetooth connection.
+09-01 22:03:56.440 I/OPENHU  ( 3364): [52] 2.invokeSuspend | NativeAA: BT Handshake socket closed.
+09-01 22:03:56.602 I/OPENHU  ( 3364): [2] AapProjectionActivity.onCreate | HeadUnit for Android Auto (tm) - Copyright 2011-2015 Michael A. Reid., since 2025 André Rinas All Rights Reserved...
+09-01 22:03:56.603 I/OPENHU  ( 3364): [2] AapProjectionActivity.setupProjectionView | Projection backend: viewMode=GLES override=false SoC=uis7861_6h10 board=uis7861_6h10 mfr=UNISOC model=MT50_YT610E4GFPSL_U API=34
+09-01 22:03:56.604 I/OPENHU  ( 3364): [2] AapProjectionActivity.setupProjectionView | Using GlProjectionView
+09-01 22:03:56.606 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Raw size: 1304x720, usable: 1440x720, orientation setting: LANDSCAPE, configOrientation: 2
+09-01 22:03:56.607 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Final normalized size: 1304x720, usable: 1440x720
+09-01 22:03:56.608 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.init | [UI_DEBUG_FIX] HeadUnitScreenConfig: Using cached surface dimensions: 1440x720 (raw: 1440x720, anchor: 1440x720)
+09-01 22:03:56.608 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Honest Init | Mode: IMMERSIVE | Anchor: 1440x720 | Seeded Insets: L0 T0 R0 B0
+09-01 22:03:56.610 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.recalculate | [RES_CAP] resolutionId=3 realScreen=1440x720 usable=1440x720 portrait=false locked=false chosen=_1920x1080 capped=_1920x1080 changed=false
+09-01 22:03:56.610 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen: usable area 1440x720, using _1920x1080
+09-01 22:03:56.611 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen isSmallScreen: true, scaleFactor: 1.0, margins: w=480, h=360
+09-01 22:03:56.612 I/OPENHU  ( 3364): [2] AapProjectionActivity.setupProjectionView | Using GLES YUV sink for bundled software HEVC
+09-01 22:03:56.622 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.lockResolution | [UI_DEBUG] HeadUnitScreenConfig: Locking resolution at _1920x1080
+09-01 22:03:56.626 I/OPENHU  ( 3364): [2] AapProjectionActivity.onResume | AapProjectionActivity: onResume
+09-01 22:03:56.656 I/OPENHU  ( 3364): [2] 1.onReceive | Received request to resend night mode state
+09-01 22:03:56.657 I/OPENHU  ( 3364): [2] 1.invoke | NightMode update: true
+09-01 22:03:56.711 I/OPENHU  ( 3364): [254] VideoRenderer.onSurfaceCreated | GlProjectionView: onSurfaceCreated (GL Context)
+09-01 22:03:56.713 I/OPENHU  ( 3364): [254] VideoRenderer.onSurfaceCreated | GlProjectionView: YUV handles pos=0 tex=1 mvp=4 st=3 y=2 u=1 v=0
+09-01 22:03:56.714 I/OPENHU  ( 3364): [254] VideoRenderer.onSurfaceChanged | GlProjectionView: onSurfaceChanged: 1440x720
+09-01 22:03:56.743 I/OPENHU  ( 3364): [2] VideoRenderer.onSurfaceCreated$lambda$9 | GlProjectionView: Reporting Surface Created
+09-01 22:03:56.744 I/OPENHU  ( 3364): [2] AapProjectionActivity.onSurfaceCreated | [UI_DEBUG] [AapProjectionActivity] onSurfaceCreated
+09-01 22:03:56.745 I/OPENHU  ( 3364): [2] AapProjectionActivity.onSurfaceChanged | [UI_DEBUG] [AapProjectionActivity] onSurfaceChanged. Actual surface dimensions: width=1440, height=720
+09-01 22:03:56.745 I/OPENHU  ( 3364): [2] VideoDecoder.setSurface | New surface set: Surface(name=android.graphics.SurfaceTexture@efb2b8a)/@0x36394a9
+09-01 22:03:56.746 I/OPENHU  ( 3364): [2] VideoDecoder.stop | Decoder stopped: New surface
+09-01 22:03:56.749 I/OPENHU  ( 3364): [72] AapTransport.startReading$com_andrerinas_headunitrevived_3_3_0_githubDebug | Start Aap transport read loop
+09-01 22:03:56.752 I/OPENHU  ( 3364): [252] Base.auditFragment | AapRead: largest message body so far: 871 bytes (on CONTROL)
+09-01 22:03:56.756 I/OPENHU  ( 3364): [252] AapControlService.serviceDiscoveryRequest | Service Discovery Request: Android
+09-01 22:03:56.758 I/OPENHU  ( 3364): [252] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Raw size: 1304x720, usable: 1440x720, orientation setting: LANDSCAPE, configOrientation: 2
+09-01 22:03:56.758 I/OPENHU  ( 3364): [252] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Final normalized size: 1304x720, usable: 1440x720
+09-01 22:03:56.759 I/OPENHU  ( 3364): [252] HeadUnitScreenConfig.init | [UI_DEBUG_FIX] HeadUnitScreenConfig: Using cached surface dimensions: 1440x720 (raw: 1440x720, anchor: 1440x720)
+09-01 22:03:56.760 I/OPENHU  ( 3364): [252] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Honest Init | Mode: IMMERSIVE | Anchor: 1440x720 | Seeded Insets: L0 T0 R0 B0
+09-01 22:03:56.761 I/OPENHU  ( 3364): [252] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen: RESOLUTION LOCKED to _1920x1080. Usable area is 1440x720. Skipping re-negotiation.
+09-01 22:03:56.762 I/OPENHU  ( 3364): [252] HeadUnitScreenConfig.recalculate | [RES_CAP] resolutionId=3 realScreen=1440x720 usable=1440x720 portrait=false locked=true chosen=_1920x1080 capped=_1920x1080 changed=false
+09-01 22:03:56.763 I/OPENHU  ( 3364): [252] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen: usable area 1440x720, using _1920x1080
+09-01 22:03:56.764 I/OPENHU  ( 3364): [252] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen isSmallScreen: true, scaleFactor: 1.0, margins: w=480, h=360
+09-01 22:03:56.765 I/OPENHU  ( 3364): [252] Companion.makeProto | [ServiceDiscovery] Announcing NIGHT sensor support. Strategy: AUTO
+09-01 22:03:56.766 I/OPENHU  ( 3364): [252] Companion.makeProto | [ServiceDiscovery] NegotiatedResolution is: 1920x1080
+09-01 22:03:56.767 I/OPENHU  ( 3364): [2] 1.onReceive | Received request to resend night mode state
+09-01 22:03:56.770 I/OPENHU  ( 3364): [252] Companion.logNegotiatedCodecCapability | [ServiceDiscovery] Negotiating a profile this device claims to carry: codec=c2.unisoc.hevc.decoder mime=video/hevc target=1920x1080@60 sizeSupported=true rateSupported=true sustains=true widths=[64, 1920] heights=[64, 3840] featureLowLatency=false featureAdaptivePlayback=true
+09-01 22:03:56.770 I/OPENHU  ( 3364): [2] 1.invoke | NightMode update: true
+09-01 22:03:56.772 I/OPENHU  ( 3364): [252] Companion.makeProto | [ServiceDiscovery] Margins are: 480x360
+09-01 22:03:56.772 I/OPENHU  ( 3364): [2] AapTransport.noteDroppedSensorEvent | AapTransport: dropping sensor events, isAlive=true startedSensors=[] droppedByType={10=1}
+09-01 22:03:56.774 I/OPENHU  ( 3364): [252] Companion.makeProto | Audio sink is off in Settings. Skipping the media and speech audio channels - the phone will not send audio and this is not a fault
+09-01 22:03:56.775 I/OPENHU  ( 3364): [252] Companion.makeProto | Head unit microphone is off in Settings. Skipping the microphone service - the phone is told this head unit cannot record, no voice request will arrive here, and this is not a fault. This needs the phone to keep our motorcycle claim, which Android 10 and older do not, so a session that connects once and then stops on an older phone may be this
+09-01 22:03:56.775 I/OPENHU  ( 3364): [252] Companion.makeProto | BT MAC Address is empty, so no Bluetooth service is announced. The phone is not told where to connect hands-free, and Android Auto keeps phone calls on the phone until it is
+09-01 22:03:56.900 I/OPENHU  ( 3364): [252] AapControlService.audioFocusRequest | Audio Focus Request: RELEASE
+09-01 22:03:56.901 I/OPENHU  ( 3364): [252] AapControlService.audioFocusRequest | Sending immediate AudioFocusNotification: STATE_LOSS (always-grant)
+09-01 22:03:56.903 I/OPENHU  ( 3364): [252] AapControlService.audioFocusRequest | Audio Sink disabled - skipping system audio focus request for channel CONTROL
+09-01 22:03:56.918 I/OPENHU  ( 3364): [252] AapControlMedia.mediaSinkSetupRequest | Media Sink Setup Request: 1 on channel AUDIO2
+09-01 22:03:56.920 I/OPENHU  ( 3364): [252] AapControlMedia.mediaSinkSetupRequest | Config response: status: HEADUNIT
+09-01 22:03:56.920 I/OPENHU  ( 3364): max_unacked: 30
+09-01 22:03:56.920 I/OPENHU  ( 3364): configuration_indices: 0
+09-01 22:03:56.920 I/OPENHU  ( 3364):  (maxUnacked=30)
+09-01 22:03:56.922 W/OPENHU  ( 3364): [252] AapVideo.process | AapVideo: Dropped Flag 11 packet. len=4
+09-01 22:03:56.923 I/OPENHU  ( 3364): [252] AapControlMedia.mediaSinkSetupRequest | Media Sink Setup Request: 7 on channel VIDEO
+09-01 22:03:56.924 I/OPENHU  ( 3364): [252] AapControlMedia.mediaSinkSetupRequest | Config response: status: HEADUNIT
+09-01 22:03:56.924 I/OPENHU  ( 3364): max_unacked: 12
+09-01 22:03:56.924 I/OPENHU  ( 3364): configuration_indices: 0
+09-01 22:03:56.924 I/OPENHU  ( 3364):  (maxUnacked=12)
+09-01 22:03:56.929 I/OPENHU  ( 3364): [252] AapControlSensor.sensorStartRequest | Sensor Start Request sensor: DRIVING_STATUS, minUpdatePeriod: 0
+09-01 22:03:56.930 I/OPENHU  ( 3364): [252] AapControlSensor.sensorStartRequest | SENSOR Sensor Start Response type: 32770 flags: 11 size: 8 dataOffset: 6
+09-01 22:03:56.938 I/OPENHU  ( 3364): [252] AapControlSensor.sensorStartRequest | Sensor Start Request sensor: NIGHT, minUpdatePeriod: 0
+09-01 22:03:56.939 I/OPENHU  ( 3364): [252] AapControlSensor.sensorStartRequest | SENSOR Sensor Start Response type: 32770 flags: 11 size: 8 dataOffset: 6
+09-01 22:03:56.940 I/OPENHU  ( 3364): [252] AapControlSensor.sensorStartRequest | Night sensor requested. Triggering immediate update.
+09-01 22:03:56.943 I/OPENHU  ( 3364): [2] 1.onReceive | Received request to resend night mode state
+09-01 22:03:56.944 I/OPENHU  ( 3364): [2] 1.invoke | NightMode update: true
+09-01 22:03:56.988 I/OPENHU  ( 3364): [2] GpsLocation.onLocationChanged | GpsLocation: first fix after 0s
+09-01 22:03:56.994 I/OPENHU  ( 3364): [2] AapTransport.noteDroppedSensorEvent | AapTransport: dropping sensor events, isAlive=true startedSensors=[13, 10] droppedByType={1=1, 10=1}
+09-01 22:03:57.314 I/OPENHU  ( 3364): [252] AapControlSensor.sensorStartRequest | Sensor Start Request sensor: LOCATION, minUpdatePeriod: 0
+09-01 22:03:57.315 I/OPENHU  ( 3364): [252] AapControlSensor.sensorStartRequest | SENSOR Sensor Start Response type: 32770 flags: 11 size: 8 dataOffset: 6
+09-01 22:03:57.319 I/OPENHU  ( 3364): [252] AapControlSensor.sensorStartRequest | LOCATION sensor requested. Sending current fix immediately. sentOnWire=true
+09-01 22:03:57.630 W/OPENHU  ( 3364): [2] 1.run | Watchdog: No video received yet. Requesting Keyframe (Unsolicited Focus)...
+09-01 22:03:57.748 W/OPENHU  ( 3364): [252] AapVideo.process | AapVideo: Dropped Flag 11 packet. len=6
+09-01 22:03:57.749 I/OPENHU  ( 3364): [252] AapControlMedia.mediaStartRequest | Media Start Request VIDEO: session=0, config_index=0
+09-01 22:03:57.927 I/OPENHU  ( 3364): [252] VideoDecoder.applyStreamDimensions | H.265 SPS parsed: 1920x1080 (negotiated 1920x1080)
+09-01 22:03:57.927 I/OPENHU  ( 3364): [252] AapProjectionActivity.onVideoDimensionsChanged | [AapProjectionActivity] Received video dimensions: 1920x1080
+09-01 22:03:57.928 I/OPENHU  ( 3364): [252] VideoDecoder.applyParameterSet | Stream SPS (H.265): profile=1 level=123 chroma_format=1 bit_depth=8 size=1920x1080 max_dec_pic_buffering=2 max_num_reorder_pics=0
+09-01 22:03:57.929 I/OPENHU  ( 3364): [2] GlProjectionView.setVideoSize | GlProjectionView setVideoSize: 1920x1080
+09-01 22:03:57.932 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Raw size: 1304x720, usable: 1440x720, orientation setting: LANDSCAPE, configOrientation: 2
+09-01 22:03:57.932 I/OPENHU  ( 3364): [252] VideoDecoder.findBestCodec | findBestCodec: hw=c2.unisoc.hevc.decoder, sw=c2.android.hevc.decoder, preferHardware=true, selected=c2.unisoc.hevc.decoder
+09-01 22:03:57.933 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Final normalized size: 1304x720, usable: 1440x720
+09-01 22:03:57.934 I/OPENHU  ( 3364): [252] VideoDecoder.logDecoderCapability | Decoder capability: codec=c2.unisoc.hevc.decoder mime=video/hevc target=1920x1080@60 sizeSupported=true rateSupported=true sustains=true widths=[64, 1920] heights=[64, 3840] featureLowLatency=false featureAdaptivePlayback=true
+09-01 22:03:57.936 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.init | [UI_DEBUG_FIX] HeadUnitScreenConfig: Using cached surface dimensions: 1440x720 (raw: 1440x720, anchor: 1440x720)
+09-01 22:03:57.937 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Honest Init | Mode: IMMERSIVE | Anchor: 1440x720 | Seeded Insets: L0 T0 R0 B0
+09-01 22:03:57.939 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen: RESOLUTION LOCKED to _1920x1080. Usable area is 1440x720. Skipping re-negotiation.
+09-01 22:03:57.942 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.recalculate | [RES_CAP] resolutionId=3 realScreen=1440x720 usable=1440x720 portrait=false locked=true chosen=_1920x1080 capped=_1920x1080 changed=false
+09-01 22:03:57.942 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen: usable area 1440x720, using _1920x1080
+09-01 22:03:57.943 I/OPENHU  ( 3364): [2] HeadUnitScreenConfig.recalculate | [UI_DEBUG] CarScreen isSmallScreen: true, scaleFactor: 1.0, margins: w=480, h=360
+09-01 22:03:57.945 I/OPENHU  ( 3364): [2] ProjectionViewScaler.updateScale | [UI_DEBUG] Normal Scale. scaleX: 1.3333334, scaleY: 1.5
+09-01 22:03:57.960 I/OPENHU  ( 3364): [252] VideoDecoder.start | Configuring decoder: c2.unisoc.hevc.decoder for 1920x1080, max-input-size=1530KB, memory=AMPLE (totalRam=3745MB heapLimit=512MB memoryClass=192MB lowRamFlag=false), queue=30 frames, optionalKeys=realtime [priority, operating-rate]
+09-01 22:03:57.977 I/OPENHU  ( 3364): [252] VideoDecoder.start | Codec initialized: c2.unisoc.hevc.decoder
+09-01 22:03:57.977 I/OPENHU  ( 3364): [257] VideoDecoder.feedThreadLoop | Feed thread started (queue holds 30 frames, 500ms at 60fps)
+09-01 22:03:57.978 I/OPENHU  ( 3364): [256] VideoDecoder.outputThreadLoop | Output thread started
+09-01 22:03:57.978 I/OPENHU  ( 3364): [257] VideoDecoder.feedInputBuffer | Codec input buffer: requested 1530KB, got 1530KB per buffer
+09-01 22:03:57.979 I/OPENHU  ( 3364): [257] VideoDecoder.reportContentOnce | VideoDecoder: access unit classified PARAMETER_SETS_ONLY - flagged to the codec as configuration (first this session)
+09-01 22:03:57.985 I/OPENHU  ( 3364): [257] VideoDecoder.reportContentOnce | VideoDecoder: access unit classified PARAMETER_SETS_WITH_PICTURE - carries a picture too, so not flagged (first this session)
+09-01 22:03:57.987 I/OPENHU  ( 3364): [257] VideoDecoder.feedInputBuffer | VideoDecoder: keyframe reached the codec (913 bytes)
+09-01 22:03:57.988 I/OPENHU  ( 3364): [257] VideoDecoder.reportContentOnce | VideoDecoder: access unit classified NO_PARAMETER_SETS - an ordinary frame (first this session)
+09-01 22:03:58.006 I/OPENHU  ( 3364): [256] VideoDecoder.handleOutputFormatChange | Output Format Changed: {crop-right=1919, max-height=1080, sar-width=1, color-format=2130708361, mime=video/raw, hdr-static-info=java.nio.HeapByteBuffer[pos=0 lim=25 cap=25], priority=0, color-standard=1, vendor.coding.scene-mode.value=6, color-transfer=3, sar-height=1, hdr10-plus-info=java.nio.HeapByteBuffer[pos=0 lim=0 cap=0], crop-bottom=1079, max-width=1920, crop-left=0, width=1920, color-range=2, crop-top=0, rotation-degrees=0, height=1080}
+09-01 22:03:58.010 I/OPENHU  ( 3364): [256] VideoDecoder.outputThreadLoop | VideoDecoder: keyframe decoded - the picture is repaired
+09-01 22:03:58.010 I/OPENHU  ( 3364): [256] VideoDecoder.outputThreadLoop | First frame rendered (hardware decode)
+09-01 22:03:58.012 I/OPENHU  ( 3364): [2] AapProjectionActivity.hideLoadingOverlay | Hiding loading overlay after first video frame
+09-01 22:03:58.788 I/OPENHU  ( 3364): [252] Base.auditFragment | AapRead: largest message body so far: 6772 bytes (on MUSIC_PLAYBACK)
+09-01 22:03:59.890 I/OPENHU  ( 3364): [252] Base.auditFragment | AapRead: largest message body so far: 16149 bytes (on VIDEO)
+09-01 22:03:59.894 I/OPENHU  ( 3364): [252] Base.auditFragment | AapRead: fragment accounting established for VIDEO: channel=2 fragments=2 declaredTotal=20416 observed=20474 delta=-58 perFragment=-29
+09-01 22:04:02.992 I/OPENHU  ( 3364): [256] VideoDecoder.logThroughput | Throughput over 5000ms: rendered=231 (46fps), fed=232 (46fps), dropped=0, skipped=0, concealed=0, inputWait=92ms, enqueueWait=0ms, codec=c2.unisoc.hevc.decoder, presented=230 (46fps), decodeLatency=12ms p95=23ms (230 frames)
+09-01 22:04:03.064 I/OPENHU  ( 3364): [254] VideoRenderer.markFrameDrawn | GlProjectionView: displayed 213 frames in 5052ms (42fps), longFrames=0
+09-01 22:04:07.991 I/OPENHU  ( 3364): [256] VideoDecoder.logThroughput | Throughput over 5001ms: rendered=233 (46fps), fed=233 (46fps), dropped=0, skipped=0, concealed=0, inputWait=83ms, enqueueWait=0ms, codec=c2.unisoc.hevc.decoder, presented=233 (46fps), decodeLatency=10ms p95=19ms (233 frames)
+09-01 22:04:08.074 I/OPENHU  ( 3364): [254] VideoRenderer.markFrameDrawn | GlProjectionView: displayed 229 frames in 5010ms (45fps), longFrames=0
+09-01 22:04:12.997 I/OPENHU  ( 3364): [256] VideoDecoder.logThroughput | Throughput over 5002ms: rendered=228 (45fps), fed=231 (46fps), dropped=0, skipped=0, concealed=0, inputWait=87ms, enqueueWait=0ms, codec=c2.unisoc.hevc.decoder, presented=227 (45fps), decodeLatency=9ms p95=19ms (227 frames)
+09-01 22:04:13.094 I/OPENHU  ( 3364): [254] VideoRenderer.markFrameDrawn | GlProjectionView: displayed 218 frames in 5019ms (43fps), longFrames=0
+09-01 22:04:13.805 I/OPENHU  ( 3364): [252] Base.auditFragment | AapRead: fragment accounting established for MUSIC_PLAYBACK: channel=9 fragments=3 declaredTotal=35999 observed=36086 delta=-87 perFragment=-29
+09-01 22:04:18.001 I/OPENHU  ( 3364): [256] VideoDecoder.logThroughput | Throughput over 5006ms: rendered=234 (46fps), fed=231 (46fps), dropped=0, skipped=0, concealed=0, inputWait=77ms, enqueueWait=0ms, codec=c2.unisoc.hevc.decoder, presented=233 (46fps), decodeLatency=11ms p95=20ms (233 frames)
+09-01 22:04:18.111 I/OPENHU  ( 3364): [254] VideoRenderer.markFrameDrawn | GlProjectionView: displayed 225 frames in 5018ms (44fps), longFrames=0
+09-01 22:04:23.010 I/OPENHU  ( 3364): [256] VideoDecoder.logThroughput | Throughput over 5009ms: rendered=231 (46fps), fed=231 (46fps), dropped=0, skipped=0, concealed=0, inputWait=70ms, enqueueWait=0ms, codec=c2.unisoc.hevc.decoder, presented=231 (46fps), decodeLatency=9ms p95=19ms (231 frames)
+09-01 22:04:23.126 I/OPENHU  ( 3364): [254] VideoRenderer.markFrameDrawn | GlProjectionView: displayed 221 frames in 5015ms (44fps), longFrames=0
+09-01 22:04:26.806 I/OPENHU  ( 3364): [252] AapTransport.noteMessageReceived$com_andrerinas_headunitrevived_3_3_0_githubDebug | AapTransport: inbound rate over 30052ms: video=188kB/s (1508 msgs), audio=0kB/s (2 msgs), other=2kB/s (84 msgs)
+09-01 22:04:28.016 I/OPENHU  ( 3364): [256] VideoDecoder.logThroughput | Throughput over 5006ms: rendered=231 (46fps), fed=231 (46fps), dropped=0, skipped=0, concealed=0, inputWait=80ms, enqueueWait=0ms, codec=c2.unisoc.hevc.decoder, presented=231 (46fps), decodeLatency=9ms p95=18ms (231 frames)
+09-01 22:04:28.148 I/OPENHU  ( 3364): [254] VideoRenderer.markFrameDrawn | GlProjectionView: displayed 224 frames in 5022ms (44fps), longFrames=0
+09-01 22:04:33.025 I/OPENHU  ( 3364): [256] VideoDecoder.logThroughput | Throughput over 5008ms: rendered=233 (46fps), fed=233 (46fps), dropped=0, skipped=0, concealed=0, inputWait=75ms, enqueueWait=0ms, codec=c2.unisoc.hevc.decoder, presented=233 (46fps), decodeLatency=10ms p95=19ms (233 frames)
+09-01 22:04:33.166 I/OPENHU  ( 3364): [254] VideoRenderer.markFrameDrawn | GlProjectionView: displayed 221 frames in 5018ms (44fps), longFrames=0
+09-01 22:04:38.026 I/OPENHU  ( 3364): [256] VideoDecoder.logThroughput | Throughput over 5003ms: rendered=232 (46fps), fed=232 (46fps), dropped=0, skipped=0, concealed=0, inputWait=72ms, enqueueWait=0ms, codec=c2.unisoc.hevc.decoder, presented=232 (46fps), decodeLatency=9ms p95=19ms (232 frames)
+09-01 22:04:38.188 I/OPENHU  ( 3364): [254] VideoRenderer.markFrameDrawn | GlProjectionView: displayed 224 frames in 5022ms (44fps), longFrames=0
+09-01 22:04:43.027 I/OPENHU  ( 3364): [256] VideoDecoder.logThroughput | Throughput over 5000ms: rendered=228 (45fps), fed=228 (45fps), dropped=0, skipped=0, concealed=0, inputWait=77ms, enqueueWait=0ms, codec=c2.unisoc.hevc.decoder, presented=227 (45fps), decodeLatency=11ms p95=21ms (227 frames)
+09-01 22:04:43.197 I/OPENHU  ( 3364): [254] VideoRenderer.markFrameDrawn | GlProjectionView: displayed 216 frames in 5009ms (43fps), longFrames=0

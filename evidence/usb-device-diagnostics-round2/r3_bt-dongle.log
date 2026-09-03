@@ -1,0 +1,13 @@
+--------- beginning of main
+08-31 17:58:41.846 D/OPENHU  ( 3242): [2] App.onCreate | native library dir /data/app/~~P_mPv6ix-Km1-qDlVd6Ytg==/com.andrerinas.headunitrevived-W0fbQWyeKGvBzSVN6jlo3Q==/lib/arm64
+08-31 17:58:41.846 D/OPENHU  ( 3242): [2] App.onCreate |    libusb1.0.so
+08-31 17:58:41.846 D/OPENHU  ( 3242): [2] App.onCreate |    libavutil.so
+08-31 17:58:41.847 D/OPENHU  ( 3242): [2] App.onCreate |    libconscrypt_jni.so
+08-31 17:58:41.847 D/OPENHU  ( 3242): [2] App.onCreate |    libswscale.so
+08-31 17:58:41.847 D/OPENHU  ( 3242): [2] App.onCreate |    libusbhelper.so
+08-31 17:58:41.847 D/OPENHU  ( 3242): [2] App.onCreate |    libavcodec.so
+08-31 17:58:41.848 D/OPENHU  ( 3242): [2] App.onCreate |    libhur_soft_hevc.so
+08-31 17:58:41.878 I/OPENHU  ( 3242): [2] UsbAttachedActivity.onCreate | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x10000000 cmp=com.andrerinas.headunitrevived/com.andrerinas.openheadunit.app.UsbAttachedActivity }
+08-31 17:58:41.893 I/OPENHU  ( 3242): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB attach sees 1 USB device(s), 0 usable for Android Auto
+08-31 17:58:41.893 I/OPENHU  ( 3242): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   TaiYiLian UGREEN-BT701 (VID: 0A12 PID: 4007) [class 00/00/00, no permission] rejected: no Android interface | if0 03/00/00 (1 other) | if1 03/00/00 (2 other) | if2 01/01/00 (no endpoints) | if3 01/02/00 (no endpoints) | if4 01/02/00 (1 other) | if5 01/02/00 (1 other)
+08-31 17:58:41.895 E/OPENHU  ( 3242): [2] Companion.resolveDevice$com_andrerinas_headunitrevived_3_3_0_beta4_githubDebug | No USB device in intent extras and 0 Android devices present, cannot determine target

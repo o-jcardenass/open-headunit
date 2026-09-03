@@ -1,0 +1,66 @@
+--- dumpsys wifip2p freq/channel ---
+----- channel=0  (launched 14:15:10) -----
+  09-01 14:15:13.280 I/OPENHU  ( 7531): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band. Chosen by the user.
+  09-01 14:15:13.281 I/OPENHU  ( 7531): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is automatic, so the driver picks within the band.
+  09-01 14:15:13.320 I/OPENHU  ( 7531): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+  09-01 14:15:13.489 I/OPENHU  ( 7531): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-SW-Navegadortz2, BSSID: D2:BE:15:96:BE:D7 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-0, Freq: 5805 MHz (5GHz)
+  09-01 14:15:14.335 I/OPENHU  ( 7531): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-SW-Navegadortz2, BSSID: D2:BE:15:96:BE:D7 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-0, Freq: 5805 MHz (5GHz)
+  09-01 14:15:14.352 I/OPENHU  ( 7531): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-SW-Navegadortz2, BSSID: D2:BE:15:96:BE:D7 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-0, Freq: 5805 MHz (5GHz)
+  createGroup SUCCESS count: 1
+  p2p ifaces: p2p-wlan0-0 
+
+--- dumpsys wifip2p freq/channel ---
+----- channel=36  (launched 14:15:55) -----
+  09-01 14:15:57.647 I/OPENHU  ( 8047): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band. Chosen by the user.
+  09-01 14:15:57.647 I/OPENHU  ( 8047): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is channel 36 (5180 MHz), asked for as a fixed 5180 MHz.
+  09-01 14:15:57.687 I/OPENHU  ( 8047): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+  09-01 14:15:57.876 I/OPENHU  ( 8047): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-X1-Navegadortz2, BSSID: E6:70:E9:70:28:A6 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-1, Freq: 5180 MHz (5GHz), 5180 MHz was asked for
+  09-01 14:15:58.702 I/OPENHU  ( 8047): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-X1-Navegadortz2, BSSID: E6:70:E9:70:28:A6 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-1, Freq: 5180 MHz (5GHz), 5180 MHz was asked for
+  09-01 14:15:58.719 I/OPENHU  ( 8047): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-X1-Navegadortz2, BSSID: E6:70:E9:70:28:A6 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-1, Freq: 5180 MHz (5GHz), 5180 MHz was asked for
+  createGroup SUCCESS count: 1
+  p2p ifaces: p2p-wlan0-0 p2p-wlan0-1 
+
+--- dumpsys wifip2p freq/channel ---
+----- channel=40  (launched 14:16:39) -----
+  09-01 14:16:42.160 I/OPENHU  ( 8533): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band. Chosen by the user.
+  09-01 14:16:42.160 I/OPENHU  ( 8533): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is channel 40 (5200 MHz), asked for as a fixed 5200 MHz.
+  09-01 14:16:42.203 I/OPENHU  ( 8533): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+  09-01 14:16:42.438 I/OPENHU  ( 8533): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-FS-Navegadortz2, BSSID: 36:43:6B:50:AD:77 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-2, Freq: 5200 MHz (5GHz), 5200 MHz was asked for
+  09-01 14:16:43.216 I/OPENHU  ( 8533): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-FS-Navegadortz2, BSSID: 36:43:6B:50:AD:77 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-2, Freq: 5200 MHz (5GHz), 5200 MHz was asked for
+  09-01 14:16:43.235 I/OPENHU  ( 8533): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-FS-Navegadortz2, BSSID: 36:43:6B:50:AD:77 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-2, Freq: 5200 MHz (5GHz), 5200 MHz was asked for
+  createGroup SUCCESS count: 1
+  p2p ifaces: p2p-wlan0-1 p2p-wlan0-2 
+
+--- dumpsys wifip2p freq/channel ---
+----- channel=44  (launched 14:17:24) -----
+  09-01 14:17:26.655 I/OPENHU  ( 9015): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band. Chosen by the user.
+  09-01 14:17:26.656 I/OPENHU  ( 9015): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is channel 44 (5220 MHz), asked for as a fixed 5220 MHz.
+  09-01 14:17:26.694 I/OPENHU  ( 9015): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+  09-01 14:17:26.866 I/OPENHU  ( 9015): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-LD-Navegadortz2, BSSID: B2:61:EF:14:91:1C (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-3, Freq: 5220 MHz (5GHz), 5220 MHz was asked for
+  09-01 14:17:27.707 I/OPENHU  ( 9015): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-LD-Navegadortz2, BSSID: B2:61:EF:14:91:1C (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-3, Freq: 5220 MHz (5GHz), 5220 MHz was asked for
+  09-01 14:17:27.724 I/OPENHU  ( 9015): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-LD-Navegadortz2, BSSID: B2:61:EF:14:91:1C (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-3, Freq: 5220 MHz (5GHz), 5220 MHz was asked for
+  createGroup SUCCESS count: 1
+  p2p ifaces: p2p-wlan0-2 p2p-wlan0-3 
+
+--- dumpsys wifip2p freq/channel ---
+----- channel=48  (launched 14:18:08) -----
+  09-01 14:18:11.188 I/OPENHU  ( 9480): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band. Chosen by the user.
+  09-01 14:18:11.189 I/OPENHU  ( 9480): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is channel 48 (5240 MHz), asked for as a fixed 5240 MHz.
+  09-01 14:18:11.227 I/OPENHU  ( 9480): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+  09-01 14:18:11.401 I/OPENHU  ( 9480): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-MS-Navegadortz2, BSSID: 8E:1E:80:CD:78:8D (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-4, Freq: 5240 MHz (5GHz), 5240 MHz was asked for
+  09-01 14:18:12.241 I/OPENHU  ( 9480): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-MS-Navegadortz2, BSSID: 8E:1E:80:CD:78:8D (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-4, Freq: 5240 MHz (5GHz), 5240 MHz was asked for
+  09-01 14:18:12.258 I/OPENHU  ( 9480): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-MS-Navegadortz2, BSSID: 8E:1E:80:CD:78:8D (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-4, Freq: 5240 MHz (5GHz), 5240 MHz was asked for
+  createGroup SUCCESS count: 1
+  p2p ifaces: p2p-wlan0-3 p2p-wlan0-4 
+
+--- dumpsys wifip2p freq/channel ---
+----- channel=149  (launched 14:18:53) -----
+  09-01 14:18:55.729 I/OPENHU  ( 9943): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band. Chosen by the user.
+  09-01 14:18:55.730 I/OPENHU  ( 9943): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is channel 149 (5745 MHz), asked for as a fixed 5745 MHz.
+  09-01 14:18:55.765 I/OPENHU  ( 9943): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+  09-01 14:18:55.929 I/OPENHU  ( 9943): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-HA-Navegadortz2, BSSID: C6:60:61:15:0B:8E (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-5, Freq: 5745 MHz (5GHz), 5745 MHz was asked for
+  09-01 14:18:56.779 I/OPENHU  ( 9943): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-HA-Navegadortz2, BSSID: C6:60:61:15:0B:8E (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-5, Freq: 5745 MHz (5GHz), 5745 MHz was asked for
+  09-01 14:18:56.796 I/OPENHU  ( 9943): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-HA-Navegadortz2, BSSID: C6:60:61:15:0B:8E (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-5, Freq: 5745 MHz (5GHz), 5745 MHz was asked for
+  createGroup SUCCESS count: 1
+  p2p ifaces: p2p-wlan0-4 p2p-wlan0-5 
+

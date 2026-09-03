@@ -1,0 +1,28 @@
+09-02 11:25:40.514 I/OPENHU  ( 8395): [2] AapService.armBtAutoDisconnect | AapService: Bluetooth auto-disconnect: 11:46:03:10:33:59 went away, but nothing is projecting; leaving the connection stack alone.
+09-02 11:25:52.462 I/GH.WifiBluetoothRcvr(31125): Connection action: android.bluetooth.device.action.ACL_CONNECTED, device XX:XX:XX:XX:33:59
+09-02 11:25:52.488 I/OPENHU  ( 8395): [2] AutoStartReceiver.onReceive | BT Device connected: Navegadortz2 (11:46:03:10:33:59)
+09-02 11:25:52.488 I/OPENHU  ( 8395): [2] AutoStartReceiver.onReceive | MATCH! Starting AapService via Bluetooth Auto-start...
+09-02 11:25:52.525 I/OPENHU  ( 8395): [2] AapService.onStartCommand | AapService: Bluetooth auto-start: BtAutoStartActions(clearUserExit=true, forceRearmWireless=false, armWirelessIfIdle=false)
+09-02 11:25:52.529 I/OPENHU  ( 8395): [2] MainActivity.beginAutoConnect | Auto-connect: begin (Bluetooth auto-start, mode=PILL)
+09-02 11:25:52.540 I/OPENHU  ( 8395): [2] MainActivity.handleLaunchIntent | MainActivity: Bluetooth auto-start: forcing a Self Mode launch
+09-02 11:25:52.632 I/OPENHU  ( 8395): [2] 1.invokeSuspend | SelfMode: AA 17.4+ detected. Connecting directly to Headunit Server on 127.0.0.1:5277...
+09-02 11:25:52.646 I/GH.DHUService( 2910): Head unit connected
+09-02 11:25:53.345 I/OPENHU  ( 8395): [167] AapSslContext.performHandshake | SSL handshake complete. Session id: a41u90TwraVZFjAws1DvGeeRd0q55WuQQ48ghlibKfU=
+09-02 11:27:16.795 I/OPENHU  ( 8395): [2] AapService.armBtAutoDisconnect | AapService: Bluetooth auto-disconnect: 11:46:03:10:33:59 went away; ending the session in 5000ms unless it comes back.
+09-02 11:27:21.800 I/OPENHU  ( 8395): [2] AapService.fireBtAutoDisconnect | AapService: Bluetooth auto-disconnect: 11:46:03:10:33:59 stayed away; ending the session the way the Exit button does.
+09-02 11:27:21.803 I/OPENHU  ( 8395): [2] AapProjectionActivity.hideReconnectingOverlay | Hiding reconnecting overlay - the session ended
+09-02 11:27:21.924 I/OPENHU  ( 8395): [2] AapService.onDisconnected | AapService: User exit cooldown active for 5000ms
+09-02 11:27:21.925 I/OPENHU  ( 8395): [2] AapService.scheduleReconnectIfNeeded | AapService: Self Mode disconnected. Not restarting.
+09-02 11:27:23.001 I/OPENHU  ( 8395): [167] 2.invokeSuspend | AapService: Bluetooth auto-disconnect: keeping the wireless bring-up down until something re-arms it.
+09-02 11:27:25.897 I/GH.WifiBluetoothRcvr(31125): Connection action: android.bluetooth.device.action.ACL_CONNECTED, device XX:XX:XX:XX:33:59
+09-02 11:27:25.909 I/OPENHU  ( 8395): [2] AutoStartReceiver.onReceive | BT Device connected: Navegadortz2 (11:46:03:10:33:59)
+09-02 11:27:25.909 I/OPENHU  ( 8395): [2] AutoStartReceiver.onReceive | MATCH! Starting AapService via Bluetooth Auto-start...
+09-02 11:27:25.934 I/OPENHU  ( 8395): [2] AapService.onStartCommand | AapService: Bluetooth auto-start: BtAutoStartActions(clearUserExit=true, forceRearmWireless=false, armWirelessIfIdle=false)
+09-02 11:27:25.942 I/OPENHU  ( 8395): [2] MainActivity.beginAutoConnect | Auto-connect: begin (Bluetooth auto-start, mode=PILL)
+09-02 11:27:25.944 I/OPENHU  ( 8395): [2] MainActivity.handleLaunchIntent | MainActivity: Bluetooth auto-start: forcing a Self Mode launch
+09-02 11:27:25.997 I/OPENHU  ( 8395): [2] 1.invokeSuspend | SelfMode: AA 17.4+ detected. Connecting directly to Headunit Server on 127.0.0.1:5277...
+09-02 11:27:26.004 I/GH.DHUService( 2910): Head unit connected
+09-02 11:27:26.415 I/OPENHU  ( 8395): [167] AapSslContext.performHandshake | SSL handshake complete. Session id: BeMHNkGO77piElaiUMKEeyStPlcKEflePA3BG5ai/O8=
+09-02 11:29:04.223 I/OPENHU  ( 8395): [2] AapProjectionActivity.hideReconnectingOverlay | Hiding reconnecting overlay - the session ended
+09-02 11:29:04.277 I/OPENHU  ( 8395): [2] AapService.onDisconnected | AapService: User exit cooldown active for 5000ms
+09-02 11:29:04.277 I/OPENHU  ( 8395): [2] AapService.scheduleReconnectIfNeeded | AapService: Self Mode disconnected. Not restarting.

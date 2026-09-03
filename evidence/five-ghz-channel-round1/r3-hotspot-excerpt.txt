@@ -1,0 +1,9 @@
+09-01 14:23:34.284 I/OPENHU  (12659): [52] 1.invokeSuspend | WppTcpServer: listening for Android Auto on TCP 5299
+09-01 14:23:39.226 I/OPENHU  (12659): [53] HotspotManager.setHotspotEnabled | HotspotManager: Setting hotspot enabled=true (API 34, canWriteSettings=true)
+09-01 14:23:39.730 I/OPENHU  (12659): [53] HotspotManager.setHotspotEnabled | HotspotManager: Asked to disable WiFi and the platform ignored it (expected on modern Android); the framework will take the radio itself if it needs to.
+09-01 14:23:39.732 I/OPENHU  (12659): [53] HotspotManager.setHotspotEnabled | HotspotManager: Band preference is 5 GHz only, set by the user; trying 5 GHz.
+09-01 14:23:39.734 I/OPENHU  (12659): [53] SoftApConfigCompat.enableHotspot | SoftApConfigCompat: enableHotspot called (API=34)
+09-01 14:23:39.736 D/OPENHU  (12659): [53] SoftApConfigCompat.readSoftApConfiguration | SoftApConfigCompat: could not read the current access point configuration: null
+09-01 14:23:39.737 W/OPENHU  (12659): [53] SoftApConfigCompat.enableHotspot | SoftApConfigCompat: cannot read this device's access point configuration and no name is set in the app, so the band cannot be requested without risking the existing one. Starting the hotspot unconfigured.
+09-01 14:23:45.858 W/OPENHU  (12659): [53] HotspotManager.setHotspotEnabled | HotspotManager: This device would not take a band request, so the access point is on whatever band it already had configured, which this app cannot read.
+09-01 14:23:51.900 W/OPENHU  (12659): [53] HotspotManager.setHotspotEnabled | HotspotManager: Every start path was tried on 5 GHz and no access point came up within 6s each. On a non-privileged install this usually cannot be done from an app — switch the hotspot on in system settings instead.

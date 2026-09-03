@@ -1,0 +1,19 @@
+20172:09-03 12:58:33.984 W/OPENHU  (16695): [2] AutomationEffectRunner.run | AutomationMarker: R2_trigger
+23126:09-03 12:58:37.159 I/OPENHU  (16695): [2] AutoStartReceiver.onReceive | BT Device connected: POCO X3 NFC (DC:B7:2E:5E:4E:59)
+23127:09-03 12:58:37.160 I/OPENHU  (16695): [2] AutoStartReceiver.onReceive | MATCH! Starting AapService via Bluetooth Auto-start...
+23208:09-03 12:58:37.216 I/OPENHU  (16695): [2] AapService.onStartCommand | AapService: Bluetooth auto-start: BtAutoStartActions(clearUserExit=true, forceRearmWireless=false, armWirelessIfIdle=false)
+23267:09-03 12:58:37.249 I/OPENHU  (16695): [2] MainActivity.handleLaunchIntent | MainActivity: Bluetooth auto-start: forcing a Self Mode launch
+23646:09-03 12:58:37.493 I/OPENHU  (16695): [2] SelfLauncherManager.isAaVersion174OrHigher | SelfMode: Installed AA version: 17.3.662864-release (major=17, minor=3)
+23648:09-03 12:58:37.494 I/OPENHU  (16695): [2] 1.invokeSuspend | SelfMode: AA < 17.4 detected. Starting WirelessServer on 5288 and running legacy triggers...
+23658:09-03 12:58:37.501 I/OPENHU  (16695): [2] SelfLauncherLegacy.run | SelfMode: Launching AA Wireless Startup via Activity...
+23701:09-03 12:58:37.530 W/OPENHU  (16695): [2] 1.invokeSuspend | SelfMode: Launch of 'v17.3 and older' had caused an error
+23706:09-03 12:58:37.534 I/OPENHU  (16695): [2] SelfLauncherBroadcast.run | SelfMode: Broadcast fallback 1 (WirelessStartupReceiver) sent.
+23709:09-03 12:58:37.535 W/OPENHU  (16695): [2] 1.invokeSuspend | SelfMode: Launch of 'Fallback: Broadcast' had no issues
+25169:09-03 12:58:38.640 I/OPENHU  (16695): [2] AapService.emitSessionState | AapService: session state connected
+26624:09-03 12:58:39.679 I/OPENHU  (16695): [2] AapService.emitSessionState | AapService: session state projecting
+51384:09-03 12:58:54.404 I/GH.MediaSuggNotifier(17019): Invalid session state detected.
+52708:09-03 12:58:54.925 I/GH.MediaSuggNotifier(17019): Invalid session state detected.
+54795:09-03 12:58:55.763 I/GH.MediaSuggNotifier(17019): Invalid session state detected.
+54882:09-03 12:58:55.788 I/GH.MediaSuggNotifier(17019): Invalid session state detected.
+55227:09-03 12:58:55.932 I/GH.MediaSuggNotifier(17019): Invalid session state detected.
+113159:09-03 12:59:19.228 W/OPENHU  (16695): [2] AutomationEffectRunner.run | AutomationMarker: R2_end

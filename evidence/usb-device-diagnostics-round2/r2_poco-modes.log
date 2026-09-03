@@ -1,0 +1,75 @@
+--------- beginning of main
+08-31 17:50:11.304 D/OPENHU  (32256): [2] App.onCreate | native library dir /data/app/~~P_mPv6ix-Km1-qDlVd6Ytg==/com.andrerinas.headunitrevived-W0fbQWyeKGvBzSVN6jlo3Q==/lib/arm64
+08-31 17:50:11.304 D/OPENHU  (32256): [2] App.onCreate |    libusb1.0.so
+08-31 17:50:11.305 D/OPENHU  (32256): [2] App.onCreate |    libavutil.so
+08-31 17:50:11.305 D/OPENHU  (32256): [2] App.onCreate |    libconscrypt_jni.so
+08-31 17:50:11.305 D/OPENHU  (32256): [2] App.onCreate |    libswscale.so
+08-31 17:50:11.306 D/OPENHU  (32256): [2] App.onCreate |    libusbhelper.so
+08-31 17:50:11.306 D/OPENHU  (32256): [2] App.onCreate |    libavcodec.so
+08-31 17:50:11.306 D/OPENHU  (32256): [2] App.onCreate |    libhur_soft_hevc.so
+08-31 17:50:11.520 I/OPENHU  (32256): [2] MainActivity.logLaunchSource | App launched by user tap (referrer: android-app://com.android.shell)
+08-31 17:50:11.670 D/OPENHU  (32256): [2] UsbReceiver.<init> | UsbReceiver registered
+08-31 17:50:11.678 V/OPENHU  (32256): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 1 USB device(s), 1 usable for Android Auto
+08-31 17:50:11.678 V/OPENHU  (32256): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Xiaomi POCO X3 NFC (VID: 05C6 PID: 90DB) [class 00/00/00, no permission] accepted: ADB | if0 FF/FF/30 (bulkIn+bulkOut) | if1 FF/FF/40 (bulkIn+bulkOut+1 other) | if2 FF/FF/50 (bulkIn+bulkOut+1 other) | if3 FF/FF/80 (bulkIn) | if4 FF/FF/70 (bulkIn) | if5 FF/42/01 (bulkIn+bulkOut)
+08-31 17:50:11.788 D/OPENHU  (32256): [2] MainActivity.requestPermissions | All required permissions already granted.
+08-31 17:50:11.793 I/OPENHU  (32256): [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+08-31 17:50:12.230 I/OPENHU  (32256): [2] MainActivity.logLaunchSource | App launched by user tap (referrer: android-app://com.android.shell)
+08-31 17:50:12.306 D/OPENHU  (32256): [2] MainActivity.requestPermissions | All required permissions already granted.
+08-31 17:50:12.310 I/OPENHU  (32256): [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+08-31 17:50:12.329 I/OPENHU  (32256): [2] AapService.onCreate | AapService creating...
+08-31 17:50:12.363 D/OPENHU  (32256): [2] UsbReceiver.<init> | UsbReceiver registered
+08-31 17:50:12.368 I/OPENHU  (32256): [2] AapService.registerReceivers | Registered runtime MEDIA_BUTTON receiver
+08-31 17:50:12.370 I/OPENHU  (32256): [2] AapService.registerReceivers | Registered dynamic WiFi Auto-start receiver
+08-31 17:50:12.371 I/OPENHU  (32256): [2] AapService.registerReceivers | Registered wake detection receiver (18 actions)
+08-31 17:50:12.388 D/OPENHU  (32256): [2] AapService.updateMediaSessionState | MediaSession: State updated to STOPPED, positionMs=0
+08-31 17:50:12.391 I/OPENHU  (32256): [2] WifiLauncherManager.setActive | WifiLauncher: Initializing WiFi Mode: HELPER
+08-31 17:50:12.392 D/OPENHU  (32256): [2] WifiLauncherSharedServices.startWirelessServer | AapService: Starting the wireless server on 5288 - no server yet.
+08-31 17:50:12.396 I/OPENHU  (32256): [2] WirelessServer.start | WirelessServer: binding port 5288...
+08-31 17:50:12.397 I/OPENHU  (32256): [2] WifiLauncherHelper.start | WifiLauncher: Using strategy NEARBY_DEVICES.
+08-31 17:50:12.399 I/OPENHU  (32256): [2748] 1.invokeSuspend | Wireless Server listening on port 5288
+08-31 17:50:12.407 I/OPENHU  (32256): [2748] WirelessServer.logLocalNetworkInterfaces | Interface: wlan0, IP: 192.168.1.5
+08-31 17:50:12.409 D/OPENHU  (32256): [2748] 1.invokeSuspend | WirelessServer: Waiting for TCP connection on port 5288...
+08-31 17:50:12.422 I/OPENHU  (32256): [2] NearbyManager.start | NearbyManager: Starting Nearby (Discoverer only)...
+08-31 17:50:12.423 I/OPENHU  (32256): [2] NearbyManager.startDiscovery | NearbyManager: Requesting Discovery with SERVICE_ID: com.andrerinas.openhu (Strategy: P2P_POINT_TO_POINT)
+08-31 17:50:12.429 I/OPENHU  (32256): [2] AapService.registerNetworkMonitor | NetworkMonitor: Registered network change listener
+08-31 17:50:12.435 I/OPENHU  (32256): [2751] 1.onAvailable | NetworkMonitor: Network available: 408
+08-31 17:50:12.439 D/OPENHU  (32256): [2751] 1.onCapabilitiesChanged | NetworkMonitor: Capabilities changed: 408 → [ Transports: WIFI Capabilities: NOT_METERED&INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN&VALIDATED&NOT_ROAMING&FOREGROUND&NOT_CONGESTED&NOT_SUSPENDED&NOT_VCN_MANAGED LinkUpBandwidth>=58601Kbps LinkDnBandwidth>=56319Kbps TransportInfo: <SSID: <unknown ssid>, BSSID: 02:00:00:00:00:00, MAC: 02:00:00:00:00:00, IP: /192.168.1.5, Security type: 2, Supplicant state: COMPLETED, Wi-Fi standard: 11ac, RSSI: -37, Link speed: 433Mbps, Tx Link speed: 433Mbps, Max Supported Tx Link speed: 433Mbps, Calculated Tx : 387Mbps, Rx Link speed: 433Mbps, Max Supported Rx Link speed: 433Mbps, Calculated Rx : 407Mbps, Frequency: 5260MHz, Net ID: -1, Metered hint: false, score: 100, isUsable: true, CarrierMerged: false, SubscriptionId: -1, IsPrimary: -1, Trusted: true, Restricted: false, Ephemeral: false, OEM paid: false, OEM private: false, OSU AP: false, FQDN: <none>, Provider friendly name: <none>, Requesting package name: <none><none>MLO Information: , Is TID-To-Link negotiation supported by the AP: false, AP MLD Address: <none>, AP MLO Link Id: <none>, AP MLO Affiliated links: <none>, Vendor Data: <none>> SignalStrength: -37 UnderlyingNetworks: Null]
+08-31 17:50:12.956 D/OPENHU  (32256): [2] 1.invoke | NearbyManager: [OK] Discovery started.
+08-31 17:50:13.229 D/OPENHU  (32256): [2] 1.invokeSuspend | NetworkMonitor: no discovery loop to kick
+08-31 17:50:24.012 V/OPENHU  (32256): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB button sees 1 USB device(s), 1 usable for Android Auto
+08-31 17:50:24.012 V/OPENHU  (32256): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Xiaomi POCO X3 NFC (VID: 05C6 PID: 90DB) [class 00/00/00, no permission] accepted: ADB | if0 FF/FF/30 (bulkIn+bulkOut) | if1 FF/FF/40 (bulkIn+bulkOut+1 other) | if2 FF/FF/50 (bulkIn+bulkOut+1 other) | if3 FF/FF/80 (bulkIn) | if4 FF/FF/70 (bulkIn) | if5 FF/42/01 (bulkIn+bulkOut)
+08-31 17:50:24.013 I/OPENHU  (32256): [2] HomeFragment.setupListeners$lambda$13 | USB button: Single device found - Xiaomi POCO X3 NFC (VID: 05C6 PID: 90DB), auto-connecting
+08-31 17:50:24.014 I/OPENHU  (32256): [2] MainActivity.beginAutoConnect | Auto-connect: begin (USB button auto-connect, mode=OVERLAY)
+08-31 17:50:28.660 I/OPENHU  (32256): [2] UsbReceiver.onReceive | USB Intent: Intent { act=com.andrerinas.openheadunit.ACTION_USB_DEVICE_PERMISSION flg=0x10 pkg=com.andrerinas.headunitrevived (has extras) }
+08-31 17:50:28.671 V/OPENHU  (32256): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 1 USB device(s), 1 usable for Android Auto
+08-31 17:50:28.673 V/OPENHU  (32256): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Xiaomi POCO X3 NFC (VID: 05C6 PID: 90DB) [class 00/00/00, permission] accepted: ADB | if0 FF/FF/30 (bulkIn+bulkOut) | if1 FF/FF/40 (bulkIn+bulkOut+1 other) | if2 FF/FF/50 (bulkIn+bulkOut+1 other) | if3 FF/FF/80 (bulkIn) | if4 FF/FF/70 (bulkIn) | if5 FF/42/01 (bulkIn+bulkOut)
+08-31 17:50:28.674 I/OPENHU  (32256): [2] UsbReceiver.onReceive | USB Intent: Intent { act=com.andrerinas.openheadunit.ACTION_USB_DEVICE_PERMISSION flg=0x10 pkg=com.andrerinas.headunitrevived (has extras) }
+08-31 17:50:28.675 I/OPENHU  (32256): [2] UsbLauncherListener.onUsbPermission | USB permission granted for Xiaomi POCO X3 NFC (VID: 05C6 PID: 90DB)
+08-31 17:50:28.689 I/OPENHU  (32256): [2750] UsbAccessoryMode.switch | Success controlTransfer len: 2  acc_ver: 2
+08-31 17:50:28.689 I/OPENHU  (32256): [2750] UsbAccessoryMode.switch | acc_ver: 2
+08-31 17:50:28.691 I/OPENHU  (32256): [2750] UsbAccessoryMode.initStringControlTransfer | Success controlTransfer len: 7  index: 0  string: "Android"
+08-31 17:50:28.695 I/OPENHU  (32256): [2750] UsbAccessoryMode.initStringControlTransfer | Success controlTransfer len: 12  index: 1  string: "Android Auto"
+08-31 17:50:28.695 D/OPENHU  (32256): [2] MainActivity.requestPermissions | All required permissions already granted.
+08-31 17:50:28.697 I/OPENHU  (32256): [2750] UsbAccessoryMode.initStringControlTransfer | Success controlTransfer len: 12  index: 2  string: "Android Auto"
+08-31 17:50:28.698 I/OPENHU  (32256): [2750] UsbAccessoryMode.initStringControlTransfer | Success controlTransfer len: 5  index: 3  string: "2.0.1"
+08-31 17:50:28.699 I/OPENHU  (32256): [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+08-31 17:50:28.700 I/OPENHU  (32256): [2750] UsbAccessoryMode.initStringControlTransfer | Success controlTransfer len: 45  index: 4  string: "https://developer.android.com/auto/index.html"
+08-31 17:50:28.701 I/OPENHU  (32256): [2750] UsbAccessoryMode.initStringControlTransfer | Success controlTransfer len: 12  index: 5  string: "HU-AAAAAA001"
+08-31 17:50:28.702 I/OPENHU  (32256): [2750] UsbAccessoryMode.switch | Sending acc start
+08-31 17:50:28.703 I/OPENHU  (32256): [2750] UsbAccessoryMode.switch | Acc start sent (len=0). Waiting for re-enumeration...
+08-31 17:50:28.775 I/OPENHU  (32256): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+08-31 17:50:28.776 I/OPENHU  (32256): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 0 USB device(s), 0 usable for Android Auto
+08-31 17:50:28.776 I/OPENHU  (32256): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+08-31 17:50:28.777 I/OPENHU  (32256): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+08-31 17:50:29.205 I/OPENHU  (32256): [2750] UsbAccessoryMode.connectAndSwitch | Result: true
+08-31 17:50:29.206 I/OPENHU  (32256): [2750] 2.invokeSuspend | Successfully requested switch to accessory mode for Xiaomi POCO X3 NFC (VID: 05C6 PID: 90DB)
+08-31 17:50:29.843 I/OPENHU  (32256): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x11000010 (has extras) }
+08-31 17:50:29.856 V/OPENHU  (32256): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 1 USB device(s), 1 usable for Android Auto
+08-31 17:50:29.856 V/OPENHU  (32256): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Xiaomi POCO X3 NFC (VID: 18D1 PID: 2D01) [class 00/00/00, no permission] accepted: already in accessory mode | if0 FF/FF/00 (bulkIn+bulkOut) | if1 FF/42/01 (bulkIn+bulkOut)
+08-31 17:50:29.857 I/OPENHU  (32256): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x11000010 (has extras) }
+08-31 17:50:29.857 I/OPENHU  (32256): [2] UsbLauncherListener.onUsbAttach | USB accessory device attached, connecting.
+08-31 17:50:29.860 V/OPENHU  (32256): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: service scan (force=true) sees 1 USB device(s), 1 usable for Android Auto
+08-31 17:50:29.860 V/OPENHU  (32256): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Xiaomi POCO X3 NFC (VID: 18D1 PID: 2D01) [class 00/00/00, no permission] accepted: already in accessory mode | if0 FF/FF/00 (bulkIn+bulkOut) | if1 FF/42/01 (bulkIn+bulkOut)
+08-31 17:50:29.861 I/OPENHU  (32256): [2] UsbLauncherManager.checkAlreadyConnected | Found device already in accessory mode: Xiaomi POCO X3 NFC (VID: 18D1 PID: 2D01)
+08-31 17:50:29.861 I/OPENHU  (32256): [2] UsbLauncherManager.checkAlreadyConnected | Accessory-mode device has no permission (re-enumerated); requesting permission: Xiaomi POCO X3 NFC (VID: 18D1 PID: 2D01)
+08-31 17:50:29.862 I/OPENHU  (32256): [2] UsbLauncherManager.requestPermission | Requesting USB permission for Xiaomi POCO X3 NFC (VID: 18D1 PID: 2D01)

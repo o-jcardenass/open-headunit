@@ -1,0 +1,47 @@
+### R2/R2b/R2c CANDIDATE (e6b19c3a) - BSSID resolved via new IPv6 route on every group, no masked/empty abort:
+onGroupInfoAvailable: SSID: DIRECT-0F-motoedge30neooThE, BSSID: DE:B3:88:55:B3:92 (source=IPv6 link-local)
+onGroupInfoAvailable: SSID: DIRECT-CS-HeadUnit, BSSID: DE:B3:88:55:B3:92 (source=IPv6 link-local)
+onGroupInfoAvailable: SSID: DIRECT-HT-motoedge30neooThE, BSSID: DE:B3:88:55:B3:92 (source=IPv6 link-local)
+onGroupInfoAvailable: SSID: DIRECT-MB-HeadUnit, BSSID: DE:B3:88:55:B3:92 (source=IPv6 link-local)
+onGroupInfoAvailable: SSID: DIRECT-V9-motoedge30neooThE, BSSID: DE:B3:88:55:B3:92 (source=IPv6 link-local)
+onGroupInfoAvailable: SSID: DIRECT-VU-motoedge30neooThE, BSSID: DE:B3:88:55:B3:92 (source=IPv6 link-local)
+
+### CANDIDATE BSSID source dump (r2c-dmoto.txt, first occurrence):
+09-01 05:47:38.841 I/OPENHU  (19361): [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == BSSID source dump (iface=p2p0) ==
+09-01 05:47:38.841 I/OPENHU  (19361): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   static override (Settings)       = 0
+09-01 05:47:38.841 I/OPENHU  (19361): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   getGroupOwnerBssid()             = null
+09-01 05:47:38.847 I/OPENHU  (19361): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (p2p0)           = de:b3:88:55:b3:92
+09-01 05:47:38.848 I/OPENHU  (19361): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (any p2p/ap)     = de:b3:88:55:b3:92
+09-01 05:47:38.848 D/OPENHU  (19361): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: getWifiDirectMac for interface: p2p0
+09-01 05:47:38.850 D/CompatibilityChangeReporter(19361): Compat change id reported: 170188668; UID 10491; state: ENABLED
+09-01 05:47:38.850 D/OPENHU  (19361): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: rmnet_data0, MAC: null
+09-01 05:47:38.851 D/OPENHU  (19361): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: dummy0, MAC: null
+09-01 05:47:38.851 D/OPENHU  (19361): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: p2p0, MAC: null
+09-01 05:47:38.852 D/OPENHU  (19361): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: wlan0, MAC: null
+09-01 05:47:38.853 D/OPENHU  (19361): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: r_rmnet_data0, MAC: null
+09-01 05:47:38.854 D/OPENHU  (19361): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: rmnet_data1, MAC: null
+09-01 05:47:38.854 D/OPENHU  (19361): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: lo, MAC: null
+09-01 05:47:38.854 W/OPENHU  (19361): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: No valid MAC found in NetworkInterface scan for p2p0
+09-01 05:47:38.855 I/OPENHU  (19361): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   NetworkInterface.hardwareAddress = 00:00:00:00:00:00
+09-01 05:47:38.855 I/OPENHU  (19361): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   lastKnownBssid (null)            = null
+09-01 05:47:38.855 I/OPENHU  (19361): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   requestDeviceInfo                = 02:00:00:00:00:00
+09-01 05:47:38.855 I/OPENHU  (19361): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   group.owner.deviceAddress        = 02:00:00:00:00:00
+09-01 05:47:38.853 W/headunitrevived(19361): type=1400 audit(0.0:2369): avc:  denied  { search } for  name="net" dev="sysfs" ino=36911 scontext=u:r:untrusted_app:s0:c235,c257,c512,c768 tcontext=u:object_r:sysfs_net:s0 tclass=dir permissive=0 app=com.andrerinas.headunitrevived
+09-01 05:47:38.858 W/AccessibilityManagerService( 1830):  wait for adding window timeout: 416
+09-01 05:47:38.873 W/ip      (19422): type=1400 audit(0.0:2370): avc:  denied  { bind } for  scontext=u:r:untrusted_app:s0:c235,c257,c512,c768 tcontext=u:r:untrusted_app:s0:c235,c257,c512,c768 tclass=netlink_route_socket permissive=0 bug=b/155595000 app=com.andrerinas.headunitrevived
+09-01 05:47:38.876 I/OPENHU  (19361): [2] WifiDirectManager.getMacFromShell | WifiDirectManager: getMacFromShell: Target failed, scanning ALL interfaces in sysfs...
+09-01 05:47:38.873 W/headunitrevived(19361): type=1400 audit(0.0:2371): avc:  denied  { read } for  name="net" dev="sysfs" ino=36911 scontext=u:r:untrusted_app:s0:c235,c257,c512,c768 tcontext=u:object_r:sysfs_net:s0 tclass=dir permissive=0 app=com.andrerinas.headunitrevived
+09-01 05:47:38.877 I/OPENHU  (19361): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   sysfs / ip link                  = null
+09-01 05:47:38.880 I/OPENHU  (19361): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   Settings.Secure p2p address      = null
+09-01 05:47:38.880 I/OPENHU  (19361): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   reflection over WifiP2pGroup     = null
+09-01 05:47:38.880 I/OPENHU  (19361): [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == end BSSID source dump ==
+
+### Both arms: Gearhead aborts wireless setup for lack of HFP presence from the head unit
+    (candidate r2c-dpoco, sample):
+09-01 05:48:11.221 I/GH.ConnLoggerV2(15132): Session 0366ee3f-9f18-42f6-8890-c66641435c4e, event 138, detail OptionalInt.empty, WIRELESS_SETUP_FAILED_TO_START_NO_HFP_FROM_HU_PRESENCE, at 22544206 
+09-01 05:48:11.286 I/GH.ConnLoggerV2(15132): Session 0366ee3f-9f18-42f6-8890-c66641435c4e, event 143, detail OptionalInt.empty, WIRELESS_SETUP_FAILED_TO_START_NO_HFP_FROM_HU_PRESENCE, at 22544269 
+    (baseline r3-dpoco, sample - same line, alongside the successful attempts):
+09-01 05:39:01.580 I/GH.ConnLoggerV2(15132): Session d617ca34-daed-4033-818b-fba116c5d55d, event 83, detail OptionalInt.empty, WIRELESS_SETUP_FAILED_TO_START_NO_HFP_FROM_HU_PRESENCE, at 21994559 
+09-01 05:39:32.093 I/GH.ConnLoggerV2(15132): Session d617ca34-daed-4033-818b-fba116c5d55d, event 111, detail OptionalInt.empty, WIRELESS_SETUP_FAILED_TO_START_NO_HFP_FROM_HU_PRESENCE, at 22025084 
+
+### 'Connection accepted from' tally: candidate 0/0/0 (R2/R2b/R2c) ; baseline 2/0 (R3/R3b)

@@ -1,0 +1,19 @@
+--------- beginning of system
+08-31 19:22:01.819 D/UsbHostManager( 1809): Removed device at /dev/bus/usb/002/003: POCO X3 NFC
+08-31 19:22:01.826 D/UsbHostManager( 1809): Removed device at /dev/bus/usb/003/001 was already gone
+08-31 19:22:01.869 D/UsbHostManager( 1809): Removed device at /dev/bus/usb/002/001 was already gone
+08-31 19:22:07.547 D/UsbHostManager( 1809): USB device attached: vidpid 18d1:4ee1 mfg/product/ver/serial Xiaomi/POCO X3 NFC/4.14/4f4027e9 hasAudio/HID/Storage: false/false/false
+08-31 19:22:07.552 D/UsbHostManager( 1809): Added device UsbDevice[mName=/dev/bus/usb/002/002,mVendorId=6353,mProductId=20193,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=Xiaomi,mProductName=POCO X3 NFC,mVersion=4.14,mSerialNumberReader=com.android.server.usb.UsbSerialReader@1250b82, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+08-31 19:22:07.552 D/UsbHostManager( 1809): UsbConfiguration[mId=1,mName=android,mAttributes=128,mMaxPower=250,mInterfaces=[
+08-31 19:22:07.552 D/UsbHostManager( 1809): UsbInterface[mId=0,mAlternateSetting=0,mName=MTP,mClass=6,mSubclass=1,mProtocol=1,mEndpoints=[
+08-31 19:22:07.552 D/UsbHostManager( 1809): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-31 19:22:07.552 D/UsbHostManager( 1809): UsbEndpoint[mAddress=1,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-31 19:22:07.552 D/UsbHostManager( 1809): UsbEndpoint[mAddress=130,mAttributes=3,mMaxPacketSize=28,mInterval=6]]]]
+08-31 19:22:08.101 D/UsbHostManager( 1809): Removed device at /dev/bus/usb/002/002: POCO X3 NFC
+08-31 19:22:09.168 D/UsbHostManager( 1809): USB device attached: vidpid 18d1:4ee1 mfg/product/ver/serial Xiaomi/POCO X3 NFC/4.14/4f4027e9 hasAudio/HID/Storage: false/false/false
+08-31 19:22:09.173 D/UsbHostManager( 1809): Added device UsbDevice[mName=/dev/bus/usb/002/003,mVendorId=6353,mProductId=20193,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=Xiaomi,mProductName=POCO X3 NFC,mVersion=4.14,mSerialNumberReader=com.android.server.usb.UsbSerialReader@7d00bd6, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+08-31 19:22:09.173 D/UsbHostManager( 1809): UsbConfiguration[mId=1,mName=android,mAttributes=128,mMaxPower=250,mInterfaces=[
+08-31 19:22:09.173 D/UsbHostManager( 1809): UsbInterface[mId=0,mAlternateSetting=0,mName=MTP,mClass=6,mSubclass=1,mProtocol=1,mEndpoints=[
+08-31 19:22:09.173 D/UsbHostManager( 1809): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-31 19:22:09.173 D/UsbHostManager( 1809): UsbEndpoint[mAddress=1,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+08-31 19:22:09.173 D/UsbHostManager( 1809): UsbEndpoint[mAddress=130,mAttributes=3,mMaxPacketSize=28,mInterval=6]]]]

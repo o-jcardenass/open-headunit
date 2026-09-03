@@ -1,0 +1,17 @@
+4838:09-03 13:03:11.561 W/OPENHU  (20684): [61] 1.invokeSuspend | NativeAA: No wake poke device selected, and poking all paired devices is on. Poking all of them...
+14249:09-03 13:03:21.486 W/OPENHU  (20684): [2] AutomationEffectRunner.run | AutomationMarker: R4_start
+19425:09-03 13:03:26.837 I/OPENHU  (20684): [61] 2.invokeSuspend | NativeAA: Saving DC:B7:2E:5E:4E:59 (POCO X3 NFC) as the wake poke device.
+22806:09-03 13:03:30.385 I/OPENHU  (20684): [51] 1.invokeSuspend | WirelessServer: Incoming connection detected from /192.168.49.54
+22818:09-03 13:03:30.400 I/OPENHU  (20684): [2] AapService.emitSessionState | AapService: session state connected
+24050:09-03 13:03:31.349 I/OPENHU  (20684): [2] AapService.emitSessionState | AapService: session state projecting
+208985:09-03 13:04:59.386 W/OPENHU  (20684): [2] AutomationEffectRunner.run | AutomationMarker: R4_handshake_done
+=== settings.xml readback after R4 (via `run-as cat shared_prefs/settings.xml`, app force-stopped, BEFORE round-end restore) ===
+    <set name="auto-start-bt-macs" />
+    ...
+    <set name="native-poke-bt-macs">
+        <string>DC:B7:2E:5E:4E:59</string>
+    </set>
+
+(captured 13:05, immediately after `am force-stop`; quoted verbatim from the round transcript.
+The r4-poke-target.txt in an earlier revision accidentally appended a post-restore readback -
+corrected here.)

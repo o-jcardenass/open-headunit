@@ -1,0 +1,5 @@
+--------- beginning of main
+08-31 19:03:46.477 I/OPENHU  (16700): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB button sees 3 USB device(s), 0 usable for Android Auto
+08-31 19:03:46.477 I/OPENHU  (16700): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Generic USB3.0 Card Reader (VID: 05E3 PID: 0749) [class 00/00/00, no permission] rejected: no Android interface | if0 08/06/50 (1xbulkIn+1xbulkOut)
+08-31 19:03:46.477 I/OPENHU  (16700): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   ASIX AX88179B (VID: 0B95 PID: 1790) [class FF/FF/00, no permission] rejected: vendor-class device, not a phone | if0 FF/FF/00 (1xbulkIn+2xbulkOut+1 other)
+08-31 19:03:46.477 I/OPENHU  (16700): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Fresco Logic, Inc¿Ä Generic Billboard Device (VID: 1D5C PID: 7102) [class 11/00/00, no permission] rejected: device class 0x11 is not a phone | if0 11/00/00 (no endpoints)

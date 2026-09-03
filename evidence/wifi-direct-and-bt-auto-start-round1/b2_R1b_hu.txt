@@ -1,0 +1,6 @@
+09-02 10:43:06.398 I/OPENHU  (12885): [2] AutoStartReceiver.onReceive | MATCH! Starting AapService via Bluetooth Auto-start...
+09-02 10:43:06.857 I/OPENHU  (12885): [72] NativeAaHandshakeManager.pokeDevice | NativeAA: Successfully poked POCO X3 NFC via HSP-AG. Holding 15000ms...
+09-02 10:43:18.560 I/OPENHU  (12885): [61] 1.invokeSuspend | WirelessServer: Incoming connection detected from /192.168.49.54
+09-02 10:43:18.832 I/OPENHU  (12885): [82] AapSslContext.performHandshake | SSL handshake complete. Session id: nAr7nXzI5QX5HBGtgVLwjFWfMRQw6Uh0xwBpUAF0vtg=
+09-02 10:43:23.069 I/OPENHU  (12885): [2] AapService.armBtAutoDisconnect | AapService: Bluetooth auto-disconnect: DC:B7:2E:5E:4E:59 went away; ending the session in 5000ms unless it comes back.
+09-02 10:43:28.072 I/OPENHU  (12885): [2] AapService.fireBtAutoDisconnect | AapService: Bluetooth auto-disconnect: not ending the session for DC:B7:2E:5E:4E:59 (up=true, age=9479ms).

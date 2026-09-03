@@ -1,0 +1,85 @@
+--------- beginning of crash
+08-31 21:29:37.659 E/AndroidRuntime( 3907): FATAL EXCEPTION: main
+08-31 21:29:37.659 E/AndroidRuntime( 3907): Process: com.andrerinas.headunitrevived, PID: 3907
+08-31 21:29:37.659 E/AndroidRuntime( 3907): java.lang.RuntimeException: Unable to create application com.andrerinas.openheadunit.App: java.lang.IllegalStateException: SharedPreferences in credential encrypted storage are not available until after user is unlocked
+08-31 21:29:37.659 E/AndroidRuntime( 3907): 	at android.app.ActivityThread.handleBindApplication(ActivityThread.java:7171)
+08-31 21:29:37.659 E/AndroidRuntime( 3907): 	at android.app.ActivityThread.-$$Nest$mhandleBindApplication(ActivityThread.java:0)
+08-31 21:29:37.659 E/AndroidRuntime( 3907): 	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2340)
+08-31 21:29:37.659 E/AndroidRuntime( 3907): 	at android.os.Handler.dispatchMessage(Handler.java:111)
+08-31 21:29:37.659 E/AndroidRuntime( 3907): 	at android.os.Looper.loopOnce(Looper.java:242)
+08-31 21:29:37.659 E/AndroidRuntime( 3907): 	at android.os.Looper.loop(Looper.java:362)
+08-31 21:29:37.659 E/AndroidRuntime( 3907): 	at android.app.ActivityThread.main(ActivityThread.java:8393)
+08-31 21:29:37.659 E/AndroidRuntime( 3907): 	at java.lang.reflect.Method.invoke(Native Method)
+08-31 21:29:37.659 E/AndroidRuntime( 3907): 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:552)
+08-31 21:29:37.659 E/AndroidRuntime( 3907): 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:992)
+08-31 21:29:37.659 E/AndroidRuntime( 3907): Caused by: java.lang.IllegalStateException: SharedPreferences in credential encrypted storage are not available until after user is unlocked
+08-31 21:29:37.659 E/AndroidRuntime( 3907): 	at com.andrerinas.openheadunit.utils.Settings.getPrefs(Settings.kt:36)
+08-31 21:29:37.659 E/AndroidRuntime( 3907): 	at com.andrerinas.openheadunit.utils.Settings.getDebugForceMemoryProfile(Settings.kt:402)
+08-31 21:29:37.659 E/AndroidRuntime( 3907): 	at com.andrerinas.openheadunit.AppComponent$videoDecoder$1.invoke(AppComponent.kt:20)
+08-31 21:29:37.659 E/AndroidRuntime( 3907): 	at com.andrerinas.openheadunit.AppComponent$videoDecoder$1.invoke(AppComponent.kt:19)
+08-31 21:29:37.659 E/AndroidRuntime( 3907): 	at com.andrerinas.openheadunit.decoder.video.VideoDecoder.<init>(VideoDecoder.kt:323)
+08-31 21:29:37.659 E/AndroidRuntime( 3907): 	at com.andrerinas.openheadunit.AppComponent.<init>(AppComponent.kt:19)
+08-31 21:29:37.659 E/AndroidRuntime( 3907): 	at com.andrerinas.openheadunit.App$component$2.invoke(App.kt:24)
+08-31 21:29:37.659 E/AndroidRuntime( 3907): 	at com.andrerinas.openheadunit.App$component$2.invoke(App.kt:23)
+08-31 21:29:37.659 E/AndroidRuntime( 3907): 	at kotlin.SynchronizedLazyImpl.getValue(LazyJVM.kt:74)
+08-31 21:29:37.659 E/AndroidRuntime( 3907): 	at com.andrerinas.openheadunit.App.getComponent(App.kt:23)
+08-31 21:29:37.659 E/AndroidRuntime( 3907): 	at com.andrerinas.openheadunit.App.onCreate(App.kt:46)
+08-31 21:29:37.659 E/AndroidRuntime( 3907): 	at android.app.Instrumentation.callApplicationOnCreate(Instrumentation.java:1316)
+08-31 21:29:37.659 E/AndroidRuntime( 3907): 	at android.app.ActivityThread.handleBindApplication(ActivityThread.java:7166)
+08-31 21:29:37.659 E/AndroidRuntime( 3907): 	... 9 more
+08-31 21:31:46.913 E/AndroidRuntime( 4181): FATAL EXCEPTION: main
+08-31 21:31:46.913 E/AndroidRuntime( 4181): Process: com.andrerinas.headunitrevived, PID: 4181
+08-31 21:31:46.913 E/AndroidRuntime( 4181): java.lang.RuntimeException: Unable to create application com.andrerinas.openheadunit.App: java.lang.IllegalStateException: SharedPreferences in credential encrypted storage are not available until after user is unlocked
+08-31 21:31:46.913 E/AndroidRuntime( 4181): 	at android.app.ActivityThread.handleBindApplication(ActivityThread.java:7171)
+08-31 21:31:46.913 E/AndroidRuntime( 4181): 	at android.app.ActivityThread.-$$Nest$mhandleBindApplication(ActivityThread.java:0)
+08-31 21:31:46.913 E/AndroidRuntime( 4181): 	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2340)
+08-31 21:31:46.913 E/AndroidRuntime( 4181): 	at android.os.Handler.dispatchMessage(Handler.java:111)
+08-31 21:31:46.913 E/AndroidRuntime( 4181): 	at android.os.Looper.loopOnce(Looper.java:242)
+08-31 21:31:46.913 E/AndroidRuntime( 4181): 	at android.os.Looper.loop(Looper.java:362)
+08-31 21:31:46.913 E/AndroidRuntime( 4181): 	at android.app.ActivityThread.main(ActivityThread.java:8393)
+08-31 21:31:46.913 E/AndroidRuntime( 4181): 	at java.lang.reflect.Method.invoke(Native Method)
+08-31 21:31:46.913 E/AndroidRuntime( 4181): 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:552)
+08-31 21:31:46.913 E/AndroidRuntime( 4181): 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:992)
+08-31 21:31:46.913 E/AndroidRuntime( 4181): Caused by: java.lang.IllegalStateException: SharedPreferences in credential encrypted storage are not available until after user is unlocked
+08-31 21:31:46.913 E/AndroidRuntime( 4181): 	at com.andrerinas.openheadunit.utils.Settings.getPrefs(Settings.kt:36)
+08-31 21:31:46.913 E/AndroidRuntime( 4181): 	at com.andrerinas.openheadunit.utils.Settings.getDebugForceMemoryProfile(Settings.kt:402)
+08-31 21:31:46.913 E/AndroidRuntime( 4181): 	at com.andrerinas.openheadunit.AppComponent$videoDecoder$1.invoke(AppComponent.kt:20)
+08-31 21:31:46.913 E/AndroidRuntime( 4181): 	at com.andrerinas.openheadunit.AppComponent$videoDecoder$1.invoke(AppComponent.kt:19)
+08-31 21:31:46.913 E/AndroidRuntime( 4181): 	at com.andrerinas.openheadunit.decoder.video.VideoDecoder.<init>(VideoDecoder.kt:323)
+08-31 21:31:46.913 E/AndroidRuntime( 4181): 	at com.andrerinas.openheadunit.AppComponent.<init>(AppComponent.kt:19)
+08-31 21:31:46.913 E/AndroidRuntime( 4181): 	at com.andrerinas.openheadunit.App$component$2.invoke(App.kt:24)
+08-31 21:31:46.913 E/AndroidRuntime( 4181): 	at com.andrerinas.openheadunit.App$component$2.invoke(App.kt:23)
+08-31 21:31:46.913 E/AndroidRuntime( 4181): 	at kotlin.SynchronizedLazyImpl.getValue(LazyJVM.kt:74)
+08-31 21:31:46.913 E/AndroidRuntime( 4181): 	at com.andrerinas.openheadunit.App.getComponent(App.kt:23)
+08-31 21:31:46.913 E/AndroidRuntime( 4181): 	at com.andrerinas.openheadunit.App.onCreate(App.kt:46)
+08-31 21:31:46.913 E/AndroidRuntime( 4181): 	at android.app.Instrumentation.callApplicationOnCreate(Instrumentation.java:1316)
+08-31 21:31:46.913 E/AndroidRuntime( 4181): 	at android.app.ActivityThread.handleBindApplication(ActivityThread.java:7166)
+08-31 21:31:46.913 E/AndroidRuntime( 4181): 	... 9 more
+08-31 21:31:48.481 E/AndroidRuntime( 4204): FATAL EXCEPTION: main
+08-31 21:31:48.481 E/AndroidRuntime( 4204): Process: com.andrerinas.headunitrevived, PID: 4204
+08-31 21:31:48.481 E/AndroidRuntime( 4204): java.lang.RuntimeException: Unable to create application com.andrerinas.openheadunit.App: java.lang.IllegalStateException: SharedPreferences in credential encrypted storage are not available until after user is unlocked
+08-31 21:31:48.481 E/AndroidRuntime( 4204): 	at android.app.ActivityThread.handleBindApplication(ActivityThread.java:7171)
+08-31 21:31:48.481 E/AndroidRuntime( 4204): 	at android.app.ActivityThread.-$$Nest$mhandleBindApplication(ActivityThread.java:0)
+08-31 21:31:48.481 E/AndroidRuntime( 4204): 	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2340)
+08-31 21:31:48.481 E/AndroidRuntime( 4204): 	at android.os.Handler.dispatchMessage(Handler.java:111)
+08-31 21:31:48.481 E/AndroidRuntime( 4204): 	at android.os.Looper.loopOnce(Looper.java:242)
+08-31 21:31:48.481 E/AndroidRuntime( 4204): 	at android.os.Looper.loop(Looper.java:362)
+08-31 21:31:48.481 E/AndroidRuntime( 4204): 	at android.app.ActivityThread.main(ActivityThread.java:8393)
+08-31 21:31:48.481 E/AndroidRuntime( 4204): 	at java.lang.reflect.Method.invoke(Native Method)
+08-31 21:31:48.481 E/AndroidRuntime( 4204): 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:552)
+08-31 21:31:48.481 E/AndroidRuntime( 4204): 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:992)
+08-31 21:31:48.481 E/AndroidRuntime( 4204): Caused by: java.lang.IllegalStateException: SharedPreferences in credential encrypted storage are not available until after user is unlocked
+08-31 21:31:48.481 E/AndroidRuntime( 4204): 	at com.andrerinas.openheadunit.utils.Settings.getPrefs(Settings.kt:36)
+08-31 21:31:48.481 E/AndroidRuntime( 4204): 	at com.andrerinas.openheadunit.utils.Settings.getDebugForceMemoryProfile(Settings.kt:402)
+08-31 21:31:48.481 E/AndroidRuntime( 4204): 	at com.andrerinas.openheadunit.AppComponent$videoDecoder$1.invoke(AppComponent.kt:20)
+08-31 21:31:48.481 E/AndroidRuntime( 4204): 	at com.andrerinas.openheadunit.AppComponent$videoDecoder$1.invoke(AppComponent.kt:19)
+08-31 21:31:48.481 E/AndroidRuntime( 4204): 	at com.andrerinas.openheadunit.decoder.video.VideoDecoder.<init>(VideoDecoder.kt:323)
+08-31 21:31:48.481 E/AndroidRuntime( 4204): 	at com.andrerinas.openheadunit.AppComponent.<init>(AppComponent.kt:19)
+08-31 21:31:48.481 E/AndroidRuntime( 4204): 	at com.andrerinas.openheadunit.App$component$2.invoke(App.kt:24)
+08-31 21:31:48.481 E/AndroidRuntime( 4204): 	at com.andrerinas.openheadunit.App$component$2.invoke(App.kt:23)
+08-31 21:31:48.481 E/AndroidRuntime( 4204): 	at kotlin.SynchronizedLazyImpl.getValue(LazyJVM.kt:74)
+08-31 21:31:48.481 E/AndroidRuntime( 4204): 	at com.andrerinas.openheadunit.App.getComponent(App.kt:23)
+08-31 21:31:48.481 E/AndroidRuntime( 4204): 	at com.andrerinas.openheadunit.App.onCreate(App.kt:46)
+08-31 21:31:48.481 E/AndroidRuntime( 4204): 	at android.app.Instrumentation.callApplicationOnCreate(Instrumentation.java:1316)
+08-31 21:31:48.481 E/AndroidRuntime( 4204): 	at android.app.ActivityThread.handleBindApplication(ActivityThread.java:7166)
+08-31 21:31:48.481 E/AndroidRuntime( 4204): 	... 9 more

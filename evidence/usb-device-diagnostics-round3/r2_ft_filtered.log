@@ -1,0 +1,83 @@
+08-31 19:13:10.504 V/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 1 USB device(s), 1 usable for Android Auto
+08-31 19:13:10.505 V/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Xiaomi POCO X3 NFC (VID: 18D1 PID: 4EE2) [class 00/00/00, no permission] accepted: PTP | if0 06/01/01 (1xbulkIn+1xbulkOut+1 other) | if1 FF/42/01 (1xbulkIn+1xbulkOut)
+08-31 19:13:14.583 V/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB button sees 1 USB device(s), 1 usable for Android Auto
+08-31 19:13:14.583 V/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Xiaomi POCO X3 NFC (VID: 18D1 PID: 4EE2) [class 00/00/00, no permission] accepted: PTP | if0 06/01/01 (1xbulkIn+1xbulkOut+1 other) | if1 FF/42/01 (1xbulkIn+1xbulkOut)
+08-31 19:13:14.587 I/OPENHU  (18395): [2] HomeFragment.setupListeners$lambda$13 | USB button: Single device found - Xiaomi POCO X3 NFC (VID: 18D1 PID: 4EE2), auto-connecting
+08-31 19:13:14.587 I/OPENHU  (18395): [2] MainActivity.beginAutoConnect | Auto-connect: begin (USB button auto-connect, mode=OVERLAY)
+08-31 19:13:22.135 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=com.andrerinas.openheadunit.ACTION_USB_DEVICE_PERMISSION flg=0x10 pkg=com.andrerinas.headunitrevived (has extras) }
+08-31 19:13:22.142 V/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 1 USB device(s), 1 usable for Android Auto
+08-31 19:13:22.142 V/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Xiaomi POCO X3 NFC (VID: 18D1 PID: 4EE2) [class 00/00/00, permission] accepted: PTP | if0 06/01/01 (1xbulkIn+1xbulkOut+1 other) | if1 FF/42/01 (1xbulkIn+1xbulkOut)
+08-31 19:13:22.143 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=com.andrerinas.openheadunit.ACTION_USB_DEVICE_PERMISSION flg=0x10 pkg=com.andrerinas.headunitrevived (has extras) }
+08-31 19:13:22.213 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+08-31 19:13:22.214 I/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 0 USB device(s), 0 usable for Android Auto
+08-31 19:13:22.214 I/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+08-31 19:13:22.215 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+08-31 19:13:23.293 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x11000010 (has extras) }
+08-31 19:13:23.315 V/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 1 USB device(s), 1 usable for Android Auto
+08-31 19:13:23.315 V/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Xiaomi POCO X3 NFC (VID: 18D1 PID: 2D01) [class 00/00/00, no permission] accepted: already in accessory mode | if0 FF/FF/00 (1xbulkIn+1xbulkOut) | if1 FF/42/01 (1xbulkIn+1xbulkOut)
+08-31 19:13:23.316 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x11000010 (has extras) }
+08-31 19:13:23.317 I/OPENHU  (18395): [2] UsbLauncherListener.onUsbAttach | USB accessory device attached, connecting.
+08-31 19:13:23.319 V/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: service scan (force=true) sees 1 USB device(s), 1 usable for Android Auto
+08-31 19:13:23.319 V/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Xiaomi POCO X3 NFC (VID: 18D1 PID: 2D01) [class 00/00/00, no permission] accepted: already in accessory mode | if0 FF/FF/00 (1xbulkIn+1xbulkOut) | if1 FF/42/01 (1xbulkIn+1xbulkOut)
+08-31 19:13:23.320 I/OPENHU  (18395): [2] UsbLauncherManager.checkAlreadyConnected | Found device already in accessory mode: Xiaomi POCO X3 NFC (VID: 18D1 PID: 2D01)
+08-31 19:13:23.320 I/OPENHU  (18395): [2] UsbLauncherManager.checkAlreadyConnected | Accessory-mode device has no permission (re-enumerated); requesting permission: Xiaomi POCO X3 NFC (VID: 18D1 PID: 2D01)
+08-31 19:13:25.414 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=com.andrerinas.openheadunit.ACTION_USB_DEVICE_PERMISSION flg=0x10 pkg=com.andrerinas.headunitrevived (has extras) }
+08-31 19:13:25.421 V/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 1 USB device(s), 1 usable for Android Auto
+08-31 19:13:25.422 V/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Xiaomi POCO X3 NFC (VID: 18D1 PID: 2D01) [class 00/00/00, permission] accepted: already in accessory mode | if0 FF/FF/00 (1xbulkIn+1xbulkOut) | if1 FF/42/01 (1xbulkIn+1xbulkOut)
+08-31 19:13:25.424 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=com.andrerinas.openheadunit.ACTION_USB_DEVICE_PERMISSION flg=0x10 pkg=com.andrerinas.headunitrevived (has extras) }
+08-31 19:14:16.098 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+08-31 19:14:16.100 I/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 0 USB device(s), 0 usable for Android Auto
+08-31 19:14:16.101 I/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+08-31 19:14:16.103 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+08-31 19:14:17.206 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x11000010 (has extras) }
+08-31 19:14:17.217 V/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 1 USB device(s), 1 usable for Android Auto
+08-31 19:14:17.217 V/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Xiaomi POCO X3 NFC (VID: 18D1 PID: 4EE6) [class 00/00/00, no permission] accepted: PTP | if0 06/01/01 (1xbulkIn+1xbulkOut+1 other) | if1 FF/42/01 (1xbulkIn+1xbulkOut)
+08-31 19:14:17.221 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x11000010 (has extras) }
+08-31 19:14:17.222 I/OPENHU  (18395): [2] UsbLauncherListener.onUsbAttach | Normal USB device attached: Xiaomi POCO X3 NFC (VID: 18D1 PID: 4EE6). Will check auto-connect in 2000ms...
+08-31 19:14:19.232 V/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: service scan (force=true) sees 1 USB device(s), 1 usable for Android Auto
+08-31 19:14:19.232 V/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Xiaomi POCO X3 NFC (VID: 18D1 PID: 4EE6) [class 00/00/00, no permission] accepted: PTP | if0 06/01/01 (1xbulkIn+1xbulkOut+1 other) | if1 FF/42/01 (1xbulkIn+1xbulkOut)
+08-31 19:14:19.235 I/OPENHU  (18395): [2] UsbLauncherManager.checkAlreadyConnected | Fallback: force=true and found single Google normal-mode device Xiaomi POCO X3 NFC (VID: 18D1 PID: 4EE6). Switching to accessory mode.
+08-31 19:14:31.872 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+08-31 19:14:31.881 I/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 0 USB device(s), 0 usable for Android Auto
+08-31 19:14:31.882 I/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+08-31 19:14:31.884 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+08-31 19:14:31.960 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=com.andrerinas.openheadunit.ACTION_USB_DEVICE_PERMISSION flg=0x10 pkg=com.andrerinas.headunitrevived (has extras) }
+08-31 19:14:31.962 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=com.andrerinas.openheadunit.ACTION_USB_DEVICE_PERMISSION flg=0x10 pkg=com.andrerinas.headunitrevived (has extras) }
+08-31 19:14:33.065 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x11000010 (has extras) }
+08-31 19:14:33.088 V/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 1 USB device(s), 1 usable for Android Auto
+08-31 19:14:33.089 V/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Xiaomi POCO X3 NFC (VID: 05C6 PID: 90DB) [class 00/00/00, no permission] accepted: ADB | if0 FF/FF/30 (1xbulkIn+1xbulkOut) | if1 FF/FF/40 (1xbulkIn+1xbulkOut+1 other) | if2 FF/FF/50 (1xbulkIn+1xbulkOut+1 other) | if3 FF/FF/80 (1xbulkIn) | if4 FF/FF/70 (1xbulkIn) | if5 FF/42/01 (1xbulkIn+1xbulkOut)
+08-31 19:14:33.091 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x11000010 (has extras) }
+08-31 19:14:33.092 I/OPENHU  (18395): [2] UsbLauncherListener.onUsbAttach | Normal USB device attached: Xiaomi POCO X3 NFC (VID: 05C6 PID: 90DB). Will check auto-connect in 2000ms...
+08-31 19:14:35.123 V/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: service scan (force=true) sees 1 USB device(s), 1 usable for Android Auto
+08-31 19:14:35.126 V/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Xiaomi POCO X3 NFC (VID: 05C6 PID: 90DB) [class 00/00/00, no permission] accepted: ADB | if0 FF/FF/30 (1xbulkIn+1xbulkOut) | if1 FF/FF/40 (1xbulkIn+1xbulkOut+1 other) | if2 FF/FF/50 (1xbulkIn+1xbulkOut+1 other) | if3 FF/FF/80 (1xbulkIn) | if4 FF/FF/70 (1xbulkIn) | if5 FF/42/01 (1xbulkIn+1xbulkOut)
+08-31 19:14:44.281 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+08-31 19:14:44.855 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x11000010 (has extras) }
+08-31 19:14:44.858 I/OPENHU  (18395): [2] UsbLauncherListener.onUsbAttach | Normal USB device attached: Xiaomi POCO X3 NFC (VID: 18D1 PID: 4EE6). Will check auto-connect in 2000ms...
+08-31 19:14:45.580 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+08-31 19:14:46.228 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x11000010 (has extras) }
+08-31 19:14:46.229 I/OPENHU  (18395): [2] UsbLauncherListener.onUsbAttach | Normal USB device attached: Xiaomi POCO X3 NFC (VID: 05C6 PID: 90DB). Will check auto-connect in 2000ms...
+08-31 19:15:00.625 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+08-31 19:15:01.293 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x11000010 (has extras) }
+08-31 19:15:01.301 I/OPENHU  (18395): [2] UsbLauncherListener.onUsbAttach | Normal USB device attached: Xiaomi POCO X3 NFC (VID: 05C6 PID: 90DB). Will check auto-connect in 2000ms...
+08-31 19:15:12.508 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+08-31 19:15:13.110 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x11000010 (has extras) }
+08-31 19:15:13.111 I/OPENHU  (18395): [2] UsbLauncherListener.onUsbAttach | Normal USB device attached: Xiaomi POCO X3 NFC (VID: 18D1 PID: 4EE6). Will check auto-connect in 2000ms...
+08-31 19:15:15.123 V/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: service scan (force=true) sees 1 USB device(s), 1 usable for Android Auto
+08-31 19:15:15.124 V/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Xiaomi POCO X3 NFC (VID: 18D1 PID: 4EE6) [class 00/00/00, no permission] accepted: PTP | if0 06/01/01 (1xbulkIn+1xbulkOut+1 other) | if1 FF/42/01 (1xbulkIn+1xbulkOut)
+08-31 19:15:15.126 I/OPENHU  (18395): [2] UsbLauncherManager.checkAlreadyConnected | Fallback: force=true and found single Google normal-mode device Xiaomi POCO X3 NFC (VID: 18D1 PID: 4EE6). Switching to accessory mode.
+08-31 19:16:00.139 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+08-31 19:16:00.139 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=com.andrerinas.openheadunit.ACTION_USB_DEVICE_PERMISSION flg=0x10 pkg=com.andrerinas.headunitrevived (has extras) }
+08-31 19:16:01.019 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x11000010 (has extras) }
+08-31 19:16:01.024 I/OPENHU  (18395): [2] UsbLauncherListener.onUsbAttach | Normal USB device attached: Xiaomi POCO X3 NFC (VID: 18D1 PID: 4EE6). Will check auto-connect in 2000ms...
+08-31 19:16:03.047 I/OPENHU  (18395): [2] UsbLauncherManager.checkAlreadyConnected | Fallback: force=true and found single Google normal-mode device Xiaomi POCO X3 NFC (VID: 18D1 PID: 4EE6). Switching to accessory mode.
+08-31 19:16:04.104 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+08-31 19:16:04.105 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=com.andrerinas.openheadunit.ACTION_USB_DEVICE_PERMISSION flg=0x10 pkg=com.andrerinas.headunitrevived (has extras) }
+08-31 19:16:05.095 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x11000010 (has extras) }
+08-31 19:16:05.101 I/OPENHU  (18395): [2] UsbLauncherListener.onUsbAttach | Normal USB device attached: Xiaomi POCO X3 NFC (VID: 18D1 PID: 4EE6). Will check auto-connect in 2000ms...
+08-31 19:16:07.114 I/OPENHU  (18395): [2] UsbLauncherManager.checkAlreadyConnected | Fallback: force=true and found single Google normal-mode device Xiaomi POCO X3 NFC (VID: 18D1 PID: 4EE6). Switching to accessory mode.
+08-31 19:16:22.172 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+08-31 19:16:22.173 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=com.andrerinas.openheadunit.ACTION_USB_DEVICE_PERMISSION flg=0x10 pkg=com.andrerinas.headunitrevived (has extras) }
+08-31 19:16:22.832 I/OPENHU  (18395): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_ATTACHED flg=0x11000010 (has extras) }
+08-31 19:16:22.837 I/OPENHU  (18395): [2] UsbLauncherListener.onUsbAttach | Normal USB device attached: Xiaomi POCO X3 NFC (VID: 05C6 PID: 90DB). Will check auto-connect in 2000ms...
+08-31 19:16:24.845 V/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: service scan (force=true) sees 1 USB device(s), 1 usable for Android Auto
+08-31 19:16:24.846 V/OPENHU  (18395): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Xiaomi POCO X3 NFC (VID: 05C6 PID: 90DB) [class 00/00/00, no permission] accepted: ADB | if0 FF/FF/30 (1xbulkIn+1xbulkOut) | if1 FF/FF/40 (1xbulkIn+1xbulkOut+1 other) | if2 FF/FF/50 (1xbulkIn+1xbulkOut+1 other) | if3 FF/FF/80 (1xbulkIn) | if4 FF/FF/70 (1xbulkIn) | if5 FF/42/01 (1xbulkIn+1xbulkOut)

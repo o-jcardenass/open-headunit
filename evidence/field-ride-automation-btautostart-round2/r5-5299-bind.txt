@@ -1,0 +1,8 @@
+678:09-03 13:05:24.090 W/OPENHU  (22025): [2] AutomationEffectRunner.run | AutomationMarker: R5_cycle0_launch
+1237:09-03 13:05:25.225 I/OPENHU  (22025): [54] 1.invokeSuspend | WppTcpServer: listening for Android Auto on TCP 5299
+15325:09-03 13:05:42.724 W/OPENHU  (22025): [2] AutomationEffectRunner.run | AutomationMarker: R5_cycle1
+15658:09-03 13:05:43.001 I/OPENHU  (22025): [52] 1.invokeSuspend | WppTcpServer: listening for Android Auto on TCP 5299
+32675:09-03 13:06:01.210 W/OPENHU  (22025): [2] AutomationEffectRunner.run | AutomationMarker: R5_cycle2
+33095:09-03 13:06:01.535 I/OPENHU  (22025): [52] 1.invokeSuspend | WppTcpServer: listening for Android Auto on TCP 5299
+51819:09-03 13:06:19.705 W/OPENHU  (22025): [2] AutomationEffectRunner.run | AutomationMarker: R5_cycle3
+52160:09-03 13:06:19.991 I/OPENHU  (22025): [53] 1.invokeSuspend | WppTcpServer: listening for Android Auto on TCP 5299

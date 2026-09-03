@@ -1,0 +1,39 @@
+--- HU station at launch: mWifiInfo SSID: "Pegue Cdesta", BSSID: f4:52:46:60:8d:4e, MAC: fe:87:f2:8d:8f:91, IP: /192.168.1.15, Security type: 2, Supplicant state: COMPLETED, Wi-Fi standard: 5, RSSI: -19, Link speed: 292Mbps, Tx Link speed: 292Mbps, Max Supported Tx Link speed: 433Mbps, Rx Link speed: 6Mbps, Max Supported Rx Link speed: 433Mbps, Frequency: 5260MHz ---
+----- channel=36 -----
+minted SSID: DIRECT-5N-Navegadortz2
+HU freq line:  frequency: 5180
+scan result :   c2:f7:6a:32:cf:c5       5180    -24(0:-31/1:-25)     3.148    DIRECT-5N-Navegadortz2            [WPA2-PSK-CCMP][RSN-PSK-CCMP][ESS][WPS]
+-- HU decisive lines --
+  09-01 16:28:06.650 I/OPENHU  ( 7594): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band. Chosen by the user.
+  09-01 16:28:06.651 I/OPENHU  ( 7594): [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is channel 36 (5180 MHz), asked for as a fixed 5180 MHz.
+  09-01 16:28:06.678 I/OPENHU  ( 7594): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+  09-01 16:28:06.775 I/OPENHU  ( 7594): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+  09-01 16:28:06.844 I/OPENHU  ( 7594): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-3 (EUI-64): C2:F7:6A:32:CF:C5
+  09-01 16:28:06.845 I/OPENHU  ( 7594): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: C2:F7:6A:32:CF:C5
+  09-01 16:28:06.848 I/OPENHU  ( 7594): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-5N-Navegadortz2, BSSID: C2:F7:6A:32:CF:C5 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-3, Freq: 5180 MHz (5GHz), 5180 MHz was asked for
+  09-01 16:28:06.860 I/OPENHU  ( 7594): [66] WifiDirectManager.onGroupInfoAvailable$lambda$5 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-5N-Navegadortz2, IP=192.168.49.1, BSSID=C2:F7:6A:32:CF:C5
+  09-01 16:28:07.685 I/OPENHU  ( 7594): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+  09-01 16:28:07.696 I/OPENHU  ( 7594): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-3 (EUI-64): C2:F7:6A:32:CF:C5
+  09-01 16:28:07.697 I/OPENHU  ( 7594): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: C2:F7:6A:32:CF:C5
+  09-01 16:28:07.698 I/OPENHU  ( 7594): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-5N-Navegadortz2, BSSID: C2:F7:6A:32:CF:C5 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-3, Freq: 5180 MHz (5GHz), 5180 MHz was asked for
+  09-01 16:28:07.704 I/OPENHU  ( 7594): [68] WifiDirectManager.onGroupInfoAvailable$lambda$5 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-5N-Navegadortz2, IP=192.168.49.1, BSSID=C2:F7:6A:32:CF:C5
+  09-01 16:28:07.708 I/OPENHU  ( 7594): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+  09-01 16:28:07.713 I/OPENHU  ( 7594): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-3 (EUI-64): C2:F7:6A:32:CF:C5
+  09-01 16:28:07.714 I/OPENHU  ( 7594): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: C2:F7:6A:32:CF:C5
+  09-01 16:28:07.716 I/OPENHU  ( 7594): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-5N-Navegadortz2, BSSID: C2:F7:6A:32:CF:C5 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-3, Freq: 5180 MHz (5GHz), 5180 MHz was asked for
+  09-01 16:28:07.722 I/OPENHU  ( 7594): [69] WifiDirectManager.onGroupInfoAvailable$lambda$5 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-5N-Navegadortz2, IP=192.168.49.1, BSSID=C2:F7:6A:32:CF:C5
+  09-01 16:28:21.662 I/OPENHU  ( 7594): [51] 2.invokeSuspend | NativeAA: Connection accepted from POCO X3 NFC (DC:B7:2E:5E:4E:59) on local radio [Navegadortz2]
+  09-01 16:28:23.468 I/OPENHU  ( 7594): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+  09-01 16:28:23.474 I/OPENHU  ( 7594): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-3 (EUI-64): C2:F7:6A:32:CF:C5
+  09-01 16:28:23.475 I/OPENHU  ( 7594): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: C2:F7:6A:32:CF:C5
+  09-01 16:28:23.476 I/OPENHU  ( 7594): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-5N-Navegadortz2, BSSID: C2:F7:6A:32:CF:C5 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-3, Freq: 5180 MHz (5GHz), 5180 MHz was asked for
+  09-01 16:28:23.484 I/OPENHU  ( 7594): [74] WifiDirectManager.onGroupInfoAvailable$lambda$5 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-5N-Navegadortz2, IP=192.168.49.1, BSSID=C2:F7:6A:32:CF:C5
+  09-01 16:28:23.644 I/OPENHU  ( 7594): [50] 1.invokeSuspend | WirelessServer: Incoming connection detected from /192.168.49.60
+  09-01 16:28:23.892 I/OPENHU  ( 7594): [60] AapSslContext.performHandshake | SSL handshake complete. Session id: DVZ4uA5f2GuV8RqAgbIHQjjr5AwTFztZ0f9WHeeZB8A=
+  09-01 16:28:23.893 D/OPENHU  ( 7594): [60] AapTransport.handshake | Handshake: SSL handshake complete. TS: 32778343
+  createGroup SUCCESS count: 1
+  SSL handshake count: 2
+  Incoming connection detected count: 1
+  MATCH! Starting AapService count: 1
+  p2p ifaces: p2p-wlan0-2 p2p-wlan0-3 
+

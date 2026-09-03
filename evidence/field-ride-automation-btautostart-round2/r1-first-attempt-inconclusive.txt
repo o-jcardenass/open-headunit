@@ -1,0 +1,8 @@
+6963:09-03 12:51:26.933 I/OPENHU  (12266): [2] AutoStartReceiver.onReceive | BT Device connected: POCO X3 NFC (DC:B7:2E:5E:4E:59)
+6965:09-03 12:51:26.934 I/OPENHU  (12266): [2] AutoStartReceiver.onReceive | MATCH! Starting AapService via Bluetooth Auto-start...
+13544:09-03 12:51:33.636 I/OPENHU  (12266): [2] AapService.emitSessionState | AapService: session state connecting
+13560:09-03 12:51:33.649 I/OPENHU  (12266): [2] AapService.emitSessionState | AapService: session state connected
+14971:09-03 12:51:34.724 I/OPENHU  (12266): [2] AapService.emitSessionState | AapService: session state projecting
+22711:09-03 12:51:39.543 W/OPENHU  (12266): [2] AutomationEffectRunner.run | AutomationMarker: R1
+62375:09-03 12:52:02.995 W/OPENHU  (12266): [2] AutomationEffectRunner.run | AutomationMarker: R1_trigger_bt_off
+150151:09-03 12:52:51.191 W/OPENHU  (12266): [2] AutomationEffectRunner.run | AutomationMarker: R1_end

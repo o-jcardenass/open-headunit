@@ -1,0 +1,50 @@
+--------- beginning of main
+08-31 17:40:46.469 D/OPENHU  (29108): [2] App.onCreate | native library dir /data/app/~~P_mPv6ix-Km1-qDlVd6Ytg==/com.andrerinas.headunitrevived-W0fbQWyeKGvBzSVN6jlo3Q==/lib/arm64
+08-31 17:40:46.469 D/OPENHU  (29108): [2] App.onCreate |    libusb1.0.so
+08-31 17:40:46.470 D/OPENHU  (29108): [2] App.onCreate |    libavutil.so
+08-31 17:40:46.470 D/OPENHU  (29108): [2] App.onCreate |    libconscrypt_jni.so
+08-31 17:40:46.470 D/OPENHU  (29108): [2] App.onCreate |    libswscale.so
+08-31 17:40:46.471 D/OPENHU  (29108): [2] App.onCreate |    libusbhelper.so
+08-31 17:40:46.471 D/OPENHU  (29108): [2] App.onCreate |    libavcodec.so
+08-31 17:40:46.471 D/OPENHU  (29108): [2] App.onCreate |    libhur_soft_hevc.so
+08-31 17:40:46.625 I/OPENHU  (29108): [2] MainActivity.logLaunchSource | App launched by user tap (referrer: android-app://com.android.shell)
+08-31 17:40:46.793 D/OPENHU  (29108): [2] UsbReceiver.<init> | UsbReceiver registered
+08-31 17:40:46.805 V/OPENHU  (29108): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 4 USB device(s), 1 usable for Android Auto
+08-31 17:40:46.805 V/OPENHU  (29108): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Kingston DataTraveler G3  (VID: 0930 PID: 6545) [class 00/00/00, no permission] rejected: no Android interface | if0 08/06/50 (bulkIn+bulkOut)
+08-31 17:40:46.805 V/OPENHU  (29108): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Fresco Logic, Inc¿Ä Generic Billboard Device (VID: 1D5C PID: 7102) [class 11/00/00, no permission] rejected: no Android interface | if0 11/00/00 (no endpoints)
+08-31 17:40:46.806 V/OPENHU  (29108): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Generic USB3.0 Card Reader (VID: 05E3 PID: 0749) [class 00/00/00, no permission] rejected: no Android interface | if0 08/06/50 (bulkIn+bulkOut)
+08-31 17:40:46.806 V/OPENHU  (29108): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   ASIX AX88179B (VID: 0B95 PID: 1790) [class FF/FF/00, permission] accepted: AOAP (unnamed vendor interface) | if0 FF/FF/00 (bulkIn+bulkOut+1 other)
+08-31 17:40:46.923 D/OPENHU  (29108): [2] MainActivity.requestPermissions | All required permissions already granted.
+08-31 17:40:46.928 I/OPENHU  (29108): [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+08-31 17:40:47.386 I/OPENHU  (29108): [2] MainActivity.logLaunchSource | App launched by user tap (referrer: android-app://com.android.shell)
+08-31 17:40:47.467 D/OPENHU  (29108): [2] MainActivity.requestPermissions | All required permissions already granted.
+08-31 17:40:47.471 I/OPENHU  (29108): [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+08-31 17:40:47.492 I/OPENHU  (29108): [2] AapService.onCreate | AapService creating...
+08-31 17:40:47.531 D/OPENHU  (29108): [2] UsbReceiver.<init> | UsbReceiver registered
+08-31 17:40:47.538 I/OPENHU  (29108): [2] AapService.registerReceivers | Registered runtime MEDIA_BUTTON receiver
+08-31 17:40:47.539 I/OPENHU  (29108): [2] AapService.registerReceivers | Registered dynamic WiFi Auto-start receiver
+08-31 17:40:47.541 I/OPENHU  (29108): [2] AapService.registerReceivers | Registered wake detection receiver (18 actions)
+08-31 17:40:47.562 D/OPENHU  (29108): [2] AapService.updateMediaSessionState | MediaSession: State updated to STOPPED, positionMs=0
+08-31 17:40:47.565 I/OPENHU  (29108): [2] WifiLauncherManager.setActive | WifiLauncher: Initializing WiFi Mode: HELPER
+08-31 17:40:47.566 D/OPENHU  (29108): [2] WifiLauncherSharedServices.startWirelessServer | AapService: Starting the wireless server on 5288 - no server yet.
+08-31 17:40:47.570 I/OPENHU  (29108): [2] WirelessServer.start | WirelessServer: binding port 5288...
+08-31 17:40:47.571 I/OPENHU  (29108): [2] WifiLauncherHelper.start | WifiLauncher: Using strategy NEARBY_DEVICES.
+08-31 17:40:47.582 I/OPENHU  (29108): [2748] 1.invokeSuspend | Wireless Server listening on port 5288
+08-31 17:40:47.591 I/OPENHU  (29108): [2] NearbyManager.start | NearbyManager: Starting Nearby (Discoverer only)...
+08-31 17:40:47.592 I/OPENHU  (29108): [2] NearbyManager.startDiscovery | NearbyManager: Requesting Discovery with SERVICE_ID: com.andrerinas.openhu (Strategy: P2P_POINT_TO_POINT)
+08-31 17:40:47.594 I/OPENHU  (29108): [2748] WirelessServer.logLocalNetworkInterfaces | Interface: wlan0, IP: 192.168.1.5
+08-31 17:40:47.595 D/OPENHU  (29108): [2748] 1.invokeSuspend | WirelessServer: Waiting for TCP connection on port 5288...
+08-31 17:40:47.598 I/OPENHU  (29108): [2] AapService.registerNetworkMonitor | NetworkMonitor: Registered network change listener
+08-31 17:40:47.606 I/OPENHU  (29108): [2751] 1.onAvailable | NetworkMonitor: Network available: 408
+08-31 17:40:47.610 D/OPENHU  (29108): [2751] 1.onCapabilitiesChanged | NetworkMonitor: Capabilities changed: 408 ‚Üí [ Transports: WIFI Capabilities: NOT_METERED&INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN&VALIDATED&NOT_ROAMING&FOREGROUND&NOT_CONGESTED&NOT_SUSPENDED&NOT_VCN_MANAGED LinkUpBandwidth>=58601Kbps LinkDnBandwidth>=56319Kbps TransportInfo: <SSID: <unknown ssid>, BSSID: 02:00:00:00:00:00, MAC: 02:00:00:00:00:00, IP: /192.168.1.5, Security type: 2, Supplicant state: COMPLETED, Wi-Fi standard: 11ac, RSSI: -31, Link speed: 433Mbps, Tx Link speed: 433Mbps, Max Supported Tx Link speed: 433Mbps, Calculated Tx : 407Mbps, Rx Link speed: 433Mbps, Max Supported Rx Link speed: 433Mbps, Calculated Rx : 5Mbps, Frequency: 5260MHz, Net ID: -1, Metered hint: false, score: 100, isUsable: true, CarrierMerged: false, SubscriptionId: -1, IsPrimary: -1, Trusted: true, Restricted: false, Ephemeral: false, OEM paid: false, OEM private: false, OSU AP: false, FQDN: <none>, Provider friendly name: <none>, Requesting package name: <none><none>MLO Information: , Is TID-To-Link negotiation supported by the AP: false, AP MLD Address: <none>, AP MLO Link Id: <none>, AP MLO Affiliated links: <none>, Vendor Data: <none>> SignalStrength: -31 UnderlyingNetworks: Null]
+08-31 17:40:48.125 D/OPENHU  (29108): [2] 1.invoke | NearbyManager: [OK] Discovery started.
+08-31 17:40:48.445 D/OPENHU  (29108): [2] 1.invokeSuspend | NetworkMonitor: no discovery loop to kick
+08-31 17:41:01.267 V/OPENHU  (29108): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB button sees 4 USB device(s), 1 usable for Android Auto
+08-31 17:41:01.267 V/OPENHU  (29108): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Kingston DataTraveler G3  (VID: 0930 PID: 6545) [class 00/00/00, no permission] rejected: no Android interface | if0 08/06/50 (bulkIn+bulkOut)
+08-31 17:41:01.267 V/OPENHU  (29108): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Fresco Logic, Inc¿Ä Generic Billboard Device (VID: 1D5C PID: 7102) [class 11/00/00, no permission] rejected: no Android interface | if0 11/00/00 (no endpoints)
+08-31 17:41:01.267 V/OPENHU  (29108): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Generic USB3.0 Card Reader (VID: 05E3 PID: 0749) [class 00/00/00, no permission] rejected: no Android interface | if0 08/06/50 (bulkIn+bulkOut)
+08-31 17:41:01.267 V/OPENHU  (29108): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   ASIX AX88179B (VID: 0B95 PID: 1790) [class FF/FF/00, permission] accepted: AOAP (unnamed vendor interface) | if0 FF/FF/00 (bulkIn+bulkOut+1 other)
+08-31 17:41:01.269 I/OPENHU  (29108): [2] HomeFragment.setupListeners$lambda$13 | USB button: Single device found - ASIX AX88179B (VID: 0B95 PID: 1790), auto-connecting
+08-31 17:41:01.269 I/OPENHU  (29108): [2] MainActivity.beginAutoConnect | Auto-connect: begin (USB button auto-connect, mode=OVERLAY)
+08-31 17:41:01.282 E/OPENHU  (29108): [2750] UsbAccessoryMode.switch | Error controlTransfer len: -1
+08-31 17:41:01.282 I/OPENHU  (29108): [2750] UsbAccessoryMode.connectAndSwitch | Result: false

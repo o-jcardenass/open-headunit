@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+    <boolean name="auto-start-on-wifi" value="false" />
+    <set name="usb-blacklist" />
+    <boolean name="auto-start-on-boot" value="false" />
+    <set name="auto-start-bt-macs">
+        <string>A0:46:5A:97:E4:95</string>
+    </set>
+    <boolean name="auto-start-on-usb" value="false" />
+    <string name="auto-start-wifi-ssid"></string>
+</map>

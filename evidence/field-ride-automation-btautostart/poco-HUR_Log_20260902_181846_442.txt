@@ -1,0 +1,865 @@
+--------- beginning of main
+09-02 18:17:51.058 29092 29092 W WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+09-02 18:17:51.058 29092 29092 W WindowOnBackDispatcher: Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+09-02 18:17:51.063 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:b902de7: onRequestHide at ORIGIN_CLIENT reason HIDE_SOFT_INPUT fromUser false
+09-02 18:17:51.063 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:b902de7: onFailed at PHASE_CLIENT_VIEW_SERVED
+09-02 18:17:51.071 29092 29092 I OPENHU  : [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+09-02 18:18:00.152 29092 29092 I OPENHU  : [2] HomeFragment.showNativeAaDeviceSelector$lambda$27 | HomeFragment: Manually selected motorola edge 30 neo for Native-AA poke
+09-02 18:18:00.152 29092 29092 I OPENHU  : [2] MainActivity.beginAutoConnect | Auto-connect: begin (manual Native-AA poke, mode=OVERLAY)
+09-02 18:18:00.163 29092 29092 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=false callback=android.view.ViewRootImpl$$ExternalSyntheticLambda13@3a94004
+09-02 18:18:00.184 29092 29092 I OPENHU  : [2] AapService.onStartCommand | AapService: Received manual Native-AA poke request for A0:46:5A:97:E4:95
+09-02 18:18:00.184 29092 29092 I OPENHU  : [2] AapService.onStartCommand | AapService: Initializing Native AA mode before poke...
+09-02 18:18:00.185 29092 29092 I OPENHU  : [2] WifiLauncherManager.setActive | WifiLauncher: Initializing WiFi Mode: NATIVE
+09-02 18:18:00.185 29092 29092 I OPENHU  : [2] WifiDirectManager.<init> | WifiDirectManager: Device supports WiFi Direct. Initializing...
+09-02 18:18:00.189 29092 29092 I OPENHU  : [2] WirelessServer.start | WirelessServer: binding port 5288...
+09-02 18:18:00.190 29092 29092 I OPENHU  : [2] WifiDirectManager.claimNativeCreateWindow | WifiDirectManager: a Native AA group create is claimed (bringing the Native AA group up); a refresh in the next 15s waits for it.
+09-02 18:18:00.191 29092 29114 I OPENHU  : [167] 1.invokeSuspend | Wireless Server listening on port 5288
+09-02 18:18:00.191 29092 29092 I OPENHU  : [2] WifiDirectManager.startNativeAaQuietHost | WifiDirectManager: startNativeAaQuietHost() requested. Removing old group if any...
+09-02 18:18:00.191 29092 29092 I OPENHU  : [2] WifiDirectManager.claimNativeCreateWindow | WifiDirectManager: a Native AA group create is claimed (recreating the group); a refresh in the next 15s waits for it.
+09-02 18:18:00.191 29092 29092 I OPENHU  : [2] WifiDirectManager.invalidateNativeGroupCredentials | WifiDirectManager: the group is being removed (recreating the group), so its credentials are no longer handed out.
+09-02 18:18:00.192 29092 29114 I OPENHU  : [167] WirelessServer.logLocalNetworkInterfaces | Interface: rmnet_data1, IP: 9.3.231.241
+09-02 18:18:00.193 29092 29092 I OPENHU  : [2] NativeAaHandshakeManager.start | NativeAA: Starting Bluetooth Handshake Servers (primary radio [POCO X3 NFC])...
+09-02 18:18:00.195 29092 29092 I OPENHU  : [2] NativeAaHandshakeManager.shouldRegisterDummyHfp | NativeAA: radio [POCO X3 NFC] gets the stand-in HFP record, because it advertises no Hands-Free.
+09-02 18:18:00.199 29092 19763 I OPENHU  : [307] 1.invokeSuspend | NativeAA: ACTIVELY LISTENING on Android Auto UUID (4de17a00-52cb-11e6-bdf4-0800200c9a66) on radio [POCO X3 NFC]... Waiting for phone to connect back!
+09-02 18:18:00.207 29092 29092 I OPENHU  : [2] NativeAaHandshakeManager.manualPoke | NativeAA: Manual poke requested for motorola edge 30 neo (A0:46:5A:97:E4:95)
+09-02 18:18:00.208 29092 29092 I OPENHU  : [2] 1.invokeSuspend | AapService: Mode requires WiFi Direct — ensuring hotspot is disabled first...
+09-02 18:18:00.208 29092 19950 I OPENHU  : [342] 1.invokeSuspend | NativeAA: WiFi credentials not ready before manual poke. Requesting WiFi refresh...
+09-02 18:18:00.208 29092 19950 I OPENHU  : [342] WifiLauncherNative.triggerWifiDirectRefresh | AapService: WiFi Direct credential refresh requested.
+09-02 18:18:00.209 29092 29092 I OPENHU  : [2] HotspotManager.setHotspotEnabled | HotspotManager: Setting hotspot enabled=false (API 35, canWriteSettings=false)
+09-02 18:18:00.209 29092 29092 I TetheringManager: stopTethering caller:com.andrerinas.headunitrevived
+09-02 18:18:00.210 29092 29092 W OPENHU  : [2] HotspotManager.startOnBand | HotspotManager: Cannot turn off the hotspot without the "Modify system settings" permission (WRITE_SETTINGS). Grant it in the setup wizard or Settings > Permissions.
+09-02 18:18:00.211 29092 29092 I OPENHU  : [2] 1.onReceive | WifiDirectManager: WIFI_P2P_STATE_CHANGED_ACTION state=2
+09-02 18:18:00.211 29092 29092 I OPENHU  : [2] 1.invoke | WifiDirectManager: requestDeviceInfo success: 02:00:00:00:00:00
+09-02 18:18:00.213 29092 29092 I OPENHU  : [2] WifiDirectManager.refreshNativeCredentials$lambda$19 | WifiDirectManager: refresh: a group was asked for 22ms ago and has not answered yet, so nothing is remade underneath it.
+09-02 18:18:00.213 29092 29092 I OPENHU  : [2] WifiDirectManager.refreshNativeCredentials$lambda$19 | WifiDirectManager: refresh: asking again in 15478ms, once that create's grace is up.
+09-02 18:18:00.214 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:1e27c1b2: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+09-02 18:18:00.232 29092 29113 E OPENHU  : [166] 1.invokeSuspend | WppTcpServer: could not listen on 5299: bind failed: EADDRINUSE (Address already in use)
+09-02 18:18:00.232 29092 29113 E OPENHU  : java.net.BindException: bind failed: EADDRINUSE (Address already in use)
+09-02 18:18:00.232 29092 29113 E OPENHU  : 	at libcore.io.IoBridge.bind(IoBridge.java:149)
+09-02 18:18:00.232 29092 29113 E OPENHU  : 	at java.net.PlainSocketImpl.socketBind(PlainSocketImpl.java:162)
+09-02 18:18:00.232 29092 29113 E OPENHU  : 	at java.net.AbstractPlainSocketImpl.bind(AbstractPlainSocketImpl.java:427)
+09-02 18:18:00.232 29092 29113 E OPENHU  : 	at java.net.ServerSocket.bind(ServerSocket.java:399)
+09-02 18:18:00.232 29092 29113 E OPENHU  : 	at java.net.ServerSocket.<init>(ServerSocket.java:259)
+09-02 18:18:00.232 29092 29113 E OPENHU  : 	at java.net.ServerSocket.<init>(ServerSocket.java:151)
+09-02 18:18:00.232 29092 29113 E OPENHU  : 	at com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.WppTcpServer$start$1.invokeSuspend(WppTcpServer.kt:112)
+09-02 18:18:00.232 29092 29113 E OPENHU  : 	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+09-02 18:18:00.232 29092 29113 E OPENHU  : 	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:108)
+09-02 18:18:00.232 29092 29113 E OPENHU  : 	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:115)
+09-02 18:18:00.232 29092 29113 E OPENHU  : 	at kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:103)
+09-02 18:18:00.232 29092 29113 E OPENHU  : 	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:584)
+09-02 18:18:00.232 29092 29113 E OPENHU  : 	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:793)
+09-02 18:18:00.232 29092 29113 E OPENHU  : 	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:697)
+09-02 18:18:00.232 29092 29113 E OPENHU  : 	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:684)
+09-02 18:18:00.232 29092 29113 E OPENHU  : Caused by: android.system.ErrnoException: bind failed: EADDRINUSE (Address already in use)
+09-02 18:18:00.232 29092 29113 E OPENHU  : 	at libcore.io.Linux.bind(Native Method)
+09-02 18:18:00.232 29092 29113 E OPENHU  : 	at libcore.io.ForwardingOs.bind(ForwardingOs.java:138)
+09-02 18:18:00.232 29092 29113 E OPENHU  : 	at libcore.io.ForwardingOs.bind(ForwardingOs.java:138)
+09-02 18:18:00.232 29092 29113 E OPENHU  : 	at libcore.io.IoBridge.bind(IoBridge.java:145)
+09-02 18:18:00.232 29092 29113 E OPENHU  : 	... 14 more
+09-02 18:18:00.714 29092 29092 I OPENHU  : [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Attempting createGroup for Native AA (Attempt 0)...
+09-02 18:18:00.714 29092 29092 I OPENHU  : [2] WifiDirectManager.createQuietGroup | WifiDirectManager: this unit's WiFi radio reports a 5 GHz band.
+09-02 18:18:00.715 29092 29092 I OPENHU  : [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Band preference is automatic (5 GHz, then whatever this unit will host).
+09-02 18:18:00.715 29092 29092 I OPENHU  : [2] WifiDirectManager.chooseNativeGroupIdentity | WifiDirectManager: group identity: asking for the kept network DIRECT-X3-Navegadortz again, so a phone that saved it can rejoin without being set up for a new one.
+09-02 18:18:00.716 29092 29092 I OPENHU  : [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band.
+09-02 18:18:00.716 29092 29092 I OPENHU  : [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is automatic, so the driver picks within the band.
+09-02 18:18:00.733 29092 29092 I OPENHU  : [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+09-02 18:18:00.843 29092 29092 I OPENHU  : [2] 1.onReceive | WifiDirectManager: Connected. Requesting info...
+09-02 18:18:00.846 29092 29092 I OPENHU  : [2] 1.onReceive | WifiDirectManager: Connected. Requesting info...
+09-02 18:18:00.849 29092 29092 I OPENHU  : [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-02 18:18:00.850 29092 29092 I OPENHU  : [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-02 18:18:00.851 29092 29092 I OPENHU  : [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-02 18:18:00.852 29092 29092 I OPENHU  : [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-02 18:18:00.854 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-02 18:18:00.855 29092 29092 W headunitrevived: Accessing hidden method Landroid/net/wifi/p2p/WifiP2pGroup;->getGroupOwnerBssid()Landroid/net/MacAddress; (blocked, reflection, denied)
+09-02 18:18:00.856 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p0 (EUI-64): D2:C7:57:67:AD:D6
+09-02 18:18:00.856 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: D2:C7:57:67:AD:D6
+09-02 18:18:00.857 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-X3-Navegadortz, BSSID: D2:C7:57:67:AD:D6 (source=IPv6 link-local), GO: true, IFACE: p2p0, Freq: 5240 MHz (5GHz)
+09-02 18:18:00.858 29092 29092 I OPENHU  : [2] WifiDirectManager.notifyNativeGroupStarted | WifiDirectManager: Native AA WiFi Direct: 5GHz (5240 MHz), 5GHz requested, SSID=DIRECT-X3-Navegadortz
+09-02 18:18:00.859 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-02 18:18:00.859 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == BSSID source dump (iface=p2p0) ==
+09-02 18:18:00.859 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   static override (Settings)       = 0
+09-02 18:18:00.859 29092 29092 W headunitrevived: Accessing hidden method Landroid/net/wifi/p2p/WifiP2pGroup;->getGroupOwnerBssid()Landroid/net/MacAddress; (blocked, reflection, denied)
+09-02 18:18:00.860 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   getGroupOwnerBssid()             = null
+09-02 18:18:00.860 29092 20118 I OPENHU  : [361] WifiDirectManager.onGroupInfoAvailable$lambda$7 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:00.861 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (p2p0)           = d2:c7:57:67:ad:d6
+09-02 18:18:00.861 29092 20118 I OPENHU  : [361] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1). Updating and Triggering Poke.
+09-02 18:18:00.861 29092 20118 I OPENHU  : [361] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:00.862 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (any p2p/ap)     = d2:c7:57:67:ad:d6
+09-02 18:18:00.865 29092 29092 W OPENHU  : [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: No valid MAC found in NetworkInterface scan for p2p0
+09-02 18:18:00.865 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   NetworkInterface.hardwareAddress = 00:00:00:00:00:00
+09-02 18:18:00.865 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   lastKnownBssid (null)            = null
+09-02 18:18:00.865 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   requestDeviceInfo                = 02:00:00:00:00:00
+09-02 18:18:00.865 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   group.owner.deviceAddress        = 02:00:00:00:00:00
+09-02 18:18:00.862 29092 29092 W headunitrevived: type=1400 audit(0.0:5998): avc:  denied  { search } for  name="net" dev="sysfs" ino=38655 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:sysfs_net:s0 tclass=dir permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:00.872 29092 29092 W headunitrevived: type=1400 audit(0.0:6000): avc:  denied  { read } for  name="net" dev="sysfs" ino=38655 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:sysfs_net:s0 tclass=dir permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:00.874 29092 29092 I OPENHU  : [2] WifiDirectManager.getMacFromShell | WifiDirectManager: getMacFromShell: Target failed, scanning ALL interfaces in sysfs...
+09-02 18:18:00.874 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   sysfs / ip link                  = null
+09-02 18:18:00.875 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   Settings.Secure p2p address      = null
+09-02 18:18:00.875 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   reflection over WifiP2pGroup     = null
+09-02 18:18:00.875 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == end BSSID source dump ==
+09-02 18:18:00.875 29092 29092 W headunitrevived: Accessing hidden method Landroid/net/wifi/p2p/WifiP2pGroup;->getGroupOwnerBssid()Landroid/net/MacAddress; (blocked, reflection, denied)
+09-02 18:18:00.877 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p0 (EUI-64): D2:C7:57:67:AD:D6
+09-02 18:18:00.877 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: D2:C7:57:67:AD:D6
+09-02 18:18:00.877 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-X3-Navegadortz, BSSID: D2:C7:57:67:AD:D6 (source=IPv6 link-local), GO: true, IFACE: p2p0, Freq: 5240 MHz (5GHz)
+09-02 18:18:00.877 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: group identity ssid=DIRECT-X3-Navegadortz persistent=yes (netId 1) asked=persistent matchesRequest=yes bssid=D2:C7:57:67:AD:D6 stable=yes (same name and same BSSID as the last group) source=IPv6 link-local
+09-02 18:18:00.879 29092 29092 I OPENHU  : [2] WifiDirectManager.logStationCoexistence | WifiDirectManager: This unit is not connected to any other WiFi network while hosting the WiFi Direct group on 5240 MHz. The radio serves the group alone.
+09-02 18:18:00.879 29092 29092 I OPENHU  : [2] WifiDirectManager.notifyNativeGroupStarted | WifiDirectManager: Native AA WiFi Direct: 5GHz (5240 MHz), 5GHz requested, SSID=DIRECT-X3-Navegadortz
+09-02 18:18:00.882 29092 20120 I OPENHU  : [362] WifiDirectManager.onGroupInfoAvailable$lambda$7 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:00.882 29092 20120 I OPENHU  : [362] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1). Updating and Triggering Poke.
+09-02 18:18:00.883 29092 20120 I OPENHU  : [362] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:01.736 29092 29092 I OPENHU  : [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-02 18:18:01.739 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-02 18:18:01.740 29092 29092 W headunitrevived: Accessing hidden method Landroid/net/wifi/p2p/WifiP2pGroup;->getGroupOwnerBssid()Landroid/net/MacAddress; (blocked, reflection, denied)
+09-02 18:18:01.743 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p0 (EUI-64): D2:C7:57:67:AD:D6
+09-02 18:18:01.743 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: D2:C7:57:67:AD:D6
+09-02 18:18:01.744 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-X3-Navegadortz, BSSID: D2:C7:57:67:AD:D6 (source=IPv6 link-local), GO: true, IFACE: p2p0, Freq: 5240 MHz (5GHz)
+09-02 18:18:01.749 29092 29092 I OPENHU  : [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-02 18:18:01.750 29092 20121 I OPENHU  : [363] WifiDirectManager.onGroupInfoAvailable$lambda$7 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:01.750 29092 20121 I OPENHU  : [363] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1). Updating and Triggering Poke.
+09-02 18:18:01.750 29092 20121 I OPENHU  : [363] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:01.754 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-02 18:18:01.755 29092 29092 W headunitrevived: Accessing hidden method Landroid/net/wifi/p2p/WifiP2pGroup;->getGroupOwnerBssid()Landroid/net/MacAddress; (blocked, reflection, denied)
+09-02 18:18:01.757 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p0 (EUI-64): D2:C7:57:67:AD:D6
+09-02 18:18:01.757 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: D2:C7:57:67:AD:D6
+09-02 18:18:01.757 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-X3-Navegadortz, BSSID: D2:C7:57:67:AD:D6 (source=IPv6 link-local), GO: true, IFACE: p2p0, Freq: 5240 MHz (5GHz)
+09-02 18:18:01.762 29092 20122 I OPENHU  : [364] WifiDirectManager.onGroupInfoAvailable$lambda$7 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:01.762 29092 20122 I OPENHU  : [364] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1). Updating and Triggering Poke.
+09-02 18:18:01.762 29092 20122 I OPENHU  : [364] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:02.889 29092 29134 I OPENHU  : [178] 1.invokeSuspend | NativeAA: Attempting active poke to device: motorola edge 30 neo (A0:46:5A:97:E4:95)...
+09-02 18:18:02.893 29092 29134 I OPENHU  : [178] NativeAaHandshakeManager.pokeDevice | NativeAA: Calling socket.connect() for motorola edge 30 neo via HFP-AG (0000111f-0000-1000-8000-00805f9b34fb)...
+09-02 18:18:02.897 29092 29134 I BluetoothSocket: connect(), SocketState: INIT, mPfd: {ParcelFileDescriptor: java.io.FileDescriptor@92a0b8}
+09-02 18:18:04.166 29092 29092 I OPENHU  : [2] AutoStartReceiver.onReceive | BT Device connected: motorola edge 30 neo (A0:46:5A:97:E4:95)
+09-02 18:18:04.166 29092 29092 I OPENHU  : [2] AutoStartReceiver.onReceive | MATCH! Starting AapService via Bluetooth Auto-start...
+09-02 18:18:04.187 29092 29092 I OPENHU  : [2] MainActivity.handleLaunchIntent | MainActivity: Bluetooth auto-start: forcing a Self Mode launch
+09-02 18:18:04.191 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:d1856851: onRequestHide at ORIGIN_CLIENT reason HIDE_SOFT_INPUT fromUser false
+09-02 18:18:04.191 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:d1856851: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+09-02 18:18:04.197 29092 29092 I OPENHU  : [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+09-02 18:18:04.226 29092 29092 I OPENHU  : [2] SelfLauncherManager.isAaVersion174OrHigher | SelfMode: Installed AA version: 17.5.663204-release (major=17, minor=5)
+09-02 18:18:04.226 29092 29092 I OPENHU  : [2] 1.invokeSuspend | SelfMode: AA 17.4+ detected. Connecting directly to Headunit Server on 127.0.0.1:5277...
+09-02 18:18:04.227 29092 29092 I OPENHU  : [2] AapService.emitSessionState | AapService: session state connecting
+09-02 18:18:04.230 29092 29113 E OPENHU  : java.net.ConnectException: failed to connect to /127.0.0.1 (port 5277) from /127.0.0.1 (port 43718) after 5000ms: isConnected failed: ECONNREFUSED (Connection refused)
+09-02 18:18:04.230 29092 29113 E OPENHU  : java.io.IOException: java.net.ConnectException: failed to connect to /127.0.0.1 (port 5277) from /127.0.0.1 (port 43718) after 5000ms: isConnected failed: ECONNREFUSED (Connection refused)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at com.andrerinas.openheadunit.connection.projection.SocketProjectionConnection$connect$2.invokeSuspend(SocketProjectionConnection.kt:183)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at com.andrerinas.openheadunit.connection.projection.SocketProjectionConnection$connect$2.invoke(Unknown Source:8)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at com.andrerinas.openheadunit.connection.projection.SocketProjectionConnection$connect$2.invoke(Unknown Source:4)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatchedOrReturn(Undispatched.kt:78)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at kotlinx.coroutines.BuildersKt__Builders_commonKt.withContext(Builders.common.kt:167)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at kotlinx.coroutines.BuildersKt.withContext(Unknown Source:1)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at com.andrerinas.openheadunit.connection.projection.SocketProjectionConnection.connect(SocketProjectionConnection.kt:69)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at com.andrerinas.openheadunit.connection.CommManager$connect$6.invokeSuspend(CommManager.kt:370)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at com.andrerinas.openheadunit.connection.CommManager$connect$6.invoke(Unknown Source:8)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at com.andrerinas.openheadunit.connection.CommManager$connect$6.invoke(Unknown Source:4)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatchedOrReturn(Undispatched.kt:78)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at kotlinx.coroutines.BuildersKt__Builders_commonKt.withContext(Builders.common.kt:167)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at kotlinx.coroutines.BuildersKt.withContext(Unknown Source:1)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at com.andrerinas.openheadunit.connection.CommManager.connect(CommManager.kt:356)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at com.andrerinas.openheadunit.connection.self.launchers.SelfLauncherV17_4$run$success$1.invokeSuspend(SelfLauncherV17_4.kt:21)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:108)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:115)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:103)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:584)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:793)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:697)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:684)
+09-02 18:18:04.230 29092 29113 E OPENHU  : Caused by: java.net.ConnectException: failed to connect to /127.0.0.1 (port 5277) from /127.0.0.1 (port 43718) after 5000ms: isConnected failed: ECONNREFUSED (Connection refused)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at libcore.io.IoBridge.isConnected(IoBridge.java:347)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at libcore.io.IoBridge.connectErrno(IoBridge.java:237)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at libcore.io.IoBridge.connect(IoBridge.java:179)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at java.net.PlainSocketImpl.socketConnect(PlainSocketImpl.java:142)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:390)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:230)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:212)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:436)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at java.net.Socket.connect(Socket.java:646)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at com.andrerinas.openheadunit.connection.projection.SocketProjectionConnection$connect$2.invokeSuspend(SocketProjectionConnection.kt:177)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	... 22 more
+09-02 18:18:04.230 29092 29113 E OPENHU  : Caused by: android.system.ErrnoException: isConnected failed: ECONNREFUSED (Connection refused)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	at libcore.io.IoBridge.isConnected(IoBridge.java:334)
+09-02 18:18:04.230 29092 29113 E OPENHU  : 	... 31 more
+09-02 18:18:04.232 29092 29092 I OPENHU  : [2] AapService.emitSessionState | AapService: session state disconnected (link_lost)
+09-02 18:18:04.233 29092 29092 I OPENHU  : [2] AapService.stopDummyVpn | AapService: releasing the dummy VPN (owner=SELF_MODE, reason=SESSION_ENDED)
+09-02 18:18:04.233 29092 29092 I OPENHU  : [2] VpnControl.stopVpn | VpnControl: Stopping DummyVpnService (GitHub Build)
+09-02 18:18:04.234 29092 29092 I OPENHU  : [2] VpnControl.stopVpn | VpnControl: DummyVpnService was not running
+09-02 18:18:04.235 29092 29092 I OPENHU  : [2] AapService.onDisconnected | AapService: Stopping GpsLocationService and NightModeManager since connection is disconnected
+09-02 18:18:04.249 29092 29092 I OPENHU  : [2] AapService.scheduleReconnectIfNeeded | AapService: Self Mode disconnected. Not restarting.
+09-02 18:18:04.249 29092 29113 I OPENHU  : [166] 2.invokeSuspend | AapService: Native AA session ended; keeping the WIFI_DIRECT network up for the phone's return.
+09-02 18:18:04.250 29092 29092 I OPENHU  : [2] WifiDirectManager.stop | WifiDirectManager: Stopping and cleaning up...
+09-02 18:18:04.250 29092 29113 I OPENHU  : [166] WifiLauncherNative.triggerWifiDirectRefresh | AapService: WiFi Direct credential refresh requested.
+09-02 18:18:04.252 29092 29092 W OPENHU  : [2] SelfLauncherV17_4.run | SelfMode: Headunit Server (127.0.0.1:5277) is NOT running.
+09-02 18:18:04.252 29092 29114 I OPENHU  : [167] 1.invokeSuspend | WirelessServer: port 5288 released (SocketException).
+09-02 18:18:04.254 29092 29113 I OPENHU  : [166] VideoDecoder.stop | Decoder stopped: AapService::onDisconnect
+09-02 18:18:04.273 29092 29092 W OPENHU  : [2] 1.invokeSuspend | SelfMode: Launch of 'v17.4+' failed
+09-02 18:18:04.273 29092 29092 E OPENHU  : [2] 1.invokeSuspend | SelfMode: All launchers failed
+09-02 18:18:04.274 29092 29092 W OPENHU  : [2] 1.emit | Auto-connect overlay: connection error: No launch method succeeded
+09-02 18:18:04.303 29092 29092 I OPENHU  : [2] AapService.emitSessionState | AapService: session state disconnected (user_exit)
+09-02 18:18:04.305 29092 29092 I OPENHU  : [2] AapService.onDisconnected | AapService: Stopping GpsLocationService and NightModeManager since connection is disconnected
+09-02 18:18:04.325 29092 29092 I OPENHU  : [2] AapService.onDisconnected | AapService: User exit cooldown active for 5000ms
+09-02 18:18:04.326 29092 29114 I OPENHU  : [167] VideoDecoder.stop | Decoder stopped: AapService::onDisconnect
+09-02 18:18:04.327 29092 29092 I OPENHU  : [2] WifiDirectManager.refreshNativeCredentials$lambda$19 | WifiDirectManager: refresh: no group is up, so one is created.
+09-02 18:18:04.330 29092 29092 I OPENHU  : [2] WifiDirectManager.claimNativeCreateWindow | WifiDirectManager: a Native AA group create is claimed (bringing the Native AA group up); a refresh in the next 15s waits for it.
+09-02 18:18:04.331 29092 29092 I OPENHU  : [2] WifiDirectManager.startNativeAaQuietHost | WifiDirectManager: startNativeAaQuietHost() requested. Removing old group if any...
+09-02 18:18:04.331 29092 29092 I OPENHU  : [2] WifiDirectManager.claimNativeCreateWindow | WifiDirectManager: a Native AA group create is claimed (recreating the group); a refresh in the next 15s waits for it.
+09-02 18:18:04.332 29092 29092 I OPENHU  : [2] WifiDirectManager.invalidateNativeGroupCredentials | WifiDirectManager: the group is being removed (recreating the group), so its credentials are no longer handed out.
+09-02 18:18:04.337 29092 29092 I OPENHU  : [2] 1.onReceive | WifiDirectManager: WIFI_P2P_STATE_CHANGED_ACTION state=2
+09-02 18:18:04.694 29092 29134 I BluetoothSocket: connect(), socket connected. mPort=3
+09-02 18:18:04.697 29092 29134 I OPENHU  : [178] NativeAaHandshakeManager.pokeDevice | NativeAA: Successfully poked motorola edge 30 neo via HFP-AG. Holding 15000ms...
+09-02 18:18:04.878 29092 29092 I OPENHU  : [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Attempting createGroup for Native AA (Attempt 0)...
+09-02 18:18:04.879 29092 29092 I OPENHU  : [2] WifiDirectManager.createQuietGroup | WifiDirectManager: this unit's WiFi radio reports a 5 GHz band.
+09-02 18:18:04.879 29092 29092 I OPENHU  : [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Band preference is automatic (5 GHz, then whatever this unit will host).
+09-02 18:18:04.880 29092 29092 I OPENHU  : [2] WifiDirectManager.chooseNativeGroupIdentity | WifiDirectManager: group identity: asking for the kept network DIRECT-X3-Navegadortz again, so a phone that saved it can rejoin without being set up for a new one.
+09-02 18:18:04.881 29092 29092 I OPENHU  : [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band.
+09-02 18:18:04.881 29092 29092 I OPENHU  : [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is automatic, so the driver picks within the band.
+09-02 18:18:04.884 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:f7e84774: onRequestHide at ORIGIN_CLIENT reason HIDE_WINDOW_LOST_FOCUS fromUser false
+09-02 18:18:04.885 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:f7e84774: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+09-02 18:18:04.910 29092 29092 I OPENHU  : [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+09-02 18:18:05.407 29092 29092 I OPENHU  : [2] 1.onReceive | WifiDirectManager: Connected. Requesting info...
+09-02 18:18:05.408 29092 29092 I OPENHU  : [2] 1.onReceive | WifiDirectManager: Connected. Requesting info...
+09-02 18:18:05.410 29092 29092 I OPENHU  : [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-02 18:18:05.412 29092 29092 I OPENHU  : [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-02 18:18:05.413 29092 29092 I OPENHU  : [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-02 18:18:05.414 29092 29092 I OPENHU  : [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-02 18:18:05.416 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-02 18:18:05.416 29092 29092 W headunitrevived: Accessing hidden method Landroid/net/wifi/p2p/WifiP2pGroup;->getGroupOwnerBssid()Landroid/net/MacAddress; (blocked, reflection, denied)
+09-02 18:18:05.420 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p0 (EUI-64): D2:C7:57:67:AD:D6
+09-02 18:18:05.420 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: D2:C7:57:67:AD:D6
+09-02 18:18:05.421 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-X3-Navegadortz, BSSID: D2:C7:57:67:AD:D6 (source=IPv6 link-local), GO: true, IFACE: p2p0, Freq: 5180 MHz (5GHz)
+09-02 18:18:05.423 29092 29092 I OPENHU  : [2] WifiDirectManager.notifyNativeGroupStarted | WifiDirectManager: Native AA WiFi Direct: 5GHz (5180 MHz), 5GHz requested, SSID=DIRECT-X3-Navegadortz
+09-02 18:18:05.425 29092 20150 I OPENHU  : [366] WifiDirectManager.onGroupInfoAvailable$lambda$7 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:05.425 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-02 18:18:05.425 29092 20150 I OPENHU  : [366] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1). Updating and Triggering Poke.
+09-02 18:18:05.425 29092 20150 I OPENHU  : [366] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:05.425 29092 20150 I OPENHU  : [366] WifiLauncherNative.onNativeCredentials | AapService: userExitedAA is true. Skipping auto-poke.
+09-02 18:18:05.426 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == BSSID source dump (iface=p2p0) ==
+09-02 18:18:05.426 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   static override (Settings)       = 0
+09-02 18:18:05.426 29092 29092 W headunitrevived: Accessing hidden method Landroid/net/wifi/p2p/WifiP2pGroup;->getGroupOwnerBssid()Landroid/net/MacAddress; (blocked, reflection, denied)
+09-02 18:18:05.426 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   getGroupOwnerBssid()             = null
+09-02 18:18:05.429 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (p2p0)           = d2:c7:57:67:ad:d6
+09-02 18:18:05.432 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (any p2p/ap)     = d2:c7:57:67:ad:d6
+09-02 18:18:05.440 29092 29092 W OPENHU  : [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: No valid MAC found in NetworkInterface scan for p2p0
+09-02 18:18:05.440 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   NetworkInterface.hardwareAddress = 00:00:00:00:00:00
+09-02 18:18:05.441 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   lastKnownBssid (null)            = null
+09-02 18:18:05.439 29092 29092 W headunitrevived: type=1400 audit(0.0:6001): avc:  denied  { search } for  name="net" dev="sysfs" ino=38655 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:sysfs_net:s0 tclass=dir permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:05.441 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   requestDeviceInfo                = 02:00:00:00:00:00
+09-02 18:18:05.441 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   group.owner.deviceAddress        = 02:00:00:00:00:00
+09-02 18:18:05.449 29092 29092 I OPENHU  : [2] WifiDirectManager.getMacFromShell | WifiDirectManager: getMacFromShell: Target failed, scanning ALL interfaces in sysfs...
+09-02 18:18:05.446 29092 29092 W headunitrevived: type=1400 audit(0.0:6003): avc:  denied  { read } for  name="net" dev="sysfs" ino=38655 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:sysfs_net:s0 tclass=dir permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:05.449 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   sysfs / ip link                  = null
+09-02 18:18:05.450 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   Settings.Secure p2p address      = null
+09-02 18:18:05.450 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   reflection over WifiP2pGroup     = null
+09-02 18:18:05.450 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == end BSSID source dump ==
+09-02 18:18:05.450 29092 29092 W headunitrevived: Accessing hidden method Landroid/net/wifi/p2p/WifiP2pGroup;->getGroupOwnerBssid()Landroid/net/MacAddress; (blocked, reflection, denied)
+09-02 18:18:05.452 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p0 (EUI-64): D2:C7:57:67:AD:D6
+09-02 18:18:05.452 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: D2:C7:57:67:AD:D6
+09-02 18:18:05.452 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-X3-Navegadortz, BSSID: D2:C7:57:67:AD:D6 (source=IPv6 link-local), GO: true, IFACE: p2p0, Freq: 5180 MHz (5GHz)
+09-02 18:18:05.452 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: group identity ssid=DIRECT-X3-Navegadortz persistent=yes (netId 1) asked=persistent matchesRequest=yes bssid=D2:C7:57:67:AD:D6 stable=yes (same name and same BSSID as the last group) source=IPv6 link-local
+09-02 18:18:05.454 29092 29092 I OPENHU  : [2] WifiDirectManager.logStationCoexistence | WifiDirectManager: This unit is not connected to any other WiFi network while hosting the WiFi Direct group on 5180 MHz. The radio serves the group alone.
+09-02 18:18:05.454 29092 29092 I OPENHU  : [2] WifiDirectManager.notifyNativeGroupStarted | WifiDirectManager: Native AA WiFi Direct: 5GHz (5180 MHz), 5GHz requested, SSID=DIRECT-X3-Navegadortz
+09-02 18:18:05.457 29092 20152 I OPENHU  : [367] WifiDirectManager.onGroupInfoAvailable$lambda$7 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:05.457 29092 20152 I OPENHU  : [367] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1). Updating and Triggering Poke.
+09-02 18:18:05.457 29092 20152 I OPENHU  : [367] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:05.458 29092 20152 I OPENHU  : [367] WifiLauncherNative.onNativeCredentials | AapService: userExitedAA is true. Skipping auto-poke.
+09-02 18:18:05.915 29092 29092 I OPENHU  : [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-02 18:18:05.917 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-02 18:18:05.918 29092 29092 W headunitrevived: Accessing hidden method Landroid/net/wifi/p2p/WifiP2pGroup;->getGroupOwnerBssid()Landroid/net/MacAddress; (blocked, reflection, denied)
+09-02 18:18:05.923 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p0 (EUI-64): D2:C7:57:67:AD:D6
+09-02 18:18:05.924 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: D2:C7:57:67:AD:D6
+09-02 18:18:05.924 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-X3-Navegadortz, BSSID: D2:C7:57:67:AD:D6 (source=IPv6 link-local), GO: true, IFACE: p2p0, Freq: 5180 MHz (5GHz)
+09-02 18:18:05.929 29092 29092 I OPENHU  : [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-02 18:18:05.931 29092 20153 I OPENHU  : [368] WifiDirectManager.onGroupInfoAvailable$lambda$7 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:05.931 29092 20153 I OPENHU  : [368] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1). Updating and Triggering Poke.
+09-02 18:18:05.931 29092 20153 I OPENHU  : [368] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:05.931 29092 20153 I OPENHU  : [368] WifiLauncherNative.onNativeCredentials | AapService: userExitedAA is true. Skipping auto-poke.
+09-02 18:18:05.935 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-02 18:18:05.936 29092 29092 W headunitrevived: Accessing hidden method Landroid/net/wifi/p2p/WifiP2pGroup;->getGroupOwnerBssid()Landroid/net/MacAddress; (blocked, reflection, denied)
+09-02 18:18:05.940 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p0 (EUI-64): D2:C7:57:67:AD:D6
+09-02 18:18:05.940 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: D2:C7:57:67:AD:D6
+09-02 18:18:05.941 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-X3-Navegadortz, BSSID: D2:C7:57:67:AD:D6 (source=IPv6 link-local), GO: true, IFACE: p2p0, Freq: 5180 MHz (5GHz)
+09-02 18:18:05.947 29092 20154 I OPENHU  : [369] WifiDirectManager.onGroupInfoAvailable$lambda$7 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:05.948 29092 20154 I OPENHU  : [369] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1). Updating and Triggering Poke.
+09-02 18:18:05.948 29092 20154 I OPENHU  : [369] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:05.948 29092 20154 I OPENHU  : [369] WifiLauncherNative.onNativeCredentials | AapService: userExitedAA is true. Skipping auto-poke.
+09-02 18:18:09.125 29092 29092 I OPENHU  : [2] 1.onReceive | WifiDirectManager: Connected. Requesting info...
+09-02 18:18:09.128 29092 29092 I OPENHU  : [2] 1.onReceive | WifiDirectManager: Connected. Requesting info...
+09-02 18:18:09.130 29092 29092 I OPENHU  : [2] 1.onReceive | WifiDirectManager: Connected. Requesting info...
+09-02 18:18:09.132 29092 29092 I OPENHU  : [2] 1.onReceive | WifiDirectManager: Connected. Requesting info...
+09-02 18:18:09.134 29092 29092 I OPENHU  : [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-02 18:18:09.136 29092 29092 I OPENHU  : [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-02 18:18:09.137 29092 29092 I OPENHU  : [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-02 18:18:09.138 29092 29092 I OPENHU  : [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-02 18:18:09.139 29092 29092 I OPENHU  : [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-02 18:18:09.141 29092 29092 I OPENHU  : [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-02 18:18:09.143 29092 29092 I OPENHU  : [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-02 18:18:09.144 29092 29092 I OPENHU  : [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-02 18:18:09.147 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-02 18:18:09.148 29092 29092 W headunitrevived: Accessing hidden method Landroid/net/wifi/p2p/WifiP2pGroup;->getGroupOwnerBssid()Landroid/net/MacAddress; (blocked, reflection, denied)
+09-02 18:18:09.153 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p0 (EUI-64): D2:C7:57:67:AD:D6
+09-02 18:18:09.154 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: D2:C7:57:67:AD:D6
+09-02 18:18:09.155 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-X3-Navegadortz, BSSID: D2:C7:57:67:AD:D6 (source=IPv6 link-local), GO: true, IFACE: p2p0, Freq: 5180 MHz (5GHz)
+09-02 18:18:09.159 29092 20159 I OPENHU  : [370] WifiDirectManager.onGroupInfoAvailable$lambda$7 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:09.160 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-02 18:18:09.160 29092 20159 I OPENHU  : [370] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1). Updating and Triggering Poke.
+09-02 18:18:09.160 29092 20159 I OPENHU  : [370] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:09.160 29092 20159 I OPENHU  : [370] WifiLauncherNative.onNativeCredentials | AapService: userExitedAA is true. Skipping auto-poke.
+09-02 18:18:09.160 29092 29092 W headunitrevived: Accessing hidden method Landroid/net/wifi/p2p/WifiP2pGroup;->getGroupOwnerBssid()Landroid/net/MacAddress; (blocked, reflection, denied)
+09-02 18:18:09.164 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p0 (EUI-64): D2:C7:57:67:AD:D6
+09-02 18:18:09.164 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: D2:C7:57:67:AD:D6
+09-02 18:18:09.165 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-X3-Navegadortz, BSSID: D2:C7:57:67:AD:D6 (source=IPv6 link-local), GO: true, IFACE: p2p0, Freq: 5180 MHz (5GHz)
+09-02 18:18:09.169 29092 20160 I OPENHU  : [371] WifiDirectManager.onGroupInfoAvailable$lambda$7 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:09.169 29092 20160 I OPENHU  : [371] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1). Updating and Triggering Poke.
+09-02 18:18:09.169 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-02 18:18:09.169 29092 20160 I OPENHU  : [371] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:09.169 29092 20160 I OPENHU  : [371] WifiLauncherNative.onNativeCredentials | AapService: userExitedAA is true. Skipping auto-poke.
+09-02 18:18:09.170 29092 29092 W headunitrevived: Accessing hidden method Landroid/net/wifi/p2p/WifiP2pGroup;->getGroupOwnerBssid()Landroid/net/MacAddress; (blocked, reflection, denied)
+09-02 18:18:09.174 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p0 (EUI-64): D2:C7:57:67:AD:D6
+09-02 18:18:09.175 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: D2:C7:57:67:AD:D6
+09-02 18:18:09.176 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-X3-Navegadortz, BSSID: D2:C7:57:67:AD:D6 (source=IPv6 link-local), GO: true, IFACE: p2p0, Freq: 5180 MHz (5GHz)
+09-02 18:18:09.180 29092 20161 I OPENHU  : [372] WifiDirectManager.onGroupInfoAvailable$lambda$7 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:09.180 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-02 18:18:09.180 29092 20161 I OPENHU  : [372] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1). Updating and Triggering Poke.
+09-02 18:18:09.180 29092 20161 I OPENHU  : [372] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:09.180 29092 20161 I OPENHU  : [372] WifiLauncherNative.onNativeCredentials | AapService: userExitedAA is true. Skipping auto-poke.
+09-02 18:18:09.180 29092 29092 W headunitrevived: Accessing hidden method Landroid/net/wifi/p2p/WifiP2pGroup;->getGroupOwnerBssid()Landroid/net/MacAddress; (blocked, reflection, denied)
+09-02 18:18:09.184 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p0 (EUI-64): D2:C7:57:67:AD:D6
+09-02 18:18:09.185 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: D2:C7:57:67:AD:D6
+09-02 18:18:09.185 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-X3-Navegadortz, BSSID: D2:C7:57:67:AD:D6 (source=IPv6 link-local), GO: true, IFACE: p2p0, Freq: 5180 MHz (5GHz)
+09-02 18:18:09.190 29092 20162 I OPENHU  : [373] WifiDirectManager.onGroupInfoAvailable$lambda$7 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:09.190 29092 20162 I OPENHU  : [373] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1). Updating and Triggering Poke.
+09-02 18:18:09.190 29092 20162 I OPENHU  : [373] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:09.190 29092 20162 I OPENHU  : [373] WifiLauncherNative.onNativeCredentials | AapService: userExitedAA is true. Skipping auto-poke.
+09-02 18:18:15.223 29092 29092 W WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+09-02 18:18:15.223 29092 29092 W WindowOnBackDispatcher: Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+09-02 18:18:15.227 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:bf6f658f: onRequestHide at ORIGIN_CLIENT reason HIDE_SOFT_INPUT fromUser false
+09-02 18:18:15.227 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:bf6f658f: onFailed at PHASE_CLIENT_VIEW_SERVED
+09-02 18:18:15.241 29092 29092 I OPENHU  : [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+09-02 18:18:16.972 29092 29092 I OPENHU  : [2] AapService.onStartCommand | Stop action received. Broadcasting finish request to activities.
+09-02 18:18:16.997 29092 29092 I OPENHU  : [2] 1.onReceive | MainActivity: Received finish request. Closing.
+09-02 18:18:17.006 29092 29092 I OPENHU  : [2] AapService.onDestroy | AapService destroying... (wakeLock held=false)
+09-02 18:18:17.010 29092 29092 I OPENHU  : [2] VideoDecoder.stop | Decoder stopped: CommManager: doDisconnect
+--------- beginning of system
+09-02 18:18:17.046 29092 29092 E ActivityThread: Service com.andrerinas.openheadunit.aap.AapService has leaked IntentReceiver com.andrerinas.openheadunit.connection.wifi.direct.WifiDirectManager$receiver$1@6280d2 that was originally registered here. Are you missing a call to unregisterReceiver()?
+09-02 18:18:17.046 29092 29092 E ActivityThread: android.app.IntentReceiverLeaked: Service com.andrerinas.openheadunit.aap.AapService has leaked IntentReceiver com.andrerinas.openheadunit.connection.wifi.direct.WifiDirectManager$receiver$1@6280d2 that was originally registered here. Are you missing a call to unregisterReceiver()?
+09-02 18:18:17.046 29092 29092 E ActivityThread: 	at android.app.LoadedApk$ReceiverDispatcher.<init>(LoadedApk.java:1861)
+09-02 18:18:17.046 29092 29092 E ActivityThread: 	at android.app.LoadedApk.getReceiverDispatcher(LoadedApk.java:1613)
+09-02 18:18:17.046 29092 29092 E ActivityThread: 	at android.app.ContextImpl.registerReceiverInternal(ContextImpl.java:1913)
+09-02 18:18:17.046 29092 29092 E ActivityThread: 	at android.app.ContextImpl.registerReceiver(ContextImpl.java:1872)
+09-02 18:18:17.046 29092 29092 E ActivityThread: 	at android.content.ContextWrapper.registerReceiver(ContextWrapper.java:797)
+09-02 18:18:17.046 29092 29092 E ActivityThread: 	at androidx.core.content.ContextCompat$Api33Impl.registerReceiver(ContextCompat.java:1239)
+09-02 18:18:17.046 29092 29092 E ActivityThread: 	at androidx.core.content.ContextCompat.registerReceiver(ContextCompat.java:870)
+09-02 18:18:17.046 29092 29092 E ActivityThread: 	at androidx.core.content.ContextCompat.registerReceiver(ContextCompat.java:821)
+09-02 18:18:17.046 29092 29092 E ActivityThread: 	at com.andrerinas.openheadunit.connection.wifi.direct.WifiDirectManager.registerReceiverIfNeeded(WifiDirectManager.kt:643)
+09-02 18:18:17.046 29092 29092 E ActivityThread: 	at com.andrerinas.openheadunit.connection.wifi.direct.WifiDirectManager.startNativeAaQuietHost(WifiDirectManager.kt:1470)
+09-02 18:18:17.046 29092 29092 E ActivityThread: 	at com.andrerinas.openheadunit.connection.wifi.direct.WifiDirectManager.refreshNativeCredentials$lambda$19(WifiDirectManager.kt:1595)
+09-02 18:18:17.046 29092 29092 E ActivityThread: 	at com.andrerinas.openheadunit.connection.wifi.direct.WifiDirectManager.$r8$lambda$wuHHoPgQzd1awgi6hFmCGhXdVnY(Unknown Source:0)
+09-02 18:18:17.046 29092 29092 E ActivityThread: 	at com.andrerinas.openheadunit.connection.wifi.direct.WifiDirectManager$$ExternalSyntheticLambda0.onGroupInfoAvailable(D8$$SyntheticClass:0)
+09-02 18:18:17.046 29092 29092 E ActivityThread: 	at android.net.wifi.p2p.WifiP2pManager$Channel$P2pHandler.handleMessage(WifiP2pManager.java:1890)
+09-02 18:18:17.046 29092 29092 E ActivityThread: 	at android.os.Handler.dispatchMessage(Handler.java:109)
+09-02 18:18:17.046 29092 29092 E ActivityThread: 	at android.os.Looper.loopOnce(Looper.java:232)
+09-02 18:18:17.046 29092 29092 E ActivityThread: 	at android.os.Looper.loop(Looper.java:317)
+09-02 18:18:17.046 29092 29092 E ActivityThread: 	at android.app.ActivityThread.main(ActivityThread.java:8934)
+09-02 18:18:17.046 29092 29092 E ActivityThread: 	at java.lang.reflect.Method.invoke(Native Method)
+09-02 18:18:17.046 29092 29092 E ActivityThread: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:591)
+09-02 18:18:17.046 29092 29092 E ActivityThread: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:911)
+09-02 18:18:17.048 29092 29092 E ActivityThread: Service com.andrerinas.openheadunit.aap.AapService has leaked IntentReceiver com.andrerinas.openheadunit.connection.wifi.direct.WifiDirectManager$receiver$1@339bb21 that was originally registered here. Are you missing a call to unregisterReceiver()?
+09-02 18:18:17.048 29092 29092 E ActivityThread: android.app.IntentReceiverLeaked: Service com.andrerinas.openheadunit.aap.AapService has leaked IntentReceiver com.andrerinas.openheadunit.connection.wifi.direct.WifiDirectManager$receiver$1@339bb21 that was originally registered here. Are you missing a call to unregisterReceiver()?
+09-02 18:18:17.048 29092 29092 E ActivityThread: 	at android.app.LoadedApk$ReceiverDispatcher.<init>(LoadedApk.java:1861)
+09-02 18:18:17.048 29092 29092 E ActivityThread: 	at android.app.LoadedApk.getReceiverDispatcher(LoadedApk.java:1613)
+09-02 18:18:17.048 29092 29092 E ActivityThread: 	at android.app.ContextImpl.registerReceiverInternal(ContextImpl.java:1913)
+09-02 18:18:17.048 29092 29092 E ActivityThread: 	at android.app.ContextImpl.registerReceiver(ContextImpl.java:1872)
+09-02 18:18:17.048 29092 29092 E ActivityThread: 	at android.content.ContextWrapper.registerReceiver(ContextWrapper.java:797)
+09-02 18:18:17.048 29092 29092 E ActivityThread: 	at androidx.core.content.ContextCompat$Api33Impl.registerReceiver(ContextCompat.java:1239)
+09-02 18:18:17.048 29092 29092 E ActivityThread: 	at androidx.core.content.ContextCompat.registerReceiver(ContextCompat.java:870)
+09-02 18:18:17.048 29092 29092 E ActivityThread: 	at androidx.core.content.ContextCompat.registerReceiver(ContextCompat.java:821)
+09-02 18:18:17.048 29092 29092 E ActivityThread: 	at com.andrerinas.openheadunit.connection.wifi.direct.WifiDirectManager.registerReceiverIfNeeded(WifiDirectManager.kt:643)
+09-02 18:18:17.048 29092 29092 E ActivityThread: 	at com.andrerinas.openheadunit.connection.wifi.direct.WifiDirectManager.startNativeAaQuietHost(WifiDirectManager.kt:1470)
+09-02 18:18:17.048 29092 29092 E ActivityThread: 	at com.andrerinas.openheadunit.connection.wifi.direct.WifiDirectManager.refreshNativeCredentials$lambda$19(WifiDirectManager.kt:1595)
+09-02 18:18:17.048 29092 29092 E ActivityThread: 	at com.andrerinas.openheadunit.connection.wifi.direct.WifiDirectManager.$r8$lambda$wuHHoPgQzd1awgi6hFmCGhXdVnY(Unknown Source:0)
+09-02 18:18:17.048 29092 29092 E ActivityThread: 	at com.andrerinas.openheadunit.connection.wifi.direct.WifiDirectManager$$ExternalSyntheticLambda0.onGroupInfoAvailable(D8$$SyntheticClass:0)
+09-02 18:18:17.048 29092 29092 E ActivityThread: 	at android.net.wifi.p2p.WifiP2pManager$Channel$P2pHandler.handleMessage(WifiP2pManager.java:1890)
+09-02 18:18:17.048 29092 29092 E ActivityThread: 	at android.os.Handler.dispatchMessage(Handler.java:109)
+09-02 18:18:17.048 29092 29092 E ActivityThread: 	at android.os.Looper.loopOnce(Looper.java:232)
+09-02 18:18:17.048 29092 29092 E ActivityThread: 	at android.os.Looper.loop(Looper.java:317)
+09-02 18:18:17.048 29092 29092 E ActivityThread: 	at android.app.ActivityThread.main(ActivityThread.java:8934)
+09-02 18:18:17.048 29092 29092 E ActivityThread: 	at java.lang.reflect.Method.invoke(Native Method)
+09-02 18:18:17.048 29092 29092 E ActivityThread: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:591)
+09-02 18:18:17.048 29092 29092 E ActivityThread: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:911)
+09-02 18:18:17.293 29092 29099 W System  : A resource failed to call close. 
+09-02 18:18:17.366 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:4eda5713: onRequestHide at ORIGIN_CLIENT reason HIDE_WINDOW_LOST_FOCUS fromUser false
+09-02 18:18:17.367 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:4eda5713: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+09-02 18:18:18.986 29092 29092 I OPENHU  : [2] MainActivity.onDestroy | MainActivity finishing, resetting auto-start flag.
+09-02 18:18:18.986 29092 29092 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=false callback=android.view.ViewRootImpl$$ExternalSyntheticLambda13@2dd74e8
+09-02 18:18:19.754 29092 29092 I headunitrevived: AssetManager2(0xb400007d25ca5798) locale list changing from [] to [en-AU]
+09-02 18:18:19.763 29092 29092 I headunitrevived: AssetManager2(0xb400007d25caa298) locale list changing from [] to [en-AU]
+09-02 18:18:19.780 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:19.782 29092 29092 I OPENHU  : [2] MainActivity.logLaunchSource | App launched by user tap (referrer: none)
+09-02 18:18:19.800 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:19.814 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:19.853 29092 29092 I OPENHU  : [2] MainActivity.beginAutoConnect | Auto-connect: begin (auto-start self mode, mode=OVERLAY)
+09-02 18:18:19.855 29092 29092 I OPENHU  : [2] HomeFragment.startSelfMode | Device is offline. Preparing Dummy VPN for Self Mode.
+09-02 18:18:19.856 29092 29092 I OPENHU  : [2] HomeFragment.startSelfMode | VPN permission already granted. Starting VPN service.
+09-02 18:18:19.857 29092 29092 I OPENHU  : [2] VpnControl.startVpn | VpnControl: Starting DummyVpnService (GitHub Build, excludeSelf=false)
+09-02 18:18:19.860 29092 29092 I OPENHU  : [2] HomeFragment.startSelfModeInternal | Auto start selfmode
+09-02 18:18:19.866 29092 29092 W WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+09-02 18:18:19.866 29092 29092 W WindowOnBackDispatcher: Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+09-02 18:18:19.869 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:ff015b53: onRequestHide at ORIGIN_CLIENT reason HIDE_SOFT_INPUT fromUser false
+09-02 18:18:19.869 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:ff015b53: onFailed at PHASE_CLIENT_VIEW_SERVED
+09-02 18:18:19.872 29092 29092 I OPENHU  : [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+09-02 18:18:19.880 29092 29092 I OPENHU  : [2] AapService.onCreate | AapService creating...
+09-02 18:18:19.888 29092 29092 W libc    : Access denied finding property "persist.vendor.bt.mac"
+09-02 18:18:19.888 29092 29092 W libc    : Access denied finding property "ro.boot.btmacaddr"
+09-02 18:18:19.888 29092 29092 W libc    : Access denied finding property "vendor.bt.bdaddr"
+09-02 18:18:19.886 29092 29092 W headunitrevived: type=1400 audit(0.0:6004): avc:  denied  { read } for  name="u:object_r:bluetooth_prop:s0" dev="tmpfs" ino=9734 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:bluetooth_prop:s0 tclass=file permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:19.899 29092 29092 I OPENHU  : [2] AapService.registerReceivers | Registered runtime MEDIA_BUTTON receiver
+09-02 18:18:19.901 29092 29092 I OPENHU  : [2] AapService.registerReceivers | Registered dynamic WiFi Auto-start receiver
+09-02 18:18:19.907 29092 29092 I OPENHU  : [2] AapService.registerReceivers | Registered wake detection receiver (18 actions)
+09-02 18:18:19.908 29092 29092 I OPENHU  : [2] AapService.registerReceivers | Registered Bluetooth auto-disconnect receiver
+09-02 18:18:19.916 29092 29092 I OPENHU  : [2] WifiLauncherManager.setActive | WifiLauncher: Initializing WiFi Mode: NATIVE
+09-02 18:18:19.917 29092 29092 I OPENHU  : [2] WifiDirectManager.<init> | WifiDirectManager: Device supports WiFi Direct. Initializing...
+09-02 18:18:19.924 29092 29092 I OPENHU  : [2] WirelessServer.start | WirelessServer: binding port 5288...
+09-02 18:18:19.925 29092 29134 I OPENHU  : [178] 1.invokeSuspend | Wireless Server listening on port 5288
+09-02 18:18:19.926 29092 29134 I OPENHU  : [178] WirelessServer.logLocalNetworkInterfaces | Interface: p2p0, IP: 192.168.49.1
+09-02 18:18:19.926 29092 29134 I OPENHU  : [178] WirelessServer.logLocalNetworkInterfaces | Interface: rmnet_data1, IP: 9.3.231.241
+09-02 18:18:19.927 29092 29092 I OPENHU  : [2] WifiDirectManager.claimNativeCreateWindow | WifiDirectManager: a Native AA group create is claimed (bringing the Native AA group up); a refresh in the next 15s waits for it.
+09-02 18:18:19.927 29092 29092 I OPENHU  : [2] WifiDirectManager.startNativeAaQuietHost | WifiDirectManager: startNativeAaQuietHost() requested. Removing old group if any...
+09-02 18:18:19.928 29092 29092 I OPENHU  : [2] WifiDirectManager.claimNativeCreateWindow | WifiDirectManager: a Native AA group create is claimed (recreating the group); a refresh in the next 15s waits for it.
+09-02 18:18:19.928 29092 29092 I OPENHU  : [2] WifiDirectManager.invalidateNativeGroupCredentials | WifiDirectManager: the group is being removed (recreating the group), so its credentials are no longer handed out.
+09-02 18:18:19.930 29092 29092 I OPENHU  : [2] NativeAaHandshakeManager.start | NativeAA: Starting Bluetooth Handshake Servers (primary radio [POCO X3 NFC])...
+09-02 18:18:19.932 29092 29092 I OPENHU  : [2] NativeAaHandshakeManager.shouldRegisterDummyHfp | NativeAA: radio [POCO X3 NFC] gets the stand-in HFP record, because it advertises no Hands-Free.
+09-02 18:18:19.940 29092 29113 I OPENHU  : [166] 1.invokeSuspend | NativeAA: ACTIVELY LISTENING on Android Auto UUID (4de17a00-52cb-11e6-bdf4-0800200c9a66) on radio [POCO X3 NFC]... Waiting for phone to connect back!
+09-02 18:18:19.947 29092 29092 I OPENHU  : [2] AapService.registerNetworkMonitor | NetworkMonitor: Registered network change listener
+09-02 18:18:19.982 29092 29114 I OPENHU  : [167] 1.invokeSuspend | WppTcpServer: listening for Android Auto on TCP 5299
+09-02 18:18:19.982 29092 29092 I OPENHU  : [2] DummyVpnService.startVpn | DummyVpnService: tun established (excludeSelf=false)
+09-02 18:18:20.075 29092 29092 I headunitrevived: AssetManager2(0xb400007d25c9a578) locale list changing from [] to [en-AU]
+09-02 18:18:20.100 29092 29092 I OPENHU  : [2] 1.invokeSuspend | AapService: Mode requires WiFi Direct — ensuring hotspot is disabled first...
+09-02 18:18:20.104 29092 29092 I OPENHU  : [2] HotspotManager.setHotspotEnabled | HotspotManager: Setting hotspot enabled=false (API 35, canWriteSettings=false)
+09-02 18:18:20.106 29092 29092 I TetheringManager: registerTetheringEventCallback:com.andrerinas.headunitrevived
+09-02 18:18:20.106 29092 29092 I TetheringManager: stopTethering caller:com.andrerinas.headunitrevived
+09-02 18:18:20.108 29092 29092 W OPENHU  : [2] HotspotManager.startOnBand | HotspotManager: Cannot turn off the hotspot without the "Modify system settings" permission (WRITE_SETTINGS). Grant it in the setup wizard or Settings > Permissions.
+09-02 18:18:20.109 29092 29092 I OPENHU  : [2] 1.onReceive | WifiDirectManager: WIFI_P2P_STATE_CHANGED_ACTION state=2
+09-02 18:18:20.109 29092 29092 I OPENHU  : [2] 1.invoke | WifiDirectManager: requestDeviceInfo success: 02:00:00:00:00:00
+09-02 18:18:20.126 29092 29092 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=false callback=android.view.ViewRootImpl$$ExternalSyntheticLambda13@1716d4d
+09-02 18:18:20.138 29092 29092 I headunitrevived: AssetManager2(0xb400007d25cdf178) locale list changing from [] to [en-AU]
+09-02 18:18:20.149 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:20.158 29092 29092 I OPENHU  : [2] MainActivity.logLaunchSource | App launched by user tap (referrer: none)
+09-02 18:18:20.159 29092 29115 W ConnectivityManager.CallbackHandler: callback not found for CALLBACK_AVAILABLE message
+09-02 18:18:20.172 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:20.190 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:20.221 29092 29115 W ConnectivityManager.CallbackHandler: callback not found for CALLBACK_PRECHECK message
+09-02 18:18:20.251 29092 29092 W WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+09-02 18:18:20.251 29092 29092 W WindowOnBackDispatcher: Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+09-02 18:18:20.259 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:a53e925d: onRequestHide at ORIGIN_CLIENT reason HIDE_SOFT_INPUT fromUser false
+09-02 18:18:20.259 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:a53e925d: onFailed at PHASE_CLIENT_VIEW_SERVED
+09-02 18:18:20.270 29092 29092 I OPENHU  : [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+09-02 18:18:20.280 29092 29092 I OPENHU  : [2] SelfLauncherManager.isAaVersion174OrHigher | SelfMode: Installed AA version: 17.5.663204-release (major=17, minor=5)
+09-02 18:18:20.280 29092 29092 I OPENHU  : [2] 1.invokeSuspend | SelfMode: AA 17.4+ detected. Connecting directly to Headunit Server on 127.0.0.1:5277...
+09-02 18:18:20.291 29092 19763 E OPENHU  : java.net.ConnectException: failed to connect to /127.0.0.1 (port 5277) from /127.0.0.1 (port 48206) after 5000ms: isConnected failed: ECONNREFUSED (Connection refused)
+09-02 18:18:20.291 29092 19763 E OPENHU  : java.io.IOException: java.net.ConnectException: failed to connect to /127.0.0.1 (port 5277) from /127.0.0.1 (port 48206) after 5000ms: isConnected failed: ECONNREFUSED (Connection refused)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at com.andrerinas.openheadunit.connection.projection.SocketProjectionConnection$connect$2.invokeSuspend(SocketProjectionConnection.kt:183)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at com.andrerinas.openheadunit.connection.projection.SocketProjectionConnection$connect$2.invoke(Unknown Source:8)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at com.andrerinas.openheadunit.connection.projection.SocketProjectionConnection$connect$2.invoke(Unknown Source:4)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatchedOrReturn(Undispatched.kt:78)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at kotlinx.coroutines.BuildersKt__Builders_commonKt.withContext(Builders.common.kt:167)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at kotlinx.coroutines.BuildersKt.withContext(Unknown Source:1)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at com.andrerinas.openheadunit.connection.projection.SocketProjectionConnection.connect(SocketProjectionConnection.kt:69)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at com.andrerinas.openheadunit.connection.CommManager$connect$6.invokeSuspend(CommManager.kt:370)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at com.andrerinas.openheadunit.connection.CommManager$connect$6.invoke(Unknown Source:8)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at com.andrerinas.openheadunit.connection.CommManager$connect$6.invoke(Unknown Source:4)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatchedOrReturn(Undispatched.kt:78)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at kotlinx.coroutines.BuildersKt__Builders_commonKt.withContext(Builders.common.kt:167)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at kotlinx.coroutines.BuildersKt.withContext(Unknown Source:1)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at com.andrerinas.openheadunit.connection.CommManager.connect(CommManager.kt:356)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at com.andrerinas.openheadunit.connection.self.launchers.SelfLauncherV17_4$run$success$1.invokeSuspend(SelfLauncherV17_4.kt:21)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:108)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:115)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:103)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:584)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:793)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:697)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:684)
+09-02 18:18:20.291 29092 19763 E OPENHU  : Caused by: java.net.ConnectException: failed to connect to /127.0.0.1 (port 5277) from /127.0.0.1 (port 48206) after 5000ms: isConnected failed: ECONNREFUSED (Connection refused)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at libcore.io.IoBridge.isConnected(IoBridge.java:347)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at libcore.io.IoBridge.connectErrno(IoBridge.java:237)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at libcore.io.IoBridge.connect(IoBridge.java:179)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at java.net.PlainSocketImpl.socketConnect(PlainSocketImpl.java:142)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:390)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:230)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:212)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:436)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at java.net.Socket.connect(Socket.java:646)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at com.andrerinas.openheadunit.connection.projection.SocketProjectionConnection$connect$2.invokeSuspend(SocketProjectionConnection.kt:177)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	... 22 more
+09-02 18:18:20.291 29092 19763 E OPENHU  : Caused by: android.system.ErrnoException: isConnected failed: ECONNREFUSED (Connection refused)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	at libcore.io.IoBridge.isConnected(IoBridge.java:334)
+09-02 18:18:20.291 29092 19763 E OPENHU  : 	... 31 more
+09-02 18:18:20.384 29092 29092 W OPENHU  : [2] SelfLauncherV17_4.run | SelfMode: Headunit Server (127.0.0.1:5277) is NOT running.
+09-02 18:18:20.413 29092 29092 W OPENHU  : [2] 1.invokeSuspend | SelfMode: Launch of 'v17.4+' failed
+09-02 18:18:20.413 29092 29092 E OPENHU  : [2] 1.invokeSuspend | SelfMode: All launchers failed
+09-02 18:18:20.414 29092 29092 W OPENHU  : [2] 1.emit | Auto-connect overlay: connection error: No launch method succeeded
+09-02 18:18:20.487 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:cd9a8ffe: onRequestHide at ORIGIN_CLIENT reason HIDE_WINDOW_LOST_FOCUS fromUser false
+09-02 18:18:20.487 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:cd9a8ffe: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+09-02 18:18:20.642 29092 29092 I OPENHU  : [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Attempting createGroup for Native AA (Attempt 0)...
+09-02 18:18:20.645 29092 29092 I OPENHU  : [2] WifiDirectManager.createQuietGroup | WifiDirectManager: this unit's WiFi radio reports a 5 GHz band.
+09-02 18:18:20.648 29092 29092 I OPENHU  : [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Band preference is automatic (5 GHz, then whatever this unit will host).
+09-02 18:18:20.649 29092 29092 I OPENHU  : [2] WifiDirectManager.chooseNativeGroupIdentity | WifiDirectManager: group identity: asking for the kept network DIRECT-X3-Navegadortz again, so a phone that saved it can rejoin without being set up for a new one.
+09-02 18:18:20.651 29092 29092 I OPENHU  : [2] WifiDirectManager.createQuietGroup | WifiDirectManager: Requesting Native AA P2P group on 5GHz band.
+09-02 18:18:20.652 29092 29092 I OPENHU  : [2] WifiDirectManager.createQuietGroup | WifiDirectManager: 5 GHz channel is automatic, so the driver picks within the band.
+09-02 18:18:20.666 29092 29092 I OPENHU  : [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+09-02 18:18:20.816 29092 29092 I OPENHU  : [2] 1.onReceive | WifiDirectManager: Connected. Requesting info...
+09-02 18:18:20.826 29092 29092 I OPENHU  : [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-02 18:18:20.837 29092 29092 I OPENHU  : [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-02 18:18:20.845 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-02 18:18:20.846 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == BSSID source dump (iface=p2p0) ==
+09-02 18:18:20.847 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   static override (Settings)       = 0
+09-02 18:18:20.847 29092 29092 W headunitrevived: Accessing hidden method Landroid/net/wifi/p2p/WifiP2pGroup;->getGroupOwnerBssid()Landroid/net/MacAddress; (blocked, reflection, denied)
+09-02 18:18:20.848 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   getGroupOwnerBssid()             = null
+09-02 18:18:20.863 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (p2p0)           = d2:c7:57:67:ad:d6
+09-02 18:18:20.869 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (any p2p/ap)     = d2:c7:57:67:ad:d6
+09-02 18:18:20.886 29092 29092 W OPENHU  : [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: No valid MAC found in NetworkInterface scan for p2p0
+09-02 18:18:20.886 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   NetworkInterface.hardwareAddress = 00:00:00:00:00:00
+09-02 18:18:20.893 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   lastKnownBssid (null)            = null
+09-02 18:18:20.893 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   requestDeviceInfo                = 02:00:00:00:00:00
+09-02 18:18:20.894 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   group.owner.deviceAddress        = 02:00:00:00:00:00
+09-02 18:18:20.892 29092 29092 W headunitrevived: type=1400 audit(0.0:6005): avc:  denied  { search } for  name="net" dev="sysfs" ino=38655 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:sysfs_net:s0 tclass=dir permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:20.919 20217 20217 W ip      : type=1400 audit(0.0:6006): avc:  denied  { bind } for  scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tclass=netlink_route_socket permissive=0 bug=b/155595000 app=com.andrerinas.headunitrevived
+09-02 18:18:20.924 29092 29092 I OPENHU  : [2] WifiDirectManager.getMacFromShell | WifiDirectManager: getMacFromShell: Target failed, scanning ALL interfaces in sysfs...
+09-02 18:18:20.922 29092 29092 W headunitrevived: type=1400 audit(0.0:6007): avc:  denied  { read } for  name="net" dev="sysfs" ino=38655 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:sysfs_net:s0 tclass=dir permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:20.925 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   sysfs / ip link                  = null
+09-02 18:18:20.926 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   Settings.Secure p2p address      = null
+09-02 18:18:20.927 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   reflection over WifiP2pGroup     = null
+09-02 18:18:20.927 29092 29092 I OPENHU  : [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == end BSSID source dump ==
+09-02 18:18:20.928 29092 29092 W headunitrevived: Accessing hidden method Landroid/net/wifi/p2p/WifiP2pGroup;->getGroupOwnerBssid()Landroid/net/MacAddress; (blocked, reflection, denied)
+09-02 18:18:20.933 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p0 (EUI-64): D2:C7:57:67:AD:D6
+09-02 18:18:20.933 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: D2:C7:57:67:AD:D6
+09-02 18:18:20.934 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-X3-Navegadortz, BSSID: D2:C7:57:67:AD:D6 (source=IPv6 link-local), GO: true, IFACE: p2p0, Freq: 5180 MHz (5GHz)
+09-02 18:18:20.934 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: group identity ssid=DIRECT-X3-Navegadortz persistent=yes (netId 1) asked=persistent matchesRequest=yes bssid=D2:C7:57:67:AD:D6 stable=yes (same name and same BSSID as the last group) source=IPv6 link-local
+09-02 18:18:20.938 29092 29092 I OPENHU  : [2] WifiDirectManager.logStationCoexistence | WifiDirectManager: This unit is not connected to any other WiFi network while hosting the WiFi Direct group on 5180 MHz. The radio serves the group alone.
+09-02 18:18:20.938 29092 29092 I OPENHU  : [2] WifiDirectManager.notifyNativeGroupStarted | WifiDirectManager: Native AA WiFi Direct: 5GHz (5180 MHz), 5GHz requested, SSID=DIRECT-X3-Navegadortz
+09-02 18:18:20.940 29092 20220 I OPENHU  : [375] WifiDirectManager.onGroupInfoAvailable$lambda$7 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:20.940 29092 20220 I OPENHU  : [375] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1). Updating and Triggering Poke.
+09-02 18:18:20.941 29092 20220 I OPENHU  : [375] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:21.668 29092 29092 I OPENHU  : [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-02 18:18:21.670 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-02 18:18:21.671 29092 29092 W headunitrevived: Accessing hidden method Landroid/net/wifi/p2p/WifiP2pGroup;->getGroupOwnerBssid()Landroid/net/MacAddress; (blocked, reflection, denied)
+09-02 18:18:21.675 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p0 (EUI-64): D2:C7:57:67:AD:D6
+09-02 18:18:21.676 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: D2:C7:57:67:AD:D6
+09-02 18:18:21.677 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-X3-Navegadortz, BSSID: D2:C7:57:67:AD:D6 (source=IPv6 link-local), GO: true, IFACE: p2p0, Freq: 5180 MHz (5GHz)
+09-02 18:18:21.680 29092 29092 I OPENHU  : [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-02 18:18:21.683 29092 20235 I OPENHU  : [377] WifiDirectManager.onGroupInfoAvailable$lambda$7 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:21.684 29092 20235 I OPENHU  : [377] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1). Updating and Triggering Poke.
+09-02 18:18:21.684 29092 20235 I OPENHU  : [377] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:21.685 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-02 18:18:21.685 29092 29092 W headunitrevived: Accessing hidden method Landroid/net/wifi/p2p/WifiP2pGroup;->getGroupOwnerBssid()Landroid/net/MacAddress; (blocked, reflection, denied)
+09-02 18:18:21.690 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p0 (EUI-64): D2:C7:57:67:AD:D6
+09-02 18:18:21.691 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: D2:C7:57:67:AD:D6
+09-02 18:18:21.692 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-X3-Navegadortz, BSSID: D2:C7:57:67:AD:D6 (source=IPv6 link-local), GO: true, IFACE: p2p0, Freq: 5180 MHz (5GHz)
+09-02 18:18:21.697 29092 20236 I OPENHU  : [378] WifiDirectManager.onGroupInfoAvailable$lambda$7 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:21.698 29092 20236 I OPENHU  : [378] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1). Updating and Triggering Poke.
+09-02 18:18:21.698 29092 20236 I OPENHU  : [378] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:21.967 29092 29092 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=false callback=android.view.ViewRootImpl$$ExternalSyntheticLambda13@75b745b
+09-02 18:18:21.974 29092 29092 I headunitrevived: AssetManager2(0xb400007d25cdd878) locale list changing from [] to [en-AU]
+09-02 18:18:21.990 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:21.997 29092 29092 I OPENHU  : [2] MainActivity.logLaunchSource | App launched by user tap (referrer: none)
+09-02 18:18:22.008 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:22.061 29092 29092 W WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+09-02 18:18:22.061 29092 29092 W WindowOnBackDispatcher: Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+09-02 18:18:22.065 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:b6bfd6e8: onRequestHide at ORIGIN_CLIENT reason HIDE_SOFT_INPUT fromUser false
+09-02 18:18:22.065 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:b6bfd6e8: onFailed at PHASE_CLIENT_VIEW_SERVED
+09-02 18:18:22.069 29092 29092 I OPENHU  : [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+09-02 18:18:22.948 29092 19950 I OPENHU  : [342] 1.invokeSuspend | NativeAA: Attempting active poke to device: motorola edge 30 neo (A0:46:5A:97:E4:95)...
+09-02 18:18:22.951 29092 19950 I OPENHU  : [342] NativeAaHandshakeManager.pokeDevice | NativeAA: Calling socket.connect() for motorola edge 30 neo via HFP-AG (0000111f-0000-1000-8000-00805f9b34fb)...
+09-02 18:18:22.956 29092 19950 I BluetoothSocket: connect(), SocketState: INIT, mPfd: {ParcelFileDescriptor: java.io.FileDescriptor@5e19fcc}
+09-02 18:18:24.372 29092 29092 I OPENHU  : [2] AutoStartReceiver.onReceive | BT Device connected: motorola edge 30 neo (A0:46:5A:97:E4:95)
+09-02 18:18:24.373 29092 29092 I OPENHU  : [2] AutoStartReceiver.onReceive | MATCH! Starting AapService via Bluetooth Auto-start...
+09-02 18:18:24.396 29092 29092 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=false callback=android.view.ViewRootImpl$$ExternalSyntheticLambda13@f673fea
+09-02 18:18:24.412 29092 29092 I OPENHU  : [2] MainActivity.beginAutoConnect | Auto-connect: begin (Bluetooth auto-start, mode=PILL)
+09-02 18:18:24.413 29092 29092 I OPENHU  : [2] MainActivity.handleLaunchIntent | MainActivity: Bluetooth auto-start: forcing a Self Mode launch
+09-02 18:18:24.416 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:16b633f1: onRequestHide at ORIGIN_CLIENT reason HIDE_SOFT_INPUT fromUser false
+09-02 18:18:24.416 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:16b633f1: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+09-02 18:18:24.424 29092 29092 I OPENHU  : [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+09-02 18:18:24.458 29092 29092 I OPENHU  : [2] SelfLauncherManager.isAaVersion174OrHigher | SelfMode: Installed AA version: 17.5.663204-release (major=17, minor=5)
+09-02 18:18:24.459 29092 29092 I OPENHU  : [2] 1.invokeSuspend | SelfMode: AA 17.4+ detected. Connecting directly to Headunit Server on 127.0.0.1:5277...
+09-02 18:18:24.460 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:f547801d: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+09-02 18:18:24.460 29092 29092 I OPENHU  : [2] AapService.emitSessionState | AapService: session state connecting
+09-02 18:18:24.463 29092 19763 E OPENHU  : java.net.ConnectException: failed to connect to /127.0.0.1 (port 5277) from /127.0.0.1 (port 45546) after 5000ms: isConnected failed: ECONNREFUSED (Connection refused)
+09-02 18:18:24.463 29092 19763 E OPENHU  : java.io.IOException: java.net.ConnectException: failed to connect to /127.0.0.1 (port 5277) from /127.0.0.1 (port 45546) after 5000ms: isConnected failed: ECONNREFUSED (Connection refused)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at com.andrerinas.openheadunit.connection.projection.SocketProjectionConnection$connect$2.invokeSuspend(SocketProjectionConnection.kt:183)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at com.andrerinas.openheadunit.connection.projection.SocketProjectionConnection$connect$2.invoke(Unknown Source:8)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at com.andrerinas.openheadunit.connection.projection.SocketProjectionConnection$connect$2.invoke(Unknown Source:4)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatchedOrReturn(Undispatched.kt:78)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at kotlinx.coroutines.BuildersKt__Builders_commonKt.withContext(Builders.common.kt:167)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at kotlinx.coroutines.BuildersKt.withContext(Unknown Source:1)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at com.andrerinas.openheadunit.connection.projection.SocketProjectionConnection.connect(SocketProjectionConnection.kt:69)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at com.andrerinas.openheadunit.connection.CommManager$connect$6.invokeSuspend(CommManager.kt:370)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at com.andrerinas.openheadunit.connection.CommManager$connect$6.invoke(Unknown Source:8)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at com.andrerinas.openheadunit.connection.CommManager$connect$6.invoke(Unknown Source:4)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatchedOrReturn(Undispatched.kt:78)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at kotlinx.coroutines.BuildersKt__Builders_commonKt.withContext(Builders.common.kt:167)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at kotlinx.coroutines.BuildersKt.withContext(Unknown Source:1)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at com.andrerinas.openheadunit.connection.CommManager.connect(CommManager.kt:356)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at com.andrerinas.openheadunit.connection.self.launchers.SelfLauncherV17_4$run$success$1.invokeSuspend(SelfLauncherV17_4.kt:21)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:108)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:115)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:103)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:584)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:793)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:697)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:684)
+09-02 18:18:24.463 29092 19763 E OPENHU  : Caused by: java.net.ConnectException: failed to connect to /127.0.0.1 (port 5277) from /127.0.0.1 (port 45546) after 5000ms: isConnected failed: ECONNREFUSED (Connection refused)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at libcore.io.IoBridge.isConnected(IoBridge.java:347)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at libcore.io.IoBridge.connectErrno(IoBridge.java:237)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at libcore.io.IoBridge.connect(IoBridge.java:179)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at java.net.PlainSocketImpl.socketConnect(PlainSocketImpl.java:142)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:390)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:230)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:212)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:436)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at java.net.Socket.connect(Socket.java:646)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at com.andrerinas.openheadunit.connection.projection.SocketProjectionConnection$connect$2.invokeSuspend(SocketProjectionConnection.kt:177)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	... 22 more
+09-02 18:18:24.463 29092 19763 E OPENHU  : Caused by: android.system.ErrnoException: isConnected failed: ECONNREFUSED (Connection refused)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	at libcore.io.IoBridge.isConnected(IoBridge.java:334)
+09-02 18:18:24.463 29092 19763 E OPENHU  : 	... 31 more
+09-02 18:18:24.464 29092 29092 W OPENHU  : [2] SelfLauncherV17_4.run | SelfMode: Headunit Server (127.0.0.1:5277) is NOT running.
+09-02 18:18:24.479 29092 29092 W OPENHU  : [2] 1.invokeSuspend | SelfMode: Launch of 'v17.4+' failed
+09-02 18:18:24.479 29092 29092 E OPENHU  : [2] 1.invokeSuspend | SelfMode: All launchers failed
+09-02 18:18:24.480 29092 29092 W OPENHU  : [2] 1.emit | Auto-connect overlay: connection error: No launch method succeeded
+09-02 18:18:24.500 29092 19950 I BluetoothSocket: connect(), socket connected. mPort=3
+09-02 18:18:24.511 29092 19950 I OPENHU  : [342] NativeAaHandshakeManager.pokeDevice | NativeAA: Successfully poked motorola edge 30 neo via HFP-AG. Holding 15000ms...
+09-02 18:18:24.512 29092 19763 I OPENHU  : [307] 2.invokeSuspend | NativeAA: HFP responder active for HFP-AG poke to A0:46:5A:97:E4:95
+09-02 18:18:24.732 29092 29135 W OPENHU  : [179] 1.invokeSuspend | NativeAA: hands-free service level connection established (HFP-AG poke to A0:46:5A:97:E4:95). The phone now treats this head unit as its hands-free device, and this app cannot carry call audio.
+09-02 18:18:24.794 29092 29092 I OPENHU  : [2] 1.onReceive | WifiDirectManager: Connected. Requesting info...
+09-02 18:18:24.797 29092 29092 I OPENHU  : [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-02 18:18:24.800 29092 29092 I OPENHU  : [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-02 18:18:24.804 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-02 18:18:24.805 29092 29092 W headunitrevived: Accessing hidden method Landroid/net/wifi/p2p/WifiP2pGroup;->getGroupOwnerBssid()Landroid/net/MacAddress; (blocked, reflection, denied)
+09-02 18:18:24.810 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p0 (EUI-64): D2:C7:57:67:AD:D6
+09-02 18:18:24.811 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: D2:C7:57:67:AD:D6
+09-02 18:18:24.811 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-X3-Navegadortz, BSSID: D2:C7:57:67:AD:D6 (source=IPv6 link-local), GO: true, IFACE: p2p0, Freq: 5180 MHz (5GHz)
+09-02 18:18:24.816 29092 20265 I OPENHU  : [381] WifiDirectManager.onGroupInfoAvailable$lambda$7 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:24.817 29092 20265 I OPENHU  : [381] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1). Updating and Triggering Poke.
+09-02 18:18:24.818 29092 20265 I OPENHU  : [381] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:24.982 29092 29092 I OPENHU  : [2] 1.onReceive | WifiDirectManager: Connected. Requesting info...
+09-02 18:18:24.988 29092 29092 I OPENHU  : [2] WifiDirectManager.onConnectionInfoAvailable | WifiDirectManager: Group formed. Owner: true, GO IP: 192.168.49.1
+09-02 18:18:24.992 29092 29092 I OPENHU  : [2] 1.invoke | WifiDirectManager: Updated localDeviceAddress via requestDeviceInfo: 02:00:00:00:00:00
+09-02 18:18:24.996 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: System Location Check: GPS=true, Network=true
+09-02 18:18:24.997 29092 29092 W headunitrevived: Accessing hidden method Landroid/net/wifi/p2p/WifiP2pGroup;->getGroupOwnerBssid()Landroid/net/MacAddress; (blocked, reflection, denied)
+09-02 18:18:25.001 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p0 (EUI-64): D2:C7:57:67:AD:D6
+09-02 18:18:25.001 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: Initial BSSID from IPv6 link-local: D2:C7:57:67:AD:D6
+09-02 18:18:25.003 29092 29092 I OPENHU  : [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-X3-Navegadortz, BSSID: D2:C7:57:67:AD:D6 (source=IPv6 link-local), GO: true, IFACE: p2p0, Freq: 5180 MHz (5GHz)
+09-02 18:18:25.008 29092 20268 I OPENHU  : [382] WifiDirectManager.onGroupInfoAvailable$lambda$7 | WifiDirectManager: SUCCESS - Providing credentials to listener. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:25.008 29092 20268 I OPENHU  : [382] WifiLauncherNative.onNativeCredentials | AapService: Received WiFi credentials from manager (SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1). Updating and Triggering Poke.
+09-02 18:18:25.008 29092 20268 I OPENHU  : [382] NativeAaHandshakeManager.updateWifiCredentials | NativeAA: Credentials updated. SSID=DIRECT-X3-Navegadortz, IP=192.168.49.1, BSSID=D2:C7:57:67:AD:D6, identity stable=yes
+09-02 18:18:25.095 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:6b2e1600: onRequestHide at ORIGIN_CLIENT reason HIDE_WINDOW_LOST_FOCUS fromUser false
+09-02 18:18:25.096 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:6b2e1600: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+09-02 18:18:25.238 29092 29114 I OPENHU  : [167] 1.invokeSuspend | WppTcpServer: connection from 192.168.49.62
+09-02 18:18:25.312 29092 19763 I OPENHU  : [307] 2.invokeSuspend | WppTcpServer: TLS handshake complete with 192.168.49.62 (TLSv1.2, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256)
+09-02 18:18:25.314 29092 19763 I OPENHU  : [307] WppTcpServer.runExchange$runAction | WppTcpServer: [TX] WifiVersionRequest (Type 4) v4.2
+09-02 18:18:25.316 29092 19763 I OPENHU  : [307] WppTcpServer.send | WppTcpServer: [TX] wrote type 4 (113 bytes)
+09-02 18:18:25.373 29092 19950 I OPENHU  : [342] WppTcpServer.runExchange | WppTcpServer: [RX] Type 5 (146 bytes) status=NO_SUPPORTED_WIFI_CHANNELS(-8)
+09-02 18:18:25.373 29092 19950 I OPENHU  : [342] WppTcpServer.runExchange$runAction | WppTcpServer: [TX] WifiStartRequest (Type 1) -> 192.168.49.1:5288
+09-02 18:18:25.375 29092 19950 I OPENHU  : [342] WppTcpServer.send | WppTcpServer: [TX] wrote type 1 (19 bytes)
+09-02 18:18:25.402 29092 19950 I OPENHU  : [342] WppTcpServer.runExchange | WppTcpServer: [RX] Type 7 (2 bytes) status=SUCCESS(0)
+09-02 18:18:25.403 29092 19950 I OPENHU  : [342] WppTcpServer.runExchange | WppTcpServer: [RX] Type 6 (2 bytes) status=SUCCESS(0)
+09-02 18:18:25.439 29092 29134 I OPENHU  : [178] 1.invokeSuspend | WirelessServer: Incoming connection detected from /192.168.49.62
+09-02 18:18:25.441 29092 29092 I OPENHU  : [2] 2.invokeSuspend | WirelessServer: Accepted client connection from /192.168.49.62. Passing to CommManager...
+09-02 18:18:25.443 29092 29092 I OPENHU  : [2] AapService.emitSessionState | AapService: session state connecting
+09-02 18:18:25.444 29092 19950 I OPENHU  : [342] SocketProjectionConnection.applyLowLatencySocketOptions | Socket low-latency options: tcpNoDelay=true, recvBuf=524288, sendBuf=524288
+09-02 18:18:25.445 29092 29092 I OPENHU  : [2] AapService.emitSessionState | AapService: session state connected
+09-02 18:18:25.454 29092 29092 I OPENHU  : [2] NativeAaHandshakeManager.onSessionEstablished | NativeAA: session is up — cancelling the poke retry loop
+09-02 18:18:25.457 29092 29092 I OPENHU  : [2] WifiDirectManager.noteSessionHosted | WifiDirectManager: this group has carried a session, so the join watchdog will not recreate it if the phone leaves.
+09-02 18:18:25.459 29092 29092 I OPENHU  : [2] AapService.acquireWifiLock | WifiLock acquired (HIGH_PERF)
+09-02 18:18:25.467 29092 29092 I OPENHU  : [2] AapService.onConnected | AapService: Starting GpsLocationService and NightModeManager since connection is established
+09-02 18:18:25.473 29092 29092 I OPENHU  : [2] 1.invoke | NightMode update: true
+09-02 18:18:25.479 29092 29092 I OPENHU  : [2] GpsLocation.start | Request location updates
+09-02 18:18:25.481 29092 29092 I OPENHU  : [2] GpsLocation.start | GpsLocation: not requesting updates, ACCESS_FINE_LOCATION granted=false GPS_PROVIDER enabled=true
+09-02 18:18:25.484 29092 20273 I OPENHU  : [387] AapTransport.startHandshake$com_andrerinas_headunitrevived_3_3_0_githubDebug | Start Aap transport handshake for com.andrerinas.openheadunit.connection.projection.SocketProjectionConnection@e0b4e5a
+09-02 18:18:25.496 29092 20273 I OPENHU  : [387] AapTransport.handshake | Handshake: Version response received (ret=12, attempt=1).
+09-02 18:18:25.496 29092 20273 I OPENHU  : [387] AapTransport.handshake | Handshake: Version response recv ret: 12
+09-02 18:18:25.583 29092 20273 I OPENHU  : [387] AapSslContext.performHandshake | SSL handshake complete. Session id: 6ZtCpI4FpSP25wCsGNg2Yjw5DLdy6Wi1OlEJOT9e7vc=
+09-02 18:18:25.583 29092 20273 I OPENHU  : [387] AapTransport.handshake | Handshake: Status OK sent: 8
+09-02 18:18:25.609 29092 29092 I OPENHU  : [2] AapService.launchViaOverlayTrampoline | Overlay trampoline: startActivity succeeded
+09-02 18:18:25.626 29092 29092 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=false callback=android.view.ViewRootImpl$$ExternalSyntheticLambda13@31ff626
+09-02 18:18:25.666 29092 20271 I OPENHU  : [385] WppTcpServer.runExchange$runAction | WppTcpServer: handshake complete; projection session is up
+09-02 18:18:25.667 29092 20271 I OPENHU  : [385] WppTcpServer.holdOpen | WppTcpServer: holding the control channel open for the session
+09-02 18:18:25.679 29092 29092 W PerformanceSamp: type=1400 audit(0.0:6008): avc:  denied  { read } for  name="loadavg" dev="proc" ino=4026532108 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:proc_loadavg:s0 tclass=file permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:25.684 29092 29092 I OPENHU  : [2] AapProjectionActivity.onCreate | HeadUnit for Android Auto (tm) - Copyright 2011-2015 Michael A. Reid., since 2025 André Rinas All Rights Reserved...
+09-02 18:18:25.684 29092 29092 I OPENHU  : [2] AapProjectionActivity.setupProjectionView | Projection backend: viewMode=GLES override=false SoC=qcom board=sm6150 mfr=Xiaomi model=M2007J20CG API=35
+09-02 18:18:25.684 29092 29092 I OPENHU  : [2] AapProjectionActivity.setupProjectionView | Using GlProjectionView
+09-02 18:18:25.686 29092 29092 I OPENHU  : [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Raw size: 2400x1080, usable: 2400x1080, orientation setting: LANDSCAPE_REVERSE, configOrientation: 2
+09-02 18:18:25.686 29092 29092 I OPENHU  : [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Final normalized size: 2400x1080, usable: 2400x1080
+09-02 18:18:25.686 29092 29092 I OPENHU  : [2] AapProjectionActivity.setupProjectionView | Using GLES YUV sink for bundled software HEVC
+09-02 18:18:25.690 29092 29092 W WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+09-02 18:18:25.690 29092 29092 W WindowOnBackDispatcher: Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+09-02 18:18:25.691 29092 29092 I OPENHU  : [2] HeadUnitScreenConfig.lockResolution | [UI_DEBUG] HeadUnitScreenConfig: Locking resolution at _1920x1080
+09-02 18:18:25.693 29092 29092 I OPENHU  : [2] AapProjectionActivity.onResume | AapProjectionActivity: onResume
+09-02 18:18:25.704 29092 29092 I OPENHU  : [2] 1.onReceive | Received request to resend night mode state
+09-02 18:18:25.705 29092 29092 I OPENHU  : [2] 1.invoke | NightMode update: true
+09-02 18:18:25.727 29092 20282 I OPENHU  : [391] VideoRenderer.onSurfaceCreated | GlProjectionView: onSurfaceCreated (GL Context)
+09-02 18:18:25.729 29092 20282 I OPENHU  : [391] VideoRenderer.onSurfaceCreated | GlProjectionView: YUV handles pos=0 tex=1 mvp=0 st=1 y=6 u=7 v=8
+09-02 18:18:25.731 29092 20282 I OPENHU  : [391] VideoRenderer.onSurfaceChanged | GlProjectionView: onSurfaceChanged: 2400x1080
+09-02 18:18:25.732 29092 29092 I OPENHU  : [2] VideoRenderer.onSurfaceCreated$lambda$9 | GlProjectionView: Reporting Surface Created
+09-02 18:18:25.732 29092 29092 I OPENHU  : [2] AapProjectionActivity.onSurfaceCreated | [UI_DEBUG] [AapProjectionActivity] onSurfaceCreated
+09-02 18:18:25.732 29092 29092 I OPENHU  : [2] AapProjectionActivity.onSurfaceChanged | [UI_DEBUG] [AapProjectionActivity] onSurfaceChanged. Actual surface dimensions: width=2400, height=1080
+09-02 18:18:25.732 29092 29092 I OPENHU  : [2] VideoDecoder.setSurface | New surface set: Surface(name=android.graphics.SurfaceTexture@f6bcd73 mNativeObject=-5476376605619174640)/@0x371b430
+09-02 18:18:25.733 29092 29092 I OPENHU  : [2] VideoDecoder.stop | Decoder stopped: New surface
+09-02 18:18:25.734 29092 20273 I OPENHU  : [387] AapTransport.startReading$com_andrerinas_headunitrevived_3_3_0_githubDebug | Start Aap transport read loop
+09-02 18:18:25.735 29092 20277 I OPENHU  : [389] Base.auditFragment | AapRead: largest message body so far: 874 bytes (on CONTROL)
+09-02 18:18:25.736 29092 20277 I OPENHU  : [389] AapControlService.serviceDiscoveryRequest | Service Discovery Request: Android
+09-02 18:18:25.736 29092 20277 I OPENHU  : [389] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Raw size: 2400x1080, usable: 2400x1080, orientation setting: LANDSCAPE_REVERSE, configOrientation: 2
+09-02 18:18:25.736 29092 20277 I OPENHU  : [389] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Final normalized size: 2400x1080, usable: 2400x1080
+09-02 18:18:25.737 29092 20277 I OPENHU  : [389] Companion.makeProto | [ServiceDiscovery] Announcing NIGHT sensor support. Strategy: AUTO
+09-02 18:18:25.738 29092 20277 I OPENHU  : [389] Companion.makeProto | [ServiceDiscovery] NegotiatedResolution is: 1920x1080
+09-02 18:18:25.739 29092 20277 I OPENHU  : [389] Companion.logNegotiatedCodecCapability | [ServiceDiscovery] Negotiating a profile this device claims to carry: codec=c2.qti.avc.decoder mime=video/avc target=1920x1080@60 sizeSupported=true rateSupported=true sustains=true widths=[96, 4096] heights=[96, 4096] featureLowLatency=false featureAdaptivePlayback=true
+09-02 18:18:25.739 29092 20277 I OPENHU  : [389] Companion.makeProto | [ServiceDiscovery] Margins are: 0x216
+09-02 18:18:25.741 29092 20277 I OPENHU  : [389] Companion.makeProto | BT MAC Address is empty, so no Bluetooth service is announced. The phone is not told where to connect hands-free, and Android Auto keeps phone calls on the phone until it is
+09-02 18:18:25.743 29092 29092 I OPENHU  : [2] AapService.emitSessionState | AapService: session state projecting
+09-02 18:18:25.749 29092 29092 I OPENHU  : [2] 1.onReceive | Received request to resend night mode state
+09-02 18:18:25.749 29092 29092 I OPENHU  : [2] 1.invoke | NightMode update: true
+09-02 18:18:25.750 29092 29092 I OPENHU  : [2] AapTransport.noteDroppedSensorEvent | AapTransport: dropping sensor events, isAlive=true startedSensors=[] droppedByType={10=1}
+09-02 18:18:25.788 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:31f1c5ce: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+09-02 18:18:25.944 29092 20277 I OPENHU  : [389] AapControlService.audioFocusRequest | Audio Focus Request: RELEASE
+09-02 18:18:25.945 29092 20277 I OPENHU  : [389] AapControlService.audioFocusRequest | Sending immediate AudioFocusNotification: STATE_LOSS (always-grant)
+09-02 18:18:25.946 29092 20277 I OPENHU  : [389] AapAudio.requestFocusChange | Audio Focus Request: stream=3, type=4
+09-02 18:18:25.946 29092 20277 I OPENHU  : [389] AapAudio.requestFocusChange | Releasing audio focus
+09-02 18:18:26.010 29092 20277 I OPENHU  : [389] AapControlMedia.mediaSinkSetupRequest | Media Sink Setup Request: 1 on channel AUDIO2
+09-02 18:18:26.011 29092 20277 I OPENHU  : [389] AapControlMedia.mediaSinkSetupRequest | Config response: status: HEADUNIT
+09-02 18:18:26.011 29092 20277 I OPENHU  : max_unacked: 30
+09-02 18:18:26.011 29092 20277 I OPENHU  : configuration_indices: 0
+09-02 18:18:26.011 29092 20277 I OPENHU  :  (maxUnacked=30)
+09-02 18:18:26.012 29092 20277 W OPENHU  : [389] AapVideo.process | AapVideo: Dropped Flag 11 packet. len=4
+09-02 18:18:26.012 29092 20277 I OPENHU  : [389] AapControlMedia.mediaSinkSetupRequest | Media Sink Setup Request: 3 on channel VIDEO
+09-02 18:18:26.013 29092 20277 I OPENHU  : [389] AapControlMedia.mediaSinkSetupRequest | Config response: status: HEADUNIT
+09-02 18:18:26.013 29092 20277 I OPENHU  : max_unacked: 12
+09-02 18:18:26.013 29092 20277 I OPENHU  : configuration_indices: 0
+09-02 18:18:26.013 29092 20277 I OPENHU  :  (maxUnacked=12)
+09-02 18:18:26.015 29092 20277 I OPENHU  : [389] AapControlSensor.sensorStartRequest | Sensor Start Request sensor: DRIVING_STATUS, minUpdatePeriod: 0
+09-02 18:18:26.015 29092 20277 I OPENHU  : [389] AapControlSensor.sensorStartRequest | SENSOR Sensor Start Response type: 32770 flags: 11 size: 8 dataOffset: 6
+09-02 18:18:26.031 29092 20277 I OPENHU  : [389] AapControlSensor.sensorStartRequest | Sensor Start Request sensor: NIGHT, minUpdatePeriod: 0
+09-02 18:18:26.032 29092 20277 I OPENHU  : [389] AapControlSensor.sensorStartRequest | SENSOR Sensor Start Response type: 32770 flags: 11 size: 8 dataOffset: 6
+09-02 18:18:26.032 29092 20277 I OPENHU  : [389] AapControlSensor.sensorStartRequest | Night sensor requested. Triggering immediate update.
+09-02 18:18:26.034 29092 29092 I OPENHU  : [2] 1.onReceive | Received request to resend night mode state
+09-02 18:18:26.035 29092 29092 I OPENHU  : [2] 1.invoke | NightMode update: true
+09-02 18:18:26.682 29092 29092 W PerformanceSamp: type=1400 audit(0.0:6009): avc:  denied  { read } for  name="loadavg" dev="proc" ino=4026532108 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:proc_loadavg:s0 tclass=file permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:26.691 29092 29092 W OPENHU  : [2] 1.run | Watchdog: No video received yet. Requesting Keyframe (Unsolicited Focus)...
+09-02 18:18:26.696 29092 20277 W OPENHU  : [389] AapVideo.process | AapVideo: Dropped Flag 11 packet. len=6
+09-02 18:18:26.697 29092 20277 I OPENHU  : [389] AapControlMedia.mediaStartRequest | Media Start Request VIDEO: session=0, config_index=0
+09-02 18:18:26.851 29092 20277 I OPENHU  : [389] VideoDecoder.applyStreamDimensions | H.264 SPS parsed: 1920x1080 (negotiated 1920x1080)
+09-02 18:18:26.852 29092 20277 I OPENHU  : [389] AapProjectionActivity.onVideoDimensionsChanged | [AapProjectionActivity] Received video dimensions: 1920x1080
+09-02 18:18:26.853 29092 20277 I OPENHU  : [389] VideoDecoder.applyParameterSet | Stream SPS (H.264): profile=66 level=42 poc_type=2 num_ref_frames=1 size=1920x1080 vui=true bitstream_restriction=true num_reorder_frames=0 max_dec_frame_buffering=1
+09-02 18:18:26.853 29092 29092 I OPENHU  : [2] GlProjectionView.setVideoSize | GlProjectionView setVideoSize: 1920x1080
+09-02 18:18:26.854 29092 29092 I OPENHU  : [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Raw size: 2400x1080, usable: 2400x1080, orientation setting: LANDSCAPE_REVERSE, configOrientation: 2
+09-02 18:18:26.855 29092 29092 I OPENHU  : [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Final normalized size: 2400x1080, usable: 2400x1080
+09-02 18:18:26.856 29092 20277 I OPENHU  : [389] VideoDecoder.findBestCodec | findBestCodec: hw=c2.qti.avc.decoder, sw=c2.android.avc.decoder, preferHardware=true, selected=c2.qti.avc.decoder
+09-02 18:18:26.856 29092 29092 I OPENHU  : [2] ProjectionViewScaler.updateScale | [UI_DEBUG] Normal Scale. scaleX: 1.0, scaleY: 1.25
+09-02 18:18:26.857 29092 20277 I OPENHU  : [389] VideoDecoder.logDecoderCapability | Decoder capability: codec=c2.qti.avc.decoder mime=video/avc target=1920x1080@60 sizeSupported=true rateSupported=true sustains=true widths=[96, 4096] heights=[96, 4096] featureLowLatency=false featureAdaptivePlayback=true
+09-02 18:18:26.862 29092 20284 I CCodec  : setting up 'default' as default (vendor) store
+09-02 18:18:26.865 29092 20284 I CCodec  : Created component [c2.qti.avc.decoder]
+09-02 18:18:26.869 29092 20284 I CCodecConfig: query failed after returning 17 values (BAD_INDEX)
+09-02 18:18:26.869 29092 20284 W ColorUtils: expected specified color aspects (0:0:0:0)
+09-02 18:18:26.872 29092 20277 I OPENHU  : [389] VideoDecoder.start | Configuring decoder: c2.qti.avc.decoder for 1920x1080, max-input-size=1530KB, memory=AMPLE (totalRam=5558MB heapLimit=512MB memoryClass=256MB lowRamFlag=false), queue=30 frames, optionalKeys=none
+09-02 18:18:26.873 29092 20283 I MediaCodec: [c2.qti.avc.decoder] setting surface generation to 29790221
+09-02 18:18:26.874 29092 20284 W Codec2Client: query -- param skipped: index = 1107298332.
+09-02 18:18:26.874 29092 20284 W CCodec  : This behavior is subject to change. It is recommended that app developers double check whether the requested max input size is in reasonable range.
+09-02 18:18:26.874 29092 20284 I CCodecConfig: query failed after returning 17 values (BAD_INDEX)
+09-02 18:18:26.886 29092 20284 W Codec2Client: query -- param skipped: index = 1342179345.
+09-02 18:18:26.886 29092 20284 W Codec2Client: query -- param skipped: index = 2415921170.
+09-02 18:18:26.886 29092 20284 W Codec2Client: query -- param skipped: index = 1610614798.
+09-02 18:18:26.887 29092 20284 I CCodecBufferChannel: [c2.qti.avc.decoder#515] Created output block pool with allocatorID 18 => poolID 208 - OK
+09-02 18:18:26.899 29092 20288 I OPENHU  : [393] VideoDecoder.outputThreadLoop | Output thread started
+09-02 18:18:26.899 29092 20277 I OPENHU  : [389] VideoDecoder.start | Codec initialized: c2.qti.avc.decoder
+09-02 18:18:26.900 29092 20277 I OPENHU  : [389] Base.auditFragment | AapRead: largest message body so far: 8215 bytes (on VIDEO)
+09-02 18:18:26.906 29092 20289 I OPENHU  : [394] VideoDecoder.feedThreadLoop | Feed thread started (queue holds 30 frames, 500ms at 60fps)
+09-02 18:18:26.906 29092 20289 I OPENHU  : [394] VideoDecoder.feedInputBuffer | Codec input buffer: requested 1530KB, got 12960KB per buffer
+09-02 18:18:26.906 29092 20289 I OPENHU  : [394] VideoDecoder.reportContentOnce | VideoDecoder: access unit classified PARAMETER_SETS_ONLY - flagged to the codec as configuration (first this session)
+09-02 18:18:26.908 29092 20289 I OPENHU  : [394] VideoDecoder.reportContentOnce | VideoDecoder: access unit classified NO_PARAMETER_SETS - an ordinary frame (first this session)
+09-02 18:18:26.912 29092 20289 I OPENHU  : [394] VideoDecoder.feedInputBuffer | VideoDecoder: keyframe reached the codec (8176 bytes)
+09-02 18:18:26.932 29092 20288 I OPENHU  : [393] VideoDecoder.handleOutputFormatChange | Output Format Changed: {crop-right=1919, max-height=2160, sar-width=1, color-format=2130708361, mime=video/raw, hdr-static-info=java.nio.HeapByteBuffer[pos=0 lim=25 cap=25], priority=1, color-standard=2, feature-secure-playback=0, color-transfer=3, sar-height=1, crop-bottom=1079, max-width=4096, crop-left=0, width=1920, color-range=2, crop-top=0, rotation-degrees=0, frame-rate=30, height=1080}
+09-02 18:18:26.940 29092 20288 I OPENHU  : [393] VideoDecoder.outputThreadLoop | VideoDecoder: keyframe decoded - the picture is repaired
+09-02 18:18:26.940 29092 20288 I OPENHU  : [393] VideoDecoder.outputThreadLoop | First frame rendered (hardware decode)
+09-02 18:18:26.940 29092 29092 I OPENHU  : [2] AapProjectionActivity.hideLoadingOverlay | Hiding loading overlay after first video frame
+09-02 18:18:26.969 29092 20277 I OPENHU  : [389] AapControlSensor.sensorStartRequest | Sensor Start Request sensor: LOCATION, minUpdatePeriod: 0
+09-02 18:18:26.969 29092 20277 I OPENHU  : [389] AapControlSensor.sensorStartRequest | SENSOR Sensor Start Response type: 32770 flags: 11 size: 8 dataOffset: 6
+09-02 18:18:26.974 29092 20277 I OPENHU  : [389] AapControlSensor.sensorStartRequest | LOCATION sensor requested. Sending current fix immediately. sentOnWire=true
+09-02 18:18:27.682 29092 29092 W PerformanceSamp: type=1400 audit(0.0:6010): avc:  denied  { read } for  name="loadavg" dev="proc" ino=4026532108 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:proc_loadavg:s0 tclass=file permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:28.682 29092 29092 W PerformanceSamp: type=1400 audit(0.0:6011): avc:  denied  { read } for  name="loadavg" dev="proc" ino=4026532108 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:proc_loadavg:s0 tclass=file permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:29.686 29092 29092 W PerformanceSamp: type=1400 audit(0.0:6012): avc:  denied  { read } for  name="loadavg" dev="proc" ino=4026532108 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:proc_loadavg:s0 tclass=file permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:30.686 29092 29092 W PerformanceSamp: type=1400 audit(0.0:6013): avc:  denied  { read } for  name="loadavg" dev="proc" ino=4026532108 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:proc_loadavg:s0 tclass=file permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:31.070 29092 20277 I OPENHU  : [389] Base.auditFragment | AapRead: fragment accounting established for VIDEO: channel=2 fragments=10 declaredTotal=154720 observed=155010 delta=-290 perFragment=-29
+09-02 18:18:31.686 29092 29092 W PerformanceSamp: type=1400 audit(0.0:6014): avc:  denied  { read } for  name="loadavg" dev="proc" ino=4026532108 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:proc_loadavg:s0 tclass=file permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:31.916 29092 20288 I OPENHU  : [393] VideoDecoder.logThroughput | Throughput over 5005ms: rendered=145 (28fps), fed=148 (29fps), dropped=0, skipped=0, concealed=0, inputWait=88ms, enqueueWait=0ms, codec=c2.qti.avc.decoder, presented=143 (28fps), decodeLatency=13ms p95=21ms (143 frames)
+09-02 18:18:31.982 29092 20282 I OPENHU  : [391] VideoRenderer.markFrameDrawn | GlProjectionView: displayed 147 frames in 5045ms (29fps), longFrames=1
+09-02 18:18:32.686 29092 29092 W PerformanceSamp: type=1400 audit(0.0:6015): avc:  denied  { read } for  name="loadavg" dev="proc" ino=4026532108 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:proc_loadavg:s0 tclass=file permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:33.686 29092 29092 W PerformanceSamp: type=1400 audit(0.0:6016): avc:  denied  { read } for  name="loadavg" dev="proc" ino=4026532108 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:proc_loadavg:s0 tclass=file permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:34.686 29092 29092 W PerformanceSamp: type=1400 audit(0.0:6017): avc:  denied  { read } for  name="loadavg" dev="proc" ino=4026532108 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:proc_loadavg:s0 tclass=file permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:35.460 29092 29135 I OPENHU  : [179] WppTcpServer.holdOpen | WppTcpServer: the phone closed the control channel after 0 pings
+09-02 18:18:35.461 29092 29135 I OPENHU  : [179] 2.invokeSuspend | WppTcpServer: session closed
+09-02 18:18:35.686 29092 29092 W PerformanceSamp: type=1400 audit(0.0:6018): avc:  denied  { read } for  name="loadavg" dev="proc" ino=4026532108 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:proc_loadavg:s0 tclass=file permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:36.686 29092 29092 W PerformanceSamp: type=1400 audit(0.0:6019): avc:  denied  { read } for  name="loadavg" dev="proc" ino=4026532108 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:proc_loadavg:s0 tclass=file permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:36.919 29092 20288 I OPENHU  : [393] VideoDecoder.logThroughput | Throughput over 5003ms: rendered=270 (53fps), fed=269 (53fps), dropped=0, skipped=0, concealed=0, inputWait=123ms, enqueueWait=0ms, codec=c2.qti.avc.decoder, presented=270 (53fps), decodeLatency=13ms p95=18ms (270 frames)
+09-02 18:18:36.992 29092 20282 I OPENHU  : [391] VideoRenderer.markFrameDrawn | GlProjectionView: displayed 271 frames in 5011ms (54fps), longFrames=1
+09-02 18:18:37.686 29092 29092 W PerformanceSamp: type=1400 audit(0.0:6020): avc:  denied  { read } for  name="loadavg" dev="proc" ino=4026532108 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:proc_loadavg:s0 tclass=file permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:38.686 29092 29092 W PerformanceSamp: type=1400 audit(0.0:6021): avc:  denied  { read } for  name="loadavg" dev="proc" ino=4026532108 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:proc_loadavg:s0 tclass=file permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:39.686 29092 29092 W PerformanceSamp: type=1400 audit(0.0:6022): avc:  denied  { read } for  name="loadavg" dev="proc" ino=4026532108 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:proc_loadavg:s0 tclass=file permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:40.554 29092 29092 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=false callback=android.view.ViewRootImpl$$ExternalSyntheticLambda13@a4c2ee0
+09-02 18:18:40.669 29092 29092 I OPENHU  : [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Raw size: 2400x1080, usable: 2400x1080, orientation setting: LANDSCAPE_REVERSE, configOrientation: 2
+09-02 18:18:40.669 29092 29092 I OPENHU  : [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Final normalized size: 2400x1080, usable: 2400x1080
+09-02 18:18:40.670 29092 29092 I OPENHU  : [2] ProjectionViewScaler.updateScale | [UI_DEBUG] Normal Scale. scaleX: 1.0, scaleY: 1.25
+09-02 18:18:40.686 29092 29092 W PerformanceSamp: type=1400 audit(0.0:6023): avc:  denied  { read } for  name="loadavg" dev="proc" ino=4026532108 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:proc_loadavg:s0 tclass=file permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:40.695 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:aebd8f69: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+09-02 18:18:41.161 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.162 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.163 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.164 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.165 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.166 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.167 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.167 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.168 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.169 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.170 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.171 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.172 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.173 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.174 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.175 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.175 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.176 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.177 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.177 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.178 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.179 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.179 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.180 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.181 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.181 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.182 29092 29092 W HWUI    : Image decoding logging dropped!
+09-02 18:18:41.686 29092 29092 W PerformanceSamp: type=1400 audit(0.0:6024): avc:  denied  { read } for  name="loadavg" dev="proc" ino=4026532108 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:proc_loadavg:s0 tclass=file permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:41.922 29092 20288 I OPENHU  : [393] VideoDecoder.logThroughput | Throughput over 5002ms: rendered=195 (38fps), fed=194 (38fps), dropped=0, skipped=0, concealed=0, inputWait=72ms, enqueueWait=0ms, codec=c2.qti.avc.decoder, presented=195 (38fps), decodeLatency=12ms p95=16ms (195 frames)
+09-02 18:18:41.996 29092 20282 I OPENHU  : [391] VideoRenderer.markFrameDrawn | GlProjectionView: displayed 186 frames in 5003ms (37fps), longFrames=1
+09-02 18:18:42.156 29092 29135 W OPENHU  : [179] 2.invokeSuspend | LogExporter: session | build=3.3.0 (103) github/debug commit=e9ab7f135ec7 | device=Xiaomi M2007J20CG board=sm6150 api=35 | video=codec:H.264 fps:60 resId:3 view:GLES forceSw:false swDecoder:BUNDLED_FFMPEG | wifi=mode:NATIVE strategy:WIFI_DIRECT | logLevel=INFO | debug=none
+09-02 18:18:42.689 29092 29092 W PerformanceSamp: type=1400 audit(0.0:6025): avc:  denied  { read } for  name="loadavg" dev="proc" ino=4026532108 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:proc_loadavg:s0 tclass=file permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:43.711 29092 29092 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=false callback=android.view.ViewRootImpl$$ExternalSyntheticLambda13@a21bde
+09-02 18:18:43.722 29092 29092 W PerformanceSamp: type=1400 audit(0.0:6026): avc:  denied  { read } for  name="loadavg" dev="proc" ino=4026532108 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:proc_loadavg:s0 tclass=file permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:43.726 29092 29092 I OPENHU  : [2] AapProjectionActivity.onPause | AapProjectionActivity: onPause
+09-02 18:18:43.728 29092 29092 I OPENHU  : [2] AapProjectionActivity.maybeOpenCallRaiseEpisode | AapProjectionActivity: leaving this cover alone - the user left deliberately
+09-02 18:18:43.772 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:d95142ef: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+09-02 18:18:44.172 29092 29092 I OPENHU  : [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Raw size: 2400x1080, usable: 2400x1080, orientation setting: LANDSCAPE_REVERSE, configOrientation: 2
+09-02 18:18:44.173 29092 29092 I OPENHU  : [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Final normalized size: 2400x1080, usable: 2400x1080
+09-02 18:18:44.174 29092 29092 I OPENHU  : [2] ProjectionViewScaler.updateScale | [UI_DEBUG] Normal Scale. scaleX: 1.0, scaleY: 1.25
+09-02 18:18:44.726 29092 29092 W PerformanceSamp: type=1400 audit(0.0:6027): avc:  denied  { read } for  name="loadavg" dev="proc" ino=4026532108 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:proc_loadavg:s0 tclass=file permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:45.726 29092 29092 I OPENHU  : [2] AapProjectionActivity.onResume | AapProjectionActivity: onResume
+09-02 18:18:45.736 29092 29092 W PerformanceSamp: type=1400 audit(0.0:6028): avc:  denied  { read } for  name="loadavg" dev="proc" ino=4026532108 scontext=u:r:untrusted_app:s0:c12,c257,c512,c768 tcontext=u:object_r:proc_loadavg:s0 tclass=file permissive=0 app=com.andrerinas.headunitrevived
+09-02 18:18:45.739 29092 29092 I OPENHU  : [2] 1.onReceive | Received request to resend night mode state
+09-02 18:18:45.741 29092 29092 I OPENHU  : [2] 1.invoke | NightMode update: true
+09-02 18:18:45.751 29092 29092 I OPENHU  : [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Raw size: 2400x1080, usable: 2400x1080, orientation setting: LANDSCAPE_REVERSE, configOrientation: 2
+09-02 18:18:45.752 29092 29092 I OPENHU  : [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Final normalized size: 2400x1080, usable: 2400x1080
+09-02 18:18:45.752 29092 29092 I OPENHU  : [2] ProjectionViewScaler.updateScale | [UI_DEBUG] Normal Scale. scaleX: 1.0, scaleY: 1.25
+09-02 18:18:45.785 29092 29092 I OPENHU  : [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Raw size: 2400x1080, usable: 2400x1080, orientation setting: LANDSCAPE_REVERSE, configOrientation: 2
+09-02 18:18:45.785 29092 29092 I OPENHU  : [2] HeadUnitScreenConfig.init | [UI_DEBUG] HeadUnitScreenConfig: Final normalized size: 2400x1080, usable: 2400x1080
+09-02 18:18:45.786 29092 29092 I OPENHU  : [2] ProjectionViewScaler.updateScale | [UI_DEBUG] Normal Scale. scaleX: 1.0, scaleY: 1.25
+09-02 18:18:45.793 29092 29092 I ImeTracker: com.andrerinas.headunitrevived:78791277: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+09-02 18:18:46.430 29092 20271 W OPENHU  : [385] 2.invokeSuspend | LogExporter: session | build=3.3.0 (103) github/debug commit=e9ab7f135ec7 | device=Xiaomi M2007J20CG board=sm6150 api=35 | video=codec:H.264 fps:60 resId:3 view:GLES forceSw:false swDecoder:BUNDLED_FFMPEG | wifi=mode:NATIVE strategy:WIFI_DIRECT | logLevel=INFO | debug=none
+
+LogExporter: session | build=3.3.0 (103) github/debug commit=e9ab7f135ec7 | device=Xiaomi M2007J20CG board=sm6150 api=35 | video=codec:H.264 fps:60 resId:3 view:GLES forceSw:false swDecoder:BUNDLED_FFMPEG | wifi=mode:NATIVE strategy:WIFI_DIRECT | logLevel=INFO | debug=none

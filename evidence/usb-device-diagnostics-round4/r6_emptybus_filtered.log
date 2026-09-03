@@ -1,0 +1,14 @@
+08-31 21:45:27.771 I/OPENHU  (21250): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+08-31 21:45:27.771 I/OPENHU  (21250): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB button sees 0 USB device(s), 0 usable for Android Auto
+08-31 21:45:43.192 V/OPENHU  (21250): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 1 USB device(s), 1 usable for Android Auto
+08-31 21:45:43.193 V/OPENHU  (21250): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Xiaomi POCO X3 NFC (VID: 18D1 PID: 4EE1) [class 00/00/00, permission] accepted: PTP | if0 06/01/01 (1xbulkIn+1xbulkOut+1 other)
+08-31 21:45:43.220 V/OPENHU  (21250): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB attach sees 1 USB device(s), 1 usable for Android Auto
+08-31 21:45:43.221 V/OPENHU  (21250): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Xiaomi POCO X3 NFC (VID: 18D1 PID: 4EE1) [class 00/00/00, permission] accepted: PTP | if0 06/01/01 (1xbulkIn+1xbulkOut+1 other)
+08-31 21:45:43.280 I/OPENHU  (21250): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+08-31 21:45:43.280 I/OPENHU  (21250): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 0 USB device(s), 0 usable for Android Auto
+08-31 21:45:43.865 V/OPENHU  (21250): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 1 USB device(s), 1 usable for Android Auto
+08-31 21:45:43.865 V/OPENHU  (21250): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Xiaomi POCO X3 NFC (VID: 18D1 PID: 2D00) [class 00/00/00, permission] accepted: already in accessory mode | if0 FF/FF/00 (1xbulkIn+1xbulkOut)
+08-31 21:45:43.869 V/OPENHU  (21250): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: service scan (force=true) sees 1 USB device(s), 1 usable for Android Auto
+08-31 21:45:43.869 V/OPENHU  (21250): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Xiaomi POCO X3 NFC (VID: 18D1 PID: 2D00) [class 00/00/00, permission] accepted: already in accessory mode | if0 FF/FF/00 (1xbulkIn+1xbulkOut)
+08-31 21:45:43.890 V/OPENHU  (21250): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB attach sees 1 USB device(s), 1 usable for Android Auto
+08-31 21:45:43.891 V/OPENHU  (21250): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics:   Xiaomi POCO X3 NFC (VID: 18D1 PID: 2D00) [class 00/00/00, permission] accepted: already in accessory mode | if0 FF/FF/00 (1xbulkIn+1xbulkOut)
