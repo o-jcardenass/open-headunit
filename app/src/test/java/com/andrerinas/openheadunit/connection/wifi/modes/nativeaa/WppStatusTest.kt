@@ -19,6 +19,8 @@ class WppStatusTest {
         assertEquals("NO_SUPPORTED_WIFI_CHANNELS(-8)", WppStatus.describe(-8))
         assertEquals("INSTRUCT_USER_TO_CHECK_THE_PHONE(-9)", WppStatus.describe(-9))
         assertEquals("PHONE_WIFI_DISABLED(-10)", WppStatus.describe(-10))
+        // The one a phone hosting its own hotspot answers our credentials with.
+        assertEquals("WIFI_NETWORK_UNAVAILABLE(-11)", WppStatus.describe(-11))
     }
 
     @Test

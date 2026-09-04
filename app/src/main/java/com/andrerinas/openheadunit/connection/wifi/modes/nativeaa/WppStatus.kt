@@ -25,7 +25,10 @@ object WppStatus {
         -7 to "INVALID_HOST",
         -8 to "NO_SUPPORTED_WIFI_CHANNELS",
         -9 to "INSTRUCT_USER_TO_CHECK_THE_PHONE",
-        -10 to "PHONE_WIFI_DISABLED"
+        -10 to "PHONE_WIFI_DISABLED",
+        // What a phone answers when our network is not reachable from where it is standing. The
+        // measured case is the phone's own hotspot holding its radio, so ours is never found.
+        -11 to "WIFI_NETWORK_UNAVAILABLE"
     )
 
     /** [status] as `NAME(n)`, `unknown(n)` for one not in the table, or "-" where absent. */
