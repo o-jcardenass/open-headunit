@@ -15,6 +15,14 @@ Read **§3 of `TESTING-TEMPLATE.md`** and then **§3 of this brief**. The templa
 automation receiver and does not describe it; §3 below does, and it supersedes the template wherever
 the two disagree about how to drive the app.
 
+**Brief revision 2, 2026-09-04.** If your copy does not carry this block, it is revision 1 and the
+SHAs in §1 have moved. Nothing about the runs changed. The fix branch was compacted from six commits
+to two, which rewrote both branch tips: the candidate is now `8bf8340d`, stamp `8bf8340d0c82`, and
+the fix branch is `df516ce4`. The tree is byte-identical to revision 1's and the unit gate is still
+1333 / 0, so only §1, §5's verification line and R0's stamp check differ. **Build revision 1's APK
+and R0 will fail on the stamp.** Every SHA revision 1 named is kept reachable by the tag
+`driver-selection-pre-compaction-20260904`.
+
 This file is append-only. Corrections arrive as new commits and a `git pull` fast-forwards, so no
 brief you have already read changes under you.
 
@@ -28,16 +36,16 @@ run needs one.
 
 | | Branch | SHA |
 |---|---|---|
-| **Candidate** | `fork/testing/driver-selection-plus-automation` | `25385ec3` |
+| **Candidate** | `fork/testing/driver-selection-plus-automation` | `8bf8340d` |
 
-Same branch as rounds 2 and 3, moved forward. It is already pushed. **The merge commit was remade
-this round**, so a plain `git pull` on an existing local copy will refuse to fast-forward: reset onto
-the remote rather than merging.
+Same branch as rounds 2 and 3, rebuilt. It is already pushed. **Both branch tips were rewritten this
+round**, so a plain `git pull` on an existing local copy will refuse to fast-forward: reset onto the
+remote rather than merging.
 
 ```bash
 git fetch fork
 git checkout testing/driver-selection-plus-automation
-git reset --hard fork/testing/driver-selection-plus-automation      # 25385ec3
+git reset --hard fork/testing/driver-selection-plus-automation      # 8bf8340d
 
 # how it was made, and how to remake it if an input moves:
 #   git checkout -b testing/driver-selection-plus-automation fork/fix/native-driver-selection-headless
@@ -49,22 +57,23 @@ Its two inputs, both on `fork`:
 
 | Input | Tip | What it is |
 |---|---|---|
-| `fix/native-driver-selection-headless` | `d8c32745` | six commits on the upstream driver-selection head `d103ce7a`, which is itself on `main` `ce2897c4`. The sixth is what this round measures; rounds 2 and 3 measured the first five. |
+| `fix/native-driver-selection-headless` | `df516ce4` | **two** commits on the upstream driver-selection head `d103ce7a`, which is itself on `main` `ce2897c4`. Compacted from the six that rounds 2 and 3 measured, and provably so: the first reproduces round 2's tree exactly and the second reproduces the tree round 3 measured plus this round's fix. The second commit is what this round is about. |
 | `pr/automation-command-surface` | `2f21242e` | unchanged since round 2: the automation receiver, and a build stamp that puts the commit into the log. Not under test; it is the instrument. |
 
 **Identity check, exact as in round 3.** The build stamps its own commit:
 
 ```bash
-./gradlew :app:assembleGithubDebug        # prints "Building from commit: 25385ec30575"
+./gradlew :app:assembleGithubDebug        # prints "Building from commit: 8bf8340d0c82"
 adb shell am broadcast -f 0x00000020 -n com.andrerinas.headunitrevived/com.andrerinas.openheadunit.automation.AutomationReceiver \
   -a com.andrerinas.openheadunit.ACTION_QUERY_STATE
-# the reply JSON on data= must carry "commit":"25385ec30575"
+# the reply JSON on data= must carry "commit":"8bf8340d0c82"
 ```
 
 Anything ending in `-dirty` means the tree had uncommitted changes when it was built. Stop and clean
 it: a dirty build cannot be tied to this brief.
 
-Unit gate, measured off-rig: **1333 / 0**. (The fix branch alone is 1304; round 3's merge was 1324.)
+Unit gate, measured off-rig: **1333 / 0**, unchanged by the compaction. (The fix branch alone is
+1304; round 3's merge was 1324.)
 `:app:compileGithubDebugKotlin` succeeds off-rig, so a build failure on the rig is a toolchain
 problem, not the branch.
 
@@ -116,9 +125,9 @@ Two smaller holes in the same gate were found and closed with it: an expired pro
 out of the accept gate without consulting the switch rules at all, and every refusal wrote its own
 log line, which is where the 152 came from.
 
-The fix: the chosen phone is woken up to **three** times, 20 s each with a 15 s gap, and it is the
-only phone the accept gate lets in for as long as that wake is running, capped at **120 s**. The
-switch-away refusal now survives the pick. Refusals log once per phone per window and are counted
+The fix, the second commit on the fix branch: the chosen phone is woken up to **three** times, 20 s
+each with a 15 s gap, and it is the only phone the accept gate lets in for as long as that wake is
+running, capped at **120 s**. The switch-away refusal now survives the pick. Refusals log once per phone per window and are counted
 after that.
 
 Still unfixed on purpose: `Auto` and `Always` are the same mode, because both arms of the history
@@ -237,8 +246,8 @@ MACs, unchanged: **D-MOTO `A0:46:5A:97:E4:95`**, **D-POCO `DC:B7:2E:5E:4E:59`**.
 
 ## 5. The lines that decide every run
 
-All verified with `grep -F` against `25385ec3` before this brief was written, except the band in the
-`createGroup SUCCESS` line, which is interpolated at runtime. Anything not on this list, treat as
+All verified with `grep -F` against this candidate's tree before this brief was written, except the
+band in the `createGroup SUCCESS` line, which is interpolated at runtime. Anything not on this list, treat as
 context.
 
 **Should not appear at all this round:**
@@ -324,7 +333,7 @@ the first command of each run before waiting out a capture.
 ### R0: build gate
 
 Build, install, unit-test on the rig. PASS needs all three: the build prints
-`Building from commit: 25385ec30575` with no `-dirty`; `ACTION_QUERY_STATE` replies with the same
+`Building from commit: 8bf8340d0c82` with no `-dirty`; `ACTION_QUERY_STATE` replies with the same
 commit; the unit gate reads **1333 / 0**. Record the APK md5.
 
 Any other unit count means the wrong tree was built. Stop and say so rather than running the round.
