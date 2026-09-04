@@ -7,6 +7,14 @@ receiver, which removes most of round 1's taps.
 Rig: **D-HU** (MT50) as the head unit, **D-POCO** and **D-MOTO** both bonded to it as driver phones.
 Both stay bonded for R1 to R7 and R9; R8 unpairs one on purpose and re-pairs afterwards.
 
+**Brief revision 2, 2026-09-04.** If your copy does not carry this block, it is revision 1 and four
+things changed after it. Re-read those four rather than the whole file: the `send` helper needs
+`-f 0x00000020` or the first command of every run is dropped (§3); R5's verdict is the count of
+distinct `p2p-wlan0-N`, not `createGroup SUCCESS`, which refresh churn inflates (§6); R9 records
+INCONCLUSIVE rather than PASS when the guard line never appears (§6); and R5 joins R6 and R7 in the
+list of runs that need a tap (§3). This file is append-only from here: revisions arrive as new
+commits and a `git pull` will fast-forward, so no brief you have already read will change under you.
+
 Read **§3 of `TESTING-TEMPLATE.md`** and then **§3 of this brief**. The template's §3 predates the
 automation receiver and does not describe it; §3 below does, and it supersedes the template wherever
 the two disagree about how to drive the app.
