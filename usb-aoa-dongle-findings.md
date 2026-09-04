@@ -180,26 +180,45 @@ Root cause: the head unit's USB 2.0 link is electrically marginal. Conclusive ev
 2. Disconnects are physical `USB_DEVICE_DETACHED`, not software.
 3. Small bulk transfers (audio, 118 kB/s) survive while large ones (video) collapse - the classic
    marginal-HS-link signature.
+4. **Our own instrument scores it.** At `13:50:00`, during the *good* window:
+   `AapTransport: inbound link quiet 3 times in 30016ms: dead=7267ms (24%), longest=3029ms`. That is
+   `LinkGapMonitor` measuring a 24% dead link with a 3.0 s hole, by measurement rather than by
+   inference from the USB 1.1 workaround. Video never exceeded 27 fps of a negotiated 60 even while
+   healthy, with `inputWait` 59-138 ms.
+
+**The two reporters are not the same fault.** JHLEU's Force-USB-1.1 fixed it outright, which is the
+electrical case above. s4toruu-x said 1.1 did *not* fix it (comment 5492915598), so this log should
+not be filed under JHLEU's root cause. What is different about their unit:
+
+**It runs its own OEM Bluetooth module competing for Android Auto.** `Goc bluetooth version :
+GBTSD4.S9G7.1250513` cycles dead regular at **17.5 s** for the whole session: `unregister_AA_uuid`
+-> two `register_AA_uuid` -> `send_spp_connect:5a420c, type[2]`, 29 complete cycles, with BLE
+discovery bursts in between. A continuous 2.4 GHz scanner sitting next to a wireless dongle's own
+radio link to the phone. A confounder to name, not something we fix - but it means the "link" here
+is not only USB, and a dongle that resets when its radio drops presents as `USB_DEVICE_DETACHED`
+with nothing wrong on the wire.
 
 **Our handoff findings do not address the root cause and neither can HUR** - andreknieriem's
 wontfix is correct for the disconnects themselves. What our work does touch:
 
-- Findings #1 (fast switch→open) and the libusb route reduce the ~5 s black screen this reporter
-  eats on every reconnect. Palliative. `use-libusb=true` is a one-tap thing worth them trying.
-- **The ~90 s "connected, audio flowing, zero video, focus requests ignored" zombie window is a
-  HUR gap** distinct from the handoff findings: none of the recovery escalations
-  (`maybeRequestVideoFocus`, `maybeRecoverWarmRelaunch`, `maybeRecoverFromDisplayStall`) force a
-  **transport restart** when the link is half-alive (control+audio up, video dead) and the
-  surface is stable (so the warm-relaunch path, gated on `lastSurfaceSetMs`, never fires). A
-  bounded escalation - "N unsolicited focus gains over M seconds with zero video bytes while the
-  link is otherwise healthy -> restart the transport" - would at least give AA a chance to
-  re-setup the video sink instead of waiting for the USB stack to drop. Speculative benefit on a
-  marginal link, and a recovery mechanism for a hardware problem, so low priority / may not be
-  wanted.
+- **The handoff findings do not help this reporter, and an earlier revision of this file said they
+  did.** Their reconnect at `13:49:28.890` switched **once** and reached
+  `StandardUsbProjectionConnection.usbOpen | Established connection` at `13:49:29.631` - ~740 ms, no
+  permission prompt. The ~5 s to first frame is the phone's (`Media Start Request VIDEO` at
+  `13:49:33.575`), and our own first-frame watchdog fired 7 ms *before* it (`Watchdog: No video
+  received yet. Requesting Keyframe`), so we were already shortening it. `use-libusb=true` is still
+  a one-tap thing worth them trying; it is not a fix for anything measured here.
+- **The ~90 s zombie window is not a HUR gap, and the transport-restart proposal is withdrawn.**
+  The phone was still sending: `inbound rate over 30037ms: video=0kB/s (15 msgs)` with `rendered=5,
+  fed=5` per 5 s window - about 1 fps, which is Android Auto's idle rate, and `reportIdlePicture`
+  exists to say exactly that. Same shape as #886, measured there as phone-side and unreachable from
+  the head unit. A bounded "restart the transport when video is quiet but the link is not" would be
+  a recovery mechanism aimed at normal behaviour.
 
 Config advice for the reporter (no code): drop `fps-limit` to 30 and/or lower `resolutionId` -
 cuts video bulk-IN bandwidth, may stay under the marginal link's reliable ceiling on USB 2.0
-without the USB-1.1 fps penalty.
+without the USB-1.1 fps penalty. And turn the head unit's own Bluetooth / built-in Android Auto off,
+which is the one lever that touches the 17.5 s cycle above.
 
 Note: Dennis-NL commented "was fixed, regressed" - if pursued, bisect
 `StandardUsbProjectionConnection` read-timeout / retry tuning across releases. Not chased here.
