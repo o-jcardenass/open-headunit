@@ -23,6 +23,10 @@ The four commits:
 | `8b3b576e` | the announced video profile is capped on a radio with no 5 GHz band |
 | `9635f8a5` | hotspot bring-up waits for the radio; the give-up line stops blaming privileges |
 
+**After the round**, `68fbc392` shortened the R2 banner's text (322 characters to 212, in family with
+the other six banners) because the screenshot showed it wrapping over most of the panel. Resource
+string only: nothing R1-R5 measured changes, and no re-run is owed beyond a look at the banner.
+
 ## 2. What this is and why it exists
 
 A reporter's head unit (Qualcomm `sm6150_au`, API 28, stock `3.3.0` vc103) runs Native AA over its
