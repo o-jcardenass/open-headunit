@@ -176,6 +176,7 @@ class SettingsFragment : Fragment() {
     private var pendingWaitForWifiTimeout: Int? = null
     private var pendingBluetoothManagerServiceName: String? = null
     private var pendingNativeAaIgnoreExternalBt: Boolean? = null
+    private var pendingExternalBtZbtTransport: Boolean? = null
     private var pendingNativeWifiVersionExchange: Boolean? = null
     private var pendingNativeAaCompleteHfpSlc: Boolean? = null
 
@@ -339,6 +340,7 @@ class SettingsFragment : Fragment() {
         pendingWaitForWifiTimeout = settings.waitForWifiTimeout
         pendingBluetoothManagerServiceName = settings.bluetoothManagerServiceName
         pendingNativeAaIgnoreExternalBt = settings.nativeAaIgnoreExternalBt
+        pendingExternalBtZbtTransport = settings.externalBtZbtTransport
         pendingNativeWifiVersionExchange = settings.nativeWifiVersionExchange
         pendingNativeAaCompleteHfpSlc = settings.nativeAaCompleteHfpSlc
         pendingNativeApTransport = settings.nativeApStrategy
@@ -456,6 +458,7 @@ class SettingsFragment : Fragment() {
         pendingWaitForWifiTimeout = settings.waitForWifiTimeout
         pendingBluetoothManagerServiceName = settings.bluetoothManagerServiceName
         pendingNativeAaIgnoreExternalBt = settings.nativeAaIgnoreExternalBt
+        pendingExternalBtZbtTransport = settings.externalBtZbtTransport
         pendingNativeWifiVersionExchange = settings.nativeWifiVersionExchange
         pendingNativeAaCompleteHfpSlc = settings.nativeAaCompleteHfpSlc
         pendingNativeApTransport = settings.nativeApStrategy
@@ -673,6 +676,7 @@ class SettingsFragment : Fragment() {
         pendingWaitForWifiTimeout?.let { settings.waitForWifiTimeout = it }
         pendingBluetoothManagerServiceName?.let { settings.bluetoothManagerServiceName = it }
         pendingNativeAaIgnoreExternalBt?.let { settings.nativeAaIgnoreExternalBt = it }
+        pendingExternalBtZbtTransport?.let { settings.externalBtZbtTransport = it }
         pendingNativeWifiVersionExchange?.let { settings.nativeWifiVersionExchange = it }
         pendingNativeAaCompleteHfpSlc?.let { settings.nativeAaCompleteHfpSlc = it }
         pendingNativeApTransport?.let { settings.nativeApStrategy = it }
@@ -790,6 +794,7 @@ class SettingsFragment : Fragment() {
                         pendingWaitForWifiTimeout != settings.waitForWifiTimeout ||
                         pendingBluetoothManagerServiceName != settings.bluetoothManagerServiceName ||
                         pendingNativeAaIgnoreExternalBt != settings.nativeAaIgnoreExternalBt ||
+                        pendingExternalBtZbtTransport != settings.externalBtZbtTransport ||
                         pendingNativeWifiVersionExchange != settings.nativeWifiVersionExchange ||
                         pendingNativeAaCompleteHfpSlc != settings.nativeAaCompleteHfpSlc ||
                         pendingNativeApTransport != settings.nativeApStrategy ||
@@ -1288,6 +1293,19 @@ class SettingsFragment : Fragment() {
         // that mode does not work, so requiring them to select it first would hide the diagnostic
         // behind the very setting it is diagnosing.
         if (BluetoothHelper.externalBtEvidence != null) {
+            items.add(SettingItem.ToggleSettingEntry(
+                stableId = "externalBtZbtTransport",
+                nameResId = R.string.external_bt_transport,
+                descriptionResId = R.string.external_bt_transport_description,
+                isChecked = pendingExternalBtZbtTransport ?: settings.externalBtZbtTransport,
+                searchKeywords = "zbt zlink external bluetooth module transport handshake vendor daemon",
+                onCheckedChanged = { isChecked ->
+                    pendingExternalBtZbtTransport = isChecked
+                    checkChanges()
+                    updateSettingsList()
+                }
+            ))
+
             items.add(SettingItem.SettingEntry(
                 stableId = "zbtProbe",
                 nameResId = R.string.zbt_probe_title,
@@ -4142,12 +4160,18 @@ class SettingsFragment : Fragment() {
         // the generic "try it anyway".
         val externalBtEvidence = BluetoothHelper.externalBtEvidence
         if (externalBtEvidence != null) {
+            // Unless the module transport is on, in which case there is a route to that chip and
+            // the flat refusal below would be wrong.
+            val viaModule = pendingExternalBtZbtTransport ?: settings.externalBtZbtTransport
             MaterialAlertDialogBuilder(requireContext(), R.style.DarkAlertDialog)
-                .setTitle(R.string.external_bt_nativeaa)
-                .setMessage(getString(R.string.external_bt_nativeaa_desc, externalBtEvidence))
-                // Selecting the mode is still allowed: the detection marks a class of hardware
-                // rather than measuring this one, and the Advanced settings carry a switch that
-                // starts the route anyway. Without it the mode stays off, and the log says why.
+                .setTitle(if (viaModule) R.string.external_bt_module_nativeaa else R.string.external_bt_nativeaa)
+                .setMessage(
+                    if (viaModule) getString(R.string.external_bt_module_nativeaa_desc, externalBtEvidence)
+                    else getString(R.string.external_bt_nativeaa_desc, externalBtEvidence)
+                )
+                // Selecting the mode is still allowed either way. With the module transport on it is
+                // a real choice; with it off the mode is stored but the route stays switched off at
+                // connection time, so turning the transport on later needs no second visit here.
                 .setPositiveButton(android.R.string.ok) { dialog, _ ->
                     acceptNativeAaMode()
                     dialog.dismiss()

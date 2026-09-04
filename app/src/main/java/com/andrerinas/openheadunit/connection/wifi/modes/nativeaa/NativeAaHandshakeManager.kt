@@ -13,6 +13,7 @@ import com.andrerinas.openheadunit.aap.AapService
 
 import com.andrerinas.openheadunit.utils.BluetoothHelper
 import com.andrerinas.openheadunit.aap.protocol.proto.Wireless
+import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.zbt.ZbtAaCarrier
 import com.andrerinas.openheadunit.utils.AppLog
 import com.andrerinas.openheadunit.utils.ConnectionIssue
 import com.andrerinas.openheadunit.utils.ConnectionIssues
@@ -238,6 +239,10 @@ class NativeAaHandshakeManager(
     // reconnects during a settle supersedes the stale one instead of running a second
     // handleHandshake() alongside it.
     @Volatile private var activeHandshakeLink: HandshakeLink? = null
+    // The external-Bluetooth-module transport, when that is the route this unit takes. Non-null
+    // only between start() and stop() on that route; it replaces the RFCOMM listeners entirely
+    // rather than running beside them.
+    @Volatile private var zbtCarrier: ZbtAaCarrier? = null
     // The coroutine serving [activeHandshakeLink]. Closing a superseded handshake's link only
     // ends it on stacks where close() interrupts a pending read; some do not, and it runs on for
     // minutes. Cancelling cannot break a blocking JNI read either, but it does end every real
@@ -370,7 +375,7 @@ class NativeAaHandshakeManager(
             // The module carries the handshake instead, over its own channel. None of the RFCOMM
             // setup below applies to it.
             ExternalBtTransportPolicy.Route.ZBT -> {
-                AppLog.i("NativeAA: this unit is on the external Bluetooth module route.")
+                startOverExternalModule()
                 return
             }
             ExternalBtTransportPolicy.Route.BLOCKED -> {
@@ -968,6 +973,13 @@ class NativeAaHandshakeManager(
             AppLog.i("NativeAA: Handoff still settling — not starting a poke that would compete with the phone's WiFi association.")
             return
         }
+        // On the module route the poke below is meaningless: it dials the phone over the radio the
+        // phone is not paired to. Ask the module to bring the link up instead. Branching here rather
+        // than at the callers covers the credential path and WppAction.ResumePoke at once.
+        zbtCarrier?.let {
+            it.requestWake()
+            return
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -1110,6 +1122,13 @@ class NativeAaHandshakeManager(
      * Start a manual poke (wakeup) for a specific Bluetooth device.
      */
     fun manualPoke(address: String) {
+        // The user asking to try again is the way out of a backoff on either route.
+        zbtCarrier?.let {
+            AppLog.i("NativeAA: Manual poke requested — asking the Bluetooth module to connect Android Auto.")
+            resetHandshakeBackoff()
+            it.requestWake()
+            return
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -1161,6 +1180,45 @@ class NativeAaHandshakeManager(
      * is stop starting new ones. The phone will keep reconnecting; closing immediately costs it
      * nothing beyond the retry it was going to make anyway.
      */
+    /**
+     * Start the handshake over the head unit's external Bluetooth module.
+     *
+     * None of the Android Bluetooth setup applies here and all of it is skipped: no adapter, no
+     * BLUETOOTH_CONNECT, no RFCOMM listeners, no secondary radios, no HFP responder. The phone is
+     * bonded to a chip `android.bluetooth` does not expose, so a listener on the Android radio
+     * would never be reached, which is the defect this route exists to route around.
+     */
+    private fun startOverExternalModule() {
+        isRunning = true
+        aaListenersClosedForSession = false
+        localRadioName = "external Bluetooth module"
+        AppLog.i(
+            "NativeAA: external Bluetooth module transport is on (${BluetoothHelper.externalBtEvidence}) " +
+                "— the handshake will go over the module through the vendor daemon, not this unit's " +
+                "own Bluetooth radio."
+        )
+        val carrier = ZbtAaCarrier(
+            serve = { link -> handleHandshake(link) },
+            isRunning = { isRunning },
+            isFinishedForSession = { aaListenersClosedForSession },
+            isSessionConnected = { commManager.isConnected },
+            isSettling = { isHandoffSettling() },
+            isHandshakeInFlight = { isHandshakeInFlight() },
+            mayServeHandshake = { NativeHandoffPolicy.shouldServeHandshake(consecutiveHandshakeFailures) },
+            onPhoneEvidence = { resetHandshakeBackoff() }
+        )
+        zbtCarrier = carrier
+        scope.launch(Dispatchers.IO + CoroutineName("NativeAa-ZbtCarrier")) {
+            try {
+                carrier.run()
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                AppLog.e("NativeAA: [ZBT] carrier stopped unexpectedly: ${e.message}", e)
+            }
+        }
+    }
+
     private fun refuseWhileBackedOff(link: HandshakeLink): Boolean {
         if (NativeHandoffPolicy.shouldServeHandshake(consecutiveHandshakeFailures)) return false
         if (!loggedHandshakeBackoff) {
@@ -1941,6 +1999,12 @@ class NativeAaHandshakeManager(
     fun stop() {
         isRunning = false
         standingInForHfp = false
+        // Closing the carrier's channel is what unblocks a pump or a reader parked in a socket read;
+        // cancelling the scope alone cannot, since that read has no suspension point. Nulled as well
+        // as closed: start() builds a fresh one, and a stale reference would take the next session's
+        // wake requests to a dead channel.
+        zbtCarrier?.close()
+        zbtCarrier = null
         wppTcpServer?.stop()
         wppTcpServer = null
         try { aaServerSocket?.close() } catch (e: Exception) {}
