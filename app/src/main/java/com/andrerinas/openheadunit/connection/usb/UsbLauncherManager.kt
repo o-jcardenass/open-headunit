@@ -36,7 +36,8 @@ class UsbLauncherManager(val service: AapService) {
      */
     private val isSwitchingToProjection = AtomicBoolean(false)
 
-    fun isSwitchingToProjection() = this.isSwitchingToProjection.get()
+    /** Also honours [UsbSwitchClaim], which is how [UsbAttachedActivity]'s own switch is seen. */
+    fun isSwitchingToProjection() = this.isSwitchingToProjection.get() || UsbSwitchClaim.isLive()
 
     fun setSwitchingToProjection(value: Boolean) = this.isSwitchingToProjection.set(value)
 
@@ -135,7 +136,7 @@ class UsbLauncherManager(val service: AapService) {
         if (!force && !lastSession && !singleUsb && !usbAutoStart) return
         if (commManager.isConnected ||
             commManager.connectionState.value is CommManager.ConnectionState.Connecting ||
-            isSwitchingToProjection.get()) return
+            isSwitchingToProjection()) return
 
         val usbManager = service.getSystemService(Context.USB_SERVICE) as UsbManager
         UsbDeviceDiagnostics.logDeviceList(service, usbManager, "service scan (force=$force)")
@@ -148,15 +149,12 @@ class UsbLauncherManager(val service: AapService) {
             if (UsbDeviceCompat.isInAccessoryMode(device)) {
                 val deviceName = UsbDeviceCompat(device).uniqueName
                 AppLog.i("Found device already in accessory mode: $deviceName")
-                if (!usbManager.hasPermission(device)) {
-                    AppLog.i("Accessory-mode device has no permission (re-enumerated); requesting permission: $deviceName")
-                    requestPermission(device)
-                    return
-                }
                 isSwitchingToProjection.set(true)
                 service.serviceScope.launch {
                     try {
-                        connectWithRetry(device)
+                        if (awaitAccessoryPermission(usbManager, device, deviceName)) {
+                            connectWithRetry(device)
+                        }
                     } finally {
                         isSwitchingToProjection.set(false)
                     }
@@ -276,6 +274,33 @@ class UsbLauncherManager(val service: AapService) {
             AppLog.i("Single USB auto-connect: device found but no permission, requesting...")
             requestPermission(device)
         }
+    }
+
+    /**
+     * Wait briefly for the manifest auto-grant on a freshly re-enumerated 0x2D00 before falling
+     * back to a dialog. The grant arrives with the activity the system launches for the attach, so
+     * the service's own receiver reaches this a few hundred ms early and used to raise a prompt the
+     * dongle did not stay in accessory mode long enough to answer.
+     */
+    private suspend fun awaitAccessoryPermission(
+        usbManager: UsbManager,
+        device: UsbDevice,
+        deviceName: String,
+    ): Boolean {
+        if (usbManager.hasPermission(device)) return true
+
+        val startedAt = System.currentTimeMillis()
+        while (UsbAccessoryHandoffPolicy.shouldKeepPollingForPermission(System.currentTimeMillis() - startedAt)) {
+            delay(UsbAccessoryHandoffPolicy.PERMISSION_POLL_INTERVAL_MS)
+            if (usbManager.hasPermission(device)) {
+                AppLog.i("Accessory-mode permission arrived after ${System.currentTimeMillis() - startedAt}ms: $deviceName")
+                return true
+            }
+        }
+
+        AppLog.i("Accessory-mode device has no permission (re-enumerated); requesting permission: $deviceName")
+        requestPermission(device)
+        return false
     }
 
     /**

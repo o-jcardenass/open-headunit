@@ -118,13 +118,19 @@ class StandardUsbProjectionConnection(usbMgr: UsbManager, device: UsbDevice) :
         endpointIn = null
         endpointOut = null
 
-        for (i in 0 until usbInterface!!.endpointCount) {
-            val ep = usbInterface!!.getEndpoint(i)
-            if (ep.direction == UsbConstants.USB_DIR_IN) {
-                if (endpointIn == null) endpointIn = ep
-            } else {
-                if (endpointOut == null) endpointOut = ep
+        // Bulk first. AOAP's accessory interface carries exactly one bulk pair, but a device that
+        // adds an interrupt endpoint would otherwise hand us that one and every transfer would fail.
+        for (bulkOnly in listOf(true, false)) {
+            for (i in 0 until usbInterface!!.endpointCount) {
+                val ep = usbInterface!!.getEndpoint(i)
+                if (bulkOnly && ep.type != UsbConstants.USB_ENDPOINT_XFER_BULK) continue
+                if (ep.direction == UsbConstants.USB_DIR_IN) {
+                    if (endpointIn == null) endpointIn = ep
+                } else {
+                    if (endpointOut == null) endpointOut = ep
+                }
             }
+            if (endpointIn != null && endpointOut != null) break
         }
         if (endpointIn == null || endpointOut == null) {
             AppLog.e("Unable to find bulk endpoints")

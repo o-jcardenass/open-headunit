@@ -14,11 +14,13 @@ import com.andrerinas.openheadunit.App
 import com.andrerinas.openheadunit.R
 import com.andrerinas.openheadunit.aap.AapService
 import com.andrerinas.openheadunit.connection.CommManager
+import com.andrerinas.openheadunit.connection.usb.UsbAccessoryHandoffPolicy
 import com.andrerinas.openheadunit.connection.usb.UsbAccessoryMode
 import com.andrerinas.openheadunit.connection.usb.UsbAttachPolicy
 import com.andrerinas.openheadunit.connection.usb.UsbDeviceCompat
 import com.andrerinas.openheadunit.connection.usb.UsbDeviceDiagnostics
 import com.andrerinas.openheadunit.connection.usb.UsbReceiver
+import com.andrerinas.openheadunit.connection.usb.UsbSwitchClaim
 import com.andrerinas.openheadunit.utils.AppLog
 import com.andrerinas.openheadunit.utils.DeviceIntent
 import com.andrerinas.openheadunit.utils.LocaleHelper
@@ -183,8 +185,22 @@ class UsbAttachedActivity : Activity() {
         AppLog.i("Switching USB device to accessory mode " + deviceCompat.uniqueName)
         ToastUtils.showToast(this, getString(R.string.switching_usb_accessory_mode, deviceCompat.uniqueName), Toast.LENGTH_SHORT)
         val useLibusb = settings?.useLibusb ?: false
+        // Nothing below may touch the activity: noHistory means it can be finished out from under
+        // the switch, and the accessory device has to be claimed either way.
+        UsbSwitchClaim.stake()
+        val appContext = applicationContext
         Thread {
-            val result = usbMode.connectAndSwitch(device, useLibusb)
+            val result = try {
+                usbMode.connectAndSwitch(device, useLibusb)
+            } catch (e: Exception) {
+                AppLog.e("AOA switch threw for ${deviceCompat.uniqueName}", e)
+                false
+            }
+            if (result) awaitAccessoryDevice(usbManager)
+            UsbSwitchClaim.release()
+            // Hand over the moment the device re-enumerates rather than waiting out the attach
+            // fallback timer, which is longer than a fast-reverting dongle's patience.
+            if (result) handOffToService(appContext)
             runOnUiThread {
                 if (result) {
                     ToastUtils.showToast(this, getString(R.string.success), Toast.LENGTH_SHORT)
@@ -197,12 +213,42 @@ class UsbAttachedActivity : Activity() {
     }
 
     /**
+     * Watch for the device coming back as 0x2D00. A dongle holds accessory mode only until
+     * something claims it - 390 ms on one measured unit - so waiting for the attach broadcast to
+     * make its way back to the service loses the race.
+     */
+    private fun awaitAccessoryDevice(usbManager: UsbManager) {
+        val startedAt = System.currentTimeMillis()
+        while (UsbAccessoryHandoffPolicy.shouldKeepPollingForDevice(System.currentTimeMillis() - startedAt)) {
+            val accessory = try {
+                usbManager.deviceList.values.firstOrNull { UsbDeviceCompat.isInAccessoryMode(it) }
+            } catch (e: Exception) {
+                AppLog.w("Could not read the USB device list while waiting for accessory mode: ${e.message}")
+                null
+            }
+            if (accessory != null) {
+                AppLog.i("Accessory mode reached after ${System.currentTimeMillis() - startedAt}ms: " +
+                    UsbDeviceCompat(accessory).uniqueName)
+                return
+            }
+            try {
+                Thread.sleep(UsbAccessoryHandoffPolicy.DEVICE_POLL_INTERVAL_MS)
+            } catch (_: InterruptedException) {
+                Thread.currentThread().interrupt()
+                return
+            }
+        }
+        AppLog.w("Device never re-enumerated in accessory mode within " +
+            "${UsbAccessoryHandoffPolicy.DEVICE_POLL_BUDGET_MS}ms")
+    }
+
+    /**
      * Ask [AapService] to look at what is plugged in. Used wherever this activity declines to act
      * itself: the system delivered the attach to us and nobody else will hear about it otherwise.
      */
-    private fun handOffToService() {
+    private fun handOffToService(context: Context = this) {
         try {
-            ContextCompat.startForegroundService(this, Intent(this, AapService::class.java).apply {
+            ContextCompat.startForegroundService(context, Intent(context, AapService::class.java).apply {
                 action = AapService.ACTION_CHECK_USB
             })
         } catch (e: Exception) {

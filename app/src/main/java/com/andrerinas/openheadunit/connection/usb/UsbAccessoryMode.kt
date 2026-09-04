@@ -107,7 +107,12 @@ class UsbAccessoryMode(private val usbMgr: UsbManager) {
     }
 
     companion object {
-        private const val USB_TIMEOUT_IN_MS = 100
+        /**
+         * A proxying dongle answers the AOA control transfers in 1-2 ms, but 100 ms left no margin
+         * at all and the native path has always used 1000 (`usbhelper.c`). A late answer here costs
+         * the whole switch, and the timeout only bounds a device that is not replying.
+         */
+        private const val USB_TIMEOUT_IN_MS = 500
         private const val MANUFACTURER = "Android"
         private const val MODEL = "Android Auto"
         private const val DESCRIPTION = "Android Auto"//"Android Open Automotive Protocol"
