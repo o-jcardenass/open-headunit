@@ -84,8 +84,15 @@ sealed class WppAction {
      * [phoneWasSilent] is true when the phone never sent a single message — the signature of a
      * head unit whose Bluetooth stack drops our writes, not of a phone-side problem. It is what
      * the handshake backoff counts.
+     *
+     * [joinRefused] is the opposite shape: the phone answered everything and then said it could
+     * not get onto the network. That backoff cannot see it, because the phone was never silent.
      */
-    data class Fail(val reason: String, val phoneWasSilent: Boolean) : WppAction()
+    data class Fail(
+        val reason: String,
+        val phoneWasSilent: Boolean,
+        val joinRefused: Boolean = false
+    ) : WppAction()
     /** Restart the wake poke. Only ever emitted once the phone has given up on this handoff. */
     object ResumePoke : WppAction()
 }
@@ -268,8 +275,10 @@ class WppHandshakeSession(private val versionExchangeEnabled: Boolean) {
         // waiting for a type 2 that cannot come would fail a handoff that has already worked.
         event is WppEvent.MessageReceived && event.type == WppMessageType.CONNECT_STATUS ->
             if (isFailureStatus(event.status)) {
-                fail("phone reported join failure (type ${event.type}, status=${WppStatus.describe(event.status)})") +
-                    WppAction.ResumePoke
+                fail(
+                    "phone reported join failure (type ${event.type}, status=${WppStatus.describe(event.status)})",
+                    joinRefused = true
+                ) + WppAction.ResumePoke
             } else {
                 stage = WppStage.SETTLING
                 emptyList()
@@ -286,8 +295,12 @@ class WppHandshakeSession(private val versionExchangeEnabled: Boolean) {
             if (isFailureStatus(event.status)) {
                 // The phone has stopped trying, so nothing is left to disturb: this and the
                 // settle timeout are the only places where restarting the poke is safe.
-                fail("phone reported join failure (type ${event.type}, status=${WppStatus.describe(event.status)})") +
-                    WppAction.ResumePoke
+                // Only type 6 is the phone failing to reach the network; a rejected type 7 is the
+                // endpoint being refused, which a prompt retry can still fix.
+                fail(
+                    "phone reported join failure (type ${event.type}, status=${WppStatus.describe(event.status)})",
+                    joinRefused = event.type == WppMessageType.CONNECT_STATUS
+                ) + WppAction.ResumePoke
             } else if (event.type == WppMessageType.CONNECT_STATUS) {
                 extendSettle()
             } else {
@@ -336,9 +349,11 @@ class WppHandshakeSession(private val versionExchangeEnabled: Boolean) {
         return listOf(WppAction.ExtendSettle)
     }
 
-    private fun fail(reason: String): List<WppAction> {
+    private fun fail(reason: String, joinRefused: Boolean = false): List<WppAction> {
         stage = WppStage.FAILED
-        return listOf(WppAction.Fail(reason, phoneWasSilent = messagesReceived == 0))
+        return listOf(
+            WppAction.Fail(reason, phoneWasSilent = messagesReceived == 0, joinRefused = joinRefused)
+        )
     }
 
     /**

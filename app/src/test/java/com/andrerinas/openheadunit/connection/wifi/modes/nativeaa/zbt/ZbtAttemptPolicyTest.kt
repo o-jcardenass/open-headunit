@@ -107,8 +107,11 @@ class ZbtAttemptPolicyTest {
         phonePresent: Boolean = true,
         attemptInFlight: Boolean = false,
         sessionConnected: Boolean = false,
-        sinceLastAttemptMs: Long? = null
-    ) = ZbtAttemptPolicy.shouldAttempt(phonePresent, attemptInFlight, sessionConnected, sinceLastAttemptMs)
+        sinceLastAttemptMs: Long? = null,
+        minIntervalMs: Long = ZbtAttemptPolicy.MIN_ATTEMPT_INTERVAL_MS
+    ) = ZbtAttemptPolicy.shouldAttempt(
+        phonePresent, attemptInFlight, sessionConnected, sinceLastAttemptMs, minIntervalMs
+    )
 
     @Test
     fun `a present phone and nothing in the way is an attempt`() {
@@ -127,5 +130,24 @@ class ZbtAttemptPolicyTest {
         assertFalse(shouldAttempt(sinceLastAttemptMs = 0L))
         assertFalse(shouldAttempt(sinceLastAttemptMs = ZbtAttemptPolicy.MIN_ATTEMPT_INTERVAL_MS - 1))
         assertTrue(shouldAttempt(sinceLastAttemptMs = ZbtAttemptPolicy.MIN_ATTEMPT_INTERVAL_MS))
+    }
+
+    @Test
+    fun `a widened interval holds an attempt the ordinary one would have allowed`() {
+        val widened = ZbtAttemptPolicy.MIN_ATTEMPT_INTERVAL_MS * 4
+        assertTrue(shouldAttempt(sinceLastAttemptMs = ZbtAttemptPolicy.MIN_ATTEMPT_INTERVAL_MS))
+        assertFalse(
+            shouldAttempt(
+                sinceLastAttemptMs = ZbtAttemptPolicy.MIN_ATTEMPT_INTERVAL_MS,
+                minIntervalMs = widened
+            )
+        )
+        assertTrue(shouldAttempt(sinceLastAttemptMs = widened, minIntervalMs = widened))
+    }
+
+    @Test
+    fun `a widened interval does not revive an attempt something else refused`() {
+        assertFalse(shouldAttempt(phonePresent = false, minIntervalMs = 1L))
+        assertFalse(shouldAttempt(sessionConnected = true, minIntervalMs = 1L))
     }
 }

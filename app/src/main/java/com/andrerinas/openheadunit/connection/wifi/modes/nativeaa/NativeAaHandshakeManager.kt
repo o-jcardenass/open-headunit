@@ -14,6 +14,7 @@ import com.andrerinas.openheadunit.aap.AapService
 import com.andrerinas.openheadunit.utils.BluetoothHelper
 import com.andrerinas.openheadunit.aap.protocol.proto.Wireless
 import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.zbt.ZbtAaCarrier
+import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.zbt.ZbtAttemptPolicy
 import com.andrerinas.openheadunit.utils.AppLog
 import com.andrerinas.openheadunit.utils.ConnectionIssue
 import com.andrerinas.openheadunit.utils.ConnectionIssues
@@ -265,6 +266,10 @@ class NativeAaHandshakeManager(
     // Whether the "not serving handshakes" warning has already been logged for the current
     // backoff, so a phone retrying every ~12 s does not repeat the long explanation each time.
     @Volatile private var loggedHandshakeBackoff = false
+    // Handshakes the phone answered in full and then reported it could not join. Invisible to
+    // consecutiveHandshakeFailures, which only counts the ones the phone was silent through.
+    // See JoinRefusalPolicy.
+    @Volatile private var consecutiveJoinRefusals = 0
 
     /** Polls until the AAP TCP port is bound, or [timeoutMs] passes. */
     private suspend fun awaitWirelessServerListening(timeoutMs: Long): Boolean {
@@ -1126,6 +1131,7 @@ class NativeAaHandshakeManager(
         zbtCarrier?.let {
             AppLog.i("NativeAA: Manual poke requested — asking the Bluetooth module to connect Android Auto.")
             resetHandshakeBackoff()
+            resetJoinRefusals()
             it.requestWake()
             return
         }
@@ -1143,6 +1149,7 @@ class NativeAaHandshakeManager(
             // The user asking to try again is the way out of a handshake backoff — it is the only
             // gesture the UI offers, and it means they want another attempt whatever we concluded.
             resetHandshakeBackoff()
+            resetJoinRefusals()
 
             pokeJob?.cancel()
             // The manual job takes the slot the retry loop uses, so forget what the loop last poked
@@ -1205,7 +1212,13 @@ class NativeAaHandshakeManager(
             isSettling = { isHandoffSettling() },
             isHandshakeInFlight = { isHandshakeInFlight() },
             mayServeHandshake = { NativeHandoffPolicy.shouldServeHandshake(consecutiveHandshakeFailures) },
-            onPhoneEvidence = { resetHandshakeBackoff() }
+            onPhoneEvidence = { resetHandshakeBackoff() },
+            retryDelayMs = {
+                JoinRefusalPolicy.retryDelayMs(
+                    consecutiveJoinRefusals,
+                    ZbtAttemptPolicy.MIN_ATTEMPT_INTERVAL_MS
+                )
+            }
         )
         zbtCarrier = carrier
         scope.launch(Dispatchers.IO + CoroutineName("NativeAa-ZbtCarrier")) {
@@ -1240,6 +1253,35 @@ class NativeAaHandshakeManager(
     private fun resetHandshakeBackoff() {
         consecutiveHandshakeFailures = 0
         loggedHandshakeBackoff = false
+    }
+
+    /**
+     * Clears the join-refusal backoff.
+     *
+     * Deliberately not part of [resetHandshakeBackoff]: that one runs on every message the phone
+     * sends, and a refusing phone sends plenty. Only a landed session, a manual poke or a re-arm
+     * counts as evidence the refusals have stopped.
+     */
+    private fun resetJoinRefusals() {
+        consecutiveJoinRefusals = 0
+    }
+
+    /**
+     * Records a phone that answered everything and then said it could not join.
+     *
+     * Widening the gap is the whole remedy: the cause is outside the app, and retrying every few
+     * seconds only flickers the phone between its two setup screens while it waits.
+     */
+    private fun countJoinRefusal() {
+        consecutiveJoinRefusals++
+        if (JoinRefusalPolicy.isFirstWidening(consecutiveJoinRefusals)) {
+            AppLog.w(
+                "NativeAA: the phone has refused this network $consecutiveJoinRefusals times in a row, so " +
+                    "retries are slowing down. It reaches us over Bluetooth and then cannot find the " +
+                    "network we name. A hotspot switched on on the phone is the usual cause, because the " +
+                    "phone's radio cannot host that and join us at the same time."
+            )
+        }
     }
 
     /**
@@ -1465,6 +1507,7 @@ class NativeAaHandshakeManager(
                     WppAction.CompleteSuccess -> {
                         AppLog.i("NativeAA: WiFi session landed. Handshake session ending, releasing Bluetooth connection.")
                         ifOwner(link) {
+                            resetJoinRefusals()
                             handoffSettlingSince = 0L
                             // Stop accepting new AA_UUID connections too, not just this socket —
                             // otherwise the phone's immediate reconnect-retry gets accepted,
@@ -1475,6 +1518,7 @@ class NativeAaHandshakeManager(
                     }
                     is WppAction.Fail -> {
                         AppLog.w("NativeAA: Handshake failed — ${action.reason}.")
+                        if (action.joinRefused) ifOwner(link) { countJoinRefusal() }
                         // Measured against a current Gearhead: it joins with a WifiNetworkSpecifier,
                         // which matches SSID *and* BSSID under a full ff:ff:ff:ff:ff:ff mask, and
                         // refuses credentials carrying no BSSID outright. So on this route a join
@@ -2043,5 +2087,6 @@ class NativeAaHandshakeManager(
         // A mode change or a user exit is a fresh start, so the next start() serves handshakes
         // again rather than inheriting a backoff the user cannot see.
         resetHandshakeBackoff()
+        resetJoinRefusals()
     }
 }

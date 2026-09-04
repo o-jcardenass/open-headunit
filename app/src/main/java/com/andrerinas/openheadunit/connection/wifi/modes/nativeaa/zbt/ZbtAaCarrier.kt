@@ -39,6 +39,7 @@ class ZbtAaCarrier(
     private val isHandshakeInFlight: () -> Boolean,
     private val mayServeHandshake: () -> Boolean,
     private val onPhoneEvidence: () -> Unit,
+    private val retryDelayMs: () -> Long = { ZbtAttemptPolicy.MIN_ATTEMPT_INTERVAL_MS },
     private val openChannel: (
         onControl: (Int, ByteArray) -> Unit,
         onRfcomm: (ByteArray) -> Unit
@@ -216,7 +217,8 @@ class ZbtAaCarrier(
         phonePresent = presence?.usable == true,
         attemptInFlight = isHandshakeInFlight(),
         sessionConnected = isSessionConnected(),
-        sinceLastAttemptMs = lastAttemptEndedAt.takeIf { it != 0L }?.let { now() - it }
+        sinceLastAttemptMs = lastAttemptEndedAt.takeIf { it != 0L }?.let { now() - it },
+        minIntervalMs = retryDelayMs()
     ) && mayServeHandshake()
 
     /**

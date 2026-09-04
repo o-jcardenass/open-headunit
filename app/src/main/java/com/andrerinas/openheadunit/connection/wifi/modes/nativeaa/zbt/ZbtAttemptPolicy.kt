@@ -83,17 +83,20 @@ object ZbtAttemptPolicy {
      * @param attemptInFlight one is already running
      * @param sessionConnected a projection session is already up, so there is nothing to start
      * @param sinceLastAttemptMs how long ago the last attempt ended, or null if none has
+     * @param minIntervalMs the gap to leave between attempts, which a caller widens when the phone
+     *   keeps refusing the network rather than failing to answer
      */
     fun shouldAttempt(
         phonePresent: Boolean,
         attemptInFlight: Boolean,
         sessionConnected: Boolean,
-        sinceLastAttemptMs: Long?
+        sinceLastAttemptMs: Long?,
+        minIntervalMs: Long = MIN_ATTEMPT_INTERVAL_MS
     ): Boolean {
         if (!phonePresent || attemptInFlight || sessionConnected) return false
         // A failed attempt costs the phone nothing, but back-to-back attempts would spend the whole
         // window in setup rather than waiting for a phone that is simply not ready yet.
-        return sinceLastAttemptMs == null || sinceLastAttemptMs >= MIN_ATTEMPT_INTERVAL_MS
+        return sinceLastAttemptMs == null || sinceLastAttemptMs >= minIntervalMs
     }
 
     /**

@@ -182,6 +182,10 @@ class WppHandshakeSessionTest {
         assertEquals(2, actions.size)
         assertTrue(actions[0] is WppAction.Fail)
         assertEquals(WppAction.ResumePoke, actions[1])
+        // The phone answered everything and then said no, which is the case the silence-counting
+        // backoff cannot see. JoinRefusalPolicy is what bounds it.
+        assertTrue((actions[0] as WppAction.Fail).joinRefused)
+        assertFalse((actions[0] as WppAction.Fail).phoneWasSilent)
     }
 
     @Test
@@ -193,6 +197,9 @@ class WppHandshakeSessionTest {
         assertEquals(WppStage.FAILED, s.stage)
         assertTrue(actions[0] is WppAction.Fail)
         assertEquals(WppAction.ResumePoke, actions[1])
+        // A rejected endpoint is not the phone failing to reach the network, so it must not spend
+        // the join-refusal budget: retrying it promptly is still right.
+        assertFalse((actions[0] as WppAction.Fail).joinRefused)
     }
 
     @Test
@@ -239,6 +246,7 @@ class WppHandshakeSessionTest {
         assertEquals(WppStage.FAILED, s.stage)
         assertTrue(actions[0] is WppAction.Fail)
         assertEquals(WppAction.ResumePoke, actions[1])
+        assertTrue((actions[0] as WppAction.Fail).joinRefused)
     }
 
     @Test
@@ -347,6 +355,7 @@ class WppHandshakeSessionTest {
 
         // This unit's Bluetooth is carrying data, so the handshake backoff must not count it.
         assertFalse(fail.phoneWasSilent)
+        assertFalse(fail.joinRefused)
         assertEquals(1, s.messagesReceived)
     }
 
