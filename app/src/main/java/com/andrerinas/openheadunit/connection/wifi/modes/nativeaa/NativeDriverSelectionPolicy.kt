@@ -34,12 +34,104 @@ object NativeDriverSelectionPolicy {
     const val CANCEL_REFUSAL_MS = 30_000L
 
     /**
+     * How long a chosen driver's phone is the only one accepted once nothing is waking it.
+     *
+     * One poke cycle. The phone a switch moved away from can be back on the listeners in a second,
+     * while the newly chosen one still has to be woken.
+     */
+    const val CHOSEN_EXCLUSIVE_MS = 30_000L
+
+    /** How many times a chosen driver's phone is woken before the unit gives up on it. */
+    const val CHOSEN_WAKE_ROUNDS = 3
+
+    /**
+     * The hard ceiling on refusing every other phone while the chosen one is woken.
+     *
+     * Three 20 s holds and two 15 s gaps is a 90 s wake budget, plus 30 s for the phone to join: a
+     * cold single-phone connect measured about 26 s on the rig. Bounded so an unreachable choice
+     * cannot deafen the unit for good.
+     */
+    const val CHOSEN_EXCLUSIVE_MAX_MS = 120_000L
+
+    /**
+     * How long the phone a switch moved away from is refused while no driver has been chosen yet.
+     *
+     * Long enough to read a selector and pick, short enough that an abandoned switch heals itself.
+     */
+    const val SWITCH_AWAY_REFUSAL_MS = 60_000L
+
+    /**
      * How long the wake poke defers to a prompt that is actually on screen.
      *
      * Bounded on purpose. A unit that starts with nobody in front of it must fall back to waking
      * every paired phone, which is what it did before the prompt existed.
      */
     fun promptDeferralMs(timeoutSec: Int): Long = sanitizeTimeout(timeoutSec) * 1000L + PROMPT_GRACE_MS
+
+    /** What the wake poke loop should do about a driver prompt on this pass. */
+    enum class PokeHold { GO, HOLD, EXPIRED }
+
+    /**
+     * Whether an on-screen driver prompt still holds the wake poke off.
+     *
+     * Asked on every pass of the poke loop, never once on entry: a deadline read only when
+     * something else calls in measures that caller's cadence instead of itself.
+     */
+    fun pokeHold(
+        promptActive: Boolean,
+        targetChosen: Boolean,
+        promptAgeMs: Long,
+        timeoutSec: Int
+    ): PokeHold = when {
+        !promptActive || targetChosen -> PokeHold.GO
+        promptAgeMs >= promptDeferralMs(timeoutSec) -> PokeHold.EXPIRED
+        else -> PokeHold.HOLD
+    }
+
+    /**
+     * The MAC to treat as the last driver, falling back to the wake poke list.
+     *
+     * The poke list is a set the user can put several phones in, so it stands in for a last-used
+     * driver only when it names exactly one. Taking the first of several picks arbitrarily.
+     */
+    fun lastUsedMac(lastConnectedMac: String, pokeMacs: Set<String>): String =
+        lastConnectedMac.ifEmpty { pokeMacs.singleOrNull().orEmpty() }
+
+    /** Why a phone dialling in during a driver switch is refused, or that it is not. */
+    enum class SwitchGate { ACCEPT, WRONG_PHONE, SWITCHED_AWAY }
+
+    /**
+     * Whether a phone dialling in is the driver the user actually chose.
+     *
+     * Reopening the Android Auto listeners for the phone's return lets the one just switched away
+     * from win the race. Both windows are bounded: an unfinished switch must not deafen the unit.
+     */
+    fun switchGate(
+        remoteMac: String,
+        chosenMac: String?,
+        chosenAgeMs: Long,
+        switchedAwayFrom: String?,
+        switchAgeMs: Long,
+        chosenWakeActive: Boolean = false
+    ): SwitchGate = when {
+        remoteMac.isEmpty() -> SwitchGate.ACCEPT
+        !chosenMac.isNullOrEmpty() && chosenExclusive(chosenAgeMs, chosenWakeActive) ->
+            if (remoteMac.equals(chosenMac, ignoreCase = true)) SwitchGate.ACCEPT
+            else SwitchGate.WRONG_PHONE
+        !switchedAwayFrom.isNullOrEmpty() && switchAgeMs < SWITCH_AWAY_REFUSAL_MS &&
+            remoteMac.equals(switchedAwayFrom, ignoreCase = true) -> SwitchGate.SWITCHED_AWAY
+        else -> SwitchGate.ACCEPT
+    }
+
+    /**
+     * Whether the chosen driver is still the only phone the accept gate lets in.
+     *
+     * Tied to the wake rather than to a flat deadline: the phone gets one 20 s hold per round, so a
+     * window that outran the wake handed the session back to the phone the driver had just left.
+     */
+    fun chosenExclusive(chosenAgeMs: Long, wakeActive: Boolean): Boolean =
+        chosenAgeMs < CHOSEN_EXCLUSIVE_MAX_MS &&
+            (wakeActive || chosenAgeMs < CHOSEN_EXCLUSIVE_MS)
 
     /**
      * Determines whether the driver/device selection dialog should be displayed.

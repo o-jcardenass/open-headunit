@@ -2352,6 +2352,10 @@ class AapService : Service() {
             ACTION_NATIVE_AA_SWITCH_DEVICE -> {
                 val targetMac = intent?.getStringExtra(EXTRA_MAC)
                 AppLog.i("AapService: ACTION_NATIVE_AA_SWITCH_DEVICE received (targetMac=$targetMac)")
+                // The phone projecting now is the one the driver is moving away from, and ending
+                // the session reopens the Android Auto listeners it comes straight back through.
+                (wifiLauncherManager.active as? WifiLauncherNative)
+                    ?.handshakeManager?.beginDriverSwitch(settings.lastConnectedNativeMac)
                 serviceScope.launch {
                     if (commManager.isConnected) {
                         // Not a user exit: that answer makes SessionEndGroupPolicy STOP the

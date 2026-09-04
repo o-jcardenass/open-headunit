@@ -1,6 +1,8 @@
 package com.andrerinas.openheadunit.connection.wifi.modes.nativeaa
 
 import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.NativeDriverSelectionPolicy.Mode
+import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.NativeDriverSelectionPolicy.PokeHold
+import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.NativeDriverSelectionPolicy.SwitchGate
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -201,6 +203,234 @@ class NativeDriverSelectionPolicyTest {
             NativeDriverSelectionPolicy.CANCEL_REFUSAL_MS <
                 NativeDriverSelectionPolicy.promptDeferralMs(NativeDriverSelectionPolicy.MAX_TIMEOUT_SEC)
         )
+    }
+
+    @Test
+    fun `no prompt on screen never holds the wake poke`() {
+        assertEquals(
+            PokeHold.GO,
+            NativeDriverSelectionPolicy.pokeHold(
+                promptActive = false, targetChosen = false, promptAgeMs = 0L, timeoutSec = 10
+            )
+        )
+    }
+
+    @Test
+    fun `a chosen driver ends the hold whatever the clock says`() {
+        assertEquals(
+            PokeHold.GO,
+            NativeDriverSelectionPolicy.pokeHold(
+                promptActive = true, targetChosen = true, promptAgeMs = 0L, timeoutSec = 10
+            )
+        )
+    }
+
+    @Test
+    fun `a fresh prompt holds the wake poke`() {
+        assertEquals(
+            PokeHold.HOLD,
+            NativeDriverSelectionPolicy.pokeHold(
+                promptActive = true, targetChosen = false, promptAgeMs = 1_000L, timeoutSec = 10
+            )
+        )
+    }
+
+    @Test
+    fun `an unanswered prompt expires exactly on its own deadline`() {
+        val deadline = NativeDriverSelectionPolicy.promptDeferralMs(10)
+        assertEquals(
+            PokeHold.HOLD,
+            NativeDriverSelectionPolicy.pokeHold(true, false, deadline - 1L, 10)
+        )
+        assertEquals(
+            PokeHold.EXPIRED,
+            NativeDriverSelectionPolicy.pokeHold(true, false, deadline, 10)
+        )
+    }
+
+    @Test
+    fun `the hold deadline moves with the timeout setting`() {
+        // The whole point of the setting. A hold that expires at the same moment for 10 s and 30 s
+        // is reading a cadence somewhere else, not this value.
+        val age = NativeDriverSelectionPolicy.promptDeferralMs(10)
+        assertEquals(PokeHold.EXPIRED, NativeDriverSelectionPolicy.pokeHold(true, false, age, 10))
+        assertEquals(PokeHold.HOLD, NativeDriverSelectionPolicy.pokeHold(true, false, age, 30))
+    }
+
+    @Test
+    fun `a chosen driver is the only phone accepted while the window stands`() {
+        assertEquals(
+            SwitchGate.ACCEPT,
+            NativeDriverSelectionPolicy.switchGate("aa:bb", "AA:BB", 0L, null, 0L)
+        )
+        assertEquals(
+            SwitchGate.WRONG_PHONE,
+            NativeDriverSelectionPolicy.switchGate("cc:dd", "AA:BB", 0L, null, 0L)
+        )
+    }
+
+    @Test
+    fun `an unfinished choice stops refusing once its window passes`() {
+        assertEquals(
+            SwitchGate.ACCEPT,
+            NativeDriverSelectionPolicy.switchGate(
+                "cc:dd", "AA:BB", NativeDriverSelectionPolicy.CHOSEN_EXCLUSIVE_MS, null, 0L
+            )
+        )
+    }
+
+    @Test
+    fun `the phone a switch moved away from waits while nobody is chosen`() {
+        assertEquals(
+            SwitchGate.SWITCHED_AWAY,
+            NativeDriverSelectionPolicy.switchGate("aa:bb", null, 0L, "AA:BB", 0L)
+        )
+        assertEquals(
+            SwitchGate.ACCEPT,
+            NativeDriverSelectionPolicy.switchGate("cc:dd", null, 0L, "AA:BB", 0L)
+        )
+    }
+
+    @Test
+    fun `an abandoned switch heals itself`() {
+        assertEquals(
+            SwitchGate.ACCEPT,
+            NativeDriverSelectionPolicy.switchGate(
+                "aa:bb", null, 0L, "AA:BB", NativeDriverSelectionPolicy.SWITCH_AWAY_REFUSAL_MS
+            )
+        )
+    }
+
+    @Test
+    fun `a choice outranks the phone the switch moved away from`() {
+        // Picking the same phone again is allowed: the switch is what the choice answers.
+        assertEquals(
+            SwitchGate.ACCEPT,
+            NativeDriverSelectionPolicy.switchGate("aa:bb", "AA:BB", 0L, "AA:BB", 0L)
+        )
+    }
+
+    @Test
+    fun `an unreadable remote address is never refused on a guess`() {
+        assertEquals(
+            SwitchGate.ACCEPT,
+            NativeDriverSelectionPolicy.switchGate("", "AA:BB", 0L, "CC:DD", 0L)
+        )
+    }
+
+    @Test
+    fun `no switch and no choice accepts everything`() {
+        assertEquals(
+            SwitchGate.ACCEPT,
+            NativeDriverSelectionPolicy.switchGate("aa:bb", null, 0L, null, 0L)
+        )
+    }
+
+    @Test
+    fun `the last connected phone always wins over the poke list`() {
+        assertEquals(
+            "AA:BB",
+            NativeDriverSelectionPolicy.lastUsedMac("AA:BB", setOf("CC:DD"))
+        )
+    }
+
+    @Test
+    fun `a poke list naming one phone stands in for a last used driver`() {
+        assertEquals(
+            "CC:DD",
+            NativeDriverSelectionPolicy.lastUsedMac("", setOf("CC:DD"))
+        )
+    }
+
+    @Test
+    fun `a poke list naming several phones names no driver at all`() {
+        assertEquals("", NativeDriverSelectionPolicy.lastUsedMac("", setOf("CC:DD", "EE:FF")))
+        assertEquals("", NativeDriverSelectionPolicy.lastUsedMac("", emptySet()))
+    }
+
+    @Test
+    fun `a chosen driver stays exclusive while its wake is still running`() {
+        assertTrue(
+            NativeDriverSelectionPolicy.chosenExclusive(
+                NativeDriverSelectionPolicy.CHOSEN_EXCLUSIVE_MS, wakeActive = true
+            )
+        )
+        assertTrue(NativeDriverSelectionPolicy.chosenExclusive(90_000L, wakeActive = true))
+    }
+
+    @Test
+    fun `a chosen driver stops being exclusive when nothing is waking it`() {
+        assertTrue(NativeDriverSelectionPolicy.chosenExclusive(29_999L, wakeActive = false))
+        assertFalse(
+            NativeDriverSelectionPolicy.chosenExclusive(
+                NativeDriverSelectionPolicy.CHOSEN_EXCLUSIVE_MS, wakeActive = false
+            )
+        )
+    }
+
+    @Test
+    fun `an unreachable choice cannot hold the gate for good`() {
+        assertFalse(
+            NativeDriverSelectionPolicy.chosenExclusive(
+                NativeDriverSelectionPolicy.CHOSEN_EXCLUSIVE_MAX_MS, wakeActive = true
+            )
+        )
+    }
+
+    @Test
+    fun `the wrong phone waits for as long as the chosen one is being woken`() {
+        assertEquals(
+            SwitchGate.WRONG_PHONE,
+            NativeDriverSelectionPolicy.switchGate(
+                "cc:dd", "AA:BB", 60_000L, null, 0L, chosenWakeActive = true
+            )
+        )
+    }
+
+    @Test
+    fun `the chosen phone is accepted late in its own wake`() {
+        assertEquals(
+            SwitchGate.ACCEPT,
+            NativeDriverSelectionPolicy.switchGate(
+                "aa:bb", "AA:BB", 90_000L, null, 0L, chosenWakeActive = true
+            )
+        )
+    }
+
+    @Test
+    fun `the wrong phone is let in once the wake budget runs out`() {
+        assertEquals(
+            SwitchGate.ACCEPT,
+            NativeDriverSelectionPolicy.switchGate(
+                "cc:dd", "AA:BB", NativeDriverSelectionPolicy.CHOSEN_EXCLUSIVE_MAX_MS, null, 0L,
+                chosenWakeActive = true
+            )
+        )
+    }
+
+    @Test
+    fun `the phone a switch left keeps waiting after the choice stops being exclusive`() {
+        assertEquals(
+            SwitchGate.SWITCHED_AWAY,
+            NativeDriverSelectionPolicy.switchGate(
+                "aa:bb", "CC:DD", 40_000L, "AA:BB", 40_000L, chosenWakeActive = false
+            )
+        )
+    }
+
+    @Test
+    fun `picking back the phone the switch left accepts it`() {
+        assertEquals(
+            SwitchGate.ACCEPT,
+            NativeDriverSelectionPolicy.switchGate(
+                "aa:bb", "AA:BB", 1_000L, "AA:BB", 5_000L, chosenWakeActive = true
+            )
+        )
+    }
+
+    @Test
+    fun `the wake budget is three rounds`() {
+        assertEquals(3, NativeDriverSelectionPolicy.CHOSEN_WAKE_ROUNDS)
     }
 
     @Test

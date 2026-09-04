@@ -534,9 +534,9 @@ class HomeFragment : Fragment() {
 
                         val autoTargetMac = NativeDriverSelectionPolicy.resolveAutoConnectTarget(
                             preferredMac = appSettings.nativePreferredDeviceMac,
-                            lastUsedMac = appSettings.lastConnectedNativeMac.ifEmpty {
-                                appSettings.nativePokeBtMacs.firstOrNull().orEmpty()
-                            },
+                            lastUsedMac = NativeDriverSelectionPolicy.lastUsedMac(
+                                appSettings.lastConnectedNativeMac, appSettings.nativePokeBtMacs
+                            ),
                             connectedMacs = connected.map { it.address },
                             pairedMacs = candidates.map { it.address }
                         )
@@ -736,9 +736,9 @@ class HomeFragment : Fragment() {
         }
         val targetList = if (likelyPhones.isNotEmpty()) likelyPhones else bonded
 
-        val effectiveLastUsedMac = appSettings.lastConnectedNativeMac.ifEmpty {
-            appSettings.nativePokeBtMacs.firstOrNull().orEmpty()
-        }
+        val effectiveLastUsedMac = NativeDriverSelectionPolicy.lastUsedMac(
+            appSettings.lastConnectedNativeMac, appSettings.nativePokeBtMacs
+        )
         val hasHistory = effectiveLastUsedMac.isNotEmpty() || appSettings.nativePreferredDeviceMac.isNotEmpty()
 
         val shouldShow = NativeDriverSelectionPolicy.shouldShowSelector(
@@ -956,9 +956,9 @@ class HomeFragment : Fragment() {
             }
         }
 
-        val effectiveLastUsed = lastUsedMac.ifEmpty {
-            appSettings.nativePokeBtMacs.firstOrNull().orEmpty()
-        }
+        val effectiveLastUsed = NativeDriverSelectionPolicy.lastUsedMac(
+            lastUsedMac, appSettings.nativePokeBtMacs
+        )
         val autoTargetMac = NativeDriverSelectionPolicy.resolveAutoConnectTarget(
             preferredMac = preferredMac,
             lastUsedMac = effectiveLastUsed,
