@@ -1018,6 +1018,14 @@
     <string name="native_aa_complete_hfp_slc_description">Some phones will not start wireless Android Auto until this unit\'s Bluetooth counts as connected, not just paired. On by default; turn it off if calls on this device stop working.</string>
     <string name="native_aa_ignore_external_bt">Ignore the Bluetooth compatibility check</string>
     <string name="native_aa_ignore_external_bt_description">This unit looks like it keeps Bluetooth on a separate module that Android cannot reach, so wireless Android Auto is switched off automatically. Off by default. Turn it on only if you think that is wrong: where it is right, the connection fails silently and the log looks healthy.</string>
+
+    <!-- The external Bluetooth module probe (Advanced; only on units the detection flags). -->
+    <string name="zbt_probe_title">Test the head unit\'s Bluetooth module</string>
+    <string name="zbt_probe_idle">Tap to run</string>
+    <string name="zbt_probe_running">Running…</string>
+    <string name="zbt_probe_message">Asks this unit\'s separate Bluetooth chip whether it will carry an Android Auto connection, then watches for about a minute and a half. The line under this setting shows what is happening, and nothing else on the unit is touched.\n\nWake and watch also asks the chip to reconnect to your phone for Android Auto. That is the only part that changes anything, and restarting the unit undoes it. Please export the log afterwards and attach it.</string>
+    <string name="zbt_probe_watch_only">Watch only</string>
+    <string name="zbt_probe_wake_and_watch">Wake and watch</string>
     <string name="native_aa_setup_qr_title">Set up by QR code</string>
     <string name="native_aa_setup_qr_description">Show a code the phone can scan</string>
     <string name="native_aa_setup_qr_content_description">QR code for setting up wireless Android Auto</string>
