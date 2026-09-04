@@ -217,11 +217,11 @@ class NativeAaHandshakeManager(
     // settling. The phone spends the next several seconds associating, doing WPS and getting a
     // DHCP lease; see isHandoffSettling() and NativeHandoffPolicy.
     @Volatile private var handoffSettlingSince = 0L
-    // The socket of the handshake currently being served. Kept so a phone that gives up and
-    // reconnects over Bluetooth during a settle supersedes the stale one instead of running a
-    // second handleHandshake() alongside it.
-    @Volatile private var activeHandshakeSocket: BluetoothSocket? = null
-    // The coroutine serving [activeHandshakeSocket]. Closing a superseded handshake's socket only
+    // The link of the handshake currently being served. Kept so a phone that gives up and
+    // reconnects during a settle supersedes the stale one instead of running a second
+    // handleHandshake() alongside it.
+    @Volatile private var activeHandshakeLink: HandshakeLink? = null
+    // The coroutine serving [activeHandshakeLink]. Closing a superseded handshake's link only
     // ends it on stacks where close() interrupts a pending read; some do not, and it runs on for
     // minutes. Cancelling cannot break a blocking JNI read either, but it does end every real
     // suspension point in the handshake. Do both; whichever the stack honours wins.
@@ -469,10 +469,11 @@ class NativeAaHandshakeManager(
                         } else {
                             AppLog.i("NativeAA: Connection accepted (secondary radio '$serviceName' [$radioName]) from ${socket.remoteDevice.name} (${socket.remoteDevice.address})")
                         }
-                        if (refuseWhileBackedOff(socket)) continue
+                        val link = BluetoothSocketLink(socket, radioName)
+                        if (refuseWhileBackedOff(link)) continue
                         // [FIX] Launch handshake in a separate coroutine so the server can accept the next connection!
                         scope.launch(Dispatchers.IO + CoroutineName("NativeAa-Handshake-${socket.remoteDevice.address}")) {
-                            handleHandshake(socket, radioName)
+                            handleHandshake(link)
                         }
                     }
                 }
@@ -503,7 +504,7 @@ class NativeAaHandshakeManager(
         // poke off and defer the join watchdog. Nothing else clears them once the socket is gone.
         activeHandshakeJob?.cancel()
         activeHandshakeJob = null
-        activeHandshakeSocket = null
+        activeHandshakeLink = null
         handshakeStartedAt = 0L
         handoffSettlingSince = 0L
         resetHandshakeBackoff()
@@ -1134,7 +1135,7 @@ class NativeAaHandshakeManager(
      * is stop starting new ones. The phone will keep reconnecting; closing immediately costs it
      * nothing beyond the retry it was going to make anyway.
      */
-    private fun refuseWhileBackedOff(socket: BluetoothSocket): Boolean {
+    private fun refuseWhileBackedOff(link: HandshakeLink): Boolean {
         if (NativeHandoffPolicy.shouldServeHandshake(consecutiveHandshakeFailures)) return false
         if (!loggedHandshakeBackoff) {
             loggedHandshakeBackoff = true
@@ -1147,7 +1148,7 @@ class NativeAaHandshakeManager(
         } else {
             AppLog.d("NativeAA: Dropping Android Auto connection — still backed off after $consecutiveHandshakeFailures failed handshakes.")
         }
-        try { socket.close() } catch (e: Exception) {}
+        try { link.close() } catch (e: Exception) {}
         return true
     }
 
@@ -1165,11 +1166,11 @@ class NativeAaHandshakeManager(
      * on for minutes — and its late writes would clear the live session's settling stamp, cancel
      * its poke, close listeners it still needs, or wipe a backoff it had legitimately earned.
      */
-    private inline fun ifOwner(socket: BluetoothSocket, block: () -> Unit) {
-        if (activeHandshakeSocket === socket) block()
+    private inline fun ifOwner(link: HandshakeLink, block: () -> Unit) {
+        if (activeHandshakeLink === link) block()
     }
 
-    private suspend fun handleHandshake(socket: BluetoothSocket, localRadio: String? = null) = withContext(Dispatchers.IO) {
+    private suspend fun handleHandshake(link: HandshakeLink) = withContext(Dispatchers.IO) {
         // The phone reached us. Recorded here rather than at either accept site so both the
         // primary and the secondary-radio loops are covered by one statement.
         everAcceptedAaConnection = true
@@ -1190,24 +1191,24 @@ class NativeAaHandshakeManager(
         // The listener stays open across the settling window, so the phone can reconnect over
         // Bluetooth while an earlier handoff is still settling. That reconnect means the earlier
         // one failed: retire it rather than serving both from the same manager state.
-        val previousSocket = activeHandshakeSocket
+        val previousLink = activeHandshakeLink
         val previousJob = activeHandshakeJob
         // Ownership is claimed *before* the previous session is torn down, not after: cancelling
         // it makes its finally block run on another thread at a moment we do not control, and the
         // only thing keeping that block off this handshake's state is the ifOwner fence. Take
         // ownership first and the fence is already closed when the old one unwinds.
-        activeHandshakeSocket = socket
+        activeHandshakeLink = link
         activeHandshakeJob = coroutineContext[Job]
         // Stamped after claiming ownership above, so a superseded handshake's cleanup — which
-        // only fires when it still owns activeHandshakeSocket — can't wipe this one's stamp.
+        // only fires when it still owns activeHandshakeLink — can't wipe this one's stamp.
         handshakeStartedAt = SystemClock.elapsedRealtime()
-        if (previousSocket != null && previousSocket !== socket) {
+        if (previousLink != null && previousLink !== link) {
             AppLog.i("NativeAA: A new handshake arrived while one was still settling — closing the previous session.")
             handoffSettlingSince = 0L
             // Cancel *and* close, in that order: see activeHandshakeJob. Cancelling first means
             // the old coroutine cannot mistake the close for a phone-side drop and act on it.
             previousJob?.cancel()
-            try { previousSocket.close() } catch (_: Exception) {}
+            try { previousLink.close() } catch (_: Exception) {}
         }
         // Whether this handshake put anything on the wire at all, and whether the phone answered
         // any of it. Together with abortedLocally they decide, once in the fenced finally below,
@@ -1230,26 +1231,32 @@ class NativeAaHandshakeManager(
         val inbound = Channel<ProtobufMessage>(Channel.UNLIMITED)
         var readerJob: Job? = null
         try {
-            val device = socket.remoteDevice
-            AppLog.i("NativeAA: Handling handshake for ${device.name} (${device.address}) on local radio [${localRadio ?: "?"}]")
+            val peerName = link.peerName
+            val peerAddress = link.peerAddress
+            AppLog.i("NativeAA: Handling handshake for $peerName ($peerAddress) on local radio [${link.radioLabel ?: "?"}]")
 
             if (commManager.isConnected ||
                 commManager.connectionState.value is CommManager.ConnectionState.Connecting) {
                 AppLog.i("NativeAA: USB/other session already active. Aborting BT handshake so phone does not start a parallel wireless attempt.")
                 abortedLocally = true
-                try { socket.close() } catch (_: Exception) {}
+                try { link.close() } catch (_: Exception) {}
                 return@withContext
             }
 
             // The wake poke target only, and only when there is none. Writing the auto-start list
             // here turned Bluetooth auto-start on for a user who never asked, and undid a clear.
-            if (PokeTargetPolicy.adoptsHandshakedDevice(settings.nativePokeBtMacs)) {
-                AppLog.i("NativeAA: Saving ${device.address} (${device.name}) as the wake poke device.")
-                settings.nativePokeBtMacs = setOf(device.address)
+            //
+            // Only for a phone on this unit's own radio. An address behind an external module is
+            // one nothing in android.bluetooth can dial, and storing it also stops a real target
+            // ever being adopted, since adoption only happens into an empty set.
+            if (link.persistPeerForAutoStart && peerAddress != null &&
+                PokeTargetPolicy.adoptsHandshakedDevice(settings.nativePokeBtMacs)) {
+                AppLog.i("NativeAA: Saving $peerAddress ($peerName) as the wake poke device.")
+                settings.nativePokeBtMacs = setOf(peerAddress)
             }
 
-            val input = DataInputStream(socket.inputStream)
-            val output = socket.outputStream
+            val input = DataInputStream(link.input)
+            val output = link.output
 
             // [BUG_FIX] There is no BluetoothSocket.setSoTimeout(), and the old workaround —
             // close the socket to unblock readFully() — only works where close() interrupts a
@@ -1258,7 +1265,7 @@ class NativeAaHandshakeManager(
             // *wait* instead: read on a coroutine of its own and take messages from a channel,
             // which resumes on schedule whether or not the read ever returns. The reader itself is
             // still unreclaimable on such a stack; consecutiveHandshakeFailures bounds that.
-            readerJob = scope.launch(Dispatchers.IO + CoroutineName("NativeAa-Reader-${device.address}")) {
+            readerJob = scope.launch(Dispatchers.IO + CoroutineName("NativeAa-Reader-$peerAddress")) {
                 try {
                     while (isActive) inbound.send(readProtobuf(input))
                 } catch (e: Exception) {
@@ -1346,7 +1353,7 @@ class NativeAaHandshakeManager(
                         // can reach this having had nothing from us before it.
                         spokeToPhone = true
                         AppLog.i("NativeAA: Handshake completed successfully on Bluetooth side.")
-                        ifOwner(socket) {
+                        ifOwner(link) {
                             // The exchange is done; the phone's work is not — it still has to
                             // associate, run WPS and get a DHCP lease. See isHandoffSettling().
                             handshakeStartedAt = 0L
@@ -1369,11 +1376,11 @@ class NativeAaHandshakeManager(
                         // Re-stamp rather than only extending our own deadline: isHandoffSettling()
                         // is what keeps the poke off the radio during the join, and it measures
                         // from this stamp. The session caps the total.
-                        ifOwner(socket) { handoffSettlingSince = SystemClock.elapsedRealtime() }
+                        ifOwner(link) { handoffSettlingSince = SystemClock.elapsedRealtime() }
                     }
                     WppAction.CompleteSuccess -> {
                         AppLog.i("NativeAA: WiFi session landed. Handshake session ending, releasing Bluetooth connection.")
-                        ifOwner(socket) {
+                        ifOwner(link) {
                             handoffSettlingSince = 0L
                             // Stop accepting new AA_UUID connections too, not just this socket —
                             // otherwise the phone's immediate reconnect-retry gets accepted,
@@ -1397,7 +1404,7 @@ class NativeAaHandshakeManager(
                             )
                         }
                     }
-                    WppAction.ResumePoke -> ifOwner(socket) {
+                    WppAction.ResumePoke -> ifOwner(link) {
                         // Clear the settling stamp first: triggerPoke() refuses to start while a
                         // handoff is settling, which is the whole point of that guard.
                         handoffSettlingSince = 0L
@@ -1450,7 +1457,7 @@ class NativeAaHandshakeManager(
                         logReceivedDetail(msg)
                         // The phone answered, so the channel carries data in at least one
                         // direction. Whatever the type turns out to be, this was not a silent unit.
-                        ifOwner(socket) {
+                        ifOwner(link) {
                             resetHandshakeBackoff()
                             // The banner's claim is literally that nothing came back, so anything
                             // coming back retires it. Kept as loose as the claim on purpose: a
@@ -1642,8 +1649,8 @@ class NativeAaHandshakeManager(
         } finally {
             // Only clear the stamps if this handshake still owns them — a superseding handshake
             // has already taken over and set its own.
-            if (activeHandshakeSocket === socket) {
-                activeHandshakeSocket = null
+            if (activeHandshakeLink === link) {
+                activeHandshakeLink = null
                 activeHandshakeJob = null
                 handshakeStartedAt = 0L
                 handoffSettlingSince = 0L
@@ -1669,8 +1676,8 @@ class NativeAaHandshakeManager(
             // point to cancel at — so its thread is stranded from here on.
             readerJob?.cancel()
             inbound.close()
-            try { socket.close() } catch (e: Exception) {}
-            AppLog.i("NativeAA: BT Handshake socket closed.")
+            try { link.close() } catch (e: Exception) {}
+            AppLog.i("NativeAA: BT Handshake link closed.")
         }
     }
 
@@ -1939,7 +1946,7 @@ class NativeAaHandshakeManager(
         // this manager just closed does not necessarily end the coroutine reading from it.
         activeHandshakeJob?.cancel()
         activeHandshakeJob = null
-        activeHandshakeSocket = null
+        activeHandshakeLink = null
         // Only the per-attempt count resets: everAcceptedAaConnection is deliberately kept, so a
         // unit that has connected before is not warned just because the manager was re-armed.
         pokesSinceLastAccept = 0
