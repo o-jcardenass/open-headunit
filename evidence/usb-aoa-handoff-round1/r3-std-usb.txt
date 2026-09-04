@@ -1,0 +1,30 @@
+09-03 23:23:18.011 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/003: Pixel 4
+09-03 23:23:41.676 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:4ee1 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:23:42.384 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/004: Pixel 4
+09-03 23:23:42.807 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:2d00 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:23:57.712 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/005: Pixel 4
+09-03 23:24:13.495 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:4ee1 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:24:13.611 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/006: Pixel 4
+09-03 23:24:14.017 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:2d00 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:24:27.724 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/007: Pixel 4
+09-03 23:24:46.633 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:4ee1 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:24:46.740 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/008: Pixel 4
+09-03 23:24:47.139 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:2d00 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:25:05.854 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/009: Pixel 4
+09-03 23:25:21.449 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:4ee1 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:25:21.563 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/010: Pixel 4
+09-03 23:25:21.972 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:2d00 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:26:29.531 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/011: Pixel 4
+09-03 23:26:32.897 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:4ee1 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:26:34.993 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/012: Pixel 4
+09-03 23:26:35.400 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:2d00 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:26:48.264 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/013: Pixel 4
+09-03 23:26:52.598 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:4ee1 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:26:54.685 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/014: Pixel 4
+09-03 23:26:55.100 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:2d00 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:27:06.712 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/015: Pixel 4
+09-03 23:27:11.615 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:4ee1 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:27:12.524 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/016: Pixel 4
+09-03 23:27:40.686 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:4ee1 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:27:40.792 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/002: Pixel 4
+09-03 23:27:41.208 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:2d00 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false

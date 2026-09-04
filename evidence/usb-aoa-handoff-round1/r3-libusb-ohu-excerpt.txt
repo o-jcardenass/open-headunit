@@ -1,0 +1,39 @@
+09-03 23:30:59.971 I/OPENHU  (11854): [184] UsbAccessoryMode.connectAndSwitch | UsbAccessoryMode: Performing AOA switch via native libusb...
+09-03 23:30:59.989 I/OPENHU  (11854): [184] UsbAccessoryMode.connectAndSwitch | Result: true
+09-03 23:31:00.499 I/OPENHU  (11854): [184] UsbAttachedActivity.awaitAccessoryDevice | Accessory mode reached after 510ms: Google Pixel 4 (VID: 18D1 PID: 2D00)
+09-03 23:31:01.524 E/OPENHU  (11854): [195] UsbAccessoryMode.connectAndSwitch | Cannot open device
+09-03 23:31:01.546 I/OPENHU  (11854): [190] 2.invokeSuspend | LibusbAccessoryConnection: Successfully connected via JNI Libusb
+09-03 23:31:02.758 I/OPENHU  (11854): [190] AapTransport.handshake | Handshake: Version response received (ret=12, attempt=1).
+09-03 23:31:02.903 I/OPENHU  (11854): [190] AapSslContext.performHandshake | SSL handshake complete. Session id: XiU8VOWw0xbHrPrs39tMsy1i6F25ltuM4OT73UM7LhY=
+09-03 23:31:02.906 D/OPENHU  (11854): [190] AapTransport.handshake | Handshake: SSL handshake complete. TS: 259115903
+09-03 23:31:39.127 I/OPENHU  (11854): [214] UsbAccessoryMode.connectAndSwitch | UsbAccessoryMode: Performing AOA switch via native libusb...
+09-03 23:31:39.131 I/OPENHU  (11854): [214] UsbAccessoryMode.connectAndSwitch | Result: true
+09-03 23:31:39.636 I/OPENHU  (11854): [214] UsbAttachedActivity.awaitAccessoryDevice | Accessory mode reached after 504ms: Google Pixel 4 (VID: 18D1 PID: 2D00)
+09-03 23:31:39.710 I/OPENHU  (11854): [190] 2.invokeSuspend | LibusbAccessoryConnection: Successfully connected via JNI Libusb
+09-03 23:31:42.327 W/OPENHU  (11854): [191] AapTransport.handshake | Handshake: No VERSION_RESPONSE within 2s (attempt 1), ret=0
+09-03 23:31:42.848 I/OPENHU  (11854): [191] AapTransport.handshake | Handshake: Version response received (ret=12, attempt=2).
+09-03 23:31:42.876 E/OPENHU  (11854): [191] AapTransport.handshake | Handshake failed with exception
+09-03 23:31:42.899 E/OPENHU  (11854): [191] AapTransport.startHandshake$com_andrerinas_headunitrevived_3_3_1_beta1_githubDebug | Handshake failed
+09-03 23:32:12.423 I/OPENHU  (11854): [221] UsbAccessoryMode.connectAndSwitch | UsbAccessoryMode: Performing AOA switch via native libusb...
+09-03 23:32:12.426 I/OPENHU  (11854): [221] UsbAccessoryMode.connectAndSwitch | Result: true
+09-03 23:32:12.931 I/OPENHU  (11854): [221] UsbAttachedActivity.awaitAccessoryDevice | Accessory mode reached after 505ms: Google Pixel 4 (VID: 18D1 PID: 2D00)
+09-03 23:32:12.988 I/OPENHU  (11854): [192] 2.invokeSuspend | LibusbAccessoryConnection: Successfully connected via JNI Libusb
+09-03 23:32:15.599 W/OPENHU  (11854): [190] AapTransport.handshake | Handshake: No VERSION_RESPONSE within 2s (attempt 1), ret=0
+09-03 23:32:15.803 I/OPENHU  (11854): [190] AapTransport.handshake | Handshake: Version response received (ret=12, attempt=2).
+09-03 23:32:15.811 E/OPENHU  (11854): [190] AapTransport.handshake | Handshake failed with exception
+09-03 23:32:15.823 E/OPENHU  (11854): [190] AapTransport.startHandshake$com_andrerinas_headunitrevived_3_3_1_beta1_githubDebug | Handshake failed
+09-03 23:32:50.931 I/OPENHU  (11854): [226] UsbAccessoryMode.connectAndSwitch | UsbAccessoryMode: Performing AOA switch via native libusb...
+09-03 23:32:50.939 I/OPENHU  (11854): [226] UsbAccessoryMode.connectAndSwitch | Result: true
+09-03 23:32:51.450 I/OPENHU  (11854): [226] UsbAttachedActivity.awaitAccessoryDevice | Accessory mode reached after 511ms: Google Pixel 4 (VID: 18D1 PID: 2D00)
+09-03 23:32:51.473 I/OPENHU  (11854): [219] 2.invokeSuspend | LibusbAccessoryConnection: Successfully connected via JNI Libusb
+09-03 23:32:54.010 I/OPENHU  (11854): [190] AapTransport.handshake | Handshake: Version response received (ret=12, attempt=1).
+09-03 23:32:54.080 I/OPENHU  (11854): [190] AapSslContext.performHandshake | SSL handshake complete. Session id: lhlknnMaWfpjU+a7E8hGd09RHSxlVUzxFPiJ9d4NjyA=
+09-03 23:32:54.081 D/OPENHU  (11854): [190] AapTransport.handshake | Handshake: SSL handshake complete. TS: 259227080
+09-03 23:33:45.924 I/OPENHU  (11854): [238] UsbAccessoryMode.connectAndSwitch | UsbAccessoryMode: Performing AOA switch via native libusb...
+09-03 23:33:45.928 I/OPENHU  (11854): [238] UsbAccessoryMode.connectAndSwitch | Result: true
+09-03 23:33:46.434 I/OPENHU  (11854): [238] UsbAttachedActivity.awaitAccessoryDevice | Accessory mode reached after 505ms: Google Pixel 4 (VID: 18D1 PID: 2D00)
+09-03 23:33:46.492 I/OPENHU  (11854): [190] 2.invokeSuspend | LibusbAccessoryConnection: Successfully connected via JNI Libusb
+09-03 23:33:49.073 W/OPENHU  (11854): [219] AapTransport.handshake | Handshake: No VERSION_RESPONSE within 2s (attempt 1), ret=0
+09-03 23:33:50.026 I/OPENHU  (11854): [219] AapTransport.handshake | Handshake: Version response received (ret=12, attempt=2).
+09-03 23:33:50.150 E/OPENHU  (11854): [219] AapTransport.handshake | Handshake failed with exception
+09-03 23:33:50.159 E/OPENHU  (11854): [219] AapTransport.startHandshake$com_andrerinas_headunitrevived_3_3_1_beta1_githubDebug | Handshake failed

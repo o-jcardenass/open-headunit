@@ -1,0 +1,120 @@
+--------- beginning of system
+09-03 23:03:47.233 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:4ee1 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:03:47.236 D/UsbHostManager( 1422): Added device UsbDevice[mName=/dev/bus/usb/001/002,mVendorId=6353,mProductId=20193,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=Google,mProductName=Pixel 4,mVersion=4.40,mSerialNumberReader=com.android.server.usb.UsbSerialReader@79d2820, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+09-03 23:03:47.236 D/UsbHostManager( 1422): UsbConfiguration[mId=1,mName=null,mAttributes=128,mMaxPower=250,mInterfaces=[
+09-03 23:03:47.236 D/UsbHostManager( 1422): UsbInterface[mId=0,mAlternateSetting=0,mName=MTP,mClass=6,mSubclass=1,mProtocol=1,mEndpoints=[
+09-03 23:03:47.236 D/UsbHostManager( 1422): UsbEndpoint[mAddress=2,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+09-03 23:03:47.236 D/UsbHostManager( 1422): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+09-03 23:03:47.236 D/UsbHostManager( 1422): UsbEndpoint[mAddress=131,mAttributes=3,mMaxPacketSize=28,mInterval=6]]]]
+09-03 23:03:47.931 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/002: Pixel 4
+09-03 23:03:48.334 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:2d00 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:03:48.338 D/UsbHostManager( 1422): Added device UsbDevice[mName=/dev/bus/usb/001/003,mVendorId=6353,mProductId=11520,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=Google,mProductName=Pixel 4,mVersion=4.40,mSerialNumberReader=com.android.server.usb.UsbSerialReader@721c3d7, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+09-03 23:03:48.338 D/UsbHostManager( 1422): UsbConfiguration[mId=1,mName=null,mAttributes=128,mMaxPower=250,mInterfaces=[
+09-03 23:03:48.338 D/UsbHostManager( 1422): UsbInterface[mId=0,mAlternateSetting=0,mName=Android Accessory Interface,mClass=255,mSubclass=255,mProtocol=0,mEndpoints=[
+09-03 23:03:48.338 D/UsbHostManager( 1422): UsbEndpoint[mAddress=2,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+09-03 23:03:48.338 D/UsbHostManager( 1422): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]]]]
+09-03 23:03:55.938 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/003: Pixel 4
+09-03 23:04:01.033 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:4ee1 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:04:01.036 D/UsbHostManager( 1422): Added device UsbDevice[mName=/dev/bus/usb/001/004,mVendorId=6353,mProductId=20193,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=Google,mProductName=Pixel 4,mVersion=4.40,mSerialNumberReader=com.android.server.usb.UsbSerialReader@89f8e97, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+09-03 23:04:01.036 D/UsbHostManager( 1422): UsbConfiguration[mId=1,mName=null,mAttributes=128,mMaxPower=250,mInterfaces=[
+09-03 23:04:01.036 D/UsbHostManager( 1422): UsbInterface[mId=0,mAlternateSetting=0,mName=MTP,mClass=6,mSubclass=1,mProtocol=1,mEndpoints=[
+09-03 23:04:01.036 D/UsbHostManager( 1422): UsbEndpoint[mAddress=2,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+09-03 23:04:01.036 D/UsbHostManager( 1422): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+09-03 23:04:01.036 D/UsbHostManager( 1422): UsbEndpoint[mAddress=131,mAttributes=3,mMaxPacketSize=28,mInterval=6]]]]
+09-03 23:04:03.147 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/004: Pixel 4
+09-03 23:04:03.565 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:2d00 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:04:03.567 D/UsbHostManager( 1422): Added device UsbDevice[mName=/dev/bus/usb/001/005,mVendorId=6353,mProductId=11520,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=Google,mProductName=Pixel 4,mVersion=4.40,mSerialNumberReader=com.android.server.usb.UsbSerialReader@52df8e4, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+09-03 23:04:03.567 D/UsbHostManager( 1422): UsbConfiguration[mId=1,mName=null,mAttributes=128,mMaxPower=250,mInterfaces=[
+09-03 23:04:03.567 D/UsbHostManager( 1422): UsbInterface[mId=0,mAlternateSetting=0,mName=Android Accessory Interface,mClass=255,mSubclass=255,mProtocol=0,mEndpoints=[
+09-03 23:04:03.567 D/UsbHostManager( 1422): UsbEndpoint[mAddress=2,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+09-03 23:04:03.567 D/UsbHostManager( 1422): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]]]]
+09-03 23:04:20.638 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/005: Pixel 4
+09-03 23:04:24.308 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:4ee1 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:04:24.311 D/UsbHostManager( 1422): Added device UsbDevice[mName=/dev/bus/usb/001/006,mVendorId=6353,mProductId=20193,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=Google,mProductName=Pixel 4,mVersion=4.40,mSerialNumberReader=com.android.server.usb.UsbSerialReader@2525936, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+09-03 23:04:24.311 D/UsbHostManager( 1422): UsbConfiguration[mId=1,mName=null,mAttributes=128,mMaxPower=250,mInterfaces=[
+09-03 23:04:24.311 D/UsbHostManager( 1422): UsbInterface[mId=0,mAlternateSetting=0,mName=MTP,mClass=6,mSubclass=1,mProtocol=1,mEndpoints=[
+09-03 23:04:24.311 D/UsbHostManager( 1422): UsbEndpoint[mAddress=2,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+09-03 23:04:24.311 D/UsbHostManager( 1422): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+09-03 23:04:24.311 D/UsbHostManager( 1422): UsbEndpoint[mAddress=131,mAttributes=3,mMaxPacketSize=28,mInterval=6]]]]
+09-03 23:04:26.399 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/006: Pixel 4
+09-03 23:04:26.818 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:2d00 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:04:26.823 D/UsbHostManager( 1422): Added device UsbDevice[mName=/dev/bus/usb/001/007,mVendorId=6353,mProductId=11520,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=Google,mProductName=Pixel 4,mVersion=4.40,mSerialNumberReader=com.android.server.usb.UsbSerialReader@23b8b35, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+09-03 23:04:26.823 D/UsbHostManager( 1422): UsbConfiguration[mId=1,mName=null,mAttributes=128,mMaxPower=250,mInterfaces=[
+09-03 23:04:26.823 D/UsbHostManager( 1422): UsbInterface[mId=0,mAlternateSetting=0,mName=Android Accessory Interface,mClass=255,mSubclass=255,mProtocol=0,mEndpoints=[
+09-03 23:04:26.823 D/UsbHostManager( 1422): UsbEndpoint[mAddress=2,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+09-03 23:04:26.823 D/UsbHostManager( 1422): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]]]]
+09-03 23:04:39.318 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/007: Pixel 4
+09-03 23:04:46.320 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:4ee1 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:04:46.322 D/UsbHostManager( 1422): Added device UsbDevice[mName=/dev/bus/usb/001/008,mVendorId=6353,mProductId=20193,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=Google,mProductName=Pixel 4,mVersion=4.40,mSerialNumberReader=com.android.server.usb.UsbSerialReader@2839ac4, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+09-03 23:04:46.322 D/UsbHostManager( 1422): UsbConfiguration[mId=1,mName=null,mAttributes=128,mMaxPower=250,mInterfaces=[
+09-03 23:04:46.322 D/UsbHostManager( 1422): UsbInterface[mId=0,mAlternateSetting=0,mName=MTP,mClass=6,mSubclass=1,mProtocol=1,mEndpoints=[
+09-03 23:04:46.322 D/UsbHostManager( 1422): UsbEndpoint[mAddress=2,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+09-03 23:04:46.322 D/UsbHostManager( 1422): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+09-03 23:04:46.322 D/UsbHostManager( 1422): UsbEndpoint[mAddress=131,mAttributes=3,mMaxPacketSize=28,mInterval=6]]]]
+09-03 23:04:48.407 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/008: Pixel 4
+09-03 23:04:48.822 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:2d00 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:04:48.825 D/UsbHostManager( 1422): Added device UsbDevice[mName=/dev/bus/usb/001/009,mVendorId=6353,mProductId=11520,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=Google,mProductName=Pixel 4,mVersion=4.40,mSerialNumberReader=com.android.server.usb.UsbSerialReader@bcbcb24, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+09-03 23:04:48.825 D/UsbHostManager( 1422): UsbConfiguration[mId=1,mName=null,mAttributes=128,mMaxPower=250,mInterfaces=[
+09-03 23:04:48.825 D/UsbHostManager( 1422): UsbInterface[mId=0,mAlternateSetting=0,mName=Android Accessory Interface,mClass=255,mSubclass=255,mProtocol=0,mEndpoints=[
+09-03 23:04:48.825 D/UsbHostManager( 1422): UsbEndpoint[mAddress=2,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+09-03 23:04:48.825 D/UsbHostManager( 1422): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]]]]
+09-03 23:04:58.986 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/009: Pixel 4
+09-03 23:05:02.729 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:4ee1 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:05:02.732 D/UsbHostManager( 1422): Added device UsbDevice[mName=/dev/bus/usb/001/010,mVendorId=6353,mProductId=20193,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=Google,mProductName=Pixel 4,mVersion=4.40,mSerialNumberReader=com.android.server.usb.UsbSerialReader@7444120, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+09-03 23:05:02.732 D/UsbHostManager( 1422): UsbConfiguration[mId=1,mName=null,mAttributes=128,mMaxPower=250,mInterfaces=[
+09-03 23:05:02.732 D/UsbHostManager( 1422): UsbInterface[mId=0,mAlternateSetting=0,mName=MTP,mClass=6,mSubclass=1,mProtocol=1,mEndpoints=[
+09-03 23:05:02.732 D/UsbHostManager( 1422): UsbEndpoint[mAddress=2,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+09-03 23:05:02.732 D/UsbHostManager( 1422): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+09-03 23:05:02.732 D/UsbHostManager( 1422): UsbEndpoint[mAddress=131,mAttributes=3,mMaxPacketSize=28,mInterval=6]]]]
+09-03 23:05:04.819 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/010: Pixel 4
+09-03 23:05:05.237 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:2d00 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:05:05.239 D/UsbHostManager( 1422): Added device UsbDevice[mName=/dev/bus/usb/001/011,mVendorId=6353,mProductId=11520,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=Google,mProductName=Pixel 4,mVersion=4.40,mSerialNumberReader=com.android.server.usb.UsbSerialReader@9f0e98, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+09-03 23:05:05.239 D/UsbHostManager( 1422): UsbConfiguration[mId=1,mName=null,mAttributes=128,mMaxPower=250,mInterfaces=[
+09-03 23:05:05.239 D/UsbHostManager( 1422): UsbInterface[mId=0,mAlternateSetting=0,mName=Android Accessory Interface,mClass=255,mSubclass=255,mProtocol=0,mEndpoints=[
+09-03 23:05:05.239 D/UsbHostManager( 1422): UsbEndpoint[mAddress=2,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+09-03 23:05:05.239 D/UsbHostManager( 1422): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]]]]
+09-03 23:05:17.450 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/011: Pixel 4
+09-03 23:05:22.932 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:4ee1 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:05:22.935 D/UsbHostManager( 1422): Added device UsbDevice[mName=/dev/bus/usb/001/012,mVendorId=6353,mProductId=20193,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=Google,mProductName=Pixel 4,mVersion=4.40,mSerialNumberReader=com.android.server.usb.UsbSerialReader@d44f2ed, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+09-03 23:05:22.935 D/UsbHostManager( 1422): UsbConfiguration[mId=1,mName=null,mAttributes=128,mMaxPower=250,mInterfaces=[
+09-03 23:05:22.935 D/UsbHostManager( 1422): UsbInterface[mId=0,mAlternateSetting=0,mName=MTP,mClass=6,mSubclass=1,mProtocol=1,mEndpoints=[
+09-03 23:05:22.935 D/UsbHostManager( 1422): UsbEndpoint[mAddress=2,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+09-03 23:05:22.935 D/UsbHostManager( 1422): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+09-03 23:05:22.935 D/UsbHostManager( 1422): UsbEndpoint[mAddress=131,mAttributes=3,mMaxPacketSize=28,mInterval=6]]]]
+09-03 23:05:25.029 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/012: Pixel 4
+09-03 23:05:25.452 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:2d00 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:05:25.456 D/UsbHostManager( 1422): Added device UsbDevice[mName=/dev/bus/usb/001/013,mVendorId=6353,mProductId=11520,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=Google,mProductName=Pixel 4,mVersion=4.40,mSerialNumberReader=com.android.server.usb.UsbSerialReader@139f6f6, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+09-03 23:05:25.456 D/UsbHostManager( 1422): UsbConfiguration[mId=1,mName=null,mAttributes=128,mMaxPower=250,mInterfaces=[
+09-03 23:05:25.456 D/UsbHostManager( 1422): UsbInterface[mId=0,mAlternateSetting=0,mName=Android Accessory Interface,mClass=255,mSubclass=255,mProtocol=0,mEndpoints=[
+09-03 23:05:25.456 D/UsbHostManager( 1422): UsbEndpoint[mAddress=2,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+09-03 23:05:25.456 D/UsbHostManager( 1422): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]]]]
+09-03 23:05:36.765 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/013: Pixel 4
+09-03 23:05:42.408 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:4ee1 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:05:42.411 D/UsbHostManager( 1422): Added device UsbDevice[mName=/dev/bus/usb/001/014,mVendorId=6353,mProductId=20193,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=Google,mProductName=Pixel 4,mVersion=4.40,mSerialNumberReader=com.android.server.usb.UsbSerialReader@739bcde, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+09-03 23:05:42.411 D/UsbHostManager( 1422): UsbConfiguration[mId=1,mName=null,mAttributes=128,mMaxPower=250,mInterfaces=[
+09-03 23:05:42.411 D/UsbHostManager( 1422): UsbInterface[mId=0,mAlternateSetting=0,mName=MTP,mClass=6,mSubclass=1,mProtocol=1,mEndpoints=[
+09-03 23:05:42.411 D/UsbHostManager( 1422): UsbEndpoint[mAddress=2,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+09-03 23:05:42.411 D/UsbHostManager( 1422): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+09-03 23:05:42.411 D/UsbHostManager( 1422): UsbEndpoint[mAddress=131,mAttributes=3,mMaxPacketSize=28,mInterval=6]]]]
+09-03 23:05:44.500 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/014: Pixel 4
+09-03 23:05:44.920 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:2d00 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:05:44.923 D/UsbHostManager( 1422): Added device UsbDevice[mName=/dev/bus/usb/001/015,mVendorId=6353,mProductId=11520,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=Google,mProductName=Pixel 4,mVersion=4.40,mSerialNumberReader=com.android.server.usb.UsbSerialReader@e2a95c0, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+09-03 23:05:44.923 D/UsbHostManager( 1422): UsbConfiguration[mId=1,mName=null,mAttributes=128,mMaxPower=250,mInterfaces=[
+09-03 23:05:44.923 D/UsbHostManager( 1422): UsbInterface[mId=0,mAlternateSetting=0,mName=Android Accessory Interface,mClass=255,mSubclass=255,mProtocol=0,mEndpoints=[
+09-03 23:05:44.923 D/UsbHostManager( 1422): UsbEndpoint[mAddress=2,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+09-03 23:05:44.923 D/UsbHostManager( 1422): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]]]]
+09-03 23:05:55.241 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/015: Pixel 4
+09-03 23:05:59.212 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:4ee1 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:05:59.215 D/UsbHostManager( 1422): Added device UsbDevice[mName=/dev/bus/usb/001/016,mVendorId=6353,mProductId=20193,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=Google,mProductName=Pixel 4,mVersion=4.40,mSerialNumberReader=com.android.server.usb.UsbSerialReader@fee044e, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+09-03 23:05:59.215 D/UsbHostManager( 1422): UsbConfiguration[mId=1,mName=null,mAttributes=128,mMaxPower=250,mInterfaces=[
+09-03 23:05:59.215 D/UsbHostManager( 1422): UsbInterface[mId=0,mAlternateSetting=0,mName=MTP,mClass=6,mSubclass=1,mProtocol=1,mEndpoints=[
+09-03 23:05:59.215 D/UsbHostManager( 1422): UsbEndpoint[mAddress=2,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+09-03 23:05:59.215 D/UsbHostManager( 1422): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+09-03 23:05:59.215 D/UsbHostManager( 1422): UsbEndpoint[mAddress=131,mAttributes=3,mMaxPacketSize=28,mInterval=6]]]]
+09-03 23:06:01.296 D/UsbHostManager( 1422): Removed device at /dev/bus/usb/001/016: Pixel 4
+09-03 23:06:01.711 D/UsbHostManager( 1422): USB device attached: vidpid 18d1:2d00 mfg/product/ver/serial Google/Pixel 4/4.40/99021FFAZ006X3 hasAudio/HID/Storage: false/false/false
+09-03 23:06:01.714 D/UsbHostManager( 1422): Added device UsbDevice[mName=/dev/bus/usb/001/017,mVendorId=6353,mProductId=11520,mClass=0,mSubclass=0,mProtocol=0,mManufacturerName=Google,mProductName=Pixel 4,mVersion=4.40,mSerialNumberReader=com.android.server.usb.UsbSerialReader@1c732dc, mHasAudioPlayback=false, mHasAudioCapture=false, mHasMidi=false, mHasVideoCapture=false, mHasVideoPlayback=false, mConfigurations=[
+09-03 23:06:01.714 D/UsbHostManager( 1422): UsbConfiguration[mId=1,mName=null,mAttributes=128,mMaxPower=250,mInterfaces=[
+09-03 23:06:01.714 D/UsbHostManager( 1422): UsbInterface[mId=0,mAlternateSetting=0,mName=Android Accessory Interface,mClass=255,mSubclass=255,mProtocol=0,mEndpoints=[
+09-03 23:06:01.714 D/UsbHostManager( 1422): UsbEndpoint[mAddress=2,mAttributes=2,mMaxPacketSize=512,mInterval=0]
+09-03 23:06:01.714 D/UsbHostManager( 1422): UsbEndpoint[mAddress=129,mAttributes=2,mMaxPacketSize=512,mInterval=0]]]]

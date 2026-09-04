@@ -1,0 +1,15 @@
+09-03 23:11:09.473 I/OPENHU  (10928): [185] UsbAccessoryMode.switch | Sending acc start
+09-03 23:11:09.480 I/OPENHU  (10928): [185] UsbAccessoryMode.switch | Acc start sent (len=0). Waiting for re-enumeration...
+09-03 23:11:09.619 I/OPENHU  (10928): [2] AapService.deferWirelessForUsbHandoff | AapService: a USB projection attempt is in flight — holding the wireless bring-up for up to 8000ms
+09-03 23:11:09.984 I/OPENHU  (10928): [185] UsbAttachedActivity.awaitAccessoryDevice | Accessory mode reached after 2ms: Google Pixel 4 (VID: 18D1 PID: 2D00)
+09-03 23:11:10.991 I/OPENHU  (10928): [191] StandardUsbProjectionConnection.usbOpen | Established connection: android.hardware.usb.UsbDeviceConnection@222a14
+09-03 23:11:11.099 I/OPENHU  (10928): [2] AapService.quiesceWirelessForWiredSession | AapService: USB session established while wireless mode NATIVE/WIFI_DIRECT was armed — stopping the wireless stack for the duration of it
+09-03 23:11:11.790 D/OPENHU  (10928): [191] AapTransport.handshake | Handshake: Version request sent. ret: 10. attempt: 1. TS: 257924788
+09-03 23:11:13.992 W/OPENHU  (10928): [191] AapTransport.handshake | Handshake: No VERSION_RESPONSE within 2s (attempt 1), ret=-1
+09-03 23:11:14.193 D/OPENHU  (10928): [191] AapTransport.handshake | Handshake: Version request sent. ret: 10. attempt: 2. TS: 257927192
+09-03 23:11:14.195 I/OPENHU  (10928): [191] StandardUsbProjectionConnection.recvBlocking | USB reads recovered after 2 errors
+09-03 23:11:14.195 I/OPENHU  (10928): [191] AapTransport.handshake | Handshake: Version response received (ret=12, attempt=2).
+09-03 23:11:14.195 I/OPENHU  (10928): [191] AapTransport.handshake | Handshake: Version response recv ret: 12
+09-03 23:11:14.210 E/OPENHU  (10928): [191] AapTransport.handshake | Handshake failed with exception
+09-03 23:11:14.210 E/OPENHU  (10928): javax.net.ssl.SSLException: Unable to parse TLS packet header
+09-03 23:11:14.225 E/OPENHU  (10928): [191] AapTransport.startHandshake$com_andrerinas_headunitrevived_3_3_1_beta1_githubDebug | Handshake failed

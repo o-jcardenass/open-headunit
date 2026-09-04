@@ -1,0 +1,54 @@
+--------- beginning of main
+09-03 23:35:23.472 D/OPENHU  (12467): [2] App.onCreate | native library dir /data/app/~~Ov2jqvLwXGnEUVKLmC-18A==/com.andrerinas.headunitrevived-NElMZOMlXVCDWu-CW-8vEw==/lib/arm64
+09-03 23:35:23.473 D/OPENHU  (12467): [2] App.onCreate |    libusb1.0.so
+09-03 23:35:23.473 D/OPENHU  (12467): [2] App.onCreate |    libavutil.so
+09-03 23:35:23.473 D/OPENHU  (12467): [2] App.onCreate |    libconscrypt_jni.so
+09-03 23:35:23.473 D/OPENHU  (12467): [2] App.onCreate |    libswscale.so
+09-03 23:35:23.474 D/OPENHU  (12467): [2] App.onCreate |    libusbhelper.so
+09-03 23:35:23.474 D/OPENHU  (12467): [2] App.onCreate |    libavcodec.so
+09-03 23:35:23.474 D/OPENHU  (12467): [2] App.onCreate |    libhur_soft_hevc.so
+09-03 23:35:23.507 I/OPENHU  (12467): [2] BootCompleteReceiver.onReceive | Boot auto-start: received action=android.intent.action.LOCKED_BOOT_COMPLETED
+09-03 23:35:23.508 I/OPENHU  (12467): [2] BootCompleteReceiver.onReceive | Boot auto-start: USB auto-start enabled, starting AapService to check USB (trigger=android.intent.action.LOCKED_BOOT_COMPLETED)
+09-03 23:35:23.697 I/OPENHU  (12467): [2] MainActivity.logLaunchSource | App launched by third party: android-app://com.android.shell (action: null)
+09-03 23:35:23.887 D/OPENHU  (12467): [2] UsbReceiver.<init> | UsbReceiver registered
+09-03 23:35:23.891 I/OPENHU  (12467): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 0 USB device(s), 0 usable for Android Auto
+09-03 23:35:23.892 I/OPENHU  (12467): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+09-03 23:35:24.010 D/OPENHU  (12467): [2] MainActivity.requestPermissions | All required permissions already granted.
+09-03 23:35:24.015 I/OPENHU  (12467): [2] MainActivity.updateConnectionIssueBanner | MainActivity: showing the connection issue banner for HOTSPOT_NOT_RUNNING
+09-03 23:35:24.016 I/OPENHU  (12467): [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+09-03 23:35:24.044 I/OPENHU  (12467): [2] AapService.onCreate | AapService creating...
+09-03 23:35:24.075 D/OPENHU  (12467): [2] UsbReceiver.<init> | UsbReceiver registered
+09-03 23:35:24.081 I/OPENHU  (12467): [2] AapService.registerReceivers | Registered runtime MEDIA_BUTTON receiver
+09-03 23:35:24.083 I/OPENHU  (12467): [2] AapService.registerReceivers | Registered dynamic WiFi Auto-start receiver
+09-03 23:35:24.085 I/OPENHU  (12467): [2] AapService.registerReceivers | Registered wake detection receiver (18 actions)
+09-03 23:35:24.107 D/OPENHU  (12467): [2] AapService.updateMediaSessionState | MediaSession: State updated to STOPPED, positionMs=0
+09-03 23:35:24.110 I/OPENHU  (12467): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: service scan (force=false) sees 0 USB device(s), 0 usable for Android Auto
+09-03 23:35:24.110 I/OPENHU  (12467): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+09-03 23:35:24.114 I/OPENHU  (12467): [2] WifiLauncherManager.setActive | WifiLauncher: Initializing WiFi Mode: NATIVE
+09-03 23:35:24.116 D/OPENHU  (12467): [2] WifiLauncherSharedServices.startWirelessServer | AapService: Starting the wireless server on 5288 - no server yet.
+09-03 23:35:24.119 I/OPENHU  (12467): [2] WirelessServer.start | WirelessServer: binding port 5288...
+09-03 23:35:24.123 I/OPENHU  (12467): [186] 1.invokeSuspend | Wireless Server listening on port 5288
+09-03 23:35:24.127 I/OPENHU  (12467): [2] WifiLauncherNative.start | AapService: Native AA on the head unit hotspot — resolving access point credentials.
+09-03 23:35:24.127 I/OPENHU  (12467): [186] WirelessServer.logLocalNetworkInterfaces | Interface: wlan0, IP: 192.168.1.10
+09-03 23:35:24.128 I/OPENHU  (12467): [186] WirelessServer.logLocalNetworkInterfaces | Interface: rmnet_data1, IP: 9.3.231.241
+09-03 23:35:24.128 D/OPENHU  (12467): [186] 1.invokeSuspend | WirelessServer: Waiting for TCP connection on port 5288...
+09-03 23:35:24.131 I/OPENHU  (12467): [2] NativeAaHandshakeManager.start | NativeAA: Starting Bluetooth Handshake Servers (primary radio [POCO X3 NFC])...
+09-03 23:35:24.142 I/OPENHU  (12467): [187] 2.invokeSuspend | NativeAA: ACTIVELY LISTENING on Android Auto UUID (4de17a00-52cb-11e6-bdf4-0800200c9a66) on radio [POCO X3 NFC]... Waiting for phone to connect back!
+09-03 23:35:24.151 I/OPENHU  (12467): [2] AapService.registerNetworkMonitor | NetworkMonitor: Registered network change listener
+09-03 23:35:24.155 I/OPENHU  (12467): [188] SoftApCredentialsProvider.pickApInterface | SoftApCredentials: No interface looks like an access point; waiting for one. Present: rmnet_data0 (no private address), dummy0 (no private address), wlan0 (192.168.1.10), r_rmnet_data0 (no private address), rmnet_data1 (no private address)
+09-03 23:35:24.157 I/OPENHU  (12467): [189] 1.onAvailable | NetworkMonitor: Network available: 265
+09-03 23:35:24.160 I/OPENHU  (12467): [2] AapService.acquireBootWakeLock | Boot WakeLock acquired (10min timeout)
+09-03 23:35:24.160 D/OPENHU  (12467): [189] 1.onCapabilitiesChanged | NetworkMonitor: Capabilities changed: 265 → [ Transports: WIFI Capabilities: NOT_METERED&INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN&VALIDATED&NOT_ROAMING&FOREGROUND&NOT_CONGESTED&NOT_SUSPENDED&NOT_VCN_MANAGED&NOT_BANDWIDTH_CONSTRAINED LinkUpBandwidth>=9851Kbps LinkDnBandwidth>=83812Kbps TransportInfo: <SSID: <unknown ssid>, BSSID: 02:00:00:00:00:00, MAC: 02:00:00:00:00:00, IP: /192.168.1.10, Security type: 2, Supplicant state: COMPLETED, Wi-Fi standard: 11ac, RSSI: -22, Link speed: 866Mbps, Tx Link speed: 866Mbps, Max Supported Tx Link speed: 866Mbps, Rx Link speed: 866Mbps, Max Supported Rx Link speed: 866Mbps, Frequency: 5500MHz, Net ID: -1, Metered hint: false, score: 60, isUsable: true, CarrierMerged: false, SubscriptionId: -1, IsPrimary: -1, Trusted: true, Restricted: false, Ephemeral: false, OEM paid: false, OEM private: false, OSU AP: false, FQDN: <none>, Provider friendly name: <none>, Requesting package name: <none><none>MLO Information: , Is TID-To-Link negotiation supported by the AP: false, AP MLD Address: <none>, AP MLO Link Id: <none>, AP MLO Affiliated links: <none>, Vendor Data: <none>> SignalStrength: -22 UnderlyingNetworks: Null]
+09-03 23:35:24.161 I/OPENHU  (12467): [2] AapService.acquireBootWakeLock | Battery optimization exempt: false
+09-03 23:35:24.162 I/OPENHU  (12467): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: service scan (force=true) sees 0 USB device(s), 0 usable for Android Auto
+09-03 23:35:24.162 I/OPENHU  (12467): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+09-03 23:35:24.164 I/OPENHU  (12467): [2] BootCompleteReceiver.onReceive | Boot auto-start: received action=android.intent.action.BOOT_COMPLETED
+09-03 23:35:24.165 I/OPENHU  (12467): [2] BootCompleteReceiver.onReceive | Boot auto-start: USB auto-start enabled, starting AapService to check USB (trigger=android.intent.action.BOOT_COMPLETED)
+09-03 23:35:24.223 I/OPENHU  (12467): [2] MainActivity.logLaunchSource | App launched by third party: android-app://com.android.shell (action: null)
+09-03 23:35:24.304 D/OPENHU  (12467): [2] MainActivity.requestPermissions | All required permissions already granted.
+09-03 23:35:24.306 I/OPENHU  (12467): [2] MainActivity.updateConnectionIssueBanner | MainActivity: showing the connection issue banner for HOTSPOT_NOT_RUNNING
+09-03 23:35:24.307 I/OPENHU  (12467): [2] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+09-03 23:35:25.252 D/OPENHU  (12467): [2] 1.invokeSuspend | NetworkMonitor: no discovery loop to kick
+09-03 23:35:54.540 E/OPENHU  (12467): [188] SoftApCredentialsProvider.reportNoAccessPoint | SoftApCredentials: No usable access point after 30s. Turn this device's hotspot on before connecting — 5 GHz is strongly recommended, Android Auto video is poor over 2.4 GHz — or switch the Android Auto network transport back to WiFi Direct.
+09-03 23:35:56.731 I/OPENHU  (12467): [2] AapService.onStartCommand | Disconnect action received.
+09-03 23:35:57.919 I/OPENHU  (12467): [2] MainActivity.onDestroy | MainActivity finishing, resetting auto-start flag.

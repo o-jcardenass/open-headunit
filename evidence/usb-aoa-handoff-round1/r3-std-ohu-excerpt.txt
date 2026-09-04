@@ -1,0 +1,34 @@
+09-03 23:23:42.377 I/OPENHU  (11516): [184] UsbAccessoryMode.switch | Sending acc start
+09-03 23:23:42.884 I/OPENHU  (11516): [184] UsbAttachedActivity.awaitAccessoryDevice | Accessory mode reached after 2ms: Google Pixel 4 (VID: 18D1 PID: 2D00)
+09-03 23:23:43.922 I/OPENHU  (11516): [192] StandardUsbProjectionConnection.usbOpen | Established connection: android.hardware.usb.UsbDeviceConnection@222a14
+09-03 23:23:45.264 I/OPENHU  (11516): [192] AapSslContext.performHandshake | SSL handshake complete. Session id: XC8ibwT+vKOq1uDbnEQiWh4AAFjxg1XFRtqoXl7OOek=
+09-03 23:23:45.265 D/OPENHU  (11516): [192] AapTransport.handshake | Handshake: SSL handshake complete. TS: 258678263
+09-03 23:24:13.606 I/OPENHU  (11516): [212] UsbAccessoryMode.switch | Sending acc start
+09-03 23:24:14.107 I/OPENHU  (11516): [212] UsbAttachedActivity.awaitAccessoryDevice | Accessory mode reached after 1ms: Google Pixel 4 (VID: 18D1 PID: 2D00)
+09-03 23:24:14.169 I/OPENHU  (11516): [190] StandardUsbProjectionConnection.usbOpen | Established connection: android.hardware.usb.UsbDeviceConnection@bdb9bda
+09-03 23:24:17.000 I/OPENHU  (11516): [192] AapSslContext.performHandshake | SSL handshake complete. Session id: Vos1N+SKcYoF8G/PAS4sxFm3AIqRTHrsqhvSWkcM/lA=
+09-03 23:24:17.001 D/OPENHU  (11516): [192] AapTransport.handshake | Handshake: SSL handshake complete. TS: 258709999
+09-03 23:24:46.734 I/OPENHU  (11516): [225] UsbAccessoryMode.switch | Sending acc start
+09-03 23:24:47.236 I/OPENHU  (11516): [225] UsbAttachedActivity.awaitAccessoryDevice | Accessory mode reached after 1ms: Google Pixel 4 (VID: 18D1 PID: 2D00)
+09-03 23:24:47.291 I/OPENHU  (11516): [192] StandardUsbProjectionConnection.usbOpen | Established connection: android.hardware.usb.UsbDeviceConnection@a3f013
+09-03 23:24:50.108 I/OPENHU  (11516): [190] AapSslContext.performHandshake | SSL handshake complete. Session id: Nwk/xn3rt4Z2sdlq0bknbHlgPhG6HVWQyWk1K+nzQok=
+09-03 23:24:50.109 D/OPENHU  (11516): [190] AapTransport.handshake | Handshake: SSL handshake complete. TS: 258743107
+09-03 23:25:21.556 I/OPENHU  (11516): [239] UsbAccessoryMode.switch | Sending acc start
+09-03 23:25:22.057 I/OPENHU  (11516): [239] UsbAttachedActivity.awaitAccessoryDevice | Accessory mode reached after 0ms: Google Pixel 4 (VID: 18D1 PID: 2D00)
+09-03 23:25:22.130 I/OPENHU  (11516): [192] StandardUsbProjectionConnection.usbOpen | Established connection: android.hardware.usb.UsbDeviceConnection@69c1974
+09-03 23:25:24.767 W/OPENHU  (11516): [191] AapTransport.handshake | Handshake: No VERSION_RESPONSE within 2s (attempt 1), ret=-1
+09-03 23:25:27.114 W/OPENHU  (11516): [191] AapTransport.handshake | Handshake: No VERSION_RESPONSE within 2s (attempt 2), ret=-1
+09-03 23:25:29.462 W/OPENHU  (11516): [191] AapTransport.handshake | Handshake: No VERSION_RESPONSE within 2s (attempt 3), ret=-1
+09-03 23:25:29.682 E/OPENHU  (11516): [191] AapTransport.startHandshake$com_andrerinas_headunitrevived_3_3_1_beta1_githubDebug | Handshake failed
+09-03 23:26:28.968 I/OPENHU  (11516): [192] StandardUsbProjectionConnection.usbOpen | Established connection: android.hardware.usb.UsbDeviceConnection@8d2a322
+09-03 23:26:29.732 E/OPENHU  (11516): [191] AapTransport.startHandshake$com_andrerinas_headunitrevived_3_3_1_beta1_githubDebug | Handshake failed
+09-03 23:26:34.962 I/OPENHU  (11516): [2] 1.invokeSuspend | UsbAttachedActivity didn't handle Google Pixel 4 (VID: 18D1 PID: 4EE1). Trying from service...
+09-03 23:26:34.986 I/OPENHU  (11516): [190] UsbAccessoryMode.switch | Sending acc start
+09-03 23:26:54.658 I/OPENHU  (11516): [2] 1.invokeSuspend | UsbAttachedActivity didn't handle Google Pixel 4 (VID: 18D1 PID: 4EE1). Trying from service...
+09-03 23:26:54.677 I/OPENHU  (11516): [190] UsbAccessoryMode.switch | Sending acc start
+09-03 23:27:13.674 I/OPENHU  (11516): [2] 1.invokeSuspend | UsbAttachedActivity didn't handle Google Pixel 4 (VID: 18D1 PID: 4EE1). Trying from service...
+09-03 23:27:40.789 I/OPENHU  (11516): [258] UsbAccessoryMode.switch | Sending acc start
+09-03 23:27:41.291 I/OPENHU  (11516): [258] UsbAttachedActivity.awaitAccessoryDevice | Accessory mode reached after 1ms: Google Pixel 4 (VID: 18D1 PID: 2D00)
+09-03 23:27:41.342 I/OPENHU  (11516): [190] StandardUsbProjectionConnection.usbOpen | Established connection: android.hardware.usb.UsbDeviceConnection@5f2a214
+09-03 23:27:43.725 I/OPENHU  (11516): [192] AapSslContext.performHandshake | SSL handshake complete. Session id: A0ksy6mfwCPSwbnKcXeS5sZgF07CPWn+q94v0knJGpQ=
+09-03 23:27:43.725 D/OPENHU  (11516): [192] AapTransport.handshake | Handshake: SSL handshake complete. TS: 258916724

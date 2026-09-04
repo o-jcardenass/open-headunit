@@ -1,0 +1,7 @@
+09-03 23:39:59.333 I/OPENHU  (13133): [2] AapService.onCreate | AapService creating...
+09-03 23:39:59.405 I/OPENHU  (13133): [2] UsbLauncherManager.checkAlreadyConnected | Found device already in accessory mode: Google Pixel 4 (VID: 18D1 PID: 2D00)
+09-03 23:39:59.406 I/OPENHU  (13133): [2] AapService.deferWirelessForUsbHandoff | AapService: a USB projection attempt is in flight — holding the wireless bring-up for up to 8000ms
+09-03 23:40:00.026 I/OPENHU  (13133): [186] 2.invokeSuspend | LibusbAccessoryConnection: Successfully connected via JNI Libusb
+09-03 23:40:00.062 I/OPENHU  (13133): [2] AapService.quiesceWirelessForWiredSession | AapService: USB session established while wireless mode AUTO/WIFI_DIRECT was armed — stopping the wireless stack for the duration of it
+09-03 23:40:01.699 E/OPENHU  (13133): [186] AapTransport.handshake | Handshake failed with exception
+09-03 23:40:01.726 E/OPENHU  (13133): [186] AapTransport.startHandshake$com_andrerinas_headunitrevived_3_3_1_beta1_githubDebug | Handshake failed

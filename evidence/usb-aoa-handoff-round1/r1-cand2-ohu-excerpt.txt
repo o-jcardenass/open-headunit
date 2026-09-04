@@ -1,0 +1,76 @@
+09-03 23:03:47.924 I/OPENHU  (10363): [184] UsbAccessoryMode.switch | Sending acc start
+09-03 23:03:47.926 I/OPENHU  (10363): [184] UsbAccessoryMode.switch | Acc start sent (len=0). Waiting for re-enumeration...
+09-03 23:03:48.065 I/OPENHU  (10363): [2] AapService.deferWirelessForUsbHandoff | AapService: a USB projection attempt is in flight — holding the wireless bring-up for up to 8000ms
+09-03 23:03:48.432 I/OPENHU  (10363): [184] UsbAttachedActivity.awaitAccessoryDevice | Accessory mode reached after 3ms: Google Pixel 4 (VID: 18D1 PID: 2D00)
+09-03 23:03:49.415 I/OPENHU  (10363): [191] StandardUsbProjectionConnection.usbOpen | Established connection: android.hardware.usb.UsbDeviceConnection@222a14
+09-03 23:03:49.530 I/OPENHU  (10363): [2] AapService.quiesceWirelessForWiredSession | AapService: USB session established while wireless mode NATIVE/WIFI_DIRECT was armed — stopping the wireless stack for the duration of it
+09-03 23:03:50.216 D/OPENHU  (10363): [191] AapTransport.handshake | Handshake: Version request sent. ret: 10. attempt: 1. TS: 257483215
+09-03 23:03:52.392 W/OPENHU  (10363): [191] AapTransport.handshake | Handshake: No VERSION_RESPONSE within 2s (attempt 1), ret=-1
+09-03 23:03:52.593 D/OPENHU  (10363): [191] AapTransport.handshake | Handshake: Version request sent. ret: 10. attempt: 2. TS: 257485592
+09-03 23:03:54.739 W/OPENHU  (10363): [191] AapTransport.handshake | Handshake: No VERSION_RESPONSE within 2s (attempt 2), ret=-1
+09-03 23:03:54.940 D/OPENHU  (10363): [191] AapTransport.handshake | Handshake: Version request sent. ret: 10. attempt: 3. TS: 257487938
+09-03 23:03:55.936 W/OPENHU  (10363): [191] AapTransport.handshake | Handshake: No VERSION_RESPONSE within 2s (attempt 3), ret=-1
+09-03 23:03:55.942 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:03:55.953 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:03:55.955 I/OPENHU  (10363): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+09-03 23:03:56.138 E/OPENHU  (10363): [191] AapTransport.startHandshake$com_andrerinas_headunitrevived_3_3_1_beta1_githubDebug | Handshake failed
+09-03 23:04:03.119 I/OPENHU  (10363): [2] 1.invokeSuspend | UsbAttachedActivity didn't handle Google Pixel 4 (VID: 18D1 PID: 4EE1). Trying from service...
+09-03 23:04:03.138 I/OPENHU  (10363): [192] UsbAccessoryMode.switch | Sending acc start
+09-03 23:04:03.146 I/OPENHU  (10363): [192] UsbAccessoryMode.switch | Acc start sent (len=0). Waiting for re-enumeration...
+09-03 23:04:03.152 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:04:03.153 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:04:03.155 I/OPENHU  (10363): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+09-03 23:04:20.644 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:04:20.646 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:04:20.653 I/OPENHU  (10363): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+09-03 23:04:26.371 I/OPENHU  (10363): [2] 1.invokeSuspend | UsbAttachedActivity didn't handle Google Pixel 4 (VID: 18D1 PID: 4EE1). Trying from service...
+09-03 23:04:26.390 I/OPENHU  (10363): [192] UsbAccessoryMode.switch | Sending acc start
+09-03 23:04:26.398 I/OPENHU  (10363): [192] UsbAccessoryMode.switch | Acc start sent (len=0). Waiting for re-enumeration...
+09-03 23:04:26.403 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:04:26.404 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:04:26.406 I/OPENHU  (10363): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+09-03 23:04:39.323 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:04:39.326 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:04:39.329 I/OPENHU  (10363): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+09-03 23:04:48.379 I/OPENHU  (10363): [2] 1.invokeSuspend | UsbAttachedActivity didn't handle Google Pixel 4 (VID: 18D1 PID: 4EE1). Trying from service...
+09-03 23:04:48.401 I/OPENHU  (10363): [192] UsbAccessoryMode.switch | Sending acc start
+09-03 23:04:48.405 I/OPENHU  (10363): [192] UsbAccessoryMode.switch | Acc start sent (len=0). Waiting for re-enumeration...
+09-03 23:04:48.411 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:04:48.412 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:04:48.414 I/OPENHU  (10363): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+09-03 23:04:58.991 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:04:58.992 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:04:58.996 I/OPENHU  (10363): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+09-03 23:05:04.791 I/OPENHU  (10363): [2] 1.invokeSuspend | UsbAttachedActivity didn't handle Google Pixel 4 (VID: 18D1 PID: 4EE1). Trying from service...
+09-03 23:05:04.810 I/OPENHU  (10363): [192] UsbAccessoryMode.switch | Sending acc start
+09-03 23:05:04.818 I/OPENHU  (10363): [192] UsbAccessoryMode.switch | Acc start sent (len=0). Waiting for re-enumeration...
+09-03 23:05:04.824 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:05:04.825 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:05:04.827 I/OPENHU  (10363): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+09-03 23:05:17.455 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:05:17.457 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:05:17.459 I/OPENHU  (10363): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+09-03 23:05:24.998 I/OPENHU  (10363): [2] 1.invokeSuspend | UsbAttachedActivity didn't handle Google Pixel 4 (VID: 18D1 PID: 4EE1). Trying from service...
+09-03 23:05:25.018 I/OPENHU  (10363): [192] UsbAccessoryMode.switch | Sending acc start
+09-03 23:05:25.028 I/OPENHU  (10363): [192] UsbAccessoryMode.switch | Acc start sent (len=0). Waiting for re-enumeration...
+09-03 23:05:25.033 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:05:25.038 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:05:25.039 I/OPENHU  (10363): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+09-03 23:05:36.770 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:05:36.771 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:05:36.773 I/OPENHU  (10363): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+09-03 23:05:44.472 I/OPENHU  (10363): [2] 1.invokeSuspend | UsbAttachedActivity didn't handle Google Pixel 4 (VID: 18D1 PID: 4EE1). Trying from service...
+09-03 23:05:44.493 I/OPENHU  (10363): [192] UsbAccessoryMode.switch | Sending acc start
+09-03 23:05:44.498 I/OPENHU  (10363): [192] UsbAccessoryMode.switch | Acc start sent (len=0). Waiting for re-enumeration...
+09-03 23:05:44.504 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:05:44.505 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:05:44.509 I/OPENHU  (10363): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+09-03 23:05:55.246 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:05:55.249 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:05:55.253 I/OPENHU  (10363): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+09-03 23:06:01.275 I/OPENHU  (10363): [2] 1.invokeSuspend | UsbAttachedActivity didn't handle Google Pixel 4 (VID: 18D1 PID: 4EE1). Trying from service...
+09-03 23:06:01.291 I/OPENHU  (10363): [192] UsbAccessoryMode.switch | Sending acc start
+09-03 23:06:01.291 I/OPENHU  (10363): [192] UsbAccessoryMode.switch | Acc start sent (len=0). Waiting for re-enumeration...
+09-03 23:06:01.300 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:06:01.301 I/OPENHU  (10363): [2] UsbReceiver.onReceive | USB Intent: Intent { act=android.hardware.usb.action.USB_DEVICE_DETACHED flg=0x1000010 (has extras) }
+09-03 23:06:01.304 I/OPENHU  (10363): [2] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
