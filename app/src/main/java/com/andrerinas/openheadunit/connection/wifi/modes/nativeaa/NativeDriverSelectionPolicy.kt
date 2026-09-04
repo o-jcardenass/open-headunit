@@ -22,6 +22,25 @@ object NativeDriverSelectionPolicy {
     const val MIN_TIMEOUT_SEC = 3
     const val MAX_TIMEOUT_SEC = 30
 
+    /** How long past the countdown an on-screen prompt may hold the wake poke off. */
+    const val PROMPT_GRACE_MS = 15_000L
+
+    /**
+     * How long a cancelled prompt keeps refusing incoming connections.
+     *
+     * One poke cycle, so a poke already on the wire when the user cancelled cannot pull them into
+     * a session, and no longer: a phone dialling us afterwards is the driver asking for one.
+     */
+    const val CANCEL_REFUSAL_MS = 30_000L
+
+    /**
+     * How long the wake poke defers to a prompt that is actually on screen.
+     *
+     * Bounded on purpose. A unit that starts with nobody in front of it must fall back to waking
+     * every paired phone, which is what it did before the prompt existed.
+     */
+    fun promptDeferralMs(timeoutSec: Int): Long = sanitizeTimeout(timeoutSec) * 1000L + PROMPT_GRACE_MS
+
     /**
      * Determines whether the driver/device selection dialog should be displayed.
      *

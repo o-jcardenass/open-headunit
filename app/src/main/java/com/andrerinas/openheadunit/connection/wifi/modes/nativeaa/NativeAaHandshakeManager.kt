@@ -246,29 +246,96 @@ class NativeAaHandshakeManager(
 
     /** Whether the driver selection UI prompt is currently presented to the user. */
     @Volatile var isSelectionPromptActive: Boolean = false
-    /** Whether the driver selection UI was explicitly canceled by the user (stops poke & refuses connections). */
+        private set
+    /** When the prompt went up, so one nobody answers cannot hold the wake poke off for good. */
+    @Volatile private var selectionPromptShownAt = 0L
+    /** Whether the driver selection UI was explicitly canceled by the user (stops the poke). */
     @Volatile var isSelectionCanceled: Boolean = false
+        private set
+    /** When the user cancelled, so the refusal window can expire. */
+    @Volatile private var selectionCanceledAt = 0L
+    /** Whether a poke aimed at one chosen phone owns the poke slot. */
+    @Volatile private var manualPokeInFlight = false
     /** When a target device is selected, only this MAC is allowed to proceed. */
     @Volatile var pendingSelectionTargetMac: String? = null
+        private set
 
     /**
      * Targets a specific driver device, ending the prompt window and waking only that device.
      */
     fun selectDriver(mac: String) {
         AppLog.i("NativeAA: Driver selected: $mac")
+        clearSelectionPrompt()
         isSelectionCanceled = false
-        isSelectionPromptActive = false
+        selectionCanceledAt = 0L
         pendingSelectionTargetMac = mac
         manualPoke(mac)
     }
 
     /**
-     * Cancels any active poke and refuses incoming connections because the user explicitly cancelled.
+     * The driver prompt is on screen. Holds the automated poke off, but only for a bounded window:
+     * see [NativeDriverSelectionPolicy.promptDeferralMs].
+     */
+    fun onSelectionPromptShown() {
+        isSelectionPromptActive = true
+        selectionPromptShownAt = SystemClock.elapsedRealtime()
+        isSelectionCanceled = false
+        selectionCanceledAt = 0L
+        cancelActivePokeLoop()
+    }
+
+    /**
+     * The prompt left the screen without a choice. Backgrounding the app dismisses the dialog
+     * without cancelling it, and that used to leave the accept gate shut on every phone.
+     */
+    fun onSelectionPromptDismissed() {
+        if (!isSelectionPromptActive) return
+        AppLog.i("NativeAA: the driver prompt is gone without a choice — the accept gate is open again.")
+        clearSelectionPrompt()
+    }
+
+    /**
+     * A phone arriving over Bluetooth is a driver asking for a session, so a cancel from an earlier
+     * prompt does not outlive it.
+     */
+    fun clearSelectionCancel() {
+        if (!isSelectionCanceled) return
+        AppLog.i("NativeAA: a phone arrived over Bluetooth — the cancelled prompt no longer stands.")
+        isSelectionCanceled = false
+        selectionCanceledAt = 0L
+    }
+
+    private fun clearSelectionPrompt() {
+        isSelectionPromptActive = false
+        selectionPromptShownAt = 0L
+    }
+
+    /** Every driver-selection flag, back to how start() found them. */
+    private fun resetSelectionState() {
+        clearSelectionPrompt()
+        isSelectionCanceled = false
+        selectionCanceledAt = 0L
+        pendingSelectionTargetMac = null
+    }
+
+    /** Whether an unanswered prompt has held the poke off for as long as it is allowed to. */
+    private fun selectionPromptExpired(now: Long): Boolean =
+        selectionPromptShownAt != 0L &&
+            now - selectionPromptShownAt >=
+            NativeDriverSelectionPolicy.promptDeferralMs(settings.nativeDriverSelectionTimeoutSec)
+
+    /**
+     * Cancels any active poke because the user explicitly cancelled the prompt.
+     *
+     * Cancel means "stop waking me", and it stops the poke for as long as the flag stands. It does
+     * not deafen the unit: the refusal window in [shouldAcceptHandshake] is one poke cycle, so a
+     * phone dialling us after that is accepted.
      */
     fun cancelPoke() {
         AppLog.i("NativeAA: cancelPoke() called — user explicitly canceled driver selection.")
+        clearSelectionPrompt()
         isSelectionCanceled = true
-        isSelectionPromptActive = false
+        selectionCanceledAt = SystemClock.elapsedRealtime()
         pendingSelectionTargetMac = null
         pokeJob?.cancel()
         pokeJob = null
@@ -289,11 +356,24 @@ class NativeAaHandshakeManager(
      * Determines whether an incoming Bluetooth RFCOMM connection from a phone should be accepted.
      */
     fun shouldAcceptHandshake(remoteAddress: String): Boolean {
+        val now = SystemClock.elapsedRealtime()
         if (isSelectionCanceled) {
-            AppLog.i("NativeAA: User explicitly canceled driver selection — refusing connection from $remoteAddress")
-            return false
+            if (now - selectionCanceledAt < NativeDriverSelectionPolicy.CANCEL_REFUSAL_MS) {
+                AppLog.i("NativeAA: User explicitly canceled driver selection — refusing connection from $remoteAddress")
+                return false
+            }
+            // A phone opening the Android Auto UUID this long after the cancel is the driver asking
+            // for a session on the phone, not our poke arriving late.
+            AppLog.i("NativeAA: the cancelled prompt has expired — accepting $remoteAddress.")
+            isSelectionCanceled = false
+            selectionCanceledAt = 0L
         }
         if (isSelectionPromptActive) {
+            if (selectionPromptExpired(now)) {
+                AppLog.i("NativeAA: the driver prompt has been unanswered too long — accepting $remoteAddress.")
+                clearSelectionPrompt()
+                return true
+            }
             val target = pendingSelectionTargetMac
             if (target == null || (remoteAddress.isNotEmpty() && !remoteAddress.equals(target, ignoreCase = true))) {
                 AppLog.i("NativeAA: Selection prompt active (target=$target) — refusing connection from $remoteAddress")
@@ -397,6 +477,9 @@ class NativeAaHandshakeManager(
     @SuppressLint("MissingPermission")
     fun start() {
         if (isRunning) return
+        // None of these survived a mode rebuild by design, and nothing else clears them: a cancel
+        // from the last arming would otherwise refuse every phone this one accepts.
+        resetSelectionState()
 
         // Ahead of every Bluetooth check below, because this listener does not need Bluetooth. A
         // unit whose adapter the phone cannot reach returns early from all of them, and that is
@@ -563,6 +646,11 @@ class NativeAaHandshakeManager(
     @SuppressLint("MissingPermission")
     fun rearmForNextSession() {
         if (!isRunning) return
+        // The session that just ended answered the question the prompt asks. The chosen target is
+        // left alone: the switch-driver path sets it from a coroutine that races this one.
+        clearSelectionPrompt()
+        isSelectionCanceled = false
+        selectionCanceledAt = 0L
         // A handshake cannot outlive the session it set up, and its stamps are what hold the wake
         // poke off and defer the join watchdog. Nothing else clears them once the socket is gone.
         activeHandshakeJob?.cancel()
@@ -1009,23 +1097,22 @@ class NativeAaHandshakeManager(
             AppLog.i("NativeAA: Driver selection was explicitly canceled by user — skipping automated poke.")
             return
         }
-        val bonded = try { BluetoothHelper.getBluetoothAdapter(context)?.bondedDevices?.toList() ?: emptyList() } catch (_: Exception) { emptyList() }
-        val connected = BluetoothHelper.getConnectedBluetoothDevices(context)
-        val likelyPhones = bonded.filter {
-            BluetoothHelper.isLikelyPhone(it, settings.nativePreferredDeviceMac, settings.lastConnectedNativeMac)
+        // Asked of the screen, never of the settings. Deferring on shouldShowSelector() meant a
+        // unit that starts with nobody in front of it — a boot, an auto-start — never woke either
+        // phone at all, because the predicate is true from the bond list alone.
+        if (isSelectionPromptActive && pendingSelectionTargetMac == null) {
+            if (!selectionPromptExpired(SystemClock.elapsedRealtime())) {
+                AppLog.i("NativeAA: Multi-driver selection is active and awaiting user choice — deferring automated multi-device poke loop.")
+                return
+            }
+            AppLog.i("NativeAA: the driver prompt went unanswered — waking every paired phone again.")
+            clearSelectionPrompt()
         }
-        val targetList = likelyPhones.ifEmpty { bonded }
-        val hasHistory = settings.lastConnectedNativeMac.isNotEmpty() ||
-            settings.nativePreferredDeviceMac.isNotEmpty() ||
-            settings.autoStartBluetoothDeviceMacs.isNotEmpty()
-        val selectorActive = NativeDriverSelectionPolicy.shouldShowSelector(
-            mode = settings.nativeDriverSelectionMode,
-            pairedCount = targetList.size,
-            connectedCount = connected.size,
-            hasHistory = hasHistory
-        )
-        if ((selectorActive || isSelectionPromptActive) && pendingSelectionTargetMac == null) {
-            AppLog.i("NativeAA: Multi-driver selection is active and awaiting user choice — deferring automated multi-device poke loop.")
+        // A chosen driver outranks the round-robin. manualPoke() takes this same slot and clears
+        // lastPokeTriggerCredentials, so without this the next credential redelivery cancelled the
+        // poke aimed at the phone the user had just picked and went back to waking everybody.
+        if (manualPokeInFlight) {
+            AppLog.i("NativeAA: a chosen driver's wake poke is running — not replacing it with the multi-device loop.")
             return
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -1190,24 +1277,30 @@ class NativeAaHandshakeManager(
             // for. Left set, a redelivery of unchanged credentials during this poke reads as "the
             // loop is already running for these" and the loop is never started again.
             lastPokeTriggerCredentials = null
+            manualPokeInFlight = true
             pokeJob = scope.launch(Dispatchers.IO + CoroutineName("NativeAa-ManualWakeup")) {
-                // Pre-flight: Ensure WiFi credentials (SSID/IP) are ready before connecting RFCOMM to phone.
-                if (credentials == null) {
-                    AppLog.i("NativeAA: WiFi credentials not ready before manual poke. Requesting WiFi refresh...")
-                    launcher.triggerWifiDirectRefresh()
-                    var waitedMs = 0
-                    while (credentials == null && waitedMs < 4000 && isRunning && isActive) {
-                        delay(200)
-                        waitedMs += 200
+                try {
+                    // Pre-flight: Ensure WiFi credentials (SSID/IP) are ready before connecting RFCOMM to phone.
+                    if (credentials == null) {
+                        AppLog.i("NativeAA: WiFi credentials not ready before manual poke. Requesting WiFi refresh...")
+                        launcher.triggerWifiDirectRefresh()
+                        var waitedMs = 0
+                        while (credentials == null && waitedMs < 4000 && isRunning && isActive) {
+                            delay(200)
+                            waitedMs += 200
+                        }
+                        AppLog.i("NativeAA: Pre-poke credential wait completed. SSID=${credentials?.ssid}, IP=${credentials?.ip} (waited ${waitedMs}ms)")
                     }
-                    AppLog.i("NativeAA: Pre-poke credential wait completed. SSID=${credentials?.ssid}, IP=${credentials?.ip} (waited ${waitedMs}ms)")
-                }
 
-                AppLog.i("NativeAA: Attempting manual poke to ${device.name}...")
-                pokeDevice(device, holdMs = 20000)
-                AppLog.i("NativeAA: Manual poke to ${device.name} finished.")
+                    AppLog.i("NativeAA: Attempting manual poke to ${device.name}...")
+                    pokeDevice(device, holdMs = 20000)
+                    AppLog.i("NativeAA: Manual poke to ${device.name} finished.")
+                } finally {
+                    manualPokeInFlight = false
+                }
             }
         } catch (e: Exception) {
+            manualPokeInFlight = false
             AppLog.e("NativeAA: Manual poke error", e)
         }
     }
@@ -1999,6 +2092,8 @@ class NativeAaHandshakeManager(
     fun stop() {
         isRunning = false
         standingInForHfp = false
+        resetSelectionState()
+        manualPokeInFlight = false
         wppTcpServer?.stop()
         wppTcpServer = null
         try { aaServerSocket?.close() } catch (e: Exception) {}

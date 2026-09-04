@@ -158,6 +158,52 @@ class NativeDriverSelectionPolicyTest {
     }
 
     @Test
+    fun `prompt deferral is the countdown plus a fixed grace`() {
+        assertEquals(
+            10 * 1000L + NativeDriverSelectionPolicy.PROMPT_GRACE_MS,
+            NativeDriverSelectionPolicy.promptDeferralMs(10)
+        )
+        assertEquals(
+            30 * 1000L + NativeDriverSelectionPolicy.PROMPT_GRACE_MS,
+            NativeDriverSelectionPolicy.promptDeferralMs(30)
+        )
+    }
+
+    @Test
+    fun `prompt deferral clamps its timeout like sanitizeTimeout does`() {
+        // A stored timeout of 0 must not mean "defer for the grace alone", nor 3600 mean an hour:
+        // this bounds how long a unit with nobody in front of it can go without a wake poke.
+        assertEquals(
+            NativeDriverSelectionPolicy.promptDeferralMs(NativeDriverSelectionPolicy.MIN_TIMEOUT_SEC),
+            NativeDriverSelectionPolicy.promptDeferralMs(0)
+        )
+        assertEquals(
+            NativeDriverSelectionPolicy.promptDeferralMs(NativeDriverSelectionPolicy.MAX_TIMEOUT_SEC),
+            NativeDriverSelectionPolicy.promptDeferralMs(3600)
+        )
+    }
+
+    @Test
+    fun `prompt deferral is always bounded and never zero`() {
+        for (timeout in -5..40) {
+            val deferral = NativeDriverSelectionPolicy.promptDeferralMs(timeout)
+            assertTrue(deferral >= NativeDriverSelectionPolicy.MIN_TIMEOUT_SEC * 1000L)
+            assertTrue(deferral <= NativeDriverSelectionPolicy.MAX_TIMEOUT_SEC * 1000L + NativeDriverSelectionPolicy.PROMPT_GRACE_MS)
+        }
+    }
+
+    @Test
+    fun `a cancelled prompt refuses for less than a whole prompt window`() {
+        // The refusal only has to outlast a poke that was already on the wire when the user
+        // cancelled. Longer than the prompt itself and a cancel starts to look permanent again.
+        assertTrue(NativeDriverSelectionPolicy.CANCEL_REFUSAL_MS > 0L)
+        assertTrue(
+            NativeDriverSelectionPolicy.CANCEL_REFUSAL_MS <
+                NativeDriverSelectionPolicy.promptDeferralMs(NativeDriverSelectionPolicy.MAX_TIMEOUT_SEC)
+        )
+    }
+
+    @Test
     fun `mode id mapping round trip works as expected`() {
         assertEquals(Mode.DISABLED, Mode.fromId(0))
         assertEquals(Mode.AUTO, Mode.fromId(1))

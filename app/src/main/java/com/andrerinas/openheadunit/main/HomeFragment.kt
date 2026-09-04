@@ -530,12 +530,12 @@ class HomeFragment : Fragment() {
                         val candidates = if (likelyPhones.isNotEmpty()) likelyPhones else bonded
                         val hasHistory = appSettings.lastConnectedNativeMac.isNotEmpty() ||
                             appSettings.nativePreferredDeviceMac.isNotEmpty() ||
-                            appSettings.autoStartBluetoothDeviceMacs.isNotEmpty()
+                            appSettings.nativePokeBtMacs.isNotEmpty()
 
                         val autoTargetMac = NativeDriverSelectionPolicy.resolveAutoConnectTarget(
                             preferredMac = appSettings.nativePreferredDeviceMac,
                             lastUsedMac = appSettings.lastConnectedNativeMac.ifEmpty {
-                                appSettings.autoStartBluetoothDeviceMacs.firstOrNull().orEmpty()
+                                appSettings.nativePokeBtMacs.firstOrNull().orEmpty()
                             },
                             connectedMacs = connected.map { it.address },
                             pairedMacs = candidates.map { it.address }
@@ -553,15 +553,18 @@ class HomeFragment : Fragment() {
                                 val targetDev = bonded.firstOrNull { it.address.equals(autoTargetMac, ignoreCase = true) }
                                 val devName = targetDev?.name ?: autoTargetMac
                                 connectToNativeDevice(autoTargetMac, devName)
-                            } else {
+                            } else if (candidates.size == 1) {
                                 Toast.makeText(requireContext(), getString(R.string.searching_phone), Toast.LENGTH_SHORT).show()
                                 val intent = Intent(requireContext(), AapService::class.java).apply {
                                     action = AapService.ACTION_NATIVE_AA_POKE
-                                    if (candidates.size == 1) {
-                                        putExtra(AapService.EXTRA_MAC, candidates[0].address)
-                                    }
+                                    putExtra(AapService.EXTRA_MAC, candidates[0].address)
                                 }
                                 ContextCompat.startForegroundService(requireContext(), intent)
+                            } else {
+                                // AapService drops a poke with no MAC, so this branch used to be a
+                                // toast and nothing else. Ask which phone instead, which is what
+                                // this button did before the selector existed.
+                                showNativeAaDeviceSelector(autoCountdown = false)
                             }
                         } else if (!shouldShow && autoTargetMac != null) {
                             val targetDev = bonded.firstOrNull { it.address.equals(autoTargetMac, ignoreCase = true) }
@@ -734,7 +737,7 @@ class HomeFragment : Fragment() {
         val targetList = if (likelyPhones.isNotEmpty()) likelyPhones else bonded
 
         val effectiveLastUsedMac = appSettings.lastConnectedNativeMac.ifEmpty {
-            appSettings.autoStartBluetoothDeviceMacs.firstOrNull().orEmpty()
+            appSettings.nativePokeBtMacs.firstOrNull().orEmpty()
         }
         val hasHistory = effectiveLastUsedMac.isNotEmpty() || appSettings.nativePreferredDeviceMac.isNotEmpty()
 
@@ -911,7 +914,12 @@ class HomeFragment : Fragment() {
             btnToggleFilter.visibility = View.GONE
         }
 
+        // Set by every path that ends the prompt with an answer, so the dismiss below can tell
+        // "the user left" from "the user chose".
+        var selectionResolved = false
+
         val cancelDriverSelection = {
+            selectionResolved = true
             driverCountdownTimer?.cancel()
             driverCountdownTimer = null
             activeDialog = null
@@ -938,10 +946,18 @@ class HomeFragment : Fragment() {
             driverCountdownTimer?.cancel()
             driverCountdownTimer = null
             activeDialog = null
+            if (!selectionResolved) {
+                // onPause dismisses the dialog, which reaches here and never onCancel. Without
+                // this the prompt flag stayed set and every phone was refused.
+                val dismissIntent = Intent(requireContext(), AapService::class.java).apply {
+                    action = AapService.ACTION_NATIVE_AA_PROMPT_DISMISSED
+                }
+                ContextCompat.startForegroundService(requireContext(), dismissIntent)
+            }
         }
 
         val effectiveLastUsed = lastUsedMac.ifEmpty {
-            appSettings.autoStartBluetoothDeviceMacs.firstOrNull().orEmpty()
+            appSettings.nativePokeBtMacs.firstOrNull().orEmpty()
         }
         val autoTargetMac = NativeDriverSelectionPolicy.resolveAutoConnectTarget(
             preferredMac = preferredMac,
@@ -953,6 +969,7 @@ class HomeFragment : Fragment() {
         val targetName = autoTargetDevice?.name ?: autoTargetMac ?: ""
 
         deviceListView.setOnItemClickListener { _, _, position, _ ->
+            selectionResolved = true
             driverCountdownTimer?.cancel()
             driverCountdownTimer = null
             dialog.dismiss()
@@ -982,6 +999,7 @@ class HomeFragment : Fragment() {
 
                 override fun onFinish() {
                     if (!isAdded || dialog.isShowing != true) return
+                    selectionResolved = true
                     dialog.dismiss()
                     connectToNativeDevice(autoTargetMac, targetName)
                 }
