@@ -2068,4 +2068,12 @@ class Settings(private val context: Context) {
         get() = prefs.getBoolean("native-aa-ignore-external-bt", false)
         set(value) = prefs.edit().putBoolean("native-aa-ignore-external-bt", value).apply()
 
+    // Carry the Native AA Bluetooth handshake over this unit's own Bluetooth module, through the
+    // vendor daemon, instead of android.bluetooth. Only offered where ExternalBtPolicy has fired.
+    // Off by default: detection marks a class of hardware, and part of that class reaches its
+    // module over Binder with nothing on the daemon's port.
+    var externalBtZbtTransport: Boolean
+        get() = prefs.getBoolean("external-bt-zbt-transport", false)
+        set(value) = prefs.edit().putBoolean("external-bt-zbt-transport", value).apply()
+
 }

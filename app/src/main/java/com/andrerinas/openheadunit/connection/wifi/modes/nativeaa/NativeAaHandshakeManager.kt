@@ -90,20 +90,37 @@ class NativeAaHandshakeManager(
         }
 
         /**
-         * Whether to run the Bluetooth route anyway on a unit [externalBtDiagnostic] flagged.
-         *
-         * The detection marks a class of hardware rather than measuring the unit in front of us, so
-         * it must not be the one refusal a user cannot argue with. The diagnostic still goes in the
-         * log either way, and the setting is off by default.
+         * Which Bluetooth route this unit takes on a flagged unit: its own radio, the external
+         * module, or neither. The decision itself is pure and tested in [ExternalBtTransportPolicy];
+         * this only reads the two settings it needs. Every caller asks here rather than re-deriving
+         * it, because four of them drifted apart once already.
          */
-        fun externalBtOverridden(context: Context): Boolean =
-            App.provide(context).settings.nativeAaIgnoreExternalBt
+        fun transportRoute(context: Context): ExternalBtTransportPolicy.Route {
+            val settings = App.provide(context).settings
+            return ExternalBtTransportPolicy.route(
+                BluetoothHelper.externalBtEvidence,
+                settings.externalBtZbtTransport,
+                settings.nativeAaIgnoreExternalBt
+            )
+        }
 
         fun checkCompatibility(context: Context): Boolean {
-            externalBtDiagnostic()?.let {
-                AppLog.w(it)
-                if (!externalBtOverridden(context)) return false
-                AppLog.w("NativeAA: continuing anyway, because the Bluetooth compatibility check is switched off in Settings.")
+            when (transportRoute(context)) {
+                // The module has its own listener and its own compatibility, established by the
+                // daemon answering at connection time. Nothing below measures that.
+                ExternalBtTransportPolicy.Route.ZBT -> {
+                    AppLog.i("NativeAA: Bluetooth runs over the external module on this unit, so the RFCOMM compatibility check does not apply.")
+                    return true
+                }
+                ExternalBtTransportPolicy.Route.BLOCKED -> {
+                    externalBtDiagnostic()?.let { AppLog.w(it) }
+                    return false
+                }
+                // Either an ordinary unit, or a flagged one whose user switched the check off.
+                ExternalBtTransportPolicy.Route.NORMAL -> externalBtDiagnostic()?.let {
+                    AppLog.w(it)
+                    AppLog.w("NativeAA: continuing anyway, because the Bluetooth compatibility check is switched off in Settings.")
+                }
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 if (ContextCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT)
@@ -349,12 +366,21 @@ class NativeAaHandshakeManager(
         // Leave isRunning false, like the "adapter disabled" case below: isActive() callers must
         // see this as genuinely stopped. Nothing here is retryable, but a listener that was never
         // opened must not be reported as up.
-        externalBtDiagnostic()?.let {
-            if (!externalBtOverridden(context)) {
-                AppLog.e(it)
+        when (transportRoute(context)) {
+            // The module carries the handshake instead, over its own channel. None of the RFCOMM
+            // setup below applies to it.
+            ExternalBtTransportPolicy.Route.ZBT -> {
+                AppLog.i("NativeAA: this unit is on the external Bluetooth module route.")
                 return
             }
-            AppLog.w("$it\nNativeAA: starting anyway, because the Bluetooth compatibility check is switched off in Settings.")
+            ExternalBtTransportPolicy.Route.BLOCKED -> {
+                externalBtDiagnostic()?.let { AppLog.e(it) }
+                return
+            }
+            // Either an ordinary unit, or a flagged one whose user switched the check off.
+            ExternalBtTransportPolicy.Route.NORMAL -> externalBtDiagnostic()?.let {
+                AppLog.w("$it\nNativeAA: starting anyway, because the Bluetooth compatibility check is switched off in Settings.")
+            }
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {

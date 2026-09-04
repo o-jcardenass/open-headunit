@@ -7,6 +7,7 @@ import com.andrerinas.openheadunit.connection.CommManager
 import com.andrerinas.openheadunit.connection.wifi.direct.GroupIdentityStability
 import com.andrerinas.openheadunit.connection.wifi.direct.StationStandDown
 import com.andrerinas.openheadunit.connection.wifi.direct.WifiDirectManager
+import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.ExternalBtTransportPolicy
 import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.NativeAaHandshakeManager
 import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.SoftApCredentialsProvider
 import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.NativeStrategy
@@ -65,10 +66,11 @@ class WifiLauncherNative : WifiLauncher {
         // phone is bonded to isn't reachable from here: with no Bluetooth channel there is
         // nobody to hand the credentials to, so hosting a P2P group or holding the hotspot
         // open would only churn the WiFi stack for nothing.
-        val externalBt = NativeAaHandshakeManager.externalBtDiagnostic()
-        if (externalBt != null) AppLog.e(externalBt)
-        val blockedByExternalBt =
-            externalBt != null && !NativeAaHandshakeManager.externalBtOverridden(service)
+        // The module route needs the WiFi half exactly as any other unit does; only the Bluetooth
+        // half changes, and the handshake manager decides that for itself.
+        val blockedByExternalBt = NativeAaHandshakeManager.transportRoute(service) ==
+            ExternalBtTransportPolicy.Route.BLOCKED
+        if (blockedByExternalBt) NativeAaHandshakeManager.externalBtDiagnostic()?.let { AppLog.e(it) }
 
         if (!blockedByExternalBt) {
             if (this.strategy == NativeStrategy.HOTSPOT) {
