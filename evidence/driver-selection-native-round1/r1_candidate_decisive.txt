@@ -1,0 +1,13 @@
+1565:09-04 10:46:12.124 I/OPENHU  (24892): [2] AapService.onStartCommand | AapService: ACTION_NATIVE_AA_PROMPT_SHOWN received
+2227:09-04 10:46:12.678 I/OPENHU  (24892): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+2696:09-04 10:46:12.997 I/OPENHU  (24892): [76] NativeAaHandshakeManager.triggerPoke | NativeAA: Multi-driver selection is active and awaiting user choice — deferring automated multi-device poke loop.
+3414:09-04 10:46:13.729 I/OPENHU  (24892): [77] NativeAaHandshakeManager.triggerPoke | NativeAA: Multi-driver selection is active and awaiting user choice — deferring automated multi-device poke loop.
+3428:09-04 10:46:13.745 I/OPENHU  (24892): [78] NativeAaHandshakeManager.triggerPoke | NativeAA: Multi-driver selection is active and awaiting user choice — deferring automated multi-device poke loop.
+59658:09-04 10:47:13.569 I/OPENHU  (24892): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+59980:09-04 10:47:13.756 I/OPENHU  (24892): [80] NativeAaHandshakeManager.triggerPoke | NativeAA: Multi-driver selection is active and awaiting user choice — deferring automated multi-device poke loop.
+60860:09-04 10:47:14.616 I/OPENHU  (24892): [81] NativeAaHandshakeManager.triggerPoke | NativeAA: Multi-driver selection is active and awaiting user choice — deferring automated multi-device poke loop.
+60877:09-04 10:47:14.634 I/OPENHU  (24892): [82] NativeAaHandshakeManager.triggerPoke | NativeAA: Multi-driver selection is active and awaiting user choice — deferring automated multi-device poke loop.
+116072:09-04 10:48:13.922 I/OPENHU  (24892): [2] WifiDirectManager.onStandardCreateSucceeded | WifiDirectManager: Standard createGroup SUCCESS!
+116397:09-04 10:48:14.127 I/OPENHU  (24892): [83] NativeAaHandshakeManager.triggerPoke | NativeAA: Multi-driver selection is active and awaiting user choice — deferring automated multi-device poke loop.
+117216:09-04 10:48:14.968 I/OPENHU  (24892): [84] NativeAaHandshakeManager.triggerPoke | NativeAA: Multi-driver selection is active and awaiting user choice — deferring automated multi-device poke loop.
+117231:09-04 10:48:14.985 I/OPENHU  (24892): [85] NativeAaHandshakeManager.triggerPoke | NativeAA: Multi-driver selection is active and awaiting user choice — deferring automated multi-device poke loop.

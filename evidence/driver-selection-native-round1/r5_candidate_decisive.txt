@@ -1,0 +1,6 @@
+1739:09-04 11:06:17.113 I/OPENHU  ( 5155): [2] NativeAaHandshakeManager.selectDriver | NativeAA: Driver selected: A0:46:5A:97:E4:95
+11602:09-04 11:06:26.846 I/OPENHU  ( 5155): [81] AapSslContext.performHandshake | SSL handshake complete. Session id: Gm9EL0PoI0XuLo22hDuswrHO7+Yxp7iazeNHwFfjibQ=
+11604:09-04 11:06:26.848 D/OPENHU  ( 5155): [81] AapTransport.handshake | Handshake: SSL handshake complete. TS: 14729804
+86803:09-04 11:07:11.102 I/OPENHU  ( 5155): [2] AapProjectionActivity.switchDriver | AapProjectionActivity: User requested switch driver
+87697:09-04 11:07:11.745 I/OPENHU  ( 5155): [2] AapService.onDestroy | AapService destroying... (wakeLock held=false)
+88064:09-04 11:07:11.854 I/OPENHU  ( 5155): [2] AapService.onDestroy | AapService: killProcessOnDestroy is true. Triggering System.exit(0).

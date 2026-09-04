@@ -1,0 +1,197 @@
+735:09-04 11:03:19.189 I/OPENHU  ( 2984): [2] HomeFragment.connectToNativeDevice | HomeFragment: Connecting to Native-AA device: motorola edge 30 neo (A0:46:5A:97:E4:95)
+1708:09-04 11:03:20.169 I/OPENHU  ( 2984): [2] NativeAaHandshakeManager.selectDriver | NativeAA: Driver selected: A0:46:5A:97:E4:95
+2468:09-04 11:03:20.784 E/Netd    (  517): NetlinkEvent: InterfaceAdded, interface: p2p-wlan0-27
+2472:09-04 11:03:20.785 E/I:UWMOI (  811): uwmoi_listen_iface_up listen [p2p-wlan0-27 down]
+2473:09-04 11:03:20.785 D/NetdWrapper( 1092): NetdWrapper interface add, iface= p2p-wlan0-27
+2474:09-04 11:03:20.785 E/Netd    (  517): NetlinkEvent: LinkDown, interface: p2p-wlan0-27
+2477:09-04 11:03:20.787 I/Tethering( 1680): adding IpServer for: p2p-wlan0-27
+2483:09-04 11:03:20.789 E/I:UWMOI (  811): uwmoi_listen_iface_up listen [p2p-wlan0-27 up]
+2484:09-04 11:03:20.789 E/Netd    (  517): NetlinkEvent: LinkUp, interface: p2p-wlan0-27
+2487:09-04 11:03:20.791 E/I:UWMOI (  811): uwmoi_listen_iface_up listen [p2p-wlan0-27 up]
+2488:09-04 11:03:20.791 E/I:UWMOI (  811): uwmoi_listen_iface_up listen [p2p-wlan0-27 up]
+2489:09-04 11:03:20.793 E/Netd    (  517): NetlinkEvent: LinkUp, interface: p2p-wlan0-27
+2490:09-04 11:03:20.793 E/Netd    (  517): NetlinkEvent: LinkUp, interface: p2p-wlan0-27
+2496:09-04 11:03:20.799 D/NetworkAdapter( 1092): interfaceAdded: p2p-wlan0-27
+2497:09-04 11:03:20.800 D/NetworkAdapter( 1092): interfaceLinkStateChanged iface: p2p-wlan0-27 up: false
+2498:09-04 11:03:20.800 D/NetworkAdapter( 1092): interfaceLinkStateChanged iface: p2p-wlan0-27 up: true
+2499:09-04 11:03:20.800 D/NetworkAdapter( 1092): interfaceLinkStateChanged iface: p2p-wlan0-27 up: true
+2500:09-04 11:03:20.801 D/NetworkAdapter( 1092): interfaceLinkStateChanged iface: p2p-wlan0-27 up: true
+2509:09-04 11:03:20.807 E/I:UWMOI (  811): uwmoi_listen_iface_up listen [p2p-wlan0-27 up]
+2512:09-04 11:03:20.808 E/Netd    (  517): NetlinkEvent: LinkUp, interface: p2p-wlan0-27
+2513:09-04 11:03:20.809 D/NetworkAdapter( 1092): interfaceLinkStateChanged iface: p2p-wlan0-27 up: true
+2525:09-04 11:03:20.828 I/OPENHU  ( 2984): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+2544:09-04 11:03:20.849 E/I:UWMOI (  811): uwmoi_listen_iface_up listen [p2p-wlan0-27 up]
+2545:09-04 11:03:20.849 E/Netd    (  517): NetlinkEvent: LinkUp, interface: p2p-wlan0-27
+2546:09-04 11:03:20.849 I/wpa_supplicant( 1608): p2p-wlan0-27: interface state UNINITIALIZED->ENABLED
+2548:09-04 11:03:20.849 I/wpa_supplicant( 1608): p2p-wlan0-27: AP-ENABLED 
+2549:09-04 11:03:20.849 I/wpa_supplicant( 1608): p2p-wlan0-27: CTRL-EVENT-CONNECTED - Connection to 42:63:34:e1:49:a7 completed [id=0 id_str=]
+2551:09-04 11:03:20.849 I/wpa_supplicant( 1608): P2P-GROUP-STARTED p2p-wlan0-27 GO ssid="DIRECT-TX-Navegadortz2" freq=5745 go_dev_addr=42:60:10:2e:b9:3c [PERSISTENT]
+2553:09-04 11:03:20.854 D/NetworkAdapter( 1092): interfaceLinkStateChanged iface: p2p-wlan0-27 up: true
+2598:09-04 11:03:20.901 I/Tethering( 1680):  interface: p2p-wlan0-27
+2603:09-04 11:03:20.905 E/I:UWMOI (  811): listen [p2p-wlan0-27] add ipv4 address [192.168.49.1]
+2608:09-04 11:03:20.910 E/TetherController(  517): tetherInterface(p2p-wlan0-27)
+2612:09-04 11:03:20.914 E/Netd    (  517): NetlinkHandler destroysockets for interface: p2p-wlan0-27, address: fe80::27:15ff:fe43:861a
+2635:09-04 11:03:20.940 D/WifiP2pService( 1092): WifiP2pService Tethering localOnlyInterfacesChanged callback for ifaceList: [p2p-wlan0-27]
+2638:09-04 11:03:20.940 D/WifiP2pService( 1092): tether p2p-wlan0-27 ready
+2654:09-04 11:03:20.953 D/WifiP2pService( 1092): Group owner address: 192.168.49.1 at p2p-wlan0-27
+2668:09-04 11:03:20.966 E/netd    (  517): Error adding route fe80::/64 -> (null) p2p-wlan0-27 to table 97: File exists
+2705:09-04 11:03:20.985 I/Tethering( 1680):  interface: p2p-wlan0-27
+2708:09-04 11:03:20.986 D/RouterAdvertisementDaemon( 1680): RA sendto ff02::1%p2p-wlan0-27
+2729:09-04 11:03:20.996 I/dnsmasq2.89( 3111): DHCPv6, IP range fd38:aed1:5a1c::100 -- fd38:aed1:5a1c::1ff, lease time 1d, constructed for p2p-wlan0-27
+2730:09-04 11:03:20.996 I/dnsmasq2.89( 3111): DHCPv4-derived IPv6 names on fd38:aed1:5a1c::, constructed for p2p-wlan0-27
+2731:09-04 11:03:20.996 I/dnsmasq2.89( 3111): router advertisement on fd38:aed1:5a1c::, constructed for p2p-wlan0-27
+2735:09-04 11:03:20.997 D/dnsmasq2.89( 3111): set_interfaces(p2p-wlan0-27)
+2747:09-04 11:03:20.999 D/dnsmasq2.89( 3111): adding listener for fe80::4063:34ff:fee1:49a7%p2p-wlan0-27
+2751:09-04 11:03:20.999 D/dnsmasq2.89( 3111): set_interfaces(p2p-wlan0-27)
+2770:09-04 11:03:21.015 I/OPENHU  ( 2984): [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == BSSID source dump (iface=p2p-wlan0-27) ==
+2821:09-04 11:03:21.054 I/OPENHU  ( 2984): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (p2p-wlan0-27)   = 42:63:34:e1:49:a7
+2829:09-04 11:03:21.061 D/OPENHU  ( 2984): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: getWifiDirectMac for interface: p2p-wlan0-27
+2835:09-04 11:03:21.067 D/OPENHU  ( 2984): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: p2p-wlan0-27, MAC: null
+2853:09-04 11:03:21.081 W/OPENHU  ( 2984): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: No valid MAC found in NetworkInterface scan for p2p-wlan0-27
+2868:09-04 11:03:21.089 I/OPENHU  ( 2984): [2] WifiDirectManager.getMacFromShell | WifiDirectManager: MAC retrieved via sysfs (p2p-wlan0-27): 42:63:34:e1:49:a7
+2887:09-04 11:03:21.104 I/OPENHU  ( 2984): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-27 (EUI-64): 42:63:34:E1:49:A7
+2893:09-04 11:03:21.107 I/OPENHU  ( 2984): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-TX-Navegadortz2, BSSID: 42:63:34:E1:49:A7 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-27, Freq: 5745 MHz (5GHz)
+3592:09-04 11:03:21.849 I/OPENHU  ( 2984): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-27 (EUI-64): 42:63:34:E1:49:A7
+3601:09-04 11:03:21.851 I/OPENHU  ( 2984): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-TX-Navegadortz2, BSSID: 42:63:34:E1:49:A7 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-27, Freq: 5745 MHz (5GHz)
+3626:09-04 11:03:21.871 I/OPENHU  ( 2984): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-27 (EUI-64): 42:63:34:E1:49:A7
+3630:09-04 11:03:21.873 I/OPENHU  ( 2984): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-TX-Navegadortz2, BSSID: 42:63:34:E1:49:A7 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-27, Freq: 5745 MHz (5GHz)
+3790:09-04 11:03:21.997 I/dnsmasq2.89( 3111): RTR-ADVERT(p2p-wlan0-27) fd38:aed1:5a1c::
+5701:09-04 11:03:23.987 D/RouterAdvertisementDaemon( 1680): RA sendto ff02::1%p2p-wlan0-27
+8559:09-04 11:03:26.988 D/RouterAdvertisementDaemon( 1680): RA sendto ff02::1%p2p-wlan0-27
+11358:09-04 11:03:29.989 D/RouterAdvertisementDaemon( 1680): RA sendto ff02::1%p2p-wlan0-27
+12425:09-04 11:03:31.123 I/wpa_supplicant( 1608): p2p-wlan0-27: CTRL-EVENT-SUBNET-STATUS-UPDATE status=0
+12439:09-04 11:03:31.137 I/wpa_supplicant( 1608): p2p-wlan0-27: AP-STA-CONNECTED 92:2c:fb:3d:1b:ac
+12441:09-04 11:03:31.137 I/wpa_supplicant( 1608): p2p-wlan0-27: EAPOL-4WAY-HS-COMPLETED 92:2c:fb:3d:1b:ac
+12476:09-04 11:03:31.148 I/Tethering( 1680):  interface: p2p-wlan0-27
+12560:09-04 11:03:31.196 I/OPENHU  ( 2984): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-27 (EUI-64): 42:63:34:E1:49:A7
+12563:09-04 11:03:31.199 I/OPENHU  ( 2984): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-TX-Navegadortz2, BSSID: 42:63:34:E1:49:A7 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-27, Freq: 5745 MHz (5GHz)
+13602:09-04 11:03:32.231 I/OPENHU  ( 2984): [82] AapSslContext.performHandshake | SSL handshake complete. Session id: tc6J6pP9TrwxWAVNHWu7tcCggfjmMWCAYt56nk3lw6s=
+13606:09-04 11:03:32.232 D/OPENHU  ( 2984): [82] AapTransport.handshake | Handshake: SSL handshake complete. TS: 14555189
+13959:09-04 11:03:32.492 I/dnsmasq2.89( 3111): RTR-SOLICIT(p2p-wlan0-27) 92:2c:fb:3d:1b:ac
+13960:09-04 11:03:32.492 I/dnsmasq2.89( 3111): RTR-ADVERT(p2p-wlan0-27) fd38:aed1:5a1c::
+13961:09-04 11:03:32.493 D/RouterAdvertisementDaemon( 1680): RA sendto fe80::902c:fbff:fe3d:1bac%p2p-wlan0-27
+14549:09-04 11:03:32.992 D/RouterAdvertisementDaemon( 1680): RA sendto ff02::1%p2p-wlan0-27
+17676:09-04 11:03:35.525 I/OPENHU  ( 2984): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-27 (EUI-64): 42:63:34:E1:49:A7
+17678:09-04 11:03:35.528 I/OPENHU  ( 2984): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-TX-Navegadortz2, BSSID: 42:63:34:E1:49:A7 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-27, Freq: 5745 MHz (5GHz)
+17706:09-04 11:03:35.551 I/OPENHU  ( 2984): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-27 (EUI-64): 42:63:34:E1:49:A7
+17711:09-04 11:03:35.554 I/OPENHU  ( 2984): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-TX-Navegadortz2, BSSID: 42:63:34:E1:49:A7 (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-27, Freq: 5745 MHz (5GHz)
+25648:09-04 11:03:40.050 I/dnsmasq2.89( 3111): RTR-ADVERT(p2p-wlan0-27) fd38:aed1:5a1c::
+60564:09-04 11:03:55.519 I/dnsmasq2.89( 3111): RTR-ADVERT(p2p-wlan0-27) fd38:aed1:5a1c::
+98130:09-04 11:04:12.523 I/dnsmasq2.89( 3111): RTR-ADVERT(p2p-wlan0-27) fd38:aed1:5a1c::
+115885:09-04 11:04:20.526 I/dnsmasq2.89( 3111): RTR-ADVERT(p2p-wlan0-27) fd38:aed1:5a1c::
+162357:09-04 11:04:41.449 I/OPENHU  ( 2984): [2] AapProjectionActivity.switchDriver | AapProjectionActivity: User requested switch driver
+162822:09-04 11:04:41.632 I/OPENHU  ( 2984): [73] AapTransport.stop$com_andrerinas_headunitrevived_3_3_1_githubDebug | AapTransport stopping and sending byebye (DEVICE_SWITCH)
+164589:09-04 11:04:42.832 I/wpa_supplicant( 1608): P2P-GROUP-REMOVED p2p-wlan0-27 GO reason=REQUESTED
+164590:09-04 11:04:42.832 I/wpa_supplicant( 1608): p2p-wlan0-27: Do not deauthenticate as part of interface deinit since WoWLAN is enabled
+164600:09-04 11:04:42.833 I/wpa_supplicant( 1608): p2p-wlan0-27: interface state ENABLED->DISABLED
+164601:09-04 11:04:42.833 I/wpa_supplicant( 1608): p2p-wlan0-27: AP-STA-DISCONNECTED 92:2c:fb:3d:1b:ac
+164606:09-04 11:04:42.834 I/wpa_supplicant( 1608): p2p-wlan0-27: AP-DISABLED 
+164610:09-04 11:04:42.834 I/wpa_supplicant( 1608): p2p-wlan0-27: CTRL-EVENT-DISCONNECTED bssid=42:63:34:e1:49:a7 reason=3 locally_generated=1
+164617:09-04 11:04:42.835 I/wpa_supplicant( 1608): p2p-wlan0-27: CTRL-EVENT-DSCP-POLICY clear_all
+164619:09-04 11:04:42.835 I/wpa_supplicant( 1608): nl80211: deinit ifname=p2p-wlan0-27 disabled_11b_rates=0
+164622:09-04 11:04:42.836 E/Netd    (  517): NetlinkEvent: LinkUp, interface: p2p-wlan0-27
+164623:09-04 11:04:42.836 E/I:UWMOI (  811): uwmoi_listen_iface_up listen [p2p-wlan0-27 up]
+164630:09-04 11:04:42.841 D/NetworkAdapter( 1092): interfaceLinkStateChanged iface: p2p-wlan0-27 up: true
+164639:09-04 11:04:42.844 E/I:UWMOI (  811): uwmoi_listen_iface_up listen [p2p-wlan0-27 down]
+164640:09-04 11:04:42.845 E/Netd    (  517): NetlinkEvent: LinkDown, interface: p2p-wlan0-27
+164641:09-04 11:04:42.846 E/I:UWMOI (  811): uwmoi_listen_iface_up listen [p2p-wlan0-27 down]
+164642:09-04 11:04:42.846 E/I:UWMOI (  811): listen [p2p-wlan0-27] del ipv4 address [192.168.49.1]
+164649:09-04 11:04:42.850 D/NetworkAdapter( 1092): interfaceLinkStateChanged iface: p2p-wlan0-27 up: false
+164650:09-04 11:04:42.850 E/Netd    (  517): NetlinkEvent: InterfaceRemoved, interface: p2p-wlan0-27
+164655:09-04 11:04:42.852 I/Tethering( 1680): removing IpServer for: p2p-wlan0-27
+164656:09-04 11:04:42.852 E/dnsmasq2.89( 3111): interface p2p-wlan0-27 failed to join DHCPv6 multicast group: Address already in use
+164664:09-04 11:04:42.853 E/Netd    (  517): NetlinkEvent: LinkDown, interface: p2p-wlan0-27
+164665:09-04 11:04:42.853 E/netd    (  517): cannot find interface p2p-wlan0-27
+164669:09-04 11:04:42.855 D/NetworkAdapter( 1092): interfaceRemoved: p2p-wlan0-27
+164670:09-04 11:04:42.855 D/NetworkAdapter( 1092): interfaceLinkStateChanged iface: p2p-wlan0-27 up: false
+164681:09-04 11:04:42.856 E/Tethering( 1680): [p2p-wlan0-27] ERROR Failed to remove 1 IPv6 routes from local table.
+164688:09-04 11:04:42.858 E/Tethering( 1680): [p2p-wlan0-27] ERROR failed to remove /fd38:aed1:5a1c::63/64: android.os.ServiceSpecificException: InterfaceController error: No such device (code 19)
+164689:09-04 11:04:42.858 E/Tethering( 1680): [p2p-wlan0-27] ERROR Failed to remove local dns IP /fd38:aed1:5a1c::63
+164693:09-04 11:04:42.860 D/dnsmasq2.89( 3111): set_interfaces(p2p-wlan0-27)
+164696:09-04 11:04:42.860 E/dnsmasq2.89( 3111): interface given in set_interfaces: 'p2p-wlan0-27' has no ifindex; ignoring
+164714:09-04 11:04:42.866 E/netd    (  517): cannot find interface p2p-wlan0-27
+164725:09-04 11:04:42.869 E/Tethering( 1680): [p2p-wlan0-27] ERROR Setting IPv4 address to 192.168.49.1/24 failed: android.os.ServiceSpecificException: [No such device] : ioctl() failed (code 19)
+164726:09-04 11:04:42.870 E/Tethering( 1680): [p2p-wlan0-27] ERROR Error configuring interface
+164731:09-04 11:04:42.873 E/Tethering( 1680): [p2p-wlan0-27] ERROR Setting IPv4 address to 0.0.0.0/0 failed: android.os.ServiceSpecificException: [No such device] : ioctl() failed (code 19)
+164922:09-04 11:04:42.989 E/Tethering( 1680): ERROR Tethering no longer handle untracked interface after T: p2p-wlan0-27
+197072:09-04 11:05:16.636 I/OPENHU  ( 2984): [2] HomeFragment.connectToNativeDevice | HomeFragment: Connecting to Native-AA device: POCO X3 NFC (DC:B7:2E:5E:4E:59)
+197273:09-04 11:05:16.795 I/OPENHU  ( 2984): [2] NativeAaHandshakeManager.selectDriver | NativeAA: Driver selected: DC:B7:2E:5E:4E:59
+197913:09-04 11:05:17.404 E/Netd    (  517): NetlinkEvent: InterfaceAdded, interface: p2p-wlan0-28
+197914:09-04 11:05:17.405 D/NetworkAdapter( 1092): interfaceAdded: p2p-wlan0-28
+197915:09-04 11:05:17.405 E/Netd    (  517): NetlinkEvent: LinkDown, interface: p2p-wlan0-28
+197916:09-04 11:05:17.405 D/NetdWrapper( 1092): NetdWrapper interface add, iface= p2p-wlan0-28
+197917:09-04 11:05:17.406 I/Tethering( 1680): adding IpServer for: p2p-wlan0-28
+197918:09-04 11:05:17.406 D/NetworkAdapter( 1092): interfaceLinkStateChanged iface: p2p-wlan0-28 up: false
+197920:09-04 11:05:17.408 E/I:UWMOI (  811): uwmoi_listen_iface_up listen [p2p-wlan0-28 down]
+197924:09-04 11:05:17.410 E/Netd    (  517): NetlinkEvent: LinkUp, interface: p2p-wlan0-28
+197927:09-04 11:05:17.411 D/NetworkAdapter( 1092): interfaceLinkStateChanged iface: p2p-wlan0-28 up: true
+197930:09-04 11:05:17.412 E/I:UWMOI (  811): uwmoi_listen_iface_up listen [p2p-wlan0-28 up]
+197931:09-04 11:05:17.412 E/I:UWMOI (  811): uwmoi_listen_iface_up listen [p2p-wlan0-28 up]
+197932:09-04 11:05:17.412 E/I:UWMOI (  811): uwmoi_listen_iface_up listen [p2p-wlan0-28 up]
+197933:09-04 11:05:17.413 E/Netd    (  517): NetlinkEvent: LinkUp, interface: p2p-wlan0-28
+197935:09-04 11:05:17.414 D/NetworkAdapter( 1092): interfaceLinkStateChanged iface: p2p-wlan0-28 up: true
+197937:09-04 11:05:17.414 E/Netd    (  517): NetlinkEvent: LinkUp, interface: p2p-wlan0-28
+197940:09-04 11:05:17.415 D/NetworkAdapter( 1092): interfaceLinkStateChanged iface: p2p-wlan0-28 up: true
+197945:09-04 11:05:17.419 E/I:UWMOI (  811): uwmoi_listen_iface_up listen [p2p-wlan0-28 up]
+197946:09-04 11:05:17.419 E/Netd    (  517): NetlinkEvent: LinkUp, interface: p2p-wlan0-28
+197947:09-04 11:05:17.419 D/NetworkAdapter( 1092): interfaceLinkStateChanged iface: p2p-wlan0-28 up: true
+197957:09-04 11:05:17.429 I/OPENHU  ( 2984): [2] 1.onSuccess | WifiDirectManager: 5GHz createGroup SUCCESS!
+197973:09-04 11:05:17.442 E/I:UWMOI (  811): uwmoi_listen_iface_up listen [p2p-wlan0-28 up]
+197974:09-04 11:05:17.442 I/wpa_supplicant( 1608): p2p-wlan0-28: interface state UNINITIALIZED->ENABLED
+197975:09-04 11:05:17.442 I/wpa_supplicant( 1608): p2p-wlan0-28: AP-ENABLED 
+197976:09-04 11:05:17.442 E/Netd    (  517): NetlinkEvent: LinkUp, interface: p2p-wlan0-28
+197977:09-04 11:05:17.442 I/wpa_supplicant( 1608): p2p-wlan0-28: CTRL-EVENT-CONNECTED - Connection to da:03:b5:5f:87:ed completed [id=0 id_str=]
+197979:09-04 11:05:17.442 I/wpa_supplicant( 1608): P2P-GROUP-STARTED p2p-wlan0-28 GO ssid="DIRECT-TX-Navegadortz2" freq=5765 go_dev_addr=42:60:10:2e:b9:3c [PERSISTENT]
+197980:09-04 11:05:17.443 D/NetworkAdapter( 1092): interfaceLinkStateChanged iface: p2p-wlan0-28 up: true
+198011:09-04 11:05:17.456 I/Tethering( 1680):  interface: p2p-wlan0-28
+198014:09-04 11:05:17.457 E/I:UWMOI (  811): listen [p2p-wlan0-28] add ipv4 address [192.168.49.1]
+198017:09-04 11:05:17.462 E/TetherController(  517): tetherInterface(p2p-wlan0-28)
+198023:09-04 11:05:17.465 E/Netd    (  517): NetlinkHandler destroysockets for interface: p2p-wlan0-28, address: fe80::27:15ff:fe43:861a
+198054:09-04 11:05:17.489 D/WifiP2pService( 1092): WifiP2pService Tethering localOnlyInterfacesChanged callback for ifaceList: [p2p-wlan0-28]
+198055:09-04 11:05:17.489 D/WifiP2pService( 1092): tether p2p-wlan0-28 ready
+198068:09-04 11:05:17.498 D/WifiP2pService( 1092): Group owner address: 192.168.49.1 at p2p-wlan0-28
+198095:09-04 11:05:17.515 E/netd    (  517): Error adding route fe80::/64 -> (null) p2p-wlan0-28 to table 97: File exists
+198114:09-04 11:05:17.520 I/Tethering( 1680):  interface: p2p-wlan0-28
+198136:09-04 11:05:17.525 I/dnsmasq2.89( 4511): DHCPv6, IP range fd38:aed1:5a1c::100 -- fd38:aed1:5a1c::1ff, lease time 1d, constructed for p2p-wlan0-28
+198137:09-04 11:05:17.525 I/dnsmasq2.89( 4511): DHCPv4-derived IPv6 names on fd38:aed1:5a1c::, constructed for p2p-wlan0-28
+198138:09-04 11:05:17.525 I/dnsmasq2.89( 4511): router advertisement on fd38:aed1:5a1c::, constructed for p2p-wlan0-28
+198140:09-04 11:05:17.526 D/dnsmasq2.89( 4511): set_interfaces(p2p-wlan0-28)
+198152:09-04 11:05:17.526 D/dnsmasq2.89( 4511): adding listener for fe80::d803:b5ff:fe5f:87ed%p2p-wlan0-28
+198156:09-04 11:05:17.526 D/dnsmasq2.89( 4511): set_interfaces(p2p-wlan0-28)
+198162:09-04 11:05:17.527 D/RouterAdvertisementDaemon( 1680): RA sendto ff02::1%p2p-wlan0-28
+198169:09-04 11:05:17.533 I/OPENHU  ( 2984): [2] WifiDirectManager.logBssidSourceDump | WifiDirectManager: == BSSID source dump (iface=p2p-wlan0-28) ==
+198182:09-04 11:05:17.540 I/OPENHU  ( 2984): [2] WifiDirectManager.logBssidSourceDump$report | WifiDirectManager:   IPv6 link-local (p2p-wlan0-28)   = da:03:b5:5f:87:ed
+198188:09-04 11:05:17.545 D/OPENHU  ( 2984): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: getWifiDirectMac for interface: p2p-wlan0-28
+198208:09-04 11:05:17.560 D/OPENHU  ( 2984): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: Found interface: p2p-wlan0-28, MAC: null
+198209:09-04 11:05:17.561 W/OPENHU  ( 2984): [2] WifiDirectManager.getWifiDirectMac | WifiDirectManager: No valid MAC found in NetworkInterface scan for p2p-wlan0-28
+198216:09-04 11:05:17.559 I/headunitrevived( 2984): type=1400 audit(0.0:18313): avc:  denied  { open } for  path="/sys/devices/virtual/misc/wlan/net/p2p-wlan0-28/address" dev="sysfs" ino=3616359 scontext=u:r:untrusted_app:s0:c172,c256,c512,c768 tcontext=u:object_r:sysfs:s0 tclass=file permissive=1 app=com.andrerinas.headunitrevived
+198217:09-04 11:05:17.559 I/headunitrevived( 2984): type=1400 audit(0.0:18314): avc:  denied  { getattr } for  path="/sys/devices/virtual/misc/wlan/net/p2p-wlan0-28/address" dev="sysfs" ino=3616359 scontext=u:r:untrusted_app:s0:c172,c256,c512,c768 tcontext=u:object_r:sysfs:s0 tclass=file permissive=1 app=com.andrerinas.headunitrevived
+198218:09-04 11:05:17.566 I/OPENHU  ( 2984): [2] WifiDirectManager.getMacFromShell | WifiDirectManager: MAC retrieved via sysfs (p2p-wlan0-28): da:03:b5:5f:87:ed
+198235:09-04 11:05:17.575 I/OPENHU  ( 2984): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-28 (EUI-64): DA:03:B5:5F:87:ED
+198238:09-04 11:05:17.577 I/OPENHU  ( 2984): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-TX-Navegadortz2, BSSID: DA:03:B5:5F:87:ED (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-28, Freq: 5765 MHz (5GHz)
+199082:09-04 11:05:18.446 I/OPENHU  ( 2984): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-28 (EUI-64): DA:03:B5:5F:87:ED
+199088:09-04 11:05:18.448 I/OPENHU  ( 2984): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-TX-Navegadortz2, BSSID: DA:03:B5:5F:87:ED (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-28, Freq: 5765 MHz (5GHz)
+199107:09-04 11:05:18.467 I/OPENHU  ( 2984): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-28 (EUI-64): DA:03:B5:5F:87:ED
+199112:09-04 11:05:18.469 I/OPENHU  ( 2984): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-TX-Navegadortz2, BSSID: DA:03:B5:5F:87:ED (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-28, Freq: 5765 MHz (5GHz)
+199175:09-04 11:05:18.526 I/dnsmasq2.89( 4511): RTR-ADVERT(p2p-wlan0-28) fd38:aed1:5a1c::
+201144:09-04 11:05:20.528 D/RouterAdvertisementDaemon( 1680): RA sendto ff02::1%p2p-wlan0-28
+203979:09-04 11:05:23.529 D/RouterAdvertisementDaemon( 1680): RA sendto ff02::1%p2p-wlan0-28
+206807:09-04 11:05:26.530 D/RouterAdvertisementDaemon( 1680): RA sendto ff02::1%p2p-wlan0-28
+208018:09-04 11:05:27.781 I/wpa_supplicant( 1608): p2p-wlan0-28: CTRL-EVENT-SUBNET-STATUS-UPDATE status=0
+208065:09-04 11:05:27.795 I/wpa_supplicant( 1608): p2p-wlan0-28: AP-STA-CONNECTED 92:2c:fb:3d:1b:ac
+208067:09-04 11:05:27.795 I/wpa_supplicant( 1608): p2p-wlan0-28: EAPOL-4WAY-HS-COMPLETED 92:2c:fb:3d:1b:ac
+208114:09-04 11:05:27.810 I/Tethering( 1680):  interface: p2p-wlan0-28
+208154:09-04 11:05:27.841 I/OPENHU  ( 2984): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-28 (EUI-64): DA:03:B5:5F:87:ED
+208156:09-04 11:05:27.843 I/OPENHU  ( 2984): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-TX-Navegadortz2, BSSID: DA:03:B5:5F:87:ED (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-28, Freq: 5765 MHz (5GHz)
+208676:09-04 11:05:28.347 I/OPENHU  ( 2984): [62] AapSslContext.performHandshake | SSL handshake complete. Session id: 0+eztzs3HFksv0n0bNO+4063mIA8SufPwQv5+Tw2LRI=
+208679:09-04 11:05:28.349 D/OPENHU  ( 2984): [62] AapTransport.handshake | Handshake: SSL handshake complete. TS: 14671305
+208912:09-04 11:05:28.527 I/dnsmasq2.89( 4511): RTR-ADVERT(p2p-wlan0-28) fd38:aed1:5a1c::
+209343:09-04 11:05:28.814 I/dnsmasq2.89( 4511): RTR-SOLICIT(p2p-wlan0-28) 92:2c:fb:3d:1b:ac
+209345:09-04 11:05:28.814 I/dnsmasq2.89( 4511): RTR-ADVERT(p2p-wlan0-28) fd38:aed1:5a1c::
+209350:09-04 11:05:28.818 D/RouterAdvertisementDaemon( 1680): RA sendto fe80::902c:fbff:fe3d:1bac%p2p-wlan0-28
+210232:09-04 11:05:29.530 D/RouterAdvertisementDaemon( 1680): RA sendto ff02::1%p2p-wlan0-28
+213372:09-04 11:05:32.203 I/OPENHU  ( 2984): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-28 (EUI-64): DA:03:B5:5F:87:ED
+213376:09-04 11:05:32.205 I/OPENHU  ( 2984): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-TX-Navegadortz2, BSSID: DA:03:B5:5F:87:ED (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-28, Freq: 5765 MHz (5GHz)
+213403:09-04 11:05:32.228 I/OPENHU  ( 2984): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: BSSID read from the IPv6 link-local address of p2p-wlan0-28 (EUI-64): DA:03:B5:5F:87:ED
+213405:09-04 11:05:32.230 I/OPENHU  ( 2984): [2] WifiDirectManager.onGroupInfoAvailable | WifiDirectManager: onGroupInfoAvailable: SSID: DIRECT-TX-Navegadortz2, BSSID: DA:03:B5:5F:87:ED (source=IPv6 link-local), GO: true, IFACE: p2p-wlan0-28, Freq: 5765 MHz (5GHz)
+245061:09-04 11:05:46.615 I/dnsmasq2.89( 4511): RTR-ADVERT(p2p-wlan0-28) fd38:aed1:5a1c::

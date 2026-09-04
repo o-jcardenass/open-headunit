@@ -1,0 +1,429 @@
+1283:09-04 10:59:54.406 I/OPENHU  (32137): [2] AapService.onStartCommand | AapService: ACTION_NATIVE_AA_PROMPT_SHOWN received
+11824:09-04 11:00:05.284 I/OPENHU  (32137): [2] NativeAaHandshakeManager.cancelPoke | NativeAA: cancelPoke() called — user explicitly canceled driver selection.
+35751:09-04 11:00:30.131 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+35754:09-04 11:00:30.132 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+36097:09-04 11:00:30.516 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+36100:09-04 11:00:30.517 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+36388:09-04 11:00:30.776 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+36392:09-04 11:00:30.778 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+41889:09-04 11:00:36.168 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+41891:09-04 11:00:36.168 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+42248:09-04 11:00:36.492 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+42249:09-04 11:00:36.494 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+42587:09-04 11:00:36.829 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+42590:09-04 11:00:36.830 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+42969:09-04 11:00:37.141 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+42970:09-04 11:00:37.142 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+43322:09-04 11:00:37.416 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+43326:09-04 11:00:37.417 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+43590:09-04 11:00:37.652 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+43592:09-04 11:00:37.654 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+44001:09-04 11:00:37.947 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+44002:09-04 11:00:37.948 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+44361:09-04 11:00:38.262 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+44362:09-04 11:00:38.263 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+44646:09-04 11:00:38.547 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+44647:09-04 11:00:38.549 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+44945:09-04 11:00:38.828 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+44946:09-04 11:00:38.830 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+45301:09-04 11:00:39.106 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+45302:09-04 11:00:39.108 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+45728:09-04 11:00:39.510 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+45729:09-04 11:00:39.512 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+46224:09-04 11:00:39.895 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+46225:09-04 11:00:39.896 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+46562:09-04 11:00:40.226 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+46565:09-04 11:00:40.228 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+46930:09-04 11:00:40.599 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+46931:09-04 11:00:40.600 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+47346:09-04 11:00:40.954 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+47349:09-04 11:00:40.956 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+47766:09-04 11:00:41.352 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+47767:09-04 11:00:41.353 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+48141:09-04 11:00:41.718 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+48142:09-04 11:00:41.720 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+48511:09-04 11:00:42.018 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+48512:09-04 11:00:42.020 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+48829:09-04 11:00:42.331 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+48833:09-04 11:00:42.332 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+49111:09-04 11:00:42.641 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+49112:09-04 11:00:42.643 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+49405:09-04 11:00:42.951 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+49406:09-04 11:00:42.952 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+49726:09-04 11:00:43.269 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+49730:09-04 11:00:43.271 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+49990:09-04 11:00:43.537 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+49995:09-04 11:00:43.539 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+50423:09-04 11:00:43.891 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+50426:09-04 11:00:43.892 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+55905:09-04 11:00:49.365 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+55907:09-04 11:00:49.366 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+56307:09-04 11:00:49.773 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+56308:09-04 11:00:49.775 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+56747:09-04 11:00:50.193 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+56748:09-04 11:00:50.194 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+57069:09-04 11:00:50.522 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+57070:09-04 11:00:50.523 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+57447:09-04 11:00:50.926 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+57448:09-04 11:00:50.927 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+57793:09-04 11:00:51.318 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+57794:09-04 11:00:51.319 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+58117:09-04 11:00:51.647 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+58118:09-04 11:00:51.648 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+58496:09-04 11:00:51.975 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+58499:09-04 11:00:51.976 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+58834:09-04 11:00:52.351 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+58836:09-04 11:00:52.352 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+59188:09-04 11:00:52.721 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+59189:09-04 11:00:52.722 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+59502:09-04 11:00:53.052 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+59503:09-04 11:00:53.053 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+59866:09-04 11:00:53.449 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+59869:09-04 11:00:53.450 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+60294:09-04 11:00:53.810 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+60295:09-04 11:00:53.811 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+60615:09-04 11:00:54.161 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+60616:09-04 11:00:54.162 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+60933:09-04 11:00:54.494 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+60934:09-04 11:00:54.495 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+61294:09-04 11:00:54.871 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+61296:09-04 11:00:54.872 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+61640:09-04 11:00:55.256 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+61642:09-04 11:00:55.258 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+62070:09-04 11:00:55.590 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+62072:09-04 11:00:55.592 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+62746:09-04 11:00:55.972 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+62749:09-04 11:00:55.973 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+63132:09-04 11:00:56.307 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+63135:09-04 11:00:56.308 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+63475:09-04 11:00:56.659 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+63478:09-04 11:00:56.661 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+63811:09-04 11:00:56.989 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+63814:09-04 11:00:56.990 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+64186:09-04 11:00:57.383 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+64187:09-04 11:00:57.385 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+64565:09-04 11:00:57.775 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+64567:09-04 11:00:57.777 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+64928:09-04 11:00:58.104 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+64930:09-04 11:00:58.105 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+65314:09-04 11:00:58.519 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+65317:09-04 11:00:58.521 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+65701:09-04 11:00:58.891 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+65702:09-04 11:00:58.892 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+66052:09-04 11:00:59.280 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+66053:09-04 11:00:59.281 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+66348:09-04 11:00:59.590 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+66353:09-04 11:00:59.592 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+66787:09-04 11:00:59.979 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+66788:09-04 11:00:59.980 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+67168:09-04 11:01:00.357 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+67172:09-04 11:01:00.359 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+67478:09-04 11:01:00.680 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+67479:09-04 11:01:00.681 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+67891:09-04 11:01:01.091 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+67892:09-04 11:01:01.091 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+68198:09-04 11:01:01.425 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+68199:09-04 11:01:01.425 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+68639:09-04 11:01:01.811 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+68640:09-04 11:01:01.812 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+68984:09-04 11:01:02.185 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+68988:09-04 11:01:02.187 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+69338:09-04 11:01:02.572 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+69342:09-04 11:01:02.574 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+69725:09-04 11:01:02.979 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+69726:09-04 11:01:02.980 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+70020:09-04 11:01:03.307 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+70024:09-04 11:01:03.308 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+70388:09-04 11:01:03.697 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+70390:09-04 11:01:03.697 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+70773:09-04 11:01:04.030 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+70777:09-04 11:01:04.031 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+71164:09-04 11:01:04.456 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+71165:09-04 11:01:04.457 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+71479:09-04 11:01:04.779 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+71480:09-04 11:01:04.780 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+71827:09-04 11:01:05.156 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+71828:09-04 11:01:05.157 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+72263:09-04 11:01:05.585 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+72265:09-04 11:01:05.585 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+72656:09-04 11:01:05.903 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+72657:09-04 11:01:05.903 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+73016:09-04 11:01:06.298 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+73017:09-04 11:01:06.299 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+73363:09-04 11:01:06.667 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+73364:09-04 11:01:06.668 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+73685:09-04 11:01:06.996 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+73687:09-04 11:01:06.998 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+73993:09-04 11:01:07.327 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+73994:09-04 11:01:07.328 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+74374:09-04 11:01:07.719 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+74375:09-04 11:01:07.720 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+74811:09-04 11:01:08.117 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+74814:09-04 11:01:08.118 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+75109:09-04 11:01:08.443 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+75114:09-04 11:01:08.444 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+75512:09-04 11:01:08.859 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+75513:09-04 11:01:08.860 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+75797:09-04 11:01:09.173 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+75798:09-04 11:01:09.175 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+76137:09-04 11:01:09.552 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+76140:09-04 11:01:09.553 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+76544:09-04 11:01:09.892 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+76545:09-04 11:01:09.894 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+76896:09-04 11:01:10.285 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+76899:09-04 11:01:10.287 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+77262:09-04 11:01:10.677 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+77265:09-04 11:01:10.678 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+77589:09-04 11:01:10.997 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+77590:09-04 11:01:10.998 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+77893:09-04 11:01:11.333 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+77894:09-04 11:01:11.334 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+78221:09-04 11:01:11.682 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+78222:09-04 11:01:11.684 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+78633:09-04 11:01:12.034 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+78634:09-04 11:01:12.036 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+78940:09-04 11:01:12.364 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+78941:09-04 11:01:12.366 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+79285:09-04 11:01:12.746 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+79288:09-04 11:01:12.747 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+79657:09-04 11:01:13.128 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+79660:09-04 11:01:13.130 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+79961:09-04 11:01:13.464 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+79964:09-04 11:01:13.465 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+80276:09-04 11:01:13.776 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+80277:09-04 11:01:13.778 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+80690:09-04 11:01:14.146 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+80693:09-04 11:01:14.147 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+81035:09-04 11:01:14.521 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+81039:09-04 11:01:14.523 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+81361:09-04 11:01:14.838 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+81364:09-04 11:01:14.840 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+81727:09-04 11:01:15.228 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+81728:09-04 11:01:15.229 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+82038:09-04 11:01:15.554 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+82041:09-04 11:01:15.555 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+82472:09-04 11:01:15.906 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+82475:09-04 11:01:15.908 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+82811:09-04 11:01:16.236 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+82814:09-04 11:01:16.238 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+83182:09-04 11:01:16.644 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+83187:09-04 11:01:16.646 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+83487:09-04 11:01:16.927 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+83488:09-04 11:01:16.929 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+83773:09-04 11:01:17.249 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+83776:09-04 11:01:17.249 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+84063:09-04 11:01:17.561 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+84064:09-04 11:01:17.563 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+84532:09-04 11:01:17.945 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+84533:09-04 11:01:17.945 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+84850:09-04 11:01:18.312 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+84853:09-04 11:01:18.313 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+85152:09-04 11:01:18.643 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+85153:09-04 11:01:18.644 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+85528:09-04 11:01:19.033 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+85529:09-04 11:01:19.033 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+85820:09-04 11:01:19.360 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+85823:09-04 11:01:19.361 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+86172:09-04 11:01:19.753 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+86179:09-04 11:01:19.755 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+86594:09-04 11:01:20.115 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+86597:09-04 11:01:20.116 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+86938:09-04 11:01:20.494 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+86939:09-04 11:01:20.495 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+87304:09-04 11:01:20.877 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+87305:09-04 11:01:20.878 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+87617:09-04 11:01:21.210 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+87618:09-04 11:01:21.210 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+87984:09-04 11:01:21.610 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+87985:09-04 11:01:21.611 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+88449:09-04 11:01:22.018 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+88450:09-04 11:01:22.019 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+88751:09-04 11:01:22.352 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+88752:09-04 11:01:22.354 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+89030:09-04 11:01:22.656 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+89034:09-04 11:01:22.658 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+89412:09-04 11:01:23.041 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+89417:09-04 11:01:23.043 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+89798:09-04 11:01:23.465 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+89801:09-04 11:01:23.467 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+90190:09-04 11:01:23.809 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+90191:09-04 11:01:23.811 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+90589:09-04 11:01:24.230 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+90590:09-04 11:01:24.232 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+90850:09-04 11:01:24.503 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+90852:09-04 11:01:24.505 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+91223:09-04 11:01:24.902 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+91226:09-04 11:01:24.903 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+91552:09-04 11:01:25.248 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+91553:09-04 11:01:25.249 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+91893:09-04 11:01:25.623 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+91896:09-04 11:01:25.625 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+92394:09-04 11:01:26.052 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+92396:09-04 11:01:26.053 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+92696:09-04 11:01:26.374 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+92699:09-04 11:01:26.376 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+93026:09-04 11:01:26.731 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+93030:09-04 11:01:26.733 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+93420:09-04 11:01:27.139 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+93421:09-04 11:01:27.140 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+93693:09-04 11:01:27.435 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+93694:09-04 11:01:27.436 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+93973:09-04 11:01:27.739 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+93974:09-04 11:01:27.740 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+94464:09-04 11:01:28.155 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+94465:09-04 11:01:28.156 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+94827:09-04 11:01:28.549 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+94830:09-04 11:01:28.551 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+95141:09-04 11:01:28.878 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+95142:09-04 11:01:28.879 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+95454:09-04 11:01:29.204 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+95457:09-04 11:01:29.206 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+95794:09-04 11:01:29.578 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+95795:09-04 11:01:29.579 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+96240:09-04 11:01:29.975 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+96241:09-04 11:01:29.976 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+96547:09-04 11:01:30.301 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+96548:09-04 11:01:30.302 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+96907:09-04 11:01:30.678 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+96910:09-04 11:01:30.679 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+97311:09-04 11:01:31.066 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+97312:09-04 11:01:31.067 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+97634:09-04 11:01:31.408 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+97637:09-04 11:01:31.409 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+98089:09-04 11:01:31.812 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+98091:09-04 11:01:31.812 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+98403:09-04 11:01:32.147 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+98405:09-04 11:01:32.148 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+98759:09-04 11:01:32.522 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+98761:09-04 11:01:32.523 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+99070:09-04 11:01:32.853 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+99073:09-04 11:01:32.855 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+99444:09-04 11:01:33.254 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+99448:09-04 11:01:33.256 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+99846:09-04 11:01:33.696 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+99848:09-04 11:01:33.697 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+100223:09-04 11:01:34.023 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+100228:09-04 11:01:34.025 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+100605:09-04 11:01:34.423 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+100606:09-04 11:01:34.425 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+100911:09-04 11:01:34.753 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+100912:09-04 11:01:34.753 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+101277:09-04 11:01:35.146 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+101280:09-04 11:01:35.148 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+101562:09-04 11:01:35.435 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+101564:09-04 11:01:35.436 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+102016:09-04 11:01:35.833 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+102019:09-04 11:01:35.834 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+102410:09-04 11:01:36.246 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+102411:09-04 11:01:36.247 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+102711:09-04 11:01:36.574 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+102712:09-04 11:01:36.575 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+103112:09-04 11:01:37.008 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+103114:09-04 11:01:37.008 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+103483:09-04 11:01:37.397 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+103487:09-04 11:01:37.399 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+103783:09-04 11:01:37.723 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+103784:09-04 11:01:37.723 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+104268:09-04 11:01:38.081 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+104274:09-04 11:01:38.083 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+104606:09-04 11:01:38.430 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+104609:09-04 11:01:38.433 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+105001:09-04 11:01:38.839 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+105003:09-04 11:01:38.840 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+105278:09-04 11:01:39.144 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+105279:09-04 11:01:39.145 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+105692:09-04 11:01:39.583 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+105695:09-04 11:01:39.585 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+106131:09-04 11:01:39.971 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+106136:09-04 11:01:39.973 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+106462:09-04 11:01:40.316 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+106463:09-04 11:01:40.318 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+106779:09-04 11:01:40.658 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+106781:09-04 11:01:40.659 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+107192:09-04 11:01:41.100 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+107193:09-04 11:01:41.101 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+107549:09-04 11:01:41.481 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+107554:09-04 11:01:41.483 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+107938:09-04 11:01:41.815 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+107941:09-04 11:01:41.817 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+108285:09-04 11:01:42.197 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+108288:09-04 11:01:42.199 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+108676:09-04 11:01:42.606 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+108679:09-04 11:01:42.608 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+108970:09-04 11:01:42.916 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+108971:09-04 11:01:42.917 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+109324:09-04 11:01:43.305 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+109327:09-04 11:01:43.307 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+109668:09-04 11:01:43.666 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+109669:09-04 11:01:43.667 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+110119:09-04 11:01:44.076 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+110123:09-04 11:01:44.078 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+110476:09-04 11:01:44.444 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+110479:09-04 11:01:44.444 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+110844:09-04 11:01:44.833 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+110847:09-04 11:01:44.834 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+111183:09-04 11:01:45.208 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+111184:09-04 11:01:45.209 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+111513:09-04 11:01:45.544 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+111514:09-04 11:01:45.545 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+111970:09-04 11:01:45.927 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+111971:09-04 11:01:45.928 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+112288:09-04 11:01:46.238 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+112291:09-04 11:01:46.240 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+112674:09-04 11:01:46.644 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+112676:09-04 11:01:46.644 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+113050:09-04 11:01:46.994 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+113052:09-04 11:01:46.995 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+113409:09-04 11:01:47.385 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+113410:09-04 11:01:47.386 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+113795:09-04 11:01:47.769 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+113796:09-04 11:01:47.770 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+114189:09-04 11:01:48.125 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+114190:09-04 11:01:48.126 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+114569:09-04 11:01:48.504 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+114570:09-04 11:01:48.505 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+114884:09-04 11:01:48.832 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+114885:09-04 11:01:48.833 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+115305:09-04 11:01:49.277 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+115306:09-04 11:01:49.279 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+120517:09-04 11:01:54.735 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+120518:09-04 11:01:54.737 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+120861:09-04 11:01:55.105 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+120862:09-04 11:01:55.107 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+121204:09-04 11:01:55.482 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+121207:09-04 11:01:55.482 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+121624:09-04 11:01:55.824 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+121625:09-04 11:01:55.826 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+122112:09-04 11:01:56.212 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+122114:09-04 11:01:56.214 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+122690:09-04 11:01:56.614 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+122691:09-04 11:01:56.615 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+123025:09-04 11:01:56.951 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+123026:09-04 11:01:56.952 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+123338:09-04 11:01:57.272 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+123343:09-04 11:01:57.274 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+123676:09-04 11:01:57.621 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+123678:09-04 11:01:57.622 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+124125:09-04 11:01:58.014 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+124126:09-04 11:01:58.015 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+124340:09-04 11:01:58.242 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+124342:09-04 11:01:58.243 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+124661:09-04 11:01:58.589 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+124667:09-04 11:01:58.591 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+125035:09-04 11:01:58.969 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+125037:09-04 11:01:58.970 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+125393:09-04 11:01:59.343 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+125396:09-04 11:01:59.345 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+125719:09-04 11:01:59.679 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+125721:09-04 11:01:59.681 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+126149:09-04 11:02:00.052 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+126150:09-04 11:02:00.053 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+126543:09-04 11:02:00.473 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+126544:09-04 11:02:00.474 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+126901:09-04 11:02:00.809 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+126902:09-04 11:02:00.810 I/OPENHU  (32137): [62] NativeAaHandshakeManager.shouldAcceptHandshake | NativeAA: User explicitly canceled driver selection — refusing connection from A0:46:5A:97:E4:95
+127029:09-04 11:02:00.931 I/OPENHU  (32137): [2] HomeFragment.connectToNativeDevice | HomeFragment: Connecting to Native-AA device: motorola edge 30 neo (A0:46:5A:97:E4:95)
+127077:09-04 11:02:00.985 I/OPENHU  (32137): [2] NativeAaHandshakeManager.selectDriver | NativeAA: Driver selected: A0:46:5A:97:E4:95
+127418:09-04 11:02:01.248 I/OPENHU  (32137): [62] 1.invokeSuspend | NativeAA: Connection accepted from motorola edge 30 neo (A0:46:5A:97:E4:95) on local radio [Navegadortz2]
+139618:09-04 11:02:14.000 I/OPENHU  (32137): [71] AapSslContext.performHandshake | SSL handshake complete. Session id: leplxerqTGQ+OAdTBk96qfj97rq0mhfpjjiYUgC5Jlk=
+139620:09-04 11:02:14.001 D/OPENHU  (32137): [71] AapTransport.handshake | Handshake: SSL handshake complete. TS: 14476958

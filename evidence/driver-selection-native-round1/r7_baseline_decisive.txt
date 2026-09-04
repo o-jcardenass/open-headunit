@@ -1,0 +1,3 @@
+4814:09-04 11:17:38.829 I/OPENHU  (12640): [72] 1.invokeSuspend | NativeAA: Attempting active poke to device: POCO X3 NFC (DC:B7:2E:5E:4E:59)...
+32673:09-04 11:18:08.193 I/OPENHU  (12640): [71] AapSslContext.performHandshake | SSL handshake complete. Session id: EitRs9FdxzuszeB8IhefAl66NX+AXSHHK7FnyJ9/+UQ=
+32675:09-04 11:18:08.194 D/OPENHU  (12640): [71] AapTransport.handshake | Handshake: SSL handshake complete. TS: 15431150
