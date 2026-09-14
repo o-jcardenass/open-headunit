@@ -43,6 +43,7 @@ were reported under another filename, and are listed so the pairing rule does no
 
 - `zlink-aa-sink-decision-brief.md`, PC only, the descriptor decode and disassembly part two could not run; tools are in `tools/zbt/`
 - `audio-focus-round11-brief.md`
+- `audio-sink-jitter-round1-brief.md`
 - `link-stall-periodic-scan-round4-brief.md` (2.4 GHz plus constrained memory; round 5 ran first and PASSed)
 - `video-dropped-frame-keyframe-round7-brief.md` (R1 is a desk check, R2 optional)
 
@@ -108,6 +109,7 @@ by `bssid-round1-results.md` and its addendum.
 | `video-pipeline-stack` | **CLOSED** | video-pipeline-stack-round2-results.md; work now lives on fix/video-stack, tested under the release-next thread. Superseded here. |
 | `video-dropped-frame-keyframe` | **QUEUED** | video-dropped-frame-keyframe-round7-brief.md; R1 is a desk check, no rig time; R2 optional. Fix already in the upstream PR. |
 | `audio-focus` | **QUEUED** | audio-focus-round11-brief.md; queued, no round run yet. |
+| `audio-sink-jitter` | **QUEUED** | audio-sink-jitter-round1-brief.md; candidate `0bd7782d`, 2 commits on main, gate 1905/0. Sink re-bank and ms-based watermarks, plus Part G, the local player taking the sound back at a prompt. |
 | `usb-device-diagnostics` | **DONE** | usb-device-diagnostics-round5-results.md; round 5 PASS, Direct Boot fix works, branch PR-ready. R6 (WiFi/BT locked-defer) stays hardware-unverified. |
 | `usb-session-teardown` | **DONE** | usb-session-teardown-round1-results.md; diagnosis complete, attributed to Android Auto's own headunit server tearing down on any USB port event. Nothing queued. |
 | `audio-start-and-teardown` | **DONE** | audio-start-and-teardown-round1-results.md; audio half validated, WiFi Direct commit dropped from branch. Blocks mic-uplink round1 M1 (CarKeyReceiver trigger not delivered). |
