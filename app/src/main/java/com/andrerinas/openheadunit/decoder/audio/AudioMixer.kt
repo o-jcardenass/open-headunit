@@ -21,7 +21,12 @@ import java.util.concurrent.atomic.AtomicBoolean
  */
 class AudioMixer(
     private val stream: Int = AudioManager.STREAM_MUSIC,
-    private val attachHwDspEqualizer: Boolean = false
+    private val attachHwDspEqualizer: Boolean = false,
+    /**
+     * The user's setting, uncapped. One track serves every channel, so it is sized for the deepest
+     * consumer; the per-channel caps live on the per-channel banks, where they cost nobody else.
+     */
+    private val audioLatencyMultiplier: Int = 8
 ) {
 
     companion object {
@@ -35,14 +40,17 @@ class AudioMixer(
         // Mix cycle interval in ms — balance between latency and CPU usage
         private const val MIX_INTERVAL_MS = 20L
 
-        // Samples per mix cycle (per channel): 48000 * 0.020 = 960 samples
+        // Output frames drained per mix cycle: 48000 * 0.020 = 960 frames
         private const val SAMPLES_PER_CYCLE = (OUTPUT_SAMPLE_RATE * MIX_INTERVAL_MS / 1000).toInt()
 
-        // Frames per cycle (stereo): 960 * 2 = 1920 shorts
-        private const val FRAMES_PER_CYCLE = SAMPLES_PER_CYCLE * OUTPUT_CHANNELS
+        // The same cycle counted in shorts, which is what the channel rings hold: 960 * 2 = 1920.
+        private const val SHORTS_PER_CYCLE = SAMPLES_PER_CYCLE * OUTPUT_CHANNELS
 
-        // Buffer size multiplier for AudioTrack (8x mix cycle for safety)
-        private const val BUFFER_MULTIPLIER = 8
+        // Channel ring capacity in shorts, and the same figure in output frames.
+        private const val RING_SHORTS = 96000
+        private const val RING_FRAMES = RING_SHORTS / OUTPUT_CHANNELS
+
+        private const val BYTES_PER_OUTPUT_FRAME = OUTPUT_CHANNELS * 2
     }
 
     /**
@@ -68,14 +76,37 @@ class AudioMixer(
     // Per-channel gain (0.0 to 1.0+)
     private val channelGains = ConcurrentHashMap<Int, Float>()
 
+    // Frames to bank before a channel plays. Derived from the chunks that channel actually
+    // arrives in: a target under one chunk plus one drain re-banks forever. See
+    // AudioJitterBufferPolicy.
+    private val channelTargetShorts = ConcurrentHashMap<Int, Int>()
+
+    // Largest chunk seen on a channel, in output shorts, which is what the target is sized from.
+    private val channelChunkShorts = ConcurrentHashMap<Int, Int>()
+
+    // The latency setting as it reaches each channel: capped for the prompt channels, raw for media.
+    private val channelMultipliers = ConcurrentHashMap<Int, Int>()
+
+    // Cycles a channel played silence mid-stream because it had run out. The instrument the mixer
+    // never had: padding with zeros means the AudioTrack itself never underruns, so every framework
+    // counter reads zero while the user hears gaps.
+    //
+    // Only counted once a channel has played, so the opening bank is not reported as a stutter. A
+    // channel registered at setup and never sent anything used to score one of these per mix cycle:
+    // 269 in the first window of a healthy run, for a sink that had no data yet.
+    private val channelSilentCycles = ConcurrentHashMap<Int, Long>()
+    private val channelRebanks = ConcurrentHashMap<Int, Long>()
+    private val channelHasPlayed = ConcurrentHashMap<Int, Boolean>()
+    private val channelOpeningBankCycles = ConcurrentHashMap<Int, Long>()
+
     // Mixing thread
     private var mixThread: Thread? = null
     private val running = AtomicBoolean(false)
 
     // Pre-allocated buffers for the mix loop to avoid GC allocation pressure
-    private val mixBuffer = IntArray(FRAMES_PER_CYCLE)
-    private val tempChannelBuffer = ShortArray(FRAMES_PER_CYCLE)
-    private val outputBuffer = ShortArray(FRAMES_PER_CYCLE)
+    private val mixBuffer = IntArray(SHORTS_PER_CYCLE)
+    private val tempChannelBuffer = ShortArray(SHORTS_PER_CYCLE)
+    private val outputBuffer = ShortArray(SHORTS_PER_CYCLE)
 
     // Reusable buffers for the feed thread(s) to avoid GC allocation pressure.
     // Since feed() is called from different AudioWriteThread instances concurrently,
@@ -113,7 +144,9 @@ class AudioMixer(
         val channelConfig = AudioFormat.CHANNEL_OUT_STEREO
         val dataFormat = AudioFormat.ENCODING_PCM_16BIT
         val minBufferSize = AudioTrack.getMinBufferSize(OUTPUT_SAMPLE_RATE, channelConfig, dataFormat)
-        val bufferSize = maxOf(minBufferSize, FRAMES_PER_CYCLE * 2 * BUFFER_MULTIPLIER)
+        val bufferSize = AudioBufferSizingPolicy.requestedBytes(
+            minBufferSize, audioLatencyMultiplier, OUTPUT_SAMPLE_RATE, BYTES_PER_OUTPUT_FRAME
+        )
 
         try {
             audioTrack = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -170,7 +203,16 @@ class AudioMixer(
             }, "AudioMixer-Thread")
             mixThread?.start()
 
-            AppLog.i("$TAG: Started (bufferSize=$bufferSize, minBuffer=$minBufferSize)")
+            // What the unit actually gave us, not what was asked for: setBufferSizeInBytes is a
+            // request the framework may clamp, and no log could say what landed.
+            val capacity = capacityFrames()
+            val effective = effectiveFrames()
+            AppLog.i(
+                "$TAG: Started (asked $bufferSize bytes = ${msOf(bufferSize / BYTES_PER_OUTPUT_FRAME)}ms, " +
+                    "minBuffer=$minBufferSize, capacity=$capacity frames (${msOf(capacity)}ms), " +
+                    "effective=$effective frames (${msOf(effective)}ms), " +
+                    "latencyMultiplier=$audioLatencyMultiplier)"
+            )
         } catch (e: Exception) {
             AppLog.e("$TAG: Failed to start AudioTrack or mixer thread", e)
         }
@@ -213,14 +255,103 @@ class AudioMixer(
     /**
      * Register a channel with its audio parameters.
      */
-    fun registerChannel(channel: Int, sampleRate: Int, channelCount: Int) {
-        channelConfigs[channel] = ChannelConfig(sampleRate, channelCount)
-        channelBuffers.putIfAbsent(channel, ShortCircularBuffer(96000)) // fits ~1s at 48kHz stereo
+    fun registerChannel(
+        channel: Int,
+        sampleRate: Int,
+        channelCount: Int,
+        latencyMultiplier: Int = AudioJitterBufferPolicy.ANCHOR_MULTIPLIER
+    ) {
+        val config = ChannelConfig(sampleRate, channelCount)
+        channelMultipliers[channel] = latencyMultiplier
+        channelConfigs[channel] = config
+        channelBuffers.putIfAbsent(channel, ShortCircularBuffer(RING_SHORTS)) // ~1s at 48kHz stereo
         channelPreRolling[channel] = true
         channelGains.putIfAbsent(channel, 1.0f)
+        channelSilentCycles[channel] = 0L
+        channelRebanks[channel] = 0L
+        channelHasPlayed[channel] = false
+        channelOpeningBankCycles[channel] = 0L
+        channelChunkShorts[channel] = 0
+        // Seeded at one drain, so the target starts at the time-based figure and feed() raises it
+        // to whatever this channel is really sent. Assuming a large chunk here would delay a spoken
+        // prompt by a third of a second on a guess.
+        noteChunkShorts(channel, SHORTS_PER_CYCLE)
 
-        AppLog.i("$TAG: Registered channel $channel (sampleRate=$sampleRate, channels=$channelCount)")
+        val target = channelTargetShorts[channel] ?: SHORTS_PER_CYCLE
+        AppLog.i(
+            "$TAG: Registered channel $channel (sampleRate=$sampleRate, channels=$channelCount, " +
+                "latencyMultiplier=$latencyMultiplier, " +
+                "bank ${msOf(target / OUTPUT_CHANNELS)}ms before playing)"
+        )
     }
+
+    /** Output shorts one [chunkBytes] message of this channel's format becomes after resampling. */
+    private fun outputShortsFor(config: ChannelConfig, chunkBytes: Int): Int {
+        val inputBytesPerFrame = (config.channelCount * 2).coerceAtLeast(1)
+        val inputFrames = chunkBytes / inputBytesPerFrame
+        val rate = config.sampleRate.coerceAtLeast(1)
+        val outputFrames = (inputFrames.toLong() * OUTPUT_SAMPLE_RATE / rate).toInt()
+        return outputFrames * OUTPUT_CHANNELS
+    }
+
+    /**
+     * Raise this channel's target if a larger chunk turns up. Only ever raises: a short tail at the
+     * end of a prompt is not evidence the stream got easier.
+     */
+    private fun noteChunkShorts(channel: Int, chunkShorts: Int) {
+        if (chunkShorts <= 0) return
+        val seen = channelChunkShorts[channel] ?: 0
+        if (chunkShorts <= seen) return
+        channelChunkShorts[channel] = chunkShorts
+        val targetFrames = AudioJitterBufferPolicy.targetFrames(
+            sampleRateInHz = OUTPUT_SAMPLE_RATE,
+            arrivalChunkFrames = chunkShorts / OUTPUT_CHANNELS,
+            drainQuantumFrames = SAMPLES_PER_CYCLE,
+            capacityFrames = RING_FRAMES,
+            latencyMultiplier = channelMultipliers[channel] ?: AudioJitterBufferPolicy.ANCHOR_MULTIPLIER
+        )
+        channelTargetShorts[channel] = (targetFrames * OUTPUT_CHANNELS).coerceAtLeast(SHORTS_PER_CYCLE)
+    }
+
+    private fun msOf(frames: Int): Long = frames.toLong() * 1000L / OUTPUT_SAMPLE_RATE
+
+    /**
+     * Frames the output track can hold at all. `getBufferSizeInFrames()` answers the effective size
+     * rather than the capacity, so the two are read apart rather than one printed as the other.
+     */
+    private fun capacityFrames(): Int {
+        val track = audioTrack ?: return 0
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            val frames = try { track.bufferCapacityInFrames } catch (e: Exception) { 0 }
+            if (frames > 0) return frames
+        }
+        return effectiveFrames()
+    }
+
+    /** Frames the framework will keep filled, which is at most the capacity. */
+    private fun effectiveFrames(): Int {
+        val track = audioTrack ?: return 0
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            try { track.bufferSizeInFrames } catch (e: Exception) { 0 }
+        } else {
+            0
+        }
+    }
+
+    /** Output frames this channel banks before it plays. */
+    fun targetFramesFor(channel: Int): Int =
+        (channelTargetShorts[channel] ?: SHORTS_PER_CYCLE) / OUTPUT_CHANNELS
+
+    /** Cycles this channel spent silent mid-stream, after it had started playing. */
+    fun silentCyclesFor(channel: Int): Long = channelSilentCycles[channel] ?: 0L
+
+
+    /** Times this channel fell under its target and had to bank again. */
+    fun rebanksFor(channel: Int): Long = channelRebanks[channel] ?: 0L
+
+    /** Output frames this channel is holding and has not yet been mixed. */
+    fun depthFramesFor(channel: Int): Int =
+        (channelBuffers[channel]?.size() ?: 0) / OUTPUT_CHANNELS
 
     /**
      * Unregister a channel (e.g. on session end).
@@ -230,6 +361,13 @@ class AudioMixer(
         channelBuffers.remove(channel)
         channelPreRolling.remove(channel)
         channelGains.remove(channel)
+        channelTargetShorts.remove(channel)
+        channelMultipliers.remove(channel)
+        channelChunkShorts.remove(channel)
+        channelSilentCycles.remove(channel)
+        channelRebanks.remove(channel)
+        channelHasPlayed.remove(channel)
+        channelOpeningBankCycles.remove(channel)
         AppLog.i("$TAG: Unregistered channel $channel")
     }
 
@@ -242,6 +380,8 @@ class AudioMixer(
         val config = channelConfigs[channel] ?: return
         val buffer = channelBuffers[channel] ?: return
         if (length <= 0) return
+
+        noteChunkShorts(channel, outputShortsFor(config, length))
 
         val inputShortsSize = length / 2
         if (inputShortsSize <= 0) return
@@ -369,29 +509,53 @@ class AudioMixer(
                 val gain = channelGains[channel] ?: 1.0f
                 var isPreRolling = channelPreRolling[channel] ?: true
 
+                // Sized from the chunks this channel arrives in. Three mix cycles used to be the
+                // target, which is 60ms against a 42.7ms message: the trough fell under one cycle
+                // once per arrival and the channel re-banked forever, on a link with no jitter.
+                val target = channelTargetShorts[channel] ?: SHORTS_PER_CYCLE
+
                 if (isPreRolling) {
-                    // Check if buffer has accumulated enough samples (e.g., 3 frames = 60ms) to start playing
-                    if (buffer.size() >= FRAMES_PER_CYCLE * 3) {
+                    if (buffer.size() >= target) {
                         channelPreRolling[channel] = false
                         isPreRolling = false
                     } else {
-                        // Keep pre-rolling, play silence for this channel
+                        // Still banking, so this channel contributes silence to the mix. Before it
+                        // has ever played that is the opening bank, which nobody is listening
+                        // through yet; after it, it is a gap.
+                        if (channelHasPlayed[channel] == true) {
+                            channelSilentCycles[channel] = (channelSilentCycles[channel] ?: 0L) + 1L
+                        } else {
+                            channelOpeningBankCycles[channel] =
+                                (channelOpeningBankCycles[channel] ?: 0L) + 1L
+                        }
                         continue
                     }
                 }
 
                 // Double check if we still have enough samples for a complete cycle to prevent underruns
-                if (buffer.size() >= FRAMES_PER_CYCLE) {
-                    val read = buffer.read(tempChannelBuffer, 0, FRAMES_PER_CYCLE)
+                if (buffer.size() >= SHORTS_PER_CYCLE) {
+                    val read = buffer.read(tempChannelBuffer, 0, SHORTS_PER_CYCLE)
                     if (read > 0) {
                         hasData = true
+                        if (channelHasPlayed[channel] != true) {
+                            channelHasPlayed[channel] = true
+                            val bankedMs = (channelOpeningBankCycles[channel] ?: 0L) * MIX_INTERVAL_MS
+                            AppLog.i(
+                                "$TAG: channel $channel started playing after banking for ${bankedMs}ms " +
+                                    "- silentCycles counts gaps from here"
+                            )
+                        }
                         for (i in 0 until read) {
                             mixBuffer[i] += (tempChannelBuffer[i] * gain).toInt()
                         }
                     }
                 } else {
-                    // Buffer underrun: enter pre-rolling state again to let the buffer refill
+                    // Ran dry mid-stream. Bank again rather than mix a partial cycle, and count it:
+                    // this is the only place a mixer stutter is visible, because the output track
+                    // is padded with zeros and so never underruns itself.
                     channelPreRolling[channel] = true
+                    channelSilentCycles[channel] = (channelSilentCycles[channel] ?: 0L) + 1L
+                    channelRebanks[channel] = (channelRebanks[channel] ?: 0L) + 1L
                 }
             }
 
@@ -404,7 +568,7 @@ class AudioMixer(
             var written = 0
             if (track != null) {
                 try {
-                    written = track.write(outputBuffer, 0, FRAMES_PER_CYCLE)
+                    written = track.write(outputBuffer, 0, SHORTS_PER_CYCLE)
                 } catch (e: Exception) {
                     AppLog.e(TAG, "Error writing to AudioTrack", e)
                 }

@@ -2435,8 +2435,11 @@ class SettingsFragment : Fragment() {
             nameResId = R.string.audio_latency_multiplier,
             value = "${pendingAudioLatencyMultiplier}x",
             onClick = { _ ->
-                val options = arrayOf("1x (Lowest Latency)", "2x (Low Latency)", "4x (High Latency)", "8x (Very High Latency)")
-                val values = intArrayOf(1, 2, 4, 8)
+                val options = arrayOf(
+                    "1x (shallowest cushion)", "2x (shallow)", "4x (medium)",
+                    "8x (deep)", "16x (deepest, default)"
+                )
+                val values = intArrayOf(1, 2, 4, 8, 16)
                 val currentIndex = values.indexOf(pendingAudioLatencyMultiplier ?: 8).coerceAtLeast(0)
                 AlertDialog.Builder(requireContext())
                     .setTitle(R.string.audio_latency_multiplier)

@@ -985,8 +985,11 @@ class Settings(private val context: Context) {
         get() = prefs.getInt("mic-input-source", 0) // Default: DEFAULT
         set(value) { prefs.edit().putInt("mic-input-source", value).apply() }
 
+    // 16 banks 400ms, which is AudioJitterBufferPolicy's ceiling and the only setting measured to
+    // produce no audible stutter on the rig's phone-to-phone pairing. Nothing else writes this key,
+    // so a user who saved 8 keeps 8 and one who never opened the picker moves.
     var audioLatencyMultiplier: Int
-        get() = prefs.getInt("audio-latency-multiplier", 8)
+        get() = prefs.getInt("audio-latency-multiplier", 16)
         set(value) { prefs.edit().putInt("audio-latency-multiplier", value).apply() }
 
     // Chunks the audio thread may hold before it starts dropping, or 0 for no limit. Bounded by

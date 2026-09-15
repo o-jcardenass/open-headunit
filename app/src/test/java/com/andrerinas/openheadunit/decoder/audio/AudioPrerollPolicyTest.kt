@@ -6,49 +6,11 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 /**
- * Pins the target on both a deep and a shallow buffer, and the two ways the wait must end early: a
- * stream too short to reach the target, and a chunk whose write would deadlock the thread that
- * starts playback.
+ * Pins the two ways the wait must end early: a stream too short to reach the target, and a chunk
+ * whose write would deadlock the thread that starts playback. How deep the target is belongs to
+ * [AudioJitterBufferPolicy] and is tested there.
  */
 class AudioPrerollPolicyTest {
-
-    private val mediaRate = 48_000
-    private val speechRate = 16_000
-
-    /** 48 kHz stereo, the multiplier-8 media buffer measured on the reporter's unit. */
-    private val mediaBufferFrames = 33_536
-
-    @Test
-    fun `the target is the time ceiling on an ordinarily deep buffer`() {
-        // 48000 * 200ms = 9600 frames, well inside three quarters of 33536.
-        assertEquals(9_600, AudioPrerollPolicy.targetFrames(mediaRate, mediaBufferFrames))
-    }
-
-    @Test
-    fun `a shallow buffer caps the target below the time ceiling`() {
-        // Multiplier 1 at 16 kHz mono: 1408 frames. The time ceiling of 3200 exceeds the track, so
-        // the fill share has to win or the target is unreachable.
-        val target = AudioPrerollPolicy.targetFrames(speechRate, 1_408)
-        assertEquals(1_056, target)
-        assertTrue(target < 1_408)
-    }
-
-    @Test
-    fun `the target always leaves room for the write that triggers it`() {
-        // The write that starts playback must still fit. A target at capacity would block in
-        // write() waiting for room only play() can make, from the same thread.
-        for (frames in intArrayOf(64, 512, 1_408, 4_192, 33_536)) {
-            val target = AudioPrerollPolicy.targetFrames(mediaRate, frames)
-            assertTrue("target $target must stay under capacity $frames", target < frames)
-        }
-    }
-
-    @Test
-    fun `a nonsense capacity still yields a playable target`() {
-        assertTrue(AudioPrerollPolicy.targetFrames(mediaRate, 0) > 0)
-        assertTrue(AudioPrerollPolicy.targetFrames(mediaRate, -1) > 0)
-        assertTrue(AudioPrerollPolicy.targetFrames(0, mediaBufferFrames) > 0)
-    }
 
     @Test
     fun `an empty track does not start`() {
@@ -91,14 +53,43 @@ class AudioPrerollPolicyTest {
     fun `an ordinary stream reaches its target by fill and not by deadline`() {
         // Audio arrives at real time, so the target takes its own worth of wall clock. A deadline
         // inside that would decide every start and the banked depth would be arbitrary.
-        assertTrue(AudioPrerollPolicy.MAX_WAIT_MS > AudioPrerollPolicy.TARGET_MS)
+        assertTrue(AudioPrerollPolicy.MAX_WAIT_MS > AudioJitterBufferPolicy.TARGET_MS)
+    }
+}
+
+/** The channel-conditioned deadline, added after a starved link started a music sink at 42 ms. */
+class AudioPrerollPolicyDeadlineTest {
+
+    @Test
+    fun `a music sink waits longer than a prompt before starting short`() {
+        assertTrue(
+            AudioPrerollPolicy.maxWaitMs(isMediaSink = true) >
+                AudioPrerollPolicy.maxWaitMs(isMediaSink = false)
+        )
     }
 
     @Test
-    fun `the banked depth is what the latency multiplier was asked to buy`() {
-        // Below the ~87 ms device minimum the setting cannot cushion anything.
-        assertTrue(AudioPrerollPolicy.TARGET_MS > 87)
-        // Above ~250 ms a resume stops feeling attached to the press that caused it.
-        assertTrue(AudioPrerollPolicy.TARGET_MS <= 250)
+    fun `the prompt deadline is unchanged, so a blip still plays`() {
+        assertEquals(AudioPrerollPolicy.MAX_WAIT_MS, AudioPrerollPolicy.maxWaitMs(false))
+        assertTrue(AudioPrerollPolicy.shouldStart(1, 0, 9600, AudioPrerollPolicy.MAX_WAIT_MS))
+    }
+
+    @Test
+    fun `a music sink does not start at 2048 frames where a prompt would`() {
+        val elapsed = AudioPrerollPolicy.MAX_WAIT_MS + 58 // #979's measured 358ms
+        val mediaWait = AudioPrerollPolicy.maxWaitMs(true)
+        assertTrue(AudioPrerollPolicy.shouldStart(2048, 0, 9600, elapsed, AudioPrerollPolicy.MAX_WAIT_MS))
+        assertFalse(AudioPrerollPolicy.shouldStart(2048, 0, 9600, elapsed, mediaWait))
+    }
+
+    @Test
+    fun `a music sink still starts rather than staying silent forever`() {
+        val mediaWait = AudioPrerollPolicy.maxWaitMs(true)
+        assertTrue(AudioPrerollPolicy.shouldStart(2048, 0, 9600, mediaWait, mediaWait))
+    }
+
+    @Test
+    fun `reaching the target still wins over either deadline`() {
+        assertTrue(AudioPrerollPolicy.shouldStart(9600, 0, 9600, 0, AudioPrerollPolicy.maxWaitMs(true)))
     }
 }

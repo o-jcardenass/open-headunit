@@ -30,8 +30,12 @@ class AudioTrackWrapper(
     private val audioQueueCapacity: Int = 0,
     private val mixer: AudioMixer? = null,
     private val channelId: Int = -1,
-    private val attachHwDspEqualizer: Boolean = false
+    private val attachHwDspEqualizer: Boolean = false,
+    private val isMediaSink: Boolean = false
 ) : Thread() {
+
+    /** The codec this sink was built for. See [AudioSinkSetupPolicy]. */
+    fun builtAsAac(): Boolean = isAac
 
     private data class AudioChunk(
         val data: ByteArray,
@@ -55,8 +59,25 @@ class AudioTrackWrapper(
     private var decoder: MediaCodec? = null
     private var codecHandlerThread: HandlerThread? = null
     private val freeInputBuffers = LinkedBlockingQueue<Int>()
-    private val writeExecutor = Executors.newSingleThreadExecutor()
+    // Named and raised: this is the thread that feeds the speaker on the AAC path, and it used to
+    // run at default priority while the PCM path wrote from URGENT_AUDIO.
+    private val writeExecutor = Executors.newSingleThreadExecutor { r ->
+        Thread({
+            Process.setThreadPriority(Process.THREAD_PRIORITY_URGENT_AUDIO)
+            r.run()
+        }, "AacAudioWrite")
+    }
     private val writeSemaphore = java.util.concurrent.Semaphore(3)
+
+    /**
+     * How long the codec callback waits for a write slot before shedding a frame.
+     *
+     * One AAC access unit. Long enough to ride out the slow first writes onto a track that has not
+     * started yet, short enough that the callback thread cannot hold up its own input buffers.
+     */
+    private val aacWriteWaitMs: Long =
+        if (sampleRateInHz > 0) (1024L * 1000L / sampleRateInHz).coerceAtLeast(5L) else 20L
+    private var droppedAacOutputs = 0L
     private var equalizer: Equalizer? = null
 
     // AAC decoder health. A failed or dead decoder drops its frames rather than playing the
@@ -69,11 +90,14 @@ class AudioTrackWrapper(
     private var aacFramesQueued = 0L
     private val trackChannelCount: Int = channelCount
 
-    // Limit queue capacity to provide backpressure to the network thread if audio playback is slow
-    private val dataQueue = if (audioQueueCapacity > 0)
-        LinkedBlockingQueue<AudioChunk>(audioQueueCapacity)
-    else
-        LinkedBlockingQueue<AudioChunk>()
+    // Unbounded underneath and bounded by SinkQueueOverflowPolicy above. The bound is a duration
+    // rather than a count, and a chunk's duration is not known until one arrives, which a
+    // LinkedBlockingQueue's construction-time capacity cannot express. Holding the bound here is
+    // also what lets a full queue shed its stale end instead of refusing the newest audio.
+    private val dataQueue = LinkedBlockingQueue<AudioChunk>()
+
+    /** Chunks the queue may hold. Zero is the user asking for no limit. */
+    private var queueCapacityChunks = SinkQueueOverflowPolicy.capacityChunks(audioQueueCapacity, 0)
     private val audioBufferPool = LinkedBlockingQueue<ByteArray>()
 
     @Volatile
@@ -126,8 +150,42 @@ class AudioTrackWrapper(
     /** Byte size handed to the AudioTrack, recorded by [createAudioTrack] for the pre-roll target. */
     private var trackBufferBytes: Int = 0
 
-    /** Frames to bank before [android.media.AudioTrack.play]. See [AudioPrerollPolicy]. */
+    /** Frames to bank before [android.media.AudioTrack.play]. See [AudioJitterBufferPolicy]. */
     private var prerollTargetFrames: Int = 1
+
+    /** Frames to bank when a playing sink has to bank again. Deeper than the opening bank. */
+    private var rebankTargetFrames: Int = 1
+
+    /** What the track can hold at all, which is not what [createAudioTrack] asked for. */
+    private var capacityFrames: Int = 0
+
+    /** What the framework will keep filled, which is not the capacity either. */
+    private var effectiveFrames: Int = 0
+
+    /** Largest chunk this sink has been sent, which is what the target has to clear. */
+    private var observedChunkFrames: Int = 0
+
+    // Underrun accounting and the re-bank it drives. A drained track never refills on its own:
+    // audio arrives at real time, so without this the first underrun is permanent.
+    private var underrunsTotal = 0L
+    private var lastUnderrunCount = 0
+    private var rebanksTotal = 0L
+    private var lastRebankMs = 0L
+    private val rebankTimesMs = java.util.ArrayDeque<Long>()
+    @Volatile private var rebanking = false
+    // The resume deadline, measured from the first audio to arrive after the park rather than from
+    // the park: a sink can sit parked for minutes, and a prompt shorter than the target still plays.
+    @Volatile private var rebankingSinceMs = 0L
+    private var framesAtRebank = 0L
+    private var droppedChunksTotal = 0L
+    private var saidGivenUp = false
+    private var saidFragile = false
+
+    // Steps this sink has deepened its own cushion by. In memory for the sink's life and never
+    // written to settings: it describes this link, not this head unit.
+    private var deepenSteps = 0
+
+    private val health = AudioSinkHealthMonitor(channelName(), sampleRateInHz)
 
     /**
      * When audio first reached this track, for the pre-roll deadline.
@@ -150,7 +208,7 @@ class AudioTrackWrapper(
         }
 
         if (mixer != null) {
-            mixer.registerChannel(channelId, sampleRateInHz, channelCount)
+            mixer.registerChannel(channelId, sampleRateInHz, channelCount, audioLatencyMultiplier)
             mixer.setChannelGain(channelId, gain)
         } else {
             setVolume(gain)
@@ -158,8 +216,33 @@ class AudioTrackWrapper(
                 attachHwDspEqualizerQuietly(track.audioSessionId)
                 // Deliberately no play() here: started empty, the track underran on every media
                 // start. [AudioPrerollPolicy] decides when enough is banked to begin.
-                prerollTargetFrames =
-                    AudioPrerollPolicy.targetFrames(sampleRateInHz, trackCapacityFrames(track))
+                capacityFrames = trackCapacityFrames(track)
+                effectiveFrames = trackEffectiveFrames(track)
+                // Left at zero so the target starts at the time-based figure; write() raises it to
+                // whatever this sink is really sent. A guessed chunk would delay a prompt for
+                // nothing.
+                observedChunkFrames = 0
+                recomputeTarget()
+                AppLog.i(
+                    "AudioTrackWrapper: ${channelName()} can hold $capacityFrames frames " +
+                        "(${msOf(capacityFrames.toLong())}ms) of the $trackBufferBytes bytes asked for, " +
+                        "keeps ${msOf(effectiveFrames.toLong())}ms filled, banking " +
+                        "${msOf(prerollTargetFrames.toLong())}ms before playing and " +
+                        "${msOf(rebankTargetFrames.toLong())}ms after an underrun"
+                )
+                // The target is capped by the buffer, so a target short of the time-based figure
+                // means the framework granted less than this sink needs however it is fed.
+                val wantedFrames = AudioJitterBufferPolicy.framesFor(
+                    sampleRateInHz, AudioJitterBufferPolicy.targetMsFor(audioLatencyMultiplier)
+                )
+                if (prerollTargetFrames < wantedFrames) {
+                    AppLog.w(
+                        "AudioTrackWrapper: ${channelName()} was granted only " +
+                            "${msOf(capacityFrames.toLong())}ms, so it can bank " +
+                            "${msOf(prerollTargetFrames.toLong())}ms of the " +
+                            "${msOf(wantedFrames.toLong())}ms it wants - this sink will be fragile"
+                    )
+                }
             }
         }
 
@@ -210,20 +293,38 @@ class AudioTrackWrapper(
                             if (!isRunning) return
                             val outputBuffer = codec.getOutputBuffer(index)
                             if (outputBuffer != null && info.size > 0) {
-                                val chunk = ByteArray(info.size)
-                                outputBuffer.position(info.offset)
-                                outputBuffer.get(chunk)
-                                outputBuffer.clear()
-
-                                writeSemaphore.acquire()
-                                // Write to AudioTrack or Mixer using executor
-                                writeExecutor.submit {
+                                val size = info.size
+                                // Blocking here stalls onInputBufferAvailable too, which is the same
+                                // thread: that starves freeInputBuffers and makes queueInput drop on
+                                // its timeout. Wait one frame's worth, then shed rather than jam:
+                                // shedding outright discarded the first writes of every AAC session,
+                                // which are slow because the track is still stopped and banking.
+                                if (writeSemaphore.tryAcquire(aacWriteWaitMs, TimeUnit.MILLISECONDS)) {
+                                    val chunk = obtainAudioBuffer(size)
+                                    outputBuffer.position(info.offset)
+                                    outputBuffer.get(chunk, 0, size)
+                                    outputBuffer.clear()
                                     try {
-                                        writeToTrack(chunk)
-                                    } catch (e: Exception) {
-                                        AppLog.e("Error writing decoded AAC to AudioTrack", e)
-                                    } finally {
+                                        writeExecutor.submit {
+                                            try {
+                                                writeToTrack(chunk, size)
+                                            } catch (e: Exception) {
+                                                AppLog.e("Error writing decoded AAC to AudioTrack", e)
+                                            } finally {
+                                                recycleAudioBuffer(chunk)
+                                                writeSemaphore.release()
+                                            }
+                                        }
+                                    } catch (e: java.util.concurrent.RejectedExecutionException) {
+                                        // The teardown got here first. The frame is the tail of a
+                                        // stream that is ending, so drop it quietly.
+                                        recycleAudioBuffer(chunk)
                                         writeSemaphore.release()
+                                    }
+                                } else {
+                                    droppedAacOutputs++
+                                    if (droppedAacOutputs == 1L) {
+                                        AppLog.w("AudioTrackWrapper: the AAC sink cannot keep up, shedding decoded frames - see shed= on this channel's sink line for how many")
                                     }
                                 }
                             }
@@ -335,6 +436,226 @@ class AudioTrackWrapper(
         return pts
     }
 
+    private fun channelName(): String =
+        if (channelId < 0) "AUDIO" else com.andrerinas.openheadunit.aap.protocol.Channel.name(channelId)
+
+    private fun msOf(frames: Long): Long =
+        if (sampleRate <= 0) 0L else frames * 1000L / sampleRate
+
+    /** The target, sized against the largest chunk this sink has actually been sent. */
+    private fun recomputeTarget() {
+        prerollTargetFrames = AudioJitterBufferPolicy.targetFrames(
+            sampleRateInHz = sampleRate,
+            arrivalChunkFrames = observedChunkFrames,
+            // The track drains continuously rather than in cycles, so one frame is the quantum.
+            drainQuantumFrames = 1,
+            capacityFrames = capacityFrames,
+            latencyMultiplier = audioLatencyMultiplier
+        )
+        // Applied here rather than at the re-bank, so a later chunk-size change cannot quietly undo
+        // a depth this sink has already proved it needs.
+        prerollTargetFrames = AudioJitterBufferPolicy.deepenedTargetFrames(
+            prerollTargetFrames, sampleRate, capacityFrames, deepenSteps
+        )
+        rebankTargetFrames = AudioJitterBufferPolicy.rebankTargetFrames(
+            prerollTargetFrames, sampleRate, capacityFrames
+        )
+        queueCapacityChunks = SinkQueueOverflowPolicy.capacityChunks(
+            audioQueueCapacity,
+            SinkQueueOverflowPolicy.chunkDurationMs(observedChunkFrames, sampleRate)
+        )
+        // Asked once the real chunk size is known, which is the only point it can be answered. A
+        // track this small breaks up whatever the user sets, so it is a condition to report.
+        if (!saidFragile && observedChunkFrames > 0 && capacityFrames > 0 &&
+            !AudioJitterBufferPolicy.capacityIsSufficient(capacityFrames, observedChunkFrames, 1)
+        ) {
+            saidFragile = true
+            AppLog.w(
+                "AudioTrackWrapper: ${channelName()} can hold ${msOf(capacityFrames.toLong())}ms, " +
+                    "which cannot cover a ${msOf(observedChunkFrames.toLong())}ms arrival and a " +
+                    "cushion together - this sink will break up whatever the latency is set to"
+            )
+        }
+    }
+
+    /**
+     * Bank deeper from here on, because the cushion this sink was given keeps running out.
+     *
+     * The setting is the starting point, not the whole answer: a user who is stuttering will not
+     * find the picker, and round 2 measured the deep end fixing what they hear. Bounded so a link
+     * that is simply short cannot walk the audio behind the picture.
+     */
+    private fun maybeDeepenTarget() {
+        val before = prerollTargetFrames
+        deepenSteps++
+        recomputeTarget()
+        if (prerollTargetFrames <= before) {
+            // Already on the ceiling or on this buffer's fill share. Put the step back so the count
+            // stays the number of steps actually taken, and say nothing.
+            deepenSteps--
+            return
+        }
+        AppLog.i(
+            "AudioTrackWrapper: ${channelName()} keeps underrunning at " +
+                "${msOf(before.toLong())}ms, banking ${msOf(prerollTargetFrames.toLong())}ms from here"
+        )
+    }
+
+    /** Written but not yet heard. The head is a 32-bit counter that wraps, hence the mask. */
+    private fun depthFrames(): Long {
+        val track = audioTrack ?: return 0L
+        return try {
+            val played = track.playbackHeadPosition.toLong() and 0xFFFFFFFFL
+            (framesWritten - played).coerceAtLeast(0L)
+        } catch (e: Exception) {
+            0L
+        }
+    }
+
+    /**
+     * Underruns since the last call. `getUnderrunCount` is API 24 and this ships to 16, so below
+     * that a buffer that has run dry while playing is the same evidence.
+     */
+    private fun pollUnderruns(): Int {
+        val track = audioTrack ?: return 0
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return try {
+                val now = track.underrunCount
+                val delta = now - lastUnderrunCount
+                lastUnderrunCount = now
+                if (delta > 0) delta else 0
+            } catch (e: Exception) {
+                0
+            }
+        }
+        return if (playbackStarted.get() && framesWritten > 0 && depthFrames() == 0L) 1 else 0
+    }
+
+    private fun rebanksInLastMinute(nowMs: Long): Int {
+        while (rebankTimesMs.isNotEmpty() && nowMs - rebankTimesMs.peekFirst() > 60_000L) {
+            rebankTimesMs.pollFirst()
+        }
+        return rebankTimesMs.size
+    }
+
+    /**
+     * Rebuild the cushion after an underrun. Nothing else does: the writer never outruns real time,
+     * so a drained track stays drained for the rest of the session.
+     */
+    private fun maybeRebank(nowMs: Long) {
+        if (rebanking || !playbackStarted.get()) return
+        val track = audioTrack ?: return
+        val newUnderruns = pollUnderruns()
+        if (newUnderruns <= 0) return
+        underrunsTotal += newUnderruns
+
+        val since = if (lastRebankMs == 0L) Long.MAX_VALUE else nowMs - lastRebankMs
+        val inLastMinute = rebanksInLastMinute(nowMs)
+        if (AudioUnderrunRecoveryPolicy.shouldDeepen(inLastMinute)) maybeDeepenTarget()
+        if (!AudioUnderrunRecoveryPolicy.shouldRebank(newUnderruns, since, inLastMinute)) {
+            if (AudioUnderrunRecoveryPolicy.hasGivenUp(inLastMinute) && !saidGivenUp) {
+                saidGivenUp = true
+                AppLog.w(
+                    "AudioTrackWrapper: ${channelName()} has underrun through " +
+                        "${AudioUnderrunRecoveryPolicy.MAX_REBANKS_PER_MINUTE} re-banks in a minute - " +
+                        "the link is short of audio, so it is left to run shallow"
+                )
+            }
+            return
+        }
+
+        try {
+            // pause() keeps what is already buffered; stop() would discard it.
+            track.pause()
+            beginRebank()
+            lastRebankMs = nowMs
+            rebankTimesMs.addLast(nowMs)
+            rebanksTotal++
+            AppLog.i(
+                "AudioTrackWrapper: ${channelName()} underran, re-banking " +
+                    "${msOf(rebankTargetFrames.toLong())}ms (re-bank $rebanksTotal)"
+            )
+        } catch (e: Exception) {
+            AppLog.e("Failed to pause AudioTrack for a re-bank", e)
+            rebanking = false
+        }
+    }
+
+    /**
+     * Resume once the cushion is back, or once the same deadline the first start uses has passed.
+     * Called from both the writer and the run loop.
+     *
+     * The deadline is what plays a parked sink a nav prompt shorter than the target, which would
+     * otherwise sit in the buffer until some later stream filled it.
+     */
+    private fun maybeResumeAfterRebank(framesIncoming: Int = 0) {
+        if (!rebanking) return
+        val track = audioTrack ?: return
+        // Nothing new since the park is a sink the phone is not feeding, not a short stream.
+        if (framesWritten + framesIncoming - framesAtRebank <= 0L) return
+        val now = SystemClock.elapsedRealtime()
+        if (rebankingSinceMs == 0L) rebankingSinceMs = now
+        if (!AudioPrerollPolicy.shouldStart(
+                depthFrames(),
+                framesIncoming,
+                rebankTargetFrames,
+                now - rebankingSinceMs,
+                AudioPrerollPolicy.maxWaitMs(isMediaSink)
+            )
+        ) return
+        try {
+            track.play()
+            rebanking = false
+            AppLog.i(
+                "AudioTrackWrapper: ${channelName()} resumed with ${msOf(depthFrames())}ms banked " +
+                    "after ${now - rebankingSinceMs}ms"
+            )
+        } catch (e: Exception) {
+            AppLog.e("Failed to resume AudioTrack after a re-bank", e)
+            rebanking = false
+        }
+    }
+
+    /** Park the cushion: the deadline starts at the next audio, not here. See [rebankingSinceMs]. */
+    private fun beginRebank() {
+        rebanking = true
+        rebankingSinceMs = 0L
+        framesAtRebank = framesWritten
+    }
+
+    private fun sampleHealth(nowMs: Long) {
+        // On the mixer path this wrapper owns no AudioTrack, and the mixer pads a starved channel
+        // with zeros so the output track never underruns. Its silent cycles are the only evidence
+        // a listener's gap leaves anywhere.
+        val mix = mixer
+        val sample = if (mix != null) {
+            AudioSinkHealthMonitor.Sample(
+                silentCyclesTotal = mix.silentCyclesFor(channelId),
+                rebanksTotal = mix.rebanksFor(channelId),
+                droppedChunksTotal = droppedChunksTotal,
+                droppedFramesTotal = droppedAacChunks,
+                shedFramesTotal = droppedAacOutputs,
+                depthFrames = mix.depthFramesFor(channelId),
+                queuedChunks = dataQueue.size,
+                targetFrames = mix.targetFramesFor(channelId)
+            )
+        } else {
+            AudioSinkHealthMonitor.Sample(
+                underrunsTotal = underrunsTotal,
+                rebanksTotal = rebanksTotal,
+                droppedChunksTotal = droppedChunksTotal,
+                droppedFramesTotal = droppedAacChunks,
+                shedFramesTotal = droppedAacOutputs,
+                depthFrames = depthFrames().toInt(),
+                queuedChunks = dataQueue.size,
+                capacityFrames = capacityFrames,
+                effectiveFrames = effectiveFrames,
+                targetFrames = prerollTargetFrames
+            )
+        }
+        health.sample(nowMs, sample)?.let { AppLog.i("%s", it) }
+    }
+
     private fun writeToTrack(buffer: ByteArray) {
         writeToTrack(buffer, buffer.size)
     }
@@ -348,6 +669,7 @@ class AudioTrackWrapper(
             // Before the write, on whichever thread makes it: write() on a track that is not
             // playing blocks until only play() can make room, so a check after it is too late.
             maybeStartPlayback(size / bytesPerFrame)
+            maybeResumeAfterRebank(size / bytesPerFrame)
             val result = audioTrack?.write(buffer, 0, size) ?: 0
             if (result > 0) {
                 framesWritten += result / bytesPerFrame
@@ -374,7 +696,8 @@ class AudioTrackWrapper(
                 framesWritten,
                 framesIncoming,
                 prerollTargetFrames,
-                elapsed
+                elapsed,
+                AudioPrerollPolicy.maxWaitMs(isMediaSink)
             )
         ) return
 
@@ -401,6 +724,10 @@ class AudioTrackWrapper(
                 // The fill trigger lives in writeToTrack; this call carries only the deadline, so
                 // a stream too short to reach its target still gets played.
                 maybeStartPlayback(0)
+                val nowMs = SystemClock.elapsedRealtime()
+                maybeRebank(nowMs)
+                maybeResumeAfterRebank()
+                sampleHealth(nowMs)
                 if (chunk != null) {
                     try {
                         if (isAac) {
@@ -429,7 +756,11 @@ class AudioTrackWrapper(
             }
         }
         cleanup()
-        val dropped = if (droppedAacChunks > 0) " ($droppedAacChunks AAC frames dropped)" else ""
+        val dropped = if (droppedAacChunks + droppedAacOutputs > 0) {
+            " ($droppedAacChunks AAC frames dropped before decode, $droppedAacOutputs after)"
+        } else {
+            ""
+        }
         AppLog.i("AudioTrackWrapper thread finished.$dropped")
     }
 
@@ -538,7 +869,11 @@ class AudioTrackWrapper(
             if (bitDepth == 16) AudioFormat.ENCODING_PCM_16BIT else AudioFormat.ENCODING_PCM_8BIT
 
         val minBufferSize = AudioTrack.getMinBufferSize(sampleRateInHz, channelConfig, dataFormat)
-        val bufferSize = if (minBufferSize > 0) minBufferSize * multiplier else minBufferSize
+        // Floored rather than taken straight from the multiplier: a capacity under the jitter
+        // target cannot hold whatever the user set it to.
+        val bufferSize = AudioBufferSizingPolicy.requestedBytes(
+            minBufferSize, multiplier, sampleRateInHz, channelCount * (if (bitDepth == 16) 2 else 1)
+        )
 
         trackBufferBytes = bufferSize
 
@@ -619,8 +954,19 @@ class AudioTrackWrapper(
      * `setBufferSizeInBytes()` is a request the framework may clamp, and the pre-roll margin is the
      * only thing keeping a write off a not-yet-playing track from blocking on the thread that would
      * start it. Ask the track where the API allows; fall back to the requested size below M.
+     *
+     * `getBufferSizeInFrames()` answers the *effective* size rather than the capacity, so the two
+     * are read apart: this line used to print one under the other's name.
      */
     private fun trackCapacityFrames(track: AudioTrack): Int {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            val frames = try {
+                track.bufferCapacityInFrames
+            } catch (e: Exception) {
+                0
+            }
+            if (frames > 0) return frames
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val frames = try {
                 track.bufferSizeInFrames
@@ -630,6 +976,19 @@ class AudioTrackWrapper(
             if (frames > 0) return frames
         }
         return if (bytesPerFrame > 0) trackBufferBytes / bytesPerFrame else 0
+    }
+
+    /** Frames the framework will keep filled. Never above the capacity, and often below it. */
+    private fun trackEffectiveFrames(track: AudioTrack): Int {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val frames = try {
+                track.bufferSizeInFrames
+            } catch (e: Exception) {
+                0
+            }
+            if (frames > 0) return frames
+        }
+        return capacityFrames
     }
 
     private fun attachHwDspEqualizerQuietly(sessionId: Int) {
@@ -654,15 +1013,58 @@ class AudioTrackWrapper(
         try {
             data = obtainAudioBuffer(size)
             System.arraycopy(buffer, offset, data, 0, size)
-            val success = dataQueue.offer(AudioChunk(data, size), 5, TimeUnit.MILLISECONDS)
-            if (!success) {
-                recycleAudioBuffer(data)
-                AppLog.w("Audio queue is full, dropping audio frame to prevent stalling")
+            val chunkFrames = AudioJitterBufferPolicy.arrivalChunkFrames(size, bytesPerFrame)
+            if (chunkFrames > observedChunkFrames) {
+                observedChunkFrames = chunkFrames
+                recomputeTarget()
             }
+            shedStaleChunks()
+            dataQueue.offer(AudioChunk(data, size))
         } catch (e: InterruptedException) {
             data?.let { recycleAudioBuffer(it) }
             Thread.currentThread().interrupt()
             AppLog.w("Interrupted while putting audio data to queue")
+        }
+    }
+
+    /**
+     * Make room for one more chunk by shedding the oldest, which is what nobody will miss.
+     *
+     * Refusing the newest was the old behaviour and it is the wrong end: it leaves the sink further
+     * behind for exactly as long as the burst lasts. See [SinkQueueOverflowPolicy].
+     */
+    private fun shedStaleChunks() {
+        val capacity = queueCapacityChunks
+        if (capacity <= 0) return
+        while (dataQueue.size >= capacity) {
+            val stale = dataQueue.poll() ?: return
+            recycleAudioBuffer(stale.data)
+            droppedChunksTotal++
+            if (droppedChunksTotal == 1L) {
+                AppLog.w(
+                    "Audio queue is full at $capacity chunks, shedding the oldest to keep the " +
+                        "sink current - see dropped= on this channel's sink line for how many"
+                )
+            }
+        }
+    }
+
+    /**
+     * Park a sink the phone has stopped, keeping the track and any AAC decoder built.
+     *
+     * Android Auto stops the media sink on every pause and every assistant session, and rebuilding
+     * cost a fresh pre-roll and a drain each time. The re-bank path is what restarts it, so the
+     * cushion is rebuilt before anything is heard.
+     */
+    fun pauseForIdle() {
+        val track = audioTrack ?: return
+        if (!playbackStarted.get() || rebanking) return
+        try {
+            track.pause()
+            beginRebank()
+            AppLog.i("AudioTrackWrapper: ${channelName()} parked with ${msOf(depthFrames())}ms buffered")
+        } catch (e: Exception) {
+            AppLog.e("Failed to pause an idle AudioTrack", e)
         }
     }
 
@@ -680,8 +1082,14 @@ class AudioTrackWrapper(
         drainQueuedAudio()
         audioBufferPool.clear()
 
-        // 1. Stop the decoder to stop producing new output buffers
+        // 1. Stop the decoder, then quit the thread its callbacks run on.
+        //
+        // The order is the point. release() does not retract a callback message already posted to
+        // that looper, so with the thread still turning a frame could reach a write executor that
+        // had been shut down and throw RejectedExecutionException on every ordinary pause. Quit the
+        // thread first and nothing is left to submit.
         releaseDecoder()
+        quitCodecThread()
 
         // 2. Wait for AAC writes that were already submitted to the executor
         writeExecutor.shutdown()
@@ -754,9 +1162,6 @@ class AudioTrackWrapper(
         } catch (e: Exception) {
             AppLog.e("Error releasing audio track", e)
         }
-
-        // 5. Clean up the codec handler thread
-        quitCodecThread()
     }
 
     private fun obtainAudioBuffer(size: Int): ByteArray {

@@ -11,6 +11,7 @@ import com.andrerinas.openheadunit.aap.protocol.AudioConfigs
 import com.andrerinas.openheadunit.aap.protocol.Channel
 import com.andrerinas.openheadunit.aap.protocol.proto.Control
 import com.andrerinas.openheadunit.decoder.audio.AudioDecoder
+import com.andrerinas.openheadunit.decoder.audio.AudioSinkSetupPolicy
 import com.andrerinas.openheadunit.decoder.audio.AudioStreamCatalog
 import com.andrerinas.openheadunit.decoder.audio.PlaybackFocusPolicy
 import com.andrerinas.openheadunit.utils.AppLog
@@ -114,7 +115,10 @@ internal class AapAudio(
     private fun declineReason(): String = when {
         staticAudioFocus -> "static audio focus holds it instead"
         !enableAudioSink -> "the audio sink is off"
-        selfDefeatingLatched -> "taking it stops this phone's own playback (mode=$playbackFocusMode, learned)"
+        // The mode is asked first because only AUTO consults the latch. Asking the latch first read
+        // a persisted flag out to every mode, so a NEVER decline reported a reason it never used.
+        playbackFocusMode != PlaybackFocusPolicy.Mode.AUTO -> "mode=$playbackFocusMode"
+        selfDefeatingLatched -> "taking it stops this phone's own playback (mode=AUTO, learned)"
         else -> "mode=$playbackFocusMode"
     }
 
@@ -297,7 +301,12 @@ internal class AapAudio(
         return false
     }
 
-    private fun startAudioTrack(channel: Int) {
+    /**
+     * [announcePlayback] is false when the sink is only being built. Announcing takes transient
+     * system audio focus, which pauses the car radio, and a sink that has been set up is not a
+     * sink that is playing: the phone sets all three up at connect and may never send to two.
+     */
+    private fun startAudioTrack(channel: Int, announcePlayback: Boolean = true) {
         if (audioDecoder.getTrack(channel) != null) return
 
         val config = AudioConfigs.get(channel)
@@ -328,8 +337,8 @@ internal class AapAudio(
         val isAac = fromSetup ?: useAacAudio
         val codecSource = if (fromSetup != null) "setup" else "setting"
         AppLog.i("AudioDecoder.start: channel=$channel, stream=$stream, gain=$gain, sampleRate=${config.sampleRate}, numberOfBits=${config.numberOfBits}, numberOfChannels=${config.numberOfChannels}, isAac=$isAac, source=$codecSource, latencyMultiplier=$effectiveMultiplier, queueCapacity=$audioQueueCapacity, attachHwDspEqualizer=$attachHwDspEqualizer")
-        audioDecoder.start(channel, stream, config.sampleRate, config.numberOfBits, config.numberOfChannels, isAac, gain, effectiveMultiplier, audioQueueCapacity, staticAudioFocus, attachHwDspEqualizer)
-        onAudioPlaybackStarted(channel)
+        audioDecoder.start(channel, stream, config.sampleRate, config.numberOfBits, config.numberOfChannels, isAac, gain, effectiveMultiplier, audioQueueCapacity, staticAudioFocus, attachHwDspEqualizer, audioLatencyMultiplier)
+        if (announcePlayback) onAudioPlaybackStarted(channel)
     }
 
     private fun onAudioPlaybackStarted(channel: Int) {
@@ -430,10 +439,26 @@ internal class AapAudio(
         }
     }
 
+    /**
+     * Build a sink when the phone sets it up, rather than on the first byte of audio.
+     *
+     * Both paths run on the transport's read thread, but setup happens before the phone streams
+     * anything, where building an AudioTrack and, on the AAC path, a whole MediaCodec costs nobody
+     * a gap. On the first byte of audio it cost the stream one. Setup is also the only point where
+     * this sink's codec is known, so a track kept from a previous session is replaced here.
+     *
+     * A setup is not always the first of a session though, and a live sink is not replaced on one:
+     * [AudioSinkSetupPolicy] carries what that cost.
+     */
     fun precreateAudioTrack(channel: Int) {
-        if (!staticAudioFocus) return
-        if (channel != Channel.ID_AU2) return
-        startAudioTrack(channel)
+        if (!Channel.isAudio(channel)) return
+        val hasLiveTrack = audioDecoder.getTrack(channel) != null
+        if (!AudioSinkSetupPolicy.rebuilds(hasLiveTrack, audioDecoder.sinkCodecFor(channel), sinkIsAac[channel])) {
+            AppLog.i("AapAudio: ${Channel.name(channel)} is already set up, keeping the sink it has")
+            return
+        }
+        if (hasLiveTrack) audioDecoder.stop(channel)
+        startAudioTrack(channel, announcePlayback = false)
     }
 
     private fun decode(channel: Int, start: Int, buf: ByteArray, len: Int) {
@@ -445,6 +470,10 @@ internal class AapAudio(
 
         if (audioDecoder.getTrack(channel) == null) {
             startAudioTrack(channel)
+        } else {
+            // Cheap and already guarded: it returns at once unless this is the first channel to
+            // carry audio. The track may have been built at setup, so this is where focus is taken.
+            onAudioPlaybackStarted(channel)
         }
 
         audioDecoder.decode(channel, buf, start, length)
@@ -481,7 +510,10 @@ internal class AapAudio(
             handler.removeCallbacks(unduckRunnable)
             unduckMedia()
         } else {
-            audioDecoder.stop(channel)
+            // Parked, not destroyed. The phone stops the media sink on every pause and every
+            // assistant session, and rebuilding cost a fresh pre-roll plus a drain of up to a
+            // second - heard as the skip on resume. The session teardown still stops it.
+            audioDecoder.pause(channel)
             onAudioPlaybackStopped(channel)
         }
     }
