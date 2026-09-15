@@ -109,7 +109,7 @@ by `bssid-round1-results.md` and its addendum.
 | `video-pipeline-stack` | **CLOSED** | video-pipeline-stack-round2-results.md; work now lives on fix/video-stack, tested under the release-next thread. Superseded here. |
 | `video-dropped-frame-keyframe` | **QUEUED** | video-dropped-frame-keyframe-round7-brief.md; R1 is a desk check, no rig time; R2 optional. Fix already in the upstream PR. |
 | `audio-focus` | **QUEUED** | audio-focus-round11-brief.md; queued, no round run yet. |
-| `audio-sink-jitter` | **QUEUED (round 3)** | round2-results.md: `d292ec52` no FAIL gate; P3/P4/H2/A2b/A2c/B2b/D1b/G1/G6 PASS or matched, P4 and H2b FAIL (media channel sheds after a guidance-channel restart on both rigs). 2/3 of every audible marker landed in a window the sink telemetry called clean. |
+| `audio-sink-jitter` | **QUEUED (round 3)** | round3-brief.md against `aaed6509`, gate 1932/0. A repeated Media Sink Setup no longer destroys a live sink, the default cushion is 16 and a sink can deepen its own, and the video ack is the phone's flow control again. P5 is the headline; the round's real question is what `dumpsys media.audio_flinger` says at each marker. |
 | `usb-device-diagnostics` | **DONE** | usb-device-diagnostics-round5-results.md; round 5 PASS, Direct Boot fix works, branch PR-ready. R6 (WiFi/BT locked-defer) stays hardware-unverified. |
 | `usb-session-teardown` | **DONE** | usb-session-teardown-round1-results.md; diagnosis complete, attributed to Android Auto's own headunit server tearing down on any USB port event. Nothing queued. |
 | `audio-start-and-teardown` | **DONE** | audio-start-and-teardown-round1-results.md; audio half validated, WiFi Direct commit dropped from branch. Blocks mic-uplink round1 M1 (CarKeyReceiver trigger not delivered). |

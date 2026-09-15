@@ -500,6 +500,30 @@ when a quirk changes a run.
   `am start -a android.intent.action.VIEW -d "file://<path>" -t audio/mpeg -n org.videolan.vlc/.StartActivity`.
   A keep-alive watchdog that restarts it on any non-PLAYING state will contaminate any run that
   deliberately pauses playback; kill the watchdog first.
+- **A bonded A2DP speaker invalidates any run a person is listening to.** A paired "Magnetic
+  Speaker" was holding `STREAM_MUSIC` on the head unit at the start of a listening round, so the
+  audio a tester would have graded by ear was never coming out of the unit under test. Confirm
+  `adb shell dumpsys audio` reports the route as `speaker(2)` before every run that uses a person as
+  an instrument, and physically disconnect anything bonded that can take the stream.
+- **`adb install -r` can silently wipe `settings.xml`.** Reinstalling over a live session with the
+  same `versionCode` reset a head unit's settings to a handful of connection-bookkeeping keys,
+  onboarding flags included, despite a `force-stop` immediately before. It happened once going
+  baseline to candidate and not on the reverse or on later cycles, and the cause was not chased down.
+  Reseed and read every key back before the next launch rather than assuming the install preserved
+  them; a round that reads a default it never set has measured nothing.
+- **Poke targets survive from earlier rounds and wake the wrong phone.** `native-poke-bt-macs` and
+  `last-connected-native-mac` are per unit and persist, so a head unit left pointing at a phone from
+  an unrelated round will never let the phone under test join its group, with no line saying why.
+  Repoint both before the first run of any round that changes the pairing.
+- **A P2P group outlives `am force-stop` on the unit that hosted it.** The previous head unit keeps
+  its group up, and a phone still associated to it will not join anything else. Bouncing the phone's
+  WiFi with `svc wifi disable` then `enable` clears it; stopping the old head unit's app does not.
+- **What AudioFlinger thinks needs no root.** `dumpsys media.audio_flinger` and
+  `dumpsys media.metrics` both work from the shell user on the rig's units, which is the only way to
+  see an underrun below our own `AudioTrack`. The framework's per-session figure is the
+  `MediaAnalyticsItem ... android.media.audiotrack.underrunframes=N` line at teardown: divide by the
+  sample rate for seconds of real underrun, and prefer it over any counter of ours when the two
+  disagree.
 - **The head unit's Bluetooth re-enables itself.** `adb shell svc bluetooth disable` is silently
   reverted about 14 s later — `AdapterState` shows `OffState → … → OnState` via `USER_TURN_ON`,
   reproduced twice with no other adb activity in between. It is not the app: the only
