@@ -4,20 +4,25 @@
 
 | | Branch | SHA | Commits | Gate |
 |---|---|---|---|---|
-| Candidate | `fix/audio-sink-jitter-and-instrumentation` | `bd7eed16` | 6 on `main` | 1932 tests, 0 failures |
+| Candidate | `fix/audio-sink-and-wireless-bring-up` | `02ce29d0` | 4 on `main` | 1947 tests, 0 failures |
 | Baseline | `main` | `8418ed02` | | |
 
 ```bash
 git fetch fork
-git checkout -B audio-sink fork/fix/audio-sink-jitter-and-instrumentation   # bd7eed16
-git log --oneline -6
-# bd7eed16 Transport, bbb2b370 Audio, d292ec52 Transport, 4c4360c9 Audio, 0bd7782d Transport, 443b9a64 Audio
+git checkout -B audio-sink fork/fix/audio-sink-and-wireless-bring-up   # 02ce29d0
+git log --oneline -4
+# 02ce29d0 Connection, 61143283 Native AA, 762d195c Transport, 9e451cac Audio
 ```
 
-**Rounds 1 and 2 graded `0bd7782d` and `d292ec52` and both are untouched underneath**, so a round 2
-checkout fast-forwards. The two commits above them were amended once after this brief was first
-written, to make the latency picker say "default" once rather than twice; the SHAs here are the
-current ones and the only tree difference is those two label strings. All six compile alone, checked.
+**The branch was renamed and consolidated after this brief was first written.** Everything unlanded
+of ours is now one branch of four commits, one per component. `fix/audio-sink-jitter-and-instrumentation`,
+`fix/native-aa-double-group-create` and `fix/wireless-only-when-selected` are all deleted, locally and
+on `fork`, so nothing resolves under those names and a round 2 checkout does **not** fast-forward:
+check the branch out fresh. All four compile alone, checked.
+
+The audio and transport work rounds 1 and 2 graded is unchanged in content: the two-commit pair's
+tree equals the six-commit tip's exactly, checked. What is new to this candidate is the two wireless
+commits, and section 3 says what they can do to a run.
 
 Baseline APK is needed for P7 only. Everything else is candidate only.
 
@@ -75,6 +80,15 @@ which is correct: it exists for a user who picked shallower. A2d is where it is 
 **Leave D-POCO's other audio settings as they are**: AAC on, queue 20. They are deliberate and they
 are why this reproduces in minutes. Only `audio-latency-multiplier` moves, and only where a run says
 so.
+
+**This candidate carries two wireless changes rounds 1 and 2 did not, and they can move Part P.**
+The Connection commit makes `Settings.connectionModes` an actual switch: a unit whose selection does
+not include WiFi will now refuse to arm the wireless stack at all, where before it armed regardless.
+It also stops the stack while the settings screen is open. The Native AA commit changes when a P2P
+group is created. Part P's entire disturbance is D-POCO hosting a group while joined to nothing, so
+**confirm wireless arms on both units and the group comes up before grading anything**, and report
+the `connectionModes` value for each unit in the setup notes. A Part P run that is unexpectedly quiet
+is a bring-up difference until proven otherwise, not the audio fix working.
 
 **Everything round 2 established about the rig still holds** and is now in `TESTING-TEMPLATE.md`
 section 7a: the A2DP speaker that hijacks `STREAM_MUSIC`, the poke target pointing at the wrong
@@ -200,8 +214,8 @@ adb shell am broadcast -f 0x00000020 -n $RX -a com.andrerinas.openheadunit.ACTIO
 ./gradlew :app:testGithubDebugUnitTest
 ```
 
-**PASS:** `commit` reads `bd7eed16` on the candidate and `8418ed02` on the baseline, and the gate is
-1932 tests with no failures. Report both APK md5s.
+**PASS:** `commit` reads `02ce29d0` on the candidate and `8418ed02` on the baseline, and the gate is
+1947 tests with no failures. Report both APK md5s.
 
 ---
 
