@@ -60,6 +60,7 @@ by `bssid-round1-results.md` and its addendum.
 
 | Thread | State | Next |
 |---|---|---|
+| `fps-overlay-temp-and-cpu` | **CLOSED** | fps-overlay-temp-and-cpu-findings.md; PC + one read-only adb dump on D-HU, no round. Root cause found for both: temp EINVAL on 2/19 MT50 thermal zones nulls the whole scan (not per-zone isolated); app CPU% unnormalized against core count. Suggested follow-up (not queued): extract overlay to its own file, add left/right placement. |
 | `hp-slate-bringup` | **DONE** | hp-slate-bringup-round1-results.md; R0-R2 PASS, R3 FAIL with root cause found (FPS overlay hidden under TEXTURE view-mode by an addView-order bug in `AapProjectionActivity`, not device-specific). "Can't export logs" was a wrong retrieval path (`/storage/sdcard0/...`, not `/storage/emulated/0/...`) — export itself works. Fix not applied this round (scope). |
 | `native-aa-recovery-identity-and-speed` | **DONE** | native-aa-recovery-identity-and-speed-round4-results.md; round 4 PASS, PR-ready. Nothing queued. |
 | `pr954-review` | **CLOSED** | pr954-review-findings.md and reply-draft; PC-only review, no rig time. Nothing posted to GitHub. |
