@@ -1,0 +1,921 @@
+--------- beginning of /dev/log/main
+09-15 14:26:53.270  3023  3023 D dalvikvm: Late-enabling CheckJNI
+09-15 14:26:53.360  3023  3023 I dalvikvm: Could not find method android.os.UserManager.isUserUnlocked, referenced from method com.andrerinas.openheadunit.App.isUserUnlocked
+09-15 14:26:53.360  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 328: Landroid/os/UserManager;.isUserUnlocked ()Z
+09-15 14:26:53.360  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0013
+09-15 14:26:53.360  3023  3023 E dalvikvm: Could not find class 'android.app.NotificationChannel', referenced from method com.andrerinas.openheadunit.App.onCreate
+09-15 14:26:53.360  3023  3023 W dalvikvm: VFY: unable to resolve new-instance 18 (Landroid/app/NotificationChannel;) in Lcom/andrerinas/openheadunit/App;
+09-15 14:26:53.360  3023  3023 D dalvikvm: VFY: replacing opcode 0x22 at 0x00cc
+09-15 14:26:53.360  3023  3023 D dalvikvm: DexOpt: unable to opt direct call 0x0020 at 0xd5 in Lcom/andrerinas/openheadunit/App;.onCreate
+09-15 14:26:53.360  3023  3023 D dalvikvm: DexOpt: unable to opt direct call 0x0020 at 0xeb in Lcom/andrerinas/openheadunit/App;.onCreate
+09-15 14:26:53.360  3023  3023 D dalvikvm: DexOpt: unable to opt direct call 0x0020 at 0x107 in Lcom/andrerinas/openheadunit/App;.onCreate
+09-15 14:26:53.360  3023  3023 I MultiDex: VM with version 1.6.0 does not have multidex support
+09-15 14:26:53.360  3023  3023 I MultiDex: Installing application
+09-15 14:26:53.380  3023  3023 I MultiDex: MultiDexExtractor(/data/app/com.andrerinas.headunitrevived-2.apk, /data/data/com.andrerinas.headunitrevived/code_cache/secondary-dexes)
+09-15 14:26:53.380  3023  3023 I MultiDex: Blocking on lock /data/data/com.andrerinas.headunitrevived/code_cache/secondary-dexes/MultiDex.lock
+09-15 14:26:53.380  3023  3023 I MultiDex: /data/data/com.andrerinas.headunitrevived/code_cache/secondary-dexes/MultiDex.lock locked
+09-15 14:26:53.380  3023  3023 I MultiDex: MultiDexExtractor.load(/data/app/com.andrerinas.headunitrevived-2.apk, false, )
+09-15 14:26:53.380  3023  3023 I MultiDex: Detected that extraction must be performed.
+09-15 14:26:53.380  3023  3023 I MultiDex: Trying to delete old file /data/data/com.andrerinas.headunitrevived/code_cache/secondary-dexes/tmp-com.andrerinas.headunitrevived-2.apk.classes953772155.zip of size 435677
+09-15 14:26:53.390  3023  3023 I MultiDex: Deleted old file /data/data/com.andrerinas.headunitrevived/code_cache/secondary-dexes/tmp-com.andrerinas.headunitrevived-2.apk.classes953772155.zip
+09-15 14:26:53.390  3023  3023 I MultiDex: Trying to delete old file /data/data/com.andrerinas.headunitrevived/code_cache/secondary-dexes/com.andrerinas.headunitrevived-2.apk.classes2.zip of size 3663941
+09-15 14:26:53.390  3023  3023 I MultiDex: Deleted old file /data/data/com.andrerinas.headunitrevived/code_cache/secondary-dexes/com.andrerinas.headunitrevived-2.apk.classes2.zip
+09-15 14:26:53.420  3023  3027 D dalvikvm: GC_CONCURRENT freed 240K, 7% free 5546K/5964K, paused 2ms+2ms, total 17ms
+09-15 14:26:53.420  3023  3023 D dalvikvm: WAIT_FOR_CONCURRENT_GC blocked 3ms
+09-15 14:26:53.440  3023  3023 I MultiDex: Extraction is needed for file /data/data/com.andrerinas.headunitrevived/code_cache/secondary-dexes/com.andrerinas.headunitrevived-2.apk.classes2.zip
+09-15 14:26:53.440  3023  3023 I MultiDex: Extracting /data/data/com.andrerinas.headunitrevived/code_cache/secondary-dexes/tmp-com.andrerinas.headunitrevived-2.apk.classes1324347735.zip
+09-15 14:26:57.150  3023  3023 I MultiDex: Renaming to /data/data/com.andrerinas.headunitrevived/code_cache/secondary-dexes/com.andrerinas.headunitrevived-2.apk.classes2.zip
+09-15 14:26:57.150  3023  3023 I MultiDex: Extraction succeeded '/data/data/com.andrerinas.headunitrevived/code_cache/secondary-dexes/com.andrerinas.headunitrevived-2.apk.classes2.zip': length 3663941 - crc: 3032384838
+09-15 14:26:57.150  3023  3023 I MultiDex: Extraction is needed for file /data/data/com.andrerinas.headunitrevived/code_cache/secondary-dexes/com.andrerinas.headunitrevived-2.apk.classes3.zip
+09-15 14:26:57.150  3023  3023 I MultiDex: Extracting /data/data/com.andrerinas.headunitrevived/code_cache/secondary-dexes/tmp-com.andrerinas.headunitrevived-2.apk.classes953772155.zip
+09-15 14:27:00.990  3023  3023 I MultiDex: Renaming to /data/data/com.andrerinas.headunitrevived/code_cache/secondary-dexes/com.andrerinas.headunitrevived-2.apk.classes3.zip
+09-15 14:27:00.990  3023  3023 I MultiDex: Extraction succeeded '/data/data/com.andrerinas.headunitrevived/code_cache/secondary-dexes/com.andrerinas.headunitrevived-2.apk.classes3.zip': length 3623242 - crc: 4052645568
+09-15 14:27:00.990  3023  3023 I MultiDex: Extraction is needed for file /data/data/com.andrerinas.headunitrevived/code_cache/secondary-dexes/com.andrerinas.headunitrevived-2.apk.classes4.zip
+09-15 14:27:00.990  3023  3023 I MultiDex: Extracting /data/data/com.andrerinas.headunitrevived/code_cache/secondary-dexes/tmp-com.andrerinas.headunitrevived-2.apk.classes1511373567.zip
+09-15 14:27:01.180  3023  3023 I MultiDex: Renaming to /data/data/com.andrerinas.headunitrevived/code_cache/secondary-dexes/com.andrerinas.headunitrevived-2.apk.classes4.zip
+09-15 14:27:01.190  3023  3023 I MultiDex: Extraction succeeded '/data/data/com.andrerinas.headunitrevived/code_cache/secondary-dexes/com.andrerinas.headunitrevived-2.apk.classes4.zip': length 198448 - crc: 3063628751
+09-15 14:27:01.190  3023  3023 I MultiDex: load found 3 secondary dex files
+09-15 14:27:01.440  3023  3023 D dalvikvm: DexOpt: --- BEGIN 'com.andrerinas.headunitrevived-2.apk.classes2.zip' (bootstrap=0) ---
+09-15 14:27:02.130  3040  3040 W dalvikvm: method Landroidx/appcompat/widget/DropDownListView;.lookForSelectablePosition incorrectly overrides package-private method with same name in Landroid/widget/ListView;
+09-15 14:27:02.390  3040  3040 D dalvikvm: DexOpt: couldn't find field Landroid/content/res/Configuration;.colorMode
+09-15 14:27:02.500  3040  3040 I dalvikvm: DexOpt: illegal method access (call Landroid/widget/TextView;.getTextDirectionHeuristic ()Landroid/text/TextDirectionHeuristic; from Landroidx/appcompat/widget/AppCompatTextViewAutoSizeHelper$Impl29;)
+09-15 14:27:03.060  3040  3040 D dalvikvm: DexOpt: couldn't find static field Landroid/app/Notification;.AUDIO_ATTRIBUTES_DEFAULT
+09-15 14:27:03.060  3040  3040 W dalvikvm: DexOpt: resolve class illegal access: Landroidx/core/app/NotificationCompat$Action$Builder$Api20Impl; -> Landroid/app/Notification$Action;
+09-15 14:27:03.060  3040  3040 W dalvikvm: DexOpt: resolve class illegal access: Landroidx/core/app/NotificationCompat$Action$Builder$Api23Impl; -> Landroid/app/Notification$Action;
+09-15 14:27:03.060  3040  3040 W dalvikvm: DexOpt: resolve class illegal access: Landroidx/core/app/NotificationCompat$Action$Builder$Api24Impl; -> Landroid/app/Notification$Action;
+09-15 14:27:03.060  3040  3040 W dalvikvm: DexOpt: resolve class illegal access: Landroidx/core/app/NotificationCompat$Action$Builder$Api28Impl; -> Landroid/app/Notification$Action;
+09-15 14:27:03.060  3040  3040 W dalvikvm: DexOpt: resolve class illegal access: Landroidx/core/app/NotificationCompat$Action$Builder$Api29Impl; -> Landroid/app/Notification$Action;
+09-15 14:27:03.060  3040  3040 W dalvikvm: DexOpt: resolve class illegal access: Landroidx/core/app/NotificationCompat$Action$Builder$Api31Impl; -> Landroid/app/Notification$Action;
+09-15 14:27:03.060  3040  3040 W dalvikvm: DexOpt: resolve class illegal access: Landroidx/core/app/NotificationCompat$Action$Builder; -> Landroid/app/Notification$Action;
+09-15 14:27:03.060  3040  3040 W dalvikvm: DexOpt: resolve class illegal access: Landroidx/core/app/NotificationCompat$Api23Impl; -> Landroid/app/Notification$Action;
+09-15 14:27:03.060  3040  3040 W dalvikvm: DexOpt: resolve class illegal access: Landroidx/core/app/NotificationCompat$Api24Impl; -> Landroid/app/Notification$Action;
+09-15 14:27:03.060  3040  3040 W dalvikvm: DexOpt: resolve class illegal access: Landroidx/core/app/NotificationCompat$Api28Impl; -> Landroid/app/Notification$Action;
+09-15 14:27:03.060  3040  3040 W dalvikvm: DexOpt: resolve class illegal access: Landroidx/core/app/NotificationCompat$Api31Impl; -> Landroid/app/Notification$Action;
+09-15 14:27:03.070  3040  3040 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat$Builder; to field Landroid/app/Notification;.extras
+09-15 14:27:03.070  3040  3040 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat$TvExtender; to field Landroid/app/Notification;.extras
+09-15 14:27:03.070  3040  3040 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat; to field Landroid/app/Notification;.actions
+09-15 14:27:03.080  3040  3040 D dalvikvm: DexOpt: couldn't find field Landroid/app/Notification;.audioAttributes
+09-15 14:27:03.100  3040  3040 D dalvikvm: DexOpt: couldn't find field Landroid/content/pm/PackageInfo;.signingInfo
+09-15 14:27:03.110  3040  3040 D dalvikvm: DexOpt: couldn't find static field Landroid/graphics/Bitmap$Config;.HARDWARE
+09-15 14:27:03.210  3040  3040 D dalvikvm: DexOpt: couldn't find field Landroid/view/inputmethod/EditorInfo;.contentMimeTypes
+09-15 14:27:03.270  3040  3040 D dalvikvm: DexOpt: couldn't find field Landroid/content/pm/ResolveInfo;.providerInfo
+09-15 14:27:03.720  3040  3040 D dalvikvm: DexOpt: load 308ms, verify+opt 1388ms, 5346068 bytes
+09-15 14:27:04.140  3023  3023 D dalvikvm: DexOpt: --- END 'com.andrerinas.headunitrevived-2.apk.classes2.zip' (success) ---
+09-15 14:27:04.140  3023  3023 D dalvikvm: DEX prep '/data/data/com.andrerinas.headunitrevived/code_cache/secondary-dexes/com.andrerinas.headunitrevived-2.apk.classes2.zip': unzip in 243ms, rewrite 2703ms
+09-15 14:27:04.390  3023  3023 D dalvikvm: DexOpt: --- BEGIN 'com.andrerinas.headunitrevived-2.apk.classes3.zip' (bootstrap=0) ---
+09-15 14:27:05.090  3041  3041 W dalvikvm: method Lcom/google/android/material/progressindicator/BaseProgressIndicator;.getCurrentDrawable incorrectly overrides package-private method with same name in Landroid/widget/ProgressBar;
+09-15 14:27:05.620  3041  3041 D dalvikvm: DexOpt: couldn't find static field Landroid/graphics/Bitmap$Config;.HARDWARE
+09-15 14:27:05.620  3041  3041 D dalvikvm: DexOpt: couldn't find static field Landroid/graphics/Bitmap$Config;.RGBA_F16
+09-15 14:27:05.650  3041  3041 D dalvikvm: DexOpt: couldn't find field Landroid/graphics/BitmapFactory$Options;.outColorSpace
+09-15 14:27:05.650  3041  3041 D dalvikvm: DexOpt: couldn't find static field Landroid/graphics/Bitmap$Config;.HARDWARE
+09-15 14:27:05.650  3041  3041 D dalvikvm: DexOpt: couldn't find static field Landroid/graphics/Bitmap$Config;.RGBA_F16
+09-15 14:27:05.680  3041  3041 D dalvikvm: DexOpt: couldn't find static field Landroid/graphics/Bitmap$Config;.RGBA_F16
+09-15 14:27:05.920  3041  3041 W dalvikvm: DexOpt: method is in an interface
+09-15 14:27:05.960  3041  3041 D dalvikvm: DexOpt: couldn't find field Landroid/content/res/Configuration;.fontWeightAdjustment
+09-15 14:27:06.760  3041  3041 D dalvikvm: DexOpt: load 349ms, verify+opt 1482ms, 5573668 bytes
+09-15 14:27:07.340  3023  3023 D dalvikvm: DexOpt: --- END 'com.andrerinas.headunitrevived-2.apk.classes3.zip' (success) ---
+09-15 14:27:07.340  3023  3023 D dalvikvm: DEX prep '/data/data/com.andrerinas.headunitrevived/code_cache/secondary-dexes/com.andrerinas.headunitrevived-2.apk.classes3.zip': unzip in 238ms, rewrite 2951ms
+09-15 14:27:07.350  3023  3023 D dalvikvm: DexOpt: --- BEGIN 'com.andrerinas.headunitrevived-2.apk.classes4.zip' (bootstrap=0) ---
+09-15 14:27:07.520  3042  3042 D dalvikvm: DexOpt: load 14ms, verify+opt 102ms, 530924 bytes
+09-15 14:27:07.550  3023  3023 D dalvikvm: DexOpt: --- END 'com.andrerinas.headunitrevived-2.apk.classes4.zip' (success) ---
+09-15 14:27:07.550  3023  3023 D dalvikvm: DEX prep '/data/data/com.andrerinas.headunitrevived/code_cache/secondary-dexes/com.andrerinas.headunitrevived-2.apk.classes4.zip': unzip in 13ms, rewrite 201ms
+09-15 14:27:07.560  3023  3023 I MultiDex: install done
+09-15 14:27:07.560  3023  3023 I dalvikvm: Could not find method android.os.Trace.isEnabled, referenced from method androidx.tracing.Trace.isEnabled
+09-15 14:27:07.560  3023  3023 W dalvikvm: VFY: unable to resolve static method 2476: Landroid/os/Trace;.isEnabled ()Z
+09-15 14:27:07.560  3023  3023 D dalvikvm: VFY: replacing opcode 0x71 at 0x0004
+09-15 14:27:07.600  3023  3027 D dalvikvm: GC_CONCURRENT freed 267K, 8% free 5695K/6148K, paused 2ms+11ms, total 29ms
+09-15 14:27:07.610  3023  3023 W dalvikvm: Unable to resolve superclass of Lorg/conscrypt/TrustManagerImpl; (305)
+09-15 14:27:07.610  3023  3023 W dalvikvm: Link of class 'Lorg/conscrypt/TrustManagerImpl;' failed
+09-15 14:27:07.610  3023  3023 I dalvikvm: Could not find method org.conscrypt.TrustManagerImpl.getDefaultHostnameVerifier, referenced from method org.conscrypt.Conscrypt.getDefaultHostnameVerifier
+09-15 14:27:07.610  3023  3023 W dalvikvm: VFY: unable to resolve static method 3571: Lorg/conscrypt/TrustManagerImpl;.getDefaultHostnameVerifier ()Lorg/conscrypt/ConscryptHostnameVerifier;
+09-15 14:27:07.610  3023  3023 D dalvikvm: VFY: replacing opcode 0x71 at 0x0003
+09-15 14:27:07.610  3023  3023 W dalvikvm: Unable to resolve superclass of Lorg/conscrypt/TrustManagerImpl; (305)
+09-15 14:27:07.620  3023  3023 W dalvikvm: Link of class 'Lorg/conscrypt/TrustManagerImpl;' failed
+09-15 14:27:07.620  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Lorg/conscrypt/TrustManagerImpl;)
+09-15 14:27:07.620  3023  3023 W dalvikvm: Unable to resolve superclass of Lorg/conscrypt/TrustManagerImpl; (305)
+09-15 14:27:07.620  3023  3023 W dalvikvm: Link of class 'Lorg/conscrypt/TrustManagerImpl;' failed
+09-15 14:27:07.620  3023  3023 I dalvikvm: Could not find method org.conscrypt.TrustManagerImpl.getHostnameVerifier, referenced from method org.conscrypt.Conscrypt.getHostnameVerifier
+09-15 14:27:07.620  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 3573: Lorg/conscrypt/TrustManagerImpl;.getHostnameVerifier ()Lorg/conscrypt/ConscryptHostnameVerifier;
+09-15 14:27:07.620  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0004
+09-15 14:27:07.620  3023  3023 W dalvikvm: Unable to resolve superclass of Lorg/conscrypt/TrustManagerImpl; (305)
+09-15 14:27:07.620  3023  3023 W dalvikvm: Link of class 'Lorg/conscrypt/TrustManagerImpl;' failed
+09-15 14:27:07.620  3023  3023 E dalvikvm: Could not find class 'org.conscrypt.TrustManagerImpl', referenced from method org.conscrypt.Conscrypt.isConscrypt
+09-15 14:27:07.620  3023  3023 W dalvikvm: VFY: unable to resolve instanceof 605 (Lorg/conscrypt/TrustManagerImpl;) in Lorg/conscrypt/Conscrypt;
+09-15 14:27:07.620  3023  3023 D dalvikvm: VFY: replacing opcode 0x20 at 0x0000
+09-15 14:27:07.620  3023  3023 W dalvikvm: Unable to resolve superclass of Lorg/conscrypt/TrustManagerImpl; (305)
+09-15 14:27:07.620  3023  3023 W dalvikvm: Link of class 'Lorg/conscrypt/TrustManagerImpl;' failed
+09-15 14:27:07.620  3023  3023 I dalvikvm: Could not find method org.conscrypt.TrustManagerImpl.setDefaultHostnameVerifier, referenced from method org.conscrypt.Conscrypt.setDefaultHostnameVerifier
+09-15 14:27:07.620  3023  3023 W dalvikvm: VFY: unable to resolve static method 3583: Lorg/conscrypt/TrustManagerImpl;.setDefaultHostnameVerifier (Lorg/conscrypt/ConscryptHostnameVerifier;)V
+09-15 14:27:07.620  3023  3023 D dalvikvm: VFY: replacing opcode 0x71 at 0x0003
+09-15 14:27:07.620  3023  3023 W dalvikvm: Unable to resolve superclass of Lorg/conscrypt/TrustManagerImpl; (305)
+09-15 14:27:07.620  3023  3023 W dalvikvm: Link of class 'Lorg/conscrypt/TrustManagerImpl;' failed
+09-15 14:27:07.630  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Lorg/conscrypt/TrustManagerImpl;)
+09-15 14:27:07.630  3023  3023 W dalvikvm: Unable to resolve superclass of Lorg/conscrypt/TrustManagerImpl; (305)
+09-15 14:27:07.630  3023  3023 W dalvikvm: Link of class 'Lorg/conscrypt/TrustManagerImpl;' failed
+09-15 14:27:07.630  3023  3023 I dalvikvm: Could not find method org.conscrypt.TrustManagerImpl.setHostnameVerifier, referenced from method org.conscrypt.Conscrypt.setHostnameVerifier
+09-15 14:27:07.630  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 3584: Lorg/conscrypt/TrustManagerImpl;.setHostnameVerifier (Lorg/conscrypt/ConscryptHostnameVerifier;)V
+09-15 14:27:07.630  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0004
+09-15 14:27:07.630  3023  3023 W dalvikvm: Unable to resolve superclass of Lorg/conscrypt/TrustManagerImpl; (305)
+09-15 14:27:07.630  3023  3023 W dalvikvm: Link of class 'Lorg/conscrypt/TrustManagerImpl;' failed
+09-15 14:27:07.630  3023  3023 E dalvikvm: Could not find class 'org.conscrypt.TrustManagerImpl', referenced from method org.conscrypt.Conscrypt.toConscrypt
+09-15 14:27:07.630  3023  3023 W dalvikvm: VFY: unable to resolve check-cast 605 (Lorg/conscrypt/TrustManagerImpl;) in Lorg/conscrypt/Conscrypt;
+09-15 14:27:07.630  3023  3023 D dalvikvm: VFY: replacing opcode 0x1f at 0x0007
+09-15 14:27:07.700  3023  3027 D dalvikvm: GC_CONCURRENT freed 543K, 12% free 5657K/6384K, paused 2ms+4ms, total 29ms
+09-15 14:27:07.700  3023  3023 D dalvikvm: WAIT_FOR_CONCURRENT_GC blocked 3ms
+09-15 14:27:07.770  3023  3027 D dalvikvm: GC_CONCURRENT freed 145K, 6% free 6024K/6384K, paused 3ms+5ms, total 29ms
+09-15 14:27:07.770  3023  3023 D dalvikvm: WAIT_FOR_CONCURRENT_GC blocked 1ms
+09-15 14:27:07.810  3023  3027 D dalvikvm: GC_CONCURRENT freed 255K, 8% free 6167K/6656K, paused 2ms+1ms, total 22ms
+09-15 14:27:07.810  3023  3023 D dalvikvm: WAIT_FOR_CONCURRENT_GC blocked 4ms
+09-15 14:27:07.830  3023  3023 D dalvikvm: GC_FOR_ALLOC freed 189K, 9% free 6224K/6784K, paused 15ms, total 16ms
+09-15 14:27:07.850  3023  3023 D dalvikvm: GC_FOR_ALLOC freed 211K, 9% free 6318K/6912K, paused 15ms, total 15ms
+09-15 14:27:07.870  3023  3023 D dalvikvm: GC_FOR_ALLOC freed 92K, 8% free 6414K/6912K, paused 16ms, total 16ms
+09-15 14:27:07.960  3023  3027 D dalvikvm: GC_CONCURRENT freed 206K, 6% free 6720K/7104K, paused 2ms+4ms, total 32ms
+09-15 14:27:07.960  3023  3023 D dalvikvm: WAIT_FOR_CONCURRENT_GC blocked 1ms
+09-15 14:27:08.030  3023  3027 D dalvikvm: GC_CONCURRENT freed 110K, 4% free 7124K/7412K, paused 2ms+2ms, total 35ms
+09-15 14:27:08.030  3023  3023 D dalvikvm: WAIT_FOR_CONCURRENT_GC blocked 13ms
+09-15 14:27:08.110  3023  3027 D dalvikvm: GC_CONCURRENT freed 383K, 8% free 7359K/7920K, paused 2ms+2ms, total 35ms
+09-15 14:27:08.110  3023  3023 D dalvikvm: WAIT_FOR_CONCURRENT_GC blocked 9ms
+09-15 14:27:08.200  3023  3027 D dalvikvm: GC_CONCURRENT freed 152K, 5% free 7886K/8220K, paused 2ms+2ms, total 39ms
+09-15 14:27:08.200  3023  3023 D dalvikvm: WAIT_FOR_CONCURRENT_GC blocked 8ms
+09-15 14:27:08.200  3023  3023 D dalvikvm: Trying to load lib /data/app-lib/com.andrerinas.headunitrevived-2/libconscrypt_jni.so 0x412032e0
+09-15 14:27:08.210  3023  3023 D dalvikvm: Added shared lib /data/app-lib/com.andrerinas.headunitrevived-2/libconscrypt_jni.so 0x412032e0
+09-15 14:27:08.210  3023  3023 V NativeCrypto: Registering org/conscrypt/NativeCrypto's 288 native methods...
+09-15 14:27:08.220  3023  3023 E dalvikvm: Could not find class 'javax.net.ssl.SNIServerName', referenced from method org.conscrypt.Platform.getSniHostnameFromParams
+09-15 14:27:08.220  3023  3023 W dalvikvm: VFY: unable to resolve check-cast 281 (Ljavax/net/ssl/SNIServerName;) in Lorg/conscrypt/Platform;
+09-15 14:27:08.220  3023  3023 D dalvikvm: VFY: replacing opcode 0x1f at 0x0025
+09-15 14:27:08.220  3023  3023 E dalvikvm: Could not find class 'javax.net.ssl.SNIMatcher', referenced from method org.conscrypt.Platform.serverNamePermittedInternal
+09-15 14:27:08.220  3023  3023 W dalvikvm: VFY: unable to resolve check-cast 280 (Ljavax/net/ssl/SNIMatcher;) in Lorg/conscrypt/Platform;
+09-15 14:27:08.220  3023  3023 D dalvikvm: VFY: replacing opcode 0x1f at 0x001c
+09-15 14:27:08.220  3023  3023 E dalvikvm: Could not find class 'javax.net.ssl.SNIHostName', referenced from method org.conscrypt.Platform.setParametersSniHostname
+09-15 14:27:08.220  3023  3023 W dalvikvm: VFY: unable to resolve new-instance 279 (Ljavax/net/ssl/SNIHostName;) in Lorg/conscrypt/Platform;
+09-15 14:27:08.220  3023  3023 D dalvikvm: VFY: replacing opcode 0x22 at 0x0022
+09-15 14:27:08.220  3023  3023 E dalvikvm: Could not find class 'javax.net.ssl.SNIHostName', referenced from method org.conscrypt.Platform.setParametersSniHostname
+09-15 14:27:08.220  3023  3023 W dalvikvm: VFY: unable to resolve new-instance 279 (Ljavax/net/ssl/SNIHostName;) in Lorg/conscrypt/Platform;
+09-15 14:27:08.220  3023  3023 D dalvikvm: VFY: replacing opcode 0x22 at 0x0022
+09-15 14:27:08.220  3023  3023 W dalvikvm: Unable to resolve superclass of Lorg/conscrypt/Java7ExtendedSSLSession; (271)
+09-15 14:27:08.220  3023  3023 W dalvikvm: Link of class 'Lorg/conscrypt/Java7ExtendedSSLSession;' failed
+09-15 14:27:08.220  3023  3023 W dalvikvm: Unable to resolve superclass of Lorg/conscrypt/Java8ExtendedSSLSession; (395)
+09-15 14:27:08.220  3023  3023 W dalvikvm: Link of class 'Lorg/conscrypt/Java8ExtendedSSLSession;' failed
+09-15 14:27:08.220  3023  3023 E dalvikvm: Could not find class 'org.conscrypt.Java8ExtendedSSLSession', referenced from method org.conscrypt.Platform.wrapSSLSession
+09-15 14:27:08.220  3023  3023 W dalvikvm: VFY: unable to resolve new-instance 400 (Lorg/conscrypt/Java8ExtendedSSLSession;) in Lorg/conscrypt/Platform;
+09-15 14:27:08.220  3023  3023 D dalvikvm: VFY: replacing opcode 0x22 at 0x0006
+09-15 14:27:08.220  3023  3023 D dalvikvm: DexOpt: unable to opt direct call 0x02b8 at 0x20 in Lorg/conscrypt/Platform;.serverNamePermittedInternal
+09-15 14:27:08.220  3023  3023 D dalvikvm: DexOpt: unable to opt direct call 0x02b8 at 0x28 in Lorg/conscrypt/Platform;.setParametersSniHostname
+09-15 14:27:08.220  3023  3023 D dalvikvm: DexOpt: unable to opt direct call 0x02b8 at 0x28 in Lorg/conscrypt/Platform;.setParametersSniHostname
+09-15 14:27:08.230  3023  3023 W dalvikvm: Unable to resolve superclass of Lorg/conscrypt/Java7ExtendedSSLSession; (271)
+09-15 14:27:08.230  3023  3023 W dalvikvm: Link of class 'Lorg/conscrypt/Java7ExtendedSSLSession;' failed
+09-15 14:27:08.230  3023  3023 W dalvikvm: Unable to resolve superclass of Lorg/conscrypt/Java8ExtendedSSLSession; (395)
+09-15 14:27:08.230  3023  3023 W dalvikvm: Link of class 'Lorg/conscrypt/Java8ExtendedSSLSession;' failed
+09-15 14:27:08.230  3023  3023 D dalvikvm: DexOpt: unable to opt direct call 0x0701 at 0x08 in Lorg/conscrypt/Platform;.wrapSSLSession
+09-15 14:27:08.260  3023  3023 I OPENHU  : [1] ConscryptInitializer.initialize | Conscrypt installed as security provider (position: 1)
+09-15 14:27:08.290  3023  3023 I dalvikvm: Could not find method android.content.Context.createDeviceProtectedStorageContext, referenced from method com.andrerinas.openheadunit.utils.Settings$Companion.bootPrefs
+09-15 14:27:08.290  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 61: Landroid/content/Context;.createDeviceProtectedStorageContext ()Landroid/content/Context;
+09-15 14:27:08.290  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0007
+09-15 14:27:08.290  3023  3023 I dalvikvm: Could not find method android.content.Context.createDeviceProtectedStorageContext, referenced from method com.andrerinas.openheadunit.utils.Settings$Companion.getAutoStartBtMac
+09-15 14:27:08.290  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 61: Landroid/content/Context;.createDeviceProtectedStorageContext ()Landroid/content/Context;
+09-15 14:27:08.290  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0023
+09-15 14:27:08.290  3023  3023 I dalvikvm: Could not find method android.content.Context.createDeviceProtectedStorageContext, referenced from method com.andrerinas.openheadunit.utils.Settings$Companion.getAutoStartBtMacs
+09-15 14:27:08.290  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 61: Landroid/content/Context;.createDeviceProtectedStorageContext ()Landroid/content/Context;
+09-15 14:27:08.290  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x000c
+09-15 14:27:08.290  3023  3023 I dalvikvm: Could not find method android.content.Context.createDeviceProtectedStorageContext, referenced from method com.andrerinas.openheadunit.utils.Settings$Companion.getAutoStartWifiSsid
+09-15 14:27:08.290  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 61: Landroid/content/Context;.createDeviceProtectedStorageContext ()Landroid/content/Context;
+09-15 14:27:08.290  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x000c
+09-15 14:27:08.290  3023  3023 I dalvikvm: Could not find method android.content.Context.createDeviceProtectedStorageContext, referenced from method com.andrerinas.openheadunit.utils.Settings$Companion.isAutoStartOnBootEnabled
+09-15 14:27:08.290  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 61: Landroid/content/Context;.createDeviceProtectedStorageContext ()Landroid/content/Context;
+09-15 14:27:08.290  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x000c
+09-15 14:27:08.290  3023  3023 I dalvikvm: Could not find method android.content.Context.createDeviceProtectedStorageContext, referenced from method com.andrerinas.openheadunit.utils.Settings$Companion.isAutoStartOnScreenOnEnabled
+09-15 14:27:08.290  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 61: Landroid/content/Context;.createDeviceProtectedStorageContext ()Landroid/content/Context;
+09-15 14:27:08.290  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x000c
+09-15 14:27:08.290  3023  3023 I dalvikvm: Could not find method android.content.Context.createDeviceProtectedStorageContext, referenced from method com.andrerinas.openheadunit.utils.Settings$Companion.isAutoStartOnUsbEnabled
+09-15 14:27:08.290  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 61: Landroid/content/Context;.createDeviceProtectedStorageContext ()Landroid/content/Context;
+09-15 14:27:08.290  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x000c
+09-15 14:27:08.290  3023  3023 I dalvikvm: Could not find method android.content.Context.createDeviceProtectedStorageContext, referenced from method com.andrerinas.openheadunit.utils.Settings$Companion.isAutoStartOnWifiEnabled
+09-15 14:27:08.290  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 61: Landroid/content/Context;.createDeviceProtectedStorageContext ()Landroid/content/Context;
+09-15 14:27:08.290  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x000c
+09-15 14:27:08.290  3023  3023 I dalvikvm: Could not find method android.content.Context.createDeviceProtectedStorageContext, referenced from method com.andrerinas.openheadunit.utils.Settings$Companion.isListenForUsbDevicesEnabled
+09-15 14:27:08.290  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 61: Landroid/content/Context;.createDeviceProtectedStorageContext ()Landroid/content/Context;
+09-15 14:27:08.290  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x000c
+09-15 14:27:08.290  3023  3023 I dalvikvm: Could not find method android.content.Context.createDeviceProtectedStorageContext, referenced from method com.andrerinas.openheadunit.utils.Settings$Companion.isUsbDeviceBlacklisted
+09-15 14:27:08.290  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 61: Landroid/content/Context;.createDeviceProtectedStorageContext ()Landroid/content/Context;
+09-15 14:27:08.290  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0011
+09-15 14:27:08.290  3023  3023 I dalvikvm: Could not find method android.content.Context.createDeviceProtectedStorageContext, referenced from method com.andrerinas.openheadunit.utils.Settings$Companion.syncAutoStartBtMacToDeviceStorage
+09-15 14:27:08.290  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 61: Landroid/content/Context;.createDeviceProtectedStorageContext ()Landroid/content/Context;
+09-15 14:27:08.290  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0010
+09-15 14:27:08.290  3023  3023 I dalvikvm: Could not find method android.content.Context.createDeviceProtectedStorageContext, referenced from method com.andrerinas.openheadunit.utils.Settings$Companion.syncAutoStartBtMacsToDeviceStorage
+09-15 14:27:08.290  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 61: Landroid/content/Context;.createDeviceProtectedStorageContext ()Landroid/content/Context;
+09-15 14:27:08.290  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0010
+09-15 14:27:08.290  3023  3023 I dalvikvm: Could not find method android.content.Context.createDeviceProtectedStorageContext, referenced from method com.andrerinas.openheadunit.utils.Settings$Companion.syncAutoStartOnBootToDeviceStorage
+09-15 14:27:08.290  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 61: Landroid/content/Context;.createDeviceProtectedStorageContext ()Landroid/content/Context;
+09-15 14:27:08.290  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x000b
+09-15 14:27:08.290  3023  3023 I dalvikvm: Could not find method android.content.Context.createDeviceProtectedStorageContext, referenced from method com.andrerinas.openheadunit.utils.Settings$Companion.syncAutoStartOnScreenOnToDeviceStorage
+09-15 14:27:08.300  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 61: Landroid/content/Context;.createDeviceProtectedStorageContext ()Landroid/content/Context;
+09-15 14:27:08.300  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x000b
+09-15 14:27:08.300  3023  3023 I dalvikvm: Could not find method android.content.Context.createDeviceProtectedStorageContext, referenced from method com.andrerinas.openheadunit.utils.Settings$Companion.syncAutoStartOnUsbToDeviceStorage
+09-15 14:27:08.300  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 61: Landroid/content/Context;.createDeviceProtectedStorageContext ()Landroid/content/Context;
+09-15 14:27:08.300  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x000b
+09-15 14:27:08.300  3023  3023 I dalvikvm: Could not find method android.content.Context.createDeviceProtectedStorageContext, referenced from method com.andrerinas.openheadunit.utils.Settings$Companion.syncAutoStartOnWifiToDeviceStorage
+09-15 14:27:08.300  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 61: Landroid/content/Context;.createDeviceProtectedStorageContext ()Landroid/content/Context;
+09-15 14:27:08.300  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x000b
+09-15 14:27:08.300  3023  3023 I dalvikvm: Could not find method android.content.Context.createDeviceProtectedStorageContext, referenced from method com.andrerinas.openheadunit.utils.Settings$Companion.syncAutoStartWifiSsidToDeviceStorage
+09-15 14:27:08.300  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 61: Landroid/content/Context;.createDeviceProtectedStorageContext ()Landroid/content/Context;
+09-15 14:27:08.300  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0010
+09-15 14:27:08.300  3023  3023 I dalvikvm: Could not find method android.content.Context.createDeviceProtectedStorageContext, referenced from method com.andrerinas.openheadunit.utils.Settings$Companion.syncListenForUsbDevicesToDeviceStorage
+09-15 14:27:08.300  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 61: Landroid/content/Context;.createDeviceProtectedStorageContext ()Landroid/content/Context;
+09-15 14:27:08.300  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x000b
+09-15 14:27:08.300  3023  3023 I dalvikvm: Could not find method android.content.Context.createDeviceProtectedStorageContext, referenced from method com.andrerinas.openheadunit.utils.Settings$Companion.syncUsbBlacklistToDeviceStorage
+09-15 14:27:08.300  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 61: Landroid/content/Context;.createDeviceProtectedStorageContext ()Landroid/content/Context;
+09-15 14:27:08.300  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0010
+09-15 14:27:08.330  3023  3023 E dalvikvm: Could not find class 'android.media.MediaCodec$CodecException', referenced from method com.andrerinas.openheadunit.decoder.video.VideoDecoder.classifyOutputException
+09-15 14:27:08.330  3023  3023 W dalvikvm: VFY: unable to resolve instanceof 321 (Landroid/media/MediaCodec$CodecException;) in Lcom/andrerinas/openheadunit/decoder/video/VideoDecoder;
+09-15 14:27:08.330  3023  3023 D dalvikvm: VFY: replacing opcode 0x20 at 0x0009
+09-15 14:27:08.330  3023  3023 I dalvikvm: Could not find method android.media.MediaCodec.getInputBuffer, referenced from method com.andrerinas.openheadunit.decoder.video.VideoDecoder.feedInputBuffer
+09-15 14:27:08.330  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 1806: Landroid/media/MediaCodec;.getInputBuffer (I)Ljava/nio/ByteBuffer;
+09-15 14:27:08.330  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x003f
+09-15 14:27:08.340  3023  3023 I dalvikvm: Could not find method android.media.MediaCodecList.<init>, referenced from method com.andrerinas.openheadunit.decoder.video.VideoDecoder.findBestCodec
+09-15 14:27:08.340  3023  3023 W dalvikvm: VFY: unable to resolve direct method 1833: Landroid/media/MediaCodecList;.<init> (I)V
+09-15 14:27:08.340  3023  3023 D dalvikvm: VFY: replacing opcode 0x70 at 0x000e
+09-15 14:27:08.340  3023  3023 I dalvikvm: Could not find method android.media.MediaCodecInfo.isHardwareAccelerated, referenced from method com.andrerinas.openheadunit.decoder.video.VideoDecoder.isHardwareAccelerated
+09-15 14:27:08.340  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 1832: Landroid/media/MediaCodecInfo;.isHardwareAccelerated ()Z
+09-15 14:27:08.340  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0006
+09-15 14:27:08.360  3023  3023 I dalvikvm: Could not find method android.media.MediaCodecList.<init>, referenced from method com.andrerinas.openheadunit.decoder.video.VideoDecoder$Companion.isHevcDecoderAvailable
+09-15 14:27:08.360  3023  3023 W dalvikvm: VFY: unable to resolve direct method 1833: Landroid/media/MediaCodecList;.<init> (I)V
+09-15 14:27:08.360  3023  3023 D dalvikvm: VFY: replacing opcode 0x70 at 0x000b
+09-15 14:27:08.360  3023  3023 D dalvikvm: DexOpt: couldn't find static field Landroid/os/Build;.SOC_MANUFACTURER
+09-15 14:27:08.360  3023  3023 W dalvikvm: VFY: unable to resolve static field 217 (SOC_MANUFACTURER) in Landroid/os/Build;
+09-15 14:27:08.360  3023  3023 D dalvikvm: VFY: replacing opcode 0x62 at 0x0021
+09-15 14:27:08.360  3023  3023 I dalvikvm: Could not find method android.app.ActivityManager.isLowRamDevice, referenced from method com.andrerinas.openheadunit.decoder.video.DeviceMemoryProfile$Companion.read
+09-15 14:27:08.360  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 178: Landroid/app/ActivityManager;.isLowRamDevice ()Z
+09-15 14:27:08.360  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x005d
+09-15 14:27:08.400  3023  3023 I dalvikvm: Could not find method android.app.ActivityManager.getAppTasks, referenced from method com.andrerinas.openheadunit.connection.CommManager.disconnect$lambda$11
+09-15 14:27:08.400  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 174: Landroid/app/ActivityManager;.getAppTasks ()Ljava/util/List;
+09-15 14:27:08.400  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0038
+09-15 14:27:08.410  3023  3023 I dalvikvm: Could not find method android.app.ActivityManager.getAppTasks, referenced from method com.andrerinas.openheadunit.connection.CommManager.transportedQuited$lambda$4
+09-15 14:27:08.410  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 174: Landroid/app/ActivityManager;.getAppTasks ()Ljava/util/List;
+09-15 14:27:08.410  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0038
+09-15 14:27:08.510  3023  3027 D dalvikvm: GC_CONCURRENT freed 870K, 12% free 7874K/8940K, paused 2ms+2ms, total 52ms
+09-15 14:27:08.510  3023  3023 D dalvikvm: WAIT_FOR_CONCURRENT_GC blocked 11ms
+09-15 14:27:08.870  3023  3023 I OPENHU  : [1] App.onCreate | Conscrypt security provider is active
+09-15 14:27:08.870  3023  3023 D OPENHU  : [1] App.onCreate | native library dir /data/app-lib/com.andrerinas.headunitrevived-2
+09-15 14:27:08.870  3023  3023 D OPENHU  : [1] App.onCreate |    libconscrypt_jni.so
+09-15 14:27:08.870  3023  3023 D OPENHU  : [1] App.onCreate |    libhur_soft_hevc.so
+09-15 14:27:08.870  3023  3023 D OPENHU  : [1] App.onCreate |    libusbhelper.so
+09-15 14:27:08.870  3023  3023 D OPENHU  : [1] App.onCreate |    libusb1.0.so
+09-15 14:27:08.870  3023  3023 I dalvikvm: Could not find method android.os.UserManager.isUserUnlocked, referenced from method com.andrerinas.openheadunit.AapBroadcastReceiver.onReceive
+09-15 14:27:08.870  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 328: Landroid/os/UserManager;.isUserUnlocked ()Z
+09-15 14:27:08.870  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x001f
+09-15 14:27:08.870  3023  3023 I dalvikvm: Could not find method android.content.Intent.getParcelableExtra, referenced from method com.andrerinas.openheadunit.AapBroadcastReceiver.onReceive
+09-15 14:27:08.870  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 107: Landroid/content/Intent;.getParcelableExtra (Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;
+09-15 14:27:08.870  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x00c4
+09-15 14:27:08.880  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/app/AppOpsManager;)
+09-15 14:27:08.880  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/app/AppOpsManager;)
+09-15 14:27:08.880  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/app/AppOpsManager;)
+09-15 14:27:08.880  3023  3023 E dalvikvm: Could not find class 'android.app.AppOpsManager', referenced from method androidx.core.app.AppOpsManagerCompat.noteOp
+09-15 14:27:08.880  3023  3023 W dalvikvm: VFY: unable to resolve check-cast 40 (Landroid/app/AppOpsManager;) in Landroidx/core/app/AppOpsManagerCompat;
+09-15 14:27:08.880  3023  3023 D dalvikvm: VFY: replacing opcode 0x1f at 0x000d
+09-15 14:27:08.880  3023  3023 E dalvikvm: Could not find class 'android.app.AppOpsManager', referenced from method androidx.core.app.AppOpsManagerCompat.noteOpNoThrow
+09-15 14:27:08.880  3023  3023 W dalvikvm: VFY: unable to resolve check-cast 40 (Landroid/app/AppOpsManager;) in Landroidx/core/app/AppOpsManagerCompat;
+09-15 14:27:08.880  3023  3023 D dalvikvm: VFY: replacing opcode 0x1f at 0x000d
+09-15 14:27:08.880  3023  3023 E dalvikvm: Could not find class 'android.app.AppOpsManager', referenced from method androidx.core.app.AppOpsManagerCompat.noteProxyOp
+09-15 14:27:08.880  3023  3023 W dalvikvm: VFY: unable to resolve const-class 40 (Landroid/app/AppOpsManager;) in Landroidx/core/app/AppOpsManagerCompat;
+09-15 14:27:08.880  3023  3023 D dalvikvm: VFY: replacing opcode 0x1c at 0x0006
+09-15 14:27:08.880  3023  3023 E dalvikvm: Could not find class 'android.app.AppOpsManager', referenced from method androidx.core.app.AppOpsManagerCompat.noteProxyOpNoThrow
+09-15 14:27:08.880  3023  3023 W dalvikvm: VFY: unable to resolve const-class 40 (Landroid/app/AppOpsManager;) in Landroidx/core/app/AppOpsManagerCompat;
+09-15 14:27:08.880  3023  3023 D dalvikvm: VFY: replacing opcode 0x1c at 0x0006
+09-15 14:27:08.890  3023  3023 I dalvikvm: Could not find method android.provider.Settings.canDrawOverlays, referenced from method com.andrerinas.openheadunit.main.MainActivity.checkOverlayPermission
+09-15 14:27:08.890  3023  3023 W dalvikvm: VFY: unable to resolve static method 2534: Landroid/provider/Settings;.canDrawOverlays (Landroid/content/Context;)Z
+09-15 14:27:08.890  3023  3023 D dalvikvm: VFY: replacing opcode 0x71 at 0x001c
+09-15 14:27:08.890  3023  3023 I dalvikvm: Could not find method com.andrerinas.openheadunit.main.MainActivity.getReferrer, referenced from method com.andrerinas.openheadunit.main.MainActivity.logLaunchSource
+09-15 14:27:08.890  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 60068: Lcom/andrerinas/openheadunit/main/MainActivity;.getReferrer ()Landroid/net/Uri;
+09-15 14:27:08.900  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x002e
+09-15 14:27:08.950  3023  3023 I dalvikvm: Could not find method androidx.core.app.ComponentActivity.onMultiWindowModeChanged, referenced from method androidx.activity.ComponentActivity.onMultiWindowModeChanged
+09-15 14:27:08.960  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 15768: Landroidx/core/app/ComponentActivity;.onMultiWindowModeChanged (ZLandroid/content/res/Configuration;)V
+09-15 14:27:08.960  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0004
+09-15 14:27:08.960  3023  3023 I dalvikvm: Could not find method androidx.core.app.ComponentActivity.onPictureInPictureModeChanged, referenced from method androidx.activity.ComponentActivity.onPictureInPictureModeChanged
+09-15 14:27:08.960  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 15771: Landroidx/core/app/ComponentActivity;.onPictureInPictureModeChanged (ZLandroid/content/res/Configuration;)V
+09-15 14:27:08.960  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0004
+09-15 14:27:08.960  3023  3023 I dalvikvm: Could not find method androidx.core.app.ComponentActivity.onRequestPermissionsResult, referenced from method androidx.activity.ComponentActivity.onRequestPermissionsResult
+09-15 14:27:08.960  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 15773: Landroidx/core/app/ComponentActivity;.onRequestPermissionsResult (I[Ljava/lang/String;[I)V
+09-15 14:27:08.960  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0020
+09-15 14:27:08.960  3023  3023 I dalvikvm: Could not find method androidx.core.app.ComponentActivity.reportFullyDrawn, referenced from method androidx.activity.ComponentActivity.reportFullyDrawn
+09-15 14:27:08.960  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 15777: Landroidx/core/app/ComponentActivity;.reportFullyDrawn ()V
+09-15 14:27:08.960  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0011
+09-15 14:27:08.960  3023  3023 I dalvikvm: Could not find method androidx.core.app.ComponentActivity.reportFullyDrawn, referenced from method androidx.activity.ComponentActivity.reportFullyDrawn
+09-15 14:27:08.960  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 15777: Landroidx/core/app/ComponentActivity;.reportFullyDrawn ()V
+09-15 14:27:08.960  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0021
+09-15 14:27:08.980  3023  3027 D dalvikvm: GC_CONCURRENT freed 570K, 10% free 8104K/8940K, paused 3ms+8ms, total 61ms
+09-15 14:27:09.220  3023  3023 E dalvikvm: Could not find class 'android.os.LocaleList', referenced from method com.andrerinas.openheadunit.utils.LocaleHelper.applyLocale
+09-15 14:27:09.220  3023  3023 W dalvikvm: VFY: unable to resolve new-instance 215 (Landroid/os/LocaleList;) in Lcom/andrerinas/openheadunit/utils/LocaleHelper;
+09-15 14:27:09.220  3023  3023 D dalvikvm: VFY: replacing opcode 0x22 at 0x003f
+09-15 14:27:09.220  3023  3023 I dalvikvm: Could not find method android.os.UserManager.isUserUnlocked, referenced from method com.andrerinas.openheadunit.utils.LocaleHelper.wrapContext
+09-15 14:27:09.220  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 1047: Landroid/os/UserManager;.isUserUnlocked ()Z
+09-15 14:27:09.220  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x001d
+09-15 14:27:09.220  3023  3023 D dalvikvm: DexOpt: unable to opt direct call 0x03a1 at 0x45 in Lcom/andrerinas/openheadunit/utils/LocaleHelper;.applyLocale
+09-15 14:27:09.220  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/window/OnBackInvokedDispatcher;)
+09-15 14:27:09.240  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/window/OnBackInvokedDispatcher;)
+09-15 14:27:09.240  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/window/OnBackInvokedDispatcher;)
+09-15 14:27:09.240  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/window/OnBackInvokedDispatcher;)
+09-15 14:27:09.250  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/window/OnBackInvokedCallback;)
+09-15 14:27:09.260  3023  3023 D AppCompatDelegate: Checking for metadata for AppLocalesMetadataHolderService : Service not found
+09-15 14:27:09.270  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/window/OnBackInvokedCallback;)
+09-15 14:27:09.270  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/window/OnBackInvokedCallback;)
+09-15 14:27:09.270  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/window/OnBackInvokedDispatcher;)
+09-15 14:27:09.270  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/window/OnBackInvokedDispatcher;)
+09-15 14:27:09.280  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/window/OnBackInvokedDispatcher;)
+09-15 14:27:09.280  3023  3023 I dalvikvm: Could not find method java.util.regex.Matcher.start, referenced from method kotlin.internal.jdk8.JDK8PlatformImplementations.getMatchResultNamedGroup
+09-15 14:27:09.280  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 54892: Ljava/util/regex/Matcher;.start (Ljava/lang/String;)I
+09-15 14:27:09.280  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0018
+09-15 14:27:09.290  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/os/LocaleList;)
+09-15 14:27:09.290  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/os/LocaleList;)
+09-15 14:27:09.290  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/os/LocaleList;)
+09-15 14:27:09.290  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/os/LocaleList;)
+09-15 14:27:09.290  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/os/LocaleList;)
+09-15 14:27:09.290  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/os/LocaleList;)
+09-15 14:27:09.290  3023  3023 I dalvikvm: Could not find method android.os.LocaleList.matchesLanguageAndScript, referenced from method androidx.core.os.LocaleListCompat.matchesLanguageAndScript
+09-15 14:27:09.290  3023  3023 W dalvikvm: VFY: unable to resolve static method 312: Landroid/os/LocaleList;.matchesLanguageAndScript (Ljava/util/Locale;Ljava/util/Locale;)Z
+09-15 14:27:09.290  3023  3023 D dalvikvm: VFY: replacing opcode 0x71 at 0x0006
+09-15 14:27:09.290  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/os/LocaleList;)
+09-15 14:27:09.290  3023  3023 E dalvikvm: Could not find class 'android.os.LocaleList', referenced from method androidx.core.os.LocaleListCompat.wrap
+09-15 14:27:09.290  3023  3023 W dalvikvm: VFY: unable to resolve check-cast 95 (Landroid/os/LocaleList;) in Landroidx/core/os/LocaleListCompat;
+09-15 14:27:09.290  3023  3023 D dalvikvm: VFY: replacing opcode 0x1f at 0x0001
+09-15 14:27:09.320  3023  3023 I dalvikvm-heap: Grow heap (frag case) to 10.120MB for 181492-byte allocation
+09-15 14:27:09.340  3023  3023 I OPENHU  : [1] MainActivity.logLaunchSource | App launched, source unknown (action: null)
+09-15 14:27:09.380  3023  3027 D dalvikvm: GC_CONCURRENT freed 331K, 8% free 8673K/9348K, paused 3ms+6ms, total 64ms
+09-15 14:27:09.410  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/WindowInsets;)
+09-15 14:27:09.410  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/WindowInsets;)
+09-15 14:27:09.410  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/WindowInsets;)
+09-15 14:27:09.410  3023  3023 I dalvikvm: Could not find method android.view.WindowInsets.equals, referenced from method androidx.core.view.ViewCompat.dispatchApplyWindowInsets
+09-15 14:27:09.410  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 5239: Landroid/view/WindowInsets;.equals (Ljava/lang/Object;)Z
+09-15 14:27:09.410  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0010
+09-15 14:27:09.410  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/autofill/AutofillId;)
+09-15 14:27:09.410  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/autofill/AutofillId;)
+09-15 14:27:09.410  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/contentcapture/ContentCaptureSession;)
+09-15 14:27:09.410  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/contentcapture/ContentCaptureSession;)
+09-15 14:27:09.420  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/WindowInsets;)
+09-15 14:27:09.420  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/WindowInsets;)
+09-15 14:27:09.420  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/WindowInsets;)
+09-15 14:27:09.420  3023  3023 I dalvikvm: Could not find method android.view.WindowInsets.equals, referenced from method androidx.core.view.ViewCompat.onApplyWindowInsets
+09-15 14:27:09.420  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 5239: Landroid/view/WindowInsets;.equals (Ljava/lang/Object;)Z
+09-15 14:27:09.420  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0010
+09-15 14:27:09.420  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/autofill/AutofillId;)
+09-15 14:27:09.420  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/autofill/AutofillId;)
+09-15 14:27:09.420  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/contentcapture/ContentCaptureSession;)
+09-15 14:27:09.420  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/contentcapture/ContentCaptureSession;)
+09-15 14:27:09.430  3023  3023 E dalvikvm: Could not find class 'android.graphics.drawable.RippleDrawable', referenced from method androidx.appcompat.widget.AppCompatImageHelper.hasOverlappingRendering
+09-15 14:27:09.430  3023  3023 W dalvikvm: VFY: unable to resolve instanceof 249 (Landroid/graphics/drawable/RippleDrawable;) in Landroidx/appcompat/widget/AppCompatImageHelper;
+09-15 14:27:09.430  3023  3023 D dalvikvm: VFY: replacing opcode 0x20 at 0x000c
+09-15 14:27:09.430  3023  3023 I dalvikvm: Could not find method android.widget.TextView.getAutoSizeMaxTextSize, referenced from method androidx.appcompat.widget.AppCompatTextView.access$001
+09-15 14:27:09.430  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 6328: Landroid/widget/TextView;.getAutoSizeMaxTextSize ()I
+09-15 14:27:09.440  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0000
+09-15 14:27:09.440  3023  3023 I dalvikvm: Could not find method android.widget.TextView.setFirstBaselineToTopHeight, referenced from method androidx.appcompat.widget.AppCompatTextView.access$1001
+09-15 14:27:09.440  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 6419: Landroid/widget/TextView;.setFirstBaselineToTopHeight (I)V
+09-15 14:27:09.440  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0000
+09-15 14:27:09.440  3023  3023 I dalvikvm: Could not find method android.widget.TextView.getAutoSizeMinTextSize, referenced from method androidx.appcompat.widget.AppCompatTextView.access$101
+09-15 14:27:09.440  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 6329: Landroid/widget/TextView;.getAutoSizeMinTextSize ()I
+09-15 14:27:09.440  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0000
+09-15 14:27:09.440  3023  3023 I dalvikvm: Could not find method android.widget.TextView.setLastBaselineToBottomHeight, referenced from method androidx.appcompat.widget.AppCompatTextView.access$1101
+09-15 14:27:09.440  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 6426: Landroid/widget/TextView;.setLastBaselineToBottomHeight (I)V
+09-15 14:27:09.440  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0000
+09-15 14:27:09.440  3023  3023 I dalvikvm: Could not find method android.widget.TextView.getAutoSizeStepGranularity, referenced from method androidx.appcompat.widget.AppCompatTextView.access$201
+09-15 14:27:09.440  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 6330: Landroid/widget/TextView;.getAutoSizeStepGranularity ()I
+09-15 14:27:09.440  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0000
+09-15 14:27:09.440  3023  3023 I dalvikvm: Could not find method android.widget.TextView.getAutoSizeTextAvailableSizes, referenced from method androidx.appcompat.widget.AppCompatTextView.access$301
+09-15 14:27:09.440  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 6331: Landroid/widget/TextView;.getAutoSizeTextAvailableSizes ()[I
+09-15 14:27:09.440  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0000
+09-15 14:27:09.440  3023  3023 I dalvikvm: Could not find method android.widget.TextView.getAutoSizeTextType, referenced from method androidx.appcompat.widget.AppCompatTextView.access$401
+09-15 14:27:09.440  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 6332: Landroid/widget/TextView;.getAutoSizeTextType ()I
+09-15 14:27:09.440  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0000
+09-15 14:27:09.440  3023  3023 I dalvikvm: Could not find method android.widget.TextView.getTextClassifier, referenced from method androidx.appcompat.widget.AppCompatTextView.access$501
+09-15 14:27:09.440  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 6372: Landroid/widget/TextView;.getTextClassifier ()Landroid/view/textclassifier/TextClassifier;
+09-15 14:27:09.440  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0000
+09-15 14:27:09.440  3023  3023 I dalvikvm: Could not find method android.widget.TextView.setAutoSizeTextTypeUniformWithConfiguration, referenced from method androidx.appcompat.widget.AppCompatTextView.access$601
+09-15 14:27:09.440  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 6400: Landroid/widget/TextView;.setAutoSizeTextTypeUniformWithConfiguration (IIII)V
+09-15 14:27:09.440  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0000
+09-15 14:27:09.440  3023  3023 I dalvikvm: Could not find method android.widget.TextView.setAutoSizeTextTypeUniformWithPresetSizes, referenced from method androidx.appcompat.widget.AppCompatTextView.access$701
+09-15 14:27:09.440  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 6401: Landroid/widget/TextView;.setAutoSizeTextTypeUniformWithPresetSizes ([II)V
+09-15 14:27:09.440  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0000
+09-15 14:27:09.440  3023  3023 I dalvikvm: Could not find method android.widget.TextView.setAutoSizeTextTypeWithDefaults, referenced from method androidx.appcompat.widget.AppCompatTextView.access$801
+09-15 14:27:09.440  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 6402: Landroid/widget/TextView;.setAutoSizeTextTypeWithDefaults (I)V
+09-15 14:27:09.440  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0000
+09-15 14:27:09.440  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/textclassifier/TextClassifier;)
+09-15 14:27:09.440  3023  3023 I dalvikvm: Could not find method android.widget.TextView.setTextClassifier, referenced from method androidx.appcompat.widget.AppCompatTextView.access$901
+09-15 14:27:09.440  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 6443: Landroid/widget/TextView;.setTextClassifier (Landroid/view/textclassifier/TextClassifier;)V
+09-15 14:27:09.440  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0000
+09-15 14:27:09.440  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/textclassifier/TextClassifier;)
+09-15 14:27:09.440  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/textclassifier/TextClassifier;)
+09-15 14:27:09.440  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/textclassifier/TextClassifier;)
+09-15 14:27:09.440  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/textclassifier/TextClassifier;)
+09-15 14:27:09.450  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/textclassifier/TextClassifier;)
+09-15 14:27:09.450  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/textclassifier/TextClassifier;)
+09-15 14:27:09.450  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/textclassifier/TextClassifier;)
+09-15 14:27:09.470  3023  3023 I dalvikvm: Could not find method android.util.TypedValue.getComplexUnit, referenced from method com.google.android.material.resources.MaterialResources.getComplexUnit
+09-15 14:27:09.470  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 1198: Landroid/util/TypedValue;.getComplexUnit ()I
+09-15 14:27:09.470  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0006
+09-15 14:27:09.470  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/WindowInsets;)
+09-15 14:27:09.470  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/WindowInsets;)
+09-15 14:27:09.470  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/WindowInsets;)
+09-15 14:27:09.480  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/WindowInsets;)
+09-15 14:27:09.480  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/WindowInsets;)
+09-15 14:27:09.480  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/WindowInsets;)
+09-15 14:27:09.480  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/WindowInsets;)
+09-15 14:27:09.480  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/view/WindowInsets;)
+09-15 14:27:09.530  3023  3023 I dalvikvm: Could not find method android.widget.ProgressBar.setProgressTintList, referenced from method com.andrerinas.openheadunit.main.HomeFragment.showNativeAaDeviceSelector
+09-15 14:27:09.530  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 6196: Landroid/widget/ProgressBar;.setProgressTintList (Landroid/content/res/ColorStateList;)V
+09-15 14:27:09.530  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0150
+09-15 14:27:09.540  3023  3023 I dalvikvm: Could not find method android.widget.ProgressBar.setIndeterminateTintList, referenced from method com.andrerinas.openheadunit.main.HomeFragment.showNearbyDeviceSelector
+09-15 14:27:09.540  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 6190: Landroid/widget/ProgressBar;.setIndeterminateTintList (Landroid/content/res/ColorStateList;)V
+09-15 14:27:09.540  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x005b
+09-15 14:27:09.540  3023  3023 I dalvikvm: Could not find method android.net.ConnectivityManager.getActiveNetwork, referenced from method com.andrerinas.openheadunit.main.HomeFragment.startSelfMode
+09-15 14:27:09.540  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 2059: Landroid/net/ConnectivityManager;.getActiveNetwork ()Landroid/net/Network;
+09-15 14:27:09.540  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0018
+09-15 14:27:09.630  3023  3023 W Glide   : Failed to find GeneratedAppGlideModule. You should include an annotationProcessor compile dependency on com.github.bumptech.glide:compiler in your application and a @GlideModule annotated AppGlideModule implementation or LibraryGlideModules will be silently ignored
+09-15 14:27:09.650  3023  3023 I dalvikvm: Could not find method android.app.ActivityManager.isLowRamDevice, referenced from method com.bumptech.glide.load.engine.cache.MemorySizeCalculator.isLowMemoryDevice
+09-15 14:27:09.650  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 118: Landroid/app/ActivityManager;.isLowRamDevice ()Z
+09-15 14:27:09.650  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0006
+09-15 14:27:09.650  3023  3023 D dalvikvm: DexOpt: couldn't find static field Landroid/graphics/Bitmap$Config;.HARDWARE
+09-15 14:27:09.650  3023  3023 W dalvikvm: VFY: unable to resolve static field 31 (HARDWARE) in Landroid/graphics/Bitmap$Config;
+09-15 14:27:09.650  3023  3023 D dalvikvm: VFY: replacing opcode 0x62 at 0x0007
+09-15 14:27:09.650  3023  3023 D dalvikvm: DexOpt: couldn't find static field Landroid/graphics/Bitmap$Config;.HARDWARE
+09-15 14:27:09.650  3023  3023 W dalvikvm: VFY: unable to resolve static field 31 (HARDWARE) in Landroid/graphics/Bitmap$Config;
+09-15 14:27:09.650  3023  3023 D dalvikvm: VFY: replacing opcode 0x62 at 0x001d
+09-15 14:27:09.660  3023  3023 I dalvikvm: Could not find method android.graphics.Bitmap.setPremultiplied, referenced from method com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool.maybeSetPreMultiplied
+09-15 14:27:09.660  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 465: Landroid/graphics/Bitmap;.setPremultiplied (Z)V
+09-15 14:27:09.660  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0007
+09-15 14:27:09.660  3023  3023 I dalvikvm: Could not find method android.graphics.Bitmap.getAllocationByteCount, referenced from method com.bumptech.glide.util.Util.getBitmapByteSize
+09-15 14:27:09.660  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 449: Landroid/graphics/Bitmap;.getAllocationByteCount ()I
+09-15 14:27:09.660  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x000c
+09-15 14:27:09.680  3023  3023 D dalvikvm: DexOpt: couldn't find static field Landroid/graphics/Bitmap$Config;.HARDWARE
+09-15 14:27:09.690  3023  3027 D dalvikvm: GC_CONCURRENT freed 1025K, 12% free 8774K/9964K, paused 3ms+2ms, total 67ms
+09-15 14:27:09.690  3023  3023 W dalvikvm: VFY: unable to resolve static field 31 (HARDWARE) in Landroid/graphics/Bitmap$Config;
+09-15 14:27:09.690  3023  3023 D dalvikvm: VFY: replacing opcode 0x62 at 0x0007
+09-15 14:27:09.750  3023  3023 D dalvikvm: DexOpt: couldn't find field Landroid/view/WindowManager$LayoutParams;.layoutInDisplayCutoutMode
+09-15 14:27:09.750  3023  3023 W dalvikvm: VFY: unable to resolve instance field 168
+09-15 14:27:09.750  3023  3023 D dalvikvm: VFY: replacing opcode 0x59 at 0x0022
+09-15 14:27:09.750  3023  3023 I dalvikvm: Could not find method android.view.Window.setDecorFitsSystemWindows, referenced from method com.andrerinas.openheadunit.utils.SystemUI.apply
+09-15 14:27:09.750  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 1516: Landroid/view/Window;.setDecorFitsSystemWindows (Z)V
+09-15 14:27:09.750  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x003f
+09-15 14:27:09.750  3023  3023 I dalvikvm: Could not find method android.view.Window.setStatusBarColor, referenced from method com.andrerinas.openheadunit.utils.SystemUI.apply
+09-15 14:27:09.750  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 1520: Landroid/view/Window;.setStatusBarColor (I)V
+09-15 14:27:09.750  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x00d4
+09-15 14:27:09.760  3023  3023 I dalvikvm: Could not find method android.content.Context.getSystemService, referenced from method com.andrerinas.openheadunit.utils.HeadUnitScreenConfig.init
+09-15 14:27:09.760  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 247: Landroid/content/Context;.getSystemService (Ljava/lang/Class;)Ljava/lang/Object;
+09-15 14:27:09.760  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x003d
+09-15 14:27:09.780  3023  3023 I dalvikvm: Could not find method android.content.Intent.getParcelableExtra, referenced from method com.andrerinas.openheadunit.connection.usb.UsbReceiver.onReceive
+09-15 14:27:09.780  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 755: Landroid/content/Intent;.getParcelableExtra (Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;
+09-15 14:27:09.780  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x003f
+09-15 14:27:09.780  3023  3023 D OPENHU  : [1] UsbReceiver.<init> | UsbReceiver registered
+09-15 14:27:09.790  3023  3023 I OPENHU  : [1] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: USB list sees 0 USB device(s), 0 usable for Android Auto
+09-15 14:27:09.790  3023  3023 I OPENHU  : [1] UsbDeviceDiagnostics.logDeviceList | UsbDiagnostics: nothing is on the bus. Either the port carries no data, the unit is not in USB host mode, or a wireless adapter is waiting for its phone before it presents itself.
+09-15 14:27:09.800  3023  3023 I dalvikvm: Could not find method android.os.PowerManager.isIgnoringBatteryOptimizations, referenced from method com.andrerinas.openheadunit.aap.AapService.acquireBootWakeLock
+09-15 14:27:09.800  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 2446: Landroid/os/PowerManager;.isIgnoringBatteryOptimizations (Ljava/lang/String;)Z
+09-15 14:27:09.800  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0041
+09-15 14:27:09.800  3023  3023 I dalvikvm: Could not find method android.net.ConnectivityManager.unregisterNetworkCallback, referenced from method com.andrerinas.openheadunit.aap.AapService.completeWifiWait
+09-15 14:27:09.800  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 2068: Landroid/net/ConnectivityManager;.unregisterNetworkCallback (Landroid/net/ConnectivityManager$NetworkCallback;)V
+09-15 14:27:09.800  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x004a
+09-15 14:27:09.800  3023  3023 I dalvikvm: Could not find method com.andrerinas.openheadunit.aap.AapService.startForeground, referenced from method com.andrerinas.openheadunit.aap.AapService.demoteAfterMicrophone
+09-15 14:27:09.800  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 34186: Lcom/andrerinas/openheadunit/aap/AapService;.startForeground (ILandroid/app/Notification;I)V
+09-15 14:27:09.800  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0015
+09-15 14:27:09.810  3023  3023 I dalvikvm: Could not find method android.net.ConnectivityManager.getActiveNetwork, referenced from method com.andrerinas.openheadunit.aap.AapService.initWifiModeWithOptionalWait
+09-15 14:27:09.810  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 2059: Landroid/net/ConnectivityManager;.getActiveNetwork ()Landroid/net/Network;
+09-15 14:27:09.810  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0045
+09-15 14:27:09.810  3023  3023 W dalvikvm: Unable to resolve superclass of Lcom/andrerinas/openheadunit/aap/AapService$initWifiModeWithOptionalWait$callback$1; (373)
+09-15 14:27:09.810  3023  3023 W dalvikvm: Link of class 'Lcom/andrerinas/openheadunit/aap/AapService$initWifiModeWithOptionalWait$callback$1;' failed
+09-15 14:27:09.810  3023  3023 E dalvikvm: Could not find class 'com.andrerinas.openheadunit.aap.AapService$initWifiModeWithOptionalWait$callback$1', referenced from method com.andrerinas.openheadunit.aap.AapService.initWifiModeWithOptionalWait
+09-15 14:27:09.810  3023  3023 W dalvikvm: VFY: unable to resolve new-instance 4840 (Lcom/andrerinas/openheadunit/aap/AapService$initWifiModeWithOptionalWait$callback$1;) in Lcom/andrerinas/openheadunit/aap/AapService;
+09-15 14:27:09.810  3023  3023 D dalvikvm: VFY: replacing opcode 0x22 at 0x00a1
+09-15 14:27:09.810  3023  3023 E dalvikvm: Could not find class 'android.net.ConnectivityManager$NetworkCallback', referenced from method com.andrerinas.openheadunit.aap.AapService.initWifiModeWithOptionalWait
+09-15 14:27:09.810  3023  3023 W dalvikvm: VFY: unable to resolve check-cast 373 (Landroid/net/ConnectivityManager$NetworkCallback;) in Lcom/andrerinas/openheadunit/aap/AapService;
+09-15 14:27:09.810  3023  3023 D dalvikvm: VFY: replacing opcode 0x1f at 0x00aa
+09-15 14:27:09.820  3023  3023 I dalvikvm: Could not find method com.andrerinas.openheadunit.aap.AapService.startForeground, referenced from method com.andrerinas.openheadunit.aap.AapService.promoteForMicrophone
+09-15 14:27:09.820  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 34186: Lcom/andrerinas/openheadunit/aap/AapService;.startForeground (ILandroid/app/Notification;I)V
+09-15 14:27:09.820  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0033
+09-15 14:27:09.820  3023  3023 W dalvikvm: Unable to resolve superclass of Lcom/andrerinas/openheadunit/aap/AapService$registerNetworkMonitor$callback$1; (373)
+09-15 14:27:09.820  3023  3023 W dalvikvm: Link of class 'Lcom/andrerinas/openheadunit/aap/AapService$registerNetworkMonitor$callback$1;' failed
+09-15 14:27:09.820  3023  3023 E dalvikvm: Could not find class 'com.andrerinas.openheadunit.aap.AapService$registerNetworkMonitor$callback$1', referenced from method com.andrerinas.openheadunit.aap.AapService.registerNetworkMonitor
+09-15 14:27:09.820  3023  3023 W dalvikvm: VFY: unable to resolve new-instance 4861 (Lcom/andrerinas/openheadunit/aap/AapService$registerNetworkMonitor$callback$1;) in Lcom/andrerinas/openheadunit/aap/AapService;
+09-15 14:27:09.820  3023  3023 D dalvikvm: VFY: replacing opcode 0x22 at 0x0014
+09-15 14:27:09.820  3023  3023 I dalvikvm: Could not find method android.media.AudioManager.abandonAudioFocusRequest, referenced from method com.andrerinas.openheadunit.aap.AapService.releasePermanentAudioFocus
+09-15 14:27:09.820  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 1744: Landroid/media/AudioManager;.abandonAudioFocusRequest (Landroid/media/AudioFocusRequest;)I
+09-15 14:27:09.820  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x001a
+09-15 14:27:09.820  3023  3023 E dalvikvm: Could not find class 'android.media.AudioAttributes$Builder', referenced from method com.andrerinas.openheadunit.aap.AapService.requestPermanentAudioFocus
+09-15 14:27:09.820  3023  3023 W dalvikvm: VFY: unable to resolve new-instance 306 (Landroid/media/AudioAttributes$Builder;) in Lcom/andrerinas/openheadunit/aap/AapService;
+09-15 14:27:09.820  3023  3023 D dalvikvm: VFY: replacing opcode 0x22 at 0x00a5
+09-15 14:27:09.820  3023  3023 I dalvikvm: Could not find method android.media.AudioManager.requestAudioFocus, referenced from method com.andrerinas.openheadunit.aap.AapService.requestPermanentAudioFocus
+09-15 14:27:09.820  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 1759: Landroid/media/AudioManager;.requestAudioFocus (Landroid/media/AudioFocusRequest;)I
+09-15 14:27:09.820  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x00da
+09-15 14:27:09.830  3023  3023 I dalvikvm: Could not find method android.net.ConnectivityManager.unregisterNetworkCallback, referenced from method com.andrerinas.openheadunit.aap.AapService.unregisterNetworkMonitor
+09-15 14:27:09.830  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 2068: Landroid/net/ConnectivityManager;.unregisterNetworkCallback (Landroid/net/ConnectivityManager$NetworkCallback;)V
+09-15 14:27:09.830  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x001d
+09-15 14:27:09.830  3023  3023 I dalvikvm: Could not find method com.andrerinas.openheadunit.aap.AapService.startForeground, referenced from method com.andrerinas.openheadunit.aap.AapService.onCreate
+09-15 14:27:09.830  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 34186: Lcom/andrerinas/openheadunit/aap/AapService;.startForeground (ILandroid/app/Notification;I)V
+09-15 14:27:09.830  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x001e
+09-15 14:27:09.830  3023  3023 I dalvikvm: Could not find method android.net.ConnectivityManager.unregisterNetworkCallback, referenced from method com.andrerinas.openheadunit.aap.AapService.onDestroy
+09-15 14:27:09.830  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 2068: Landroid/net/ConnectivityManager;.unregisterNetworkCallback (Landroid/net/ConnectivityManager$NetworkCallback;)V
+09-15 14:27:09.830  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0098
+09-15 14:27:09.830  3023  3023 I dalvikvm: Could not find method com.andrerinas.openheadunit.aap.AapService.startForeground, referenced from method com.andrerinas.openheadunit.aap.AapService.onStartCommand
+09-15 14:27:09.830  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 34186: Lcom/andrerinas/openheadunit/aap/AapService;.startForeground (ILandroid/app/Notification;I)V
+09-15 14:27:09.830  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0018
+09-15 14:27:09.840  3023  3023 W dalvikvm: Unable to resolve superclass of Lcom/andrerinas/openheadunit/aap/AapService$initWifiModeWithOptionalWait$callback$1; (373)
+09-15 14:27:09.840  3023  3023 W dalvikvm: Link of class 'Lcom/andrerinas/openheadunit/aap/AapService$initWifiModeWithOptionalWait$callback$1;' failed
+09-15 14:27:09.840  3023  3023 D dalvikvm: DexOpt: unable to opt direct call 0x845a at 0xa3 in Lcom/andrerinas/openheadunit/aap/AapService;.initWifiModeWithOptionalWait
+09-15 14:27:09.840  3023  3023 D dalvikvm: DexOpt: unable to opt direct call 0x081d at 0xb6 in Lcom/andrerinas/openheadunit/aap/AapService;.initWifiModeWithOptionalWait
+09-15 14:27:09.840  3023  3023 W dalvikvm: Unable to resolve superclass of Lcom/andrerinas/openheadunit/aap/AapService$registerNetworkMonitor$callback$1; (373)
+09-15 14:27:09.840  3023  3023 W dalvikvm: Link of class 'Lcom/andrerinas/openheadunit/aap/AapService$registerNetworkMonitor$callback$1;' failed
+09-15 14:27:09.840  3023  3023 D dalvikvm: DexOpt: unable to opt direct call 0x84a5 at 0x16 in Lcom/andrerinas/openheadunit/aap/AapService;.registerNetworkMonitor
+09-15 14:27:09.840  3023  3023 D dalvikvm: DexOpt: unable to opt direct call 0x081d at 0x20 in Lcom/andrerinas/openheadunit/aap/AapService;.registerNetworkMonitor
+09-15 14:27:09.840  3023  3023 D dalvikvm: DexOpt: unable to opt direct call 0x06b4 at 0xa7 in Lcom/andrerinas/openheadunit/aap/AapService;.requestPermanentAudioFocus
+09-15 14:27:09.840  3023  3023 D dalvikvm: DexOpt: unable to opt direct call 0x06c3 at 0xba in Lcom/andrerinas/openheadunit/aap/AapService;.requestPermanentAudioFocus
+09-15 14:27:09.910  3023  3023 I dalvikvm: Could not find method android.provider.Settings.canDrawOverlays, referenced from method com.andrerinas.openheadunit.main.FloatingButtonManager.hasOverlayPermission
+09-15 14:27:09.910  3023  3023 W dalvikvm: VFY: unable to resolve static method 333: Landroid/provider/Settings;.canDrawOverlays (Landroid/content/Context;)Z
+09-15 14:27:09.910  3023  3023 D dalvikvm: VFY: replacing opcode 0x71 at 0x000b
+09-15 14:27:09.910  3023  3023 I dalvikvm: Could not find method android.provider.Settings.canDrawOverlays, referenced from method com.andrerinas.openheadunit.main.FloatingButtonManager.requestOverlayPermission
+09-15 14:27:09.910  3023  3023 W dalvikvm: VFY: unable to resolve static method 333: Landroid/provider/Settings;.canDrawOverlays (Landroid/content/Context;)Z
+09-15 14:27:09.910  3023  3023 D dalvikvm: VFY: replacing opcode 0x71 at 0x000b
+09-15 14:27:09.920  3023  3023 I dalvikvm: Could not find method android.view.ViewGroup.<init>, referenced from method androidx.constraintlayout.widget.ConstraintLayout.<init>
+09-15 14:27:09.920  3023  3023 W dalvikvm: VFY: unable to resolve direct method 4986: Landroid/view/ViewGroup;.<init> (Landroid/content/Context;Landroid/util/AttributeSet;II)V
+09-15 14:27:09.920  3023  3023 D dalvikvm: VFY: replacing opcode 0x70 at 0x0000
+09-15 14:27:09.950  3023  3023 I dalvikvm: Could not find method androidx.appcompat.widget.AppCompatButton.setElevation, referenced from method com.google.android.material.button.MaterialButton.setElevation
+09-15 14:27:09.950  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 2077: Landroidx/appcompat/widget/AppCompatButton;.setElevation (F)V
+09-15 14:27:09.950  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0000
+09-15 14:27:09.960  3023  3023 I dalvikvm: Could not find method android.widget.Button.getAutoSizeMaxTextSize, referenced from method androidx.appcompat.widget.AppCompatButton.getAutoSizeMaxTextSize
+09-15 14:27:09.960  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 5705: Landroid/widget/Button;.getAutoSizeMaxTextSize ()I
+09-15 14:27:09.960  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0004
+09-15 14:27:09.960  3023  3023 I dalvikvm: Could not find method android.widget.Button.getAutoSizeMinTextSize, referenced from method androidx.appcompat.widget.AppCompatButton.getAutoSizeMinTextSize
+09-15 14:27:09.960  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 5706: Landroid/widget/Button;.getAutoSizeMinTextSize ()I
+09-15 14:27:09.960  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0004
+09-15 14:27:09.960  3023  3023 I dalvikvm: Could not find method android.widget.Button.getAutoSizeStepGranularity, referenced from method androidx.appcompat.widget.AppCompatButton.getAutoSizeStepGranularity
+09-15 14:27:09.960  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 5707: Landroid/widget/Button;.getAutoSizeStepGranularity ()I
+09-15 14:27:09.960  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0004
+09-15 14:27:09.960  3023  3023 I dalvikvm: Could not find method android.widget.Button.getAutoSizeTextAvailableSizes, referenced from method androidx.appcompat.widget.AppCompatButton.getAutoSizeTextAvailableSizes
+09-15 14:27:09.960  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 5708: Landroid/widget/Button;.getAutoSizeTextAvailableSizes ()[I
+09-15 14:27:09.960  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0004
+09-15 14:27:09.960  3023  3023 I dalvikvm: Could not find method android.widget.Button.getAutoSizeTextType, referenced from method androidx.appcompat.widget.AppCompatButton.getAutoSizeTextType
+09-15 14:27:09.960  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 5709: Landroid/widget/Button;.getAutoSizeTextType ()I
+09-15 14:27:09.960  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0005
+09-15 14:27:09.960  3023  3023 I dalvikvm: Could not find method android.widget.Button.setAutoSizeTextTypeUniformWithConfiguration, referenced from method androidx.appcompat.widget.AppCompatButton.setAutoSizeTextTypeUniformWithConfiguration
+09-15 14:27:09.960  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 5718: Landroid/widget/Button;.setAutoSizeTextTypeUniformWithConfiguration (IIII)V
+09-15 14:27:09.960  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0004
+09-15 14:27:09.960  3023  3023 I dalvikvm: Could not find method android.widget.Button.setAutoSizeTextTypeUniformWithPresetSizes, referenced from method androidx.appcompat.widget.AppCompatButton.setAutoSizeTextTypeUniformWithPresetSizes
+09-15 14:27:09.960  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 5719: Landroid/widget/Button;.setAutoSizeTextTypeUniformWithPresetSizes ([II)V
+09-15 14:27:09.960  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0004
+09-15 14:27:09.960  3023  3023 I dalvikvm: Could not find method android.widget.Button.setAutoSizeTextTypeWithDefaults, referenced from method androidx.appcompat.widget.AppCompatButton.setAutoSizeTextTypeWithDefaults
+09-15 14:27:09.960  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 5720: Landroid/widget/Button;.setAutoSizeTextTypeWithDefaults (I)V
+09-15 14:27:09.960  3023  3023 D dalvikvm: VFY: replacing opcode 0x6f at 0x0004
+09-15 14:27:09.990  3023  3023 E dalvikvm: Could not find class 'android.graphics.drawable.RippleDrawable', referenced from method com.google.android.material.button.MaterialButtonHelper.createBackground
+09-15 14:27:09.990  3023  3023 W dalvikvm: VFY: unable to resolve new-instance 161 (Landroid/graphics/drawable/RippleDrawable;) in Lcom/google/android/material/button/MaterialButtonHelper;
+09-15 14:27:09.990  3023  3023 D dalvikvm: VFY: replacing opcode 0x22 at 0x005a
+09-15 14:27:09.990  3023  3023 I dalvikvm: Could not find method android.graphics.drawable.InsetDrawable.getDrawable, referenced from method com.google.android.material.button.MaterialButtonHelper.getMaterialShapeDrawable
+09-15 14:27:09.990  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 739: Landroid/graphics/drawable/InsetDrawable;.getDrawable ()Landroid/graphics/drawable/Drawable;
+09-15 14:27:09.990  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0019
+09-15 14:27:09.990  3023  3023 E dalvikvm: Could not find class 'android.graphics.drawable.RippleDrawable', referenced from method com.google.android.material.button.MaterialButtonHelper.setRippleColor
+09-15 14:27:09.990  3023  3023 W dalvikvm: VFY: unable to resolve instanceof 161 (Landroid/graphics/drawable/RippleDrawable;) in Lcom/google/android/material/button/MaterialButtonHelper;
+09-15 14:27:09.990  3023  3023 D dalvikvm: VFY: replacing opcode 0x20 at 0x0010
+09-15 14:27:09.990  3023  3023 D dalvikvm: DexOpt: unable to opt direct call 0x02ee at 0x73 in Lcom/google/android/material/button/MaterialButtonHelper;.createBackground
+09-15 14:27:10.000  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/icu/text/DecimalFormatSymbols;)
+09-15 14:27:10.000  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/icu/text/DecimalFormatSymbols;)
+09-15 14:27:10.000  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/text/PrecomputedText;)
+09-15 14:27:10.000  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/text/PrecomputedText;)
+09-15 14:27:10.000  3023  3023 I dalvikvm: Could not find method android.widget.TextView.setTextAppearance, referenced from method androidx.core.widget.TextViewCompat.setTextAppearance
+09-15 14:27:10.000  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 6441: Landroid/widget/TextView;.setTextAppearance (I)V
+09-15 14:27:10.000  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0006
+09-15 14:27:10.060  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/Outline;)
+09-15 14:27:10.060  3023  3023 I dalvikvm: Could not find method android.graphics.Outline.setRoundRect, referenced from method com.google.android.material.shape.MaterialShapeDrawable.getOutline
+09-15 14:27:10.060  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 568: Landroid/graphics/Outline;.setRoundRect (Landroid/graphics/Rect;F)V
+09-15 14:27:10.060  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x001c
+09-15 14:27:10.060  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/Outline;)
+09-15 14:27:10.060  3023  3023 I dalvikvm: Could not find method android.graphics.Path.isConvex, referenced from method com.google.android.material.shape.MaterialShapeDrawable.requiresCompatShadow
+09-15 14:27:10.060  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 598: Landroid/graphics/Path;.isConvex ()Z
+09-15 14:27:10.060  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x000e
+09-15 14:27:10.080  3023  3023 W dalvikvm: VFY: unable to resolve static field 67 (DIFFERENCE) in Landroid/graphics/Path$Op;
+09-15 14:27:10.080  3023  3023 D dalvikvm: VFY: replacing opcode 0x62 at 0x00b9
+09-15 14:27:10.080  3023  3023 W dalvikvm: VFY: unable to resolve static field 68 (INTERSECT) in Landroid/graphics/Path$Op;
+09-15 14:27:10.080  3023  3023 D dalvikvm: VFY: replacing opcode 0x62 at 0x0022
+09-15 14:27:10.080  3023  3023 W dalvikvm: VFY: unable to resolve static field 69 (UNION) in Landroid/graphics/Path$Op;
+09-15 14:27:10.080  3023  3023 D dalvikvm: VFY: replacing opcode 0x62 at 0x004f
+09-15 14:27:10.140  3023  3027 D dalvikvm: GC_CONCURRENT freed 747K, 10% free 9138K/10072K, paused 4ms+9ms, total 76ms
+09-15 14:27:10.150  3023  3023 E dalvikvm: Could not find class 'android.app.AppOpsManager', referenced from method com.andrerinas.openheadunit.utils.AppPermissions.isActuallyGranted
+09-15 14:27:10.150  3023  3023 W dalvikvm: VFY: unable to resolve instanceof 28 (Landroid/app/AppOpsManager;) in Lcom/andrerinas/openheadunit/utils/AppPermissions;
+09-15 14:27:10.160  3023  3023 D dalvikvm: VFY: replacing opcode 0x20 at 0x0010
+09-15 14:27:10.160  3023  3023 I dalvikvm: Could not find method android.provider.Settings.canDrawOverlays, referenced from method com.andrerinas.openheadunit.utils.AppPermissions.isOverlayGranted
+09-15 14:27:10.160  3023  3023 W dalvikvm: VFY: unable to resolve static method 1059: Landroid/provider/Settings;.canDrawOverlays (Landroid/content/Context;)Z
+09-15 14:27:10.160  3023  3023 D dalvikvm: VFY: replacing opcode 0x71 at 0x000d
+09-15 14:27:10.160  3023  3023 I dalvikvm: Could not find method android.provider.Settings$System.canWrite, referenced from method com.andrerinas.openheadunit.utils.AppPermissions.isWriteSettingsGranted
+09-15 14:27:10.160  3023  3023 W dalvikvm: VFY: unable to resolve static method 1054: Landroid/provider/Settings$System;.canWrite (Landroid/content/Context;)Z
+09-15 14:27:10.160  3023  3023 D dalvikvm: VFY: replacing opcode 0x71 at 0x000d
+09-15 14:27:10.160  3023  3023 D OPENHU  : [1] MainActivity.requestPermissions | All required permissions already granted.
+09-15 14:27:10.180  3023  3023 I OPENHU  : [1] HomeFragment.onResume | HomeFragment: onResume. isConnected=false
+09-15 14:27:10.210  3023  3023 I dalvikvm: Could not find method android.content.Intent.getParcelableExtra, referenced from method com.andrerinas.openheadunit.aap.AapService$btAutoDisconnectReceiver$1.onReceive
+09-15 14:27:10.210  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 755: Landroid/content/Intent;.getParcelableExtra (Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;
+09-15 14:27:10.210  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0053
+09-15 14:27:10.210  3023  3023 I OPENHU  : [1] AapService.onCreate | AapService creating...
+09-15 14:27:10.210  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat$Builder; to field Landroid/app/Notification;.extras
+09-15 14:27:10.210  3023  3023 W dalvikvm: VFY: unable to resolve instance field 17
+09-15 14:27:10.210  3023  3023 D dalvikvm: VFY: replacing opcode 0x54 at 0x0007
+09-15 14:27:10.210  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat$Builder; to field Landroid/app/Notification;.extras
+09-15 14:27:10.210  3023  3023 W dalvikvm: VFY: unable to resolve instance field 17
+09-15 14:27:10.210  3023  3023 D dalvikvm: VFY: replacing opcode 0x54 at 0x0000
+09-15 14:27:10.210  3023  3023 D dalvikvm: DexOpt: couldn't find field Landroid/app/Notification;.headsUpContentView
+09-15 14:27:10.210  3023  3023 W dalvikvm: VFY: unable to resolve instance field 20
+09-15 14:27:10.210  3023  3023 D dalvikvm: VFY: replacing opcode 0x54 at 0x003c
+09-15 14:27:10.210  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.210  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.210  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.220  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/media/AudioAttributes;)
+09-15 14:27:10.220  3023  3023 D dalvikvm: DexOpt: couldn't find field Landroid/app/Notification;.audioAttributes
+09-15 14:27:10.220  3023  3023 W dalvikvm: VFY: unable to resolve instance field 8
+09-15 14:27:10.220  3023  3023 D dalvikvm: VFY: replacing opcode 0x5b at 0x0023
+09-15 14:27:10.220  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/media/AudioAttributes;)
+09-15 14:27:10.220  3023  3023 D dalvikvm: DexOpt: couldn't find field Landroid/app/Notification;.audioAttributes
+09-15 14:27:10.220  3023  3023 W dalvikvm: VFY: unable to resolve instance field 8
+09-15 14:27:10.220  3023  3023 D dalvikvm: VFY: replacing opcode 0x5b at 0x0021
+09-15 14:27:10.220  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat$Builder; to field Landroid/app/Notification;.actions
+09-15 14:27:10.220  3023  3023 I dalvikvm: DexOpt: unable to optimize instance field ref 0x0007 at 0x166 in Landroidx/core/app/NotificationCompat$Builder;.<init>
+09-15 14:27:10.220  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat$Builder; to field Landroid/app/Notification;.actions
+09-15 14:27:10.220  3023  3023 I dalvikvm: DexOpt: unable to optimize instance field ref 0x0007 at 0x16b in Landroidx/core/app/NotificationCompat$Builder;.<init>
+09-15 14:27:10.220  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat$Builder; to field Landroid/app/Notification;.actions
+09-15 14:27:10.220  3023  3023 I dalvikvm: DexOpt: unable to optimize instance field ref 0x0007 at 0x170 in Landroidx/core/app/NotificationCompat$Builder;.<init>
+09-15 14:27:10.220  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat$Builder; to field Landroid/app/Notification;.extras
+09-15 14:27:10.220  3023  3023 I dalvikvm: DexOpt: unable to optimize instance field ref 0x0011 at 0x1ab in Landroidx/core/app/NotificationCompat$Builder;.<init>
+09-15 14:27:10.220  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat$Builder; to field Landroid/app/Notification;.extras
+09-15 14:27:10.220  3023  3023 I dalvikvm: DexOpt: unable to optimize instance field ref 0x0011 at 0x1c9 in Landroidx/core/app/NotificationCompat$Builder;.<init>
+09-15 14:27:10.220  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat$Builder; to field Landroid/app/Notification;.extras
+09-15 14:27:10.220  3023  3023 I dalvikvm: DexOpt: unable to optimize instance field ref 0x0011 at 0x08 in Landroidx/core/app/NotificationCompat$Builder;.getExtrasWithoutDuplicateData
+09-15 14:27:10.220  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.220  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.220  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.220  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.220  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.230  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.230  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.230  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.230  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.230  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.230  3023  3023 D dalvikvm: DexOpt: couldn't find field Landroid/app/Notification;.audioAttributes
+09-15 14:27:10.230  3023  3023 W dalvikvm: VFY: unable to resolve instance field 8
+09-15 14:27:10.230  3023  3023 D dalvikvm: VFY: replacing opcode 0x54 at 0x0235
+09-15 14:27:10.230  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/app/Person;)
+09-15 14:27:10.230  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/app/Person;)
+09-15 14:27:10.230  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/app/Person;)
+09-15 14:27:10.230  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/content/LocusId;)
+09-15 14:27:10.230  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.230  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.230  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.230  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.230  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.230  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature ([Landroid/app/RemoteInput;)
+09-15 14:27:10.230  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/app/RemoteInput;)
+09-15 14:27:10.230  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/app/RemoteInput;)
+09-15 14:27:10.240  3023  3023 D dalvikvm: DexOpt: couldn't find field Landroid/app/Notification;.headsUpContentView
+09-15 14:27:10.240  3023  3023 W dalvikvm: VFY: unable to resolve instance field 20
+09-15 14:27:10.240  3023  3023 D dalvikvm: VFY: replacing opcode 0x5b at 0x0043
+09-15 14:27:10.240  3023  3023 D dalvikvm: DexOpt: couldn't find field Landroid/app/Notification;.headsUpContentView
+09-15 14:27:10.240  3023  3023 W dalvikvm: VFY: unable to resolve instance field 20
+09-15 14:27:10.240  3023  3023 D dalvikvm: VFY: replacing opcode 0x5b at 0x006f
+09-15 14:27:10.240  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat; to field Landroid/app/Notification;.actions
+09-15 14:27:10.240  3023  3023 W dalvikvm: VFY: unable to resolve instance field 7
+09-15 14:27:10.240  3023  3023 D dalvikvm: VFY: replacing opcode 0x54 at 0x0006
+09-15 14:27:10.240  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat; to field Landroid/app/Notification;.actions
+09-15 14:27:10.240  3023  3023 W dalvikvm: VFY: unable to resolve instance field 7
+09-15 14:27:10.240  3023  3023 D dalvikvm: VFY: replacing opcode 0x54 at 0x0015
+09-15 14:27:10.240  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature ([Landroid/app/RemoteInput;)
+09-15 14:27:10.240  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.240  3023  3023 W dalvikvm: DexOpt: resolve class illegal access: Landroidx/core/app/NotificationCompat; -> Landroid/app/Notification$Action;
+09-15 14:27:10.240  3023  3023 W dalvikvm: VFY: unable to resolve instance field 3
+09-15 14:27:10.240  3023  3023 D dalvikvm: VFY: replacing opcode 0x52 at 0x00b4
+09-15 14:27:10.240  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.240  3023  3023 W dalvikvm: DexOpt: resolve class illegal access: Landroidx/core/app/NotificationCompat; -> Landroid/app/Notification$Action;
+09-15 14:27:10.240  3023  3023 W dalvikvm: VFY: unable to resolve instance field 4
+09-15 14:27:10.240  3023  3023 D dalvikvm: VFY: replacing opcode 0x54 at 0x00dc
+09-15 14:27:10.240  3023  3023 W dalvikvm: DexOpt: resolve class illegal access: Landroidx/core/app/NotificationCompat; -> Landroid/app/Notification$Action;
+09-15 14:27:10.240  3023  3023 W dalvikvm: VFY: unable to resolve instance field 3
+09-15 14:27:10.240  3023  3023 D dalvikvm: VFY: replacing opcode 0x52 at 0x00eb
+09-15 14:27:10.240  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/app/RemoteInput;)
+09-15 14:27:10.240  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/app/RemoteInput;)
+09-15 14:27:10.240  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/app/RemoteInput;)
+09-15 14:27:10.240  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/app/RemoteInput;)
+09-15 14:27:10.240  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/app/RemoteInput;)
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/app/RemoteInput;)
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/app/RemoteInput;)
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/app/RemoteInput;)
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/app/RemoteInput;)
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/app/RemoteInput;)
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/app/RemoteInput;)
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/app/RemoteInput;)
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/graphics/drawable/Icon;)
+09-15 14:27:10.250  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat; to field Landroid/app/Notification;.actions
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to resolve instance field 7
+09-15 14:27:10.250  3023  3023 D dalvikvm: VFY: replacing opcode 0x54 at 0x0006
+09-15 14:27:10.250  3023  3023 D dalvikvm: DexOpt: couldn't find field Landroid/app/Notification;.category
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to resolve instance field 11
+09-15 14:27:10.250  3023  3023 D dalvikvm: VFY: replacing opcode 0x54 at 0x0006
+09-15 14:27:10.250  3023  3023 D dalvikvm: DexOpt: couldn't find field Landroid/app/Notification;.color
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to resolve instance field 12
+09-15 14:27:10.250  3023  3023 D dalvikvm: VFY: replacing opcode 0x52 at 0x0006
+09-15 14:27:10.250  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat; to field Landroid/app/Notification;.extras
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to resolve instance field 17
+09-15 14:27:10.250  3023  3023 D dalvikvm: VFY: replacing opcode 0x54 at 0x0000
+09-15 14:27:10.250  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat; to field Landroid/app/Notification;.extras
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to resolve instance field 17
+09-15 14:27:10.250  3023  3023 D dalvikvm: VFY: replacing opcode 0x54 at 0x0000
+09-15 14:27:10.250  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat; to field Landroid/app/Notification;.extras
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to resolve instance field 17
+09-15 14:27:10.250  3023  3023 D dalvikvm: VFY: replacing opcode 0x54 at 0x0000
+09-15 14:27:10.250  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat; to field Landroid/app/Notification;.extras
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to resolve instance field 17
+09-15 14:27:10.250  3023  3023 D dalvikvm: VFY: replacing opcode 0x54 at 0x0006
+09-15 14:27:10.250  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat; to field Landroid/app/Notification;.extras
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to resolve instance field 17
+09-15 14:27:10.250  3023  3023 D dalvikvm: VFY: replacing opcode 0x54 at 0x0013
+09-15 14:27:10.250  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat; to field Landroid/app/Notification;.extras
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to resolve instance field 17
+09-15 14:27:10.250  3023  3023 D dalvikvm: VFY: replacing opcode 0x54 at 0x000b
+09-15 14:27:10.250  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat; to field Landroid/app/Notification;.extras
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to resolve instance field 17
+09-15 14:27:10.250  3023  3023 D dalvikvm: VFY: replacing opcode 0x54 at 0x0018
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/content/LocusId;)
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/content/LocusId;)
+09-15 14:27:10.250  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat; to field Landroid/app/Notification;.extras
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to resolve instance field 17
+09-15 14:27:10.250  3023  3023 D dalvikvm: VFY: replacing opcode 0x54 at 0x000b
+09-15 14:27:10.250  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat; to field Landroid/app/Notification;.extras
+09-15 14:27:10.250  3023  3023 W dalvikvm: VFY: unable to resolve instance field 17
+09-15 14:27:10.260  3023  3023 D dalvikvm: VFY: replacing opcode 0x54 at 0x0039
+09-15 14:27:10.260  3023  3023 D dalvikvm: DexOpt: couldn't find field Landroid/app/Notification;.publicVersion
+09-15 14:27:10.260  3023  3023 W dalvikvm: VFY: unable to resolve instance field 29
+09-15 14:27:10.260  3023  3023 D dalvikvm: VFY: replacing opcode 0x54 at 0x0006
+09-15 14:27:10.260  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat; to field Landroid/app/Notification;.extras
+09-15 14:27:10.260  3023  3023 W dalvikvm: VFY: unable to resolve instance field 17
+09-15 14:27:10.260  3023  3023 D dalvikvm: VFY: replacing opcode 0x54 at 0x0000
+09-15 14:27:10.260  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat; to field Landroid/app/Notification;.extras
+09-15 14:27:10.260  3023  3023 W dalvikvm: VFY: unable to resolve instance field 17
+09-15 14:27:10.260  3023  3023 D dalvikvm: VFY: replacing opcode 0x54 at 0x0013
+09-15 14:27:10.260  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat; to field Landroid/app/Notification;.extras
+09-15 14:27:10.260  3023  3023 W dalvikvm: VFY: unable to resolve instance field 17
+09-15 14:27:10.260  3023  3023 D dalvikvm: VFY: replacing opcode 0x54 at 0x0000
+09-15 14:27:10.260  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat; to field Landroid/app/Notification;.extras
+09-15 14:27:10.260  3023  3023 W dalvikvm: VFY: unable to resolve instance field 17
+09-15 14:27:10.260  3023  3023 D dalvikvm: VFY: replacing opcode 0x54 at 0x0000
+09-15 14:27:10.260  3023  3023 D dalvikvm: DexOpt: couldn't find field Landroid/app/Notification;.visibility
+09-15 14:27:10.260  3023  3023 W dalvikvm: VFY: unable to resolve instance field 33
+09-15 14:27:10.260  3023  3023 D dalvikvm: VFY: replacing opcode 0x52 at 0x0006
+09-15 14:27:10.260  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat; to field Landroid/app/Notification;.extras
+09-15 14:27:10.260  3023  3023 W dalvikvm: VFY: unable to resolve instance field 17
+09-15 14:27:10.260  3023  3023 D dalvikvm: VFY: replacing opcode 0x54 at 0x0018
+09-15 14:27:10.260  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat; to field Landroid/app/Notification;.extras
+09-15 14:27:10.260  3023  3023 I dalvikvm: DexOpt: unable to optimize instance field ref 0x0011 at 0x1a in Landroidx/core/app/NotificationCompat;.getAction
+09-15 14:27:10.260  3023  3023 W dalvikvm: DexOpt: resolve class illegal access: Landroidx/core/app/NotificationCompat; -> Landroid/app/Notification$Action;
+09-15 14:27:10.260  3023  3023 I dalvikvm: DexOpt: unable to optimize instance field ref 0x0003 at 0x2b in Landroidx/core/app/NotificationCompat;.getAction
+09-15 14:27:10.260  3023  3023 W dalvikvm: DexOpt: resolve class illegal access: Landroidx/core/app/NotificationCompat; -> Landroid/app/Notification$Action;
+09-15 14:27:10.260  3023  3023 I dalvikvm: DexOpt: unable to optimize instance field ref 0x0004 at 0x2d in Landroidx/core/app/NotificationCompat;.getAction
+09-15 14:27:10.260  3023  3023 W dalvikvm: DexOpt: resolve class illegal access: Landroidx/core/app/NotificationCompat; -> Landroid/app/Notification$Action;
+09-15 14:27:10.260  3023  3023 I dalvikvm: DexOpt: unable to optimize instance field ref 0x0002 at 0x2f in Landroidx/core/app/NotificationCompat;.getAction
+09-15 14:27:10.260  3023  3023 W dalvikvm: DexOpt: resolve class illegal access: Landroidx/core/app/NotificationCompat; -> Landroid/app/Notification$Action;
+09-15 14:27:10.260  3023  3023 I dalvikvm: DexOpt: unable to optimize instance field ref 0x0003 at 0xba in Landroidx/core/app/NotificationCompat;.getActionCompatFromAction
+09-15 14:27:10.260  3023  3023 W dalvikvm: DexOpt: resolve class illegal access: Landroidx/core/app/NotificationCompat; -> Landroid/app/Notification$Action;
+09-15 14:27:10.260  3023  3023 I dalvikvm: DexOpt: unable to optimize instance field ref 0x0004 at 0xbc in Landroidx/core/app/NotificationCompat;.getActionCompatFromAction
+09-15 14:27:10.260  3023  3023 W dalvikvm: DexOpt: resolve class illegal access: Landroidx/core/app/NotificationCompat; -> Landroid/app/Notification$Action;
+09-15 14:27:10.260  3023  3023 I dalvikvm: DexOpt: unable to optimize instance field ref 0x0002 at 0xbe in Landroidx/core/app/NotificationCompat;.getActionCompatFromAction
+09-15 14:27:10.260  3023  3023 W dalvikvm: DexOpt: resolve class illegal access: Landroidx/core/app/NotificationCompat; -> Landroid/app/Notification$Action;
+09-15 14:27:10.260  3023  3023 I dalvikvm: DexOpt: unable to optimize instance field ref 0x0002 at 0xde in Landroidx/core/app/NotificationCompat;.getActionCompatFromAction
+09-15 14:27:10.260  3023  3023 W dalvikvm: DexOpt: resolve class illegal access: Landroidx/core/app/NotificationCompat; -> Landroid/app/Notification$Action;
+09-15 14:27:10.260  3023  3023 I dalvikvm: DexOpt: unable to optimize instance field ref 0x0004 at 0xed in Landroidx/core/app/NotificationCompat;.getActionCompatFromAction
+09-15 14:27:10.260  3023  3023 W dalvikvm: DexOpt: resolve class illegal access: Landroidx/core/app/NotificationCompat; -> Landroid/app/Notification$Action;
+09-15 14:27:10.260  3023  3023 I dalvikvm: DexOpt: unable to optimize instance field ref 0x0002 at 0xef in Landroidx/core/app/NotificationCompat;.getActionCompatFromAction
+09-15 14:27:10.260  3023  3023 I dalvikvm: DexOpt: access denied from Landroidx/core/app/NotificationCompat; to field Landroid/app/Notification;.actions
+09-15 14:27:10.260  3023  3023 I dalvikvm: DexOpt: unable to optimize instance field ref 0x0007 at 0x0a in Landroidx/core/app/NotificationCompat;.getActionCount
+09-15 14:27:10.270  3023  3023 E dalvikvm: Could not find class 'android.bluetooth.BluetoothManager', referenced from method com.andrerinas.openheadunit.utils.BluetoothHelper.getDefaultAdapter
+09-15 14:27:10.270  3023  3023 W dalvikvm: VFY: unable to resolve check-cast 49 (Landroid/bluetooth/BluetoothManager;) in Lcom/andrerinas/openheadunit/utils/BluetoothHelper;
+09-15 14:27:10.270  3023  3023 D dalvikvm: VFY: replacing opcode 0x1f at 0x0011
+09-15 14:27:10.280  3023  3023 I dalvikvm: Could not find method android.bluetooth.BluetoothDevice.getType, referenced from method com.andrerinas.openheadunit.utils.BluetoothHelper.classifyDevice
+09-15 14:27:10.280  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 202: Landroid/bluetooth/BluetoothDevice;.getType ()I
+09-15 14:27:10.280  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0049
+09-15 14:27:10.330  3023  3023 I dalvikvm: Could not find method android.net.wifi.WifiInfo.getFrequency, referenced from method com.andrerinas.openheadunit.connection.wifi.direct.StationStandDown.standDown
+09-15 14:27:10.340  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 2139: Landroid/net/wifi/WifiInfo;.getFrequency ()I
+09-15 14:27:10.340  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0075
+09-15 14:27:10.430  3023  3023 D OPENHU  : [1] UsbReceiver.<init> | UsbReceiver registered
+09-15 14:27:10.530  3023  3023 I OPENHU  : [1] AapService.registerReceivers | Registered runtime MEDIA_BUTTON receiver
+09-15 14:27:10.530  3023  3023 I dalvikvm: Could not find method android.content.Intent.getParcelableExtra, referenced from method com.andrerinas.openheadunit.app.WifiAutoStartReceiver.onReceive
+09-15 14:27:10.530  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 755: Landroid/content/Intent;.getParcelableExtra (Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;
+09-15 14:27:10.530  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0021
+09-15 14:27:10.530  3023  3023 I dalvikvm: Could not find method android.os.UserManager.isUserUnlocked, referenced from method com.andrerinas.openheadunit.app.WifiAutoStartReceiver$Companion.checkAndStart
+09-15 14:27:10.530  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 2479: Landroid/os/UserManager;.isUserUnlocked ()Z
+09-15 14:27:10.530  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0042
+09-15 14:27:10.530  3023  3023 I OPENHU  : [1] AapService.registerReceivers | Registered dynamic WiFi Auto-start receiver
+09-15 14:27:10.540  3023  3023 I OPENHU  : [1] AapService.registerReceivers | Registered wake detection receiver (18 actions)
+09-15 14:27:10.540  3023  3023 I OPENHU  : [1] AapService.registerReceivers | Registered Bluetooth auto-disconnect receiver
+09-15 14:27:10.550  3023  3023 I OPENHU  : [1] CarBydReceiver.register | CarKeyReceiver: Listening for BYD panel keys on APP_REV_DATA (com.byd.multimediaservice not found)
+09-15 14:27:10.550  3023  3023 D OPENHU  : [1] CarKeysManager.registerIdleReceivers | CarKeysManager: 2 idle CarKeyReceivers registered
+09-15 14:27:10.550  3023  3023 I dalvikvm: Could not find method android.media.AudioManager.getCommunicationDevice, referenced from method com.andrerinas.openheadunit.decoder.audio.MicRecorder.cleanupSco
+09-15 14:27:10.550  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 1749: Landroid/media/AudioManager;.getCommunicationDevice ()Landroid/media/AudioDeviceInfo;
+09-15 14:27:10.550  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0026
+09-15 14:27:10.550  3023  3023 I dalvikvm: Could not find method android.media.AudioManager.getAvailableCommunicationDevices, referenced from method com.andrerinas.openheadunit.decoder.audio.MicRecorder.startScoAndRecord
+09-15 14:27:10.550  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 1748: Landroid/media/AudioManager;.getAvailableCommunicationDevices ()Ljava/util/List;
+09-15 14:27:10.550  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0043
+09-15 14:27:10.560  3023  3023 E dalvikvm: Could not find class 'android.media.session.MediaSession$Token', referenced from method android.support.v4.media.session.MediaSessionCompat$Token.fromToken
+09-15 14:27:10.560  3023  3023 W dalvikvm: VFY: unable to resolve instanceof 364 (Landroid/media/session/MediaSession$Token;) in Landroid/support/v4/media/session/MediaSessionCompat$Token;
+09-15 14:27:10.560  3023  3023 D dalvikvm: VFY: replacing opcode 0x20 at 0x0008
+09-15 14:27:10.560  3023  3023 W dalvikvm: Unable to resolve superclass of Landroid/support/v4/media/session/MediaSessionCompat$Callback$MediaSessionCallbackApi21; (362)
+09-15 14:27:10.560  3023  3023 W dalvikvm: Link of class 'Landroid/support/v4/media/session/MediaSessionCompat$Callback$MediaSessionCallbackApi21;' failed
+09-15 14:27:10.560  3023  3023 E dalvikvm: Could not find class 'android.support.v4.media.session.MediaSessionCompat$Callback$MediaSessionCallbackApi21', referenced from method android.support.v4.media.session.MediaSessionCompat$Callback.<init>
+09-15 14:27:10.560  3023  3023 W dalvikvm: VFY: unable to resolve new-instance 575 (Landroid/support/v4/media/session/MediaSessionCompat$Callback$MediaSessionCallbackApi21;) in Landroid/support/v4/media/session/MediaSessionCompat$Callback;
+09-15 14:27:10.560  3023  3023 D dalvikvm: VFY: replacing opcode 0x22 at 0x0011
+09-15 14:27:10.570  3023  3023 W dalvikvm: Unable to resolve superclass of Landroid/support/v4/media/session/MediaSessionCompat$Callback$MediaSessionCallbackApi21; (362)
+09-15 14:27:10.570  3023  3023 W dalvikvm: Link of class 'Landroid/support/v4/media/session/MediaSessionCompat$Callback$MediaSessionCallbackApi21;' failed
+09-15 14:27:10.570  3023  3023 D dalvikvm: DexOpt: unable to opt direct call 0x0d8b at 0x13 in Landroid/support/v4/media/session/MediaSessionCompat$Callback;.<init>
+09-15 14:27:10.570  3023  3023 E dalvikvm: Could not find class 'android.media.MediaMetadata', referenced from method android.support.v4.media.MediaMetadataCompat.fromMediaMetadata
+09-15 14:27:10.570  3023  3023 W dalvikvm: VFY: unable to resolve check-cast 335 (Landroid/media/MediaMetadata;) in Landroid/support/v4/media/MediaMetadataCompat;
+09-15 14:27:10.570  3023  3023 D dalvikvm: VFY: replacing opcode 0x1f at 0x000d
+09-15 14:27:10.570  3023  3023 W dalvikvm: VFY: unable to resolve static field 197 (CREATOR) in Landroid/media/MediaMetadata;
+09-15 14:27:10.570  3023  3023 D dalvikvm: VFY: replacing opcode 0x62 at 0x0015
+09-15 14:27:10.580  3023  3023 E dalvikvm: Could not find class 'android.media.session.PlaybackState', referenced from method android.support.v4.media.session.PlaybackStateCompat.fromPlaybackState
+09-15 14:27:10.580  3023  3023 W dalvikvm: VFY: unable to resolve check-cast 371 (Landroid/media/session/PlaybackState;) in Landroid/support/v4/media/session/PlaybackStateCompat;
+09-15 14:27:10.580  3023  3023 D dalvikvm: VFY: replacing opcode 0x1f at 0x000a
+09-15 14:27:10.580  3023  3023 E dalvikvm: Could not find class 'android.media.session.PlaybackState$CustomAction', referenced from method android.support.v4.media.session.PlaybackStateCompat.getPlaybackState
+09-15 14:27:10.580  3023  3023 W dalvikvm: VFY: unable to resolve check-cast 370 (Landroid/media/session/PlaybackState$CustomAction;) in Landroid/support/v4/media/session/PlaybackStateCompat;
+09-15 14:27:10.580  3023  3023 D dalvikvm: VFY: replacing opcode 0x1f at 0x003f
+09-15 14:27:10.580  3023  3023 W dalvikvm: VFY: unable to find class referenced in signature (Landroid/media/session/PlaybackState;)
+09-15 14:27:10.580  3023  3023 D OPENHU  : [1] AapService.updateMediaSessionState | MediaSession: State updated to STOPPED, positionMs=0
+09-15 14:27:10.610  3023  3023 W OPENHU  : [1] LogExporter.startCapture | LogExporter: session | build=3.4.0-beta3 (108) github/debug commit=8418ed025b56 | device=Hewlett-Packard HP Slate 7 Plus board=F4F69UA api=17 | video=codec:H.264 fps:30 resId:2 view:TEXTURE forceSw:false swDecoder:BUNDLED_FFMPEG | wifi=mode:AUTO strategy:NEARBY_DEVICES | bt=internal | logLevel=VERBOSE | debug=none
+09-15 14:27:10.610  3023  3023 D OPENHU  : [1] AapService.syncLogBackendState | LogExporter: started with level VERBOSE
+09-15 14:27:10.620  3023  3023 I OPENHU  : [1] WifiLauncherManager.setActive | WifiLauncher: Initializing WiFi Mode: AUTO
+09-15 14:27:10.620  3023  3023 I OPENHU  : [1] MainActivity.renderStagePill | MainActivity: status pill step: ARMED
+09-15 14:27:10.630  3023  3023 D OPENHU  : [1] WifiLauncherSharedServices.startWirelessServer | AapService: Starting the wireless server on 5288 - no server yet.
+09-15 14:27:10.630  3023  3023 I OPENHU  : [1] WirelessServer.start | WirelessServer: binding port 5288...
+09-15 14:27:10.640  3023  3047 I OPENHU  : [215] 1.invokeSuspend | Wireless Server listening on port 5288
+09-15 14:27:10.650  3023  3023 I dalvikvm: Could not find method android.net.ConnectivityManager.getActiveNetwork, referenced from method com.andrerinas.openheadunit.connection.wifi.NetworkDiscovery.scanGateways
+09-15 14:27:10.650  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 2059: Landroid/net/ConnectivityManager;.getActiveNetwork ()Landroid/net/Network;
+09-15 14:27:10.650  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x0074
+09-15 14:27:10.650  3023  3047 D OPENHU  : [215] 1.invokeSuspend | WirelessServer: Waiting for TCP connection on port 5288...
+09-15 14:27:10.660  3023  3023 I OPENHU  : [1] NetworkDiscovery.startScan | NetworkDiscovery: Starting scan...
+09-15 14:27:10.660  3023  3045 I OPENHU  : [213] 1.invokeSuspend | NetworkDiscovery: Step 1 - Quick Gateway Scan
+09-15 14:27:10.670  3023  3023 I OPENHU  : [1] MainActivity.renderStagePill | MainActivity: status pill step: SEARCHING
+09-15 14:27:10.680  3023  3023 I dalvikvm: Could not find method android.widget.ImageView.setElevation, referenced from method com.andrerinas.openheadunit.main.FloatingButtonService.showOrUpdateOverlay
+09-15 14:27:10.680  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 5996: Landroid/widget/ImageView;.setElevation (F)V
+09-15 14:27:10.680  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x00c1
+09-15 14:27:10.680  3023  3023 I dalvikvm: Could not find method android.widget.ImageView.setElevation, referenced from method com.andrerinas.openheadunit.main.FloatingButtonService.showOrUpdateOverlay
+09-15 14:27:10.680  3023  3023 W dalvikvm: VFY: unable to resolve virtual method 5996: Landroid/widget/ImageView;.setElevation (F)V
+09-15 14:27:10.680  3023  3023 D dalvikvm: VFY: replacing opcode 0x6e at 0x018f
+09-15 14:27:10.680  3023  3023 I dalvikvm: DexOpt: unable to optimize static field ref 0x0383 at 0xc4 in Lcom/andrerinas/openheadunit/main/FloatingButtonService;.showOrUpdateOverlay
+09-15 14:27:10.730  3023  3027 D dalvikvm: GC_CONCURRENT freed 1122K, 13% free 9301K/10608K, paused 3ms+4ms, total 59ms
+09-15 14:27:10.730  3023  3045 D dalvikvm: WAIT_FOR_CONCURRENT_GC blocked 53ms
+09-15 14:27:10.730  3023  3023 D dalvikvm: WAIT_FOR_CONCURRENT_GC blocked 31ms
+09-15 14:27:10.730  3023  3045 I OPENHU  : [213] 1.invokeSuspend | NetworkDiscovery: Step 2 - Full Subnet Scan
+09-15 14:27:10.740  3023  3023 I Choreographer: Skipped 32 frames!  The application may be doing too much work on its main thread.
+09-15 14:27:10.750  3023  3045 E OPENHU  : [213] 2.invokeSuspend | NetworkDiscovery: Could not determine subnet for deep scan
+09-15 14:27:10.830  3023  3059 I OPENHU  : [220] 1.onServiceRegistered | NSD Registered: AAWireless
+09-15 14:27:11.010  3023  3023 D libEGL  : loaded /system/lib/egl/libEGL_tegra.so
+09-15 14:27:11.010  3023  3023 E         : file /data/data/com.nvidia.NvCPLSvc/files/driverlist.txt: not found!
+09-15 14:27:11.010  3023  3023 I         : Attempting to load EGL implementation /system/lib//egl/libEGL_tegra_impl
+09-15 14:27:11.020  3023  3023 I         : Loaded EGL implementation /system/lib//egl/libEGL_tegra_impl
+09-15 14:27:11.020  3023  3023 D libEGL  : loaded /system/lib/egl/libGLESv1_CM_tegra.so
+09-15 14:27:11.020  3023  3023 D libEGL  : loaded /system/lib/egl/libGLESv2_tegra.so
+09-15 14:27:11.040  3023  3023 I         : Loading GLESv2 implementation /system/lib//egl/libGLESv2_tegra_impl
+09-15 14:27:11.040  3023  3023 D OpenGLRenderer: Enabling debug mode 0
+09-15 14:27:11.160  3023  3023 D OPENHU  : [1] 2.onGlobalLayout | [UI_DEBUG] Legacy SystemUI: Detected Insets L0 T33 R0 B-64
+09-15 14:27:11.160  3023  3023 D OPENHU  : [1] 2.onGlobalLayout | [UI_DEBUG] Legacy SystemUI: Detected Insets L0 T33 R0 B-64
+09-15 14:27:11.420  3023  3023 D OPENHU  : [1] 2.onGlobalLayout | [UI_DEBUG] Legacy SystemUI: Detected Insets L0 T0 R0 B-64
+09-15 14:27:21.240  3023  3023 I OPENHU  : [1] NetworkDiscovery.startScan | NetworkDiscovery: Starting scan...
+09-15 14:27:21.250  3023  3046 I OPENHU  : [214] 1.invokeSuspend | NetworkDiscovery: Step 1 - Quick Gateway Scan
+09-15 14:27:21.380  3023  3027 D dalvikvm: GC_CONCURRENT freed 895K, 11% free 9630K/10816K, paused 18ms+3ms, total 90ms
+09-15 14:27:21.380  3023  3046 D dalvikvm: WAIT_FOR_CONCURRENT_GC blocked 81ms
+09-15 14:27:21.390  3023  3046 I OPENHU  : [214] 1.invokeSuspend | NetworkDiscovery: Step 2 - Full Subnet Scan
+09-15 14:27:21.400  3023  3046 E OPENHU  : [214] 2.invokeSuspend | NetworkDiscovery: Could not determine subnet for deep scan
+09-15 14:27:31.410  3023  3023 I OPENHU  : [1] NetworkDiscovery.startScan | NetworkDiscovery: Starting scan...
+09-15 14:27:31.410  3023  3046 I OPENHU  : [214] 1.invokeSuspend | NetworkDiscovery: Step 1 - Quick Gateway Scan
+09-15 14:27:31.470  3023  3046 I OPENHU  : [214] 1.invokeSuspend | NetworkDiscovery: Step 2 - Full Subnet Scan
+09-15 14:27:31.550  3023  3046 D dalvikvm: GC_FOR_ALLOC freed 1213K, 15% free 9607K/11256K, paused 41ms, total 42ms
+09-15 14:27:31.560  3023  3046 E OPENHU  : [214] 2.invokeSuspend | NetworkDiscovery: Could not determine subnet for deep scan
+09-15 14:27:41.580  3023  3023 I OPENHU  : [1] NetworkDiscovery.startScan | NetworkDiscovery: Starting scan...
+09-15 14:27:41.580  3023  3066 I OPENHU  : [222] 1.invokeSuspend | NetworkDiscovery: Step 1 - Quick Gateway Scan
+09-15 14:27:41.640  3023  3066 I OPENHU  : [222] 1.invokeSuspend | NetworkDiscovery: Step 2 - Full Subnet Scan
+09-15 14:27:41.670  3023  3066 E OPENHU  : [222] 2.invokeSuspend | NetworkDiscovery: Could not determine subnet for deep scan
+09-15 14:27:51.700  3023  3023 I OPENHU  : [1] NetworkDiscovery.startScan | NetworkDiscovery: Starting scan...
+09-15 14:27:51.700  3023  3066 I OPENHU  : [222] 1.invokeSuspend | NetworkDiscovery: Step 1 - Quick Gateway Scan
+09-15 14:27:51.750  3023  3066 I OPENHU  : [222] 1.invokeSuspend | NetworkDiscovery: Step 2 - Full Subnet Scan
+09-15 14:27:51.820  3023  3066 D dalvikvm: GC_FOR_ALLOC freed 1228K, 15% free 9607K/11256K, paused 59ms, total 60ms
+09-15 14:27:51.830  3023  3066 E OPENHU  : [222] 2.invokeSuspend | NetworkDiscovery: Could not determine subnet for deep scan
+09-15 14:28:01.850  3023  3023 I OPENHU  : [1] NetworkDiscovery.startScan | NetworkDiscovery: Starting scan...
+09-15 14:28:01.850  3023  3066 I OPENHU  : [222] 1.invokeSuspend | NetworkDiscovery: Step 1 - Quick Gateway Scan
+09-15 14:28:01.900  3023  3066 I OPENHU  : [222] 1.invokeSuspend | NetworkDiscovery: Step 2 - Full Subnet Scan
+09-15 14:28:01.930  3023  3066 E OPENHU  : [222] 2.invokeSuspend | NetworkDiscovery: Could not determine subnet for deep scan
+09-15 14:28:11.950  3023  3023 I OPENHU  : [1] NetworkDiscovery.startScan | NetworkDiscovery: Starting scan...
+09-15 14:28:11.950  3023  3066 I OPENHU  : [222] 1.invokeSuspend | NetworkDiscovery: Step 1 - Quick Gateway Scan
+09-15 14:28:12.060  3023  3066 D dalvikvm: GC_FOR_ALLOC freed 1207K, 15% free 9612K/11256K, paused 83ms, total 84ms
+09-15 14:28:12.070  3023  3066 I OPENHU  : [222] 1.invokeSuspend | NetworkDiscovery: Step 2 - Full Subnet Scan
+09-15 14:28:12.090  3023  3066 E OPENHU  : [222] 2.invokeSuspend | NetworkDiscovery: Could not determine subnet for deep scan
+09-15 14:28:22.100  3023  3023 I OPENHU  : [1] NetworkDiscovery.startScan | NetworkDiscovery: Starting scan...
+09-15 14:28:22.100  3023  3066 I OPENHU  : [222] 1.invokeSuspend | NetworkDiscovery: Step 1 - Quick Gateway Scan
+09-15 14:28:22.130  3023  3066 I OPENHU  : [222] 1.invokeSuspend | NetworkDiscovery: Step 2 - Full Subnet Scan
+09-15 14:28:22.180  3023  3066 D dalvikvm: GC_FOR_ALLOC freed 1203K, 15% free 9608K/11256K, paused 40ms, total 40ms
+09-15 14:28:22.190  3023  3066 E OPENHU  : [222] 2.invokeSuspend | NetworkDiscovery: Could not determine subnet for deep scan
+09-15 14:28:32.200  3023  3023 I OPENHU  : [1] NetworkDiscovery.startScan | NetworkDiscovery: Starting scan...
+09-15 14:28:32.200  3023  3066 I OPENHU  : [222] 1.invokeSuspend | NetworkDiscovery: Step 1 - Quick Gateway Scan
+09-15 14:28:32.250  3023  3066 I OPENHU  : [222] 1.invokeSuspend | NetworkDiscovery: Step 2 - Full Subnet Scan
+09-15 14:28:32.290  3023  3066 E OPENHU  : [222] 2.invokeSuspend | NetworkDiscovery: Could not determine subnet for deep scan
+09-15 14:28:37.630  3023  3023 I OPENHU  : [1] StationScanMonitor.record | StationScanMonitor: station scans: 1 in 87182ms, one scan, so no cadence yet. Each one takes the radio off the group's channel.

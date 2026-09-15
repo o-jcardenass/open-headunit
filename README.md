@@ -41,7 +41,6 @@ A brief with no results file of the same name. Add a line here when a brief is p
 in the commit that pushes the results. Four older briefs have no same-named results because they
 were reported under another filename, and are listed so the pairing rule does not re-queue them.
 
-- `hp-slate-bringup-round1-brief.md` (new 4th rig device, `CNU350BGBJ`; log-export + USB-run capture + FPS-overlay bring-up, diagnostic only)
 - `zlink-aa-sink-decision-brief.md`, PC only, the descriptor decode and disassembly part two could not run; tools are in `tools/zbt/`
 - `audio-focus-round11-brief.md`
 - `link-stall-periodic-scan-round4-brief.md` (2.4 GHz plus constrained memory; round 5 ran first and PASSed)
@@ -61,6 +60,7 @@ by `bssid-round1-results.md` and its addendum.
 
 | Thread | State | Next |
 |---|---|---|
+| `hp-slate-bringup` | **DONE** | hp-slate-bringup-round1-results.md; R0-R2 PASS, R3 FAIL with root cause found (FPS overlay hidden under TEXTURE view-mode by an addView-order bug in `AapProjectionActivity`, not device-specific). "Can't export logs" was a wrong retrieval path (`/storage/sdcard0/...`, not `/storage/emulated/0/...`) — export itself works. Fix not applied this round (scope). |
 | `native-aa-recovery-identity-and-speed` | **DONE** | native-aa-recovery-identity-and-speed-round4-results.md; round 4 PASS, PR-ready. Nothing queued. |
 | `pr954-review` | **CLOSED** | pr954-review-findings.md and reply-draft; PC-only review, no rig time. Nothing posted to GitHub. |
 | `ultrawide-touch-alignment (round 8)` | **DONE** | ultrawide-touch-alignment-round8-results.md; round 8 PASS, PR pending. Nothing queued. |
