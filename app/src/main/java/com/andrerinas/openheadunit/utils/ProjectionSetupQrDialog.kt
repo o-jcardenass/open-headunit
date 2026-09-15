@@ -1,6 +1,8 @@
 package com.andrerinas.openheadunit.utils
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -19,6 +21,10 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
  */
 object ProjectionSetupQrDialog {
 
+    /** How long a re-armed group is given to resolve a network before the refusal is the answer. */
+    private const val SETTLE_BUDGET_MS = 20_000L
+    private const val RECHECK_MS = 1_000L
+
     fun show(context: Context) {
         val view = LayoutInflater.from(context).inflate(R.layout.dialog_projection_setup_qr, null)
         val container = view.findViewById<View>(R.id.layout_qr_container)
@@ -26,30 +32,64 @@ object ProjectionSetupQrDialog {
         val error = view.findViewById<TextView>(R.id.tv_qr_error_message)
         val instruction = view.findViewById<TextView>(R.id.tv_scan_instruction)
 
-        when (val decision = ProjectionQrPolicy.decide(AapService.instance?.projectionQrSnapshot())) {
+        // The settings screen takes the wireless stack down while it is open, and this reads the
+        // running launcher, so the hold puts it back up and the re-check below waits for it.
+        AapService.instance?.onSettingsScreenChanged(qrHold = true)
+
+        fun render(decision: ProjectionQrPolicy.Result): Boolean = when (decision) {
             is ProjectionQrPolicy.Result.Show -> {
                 val bitmap = QrCodeGenerator.generateQrCode(decision.url, 500)
                 if (bitmap != null) {
                     image.setImageBitmap(bitmap)
                     container.visibility = View.VISIBLE
                     instruction.visibility = View.VISIBLE
+                    error.visibility = View.GONE
                 } else {
                     error.setText(R.string.native_aa_setup_qr_not_drawn)
                     error.visibility = View.VISIBLE
                 }
+                true
             }
             is ProjectionQrPolicy.Result.Refuse -> {
                 AppLog.i("ProjectionSetupQr: no setup QR to show (${decision.refusal}).")
                 error.setText(reasonRes(decision.refusal))
                 error.visibility = View.VISIBLE
+                false
             }
         }
 
-        MaterialAlertDialogBuilder(context, R.style.DarkAlertDialog)
+        val settled = render(ProjectionQrPolicy.decide(AapService.instance?.projectionQrSnapshot()))
+
+        val handler = Handler(Looper.getMainLooper())
+        val dialog = MaterialAlertDialogBuilder(context, R.style.DarkAlertDialog)
             .setTitle(R.string.native_aa_setup_qr_title)
             .setView(view)
             .setPositiveButton(android.R.string.ok, null)
+            .setOnDismissListener {
+                handler.removeCallbacksAndMessages(null)
+                AapService.instance?.onSettingsScreenChanged(qrHold = false)
+            }
             .show()
+
+        if (settled) return
+
+        val giveUpAt = android.os.SystemClock.elapsedRealtime() + SETTLE_BUDGET_MS
+        val recheck = object : Runnable {
+            override fun run() {
+                if (!dialog.isShowing) return
+                val decision = ProjectionQrPolicy.decide(AapService.instance?.projectionQrSnapshot())
+                if (decision is ProjectionQrPolicy.Result.Show) {
+                    render(decision)
+                    return
+                }
+                if (android.os.SystemClock.elapsedRealtime() < giveUpAt) {
+                    handler.postDelayed(this, RECHECK_MS)
+                } else {
+                    render(decision)
+                }
+            }
+        }
+        handler.postDelayed(recheck, RECHECK_MS)
     }
 
     private fun reasonRes(refusal: ProjectionQrPolicy.Refusal): Int = when (refusal) {

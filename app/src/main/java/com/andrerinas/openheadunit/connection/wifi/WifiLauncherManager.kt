@@ -25,17 +25,35 @@ open class WifiLauncherManager(val service: AapService) {
 
     val activeMode: WifiLauncherMode? get() = active?.mode
 
-    fun setActiveFromSettings(force: Boolean = false, noInfoToasts: Boolean = true) {
+    /**
+     * @param userRequested the user asked for a wireless connection by hand, which lifts the
+     *   connection-mode refusal below. Not [force], which several automatic paths already pass.
+     */
+    fun setActiveFromSettings(
+        force: Boolean = false,
+        noInfoToasts: Boolean = true,
+        userRequested: Boolean = false,
+    ) {
         val settings = App.provide(service).settings
 
-        setActive(settings.wifiConnectionMode, force, noInfoToasts)
+        setActive(settings.wifiConnectionMode, force, noInfoToasts, userRequested)
     }
 
-    fun setActive(mode: WifiLauncherMode, force: Boolean = false, noInfoToasts: Boolean = true) {
-        setActive(mode.factory(this), force, noInfoToasts)
+    fun setActive(
+        mode: WifiLauncherMode,
+        force: Boolean = false,
+        noInfoToasts: Boolean = true,
+        userRequested: Boolean = false,
+    ) {
+        setActive(mode.factory(this), force, noInfoToasts, userRequested)
     }
 
-    fun setActive(newLauncher: WifiLauncher, force: Boolean = false, noInfoToasts: Boolean = true) {
+    fun setActive(
+        newLauncher: WifiLauncher,
+        force: Boolean = false,
+        noInfoToasts: Boolean = true,
+        userRequested: Boolean = false,
+    ) {
         if (newLauncher.manager != this)
             throw IllegalArgumentException("newLauncher.manager is different instance")
         if (active == newLauncher)
@@ -74,6 +92,26 @@ open class WifiLauncherManager(val service: AapService) {
             )
         ) {
             AppLog.i("AapService: wireless bring-up requested while a USB session is live — not arming it")
+            return
+        }
+
+        // The user connects by cable or Self Mode only, so nothing automatic creates a network or
+        // pokes a phone. The WiFi button passes, which is what keeps the manual route working.
+        if (WirelessSelectionPolicy.refusesBringUp(
+                wirelessSelected = App.provide(service).settings.showsWifi(),
+                userRequested = userRequested,
+            )
+        ) {
+            AppLog.i("WifiLauncher: wireless bring-up requested, but WiFi is not one of the chosen " +
+                "connection modes. Not arming it; the WiFi button still works.")
+            return
+        }
+
+        // The settings screen took the stack down so a wake poke cannot raise the projection over
+        // it. Saving a wireless setting sends ACTION_START_WIRELESS, which lands right here.
+        if (service.wirelessPausedForSettings) {
+            AppLog.i("AapService: wireless bring-up requested while the settings screen is open. " +
+                "Not arming it until the screen closes.")
             return
         }
 

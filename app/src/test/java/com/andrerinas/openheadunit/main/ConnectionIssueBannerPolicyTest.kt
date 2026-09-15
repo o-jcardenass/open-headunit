@@ -141,19 +141,31 @@ class ConnectionIssueBannerPolicyTest {
 
     // Which conditions the selected route can be blocked by.
 
+    /** A cable-only unit never brings the stack up, so no wireless verdict can explain anything. */
+    @Test
+    fun `no condition is relevant when wireless is not a chosen connection mode`() {
+        for (transport in NativeTransport.values()) {
+            assertTrue(
+                transport.name,
+                ConnectionIssueBannerPolicy.relevantNow(3, transport, wirelessSelected = false)
+                    .isEmpty()
+            )
+        }
+    }
+
     @Test
     fun `no condition is relevant outside Native AA`() {
         for (transport in NativeTransport.values()) {
             assertTrue(
                 transport.name,
-                ConnectionIssueBannerPolicy.relevantNow(mode = 2, transport = transport).isEmpty()
+                ConnectionIssueBannerPolicy.relevantNow(mode = 2, transport = transport, wirelessSelected = true).isEmpty()
             )
         }
     }
 
     @Test
     fun `WiFi Direct can be blocked by a masked BSSID but not by the hotspot configuration`() {
-        val relevant = ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.WIFI_DIRECT)
+        val relevant = ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.WIFI_DIRECT, true)
         assertTrue(ConnectionIssue.BSSID_UNAVAILABLE in relevant)
         assertTrue(ConnectionIssue.BLUETOOTH_SENT_NO_DATA in relevant)
         assertFalse(ConnectionIssue.HOTSPOT_CONFIG_UNREADABLE in relevant)
@@ -163,7 +175,7 @@ class ConnectionIssueBannerPolicyTest {
     fun `the hotspot transport is the other way round`() {
         // It survives an unusable BSSID by sending an empty one, so it never raises that
         // condition; it is the only route that resolves credentials from our own access point.
-        val relevant = ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.HOTSPOT)
+        val relevant = ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.HOTSPOT, true)
         assertTrue(ConnectionIssue.HOTSPOT_CONFIG_UNREADABLE in relevant)
         assertTrue(ConnectionIssue.BLUETOOTH_SENT_NO_DATA in relevant)
         assertFalse(ConnectionIssue.BSSID_UNAVAILABLE in relevant)
@@ -174,11 +186,11 @@ class ConnectionIssueBannerPolicyTest {
         // WiFi Direct hosts its own group, so "no access point" cannot be why it failed.
         assertTrue(
             ConnectionIssue.HOTSPOT_NOT_RUNNING in
-                ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.HOTSPOT)
+                ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.HOTSPOT, true)
         )
         assertFalse(
             ConnectionIssue.HOTSPOT_NOT_RUNNING in
-                ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.WIFI_DIRECT)
+                ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.WIFI_DIRECT, true)
         )
     }
 
@@ -187,11 +199,11 @@ class ConnectionIssueBannerPolicyTest {
         // The hotspot transport never asks for a group, so a refused one cannot be why it failed.
         assertTrue(
             ConnectionIssue.WIFI_DIRECT_GROUP_REFUSED in
-                ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.WIFI_DIRECT)
+                ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.WIFI_DIRECT, true)
         )
         assertFalse(
             ConnectionIssue.WIFI_DIRECT_GROUP_REFUSED in
-                ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.HOTSPOT)
+                ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.HOTSPOT, true)
         )
     }
 
@@ -200,11 +212,11 @@ class ConnectionIssueBannerPolicyTest {
         // Raised in the same manager's state receiver, and the hotspot transport never registers it.
         assertTrue(
             ConnectionIssue.WIFI_DIRECT_STACK_CYCLED in
-                ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.WIFI_DIRECT)
+                ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.WIFI_DIRECT, true)
         )
         assertFalse(
             ConnectionIssue.WIFI_DIRECT_STACK_CYCLED in
-                ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.HOTSPOT)
+                ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.HOTSPOT, true)
         )
     }
 
@@ -216,7 +228,7 @@ class ConnectionIssueBannerPolicyTest {
             assertTrue(
                 transport.name,
                 ConnectionIssue.VIDEO_LINK_TOO_SLOW in
-                    ConnectionIssueBannerPolicy.relevantNow(3, transport)
+                    ConnectionIssueBannerPolicy.relevantNow(3, transport, true)
             )
         }
     }
@@ -267,11 +279,11 @@ class ConnectionIssueBannerPolicyTest {
         // reason a hotspot connection failed.
         assertTrue(
             ConnectionIssue.WIFI_RADIO_OFF in
-                ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.WIFI_DIRECT)
+                ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.WIFI_DIRECT, true)
         )
         assertFalse(
             ConnectionIssue.WIFI_RADIO_OFF in
-                ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.HOTSPOT)
+                ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.HOTSPOT, true)
         )
     }
 
@@ -280,7 +292,7 @@ class ConnectionIssueBannerPolicyTest {
         // The same guard as `every issue can be shown`: a condition no route claims would be
         // recorded on the connection path and then never shown to anybody.
         val everRelevant = NativeTransport.values()
-            .flatMap { ConnectionIssueBannerPolicy.relevantNow(3, it) }
+            .flatMap { ConnectionIssueBannerPolicy.relevantNow(3, it, true) }
             .toSet()
         for (issue in ConnectionIssue.values()) assertTrue(issue.name, issue in everRelevant)
     }
@@ -338,7 +350,7 @@ class ConnectionIssueBannerPolicyTest {
         assertNull(
             bannerFor(
                 standing = listOf(standing(ConnectionIssue.HOTSPOT_CONFIG_UNREADABLE, 1_000L)),
-                relevant = ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.WIFI_DIRECT)
+                relevant = ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.WIFI_DIRECT, true)
             )
         )
     }
@@ -364,7 +376,7 @@ class ConnectionIssueBannerPolicyTest {
                     standing(ConnectionIssue.BSSID_UNAVAILABLE, 1_000L),
                     standing(ConnectionIssue.HOTSPOT_CONFIG_UNREADABLE, 9_000L)
                 ),
-                relevant = ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.WIFI_DIRECT)
+                relevant = ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.WIFI_DIRECT, true)
             )
         )
     }
@@ -396,7 +408,7 @@ class ConnectionIssueBannerPolicyTest {
                     standing(ConnectionIssue.HOTSPOT_CONFIG_UNREADABLE, 9_000L)
                 ),
                 dismissedAtEpochMs = 2_000L,
-                relevant = ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.WIFI_DIRECT)
+                relevant = ConnectionIssueBannerPolicy.relevantNow(3, NativeTransport.WIFI_DIRECT, true)
             )
         )
     }

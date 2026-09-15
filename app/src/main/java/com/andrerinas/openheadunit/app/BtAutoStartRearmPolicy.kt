@@ -46,7 +46,9 @@ object BtAutoStartRearmPolicy {
             return BtAutoStartActions.NONE
         }
 
-        val forceRearm = mode == WifiLauncherMode.NATIVE
+        // Native is forced, but not onto a unit whose user connects by cable: a rearm there would
+        // create the network and poke the phone that just walked past.
+        val forceRearm = mode == WifiLauncherMode.NATIVE && wirelessSelected
         return BtAutoStartActions(
             clearUserExit = true,
             forceRearmWireless = forceRearm,

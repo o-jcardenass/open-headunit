@@ -1196,7 +1196,8 @@ class MainActivity : BaseActivity() {
                     settings.onboardingVersion >= OnboardingActivity.CURRENT_ONBOARDING_VERSION,
                 relevant = ConnectionIssueBannerPolicy.relevantNow(
                     mode = settings.wifiConnectionMode.id,
-                    transport = settings.nativeApStrategy
+                    transport = settings.nativeApStrategy,
+                    wirelessSelected = settings.showsWifi()
                 ),
                 remedyApplied = ConnectionIssueBannerPolicy.remedyApplied(
                     hotspotSsid = settings.hotspotSsid,

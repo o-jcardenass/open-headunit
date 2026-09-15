@@ -36,6 +36,7 @@ import com.andrerinas.openheadunit.app.ForegroundServiceTypePolicy
 import com.andrerinas.openheadunit.app.WifiAutoStartReceiver
 import com.andrerinas.openheadunit.connection.wifi.HotspotExitAction
 import com.andrerinas.openheadunit.connection.wifi.UsbSessionQuiescePolicy
+import com.andrerinas.openheadunit.connection.wifi.SettingsScreenPausePolicy
 import com.andrerinas.openheadunit.connection.wifi.WirelessBringUpDeferralPolicy
 import com.andrerinas.openheadunit.connection.wifi.UserExitHotspotPolicy
 import com.andrerinas.openheadunit.decoder.audio.PlaybackFocusPolicy
@@ -98,6 +99,7 @@ import com.andrerinas.openheadunit.connection.wifi.modes.WifiLauncherManual
 import com.andrerinas.openheadunit.connection.wifi.modes.WifiLauncherNative
 import com.andrerinas.openheadunit.connection.wifi.server.WirelessServer
 import com.andrerinas.openheadunit.main.BackgroundNotification
+import com.andrerinas.openheadunit.main.SettingsActivity
 import com.andrerinas.openheadunit.main.FloatingButtonManager
 import com.andrerinas.openheadunit.utils.Settings
 import com.andrerinas.openheadunit.utils.VpnControl
@@ -1319,6 +1321,13 @@ class AapService : Service() {
             return
         }
 
+        // The user is configuring the app. SettingsActivity raises the projection itself when it
+        // goes, and MainActivity.onResume does the same on the way back to the home screen.
+        if (SettingsActivity.isForeground) {
+            AppLog.i("AapService: Not raising the projection, the settings screen is open")
+            return
+        }
+
         val intent = AapProjectionActivity.intent(this).apply {
             putExtra(AapProjectionActivity.EXTRA_FOCUS, true)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
@@ -2154,6 +2163,54 @@ class AapService : Service() {
         return true
     }
 
+    /**
+     * Whether the settings screen has the wireless stack down. Read by `WifiLauncherManager.setActive`,
+     * which refuses to arm while it is true, so the ACTION_START_WIRELESS a Save fires cannot walk
+     * the stack back up under the user.
+     */
+    @Volatile var wirelessPausedForSettings = false
+        private set
+
+    /** True while the setup QR dialog needs the running launcher to read a network off. */
+    @Volatile private var settingsQrHold = false
+
+    /** The settings screen opened or closed, or its QR dialog took or released its hold. */
+    fun onSettingsScreenChanged(inForeground: Boolean? = null, qrHold: Boolean? = null) {
+        if (qrHold != null) settingsQrHold = qrHold
+        val foreground = inForeground ?: SettingsActivity.isForeground
+
+        // Connecting counts as live: a phone already on its way in is not torn down for this, and
+        // the raise suppression is what keeps it off the screen when it lands.
+        val sessionLive = commManager.isConnected ||
+            commManager.connectionState.value is CommManager.ConnectionState.Connecting
+        val pause = SettingsScreenPausePolicy.pauses(
+            settingsForeground = foreground,
+            sessionLive = sessionLive,
+            qrHold = settingsQrHold,
+        )
+        if (pause == wirelessPausedForSettings) return
+
+        if (pause) {
+            wirelessPausedForSettings = true
+            AppLog.i(
+                "AapService: the settings screen is open, so the wireless stack stops until it " +
+                    "closes. A wake poke that works would raise the projection over it."
+            )
+            wifiLauncherManager.stop()
+            return
+        }
+
+        wirelessPausedForSettings = false
+        val mode = App.provide(this).settings.wifiConnectionMode
+        if (mode == WifiLauncherMode.MANUAL) return
+
+        AppLog.i("AapService: the settings screen closed, re-arming wireless mode $mode")
+        serviceScope.launch {
+            delay(1500) // Same settle the Native AA reconnect path allows the P2P hardware.
+            wifiLauncherManager.setActiveFromSettings(force = true)
+        }
+    }
+
     private fun acquireWifiLock() {
         if (wifiLock == null) {
             val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
@@ -2442,7 +2499,9 @@ class AapService : Service() {
                 userExitedAA = false
                 userExitCooldownUntil = 0L
                 Settings.clearBootLoopState(this)
-                wifiLauncherManager.setActiveFromSettings(force = true, noInfoToasts = false)
+                wifiLauncherManager.setActiveFromSettings(
+                    force = true, noInfoToasts = false, userRequested = true
+                )
 
                 if (mode == WifiLauncherMode.AUTO)
                     wifiLauncherManager.startDiscovery(oneShot = true)
@@ -2469,7 +2528,7 @@ class AapService : Service() {
                     } else {
                         if (wifiLauncherManager.activeMode != WifiLauncherMode.NATIVE) {
                             AppLog.i("AapService: Initializing Native AA mode before poke...")
-                            wifiLauncherManager.setActiveFromSettings(force = true)
+                            wifiLauncherManager.setActiveFromSettings(force = true, userRequested = true)
                         } else if (activeLauncher is WifiLauncherNative && activeLauncher.handshakeManager?.isStarted() != true) {
                             // Never started, or stopped. rearmAfterSessionEnd() cannot help here:
                             // it returns on the same flag, so the button used to promise a repair
@@ -2647,7 +2706,7 @@ class AapService : Service() {
                     } else {
                         AppLog.i("AapService: Nearby is not the running transport — arming it before connecting.")
                         val launcher = WifiLauncherHelper(wifiLauncherManager, HelperStrategy.NEARBY_DEVICES)
-                        wifiLauncherManager.setActive(launcher, force = true)
+                        wifiLauncherManager.setActive(launcher, force = true, userRequested = true)
                         launcher.nearbyManager?.connectToEndpoint(endpointId)
                     }
                 }

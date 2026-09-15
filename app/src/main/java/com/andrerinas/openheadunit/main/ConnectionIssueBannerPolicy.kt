@@ -44,7 +44,14 @@ object ConnectionIssueBannerPolicy {
      * user may well be back on that route tomorrow; it is only hidden while it cannot be the
      * reason the last attempt failed.
      */
-    fun relevantNow(mode: Int, transport: NativeTransport): Set<ConnectionIssue> {
+    fun relevantNow(
+        mode: Int,
+        transport: NativeTransport,
+        wirelessSelected: Boolean,
+    ): Set<ConnectionIssue> {
+        // A cable-only unit never brings the wireless stack up, so none of these can be the reason
+        // its last attempt failed, however recently the record was written.
+        if (!wirelessSelected) return emptySet()
         if (mode != NATIVE_AA_MODE) return emptySet()
         return when (transport) {
             NativeTransport.WIFI_DIRECT -> setOf(

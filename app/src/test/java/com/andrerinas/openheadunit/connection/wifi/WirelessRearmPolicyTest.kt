@@ -13,11 +13,13 @@ class WirelessRearmPolicyTest {
         helper: HelperStrategy = HelperStrategy.NEARBY_DEVICES,
         native: NativeStrategy = NativeStrategy.WIFI_DIRECT,
         bluetoothService: String = "bluetooth_manager",
+        wirelessSelected: Boolean = true,
     ) = WirelessRearmPolicy.Config(
         wifiConnectionMode = mode,
         helperConnectionStrategy = helper,
         nativeApStrategy = native,
         bluetoothManagerServiceName = bluetoothService,
+        wirelessSelected = wirelessSelected,
     )
 
     @Test
@@ -51,6 +53,14 @@ class WirelessRearmPolicyTest {
     fun `the Bluetooth service name re-arms`() {
         assertTrue(
             WirelessRearmPolicy.requiresRearm(config(), config(bluetoothService = "syu_bt"))
+        )
+    }
+
+    /** Unchecking WiFi in Connection mode has to reach the running stack, not wait for a restart. */
+    @Test
+    fun `dropping wireless from the chosen connection modes re-arms`() {
+        assertTrue(
+            WirelessRearmPolicy.requiresRearm(config(), config(wirelessSelected = false))
         )
     }
 }

@@ -73,6 +73,15 @@ class UsbLauncherManager(val service: AapService) {
         try { service.unregisterReceiver(receiver) } catch (_: Exception) {}
     }
 
+    /**
+     * A USB attempt ended with no session. The wireless stack used to clear the pill on its way up
+     * or down, and on a cable-only unit it never runs, so the last USB step would stay on screen.
+     */
+    private fun endUsbAttemptStage() {
+        if (App.provide(service).commManager.isConnected) return
+        ConnectionStageTracker.clear()
+    }
+
     private fun requestPermission(device: UsbDevice) {
         val usbManager = service.getSystemService(Context.USB_SERVICE) as UsbManager
         val permissionIntent = UsbReceiver.createPermissionPendingIntent(service)
@@ -122,6 +131,7 @@ class UsbLauncherManager(val service: AapService) {
                     AppLog.e("AOA re-enumeration for $deviceName failed with exception", e)
                 } finally {
                     isSwitchingToProjection.set(false)
+                    endUsbAttemptStage()
                 }
             }
         }
@@ -168,6 +178,7 @@ class UsbLauncherManager(val service: AapService) {
                         }
                     } finally {
                         isSwitchingToProjection.set(false)
+                        endUsbAttemptStage()
                     }
                 }
                 return
@@ -194,6 +205,7 @@ class UsbLauncherManager(val service: AapService) {
                                 }
                             } finally {
                                 isSwitchingToProjection.set(false)
+                                endUsbAttemptStage()
                             }
                         }
                         return
@@ -281,6 +293,7 @@ class UsbLauncherManager(val service: AapService) {
                     }
                 } finally {
                     isSwitchingToProjection.set(false)
+                    endUsbAttemptStage()
                 }
             }
         } else {

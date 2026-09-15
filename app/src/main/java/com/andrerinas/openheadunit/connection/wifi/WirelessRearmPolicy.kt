@@ -22,6 +22,8 @@ object WirelessRearmPolicy {
         val helperConnectionStrategy: HelperStrategy,
         val nativeApStrategy: NativeStrategy,
         val bluetoothManagerServiceName: String,
+        /** Whether WiFi is one of the chosen connection modes; unchecking it stops the stack. */
+        val wirelessSelected: Boolean,
     )
 
     fun requiresRearm(before: Config, after: Config): Boolean = before != after

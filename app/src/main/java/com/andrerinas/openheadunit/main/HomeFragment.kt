@@ -50,6 +50,7 @@ import com.andrerinas.openheadunit.connection.usb.UsbReceiver
 import com.andrerinas.openheadunit.connection.usb.UsbAccessoryMode
 import com.andrerinas.openheadunit.connection.wifi.modes.helper.HelperStrategy
 import com.andrerinas.openheadunit.connection.wifi.WifiLauncherMode
+import com.andrerinas.openheadunit.connection.wifi.WirelessSelectionPolicy
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.delay
 
@@ -725,6 +726,16 @@ class HomeFragment : Fragment() {
         hasCheckedNativeDriverSelection = true
         val appSettings = App.provide(requireContext()).settings
         if (appSettings.nativeDriverSelectionMode == NativeDriverSelectionPolicy.Mode.DISABLED) return false
+        // Every answer this check can reach pokes a phone and arms the stack, so a unit the user
+        // set to cable only is never asked. The WiFi button still reaches the selector.
+        if (WirelessSelectionPolicy.refusesBringUp(
+                wirelessSelected = appSettings.showsWifi(),
+                userRequested = false,
+            )
+        ) {
+            AppLog.i("HomeFragment: driver selection skipped, wireless is not a chosen connection mode")
+            return false
+        }
         val adapter = BluetoothHelper.getBluetoothAdapter(requireContext())
         if (adapter == null || !adapter.isEnabled) return false
 

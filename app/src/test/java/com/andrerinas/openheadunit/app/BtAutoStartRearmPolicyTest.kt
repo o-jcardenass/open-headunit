@@ -141,10 +141,12 @@ class BtAutoStartRearmPolicyTest {
         }
     }
 
-    /** Native's forced re-arm is not gated on the transport selection, so today's behaviour holds. */
+    /** A cable-only unit gets no network created and no phone poked by an arrival it did not ask for. */
     @Test
-    fun `Native re-arms regardless of the transport selection`() {
-        assertTrue(actions(wirelessSelected = false).forceRearmWireless)
+    fun `Native does not re-arm when wireless is not a chosen connection mode`() {
+        val actions = actions(mode = WifiLauncherMode.NATIVE, wirelessSelected = false)
+        assertFalse(actions.forceRearmWireless)
+        assertFalse(actions.armWirelessIfIdle)
     }
 
     private fun launchesSelfMode(

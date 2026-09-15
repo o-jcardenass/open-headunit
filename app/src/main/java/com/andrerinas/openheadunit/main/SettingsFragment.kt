@@ -782,7 +782,7 @@ class SettingsFragment : Fragment() {
         if (WirelessRearmPolicy.requiresRearm(wirelessConfigBefore, wirelessRearmConfig())) {
             val intent = Intent(requireContext(), AapService::class.java).apply {
                 val mode = settings.wifiConnectionMode
-                action = if (mode != WifiLauncherMode.MANUAL)
+                action = if (mode != WifiLauncherMode.MANUAL && settings.showsWifi())
                     AapService.ACTION_START_WIRELESS else AapService.ACTION_STOP_WIRELESS
             }
             requireContext().startService(intent)
@@ -3191,6 +3191,7 @@ class SettingsFragment : Fragment() {
         val helperConnectionStrategy: HelperStrategy,
         val nativeApStrategy: NativeStrategy,
         val bluetoothManagerServiceName: String,
+        val wirelessSelected: Boolean,
         val appLanguage: String,
         val uiScaleSettingsPercent: Int,
         val appTheme: Settings.AppTheme,
@@ -3575,6 +3576,7 @@ class SettingsFragment : Fragment() {
             helperConnectionStrategy = settings.helperConnectionStrategy,
             nativeApStrategy = settings.nativeApStrategy,
             bluetoothManagerServiceName = settings.bluetoothManagerServiceName,
+            wirelessSelected = settings.showsWifi(),
             appLanguage = settings.appLanguage,
             uiScaleSettingsPercent = settings.uiScaleSettingsPercent,
             appTheme = settings.appTheme,
@@ -3631,6 +3633,7 @@ class SettingsFragment : Fragment() {
         helperConnectionStrategy = settings.helperConnectionStrategy,
         nativeApStrategy = settings.nativeApStrategy,
         bluetoothManagerServiceName = settings.bluetoothManagerServiceName,
+        wirelessSelected = settings.showsWifi(),
     )
 
     private fun applyWirelessSideEffects(snapshot: ImportSnapshot, context: Context = requireContext()) {
@@ -3639,11 +3642,12 @@ class SettingsFragment : Fragment() {
             helperConnectionStrategy = snapshot.helperConnectionStrategy,
             nativeApStrategy = snapshot.nativeApStrategy,
             bluetoothManagerServiceName = snapshot.bluetoothManagerServiceName,
+            wirelessSelected = snapshot.wirelessSelected,
         )
         if (WirelessRearmPolicy.requiresRearm(before, wirelessRearmConfig())) {
             val intent = Intent(context, AapService::class.java).apply {
                 val mode = settings.wifiConnectionMode
-                action = if (mode != WifiLauncherMode.MANUAL)
+                action = if (mode != WifiLauncherMode.MANUAL && settings.showsWifi())
                     AapService.ACTION_START_WIRELESS else AapService.ACTION_STOP_WIRELESS
             }
             context.startService(intent)

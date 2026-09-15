@@ -1,13 +1,16 @@
 package com.andrerinas.openheadunit.main
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.navigation.fragment.NavHostFragment
 import android.content.res.Configuration
 import android.os.Build
+import com.andrerinas.openheadunit.App
 import com.andrerinas.openheadunit.R
+import com.andrerinas.openheadunit.aap.AapService
 import com.andrerinas.openheadunit.app.BaseActivity
 import com.andrerinas.openheadunit.utils.Settings
 import com.andrerinas.openheadunit.utils.SystemUI
@@ -73,11 +76,19 @@ class SettingsActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         isForeground = true
+        AapService.instance?.onSettingsScreenChanged(inForeground = true)
     }
 
     override fun onPause() {
         super.onPause()
         isForeground = false
+        // After the flag, never before: launchAapProjectionActivity() reads it and would otherwise
+        // swallow the raise this asks for.
+        AapService.instance?.onSettingsScreenChanged(inForeground = false)
+        if (App.provide(this).commManager.isConnected) {
+            // A broadcast, not a service start: AapService receives this one in a receiver.
+            sendBroadcast(Intent(AapService.ACTION_RAISE_PROJECTION).apply { setPackage(packageName) })
+        }
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? android.view.inputmethod.InputMethodManager
         currentFocus?.let { v ->
             imm?.hideSoftInputFromWindow(v.windowToken, 0)
