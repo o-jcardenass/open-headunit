@@ -2188,6 +2188,15 @@ class NativeAaHandshakeManager(
                         // The one site that really is sending credentials to the phone.
                         ConnectionStageTracker.report(ConnectionStage.SENDING_CREDENTIALS)
                         delay(1000) // [FIX] Increased delay to give phone more processing time
+                        // The one blind spot the tick loop's own check cannot cover. A phone that
+                        // rejoined the kept network during this pause is already projecting, and
+                        // credentials now would only make it re-associate and drop that session.
+                        // Not a failure, so the handshake backoff is not spent on it.
+                        if (commManager.isConnected) {
+                            AppLog.i("NativeAA: the phone's session landed while Type 3 was pending, so no credentials are sent.")
+                            abortedLocally = true
+                            return
+                        }
                         // Read again here rather than trusting the snapshot this exchange started
                         // with. A group removed inside the pause above leaves the phone hunting an
                         // SSID that is gone, which it cannot recover from without a new handshake.
@@ -2356,9 +2365,13 @@ class NativeAaHandshakeManager(
                         if (session.isTerminal()) return
                     }
                 }
-                if (session.stage == WppStage.SETTLING &&
-                    (commManager.isConnected ||
-                        commManager.connectionState.value is CommManager.ConnectionState.Connecting)) {
+                // Asked at every stage, not only once the credentials are out: a phone that
+                // rejoins the kept network on its own reaches 5288 mid-exchange, and Type 3 on
+                // top of that makes it re-associate and drop the session it just made.
+                // WppTcpServer asks the same per tick; Connecting is still the handoff only.
+                val handoffLanding = session.stage == WppStage.SETTLING &&
+                    commManager.connectionState.value is CommManager.ConnectionState.Connecting
+                if (commManager.isConnected || handoffLanding) {
                     feed(WppEvent.TcpSessionUp)
                     return
                 }

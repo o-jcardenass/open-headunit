@@ -118,6 +118,9 @@ class WifiDirectManager(private val context: Context) : WifiP2pManager.Connectio
      */
     @Volatile private var lastP2pRequestAtMs = 0L
 
+    /** When a Native AA bring-up last started, so a duplicate one can be refused. */
+    @Volatile private var lastNativeBringUpAtMs = 0L
+
     // Guards against two concurrent checkGroupAndCreate() runs racing on the same teardown
     // (makeVisible() can be invoked twice back to back for one UI action). Cleared by a
     // bounded safety timeout in case a call site misses its own reset.
@@ -415,7 +418,8 @@ class WifiDirectManager(private val context: Context) : WifiP2pManager.Connectio
         }
     }
 
-    private fun releaseNativeCreateWindow(why: String) {
+    /** Releases a claim whose create was abandoned. Public because a launcher can abandon one too. */
+    fun releaseNativeCreateWindow(why: String) {
         if (nativeCreateRequestedAtMs == 0L) return
         nativeCreateRequestedAtMs = 0L
         AppLog.i("WifiDirectManager: the claimed create window is released ($why).")
@@ -1689,6 +1693,18 @@ class WifiDirectManager(private val context: Context) : WifiP2pManager.Connectio
 
     @SuppressLint("MissingPermission")
     fun startNativeAaQuietHost() {
+        // Two bring-ups fight over BUSY and the loser removes the winner's group; see
+        // NativeBringUpReentryPolicy. The claim window covers the callers that hold one, this
+        // covers the ones that cannot.
+        val now = SystemClock.elapsedRealtime()
+        if (NativeBringUpReentryPolicy.isDuplicate(now, lastNativeBringUpAtMs)) {
+            AppLog.i(
+                "WifiDirectManager: a Native AA bring-up started ${now - lastNativeBringUpAtMs}ms ago is " +
+                    "still running, so this one is not started on top of it."
+            )
+            return
+        }
+        lastNativeBringUpAtMs = now
         registerReceiverIfNeeded()
         isGroupCreatingOrCreated = true
         markP2pRequest()
@@ -2752,6 +2768,8 @@ class WifiDirectManager(private val context: Context) : WifiP2pManager.Connectio
         // Same reason as the two above: it marks a create that stop() has just abandoned, and a
         // stale value would make the next refresh wait CREATE_GRACE_MS for a group that is not coming.
         releaseNativeCreateWindow("the mode is stopping")
+        // A bring-up this stop just abandoned must not refuse the one that re-arms the mode.
+        lastNativeBringUpAtMs = 0L
         isClientConnected = false
         nativeGroupCreationMode = NATIVE_GROUP_MODE_UNKNOWN
         native5GhzBandMismatchRetries = 0

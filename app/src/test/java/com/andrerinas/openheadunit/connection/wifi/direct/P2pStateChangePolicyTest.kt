@@ -70,6 +70,21 @@ class P2pStateChangePolicyTest {
     }
 
     @Test
+    fun `the hotspot teardown wait is the same case, and the one that reached a reporter`() {
+        // Tearing the hotspot down cycles P2P too, so the ENABLED lands inside the launcher's wait
+        // for it. Unclaimed, the receiver started a second bring-up whose BUSY removed the group
+        // the launcher was about to make - measured on a GT7H-CAR, 14 refused creates in 18min.
+        assertFalse(
+            P2pStateChangePolicy.shouldStartBringUp(
+                busy = false,
+                createClaimed = true,
+                nowMs = now,
+                lastBringUpAtMs = 0L,
+            )
+        )
+    }
+
+    @Test
     fun `the station stand-down window is the case that reaches all three guards clear but one`() {
         // Standing the station down cycles P2P, so the ENABLED lands ~200ms into the 1.5s wait:
         // nothing is up, nothing is in flight, and no bring-up has been asked for yet.

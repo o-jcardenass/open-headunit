@@ -161,11 +161,18 @@ class WifiLauncherNative : WifiLauncher {
             return
         }
         AppLog.i("WifiLauncherNative: waiting for this unit's hotspot to go down before creating the group.")
+        // Claimed before the wait, exactly as the stand-down branch does: tearing the hotspot down
+        // cycles the P2P interface, and the ENABLED that follows lands in this gap and starts a
+        // second bring-up whose BUSY removes the group this one is about to make.
+        wifiDirect.claimNativeCreateWindow("waiting for this unit's hotspot to go down")
         service.serviceScope.launch {
             val freed = withTimeoutOrNull(HOTSPOT_TEARDOWN_CEILING_MS) { teardown.join() } != null
             if (manager.active !== this@WifiLauncherNative ||
                 manager.sharedServices.wifiDirectManager !== wifiDirect
-            ) return@launch
+            ) {
+                wifiDirect.releaseNativeCreateWindow("the launcher was replaced while its hotspot went down")
+                return@launch
+            }
             if (!freed) {
                 AppLog.w(
                     "WifiLauncherNative: this unit's hotspot had not gone down after " +
