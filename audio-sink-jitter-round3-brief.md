@@ -4,18 +4,20 @@
 
 | | Branch | SHA | Commits | Gate |
 |---|---|---|---|---|
-| Candidate | `fix/audio-sink-jitter-and-instrumentation` | `aaed6509` | 6 on `main` | 1932 tests, 0 failures |
+| Candidate | `fix/audio-sink-jitter-and-instrumentation` | `bd7eed16` | 6 on `main` | 1932 tests, 0 failures |
 | Baseline | `main` | `8418ed02` | | |
 
 ```bash
 git fetch fork
-git checkout -B audio-sink fork/fix/audio-sink-jitter-and-instrumentation   # aaed6509
+git checkout -B audio-sink fork/fix/audio-sink-jitter-and-instrumentation   # bd7eed16
 git log --oneline -6
-# aaed6509 Transport, 23e5f48a Audio, d292ec52 Transport, 4c4360c9 Audio, 0bd7782d Transport, 443b9a64 Audio
+# bd7eed16 Transport, bbb2b370 Audio, d292ec52 Transport, 4c4360c9 Audio, 0bd7782d Transport, 443b9a64 Audio
 ```
 
-**History was not rewritten.** Rounds 1 and 2 graded `0bd7782d` and `d292ec52` and both are untouched
-underneath, so a round 2 checkout fast-forwards. All six compile alone, checked.
+**Rounds 1 and 2 graded `0bd7782d` and `d292ec52` and both are untouched underneath**, so a round 2
+checkout fast-forwards. The two commits above them were amended once after this brief was first
+written, to make the latency picker say "default" once rather than twice; the SHAs here are the
+current ones and the only tree difference is those two label strings. All six compile alone, checked.
 
 Baseline APK is needed for P7 only. Everything else is candidate only.
 
@@ -198,7 +200,7 @@ adb shell am broadcast -f 0x00000020 -n $RX -a com.andrerinas.openheadunit.ACTIO
 ./gradlew :app:testGithubDebugUnitTest
 ```
 
-**PASS:** `commit` reads `aaed6509` on the candidate and `8418ed02` on the baseline, and the gate is
+**PASS:** `commit` reads `bd7eed16` on the candidate and `8418ed02` on the baseline, and the gate is
 1932 tests with no failures. Report both APK md5s.
 
 ---
