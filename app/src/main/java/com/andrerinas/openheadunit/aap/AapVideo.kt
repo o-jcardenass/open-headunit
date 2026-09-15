@@ -231,6 +231,23 @@ internal class AapVideo(private val videoDecoder: VideoDecoder, private val sett
         return startCodeLen > 0 && len > offset + startCodeLen
     }
 
+    /**
+     * Whether this message is picture rather than control traffic on the video channel.
+     *
+     * Read-only and state-free, so the transport can ask it on the read thread while [process] runs
+     * on the video thread. The fault injector is deliberately not consulted: a message it will
+     * later hide the start code from is still picture, and hiding it belongs in the video path.
+     */
+    fun isPayload(message: AapMessage): Boolean {
+        val buf = message.data
+        val len = message.size
+        return VideoFragmentAssembler.isPayload(
+            flags = message.flags.toInt(),
+            payloadStartsAt10 = payloadStartsAt(buf, VideoFragmentAssembler.OFFSET_TIMESTAMP_INDICATION, len),
+            payloadStartsAt2 = payloadStartsAt(buf, VideoFragmentAssembler.OFFSET_MEDIA_INDICATION, len)
+        )
+    }
+
     fun process(message: AapMessage): Boolean {
         val buf = message.data
         val len = message.size

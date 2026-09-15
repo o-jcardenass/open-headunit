@@ -269,3 +269,50 @@ class VideoFragmentAssemblerTest {
         assertFalse(a.hasAnomalies())
     }
 }
+
+/**
+ * The predicate the transport demux asks on the read thread, before it hands a message to the video
+ * thread. It has to agree with what [VideoFragmentAssembler.onMessage] would consume, or control
+ * traffic on the video channel stops reaching the control path and a sink never gets set up.
+ */
+class VideoFragmentAssemblerPayloadTest {
+
+    private fun consumes(flags: Int, at10: Boolean, at2: Boolean): Boolean {
+        val decision = VideoFragmentAssembler().onMessage(flags, at10, at2)
+        val action = decision.action
+        return if (action is VideoFragmentAssembler.Action.Discard) action.consumed else true
+    }
+
+    @Test
+    fun `a payload message is one a fresh assembler would consume`() {
+        // A fresh assembler is the read thread's view: it has no run state and neither does the
+        // predicate. Middle and last fragments are excluded because on a fresh assembler they are
+        // orphans, which the predicate deliberately still routes to the video thread.
+        for (flags in intArrayOf(VideoFragmentAssembler.FLAG_SINGLE, VideoFragmentAssembler.FLAG_FIRST)) {
+            for (at10 in booleanArrayOf(true, false)) {
+                for (at2 in booleanArrayOf(true, false)) {
+                    assertEquals(
+                        "flags $flags at10=$at10 at2=$at2",
+                        consumes(flags, at10, at2),
+                        VideoFragmentAssembler.isPayload(flags, at10, at2)
+                    )
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `a continuation fragment is always picture`() {
+        assertTrue(VideoFragmentAssembler.isPayload(VideoFragmentAssembler.FLAG_MIDDLE, false, false))
+        assertTrue(VideoFragmentAssembler.isPayload(VideoFragmentAssembler.FLAG_LAST, false, false))
+    }
+
+    @Test
+    fun `control traffic on the video channel is not picture`() {
+        // A Media Sink Setup arrives here as a single message with no start code. Answering true
+        // would send it to the video thread and never set the sink up.
+        assertFalse(VideoFragmentAssembler.isPayload(VideoFragmentAssembler.FLAG_SINGLE, false, false))
+        assertFalse(VideoFragmentAssembler.isPayload(0, false, false))
+        assertFalse(VideoFragmentAssembler.isPayload(7, true, true))
+    }
+}

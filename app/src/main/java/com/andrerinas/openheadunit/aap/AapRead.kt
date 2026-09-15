@@ -194,7 +194,9 @@ internal interface AapRead {
                 settings.debugVideoFaultBudget
             ).takeIf { it.isActiveAt(VideoFaultInjector.Stage.READER) }
 
-            val onVideoRunHoled = { discard: Boolean -> aapVideo.onFragmentRunHoled(discard) }
+            // Through the transport so the verdict lands on the video thread in front of the
+            // fragment it belongs to, rather than on AapVideo's state from this one.
+            val onVideoRunHoled = { discard: Boolean -> transport.dispatchVideoRunHoled(discard) }
 
             return if (connection is SocketProjectionConnection)
                 AapReadSingleMessage(connection, transport.ssl, handler, onVideoRunHoled, readerFaults)

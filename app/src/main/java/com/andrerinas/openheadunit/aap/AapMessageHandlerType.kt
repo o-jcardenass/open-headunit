@@ -21,8 +21,26 @@ internal class AapMessageHandlerType(
     private val mediaPlayback = AapMediaPlayback(onAaMediaMetadata, onAaPlaybackStatus)
     private val aapNavigation = AapNavigation(context, settings)
 
+    private val dispatchMonitor = TransportDispatchMonitor()
+
     @Throws(AapMessageHandler.HandleException::class)
     override fun handle(message: AapMessage) {
+        // Anything slow here is time the socket is not read, audio included. Video has its own
+        // thread now, so this should stay near zero; videoQueue is where its backlog shows up.
+        val dispatchStartMs = android.os.SystemClock.elapsedRealtime()
+        try {
+            dispatch(message)
+        } finally {
+            val finishedMs = android.os.SystemClock.elapsedRealtime()
+            dispatchMonitor.onDispatch(
+                message.channel, finishedMs - dispatchStartMs, finishedMs,
+                transport.videoQueueDepth(), transport.videoShedCount()
+            )
+                ?.let { AppLog.i("AapTransport: %s", it) }
+        }
+    }
+
+    private fun dispatch(message: AapMessage) {
 
         // Every decrypted inbound message passes through here, on every channel, which makes this
         // the one place that can say the link is alive rather than just that the picture is moving.
@@ -34,16 +52,16 @@ internal class AapMessageHandlerType(
         val msgType = message.type
         val flags = message.flags
 
-        // 1. Try processing as Video stream first (ID_VID)
-        // High priority for the smoothest possible display.
+        // 1. Video goes to its own thread (ID_VID), which sends the ack itself once the decode is
+        // done. That ack is the phone's flow control and the only bound on the video backlog, so it
+        // stays behind the work; what the demux buys is that it is no longer the read thread that
+        // waits for it, and audio is read and acked on its own path throughout.
         if (message.channel == Channel.ID_VID) {
-             if (aapVideo.process(message)) {
-                 // Send ACK AFTER processing
-                 if (msgType == 0 || msgType == 1) {
-                     transport.sendMediaAck(message.channel)
-                 }
-                 return
-             }
+            // False means control traffic on the video channel, which falls through to step 5 as
+            // it always has. The video thread still sees it either way.
+            if (transport.dispatchVideo(message)) {
+                return
+            }
         }
 
         // 2. Try processing as Audio stream (Speech, System, Media)

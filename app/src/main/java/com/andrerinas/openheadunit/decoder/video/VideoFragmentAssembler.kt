@@ -190,6 +190,22 @@ class VideoFragmentAssembler {
     }
 
     companion object {
+        /**
+         * Whether a video-channel message carries picture at all, answered without touching any state.
+         *
+         * The transport demux asks this on the read thread so it knows whether to hand the message to
+         * the video thread and stop, or to carry on down the dispatch chain with it: a video channel
+         * also carries this sink's setup, start, stop and focus messages, and those are answered where
+         * they always were. It is the exact complement of the `consumed = false` answers [onMessage]
+         * gives, and a test holds the two together.
+         */
+        fun isPayload(flags: Int, payloadStartsAt10: Boolean, payloadStartsAt2: Boolean): Boolean =
+            when (flags) {
+                FLAG_MIDDLE, FLAG_LAST -> true
+                FLAG_SINGLE, FLAG_FIRST -> payloadStartsAt10 || payloadStartsAt2
+                else -> false
+            }
+
         /** A whole frame in one message. */
         const val FLAG_SINGLE = 11
 

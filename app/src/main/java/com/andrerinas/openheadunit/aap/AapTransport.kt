@@ -45,9 +45,11 @@ import com.andrerinas.openheadunit.utils.Utils
 /**
  * Core AAP message pump.
  *
- * Owns two [HandlerThread]s:
+ * Owns three [HandlerThread]s:
  * - **Send** (`AapTransport:Handler::Send`) — encrypts and delivers outbound messages.
  * - **Poll** (`AapTransport:Handler::Poll`) — reads, decrypts, and dispatches inbound messages.
+ * - **Video** (`AapTransport:Handler::Video`) — assembles and decodes the picture, so the
+ *   decoder's own backpressure park cannot hold the socket shut on every other channel.
  *
  * Lifecycle: [startHandshake] → [startReading] → message loop → [stop]/[quit].
  *
@@ -83,6 +85,20 @@ class AapTransport(
     internal val aapVideo: AapVideo
     private var sendThread: HandlerThread? = null
     private var pollThread: HandlerThread? = null
+    private var videoThread: HandlerThread? = null
+    private var videoHandler: Handler? = null
+
+    // Reused payload copies for the video thread. The SSL layer hands back one buffer it overwrites
+    // on the next read, so a message that outlives the read has to carry its own bytes; pooling
+    // them keeps a 50 fps stream from allocating per frame.
+    private val videoBufferPool = java.util.concurrent.LinkedBlockingQueue<ByteArray>()
+
+    // Messages handed to the video thread and not yet processed. The park that used to hold the
+    // read thread lives here now, so this is where it can still be seen.
+    private val videoBacklog = java.util.concurrent.atomic.AtomicInteger(0)
+
+    // Messages refused because the backlog was already at its ceiling. See VIDEO_BACKLOG_LIMIT.
+    private val videoShedTotal = java.util.concurrent.atomic.AtomicLong(0)
     private val micRecorder: MicRecorder = MicRecorder(context)
     private val sessionIds = SparseIntArray(4)
     private val startedSensors = HashSet<Int>(4)
@@ -662,8 +678,8 @@ class AapTransport(
         sendHandler?.removeCallbacks(unrepairedCheckRunnable)
         pollThread?.quit()
         sendThread?.quit()
+        videoThread?.quit()
         aapAudio.releaseAllFocus()
-        aapVideo.release()
 
         // Never let a half-finished cycle outlive the transport that owed the regain: the claim is
         // session state, and a stuck one would refuse every cycle of the next session.
@@ -678,16 +694,113 @@ class AapTransport(
             // timeout since the thread can't finish while it's waiting for itself to finish.
             if (Thread.currentThread() != pollThread) pollThread?.join(1000)
             sendThread?.join(1000)
+            if (Thread.currentThread() != videoThread) videoThread?.join(1000)
         } catch (e: InterruptedException) {
             AppLog.e("Failed to join threads", e)
         }
+
+        // After the join, not before it: the run state this closes is the video thread's now, and
+        // resetting it under a thread still assembling would hand the next session a half-run.
+        aapVideo.release()
+        videoBufferPool.clear()
+        videoBacklog.set(0)
+        videoShedTotal.set(0)
 
         aapRead = null
         ssl.release()
         pollHandler = null
         sendHandler = null
+        videoHandler = null
         pollThread = null
         sendThread = null
+        videoThread = null
+    }
+
+    /**
+     * Hands a video-channel message to the video thread, and answers whether it was picture.
+     *
+     * One thread used to read the socket and decode the picture, so [VideoDecoder]'s backpressure
+     * park held the reader for up to a second and every other channel waited behind it. Measured on
+     * the rig with the park forced: the read thread blocked 132 to 145 times a window for up to
+     * 233 ms, and the audio sink underran and shed in the same windows.
+     *
+     * A false answer means control traffic on the video channel, which the caller goes on to handle
+     * exactly where it always did. The assembler still sees it, because its run state is what
+     * decides whether the next fragment is an orphan.
+     *
+     * **The media ack goes out from the video thread, after the decode.** The phone's `max_unacked`
+     * window is the only thing bounding this queue, and acking on receipt gave that away: measured
+     * with the feed held, the backlog climbed 918, 1803, 2732, 3671, 4666, 5602 over six windows and
+     * never recovered, at 64 KiB a message. Acking behind the work costs the read thread nothing,
+     * because it is not the read thread that waits.
+     */
+    internal fun dispatchVideo(message: AapMessage): Boolean {
+        val isPayload = aapVideo.isPayload(message)
+        val acks = message.type == 0 || message.type == 1
+        val handler = videoHandler
+        if (handler == null) {
+            if (acks) sendMediaAck(message.channel)
+            return isPayload
+        }
+        val channel = message.channel
+        if (videoBacklog.get() >= VIDEO_BACKLOG_LIMIT) {
+            // A phone that ignores its own window, or an ack we never got to send. Shed rather than
+            // allocate, and tell the assembler the run has a hole so a partial access unit is
+            // discarded instead of decoded as though it were whole. The ack still goes out, or the
+            // window closes for good and the picture never comes back.
+            if (videoShedTotal.getAndIncrement() == 0L) {
+                AppLog.w("AapTransport: the video thread is $VIDEO_BACKLOG_LIMIT messages behind, " +
+                    "shedding - see videoShed= on the transport dispatch line for how many")
+            }
+            if (isPayload) dispatchVideoRunHoled(true)
+            if (acks) sendMediaAck(channel)
+            return isPayload
+        }
+        val size = message.size
+        val copy = obtainVideoBuffer(size)
+        System.arraycopy(message.data, 0, copy, 0, size)
+        val queued = AapMessage(channel, message.flags, message.type, message.dataOffset, size, copy)
+        videoBacklog.incrementAndGet()
+        handler.post {
+            try {
+                aapVideo.process(queued)
+            } catch (e: Exception) {
+                AppLog.e("Error processing video message", e)
+            } finally {
+                videoBacklog.decrementAndGet()
+                recycleVideoBuffer(copy)
+                if (acks) sendMediaAck(channel)
+            }
+        }
+        return isPayload
+    }
+
+    /** Video messages handed over and not yet processed. See [TransportDispatchMonitor]. */
+    internal fun videoQueueDepth(): Int = videoBacklog.get()
+
+    /** Video messages shed for the life of this transport, because the backlog was at its ceiling. */
+    internal fun videoShedCount(): Long = videoShedTotal.get()
+
+    /**
+     * The reader's framing audit found a run short of the bytes its first fragment declared.
+     *
+     * Posted rather than called so it lands on the video thread in front of the run's last
+     * fragment, which is the message that consumes it. See [AapVideo.onFragmentRunHoled].
+     */
+    internal fun dispatchVideoRunHoled(discardAssembledUnit: Boolean) {
+        val handler = videoHandler ?: return
+        handler.post { aapVideo.onFragmentRunHoled(discardAssembledUnit) }
+    }
+
+    private fun obtainVideoBuffer(size: Int): ByteArray {
+        while (true) {
+            val pooled = videoBufferPool.poll() ?: return ByteArray(maxOf(size, MIN_VIDEO_BUFFER_BYTES))
+            if (pooled.size >= size) return pooled
+        }
+    }
+
+    private fun recycleVideoBuffer(buffer: ByteArray) {
+        if (videoBufferPool.size < VIDEO_BUFFER_POOL_LIMIT) videoBufferPool.offer(buffer)
     }
 
     /**
@@ -712,6 +825,10 @@ class AapTransport(
         inboundRateMonitor.reset()
         micUplinkMonitor.reset()
         micChunks.reset()
+
+        videoThread = HandlerThread("AapTransport:Handler::Video", Process.THREAD_PRIORITY_DISPLAY)
+        videoThread!!.start()
+        videoHandler = Handler(videoThread!!.looper)
 
         sendThread = HandlerThread("AapTransport:Handler::Send", Process.THREAD_PRIORITY_AUDIO)
         sendThread!!.start()
@@ -1023,6 +1140,20 @@ class AapTransport(
     companion object {
         private const val MSG_POLL = 1
         private const val MSG_SEND = 2
+
+        /** Pooled video payload copies: enough for a fragment run and the one behind it. */
+        /**
+         * Messages the video thread may be behind before the transport sheds.
+         *
+         * A backstop, not the flow control: the phone's own window is 12 messages on wireless and
+         * 16 on USB, so a healthy backlog sits an order of magnitude under this and only a phone
+         * ignoring its window can reach it. Sized so the worst case is about 16 MB of copies rather
+         * than the 350 MB a run with no ceiling reached in three minutes.
+         */
+        private const val VIDEO_BACKLOG_LIMIT = 256
+
+        private const val VIDEO_BUFFER_POOL_LIMIT = 8
+        private const val MIN_VIDEO_BUFFER_BYTES = 64 * 1024
         // Maximum wall-clock time allowed for the version-exchange phase of the AAP handshake.
         // Prevents the retry loop from blocking for minutes on an unresponsive USB device.
         private const val HANDSHAKE_TIMEOUT_MS = 10_000L
