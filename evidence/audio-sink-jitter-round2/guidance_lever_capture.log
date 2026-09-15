@@ -1,0 +1,632 @@
+09-15 14:02:32.834 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:32.877 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:32.946 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:32.951 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:32.988 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:33.030 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:33.042 26975 26975 V OPENHU  : [2] GpsLocation.onLocationChanged | GpsLocation: fix received
+09-15 14:02:33.071 26975 26975 V OPENHU  : [2] AapTransport.send | SENSOR Sensor Event type: 32771 flags: 11 size: 46 dataOffset: 6
+09-15 14:02:33.076 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:33.113 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:33.157 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:33.199 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:33.247 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: MUSIC_PLAYBACK Media Playback Status type: 32769 flags: 11 size: 17 dataOffset: 2
+09-15 14:02:33.248 26975 27368 D OPENHU  : [80] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='VLC', playbackSeconds(u32)=55, state=PLAYING
+09-15 14:02:33.296 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:33.313 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:33.350 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:33.387 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:33.456 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:33.470 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: CONTROL Ping Request type: 11 flags: 11 size: 12 dataOffset: 2
+09-15 14:02:33.471 26975 27368 V OPENHU  : [80] AapTransport.send | CONTROL Ping Response type: 12 flags: 11 size: 14 dataOffset: 6
+09-15 14:02:33.488 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:33.502 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:33.556 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:33.596 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:33.700 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:33.711 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:33.721 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:33.763 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:33.801 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:33.849 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:33.898 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:33.966 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:33.996 26975 26975 V OPENHU  : [2] GpsLocation.onLocationChanged | GpsLocation: fix received
+09-15 14:02:34.019 26975 26975 V OPENHU  : [2] AapTransport.send | SENSOR Sensor Event type: 32771 flags: 11 size: 46 dataOffset: 6
+09-15 14:02:34.115 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:34.122 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:34.132 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:34.135 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:34.324 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:34.331 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:34.345 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: MUSIC_PLAYBACK Media Playback Status type: 32769 flags: 11 size: 17 dataOffset: 2
+09-15 14:02:34.345 26975 27368 D OPENHU  : [80] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='VLC', playbackSeconds(u32)=56, state=PLAYING
+09-15 14:02:34.347 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:34.370 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:34.380 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:34.424 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:34.433 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:34.631 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:34.636 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: CONTROL Ping Request type: 11 flags: 11 size: 12 dataOffset: 2
+09-15 14:02:34.637 26975 27368 V OPENHU  : [80] AapTransport.send | CONTROL Ping Response type: 12 flags: 11 size: 14 dataOffset: 6
+09-15 14:02:34.644 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:34.717 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:34.732 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:34.745 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:34.748 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:34.752 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:34.776 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:34.827 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:34.834 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:34.931 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:34.942 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:34.962 26975 26975 I OPENHU  : [2] TextureProjectionView.onSurfaceTextureUpdated | TextureProjectionView: displayed 168 frames in 5019ms (33fps), longFrames=1
+09-15 14:02:35.025 26975 26975 V OPENHU  : [2] GpsLocation.onLocationChanged | GpsLocation: fix received
+09-15 14:02:35.038 26975 26975 V OPENHU  : [2] AapTransport.send | SENSOR Sensor Event type: 32771 flags: 11 size: 46 dataOffset: 6
+09-15 14:02:35.132 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:35.150 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:35.161 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:35.172 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:35.182 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:35.191 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:35.207 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:35.215 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: MUSIC_PLAYBACK Media Playback Status type: 32769 flags: 11 size: 17 dataOffset: 2
+09-15 14:02:35.216 26975 27368 D OPENHU  : [80] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='VLC', playbackSeconds(u32)=57, state=PLAYING
+09-15 14:02:35.252 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:35.291 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:35.333 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:35.378 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:35.422 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:35.455 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: CONTROL Ping Request type: 11 flags: 11 size: 12 dataOffset: 2
+09-15 14:02:35.456 26975 27368 V OPENHU  : [80] AapTransport.send | CONTROL Ping Response type: 12 flags: 11 size: 14 dataOffset: 6
+09-15 14:02:35.464 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:35.506 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:35.552 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:35.587 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:35.631 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:35.675 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:35.718 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:35.759 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:35.803 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:35.851 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:35.887 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:35.939 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:35.972 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:36.000 26975 26975 V OPENHU  : [2] GpsLocation.onLocationChanged | GpsLocation: fix received
+09-15 14:02:36.018 26975 26975 V OPENHU  : [2] AapTransport.send | SENSOR Sensor Event type: 32771 flags: 11 size: 46 dataOffset: 6
+09-15 14:02:36.018 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:36.059 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:36.104 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:36.145 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:36.186 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:36.214 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: MUSIC_PLAYBACK Media Playback Status type: 32769 flags: 11 size: 17 dataOffset: 2
+09-15 14:02:36.215 26975 27368 D OPENHU  : [80] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='VLC', playbackSeconds(u32)=58, state=PLAYING
+09-15 14:02:36.231 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:36.271 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:36.315 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:36.358 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:36.401 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:36.442 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:36.460 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: CONTROL Ping Request type: 11 flags: 11 size: 12 dataOffset: 2
+09-15 14:02:36.461 26975 27368 V OPENHU  : [80] AapTransport.send | CONTROL Ping Response type: 12 flags: 11 size: 14 dataOffset: 6
+09-15 14:02:36.485 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:36.529 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:36.570 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:36.614 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:36.659 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:36.703 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:36.743 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:36.783 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:36.828 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:36.869 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:36.913 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:36.964 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:37.000 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:37.042 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:37.044 26975 26975 V OPENHU  : [2] GpsLocation.onLocationChanged | GpsLocation: fix received
+09-15 14:02:37.071 26975 26975 V OPENHU  : [2] AapTransport.send | SENSOR Sensor Event type: 32771 flags: 11 size: 46 dataOffset: 6
+09-15 14:02:37.088 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:37.125 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:37.168 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:37.210 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:37.215 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: MUSIC_PLAYBACK Media Playback Status type: 32769 flags: 11 size: 17 dataOffset: 2
+09-15 14:02:37.216 26975 27368 D OPENHU  : [80] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='VLC', playbackSeconds(u32)=59, state=PLAYING
+09-15 14:02:37.257 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:37.301 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:37.305 26975 27400 I OPENHU  : [89] VideoDecoder.logThroughput | Throughput over 5000ms: rendered=248 (49fps), fed=251 (50fps), dropped=0, skipped=2, concealed=0, inputWait=245ms, enqueueWait=0ms, codec=c2.unisoc.avc.decoder, presented=242 (48fps), decodeLatency=13ms p95=22ms (242 frames)
+09-15 14:02:37.341 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:37.385 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:37.424 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:37.460 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: CONTROL Ping Request type: 11 flags: 11 size: 12 dataOffset: 2
+09-15 14:02:37.463 26975 27368 V OPENHU  : [80] AapTransport.send | CONTROL Ping Response type: 12 flags: 11 size: 14 dataOffset: 6
+09-15 14:02:37.466 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:37.510 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:37.551 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:37.594 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:37.636 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:37.679 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:37.725 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:37.767 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:37.807 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:37.851 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:37.899 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:37.939 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:37.980 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:38.024 26975 26975 V OPENHU  : [2] GpsLocation.onLocationChanged | GpsLocation: fix received
+09-15 14:02:38.026 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:38.033 26975 26975 V OPENHU  : [2] AapTransport.send | SENSOR Sensor Event type: 32771 flags: 11 size: 46 dataOffset: 6
+09-15 14:02:38.085 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:38.107 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:38.150 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:38.191 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:38.217 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: MUSIC_PLAYBACK Media Playback Status type: 32769 flags: 11 size: 17 dataOffset: 2
+09-15 14:02:38.217 26975 27368 D OPENHU  : [80] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='VLC', playbackSeconds(u32)=60, state=PLAYING
+09-15 14:02:38.234 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:38.283 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:38.321 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:38.361 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:38.404 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:38.448 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:38.458 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: CONTROL Ping Request type: 11 flags: 11 size: 12 dataOffset: 2
+09-15 14:02:38.459 26975 27368 V OPENHU  : [80] AapTransport.send | CONTROL Ping Response type: 12 flags: 11 size: 14 dataOffset: 6
+09-15 14:02:38.492 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:38.535 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:38.576 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:38.620 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:38.661 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:38.733 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:38.751 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:38.789 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:38.831 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:38.874 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:38.918 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:38.960 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:39.004 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:39.039 26975 26975 V OPENHU  : [2] GpsLocation.onLocationChanged | GpsLocation: fix received
+09-15 14:02:39.045 26975 26975 V OPENHU  : [2] AapTransport.send | SENSOR Sensor Event type: 32771 flags: 11 size: 46 dataOffset: 6
+09-15 14:02:39.048 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:39.089 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:39.131 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:39.173 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:39.219 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: MUSIC_PLAYBACK Media Playback Status type: 32769 flags: 11 size: 17 dataOffset: 2
+09-15 14:02:39.220 26975 27368 D OPENHU  : [80] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='VLC', playbackSeconds(u32)=61, state=PLAYING
+09-15 14:02:39.224 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:39.260 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:39.301 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:39.343 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:39.386 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:39.430 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:39.460 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: CONTROL Ping Request type: 11 flags: 11 size: 12 dataOffset: 2
+09-15 14:02:39.461 26975 27368 V OPENHU  : [80] AapTransport.send | CONTROL Ping Response type: 12 flags: 11 size: 14 dataOffset: 6
+09-15 14:02:39.475 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:39.514 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:39.557 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:39.604 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:39.643 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:39.687 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:39.730 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:39.774 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:39.815 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:39.858 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:39.902 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:39.943 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:39.978 26975 26975 I OPENHU  : [2] TextureProjectionView.onSurfaceTextureUpdated | TextureProjectionView: displayed 195 frames in 5016ms (38fps), longFrames=1
+09-15 14:02:39.986 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:40.000 26975 26975 V OPENHU  : [2] GpsLocation.onLocationChanged | GpsLocation: fix received
+09-15 14:02:40.019 26975 26975 V OPENHU  : [2] AapTransport.send | SENSOR Sensor Event type: 32771 flags: 11 size: 46 dataOffset: 6
+09-15 14:02:40.028 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:40.071 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:40.116 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:40.158 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:40.197 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:40.222 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: MUSIC_PLAYBACK Media Playback Status type: 32769 flags: 11 size: 17 dataOffset: 2
+09-15 14:02:40.223 26975 27368 D OPENHU  : [80] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='VLC', playbackSeconds(u32)=62, state=PLAYING
+09-15 14:02:40.239 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:40.283 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:40.326 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:40.374 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:40.414 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:40.458 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:40.465 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: CONTROL Ping Request type: 11 flags: 11 size: 12 dataOffset: 2
+09-15 14:02:40.467 26975 27368 V OPENHU  : [80] AapTransport.send | CONTROL Ping Response type: 12 flags: 11 size: 14 dataOffset: 6
+09-15 14:02:40.499 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:40.537 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:40.583 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:40.625 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:40.667 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:40.709 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:40.757 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:40.795 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:40.841 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:40.883 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:40.921 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:40.968 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:40.976 26975 27368 I OPENHU  : [80] AapTransport.noteMessageReceived$com_andrerinas_headunitrevived_3_4_0_beta3_githubDebug | AapTransport: inbound rate over 30005ms: video=52kB/s (1529 msgs), audio=187kB/s (703 msgs), other=0kB/s (60 msgs)
+09-15 14:02:41.008 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:41.030 26975 27368 I OPENHU  : [80] AapMessageHandlerType.handle | AapTransport: transport dispatch over 30006ms: video=1740ms, audio=867ms, other=70ms, unread=8%, blocks=0, longest=5ms on VIDEO, videoQueue=3
+09-15 14:02:41.034 26975 26975 V OPENHU  : [2] GpsLocation.onLocationChanged | GpsLocation: fix received
+09-15 14:02:41.052 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:41.060 26975 26975 V OPENHU  : [2] AapTransport.send | SENSOR Sensor Event type: 32771 flags: 11 size: 46 dataOffset: 6
+09-15 14:02:41.095 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:41.137 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:41.181 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:41.217 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: MUSIC_PLAYBACK Media Playback Status type: 32769 flags: 11 size: 17 dataOffset: 2
+09-15 14:02:41.219 26975 27368 D OPENHU  : [80] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='VLC', playbackSeconds(u32)=63, state=PLAYING
+09-15 14:02:41.227 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:41.266 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:41.307 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:41.352 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:41.394 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:41.436 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:41.463 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: CONTROL Ping Request type: 11 flags: 11 size: 12 dataOffset: 2
+09-15 14:02:41.464 26975 27368 V OPENHU  : [80] AapTransport.send | CONTROL Ping Response type: 12 flags: 11 size: 14 dataOffset: 6
+09-15 14:02:41.483 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:41.526 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:41.563 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:41.607 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:41.653 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:41.690 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:41.732 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:41.776 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:41.822 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:41.868 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:41.905 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:41.948 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:41.992 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:42.011 26975 26975 V OPENHU  : [2] GpsLocation.onLocationChanged | GpsLocation: fix received
+09-15 14:02:42.032 26975 26975 V OPENHU  : [2] AapTransport.send | SENSOR Sensor Event type: 32771 flags: 11 size: 46 dataOffset: 6
+09-15 14:02:42.034 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:42.075 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:42.116 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:42.162 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:42.202 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:42.215 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: MUSIC_PLAYBACK Media Playback Status type: 32769 flags: 11 size: 17 dataOffset: 2
+09-15 14:02:42.217 26975 27368 D OPENHU  : [80] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='VLC', playbackSeconds(u32)=64, state=PLAYING
+09-15 14:02:42.247 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:42.288 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:42.305 26975 27400 I OPENHU  : [89] VideoDecoder.logThroughput | Throughput over 5000ms: rendered=250 (50fps), fed=249 (49fps), dropped=0, skipped=0, concealed=0, inputWait=206ms, enqueueWait=0ms, codec=c2.unisoc.avc.decoder, presented=248 (49fps), decodeLatency=13ms p95=20ms (248 frames)
+09-15 14:02:42.332 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:42.376 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:42.417 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:42.462 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:42.465 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: CONTROL Ping Request type: 11 flags: 11 size: 12 dataOffset: 2
+09-15 14:02:42.466 26975 27368 V OPENHU  : [80] AapTransport.send | CONTROL Ping Response type: 12 flags: 11 size: 14 dataOffset: 6
+09-15 14:02:42.501 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:42.544 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:42.590 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:42.634 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:42.673 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:42.716 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:42.761 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:42.800 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:42.842 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:42.884 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:42.930 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:42.971 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:43.017 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:43.052 26975 26975 V OPENHU  : [2] GpsLocation.onLocationChanged | GpsLocation: fix received
+09-15 14:02:43.063 26975 26975 V OPENHU  : [2] AapTransport.send | SENSOR Sensor Event type: 32771 flags: 11 size: 46 dataOffset: 6
+09-15 14:02:43.085 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:43.100 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:43.142 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:43.185 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:43.215 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: MUSIC_PLAYBACK Media Playback Status type: 32769 flags: 11 size: 17 dataOffset: 2
+09-15 14:02:43.216 26975 27368 D OPENHU  : [80] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='VLC', playbackSeconds(u32)=65, state=PLAYING
+09-15 14:02:43.227 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:43.270 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:43.318 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:43.356 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:43.386 26975 27383 I OPENHU  : [81] AudioTrackWrapper.sampleHealth | audio sink AUDIO2 over 30184ms: underruns=0, silentCycles=0, rebanks=0, dropped=0, droppedFrames=0, shed=0, depth=0ms (min 0ms), queued=0, capacity=6400 frames (400ms), effective=6400 frames (400ms), target=1601 frames (100ms), drift=0ms
+09-15 14:02:43.397 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:43.430 26975 27385 I OPENHU  : [83] AudioTrackWrapper.sampleHealth | audio sink AUDIO1 over 30189ms: underruns=0, silentCycles=0, rebanks=0, dropped=0, droppedFrames=0, shed=0, depth=0ms (min 0ms), queued=0, capacity=6400 frames (400ms), effective=6400 frames (400ms), target=1601 frames (100ms), drift=0ms
+09-15 14:02:43.441 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:43.466 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: CONTROL Ping Request type: 11 flags: 11 size: 12 dataOffset: 2
+09-15 14:02:43.467 26975 27368 V OPENHU  : [80] AapTransport.send | CONTROL Ping Response type: 12 flags: 11 size: 14 dataOffset: 6
+09-15 14:02:43.483 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:43.529 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:43.569 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:43.621 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:43.655 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:43.698 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:43.713 26975 27387 I OPENHU  : [85] AudioTrackWrapper.sampleHealth | audio sink AUDIO over 30020ms: underruns=0, silentCycles=0, rebanks=0, dropped=0, droppedFrames=0, shed=0, depth=310ms (min 302ms), queued=7, capacity=30784 frames (641ms), effective=30784 frames (641ms), target=9600 frames (200ms), drift=0ms
+09-15 14:02:43.739 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:43.783 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:43.824 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:43.869 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:43.910 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:43.953 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:43.994 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:44.001 26975 26975 V OPENHU  : [2] GpsLocation.onLocationChanged | GpsLocation: fix received
+09-15 14:02:44.008 26975 26975 V OPENHU  : [2] AapTransport.send | SENSOR Sensor Event type: 32771 flags: 11 size: 46 dataOffset: 6
+09-15 14:02:44.041 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:44.080 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:44.123 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:44.167 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:44.210 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:44.216 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: MUSIC_PLAYBACK Media Playback Status type: 32769 flags: 11 size: 17 dataOffset: 2
+09-15 14:02:44.216 26975 27368 D OPENHU  : [80] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='VLC', playbackSeconds(u32)=66, state=PLAYING
+09-15 14:02:44.256 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:44.297 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:44.338 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:44.382 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:44.423 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:44.464 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:44.468 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: CONTROL Ping Request type: 11 flags: 11 size: 12 dataOffset: 2
+09-15 14:02:44.469 26975 27368 V OPENHU  : [80] AapTransport.send | CONTROL Ping Response type: 12 flags: 11 size: 14 dataOffset: 6
+09-15 14:02:44.508 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:44.552 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:44.591 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:44.636 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:44.676 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:44.725 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:44.764 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:44.805 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:44.848 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:44.891 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:44.937 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:44.978 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:44.982 26975 26975 I OPENHU  : [2] TextureProjectionView.onSurfaceTextureUpdated | TextureProjectionView: displayed 189 frames in 5003ms (37fps), longFrames=1
+09-15 14:02:45.019 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:45.050 26975 26975 V OPENHU  : [2] GpsLocation.onLocationChanged | GpsLocation: fix received
+09-15 14:02:45.061 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:45.072 26975 26975 V OPENHU  : [2] AapTransport.send | SENSOR Sensor Event type: 32771 flags: 11 size: 46 dataOffset: 6
+09-15 14:02:45.104 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:45.145 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:45.191 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:45.213 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: MUSIC_PLAYBACK Media Playback Status type: 32769 flags: 11 size: 17 dataOffset: 2
+09-15 14:02:45.215 26975 27368 D OPENHU  : [80] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='VLC', playbackSeconds(u32)=67, state=PLAYING
+09-15 14:02:45.232 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:45.274 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:45.319 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:45.361 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:45.403 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:45.445 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:45.467 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: CONTROL Ping Request type: 11 flags: 11 size: 12 dataOffset: 2
+09-15 14:02:45.468 26975 27368 V OPENHU  : [80] AapTransport.send | CONTROL Ping Response type: 12 flags: 11 size: 14 dataOffset: 6
+09-15 14:02:45.489 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:45.532 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:45.577 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:45.620 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:45.659 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:45.703 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:45.749 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:45.786 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:45.831 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:45.872 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:45.914 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:45.957 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:46.000 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:46.003 26975 26975 V OPENHU  : [2] GpsLocation.onLocationChanged | GpsLocation: fix received
+09-15 14:02:46.013 26975 26975 V OPENHU  : [2] AapTransport.send | SENSOR Sensor Event type: 32771 flags: 11 size: 46 dataOffset: 6
+09-15 14:02:46.042 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:46.086 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:46.132 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:46.172 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:46.218 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:46.223 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: MUSIC_PLAYBACK Media Playback Status type: 32769 flags: 11 size: 17 dataOffset: 2
+09-15 14:02:46.225 26975 27368 D OPENHU  : [80] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='VLC', playbackSeconds(u32)=68, state=PLAYING
+09-15 14:02:46.257 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:46.303 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:46.342 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:46.382 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:46.428 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:46.471 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: CONTROL Ping Request type: 11 flags: 11 size: 12 dataOffset: 2
+09-15 14:02:46.472 26975 27368 V OPENHU  : [80] AapTransport.send | CONTROL Ping Response type: 12 flags: 11 size: 14 dataOffset: 6
+09-15 14:02:46.478 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:46.513 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:46.558 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:46.601 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:46.640 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:46.684 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:46.727 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:46.769 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:46.811 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:46.851 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:46.901 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:46.940 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:46.987 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:47.025 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:47.050 26975 26975 V OPENHU  : [2] GpsLocation.onLocationChanged | GpsLocation: fix received
+09-15 14:02:47.066 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:47.069 26975 26975 V OPENHU  : [2] AapTransport.send | SENSOR Sensor Event type: 32771 flags: 11 size: 46 dataOffset: 6
+09-15 14:02:47.110 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:47.157 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:47.199 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:47.220 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: MUSIC_PLAYBACK Media Playback Status type: 32769 flags: 11 size: 17 dataOffset: 2
+09-15 14:02:47.221 26975 27368 D OPENHU  : [80] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='VLC', playbackSeconds(u32)=69, state=PLAYING
+09-15 14:02:47.238 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:47.279 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:47.307 26975 27400 I OPENHU  : [89] VideoDecoder.logThroughput | Throughput over 5001ms: rendered=257 (51fps), fed=257 (51fps), dropped=0, skipped=0, concealed=0, inputWait=247ms, enqueueWait=0ms, codec=c2.unisoc.avc.decoder, presented=256 (51fps), decodeLatency=13ms p95=19ms (256 frames)
+09-15 14:02:47.322 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:47.368 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:47.414 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:47.451 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:47.468 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: CONTROL Ping Request type: 11 flags: 11 size: 12 dataOffset: 2
+09-15 14:02:47.469 26975 27368 V OPENHU  : [80] AapTransport.send | CONTROL Ping Response type: 12 flags: 11 size: 14 dataOffset: 6
+09-15 14:02:47.492 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:47.535 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:47.579 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:47.622 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:47.668 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:47.707 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:47.752 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:47.792 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:47.835 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:47.879 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:47.923 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:47.964 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:48.003 26975 26975 V OPENHU  : [2] GpsLocation.onLocationChanged | GpsLocation: fix received
+09-15 14:02:48.006 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:48.010 26975 26975 V OPENHU  : [2] AapTransport.send | SENSOR Sensor Event type: 32771 flags: 11 size: 46 dataOffset: 6
+09-15 14:02:48.050 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:48.095 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:48.140 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:48.182 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:48.217 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: MUSIC_PLAYBACK Media Playback Status type: 32769 flags: 11 size: 17 dataOffset: 2
+09-15 14:02:48.218 26975 27368 D OPENHU  : [80] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='VLC', playbackSeconds(u32)=70, state=PLAYING
+09-15 14:02:48.221 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:48.262 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:48.303 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:48.350 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:48.388 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:48.431 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:48.472 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: CONTROL Ping Request type: 11 flags: 11 size: 12 dataOffset: 2
+09-15 14:02:48.473 26975 27368 V OPENHU  : [80] AapTransport.send | CONTROL Ping Response type: 12 flags: 11 size: 14 dataOffset: 6
+09-15 14:02:48.476 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:48.522 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:48.562 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:48.603 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:48.648 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:48.688 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:48.730 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:48.773 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:48.822 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:48.859 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:48.902 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:48.943 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:48.990 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:49.030 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:49.041 26975 26975 V OPENHU  : [2] GpsLocation.onLocationChanged | GpsLocation: fix received
+09-15 14:02:49.071 26975 26975 V OPENHU  : [2] AapTransport.send | SENSOR Sensor Event type: 32771 flags: 11 size: 46 dataOffset: 6
+09-15 14:02:49.072 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:49.117 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:49.156 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:49.203 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:49.222 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: MUSIC_PLAYBACK Media Playback Status type: 32769 flags: 11 size: 17 dataOffset: 2
+09-15 14:02:49.222 26975 27368 D OPENHU  : [80] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='VLC', playbackSeconds(u32)=71, state=PLAYING
+09-15 14:02:49.243 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:49.285 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:49.332 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:49.372 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:49.413 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:49.457 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:49.471 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: CONTROL Ping Request type: 11 flags: 11 size: 12 dataOffset: 2
+09-15 14:02:49.471 26975 27368 V OPENHU  : [80] AapTransport.send | CONTROL Ping Response type: 12 flags: 11 size: 14 dataOffset: 6
+09-15 14:02:49.500 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:49.544 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:49.584 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:49.636 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:49.674 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:49.713 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:49.760 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:49.796 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:49.841 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:49.887 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:49.924 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:49.973 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:49.997 26975 26975 I OPENHU  : [2] TextureProjectionView.onSurfaceTextureUpdated | TextureProjectionView: displayed 188 frames in 5015ms (37fps), longFrames=1
+09-15 14:02:50.006 26975 26975 V OPENHU  : [2] GpsLocation.onLocationChanged | GpsLocation: fix received
+09-15 14:02:50.013 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:50.038 26975 26975 V OPENHU  : [2] AapTransport.send | SENSOR Sensor Event type: 32771 flags: 11 size: 46 dataOffset: 6
+09-15 14:02:50.055 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:50.099 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:50.143 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:50.201 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:50.215 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: MUSIC_PLAYBACK Media Playback Status type: 32769 flags: 11 size: 17 dataOffset: 2
+09-15 14:02:50.216 26975 27368 D OPENHU  : [80] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='VLC', playbackSeconds(u32)=72, state=PLAYING
+09-15 14:02:50.226 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:50.266 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:50.310 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:50.354 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:50.394 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:50.437 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:50.476 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: CONTROL Ping Request type: 11 flags: 11 size: 12 dataOffset: 2
+09-15 14:02:50.478 26975 27368 V OPENHU  : [80] AapTransport.send | CONTROL Ping Response type: 12 flags: 11 size: 14 dataOffset: 6
+09-15 14:02:50.483 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:50.523 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:50.567 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:50.610 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:50.653 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:50.693 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:50.738 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:50.784 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:50.821 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:50.864 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:50.906 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:50.947 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:50.993 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:51.035 26975 26975 V OPENHU  : [2] GpsLocation.onLocationChanged | GpsLocation: fix received
+09-15 14:02:51.043 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:51.046 26975 26975 V OPENHU  : [2] AapTransport.send | SENSOR Sensor Event type: 32771 flags: 11 size: 46 dataOffset: 6
+09-15 14:02:51.078 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:51.123 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:51.163 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:51.206 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:51.219 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: MUSIC_PLAYBACK Media Playback Status type: 32769 flags: 11 size: 17 dataOffset: 2
+09-15 14:02:51.220 26975 27368 D OPENHU  : [80] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='VLC', playbackSeconds(u32)=73, state=PLAYING
+09-15 14:02:51.251 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:51.292 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:51.335 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:51.383 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:51.421 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:51.462 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:51.474 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: CONTROL Ping Request type: 11 flags: 11 size: 12 dataOffset: 2
+09-15 14:02:51.475 26975 27368 V OPENHU  : [80] AapTransport.send | CONTROL Ping Response type: 12 flags: 11 size: 14 dataOffset: 6
+09-15 14:02:51.507 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:51.551 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:51.589 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:51.633 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:51.675 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:51.719 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:51.759 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:51.803 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:51.847 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:51.889 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:51.932 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:51.975 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:51.999 26975 26975 V OPENHU  : [2] GpsLocation.onLocationChanged | GpsLocation: fix received
+09-15 14:02:52.018 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:52.038 26975 26975 V OPENHU  : [2] AapTransport.send | SENSOR Sensor Event type: 32771 flags: 11 size: 46 dataOffset: 6
+09-15 14:02:52.060 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:52.100 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:52.146 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:52.188 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:52.215 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: MUSIC_PLAYBACK Media Playback Status type: 32769 flags: 11 size: 17 dataOffset: 2
+09-15 14:02:52.216 26975 27368 D OPENHU  : [80] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='VLC', playbackSeconds(u32)=74, state=PLAYING
+09-15 14:02:52.231 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:52.270 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:52.309 26975 27400 I OPENHU  : [89] VideoDecoder.logThroughput | Throughput over 5002ms: rendered=253 (50fps), fed=254 (50fps), dropped=0, skipped=0, concealed=0, inputWait=218ms, enqueueWait=0ms, codec=c2.unisoc.avc.decoder, presented=250 (49fps), decodeLatency=13ms p95=20ms (250 frames)
+09-15 14:02:52.316 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:52.358 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:52.402 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:52.446 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:52.478 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: CONTROL Ping Request type: 11 flags: 11 size: 12 dataOffset: 2
+09-15 14:02:52.479 26975 27368 V OPENHU  : [80] AapTransport.send | CONTROL Ping Response type: 12 flags: 11 size: 14 dataOffset: 6
+09-15 14:02:52.488 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:52.531 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:52.572 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:52.617 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:52.657 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:52.700 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:52.742 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:52.785 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:52.828 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:52.873 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:52.912 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:52.955 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:53.001 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:53.039 26975 26975 V OPENHU  : [2] GpsLocation.onLocationChanged | GpsLocation: fix received
+09-15 14:02:53.043 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:53.052 26975 26975 V OPENHU  : [2] AapTransport.send | SENSOR Sensor Event type: 32771 flags: 11 size: 46 dataOffset: 6
+09-15 14:02:53.082 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:53.127 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:53.179 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:53.219 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:53.224 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: MUSIC_PLAYBACK Media Playback Status type: 32769 flags: 11 size: 17 dataOffset: 2
+09-15 14:02:53.225 26975 27368 D OPENHU  : [80] AapMediaPlayback.processStatusPacket | AapMediaPlayback: status mediaSource='VLC', playbackSeconds(u32)=75, state=PLAYING
+09-15 14:02:53.255 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:53.297 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:53.338 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:53.381 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:53.425 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:53.465 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:53.478 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: CONTROL Ping Request type: 11 flags: 11 size: 12 dataOffset: 2
+09-15 14:02:53.479 26975 27368 V OPENHU  : [80] AapTransport.send | CONTROL Ping Response type: 12 flags: 11 size: 14 dataOffset: 6
+09-15 14:02:53.511 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:53.552 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:53.596 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:53.638 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:53.678 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:53.724 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:53.765 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2
+09-15 14:02:53.809 26975 27368 D OPENHU  : [80] Companion.decrypt | RECV: AUDIO Media Data type: 0 flags: 11 size: 8202 dataOffset: 2

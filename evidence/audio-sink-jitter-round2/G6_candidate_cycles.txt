@@ -1,0 +1,60 @@
+=== cycle 1 pause at 13:57:26.791 ===
+=== cycle 1 resume at 13:57:31.960 ===
+=== cycle 1 end-check at 13:57:52.079 ===
+=== cycle 1 latch-check ===
+    <boolean name="playback-focus-self-defeating" value="false" />
+    <boolean name="playback-focus-self-defeating" value="false" />
+=== cycle 2 pause at 13:57:52.329 ===
+=== cycle 2 resume at 13:57:57.455 ===
+=== cycle 2 end-check at 13:58:17.571 ===
+=== cycle 2 latch-check ===
+    <boolean name="playback-focus-self-defeating" value="false" />
+    <boolean name="playback-focus-self-defeating" value="false" />
+=== cycle 3 pause at 13:58:17.752 ===
+=== cycle 3 resume at 13:58:22.865 ===
+=== cycle 3 end-check at 13:58:42.972 ===
+=== cycle 3 latch-check ===
+    <boolean name="playback-focus-self-defeating" value="false" />
+    <boolean name="playback-focus-self-defeating" value="false" />
+=== cycle 4 pause at 13:58:43.168 ===
+=== cycle 4 resume at 13:58:48.302 ===
+=== cycle 4 end-check at 13:59:08.403 ===
+=== cycle 4 latch-check ===
+    <boolean name="playback-focus-self-defeating" value="false" />
+    <boolean name="playback-focus-self-defeating" value="false" />
+=== cycle 5 pause at 13:59:08.571 ===
+=== cycle 5 resume at 13:59:13.688 ===
+=== cycle 5 end-check at 13:59:33.784 ===
+=== cycle 5 latch-check ===
+    <boolean name="playback-focus-self-defeating" value="false" />
+    <boolean name="playback-focus-self-defeating" value="false" />
+=== cycle 6 pause at 13:59:33.957 ===
+=== cycle 6 resume at 13:59:39.094 ===
+=== cycle 6 end-check at 13:59:59.186 ===
+=== cycle 6 latch-check ===
+    <boolean name="playback-focus-self-defeating" value="false" />
+    <boolean name="playback-focus-self-defeating" value="false" />
+=== cycle 7 pause at 13:59:59.388 ===
+=== cycle 7 resume at 14:00:04.502 ===
+=== cycle 7 end-check at 14:00:24.618 ===
+=== cycle 7 latch-check ===
+    <boolean name="playback-focus-self-defeating" value="false" />
+    <boolean name="playback-focus-self-defeating" value="false" />
+=== cycle 8 pause at 14:00:24.817 ===
+=== cycle 8 resume at 14:00:29.935 ===
+=== cycle 8 end-check at 14:00:50.054 ===
+=== cycle 8 latch-check ===
+    <boolean name="playback-focus-self-defeating" value="false" />
+    <boolean name="playback-focus-self-defeating" value="false" />
+=== cycle 9 pause at 14:00:50.261 ===
+=== cycle 9 resume at 14:00:55.384 ===
+=== cycle 9 end-check at 14:01:15.514 ===
+=== cycle 9 latch-check ===
+    <boolean name="playback-focus-self-defeating" value="false" />
+    <boolean name="playback-focus-self-defeating" value="false" />
+=== cycle 10 pause at 14:01:15.711 ===
+=== cycle 10 resume at 14:01:20.825 ===
+=== cycle 10 end-check at 14:01:40.940 ===
+=== cycle 10 latch-check ===
+    <boolean name="playback-focus-self-defeating" value="false" />
+    <boolean name="playback-focus-self-defeating" value="false" />

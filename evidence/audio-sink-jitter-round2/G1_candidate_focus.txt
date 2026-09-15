@@ -1,0 +1,1890 @@
+== 13:51:16.434066562
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:17.560664982
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:18.680731559
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:19.797272922
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:20.912084120
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:22.034555136
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:23.178691697
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:24.311259137
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:25.428357639
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:26.553753030
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:27.684413765
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:28.803895366
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:29.922444583
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:31.047267879
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:32.167063362
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:33.288013918
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:34.422768354
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:35.538858091
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+
+== 13:51:36.678402682
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:37.802952923
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:38.916105694
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:40.053830977
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:41.185269691
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:42.311640383
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:43.443064688
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:44.582109792
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:45.703780535
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:46.825745636
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:47.939154953
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:49.055963388
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:50.179081407
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:51.318244471
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:52.447384180
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:53.608028564
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:54.731497684
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:55.859920869
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:56.984219561
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:58.104023689
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:51:59.231280538
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:00.361941055
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:01.482683416
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:02.608480083
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:03.730475476
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:04.854237209
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:05.972603389
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:07.097740788
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:08.213203263
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:09.334616273
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:10.456803728
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:11.582304249
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:12.713820911
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:13.841700350
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:14.966108421
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:16.090171109
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:17.203062327
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:18.342150267
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:19.458939518
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:20.583928375
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:21.715110833
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:22.839961297
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:23.971518858
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:25.103221565
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:26.229095282
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:27.350248356
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:28.479950374
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:29.592452233
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:30.709953849
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:31.830890152
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:32.949344944
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:34.089230393
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:35.209222233
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:36.326484982
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:37.440788561
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:38.566583953
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:39.692662933
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:40.824495892
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:41.945093597
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:43.064428546
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:44.194677256
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:45.332865340
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:46.452817606
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:47.575276220
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:48.698469381
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:49.813653463
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:50.931803670
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:52.054929142
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:53.176620842
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:54.307434186
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:55.429018164
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+== 13:52:56.548577539
+    package=com.android.server.telecom
+      package=com.andrerinas.headunitrevived
+      state=PlaybackState {state=STOPPED(1), position=0, buffered position=0, speed=0.0, updated=19789470, actions=565, custom actions=[], active item id=-1, error=null}
+      package=org.videolan.vlc
+      state=PlaybackState {state=PAUSED(2), position=37112, buffered position=0, speed=0.0, updated=19788325, actions=4210525, custom actions=[Action:mName='Rewind, mIcon=2131231002, mExtras=Bundle[mParcelledData.dataSize=144], Action:mName='Fast forward, mIcon=2131230985, mExtras=Bundle[mParcelledData.dataSize=144]], active item id=0, error=null}
+      package=com.android.bluetooth
+      state=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=11255934, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@57866da -- pack: org.videolan.vlc -- client: android.media.AudioManager@d0d12e4org.videolan.vlc.util.VLCAudioFocusHelper$createOnAudioFocusChangeListener$1@aaab34d -- gain: GAIN -- flags:  -- loss: LOSS_TRANSIENT -- notified: true -- limbofalse -- uid: 10164 -- attr: AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+  source:android.os.BinderProxy@a36670b -- pack: com.andrerinas.headunitrevived -- client: android.media.AudioManager@ac4fabccom.andrerinas.openheadunit.aap.AapAudio$$ExternalSyntheticLambda0@3ac3a45 -- gain: GAIN_TRANSIENT -- flags:  -- loss: none -- notified: true -- limbofalse -- uid: 10174 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:36
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
