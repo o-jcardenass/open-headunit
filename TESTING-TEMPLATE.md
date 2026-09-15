@@ -480,6 +480,26 @@ Measured on the UNISOC MT50 (`MT50_YT610E4GFPSL_U`, Android 14, `head-unit-make:
 This channel serves one rig, so these belong here rather than in each brief. A brief will still say
 when a quirk changes a run.
 
+- **`playback-focus-self-defeating` is a latch the app writes, and it survives everything.** Two media
+  channels closing within 5 s of a focus grab set it, and once set the app never takes system audio
+  focus again, on this or any later session. Only re-picking the focus mode in the settings UI clears
+  it from inside the app; from adb, write `false` with the app stopped. A whole round of focus runs
+  measured nothing because it was already set: every decline read `learned` whatever the mode was.
+  Read it back before and after any run that is about audio focus.
+- **A heard fault can be stamped into the capture.** `ACTION_LOG_MARKER --es text <label>` prints
+  `AutomationMarker: <label>` at WARN, so a tester listening to a run can put the moment they heard
+  something into the log beside the instruments. `-f 0x00000020` is required, as for every automation
+  broadcast. Worth using for any audible or visible fault the instruments might miss entirely: the
+  count of markers that fall in a window where nothing was logged is the size of that blind spot.
+- **Driving VLC as the phone-side audio source takes three fixes that are not obvious.** It needs
+  `appops set org.videolan.vlc MANAGE_EXTERNAL_STORAGE allow`, because that is an app-op and
+  `pm grant` does not set it; a leftover playback item makes it reopen the old path whatever the new
+  intent says, until `pm clear`, which then costs a first-run storage scan of about 15 s; and the
+  activity to target is `org.videolan.vlc/.StartActivity`, not the player activity, which accepts the
+  VIEW intent silently and never becomes the resumed activity. Launch with
+  `am start -a android.intent.action.VIEW -d "file://<path>" -t audio/mpeg -n org.videolan.vlc/.StartActivity`.
+  A keep-alive watchdog that restarts it on any non-PLAYING state will contaminate any run that
+  deliberately pauses playback; kill the watchdog first.
 - **The head unit's Bluetooth re-enables itself.** `adb shell svc bluetooth disable` is silently
   reverted about 14 s later — `AdapterState` shows `OffState → … → OnState` via `USER_TURN_ON`,
   reproduced twice with no other adb activity in between. It is not the app: the only

@@ -108,7 +108,7 @@ by `bssid-round1-results.md` and its addendum.
 | `video-pipeline-stack` | **CLOSED** | video-pipeline-stack-round2-results.md; work now lives on fix/video-stack, tested under the release-next thread. Superseded here. |
 | `video-dropped-frame-keyframe` | **QUEUED** | video-dropped-frame-keyframe-round7-brief.md; R1 is a desk check, no rig time; R2 optional. Fix already in the upstream PR. |
 | `audio-focus` | **QUEUED** | audio-focus-round11-brief.md; queued, no round run yet. |
-| `audio-sink-jitter` | **QUEUED (round 2)** | audio-sink-jitter-round1-results.md; R0/B1/B2/C1/E1/G3/G4/G5 PASS, A2 FAIL (multiplier not reaching mixer buffer), D1 FAIL (one-time AAC cold-start frame shed), C2/G2 INCONCLUSIVE (no guidance traffic on this rig), G1 shows `mode=AUTO`'s grab never fires with a local player already playing, G6/G7 not run. |
+| `audio-sink-jitter` | **QUEUED (round 2)** | round2-brief.md against `d292ec52`, gate 1914/0. Part P is phone-to-phone on D-POCO, the pairing the owner can hear, with markers for audible breaks; Part H repeats it on D-HU with the controlled levers. |
 | `usb-device-diagnostics` | **DONE** | usb-device-diagnostics-round5-results.md; round 5 PASS, Direct Boot fix works, branch PR-ready. R6 (WiFi/BT locked-defer) stays hardware-unverified. |
 | `usb-session-teardown` | **DONE** | usb-session-teardown-round1-results.md; diagnosis complete, attributed to Android Auto's own headunit server tearing down on any USB port event. Nothing queued. |
 | `audio-start-and-teardown` | **DONE** | audio-start-and-teardown-round1-results.md; audio half validated, WiFi Direct commit dropped from branch. Blocks mic-uplink round1 M1 (CarKeyReceiver trigger not delivered). |
