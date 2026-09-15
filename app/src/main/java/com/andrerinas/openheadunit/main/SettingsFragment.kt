@@ -173,7 +173,8 @@ class SettingsFragment : Fragment() {
     private var pendingAudioLatencyMultiplier: Int? = null
     private var pendingUseLibusb: Boolean? = null
     private var pendingAudioQueueCapacity: Int? = null
-    private var pendingShowFpsCounter: Boolean? = null
+    private var pendingShowPerformanceOverlay: Boolean? = null
+    private var pendingOverlayPosition: Settings.OverlayPosition? = null
     private var pendingShowToastMessages: Boolean? = null
     private var pendingScreenOrientation: Settings.ScreenOrientation? = null
     private var pendingAppLanguage: String? = null
@@ -345,7 +346,8 @@ class SettingsFragment : Fragment() {
         pendingMediaKeyRouting = settings.mediaKeyRouting
         pendingAudioLatencyMultiplier = settings.audioLatencyMultiplier
         pendingAudioQueueCapacity = settings.audioQueueCapacity
-        pendingShowFpsCounter = settings.showFpsCounter
+        pendingShowPerformanceOverlay = settings.showPerformanceOverlay
+        pendingOverlayPosition = settings.overlayPosition
         pendingShowToastMessages = settings.showToastMessages
         pendingScreenOrientation = settings.screenOrientation
         pendingAppLanguage = settings.appLanguage
@@ -479,7 +481,8 @@ class SettingsFragment : Fragment() {
         pendingMediaKeyRouting = settings.mediaKeyRouting
         pendingAudioLatencyMultiplier = settings.audioLatencyMultiplier
         pendingAudioQueueCapacity = settings.audioQueueCapacity
-        pendingShowFpsCounter = settings.showFpsCounter
+        pendingShowPerformanceOverlay = settings.showPerformanceOverlay
+        pendingOverlayPosition = settings.overlayPosition
         pendingShowToastMessages = settings.showToastMessages
         pendingScreenOrientation = settings.screenOrientation
         pendingAppLanguage = settings.appLanguage
@@ -698,7 +701,8 @@ class SettingsFragment : Fragment() {
         pendingMediaKeyRouting?.let { settings.mediaKeyRouting = it }
         pendingAudioLatencyMultiplier?.let { settings.audioLatencyMultiplier = it }
         pendingAudioQueueCapacity?.let { settings.audioQueueCapacity = it }
-        pendingShowFpsCounter?.let { settings.showFpsCounter = it }
+        pendingShowPerformanceOverlay?.let { settings.showPerformanceOverlay = it }
+        pendingOverlayPosition?.let { settings.overlayPosition = it }
         pendingShowToastMessages?.let { settings.showToastMessages = it }
         pendingScreenOrientation?.let { settings.screenOrientation = it }
 
@@ -839,7 +843,8 @@ class SettingsFragment : Fragment() {
                         pendingMediaKeyRouting != settings.mediaKeyRouting ||
                         pendingAudioLatencyMultiplier != settings.audioLatencyMultiplier ||
                         pendingAudioQueueCapacity != settings.audioQueueCapacity ||
-                        pendingShowFpsCounter != settings.showFpsCounter ||
+                        pendingShowPerformanceOverlay != settings.showPerformanceOverlay ||
+                        pendingOverlayPosition != settings.overlayPosition ||
                         pendingShowToastMessages != settings.showToastMessages ||
                         pendingScreenOrientation != settings.screenOrientation ||
                         pendingAppLanguage != settings.appLanguage ||
@@ -2557,14 +2562,35 @@ class SettingsFragment : Fragment() {
         items.add(SettingItem.CategoryHeader("debug", R.string.category_debug))
 
         items.add(SettingItem.ToggleSettingEntry(
-            stableId = "showFpsCounter",
-            nameResId = R.string.show_fps_counter,
-            descriptionResId = R.string.show_fps_counter_description,
-            isChecked = pendingShowFpsCounter ?: settings.showFpsCounter,
+            stableId = "showPerformanceOverlay",
+            nameResId = R.string.show_performance_overlay,
+            descriptionResId = R.string.show_performance_overlay_description,
+            isChecked = pendingShowPerformanceOverlay ?: settings.showPerformanceOverlay,
             onCheckedChanged = { isChecked ->
-                pendingShowFpsCounter = isChecked
+                pendingShowPerformanceOverlay = isChecked
                 checkChanges()
                 updateSettingsList()
+            }
+        ))
+
+        // The overlay sits in a top corner, and on a panel with an OEM bar that corner is covered.
+        val overlayPositions = arrayOf(getString(R.string.margin_left), getString(R.string.margin_right))
+        items.add(SettingItem.SettingEntry(
+            stableId = "overlayPosition",
+            nameResId = R.string.overlay_position,
+            searchKeywords = kw(R.string.margin_left, R.string.margin_right),
+            value = overlayPositions.getOrElse((pendingOverlayPosition ?: settings.overlayPosition).value) { "" },
+            onClick = { _ ->
+                val currentIdx = (pendingOverlayPosition ?: settings.overlayPosition).value
+                MaterialAlertDialogBuilder(requireContext(), R.style.DarkAlertDialog)
+                    .setTitle(R.string.overlay_position)
+                    .setSingleChoiceItems(overlayPositions, currentIdx) { dialog, which ->
+                        Settings.OverlayPosition.fromInt(which)?.let { pendingOverlayPosition = it }
+                        checkChanges()
+                        dialog.dismiss()
+                        updateSettingsList()
+                    }
+                    .show()
             }
         ))
 

@@ -841,7 +841,8 @@
     <string name="nav_action_ferry">Ferry</string>
     <string name="nav_action_ferry_train">Ferry / train</string>
     <string name="nav_action_destination">Arrival</string>
-    <string name="show_fps_counter">Show FPS Counter</string>
+    <string name="show_performance_overlay">Show Performance Overlay</string>
+    <string name="overlay_position">Performance overlay position</string>
     <!-- Debug-only: deliberately corrupts the projected video stream so the reassembler's
          failure paths can be exercised on a unit that is working correctly. Not translated on
          purpose - it is a developer tool and the terms are protocol terms. -->
@@ -864,7 +865,7 @@
     <string name="debug_video_low_latency">Request decoder low-latency mode</string>
     <string name="debug_video_low_latency_description">Sets the vendor low-latency MediaFormat key when configuring the video decoder. Falls back automatically if the decoder rejects it.</string>
     <string name="debug_video_feed_hold">Simulate a slow decoder</string>
-    <string name="show_fps_counter_description">Display a real-time FPS overlay in the top-left corner during projection.</string>
+    <string name="show_performance_overlay_description">Display FPS, CPU load, temperature and frame age over the projection.</string>
 
     <!-- Auto-start permission strings -->
     <string name="reopen_on_reconnection_label">Reopen on reconnection</string>

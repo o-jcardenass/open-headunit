@@ -414,14 +414,15 @@
     <string name="monochrome_icons_description">在深色或極致黑暗模式中使用灰階圖示</string>
     <string name="use_extreme_dark">使用極致黑暗</string>
     <string name="use_extreme_dark_description">在深色模式啟用時使用純黑背景</string>
-    <string name="show_fps_counter">顯示 FPS 計數器</string>
+    <string name="show_performance_overlay">顯示效能疊加層</string>
+    <string name="overlay_position">效能疊加層位置</string>
     <string name="overlay_permission_required">自動啟動需要「顯示在其他應用程式上層」權限</string>
     <string name="usb_permission_denied">USB 權限被拒絕。請允許 USB 存取以自動連線。</string>
     <string name="overlay_permission_denied_auto_start_disabled">未授予覆蓋權限。自動啟動已被停用。</string>
     <string name="use_white_background">使用白色主畫面桌布</string>
     <string name="reopen_on_reconnection_label">重新連線時重新開啟</string>
     <string name="reopen_on_reconnection_description">當您按下退出按鈕時，應用程式會在背景繼續運行並持續監控 USB 連線。如果裝置重新連線，應用程式會自動開啟。</string>
-    <string name="show_fps_counter_description">在投影期間於左上角顯示即時 FPS 疊加層。</string>
+    <string name="show_performance_overlay_description">在投影畫面上顯示 FPS、CPU 負載、溫度與影格時間。</string>
 
     <string name="category_input">輸入設定</string>
     <string name="enable_rotary">啟用旋鈕控制器 (Rotary)</string>

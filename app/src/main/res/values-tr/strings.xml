@@ -413,8 +413,9 @@
     <string name="nav_action_ferry">Feribot</string>
     <string name="nav_action_ferry_train">Feribot / tren</string>
     <string name="nav_action_destination">Varış</string>
-    <string name="show_fps_counter">FPS Sayacını Göster</string>
-    <string name="show_fps_counter_description">Yansıtma sırasında sol üst köşede gerçek zamanlı bir FPS göstergesi görüntüler.</string>
+    <string name="show_performance_overlay">Performans katmanını göster</string>
+    <string name="overlay_position">Performans katmanının konumu</string>
+    <string name="show_performance_overlay_description">Yansıtmanın üzerinde FPS, CPU yükü, sıcaklık ve kare yaşını gösterir.</string>
 
     <string name="reopen_on_reconnection_label">Yeniden bağlantıda tekrar aç</string>
     <string name="reopen_on_reconnection_description">Çıkış düğmesine bastığınızda, uygulama arka planda çalışmaya devam eder ve USB bağlantılarını izlemeyi sürdürür. Bir cihaz yeniden bağlandığında uygulama otomatik olarak tekrar açılır.</string>

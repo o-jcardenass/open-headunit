@@ -415,8 +415,9 @@
     <string name="monochrome_icons_description">Usar ícones em tons de cinza na tela inicial no modo Escuro ou Escuro Extremo</string>
     <string name="use_extreme_dark">Usar escuro extremo</string>
     <string name="use_extreme_dark_description">Usar fundo preto puro quando o modo escuro está ativo</string>
-    <string name="show_fps_counter">Mostrar contador de FPS</string>
-    <string name="show_fps_counter_description">Exibe a contagem de FPS em tempo real no canto superior esquerdo durante a projeção.</string>
+    <string name="show_performance_overlay">Mostrar sobreposição de desempenho</string>
+    <string name="overlay_position">Posição da sobreposição de desempenho</string>
+    <string name="show_performance_overlay_description">Exibe FPS, carga da CPU, temperatura e idade do quadro sobre a projeção.</string>
     <string name="overlay_permission_required">O início automático requer a permissão \'Exibir sobre outros apps\'</string>
     <string name="usb_permission_denied">Permissão USB negada. Por favor, permita o acesso USB para conectar automaticamente.</string>
     <string name="overlay_permission_denied_auto_start_disabled">Permissão de sobreposição não concedida. O início automático foi desativado.</string>

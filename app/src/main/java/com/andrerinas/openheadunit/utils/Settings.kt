@@ -1466,10 +1466,21 @@ class Settings(private val context: Context) {
     var appThemeManualEnd: Int
         get() = prefs.getInt("app-theme-manual-end", 420)
         set(value) { prefs.edit().putInt("app-theme-manual-end", value).apply() }
-    var showFpsCounter: Boolean
+    // The stored key keeps the old spelling: renaming it would reset the setting on every unit.
+    var showPerformanceOverlay: Boolean
         get() = prefs.getBoolean("show-fps-counter", false)
         set(value) {
             prefs.edit().putBoolean("show-fps-counter", value).apply()
+        }
+
+    // Which top corner the performance overlay sits in, for a panel whose OEM bar covers the other.
+    var overlayPosition: OverlayPosition
+        get() {
+            val value = prefs.getInt("overlay-position", 0)
+            return OverlayPosition.fromInt(value) ?: OverlayPosition.LEFT
+        }
+        set(value) {
+            prefs.edit().putInt("overlay-position", value.value).apply()
         }
 
     companion object {
@@ -1845,6 +1856,16 @@ class Settings(private val context: Context) {
 
         companion object {
             private val map = values().associateBy(ViewMode::value)
+            fun fromInt(value: Int) = map[value]
+        }
+    }
+
+    enum class OverlayPosition(val value: Int) {
+        LEFT(0),
+        RIGHT(1);
+
+        companion object {
+            private val map = values().associateBy(OverlayPosition::value)
             fun fromInt(value: Int) = map[value]
         }
     }

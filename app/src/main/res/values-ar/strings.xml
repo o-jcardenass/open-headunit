@@ -417,8 +417,9 @@
     <string name="monochrome_icons_description">استخدام أيقونات رمادية على الشاشة الرئيسية في الوضع الداكن أو الداكن المطلق</string>
     <string name="use_extreme_dark">استخدام الوضع الداكن المطلق</string>
     <string name="use_extreme_dark_description">استخدام خلفية سوداء بالكامل عند تفعيل الوضع الداكن</string>
-    <string name="show_fps_counter">إظهار عداد FPS</string>
-    <string name="show_fps_counter_description">إظهار معدل الإطارات في الوقت الفعلي في الزاوية العلوية اليسرى أثناء العرض.</string>
+    <string name="show_performance_overlay">إظهار لوحة الأداء</string>
+    <string name="overlay_position">موضع لوحة الأداء</string>
+    <string name="show_performance_overlay_description">عرض معدل الإطارات وحمل المعالج ودرجة الحرارة وعمر الإطار فوق العرض.</string>
     <string name="overlay_permission_required">يتطلب التشغيل التلقائي إذن \'العرض فوق التطبيقات الأخرى\'</string>
     <string name="usb_permission_denied">تم رفض إذن USB. يرجى السماح بالوصول إلى USB للاتصال تلقائيًا.</string>
     <string name="overlay_permission_denied_auto_start_disabled">لم يتم منح إذن العرض. تم تعطيل التشغيل التلقائي.</string>

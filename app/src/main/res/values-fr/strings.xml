@@ -696,7 +696,8 @@
     <string name="nav_action_ferry">Ferry</string>
     <string name="nav_action_ferry_train">Ferry / train</string>
     <string name="nav_action_destination">Arrivée</string>
-    <string name="show_fps_counter">Afficher le compteur FPS</string>
+    <string name="show_performance_overlay">Afficher la superposition de performances</string>
+    <string name="overlay_position">Position de la superposition de performances</string>
     <!-- Debug-only: deliberately corrupts the projected video stream so the reassembler's
          failure paths can be exercised on a unit that is working correctly. Not translated on
          purpose - it is a developer tool and the terms are protocol terms. -->
@@ -706,7 +707,7 @@
         <string name="debug_force_memory_profile">Forcer le profil mémoire</string>
         <string name="debug_video_low_latency">Demander le mode faible latence du décodeur</string>
         <string name="debug_video_low_latency_description">Définit la clé MediaFormat propriétaire de faible latence lors de la configuration du décodeur vidéo. Revient automatiquement en arrière si le décodeur la refuse.</string>
-    <string name="show_fps_counter_description">Afficher un compteur FPS en temps réel dans le coin supérieur gauche pendant la projection.</string>
+    <string name="show_performance_overlay_description">Affiche les FPS, la charge CPU, la température et l\'âge de l\'image par-dessus la projection.</string>
 
     <!-- Auto-start permission strings -->
     <string name="reopen_on_reconnection_label">Rouvrir à la reconnexion</string>

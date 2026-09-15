@@ -416,14 +416,15 @@
     <string name="monochrome_icons_description">Szürkeárnyalatos ikonok használata a kezdőképernyőn Sötét vagy Extrém sötét módban</string>
     <string name="use_extreme_dark">Extrém sötét használata</string>
     <string name="use_extreme_dark_description">Tiszta fekete háttér használata sötét módban</string>
-    <string name="show_fps_counter">FPS számláló megjelenítése</string>
+    <string name="show_performance_overlay">Teljesítményjelző megjelenítése</string>
+    <string name="overlay_position">Teljesítményjelző helye</string>
     <string name="overlay_permission_required">Az automatikus indításhoz szükséges a \'Megjelenítés más alkalmazások felett\' engedély</string>
     <string name="usb_permission_denied">USB-engedély megtagadva. Kérjük, engedélyezze az USB-hozzáférést az automatikus csatlakozáshoz.</string>
     <string name="overlay_permission_denied_auto_start_disabled">Az átfedési engedély nem lett megadva. Az automatikus indítás letiltásra került.</string>
     <string name="use_white_background">Fehér főképernyő háttérkép használata</string>
     <string name="reopen_on_reconnection_label">Újranyitás újracsatlakozáskor</string>
     <string name="reopen_on_reconnection_description">A Kilépés gomb megnyomásakor az alkalmazás a háttérben fut tovább, és folyamatosan figyeli az USB-kapcsolatokat. Ha egy eszköz újracsatlakozik, az alkalmazás automatikusan megnyílik.</string>
-    <string name="show_fps_counter_description">Valós idejű FPS overlay megjelenítése a bal felső sarokban a vetítés alatt.</string>
+    <string name="show_performance_overlay_description">Megjeleníti az FPS-t, a CPU-terhelést, a hőmérsékletet és a képkocka korát a vetítés felett.</string>
 
     <string name="category_input">Beviteli beállítások</string>
     <string name="enable_rotary">Forgókapcsoló (Rotary) engedélyezése</string>

@@ -414,14 +414,15 @@
     <string name="monochrome_icons_description">Grijstinten pictogrammen op het startscherm gebruiken in Donker of Extra donker modus</string>
     <string name="use_extreme_dark">Extra donker gebruiken</string>
     <string name="use_extreme_dark_description">Puur zwarte achtergrond gebruiken wanneer donkere modus actief is</string>
-    <string name="show_fps_counter">FPS-teller weergeven</string>
+    <string name="show_performance_overlay">Prestatie-overlay tonen</string>
+    <string name="overlay_position">Positie van prestatie-overlay</string>
     <string name="overlay_permission_required">Automatisch starten vereist de machtiging \'Weergeven over andere apps\'</string>
     <string name="usb_permission_denied">USB-machtiging geweigerd. Sta USB-toegang toe om automatisch te verbinden.</string>
     <string name="overlay_permission_denied_auto_start_disabled">Overlay-machtiging niet verleend. Automatisch starten is uitgeschakeld.</string>
     <string name="use_white_background">Wit startscherm achtergrond gebruiken</string>
     <string name="reopen_on_reconnection_label">Heropenen bij herverbinding</string>
     <string name="reopen_on_reconnection_description">Wanneer u op de knop Afsluiten drukt, blijft de app op de achtergrond draaien en blijft USB-verbindingen monitoren. Als een apparaat opnieuw verbinding maakt, opent de app automatisch.</string>
-    <string name="show_fps_counter_description">Toon een real-time FPS-overlay in de linkerbovenhoek tijdens de projectie.</string>
+    <string name="show_performance_overlay_description">Toont FPS, CPU-belasting, temperatuur en frameleeftijd over de projectie.</string>
 
     <string name="category_input">Invoerinstellingen</string>
     <string name="enable_rotary">Draaiknop (Rotary) inschakelen</string>

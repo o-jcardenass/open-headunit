@@ -417,8 +417,9 @@
     <string name="monochrome_icons_description">Použít šedé ikony na domovské obrazovce v tmavém nebo extrémně tmavém režimu</string>
     <string name="use_extreme_dark">Použít extrémně tmavý režim</string>
     <string name="use_extreme_dark_description">Použít čistě černé pozadí při aktivním tmavém režimu</string>
-    <string name="show_fps_counter">Zobrazit počítadlo FPS</string>
-    <string name="show_fps_counter_description">Během projekce zobrazí v levém horním rohu aktuální FPS.</string>
+    <string name="show_performance_overlay">Zobrazit výkonnostní překryv</string>
+    <string name="overlay_position">Umístění výkonnostního překryvu</string>
+    <string name="show_performance_overlay_description">Zobrazí snímkovou frekvenci, zatížení procesoru, teplotu a stáří snímku přes projekci.</string>
     <string name="overlay_permission_required">Automatické spuštění vyžaduje oprávnění \'Zobrazit přes jiné aplikace\'</string>
     <string name="usb_permission_denied">Oprávnění USB bylo zamítnuto. Povolte prosím přístup k USB pro automatické připojení.</string>
     <string name="overlay_permission_denied_auto_start_disabled">Oprávnění pro překrytí nebylo uděleno. Automatické spuštění bylo zakázáno.</string>

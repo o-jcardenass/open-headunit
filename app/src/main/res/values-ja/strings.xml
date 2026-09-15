@@ -418,8 +418,9 @@
     <string name="nav_action_ferry">フェリー</string>
     <string name="nav_action_ferry_train">フェリー / 列車</string>
     <string name="nav_action_destination">到着</string>
-    <string name="show_fps_counter">FPSカウンターを表示する</string>
-    <string name="show_fps_counter_description">投影中に、画面左上にリアルタイムのFPSオーバーレイを表示します。</string>
+    <string name="show_performance_overlay">パフォーマンス表示を表示</string>
+    <string name="overlay_position">パフォーマンス表示の位置</string>
+    <string name="show_performance_overlay_description">FPS、CPU 負荷、温度、フレーム経過時間を投影画面に重ねて表示します。</string>
 
     <!-- Auto-start permission strings -->
     <string name="reopen_on_reconnection_label">再接続時に再開</string>

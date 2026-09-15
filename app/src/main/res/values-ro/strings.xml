@@ -415,14 +415,15 @@
     <string name="monochrome_icons_description">Utilizați pictograme în tonuri de gri pe ecranul principal în modul Întunecat sau Negru extrem</string>
     <string name="use_extreme_dark">Folosiți negru extrem</string>
     <string name="use_extreme_dark_description">Utilizați fundal negru pur când modul întunecat este activ</string>
-    <string name="show_fps_counter">Afișează contor FPS</string>
+    <string name="show_performance_overlay">Afișează suprapunerea de performanță</string>
+    <string name="overlay_position">Poziția suprapunerii de performanță</string>
     <string name="overlay_permission_required">Pornirea automată necesită permisiunea \'Afișare peste alte aplicații\'</string>
     <string name="usb_permission_denied">Permisiunea USB a fost refuzată. Vă rugăm să permiteți accesul USB pentru conectare automată.</string>
     <string name="overlay_permission_denied_auto_start_disabled">Permisiunea de suprapunere nu a fost acordată. Pornirea automată a fost dezactivată.</string>
     <string name="use_white_background">Folosește fundal alb pe ecranul principal</string>
     <string name="reopen_on_reconnection_label">Redeschide la reconectare</string>
     <string name="reopen_on_reconnection_description">Când apăsați butonul Ieșire, aplicația continuă să ruleze în fundal și monitorizează conexiunile USB. Dacă un dispozitiv se reconectează, aplicația se redeschide automat.</string>
-    <string name="show_fps_counter_description">Afișează un overlay cu FPS în timp real în colțul din stânga sus în timpul proiecției.</string>
+    <string name="show_performance_overlay_description">Afișează FPS, încărcarea procesorului, temperatura și vechimea cadrului peste proiecție.</string>
 
     <string name="category_input">Setări intrare</string>
     <string name="enable_rotary">Activează controlerul rotativ (Rotary)</string>

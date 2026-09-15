@@ -415,8 +415,9 @@
     <string name="monochrome_icons_description">Використовувати сірі значки на головному екрані в темному або надтемному режимі</string>
     <string name="use_extreme_dark">Використовувати надтемний режим</string>
     <string name="use_extreme_dark_description">Використовувати повністю чорний фон при активному темному режимі</string>
-    <string name="show_fps_counter">Показувати лічильник FPS</string>
-    <string name="show_fps_counter_description">Відображати частоту кадрів у реальному часі у верхньому лівому куті під час проекції.</string>
+    <string name="show_performance_overlay">Показувати панель продуктивності</string>
+    <string name="overlay_position">Положення панелі продуктивності</string>
+    <string name="show_performance_overlay_description">Показує FPS, завантаження процесора, температуру та вік кадру поверх проєкції.</string>
     <string name="overlay_permission_required">Автозапуск потребує дозволу \'Відображення поверх інших додатків\'</string>
     <string name="usb_permission_denied">Дозвіл USB відхилено. Будь ласка, дозвольте доступ до USB для автоматичного підключення.</string>
     <string name="overlay_permission_denied_auto_start_disabled">Дозвіл на накладення не надано. Автозапуск було вимкнено.</string>

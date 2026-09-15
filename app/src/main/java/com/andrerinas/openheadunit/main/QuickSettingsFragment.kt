@@ -169,12 +169,12 @@ class QuickSettingsFragment : DialogFragment() {
         ))
 
         items.add(SettingItem.ToggleSettingEntry(
-            stableId = "showFpsCounter",
-            nameResId = R.string.show_fps_counter,
-            descriptionResId = R.string.show_fps_counter_description,
-            isChecked = settings.showFpsCounter,
+            stableId = "showPerformanceOverlay",
+            nameResId = R.string.show_performance_overlay,
+            descriptionResId = R.string.show_performance_overlay_description,
+            isChecked = settings.showPerformanceOverlay,
             onCheckedChanged = { isChecked ->
-                settings.showFpsCounter = isChecked
+                settings.showPerformanceOverlay = isChecked
                 settings.commit()
                 notifyChange()
                 updateSettingsList()

@@ -417,8 +417,9 @@
     <string name="nav_action_ferry">Traghetto</string>
     <string name="nav_action_ferry_train">Traghetto / treno</string>
     <string name="nav_action_destination">Arrivo</string>
-    <string name="show_fps_counter">Mostra contatore FPS</string>
-    <string name="show_fps_counter_description">Mostra un overlay FPS in tempo reale nell\'angolo in alto a sinistra durante la proiezione.</string>
+    <string name="show_performance_overlay">Mostra pannello prestazioni</string>
+    <string name="overlay_position">Posizione del pannello prestazioni</string>
+    <string name="show_performance_overlay_description">Mostra FPS, carico CPU, temperatura ed età del fotogramma sopra la proiezione.</string>
 
     <!-- Auto-start permission strings -->
     <string name="reopen_on_reconnection_label">Riapri alla riconnessione</string>

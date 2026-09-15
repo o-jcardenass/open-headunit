@@ -462,8 +462,9 @@
     <string name="nav_action_ferry">ბორანი</string>
     <string name="nav_action_ferry_train">ბორანი / მატარებელი</string>
     <string name="nav_action_destination">დანიშნულების ადგილი</string>
-    <string name="show_fps_counter">FPS მრიცხველის ჩვენება</string>
-    <string name="show_fps_counter_description">პროექციის დროს ზედა მარცხენა კუთხეში რეალური FPS-ის ჩვენება.</string>
+    <string name="show_performance_overlay">წარმადობის ინდიკატორის ჩვენება</string>
+    <string name="overlay_position">წარმადობის ინდიკატორის მდებარეობა</string>
+    <string name="show_performance_overlay_description">აჩვენებს FPS-ს, CPU-ს დატვირთვას, ტემპერატურას და კადრის ასაკს პროექციაზე.</string>
 
     <string name="reopen_on_reconnection_label">ხელახალი კავშირისას გახსნა</string>
     <string name="reopen_on_reconnection_description">\"გასვლა\" ღილაკზე დაჭერისას აპლიკაცია აგრძელებს მუშაობას ფონურ რეჟიმში და აკონტროლებს USB კავშირებს. მოწყობილობის ხელახალი შეერთებისას აპი ავტომატურად გაიხსნება.</string>

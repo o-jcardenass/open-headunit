@@ -423,8 +423,9 @@
     <string name="monochrome_icons_description">Использовать серые значки на главном экране в тёмном или сверхтёмном режиме</string>
     <string name="use_extreme_dark">Использовать сверхтёмный режим</string>
     <string name="use_extreme_dark_description">Использовать чисто чёрный фон при активном тёмном режиме</string>
-    <string name="show_fps_counter">Показывать счетчик FPS</string>
-    <string name="show_fps_counter_description">Отображать текущую частоту кадров в верхнем левом углу во время проекции.</string>
+    <string name="show_performance_overlay">Показывать панель производительности</string>
+    <string name="overlay_position">Положение панели производительности</string>
+    <string name="show_performance_overlay_description">Показывает FPS, загрузку процессора, температуру и возраст кадра поверх проекции.</string>
     <string name="overlay_permission_required">Автозапуск требует разрешение \'Поверх других приложений\'</string>
     <string name="usb_permission_denied">Разрешение USB отклонено. Пожалуйста, разрешите доступ к USB для автоматического подключения.</string>
     <string name="overlay_permission_denied_auto_start_disabled">Разрешение на наложение не предоставлено. Автозапуск был отключён.</string>

@@ -428,8 +428,9 @@
     <string name="nav_action_ferry">Phà</string>
     <string name="nav_action_ferry_train">Phà / tàu</string>
     <string name="nav_action_destination">Đến nơi</string>
-    <string name="show_fps_counter">Hiển thị bộ đếm FPS</string>
-    <string name="show_fps_counter_description">Hiển thị FPS thời gian thực ở góc trên bên trái khi đang chiếu.</string>
+    <string name="show_performance_overlay">Hiển thị lớp phủ hiệu suất</string>
+    <string name="overlay_position">Vị trí lớp phủ hiệu suất</string>
+    <string name="show_performance_overlay_description">Hiển thị FPS, tải CPU, nhiệt độ và tuổi khung hình trên hình chiếu.</string>
 
     <!-- Auto-start permission strings -->
     <string name="reopen_on_reconnection_label">Mở lại khi kết nối lại</string>

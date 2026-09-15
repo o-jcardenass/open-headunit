@@ -470,8 +470,9 @@
     <string name="nav_action_ferry">Fähre</string>
     <string name="nav_action_ferry_train">Fähre / Zug</string>
     <string name="nav_action_destination">Ankunft</string>
-    <string name="show_fps_counter">FPS-Zähler anzeigen</string>
-    <string name="show_fps_counter_description">Echtzeit-FPS oben links während der Projektion einblenden.</string>
+    <string name="show_performance_overlay">Leistungsanzeige einblenden</string>
+    <string name="overlay_position">Position der Leistungsanzeige</string>
+    <string name="show_performance_overlay_description">Zeigt Bildrate, CPU-Last, Temperatur und Bildalter über der Projektion an.</string>
 
     <string name="reopen_on_reconnection_label">Bei Neuverbindung erneut öffnen</string>
     <string name="reopen_on_reconnection_description">Wenn Sie die Beenden-Taste drücken, läuft die App im Hintergrund weiter und überwacht USB-Verbindungen. Wenn ein Gerät erneut verbunden wird, öffnet sich die App automatisch.</string>
