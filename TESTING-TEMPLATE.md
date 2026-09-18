@@ -757,6 +757,27 @@ after it had already contaminated a run.
   handshake, join and session cycle, which produces churn rather than starvation. Use 3 s.
   `s1_wifi_holddown.sh` and `s1_wifi_holddown_tight.sh` in `hur-wifi-test-scripts/` are the two
   cadences.
+- **Rotating D-POCO from adb has a recipe, and three traps that each cost a discarded run.** Write
+  `accelerometer_rotation 0` and the target `user_rotation` together, wait several seconds, and only
+  then force-stop and relaunch the app: set during the launch race, the app negotiates the wrong
+  starting orientation. The rotation itself then lands with a lag of up to ~15 s. `dumpsys display`'s
+  `rotation` field is not a live check on this unit and read `0` through genuine rotations, so trust
+  the app's own `HeadUnitScreenConfig: Raw size:` line or a screenshot. The launcher is
+  portrait-locked whatever any of these settings say, so it is never a rotation control and an early
+  diagnosis against the home screen wrongly concluded rotation was broken outright. And `adb` cannot
+  turn a window that is in `SCREEN_ORIENTATION_SENSOR`, which is what the app's Auto orientation
+  setting resolves to, so an Auto run has to be turned by hand. Measured in
+  `rotation-geometry-round1`.
+- **D-HU is not rotated, on the operator's instruction**, so any round whose lever needs a genuine
+  canvas flip is Self Mode on D-POCO only. Say UNTESTABLE rather than carrying a two-device arm that
+  will be skipped.
+- **Gearhead's own permission dialog wedges the head unit server exactly like a force-stop.** On
+  `rotation-geometry-round1` it raised `RequestManifestPermissionsActivity` ("Permissions needed,
+  Location") unprompted and stole foreground, after which Self Mode failed repeatedly with
+  `java.net.SocketException: Broken pipe` immediately after the version request: the dev server
+  accepted the TCP connection and dropped it before answering. Dismissing the dialog did not fix it.
+  Recycling the "Start head unit server" developer toggle did. Add this to the triggers listed under
+  `rig-dpoco-headunit-server-down`.
 - **Confirm D-POCO's screen is idle or at home before trusting an automated bring-up.** A stray
   Settings screen left open from earlier diagnosis silently stopped Gearhead answering the HFP poke
   with the Android Auto channel, with nothing on the head-unit side to point at it.
