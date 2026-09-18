@@ -5,6 +5,7 @@ import com.andrerinas.openheadunit.App
 import com.andrerinas.openheadunit.aap.AapService
 import com.andrerinas.openheadunit.connection.ConnectionStage
 import com.andrerinas.openheadunit.connection.ConnectionStageTracker
+import com.andrerinas.openheadunit.connection.self.SelfModeWirelessPausePolicy
 import com.andrerinas.openheadunit.connection.wifi.direct.NativeBringUpReentryPolicy
 import com.andrerinas.openheadunit.utils.AppLog
 import com.andrerinas.openheadunit.utils.Settings
@@ -110,6 +111,19 @@ open class WifiLauncherManager(val service: AapService) {
             )
         ) {
             AppLog.i("AapService: wireless bring-up requested while a USB session is live — not arming it")
+            return
+        }
+
+        // Self Mode projects this device to itself over loopback, so a group and a poke loop serve
+        // nothing: the poke's own ACL re-inits the mode and takes the phone's hands-free link.
+        if (SelfModeWirelessPausePolicy.refusesBringUp(
+                selfModeArmed = service.isSelfModeArmed(),
+                loopbackSessionLive = commManager.isLoopbackSession,
+                userRequested = userRequested,
+            )
+        ) {
+            AppLog.i("WifiLauncher: wireless bring-up requested while Self Mode is running. Not " +
+                "arming it; Self Mode needs no network and the WiFi button still works.")
             return
         }
 

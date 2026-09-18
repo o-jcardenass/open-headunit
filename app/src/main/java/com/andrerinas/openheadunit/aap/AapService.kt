@@ -82,6 +82,7 @@ import android.view.WindowManager
 import android.media.AudioManager
 import com.andrerinas.openheadunit.connection.self.SelfLauncherManager
 import com.andrerinas.openheadunit.connection.self.SelfModeDisconnectPolicy
+import com.andrerinas.openheadunit.connection.self.SelfModeWirelessPausePolicy
 import com.andrerinas.openheadunit.connection.usb.UsbLauncherManager
 import com.andrerinas.openheadunit.connection.wifi.LinkLossTeardownPolicy
 import com.andrerinas.openheadunit.connection.wifi.LinkLossTrigger
@@ -346,6 +347,12 @@ class AapService : Service() {
     private val commManager get() = App.provide(this).commManager
 
     fun isSelfModeActive() = selfLauncherManager.isActive
+
+    /**
+     * Self Mode is armed or still running its launchers, so the wireless stack is not this
+     * session's to run. Read by [SelfModeWirelessPausePolicy] through `WifiLauncherManager`.
+     */
+    fun isSelfModeArmed() = selfLauncherManager.isActive || selfLauncherManager.isLaunchInFlight()
 
     /**
      * Whether a Native AA poke or handshake is in flight, for callers outside the service that
@@ -1806,9 +1813,18 @@ class AapService : Service() {
             // Beside isActive, so a disconnect that lands mid-launch cannot leave Self Mode
             // refusing every later request.
             selfLauncherManager.clearLaunchInFlight()
-            if (stopsWireless) wifiLauncherManager.stop()
+            if (stopsWireless) {
+                wifiLauncherManager.stop()
+                // After the two clears above, never before: SelfModeWirelessPausePolicy reads them,
+                // so a re-arm ordered ahead of them is refused and the stack stays down for good.
+                selfLauncherManager.rearmWirelessIfOwed("the Self Mode session ended")
+            }
             return
         }
+
+        // A loopback session that outlived the flags above - a stop while it was still live - owes
+        // the same re-arm. A no-op unless one is actually owed.
+        selfLauncherManager.rearmWirelessIfOwed("the Self Mode session ended")
 
         val settings = App.provide(this).settings
 
@@ -2701,7 +2717,9 @@ class AapService : Service() {
 
         when (intent?.action) {
             ACTION_START_SELF_MODE       -> selfLauncherManager.start()
-            ACTION_STOP_SELF_MODE        -> selfLauncherManager.stop(wasConnected = commManager.isConnected)
+            // rearmWireless: the app carries on after this one, unlike the two shutdown paths.
+            ACTION_STOP_SELF_MODE        -> selfLauncherManager.stop(
+                wasConnected = commManager.isConnected, rearmWireless = true)
             ACTION_START_WIRELESS        -> {
                 // Asked for from the UI, so the user is present: release the boot-loop pause
                 // rather than silently ignoring them.

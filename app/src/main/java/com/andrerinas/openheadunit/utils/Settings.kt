@@ -931,9 +931,9 @@ class Settings(private val context: Context) {
     /**
      * Whether the head unit records at all. Off leaves the microphone to the phone.
      *
-     * Off does not omit the microphone service: Android Auto's required-service check refuses a
-     * head unit that does not declare one. It declares it, declines every request, and sends
-     * nothing, which is what frees the physical microphone for a Bluetooth headset or intercom.
+     * Off omits the microphone service and announces this head unit as a motorcycle, which is what
+     * makes the phone record for itself; see `VehicleTypePolicy`. The two go together, because
+     * withholding the service under any other vehicle type ends connection setup.
      */
     var useHeadUnitMicrophone: Boolean
         get() = prefs.getBoolean("use-head-unit-microphone", true)
