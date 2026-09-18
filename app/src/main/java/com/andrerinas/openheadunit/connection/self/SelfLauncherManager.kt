@@ -13,6 +13,7 @@ import com.andrerinas.openheadunit.connection.self.launchers.SelfLauncherBroadca
 import com.andrerinas.openheadunit.connection.self.launchers.SelfLauncherLegacy
 import com.andrerinas.openheadunit.connection.self.launchers.SelfLauncherV17_4
 import com.andrerinas.openheadunit.connection.wifi.WifiLauncherManager
+import com.andrerinas.openheadunit.connection.wifi.WifiLauncherStopSequence
 import com.andrerinas.openheadunit.utils.AppLog
 import com.andrerinas.openheadunit.utils.VpnControl
 import kotlinx.coroutines.CancellationException
@@ -54,6 +55,16 @@ class SelfLauncherManager(
     // Obsolete Save cleanup may precede service observation. This policy belongs only to
     // that exact terminal event; it must never become a flag on the next physical session.
     private var retiredSettingsTerminal: CommManager.ConnectionState.Disconnected? = null
+
+    /**
+     * True from [start]'s stand-down until something arms the wireless stack again.
+     *
+     * A flag rather than a second reading of `isActive`, because the two clear at different moments:
+     * a stop can un-arm Self Mode while its session is still live, and the re-arm is owed to
+     * whichever of the two happens last.
+     */
+    @Volatile
+    private var wirelessStoodDown: Boolean = false
 
     /**
      * "Self Mode" connects the device to itself over the loopback interface.
@@ -127,6 +138,12 @@ class SelfLauncherManager(
         // Own the retained VPN before queued work can be cancelled. Otherwise a cancel
         // between acceptance and Main dispatch would still see the old SESSION owner.
         adoptDummyVpn(needsDummyVpn)
+        // Before the launchers run, and LAST rather than ANY: only LAST clears `active`, which is
+        // what gives SelfLauncherLegacy the WifiLauncherManual fallback its own comment asks for
+        // instead of whatever mode happened to be up. SelfModeWirelessPausePolicy keeps it down.
+        AppLog.i("SelfMode: standing the wireless stack down; a loopback session needs no network")
+        wirelessStoodDown = true
+        wifiLauncherManager.stop(WifiLauncherStopSequence.LAST)
         // Publish and bind the job before it can run. Revoking Save then cancels both a queued
         // launch and a launcher suspended while waiting for the network, without touching a new job.
         val job = service.serviceScope.launch(Dispatchers.Main, start = CoroutineStart.LAZY) {
@@ -192,6 +209,9 @@ class SelfLauncherManager(
                     // The report is not a disconnect, so nothing else clears this - and the
                     // watchdog below is only armed once a launcher has succeeded.
                     isActive = false
+                    // For the same reason no disconnect arrives to give the wireless stack back,
+                    // and a Self Mode that never started must not cost the user their wireless.
+                    rearmWirelessIfOwed("the Self Mode launch failed")
                 } else {
                     // emitError disconnects, and the session that is up is not this attempt's to
                     // end. Measured on the 17.4+ route, where a duplicate launch's failure killed
@@ -236,6 +256,9 @@ class SelfLauncherManager(
                     // arrives to clear this. Left true, it poisons the next session in this
                     // process: ServiceDiscoveryResponse drops the media and speech audio sinks.
                     isActive = false
+                    // Same as the launch-failure path above: reportError leaves no disconnect to
+                    // give the wireless stack back. Idempotent, so the emitError arm is fine too.
+                    rearmWirelessIfOwed("the Self Mode launch timed out")
                     handleNeverConnect()
                 }
             }
@@ -356,7 +379,8 @@ class SelfLauncherManager(
         val retired = if (preserveVpn && saved != null &&
             current is CommManager.ConnectionState.Disconnected && current !== saved) current else null
         // A superseding connection may still be Connecting; preserve its network resources.
-        stop(wasConnected = preserveVpn || commManager.isConnected)
+        // The app carries on after a retired launch, so the stack start() stood down comes back.
+        stop(wasConnected = preserveVpn || commManager.isConnected, rearmWireless = true)
         retiredSettingsTerminal = retired
     }
 
@@ -384,8 +408,11 @@ class SelfLauncherManager(
      * @param wasConnected when `true` a projection session did reach the handshake, so the
      *        dummy VPN is treated as an ordinary session teardown; when `false` no phone ever
      *        arrived and the VPN is taken down via the Self-Mode-never-connected path.
+     * @param rearmWireless whether the wireless stack [start] stood down should come back. Default
+     *        `false`, because most callers here are the service shutting down, where arming the
+     *        stack again moments before `stopSelf()` is the opposite of what the exit asked for.
      */
-    fun stop(wasConnected: Boolean = false) {
+    fun stop(wasConnected: Boolean = false, rearmWireless: Boolean = false) {
         launchJob?.cancel()
         launchJob = null
         launchTimeoutJob?.cancel()
@@ -406,6 +433,23 @@ class SelfLauncherManager(
         if (!wasConnected) {
             service.stopDummyVpn(DummyVpnPolicy.Reason.SELF_MODE_NEVER_CONNECTED)
         }
+
+        // After the flags above, never before: SelfModeWirelessPausePolicy reads them, so a re-arm
+        // ordered ahead of the clear would be refused and leave the stack down for good.
+        if (rearmWireless) rearmWirelessIfOwed("Self Mode was stopped")
+    }
+
+    /**
+     * Gives back the wireless stack [start] stood down, once nothing of Self Mode's is left running.
+     *
+     * Safe to call on any disconnect: it does nothing unless a stand-down is actually owed, which is
+     * what lets the caller stay out of the business of which flag cleared first.
+     */
+    fun rearmWirelessIfOwed(reason: String) {
+        if (!wirelessStoodDown || isActive || launchInFlight) return
+        wirelessStoodDown = false
+        AppLog.i("SelfMode: $reason; letting the wireless stack arm again")
+        wifiLauncherManager.setActiveFromSettings()
     }
 
 
