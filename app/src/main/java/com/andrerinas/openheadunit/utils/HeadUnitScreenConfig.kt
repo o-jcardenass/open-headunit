@@ -469,9 +469,12 @@ object HeadUnitScreenConfig {
         val pixelAspectRatioE4: Int,
     )
 
-    fun rotatedGeometry(): RotatedGeometry {
-        val w = screenHeightPx
-        val h = screenWidthPx
+    fun rotatedGeometry(targetLandscape: Boolean): RotatedGeometry {
+        // Normalised to the target rather than swapped, so it reads the same whether or not the
+        // canvas has already moved under it.
+        val turned = ScreenOrientationPolicy.normalise(screenWidthPx, screenHeightPx, targetOf(targetLandscape))
+        val w = turned.width
+        val h = turned.height
         val portrait = h > w
         val canHevc = canNegotiateHevcHighResolution()
 
@@ -486,7 +489,10 @@ object HeadUnitScreenConfig {
             sdkInt = Build.VERSION.SDK_INT
         )?.let { protoForResolution(it, portrait) } ?: negotiatedResolutionType
 
-        val hardCeiling = hardCeilingForPanel(realScreenHeightPx, realScreenWidthPx, portrait, canHevc)
+        val panel = ScreenOrientationPolicy.normalise(
+            realScreenWidthPx, realScreenHeightPx, targetOf(targetLandscape)
+        )
+        val hardCeiling = hardCeilingForPanel(panel.width, panel.height, portrait, canHevc)
         if (pixelsOf(res) > pixelsOf(hardCeiling)) res = hardCeiling
         narrowBandCeiling(portrait)?.let { if (pixelsOf(res) > pixelsOf(it)) res = it }
 
@@ -771,14 +777,42 @@ object HeadUnitScreenConfig {
             configOrientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE,
             configOrientation == android.content.res.Configuration.ORIENTATION_PORTRAIT,
         )
-        if (refreshed == normalisation) return
-        AppLog.i("[UI_DEBUG] HeadUnitScreenConfig: normalisation $normalisation -> $refreshed")
+        if (refreshed == normalisation) {
+            AppLog.i("[GEOMETRY_PROBE] normalisation unchanged at $normalisation")
+            return
+        }
+        AppLog.i("[GEOMETRY_PROBE] normalisation $normalisation -> $refreshed")
         normalisation = refreshed
     }
 
+    /**
+     * The probe's own adopt. Nothing else moves a live session's canvas, so the levers were wired
+     * behind a mismatch the app exists to prevent and never reached the wire. Turn the canvas to
+     * the orientation the configuration is in and re-derive from it, unconditionally.
+     */
+    fun adoptRotatedCanvas(targetLandscape: Boolean) {
+        if (!this::currentSettings.isInitialized) return
+        val target = ScreenOrientationPolicy.normalise(screenWidthPx, screenHeightPx, targetOf(targetLandscape))
+        if (target.width == screenWidthPx && target.height == screenHeightPx) {
+            AppLog.i("[GEOMETRY_PROBE] canvas is already ${screenWidthPx}x${screenHeightPx}; nothing to adopt")
+            return
+        }
+        AppLog.i("[GEOMETRY_PROBE] adopting canvas ${screenWidthPx}x${screenHeightPx} -> ${target.width}x${target.height}")
+        // Outranks the display metrics, so the init() the view scaler runs next cannot undo it.
+        surfaceCanvas = ProjectionCanvasPolicy.Measurement(target.width, target.height, liveHash())
+        adoptCanvas(target.width, target.height, "the rotation probe")
+    }
+
+    private fun targetOf(landscape: Boolean) =
+        if (landscape) ScreenOrientationPolicy.Normalisation.LANDSCAPE
+        else ScreenOrientationPolicy.Normalisation.PORTRAIT
+
     fun updateSurfaceDimensions(surfaceW: Int, surfaceH: Int): Boolean {
         // A picture-in-picture window is a few hundred px of somebody else's screen, not the canvas.
-        if (App.isPiPActive) return false
+        if (App.isPiPActive) {
+            AppLog.i("[UI_DEBUG_FIX] Surface ${surfaceW}x$surfaceH ignored: picture-in-picture is up")
+            return false
+        }
 
         val surface = ScreenOrientationPolicy.normalise(surfaceW, surfaceH, normalisation)
         val finalSurfaceW = surface.width
@@ -790,6 +824,11 @@ object HeadUnitScreenConfig {
         if (diffW <= SURFACE_MISMATCH_TOLERANCE && diffH <= SURFACE_MISMATCH_TOLERANCE) {
             // Already the canvas in force, but still the reading that outranks the display metrics.
             surfaceCanvas = ProjectionCanvasPolicy.Measurement(screenWidthPx, screenHeightPx, liveHash())
+            AppLog.i(
+                "[UI_DEBUG_FIX] Surface ${surfaceW}x$surfaceH normalised ($normalisation) to " +
+                    "${finalSurfaceW}x$finalSurfaceH is the canvas ${screenWidthPx}x$screenHeightPx " +
+                    "already in force; nothing to correct."
+            )
             return false
         }
 

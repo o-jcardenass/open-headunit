@@ -27,6 +27,25 @@ object GeometryProbePolicy {
 
     fun isActive(mode: Int): Boolean = mode != OFF
 
+    /** Why a rotation did or did not put a lever on the wire. */
+    enum class FireVerdict { FIRE, MODE_OFF, NO_TRANSPORT, ALREADY_FIRED }
+
+    /**
+     * Round 1 came back "the probe never fired" with no way to say which gate closed, because every
+     * refusal was a silent early return. Each one has a name now.
+     */
+    fun fireVerdict(
+        mode: Int,
+        transportStarted: Boolean,
+        alreadyFiredLandscape: Boolean?,
+        nowLandscape: Boolean,
+    ): FireVerdict = when {
+        !isActive(mode) -> FireVerdict.MODE_OFF
+        !transportStarted -> FireVerdict.NO_TRANSPORT
+        alreadyFiredLandscape == nowLandscape -> FireVerdict.ALREADY_FIRED
+        else -> FireVerdict.FIRE
+    }
+
     /** Only the Config arms need a second configuration to select between. */
     fun announcesSecondConfig(mode: Int): Boolean =
         mode == CONFIG_READY || mode == CONFIG_WAIT_THEN_READY || mode == CONFIG_THEN_FOCUS_CYCLE
