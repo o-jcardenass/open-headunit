@@ -26,6 +26,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.andrerinas.openheadunit.App
 import com.andrerinas.openheadunit.R
+import com.andrerinas.openheadunit.aap.protocol.proto.Media
 import com.andrerinas.openheadunit.aap.protocol.messages.TouchEvent
 import com.andrerinas.openheadunit.aap.protocol.messages.VideoFocusEvent
 import com.andrerinas.openheadunit.app.ProjectionOrientationPolicy
@@ -1943,6 +1944,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         if (anchorMoved) {
             AppLog.i("[UI_DEBUG_FIX] Surface mismatch! Expected: ${prevUsableW}x${prevUsableH}, Actual: ${width}x${height}")
             reannounceMargins()
+            maybeFireGeometryProbe()
             // If transport not started yet, ServiceDiscoveryResponse will use the corrected values automatically.
         }
 
@@ -2002,6 +2004,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             settings.cachedSurfaceSettingsHash = HeadUnitScreenConfig.computeSettingsHash(settings)
         }
         reannounceMargins()
+        maybeFireGeometryProbe()
     }
 
     override fun onSurfaceDestroyed(surface: android.view.Surface) {
@@ -2066,6 +2069,52 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         )
         AppLog.i("[UI_DEBUG_FIX] AA is already running, send corrected via sendUpdateUiConfigRequest")
         return true
+    }
+
+    /** The orientation the last probe fired for, so one rotation fires one lever. */
+    private var geometryProbeFiredLandscape: Boolean? = null
+
+    /**
+     * Rotation re-negotiation probe, off in every shipped configuration. The canvas has just moved
+     * under a live session; send whichever lever the round is measuring and let the log say what
+     * the phone did with it.
+     */
+    private fun maybeFireGeometryProbe() {
+        val mode = settings.geometryProbeMode
+        if (!GeometryProbePolicy.isActive(mode)) return
+        if (commManager.connectionState.value !is CommManager.ConnectionState.TransportStarted) return
+
+        val landscape = HeadUnitScreenConfig.getUsableWidth() >= HeadUnitScreenConfig.getUsableHeight()
+        if (geometryProbeFiredLandscape == landscape) return
+        geometryProbeFiredLandscape = landscape
+
+        AppLog.i(
+            "[GEOMETRY_PROBE] mode=$mode firing for a ${if (landscape) "landscape" else "portrait"} " +
+                "canvas ${HeadUnitScreenConfig.getUsableWidth()}x${HeadUnitScreenConfig.getUsableHeight()}, " +
+                "negotiated ${HeadUnitScreenConfig.getNegotiatedWidth()}x${HeadUnitScreenConfig.getNegotiatedHeight()}"
+        )
+        when (mode) {
+            GeometryProbePolicy.SERVICE_REDISCOVERY ->
+                commManager.sendServiceDiscoveryUpdateForVideo(this)
+            GeometryProbePolicy.CONFIG_READY ->
+                commManager.sendVideoConfigSelection(Media.Config.ConfigStatus.STATUS_READY, listOf(1))
+            GeometryProbePolicy.CONFIG_WAIT_THEN_READY -> {
+                commManager.sendVideoConfigSelection(Media.Config.ConfigStatus.STATUS_WAIT, listOf(1))
+                watchdogHandler.postDelayed({
+                    commManager.sendVideoConfigSelection(Media.Config.ConfigStatus.STATUS_READY, listOf(1))
+                }, GEOMETRY_PROBE_STEP_MS)
+            }
+            GeometryProbePolicy.CONFIG_THEN_FOCUS_CYCLE -> {
+                commManager.sendVideoConfigSelection(Media.Config.ConfigStatus.STATUS_READY, listOf(1))
+                if (commManager.releaseVideoFocusForKeyframe()) {
+                    watchdogHandler.postDelayed(
+                        { commManager.retakeVideoFocusForKeyframe() },
+                        GEOMETRY_PROBE_STEP_MS
+                    )
+                }
+            }
+            GeometryProbePolicy.UI_THEME -> commManager.sendUiThemeProbe(UI_THEME_DARK)
+        }
     }
 
     /**
@@ -2185,13 +2234,15 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             settings.screenOrientation,
             HeadUnitScreenConfig.isResolutionLocked,
             HeadUnitScreenConfig.getNegotiatedWidth() > HeadUnitScreenConfig.getNegotiatedHeight(),
+            GeometryProbePolicy.liftsOrientationPin(settings.geometryProbeMode),
         )
         if (pin == null) {
             if (!loggedUnpinnedOrientation) {
                 loggedUnpinnedOrientation = true
                 AppLog.i(
                     "[UI_DEBUG] Sticky Orientation: not pinned under ${settings.screenOrientation}, " +
-                        "resolution locked=${HeadUnitScreenConfig.isResolutionLocked}"
+                        "resolution locked=${HeadUnitScreenConfig.isResolutionLocked}, " +
+                        "probe mode=${settings.geometryProbeMode}"
                 )
             }
             return
@@ -2255,6 +2306,12 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
     }
 
     companion object {
+        /** Gap between the two halves of a two-step probe. */
+        private const val GEOMETRY_PROBE_STEP_MS = 400L
+
+        /** Media.UiConfig.ui_theme: 0 automatic, 1 light, 2 dark. */
+        private const val UI_THEME_DARK = 2
+
         const val EXTRA_FOCUS = "focus"
         @Volatile var isForeground = false
 
@@ -2299,6 +2356,10 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
     override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
         super.onConfigurationChanged(newConfig)
         AppLog.i("[AapProjectionActivity] onConfigurationChanged: orientation=${newConfig.orientation}")
+        if (GeometryProbePolicy.isActive(settings.geometryProbeMode)) {
+            // The probe is the only case where a live session's panel can turn over.
+            HeadUnitScreenConfig.refreshNormalisation(this)
+        }
         if (!HeadUnitScreenConfig.isResolutionLocked) {
             HeadUnitScreenConfig.init(this, resources.displayMetrics, settings)
         }
@@ -2310,6 +2371,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
                 settings.screenOrientation,
                 HeadUnitScreenConfig.isResolutionLocked,
                 HeadUnitScreenConfig.getNegotiatedWidth() > HeadUnitScreenConfig.getNegotiatedHeight(),
+                GeometryProbePolicy.liftsOrientationPin(settings.geometryProbeMode),
             ),
             "orientation setting applied",
         )

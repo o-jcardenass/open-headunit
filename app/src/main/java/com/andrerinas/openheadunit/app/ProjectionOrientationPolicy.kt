@@ -19,7 +19,10 @@ object ProjectionOrientationPolicy {
         setting: Settings.ScreenOrientation,
         resolutionLocked: Boolean,
         negotiatedLandscape: Boolean,
+        renegotiationProbe: Boolean = false,
     ): Int? {
+        // A probe exists to let the panel rotate under a live session, so it lifts the pin.
+        if (renegotiationProbe) return null
         if (!resolutionLocked) return null
         if (setting != Settings.ScreenOrientation.AUTO && setting != Settings.ScreenOrientation.SYSTEM) {
             return null
@@ -36,7 +39,8 @@ object ProjectionOrientationPolicy {
         setting: Settings.ScreenOrientation,
         resolutionLocked: Boolean,
         negotiatedLandscape: Boolean,
-    ): Int = pinnedOrientation(setting, resolutionLocked, negotiatedLandscape)
+        renegotiationProbe: Boolean = false,
+    ): Int = pinnedOrientation(setting, resolutionLocked, negotiatedLandscape, renegotiationProbe)
         ?: if (setting == Settings.ScreenOrientation.AUTO) {
             // Unlocked AUTO lets the sensor choose which orientation the session is negotiated in.
             ActivityInfo.SCREEN_ORIENTATION_SENSOR

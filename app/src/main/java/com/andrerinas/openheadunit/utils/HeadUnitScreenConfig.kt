@@ -7,6 +7,7 @@ import com.andrerinas.openheadunit.App
 import com.andrerinas.openheadunit.aap.NarrowBandProfilePolicy
 import com.andrerinas.openheadunit.aap.protocol.proto.Control
 import com.andrerinas.openheadunit.connection.wifi.direct.WifiBandCapability
+import com.andrerinas.openheadunit.aap.GeometryProbePolicy
 import com.andrerinas.openheadunit.decoder.video.VideoDecoder
 import kotlin.math.roundToInt
 
@@ -456,6 +457,64 @@ object HeadUnitScreenConfig {
         }
     }
 
+    /**
+     * What this panel would announce with its canvas turned on its side: the same derivation
+     * [recalculate] runs, on swapped dimensions, touching no live state. Used by the rotation
+     * probe to offer the other orientation as a second video configuration.
+     */
+    data class RotatedGeometry(
+        val resolution: Control.Service.MediaSinkService.VideoConfiguration.VideoCodecResolutionType,
+        val widthMargin: Int,
+        val heightMargin: Int,
+        val pixelAspectRatioE4: Int,
+    )
+
+    fun rotatedGeometry(): RotatedGeometry {
+        val w = screenHeightPx
+        val h = screenWidthPx
+        val portrait = h > w
+        val canHevc = canNegotiateHevcHighResolution()
+
+        var res = NegotiatedResolutionPolicy.select(
+            isLocked = false,
+            selected = Settings.Resolution.fromId(currentSettings.resolutionId),
+            panelW = w,
+            panelH = h,
+            fitMode = videoFitMode,
+            hevcSupported = VideoDecoder.isHevcSupported(),
+            canHevcHighRes = canHevc,
+            sdkInt = Build.VERSION.SDK_INT
+        )?.let { protoForResolution(it, portrait) } ?: negotiatedResolutionType
+
+        val hardCeiling = hardCeilingForPanel(realScreenHeightPx, realScreenWidthPx, portrait, canHevc)
+        if (pixelsOf(res) > pixelsOf(hardCeiling)) res = hardCeiling
+        narrowBandCeiling(portrait)?.let { if (pixelsOf(res) > pixelsOf(it)) res = it }
+
+        val negW = dimensionOf(res, 0)
+        val negH = dimensionOf(res, 1)
+        val fit = ProjectionGeometryPolicy.fit(w, h, negW, negH)
+        val par = MarginStrategyPolicy.select(videoFitMode, w, h, negW, negH) ==
+            MarginStrategyPolicy.Strategy.PAR
+        val widthMargin = if (par) 0 else ProjectionGeometryPolicy.widthMargin(negW, w, fit.scaleFactor)
+        val heightMargin = if (par) 0 else ProjectionGeometryPolicy.heightMargin(negH, h, fit.scaleFactor)
+        val manual = currentSettings.pixelAspectRatioE4
+        val ratio = if (manual > 0 && manual != ProjectionGeometryPolicy.SQUARE_PIXELS_E4) manual
+        else ProjectionGeometryPolicy.pixelAspectRatioE4(
+            videoFitMode, w, h, negW, negH, widthMargin, heightMargin
+        )
+        return RotatedGeometry(res, widthMargin, heightMargin, ratio)
+    }
+
+    /** One side of a proto resolution's name, 0 for width and 1 for height. */
+    private fun dimensionOf(
+        type: Control.Service.MediaSinkService.VideoConfiguration.VideoCodecResolutionType,
+        index: Int,
+    ): Int = try {
+        type.toString().replace("_", "").split("x")[index].toInt()
+    } catch (e: Exception) {
+        if (index == 0) 800 else 480
+    }
+
     private fun recalculate() {
         // Calculate USABLE area
         val canvas = ProjectionCanvasPolicy.canvas(
@@ -477,7 +536,12 @@ object HeadUnitScreenConfig {
             val isPortraitRes = getNegotiatedHeight() > getNegotiatedWidth()
             if (isPortraitRes != isPortraitDisplay) {
                 val shape = "Res: ${if (isPortraitRes) "P" else "L"}, Display: ${if (isPortraitDisplay) "P" else "L"}"
-                when (SessionGeometryLockPolicy.onOrientationMismatch(canvasAnnounced = announcedCanvasW > 0)) {
+                when (
+                    SessionGeometryLockPolicy.onOrientationMismatch(
+                        canvasAnnounced = announcedCanvasW > 0,
+                        renegotiationAvailable = GeometryProbePolicy.renegotiates(currentSettings.geometryProbeMode),
+                    )
+                ) {
                     SessionGeometryLockPolicy.Verdict.RENEGOTIATE -> {
                         AppLog.i("[UI_DEBUG] CarScreen: Orientation mismatch detected ($shape). DROPPING LOCK.")
                         unlockResolution()
@@ -661,6 +725,12 @@ object HeadUnitScreenConfig {
         }
     }
 
+    /**
+     * The panel's own DPI, as read from the display, never the user's override. [getDensityDpi] is
+     * what the phone lays its UI out for; this is what the glass actually is.
+     */
+    fun getRealDensityDpi(): Int = densityDpi
+
     fun getPixelAspectRatioE4(): Int {
         // The settings row normalises anything <= 0 to 10000, so 10000 is also "unset" and is what
         // lets the derived value through. An explicit non-square choice always wins.
@@ -687,6 +757,25 @@ object HeadUnitScreenConfig {
      * Compares with the current usable area and updates the anchor if they differ.
      * @return true if the dimensions changed and margins need to be re-sent to AA.
      */
+    /**
+     * Re-read which way up a reading is meant to be. Frozen at [init] for the whole session,
+     * because a pinned projection cannot rotate; the rotation probe is the one case that can, and
+     * without this a portrait surface is normalised straight back into the landscape canvas and
+     * looks unchanged.
+     */
+    fun refreshNormalisation(context: android.content.Context) {
+        if (!this::currentSettings.isInitialized) return
+        val configOrientation = context.resources.configuration.orientation
+        val refreshed = ScreenOrientationPolicy.normalisation(
+            currentSettings.screenOrientation,
+            configOrientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE,
+            configOrientation == android.content.res.Configuration.ORIENTATION_PORTRAIT,
+        )
+        if (refreshed == normalisation) return
+        AppLog.i("[UI_DEBUG] HeadUnitScreenConfig: normalisation $normalisation -> $refreshed")
+        normalisation = refreshed
+    }
+
     fun updateSurfaceDimensions(surfaceW: Int, surfaceH: Int): Boolean {
         // A picture-in-picture window is a few hundred px of somebody else's screen, not the canvas.
         if (App.isPiPActive) return false
