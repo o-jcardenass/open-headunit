@@ -47,6 +47,7 @@ were reported under another filename, and are listed so the pairing rule does no
 - `video-dropped-frame-keyframe-round7-brief.md` (R1 is a desk check, R2 optional)
 - `projection-raise-round5-brief.md`
 - `self-mode-media-session-round1-brief.md`
+- `rotation-geometry-round1-brief.md`
 
 Superseded, do not run: `hands-free-wake-and-proto-schema-round1-brief.md` is reported and is
 replaced by `hands-free-wake-round2-brief.md`; its proto, serve-path and control runs are DONE and
@@ -78,6 +79,7 @@ by `bssid-round1-results.md` and its addendum.
 
 | Thread | State | Next |
 |---|---|---|
+| `rotation-geometry` | **QUEUED** | `rotation-geometry-round1-brief.md`, two candidates: `a03aeb3d` (2176 tests) and `24a12300` (2187). Part A grades a fix that stops a rotating panel distorting a live session, and it changes default behaviour: System Default is now pinned the way Auto already was. Part B fires four levers that have never been fired, to settle whether Android Auto re-negotiates geometry mid-session; every Part B outcome is a result and none of them is a FAIL. A0 and A5 are the regression guards and run first. |
 | `self-mode-media-session` | **QUEUED** | `self-mode-media-session-round1-brief.md`, candidate `665332d8`, 2168 tests. Self Mode stops holding the device's media session and stops forwarding media buttons into the AAP input channel, where Android Auto routes them by input focus. R4 is the regression guard on an ordinary session and is run first; R1/R2 are the before and after of `dumpsys media_session`; R5 grades a declined key falling through to the system rather than vanishing. |
 | `auto-start-loading-screen` | **DONE** | `auto-start-loading-screen-round1-results.md`, candidate `9cca8ddc`, PR-ready. A1-A5 all PASS, B1 PASS (236 ms handoff gap, no home-screen frame), B2 PASS both arms. Setup notes carry a signature-mismatch fresh-install, a brief erratum (`native-poke-all-paired` needs explicit `false` on a multi-phone rig), and an incident (an unthrottled parallel screencap loop froze D-HU, needed a power cycle; recorded in session memory, not a candidate defect). |
 | `proto-schema-corrections` | **DONE** | Folded into `hands-free-wake` round 1; see that row. Its own round 1 brief was superseded and never run. |
