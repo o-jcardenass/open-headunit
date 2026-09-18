@@ -46,6 +46,7 @@ were reported under another filename, and are listed so the pairing rule does no
 - `link-stall-periodic-scan-round4-brief.md` (2.4 GHz plus constrained memory; round 5 ran first and PASSed)
 - `video-dropped-frame-keyframe-round7-brief.md` (R1 is a desk check, R2 optional)
 - `projection-raise-round5-brief.md`
+- `self-mode-media-session-round2-brief.md`
 - `rotation-geometry-round2-brief.md`
 
 Superseded, do not run: `hands-free-wake-and-proto-schema-round1-brief.md` is reported and is
@@ -79,7 +80,7 @@ by `bssid-round1-results.md` and its addendum.
 | Thread | State | Next |
 |---|---|---|
 | `rotation-geometry` | **QUEUED, round 2** | `rotation-geometry-round2-brief.md`. Part A passed round 1 and is held to ship with Part B; it carries one extra commit so the pin states its decision even on a run where it never has to change one, and only A2 repeats. Part B is re-wired: round 1 put no lever on the wire because every mode sat behind a canvas adopt nothing performs mid-session, and each refusal was silent. The probe drives the geometry from the configuration change now and names every gate it stops at. Round 1's results are `rotation-geometry-round1-results.md`; its SHAs are gone, build `65e91b56` and `13d29c61`. |
-| `self-mode-media-session` | **DONE** | `self-mode-media-session-round1-results.md`, candidate `665332d8`. R0/R4/R5/R6a/R6b PASS; R2/R3 INCONCLUSIVE (R1 found this rig's D-POCO does not reproduce the baseline defect). Also found a repeatable Gearhead Self-Mode wedge on D-POCO, needing an operator re-toggle. |
+| `self-mode-media-session` | **QUEUED, round 2** | `self-mode-media-session-round2-brief.md`, candidate `d5d463d5`, baseline round 1's `665332d8` (already on the rig), 2178 tests. Three further commits apply round 1's own reasoning to audio focus, the location sensor and the wireless stack, none of which a loopback session can use. Round 1's results are `self-mode-media-session-round1-results.md`; its R1/R2/R3 are retired because this rig does not reproduce the media-session symptom, and only its R6 is repeated. |
 | `auto-start-loading-screen` | **DONE** | `auto-start-loading-screen-round2-results.md`, candidate `8a1968a3e`. V1 PASS both arms: unqualified projection pill inside the window (arm 1), suppressed-tag pill and no pill in any frame (arm 2), log and recording both confirm. V2 PASS both arms (`mode=OVERLAY`/`mode=PILL`). No FAIL. PR-ready. Found an `am start --es "val with space"` quoting bug and a fresh-install-key restore erratum, both in Setup notes. |
 | `proto-schema-corrections` | **DONE** | Folded into `hands-free-wake` round 1; see that row. Its own round 1 brief was superseded and never run. |
 | `hands-free-wake` | **DONE** | hands-free-wake-round2-results.md: O1-O5 and C1 PASS, O6 INCONCLUSIVE, H2r/H3r/H5 UNTESTABLE. Its addendum withdraws the seven-stall claim: the stall is the projection raise. The fixes and the open wake question move to `projection-raise`. |
