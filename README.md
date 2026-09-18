@@ -24,6 +24,16 @@ needs a prior round, it cites it by filename. Fetch that one, not its neighbours
 
 The same goes for `archive/`. It is the historical record, not orientation.
 
+**Captures are not on this branch.** It is markdown only. Screenshots, logs and traces go to the fork
+as a release asset, one per round, named `rig-evidence-<thread>-round<N>`; the results file cites the
+asset and a sha256 rather than a path, and `TESTING-TEMPLATE.md` §7 gives the command. Do not commit a
+capture here, the commit guard refuses one.
+
+An `evidence/<round>/...` path in a results file written before 2026-09-18 is a historical path. Look
+it up in `archive/evidence-manifest-20260918.tsv`, which carries every archived capture's size,
+sha256, the zip holding it and the commit that added it, and fetch that zip from the
+`rig-evidence-legacy-20260918` release.
+
 Three rules from the template are worth repeating, because breaking any of them invalidates a round:
 
 - **Use the rig's existing scripts.** `hur-wifi-test-scripts/` already has `build_hur.sh`,

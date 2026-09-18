@@ -464,6 +464,21 @@ If a brief gives a stop condition ("if three passes are all inconclusive, stop")
 
 One file, `<topic>-round<N>-results.md`, committed to this branch alongside the brief.
 
+**The captures do not come with it.** This branch is markdown only. Zip the round's screenshots, logs
+and traces, upload them as one release asset on the fork, and cite the asset plus a sha256 in the
+results file instead of a path:
+
+```bash
+zip -1 -r <topic>-round<N>-captures.zip <your capture dir>
+sha256sum <topic>-round<N>-captures.zip
+gh release create rig-evidence-<topic>-round<N> --repo o-jcardenass/open-headunit \
+  --notes "<topic> round <N> captures" <topic>-round<N>-captures.zip
+```
+
+A capture staged on a `transfer/` branch is refused by the commit guard. So anything a verdict rests
+on belongs in the results file as a quoted line with its timestamp: the file has to stand on its own,
+and the asset is only for re-examining something later.
+
 ```markdown
 # <topic> — round <N> results
 
