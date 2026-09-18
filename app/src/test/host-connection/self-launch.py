@@ -46,6 +46,7 @@ for marker, file, declaration in [
     ('ENDED', manager, 'internal fun onConnectionEnded('),
     ('ESTABLISHED', manager, 'internal fun onConnectionEstablished()'),
     ('STOP_CURRENT', manager, 'internal fun stopIfCurrent('),
+    ('REARM', manager, 'fun rearmWirelessIfOwed('),
     ('ALLOW_LAUNCH', 'connection/self/SelfLauncherServices.kt', 'internal suspend fun ensureLaunchAllowed()'),
     ('LEGACY_RUN', legacy, 'override suspend fun run()'),
     ('LEGACY_WAIT', legacy, 'suspend fun runWifiLauncher()'),

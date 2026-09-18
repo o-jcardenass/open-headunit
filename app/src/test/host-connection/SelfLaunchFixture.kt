@@ -95,6 +95,7 @@ class SelfLauncherManager(private val service: Service, private val wifiLauncher
     private var settingsLaunchOwner: CommManager.ConnectionState.Disconnected? = null
     private var retiredSettingsTerminal: CommManager.ConnectionState.Disconnected? = null
     private var selfModeVpnWatchdog: Job? = null
+    private var wirelessStoodDown = false
     private fun installedPath(service: Service) = if (service.modern) SelfLaunchPath.HEADUNIT_SERVER else SelfLaunchPath.LEGACY
     private fun adoptDummyVpn() { service.vpnAdoptions++ }
     fun stopDummyVpnWatchdog() { selfModeVpnWatchdog?.cancel(); selfModeVpnWatchdog = null }
@@ -106,6 +107,7 @@ class SelfLauncherManager(private val service: Service, private val wifiLauncher
     // ENDED
     // ESTABLISHED
     // STOP_CURRENT
+    // REARM
 }
 class SelfLauncherServices(val aap: Service, val wifiLauncherManager: WifiLauncherManager,
                            val settingsRestart: CommManager.ConnectionState.Disconnected?) {
@@ -152,7 +154,12 @@ class WifiLauncherManager {
     val sharedServices get() = this
     fun startWirelessServer(launcher: Any) { listenerStarts++ }
     fun stopForUser() { stops++ }
+    var wirelessStops = 0
+    var rearms = 0
+    fun stop(sequence: WifiLauncherStopSequence) { wirelessStops++ }
+    fun setActiveFromSettings() { rearms++ }
 }
+enum class WifiLauncherStopSequence { ANY, BEFORE_HOTSPOT_DISABLE, LAST }
 class UsbLauncherManager { var projectionHandshakeFailures = 0; fun onHandshakeFailed() {}; fun isSwitchingToProjection() = false; fun stopForUser() {} }
 enum class ConnectionStage { IDLE, USB_ATTACHED, USB_SWITCHING }
 object ConnectionStageTracker {
