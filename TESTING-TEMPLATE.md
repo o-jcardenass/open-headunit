@@ -10,7 +10,7 @@ result that cost hours to unwind.
 
 ## House rules — the short version
 
-Seven standing rules. Everything after this section is detail on how to follow them.
+Eight standing rules. Everything after this section is detail on how to follow them.
 
 1. **Use the rig's existing scripts.** `hur-wifi-test-scripts/` already has `build_hur.sh`,
    `run_unit_tests.sh` and others for building, installing and driving the app. Look there first,
@@ -28,6 +28,9 @@ Seven standing rules. Everything after this section is detail on how to follow t
    behaviour and cite the SHA, the log line or the evidence file. A number is a pointer into a
    tracker this branch has no access to, and it dates badly; write what the fault does instead.
    Rows written before this rule still carry some.
+8. **Never run adb calls in parallel against one unit.** An unthrottled parallel
+   `adb exec-out screencap` loop froze D-HU hard enough to need a physical power cycle. Sequential,
+   with a `sleep 0.3` between calls, is the proven method. §7a.
 
 Read **§7a, known rig quirks**, before planning a round. Several of them will change how a run has
 to be set up, and two of them make the obvious method silently wrong.
@@ -96,6 +99,12 @@ Three things about that template are deliberate:
   during an early round.
 - **Both removal forms are shown because the type varies by key.** Running the wrong one is
   harmless, so run both.
+
+**`set_hu_prefs.sh`'s `del` is line-scoped and corrupts a multi-line `<set>` key.** It removes only
+the opening `<set name="...">` line and orphans the inner `<string>` and the closing `</set>`, which
+is invalid XML and can drop the whole file back to defaults on the next load. Once a `<set>` key may
+hold a real value, rebuild the file on the host and `adb push` it back, restoring owner and mode,
+rather than deleting in place.
 
 To **clear** an override rather than set it, run only the delete half. An absent key reads as its
 default; a blank string does not always.
@@ -646,6 +655,31 @@ Every one of these was measured across `t230-native-aa-bringup` rounds 1 to 4.
   the radio is up; a run that immediately launches the app against a WiFi-dependent mode (Headunit
   Server discovery, for instance) will otherwise read as a connectivity failure that is really just
   impatience. `projection-raise` round 4.
+
+### Fresh installs, and the three things that wake up with one
+
+A fresh install is not a neutral starting state. All four of these were found in one round, each
+after it had already contaminated a run.
+
+- **A build signed with a different debug key is refused** with `INSTALL_FAILED_UPDATE_INCOMPATIBLE`,
+  even at the same version code. The uninstall that clears it wipes settings, calibration and
+  onboarding state, which is what wakes the three below. Confirm with the operator before
+  uninstalling, and take a `settings.xml` backup you can diff against afterwards.
+- **The onboarding wizard intercepts every cold launch while `onboarding-version` is below 2.**
+  `MainActivity.checkSetupFlow()` starts it from `onResume` whatever the launch source, so it lands
+  on top of whatever the round was about to photograph. Seed
+  `<int name="onboarding-version" value="2" />` before anything else. The 2 is
+  `OnboardingActivity.CURRENT_ONBOARDING_VERSION` and a later release may raise it.
+- **The driver-phone selector fires on a fresh install whenever devices are bonded** and
+  `last-connected-native-mac` / `native-preferred-device-mac` are empty, and its countdown can
+  auto-connect a real phone on its own. One round had exactly that happen mid-diagnosis. Write
+  `<int name="native-driver-selection-mode" value="0" />` (DISABLED; AUTO is 1, ALWAYS is 2) for any
+  round that needs the stack armed but not connecting.
+- **Clearing `native-poke-bt-macs` does not stop the unit poking phones.**
+  `native-poke-all-paired` is a separate key and **defaults to true**, and an empty wake list under
+  it means every bonded phone gets poked rather than none. A round wanting a quiet head unit writes
+  `<boolean name="native-poke-all-paired" value="false" />` explicitly. A brief that says "no phone
+  should be poked" and clears only the MAC lists has not asked for what it means.
 
 ### Everything else
 
