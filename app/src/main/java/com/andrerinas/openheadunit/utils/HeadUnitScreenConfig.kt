@@ -471,12 +471,24 @@ object HeadUnitScreenConfig {
 
         // 1. Determine base negotiated resolution
         if (isResolutionLocked) {
-            // Safety Check: If the locked resolution's orientation (Landscape/Portrait)
-            // no longer matches the display orientation, the lock is stale and must be dropped.
+            // The locked resolution's orientation no longer matches the display's. Dropping the
+            // lock here re-derives a canvas that no message can put on the wire, so it is only
+            // done while nothing has been announced yet.
             val isPortraitRes = getNegotiatedHeight() > getNegotiatedWidth()
             if (isPortraitRes != isPortraitDisplay) {
-                AppLog.i("[UI_DEBUG] CarScreen: Orientation mismatch detected (Res: ${if(isPortraitRes) "P" else "L"}, Display: ${if(isPortraitDisplay) "P" else "L"}). DROPPING LOCK.")
-                unlockResolution()
+                val shape = "Res: ${if (isPortraitRes) "P" else "L"}, Display: ${if (isPortraitDisplay) "P" else "L"}"
+                when (SessionGeometryLockPolicy.onOrientationMismatch(canvasAnnounced = announcedCanvasW > 0)) {
+                    SessionGeometryLockPolicy.Verdict.RENEGOTIATE -> {
+                        AppLog.i("[UI_DEBUG] CarScreen: Orientation mismatch detected ($shape). DROPPING LOCK.")
+                        unlockResolution()
+                    }
+                    SessionGeometryLockPolicy.Verdict.KEEP ->
+                        AppLog.i(
+                            "[UI_DEBUG] CarScreen: Orientation mismatch detected ($shape), but the canvas " +
+                                "${announcedCanvasW}x${announcedCanvasH} is already announced and cannot be " +
+                                "re-sent. Keeping the negotiated geometry."
+                        )
+                }
             } else {
                 AppLog.i("[UI_DEBUG] CarScreen: RESOLUTION LOCKED to $negotiatedResolutionType. Usable area is ${screenWidthPx}x${screenHeightPx}. Skipping re-negotiation.")
             }
