@@ -35,8 +35,16 @@ class ServiceDiscoveryResponse(private val context: Context)
                 service.id = Channel.ID_SEN
                 service.sensorSourceService = Control.Service.SensorSourceService.newBuilder().also { sources ->
                     sources.addSensors(makeSensorType(Sensors.SensorType.DRIVING_STATUS))
-                    if (settings.useGpsForNavigation) {
+                    if (LocationSourceAnnouncementPolicy.announcesLocation(
+                            settings.useGpsForNavigation,
+                            App.provide(context).commManager.isLoopbackSession)) {
                         sources.addSensors(makeSensorType(Sensors.SensorType.LOCATION))
+                    } else if (settings.useGpsForNavigation) {
+                        // Named the way the audio-sink skip is, so a reporter reads a decision
+                        // rather than a head unit whose GPS stopped working.
+                        AppLog.i("Self Mode is projecting this device to itself, so Android Auto " +
+                                "reads this device's location directly and the head unit GPS " +
+                                "sensor is not announced - this is not a fault")
                     }
 
                     // Always announce Night sensor, as we control it via NightModeManager
