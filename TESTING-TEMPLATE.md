@@ -239,6 +239,11 @@ The app holds an active `MediaSession` and relays these to the phone over AAP, s
 tracks without touching the phone. This is the way to run "play two short tracks in a row" or to end
 a track at a chosen moment.
 
+**Not in Self Mode, from `fix/929-self-mode-media-session` onward.** There the app holds no media
+session and forwards no media key, because the player is a local app on the same device and holds a
+real session of its own. These keys reach that player directly instead, so a Self Mode round that
+needs a track change has to drive the player and cannot read `TX Key -> AA=` as confirmation.
+
 ### Settings screen, deep-linked
 
 ```bash

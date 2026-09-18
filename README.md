@@ -46,6 +46,7 @@ were reported under another filename, and are listed so the pairing rule does no
 - `link-stall-periodic-scan-round4-brief.md` (2.4 GHz plus constrained memory; round 5 ran first and PASSed)
 - `video-dropped-frame-keyframe-round7-brief.md` (R1 is a desk check, R2 optional)
 - `projection-raise-round5-brief.md`
+- `self-mode-media-session-round1-brief.md`
 
 Superseded, do not run: `hands-free-wake-and-proto-schema-round1-brief.md` is reported and is
 replaced by `hands-free-wake-round2-brief.md`; its proto, serve-path and control runs are DONE and
@@ -77,6 +78,7 @@ by `bssid-round1-results.md` and its addendum.
 
 | Thread | State | Next |
 |---|---|---|
+| `self-mode-media-session` | **QUEUED** | `self-mode-media-session-round1-brief.md`, candidate `665332d8`, 2168 tests. Self Mode stops holding the device's media session and stops forwarding media buttons into the AAP input channel, where Android Auto routes them by input focus. R4 is the regression guard on an ordinary session and is run first; R1/R2 are the before and after of `dumpsys media_session`; R5 grades a declined key falling through to the system rather than vanishing. |
 | `auto-start-loading-screen` | **DONE** | `auto-start-loading-screen-round1-results.md`, candidate `9cca8ddc`, PR-ready. A1-A5 all PASS, B1 PASS (236 ms handoff gap, no home-screen frame), B2 PASS both arms. Setup notes carry a signature-mismatch fresh-install, a brief erratum (`native-poke-all-paired` needs explicit `false` on a multi-phone rig), and an incident (an unthrottled parallel screencap loop froze D-HU, needed a power cycle; recorded in session memory, not a candidate defect). |
 | `proto-schema-corrections` | **DONE** | Folded into `hands-free-wake` round 1; see that row. Its own round 1 brief was superseded and never run. |
 | `hands-free-wake` | **DONE** | hands-free-wake-round2-results.md: O1-O5 and C1 PASS, O6 INCONCLUSIVE, H2r/H3r/H5 UNTESTABLE. Its addendum withdraws the seven-stall claim: the stall is the projection raise. The fixes and the open wake question move to `projection-raise`. |
