@@ -802,6 +802,64 @@ class CommManager(
             mutableListOf(Triple(0, 0, 0))))
     }
 
+    /**
+     * Rotation probe only. Re-advertises the video service on a live session, which is the
+     * mechanism Google's own UiConfig comment names for a resolution change.
+     */
+    fun sendServiceDiscoveryUpdateForVideo(context: android.content.Context) {
+        AppLog.i("[GEOMETRY_PROBE] TX ServiceDiscoveryUpdate for the video service")
+        send(com.andrerinas.openheadunit.aap.protocol.messages.ServiceDiscoveryUpdate.forVideo(context))
+    }
+
+    /**
+     * Rotation probe only. A second Media.Config on the live video channel: Google's schema says
+     * the last one supersedes the earlier one and that a READY mid-stream stops and restarts it.
+     */
+    fun sendVideoConfigSelection(
+        status: com.andrerinas.openheadunit.aap.protocol.proto.Media.Config.ConfigStatus,
+        indices: List<Int>,
+    ) {
+        val transport = _transport ?: return
+        val config = com.andrerinas.openheadunit.aap.protocol.proto.Media.Config.newBuilder().apply {
+            this.status = status
+            this.maxUnacked = com.andrerinas.openheadunit.aap.MaxUnackedPolicy.forChannel(
+                com.andrerinas.openheadunit.aap.protocol.Channel.ID_VID,
+                wireless = transport.isWireless,
+                bundledSoftwareHevc = settings.videoCodec ==
+                    com.andrerinas.openheadunit.decoder.video.VideoDecoder.CodecType.H265.settingsValue &&
+                    settings.forceSoftwareDecoding &&
+                    settings.softwareVideoDecoder == Settings.SoftwareVideoDecoder.BUNDLED_FFMPEG,
+            )
+            indices.forEach { addConfigurationIndices(it) }
+        }.build()
+        AppLog.i("[GEOMETRY_PROBE] TX Media.Config status=$status indices=$indices")
+        send(
+            com.andrerinas.openheadunit.aap.AapMessage(
+                com.andrerinas.openheadunit.aap.protocol.Channel.ID_VID,
+                com.andrerinas.openheadunit.aap.protocol.proto.Media.MsgType.MEDIA_MESSAGE_CONFIG_VALUE,
+                config
+            )
+        )
+    }
+
+    /** Rotation probe only. UpdateUiConfigRequest carrying ui_theme and nothing else. */
+    fun sendUiThemeProbe(theme: Int) {
+        val uiConfig = com.andrerinas.openheadunit.aap.protocol.proto.Media.UiConfig.newBuilder()
+            .setUiTheme(theme)
+            .build()
+        val request = com.andrerinas.openheadunit.aap.protocol.proto.Media.UpdateUiConfigRequest.newBuilder()
+            .setUiConfig(uiConfig)
+            .build()
+        AppLog.i("[GEOMETRY_PROBE] TX UpdateUiConfigRequest ui_theme=$theme")
+        send(
+            com.andrerinas.openheadunit.aap.AapMessage(
+                com.andrerinas.openheadunit.aap.protocol.Channel.ID_VID,
+                com.andrerinas.openheadunit.aap.protocol.proto.Media.MsgType.MEDIA_MESSAGE_UPDATE_UI_CONFIG_REQUEST_VALUE,
+                request
+            )
+        )
+    }
+
     fun sendUpdateUiConfigRequest(left: Int, top: Int, right: Int, bottom: Int) {
         val request = com.andrerinas.openheadunit.aap.protocol.messages.UpdateUiConfigRequest(left, top, right, bottom)
         AppLog.i("[UI_DEBUG_FIX] TX UpdateUiConfigRequest: L=$left T=$top R=$right B=$bottom")

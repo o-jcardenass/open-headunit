@@ -134,27 +134,13 @@ internal class AapControlMedia(
         return 0
     }
 
-    private fun maxUnackedFor(channel: Int): Int {
-        if (channel == Channel.ID_VID) {
-            val softwareHevc =
-                aapTransport.settings.videoCodec == VideoDecoder.CodecType.H265.settingsValue &&
-                        aapTransport.settings.forceSoftwareDecoding &&
-                        aapTransport.settings.softwareVideoDecoder == Settings.SoftwareVideoDecoder.BUNDLED_FFMPEG
-            if (softwareHevc) {
-                // Keep the phone closer to decoder pace. A large wireless window lets video
-                // backlog turn into visible input lag when 2K HEVC is decoded in software.
-                return if (aapTransport.isWireless) 6 else 8
-            }
-            // Left wide for hardware decode, deliberately: a keyframe fragments into a dozen or
-            // more messages, so narrowing this stalls the phone mid-keyframe and caps throughput at
-            // window/RTT. The phone does not hold to it either - one told 12 ran our backlog to 120
-            // - so the bound that works is the decoder discarding frames it is behind on.
-            return if (aapTransport.isWireless) 12 else 16
-        }
-
-        // Audio still benefits from a wider jitter window, especially on wireless.
-        return if (aapTransport.isWireless) 30 else 16
-    }
+    private fun maxUnackedFor(channel: Int): Int = MaxUnackedPolicy.forChannel(
+        channel,
+        wireless = aapTransport.isWireless,
+        bundledSoftwareHevc = aapTransport.settings.videoCodec == VideoDecoder.CodecType.H265.settingsValue &&
+            aapTransport.settings.forceSoftwareDecoding &&
+            aapTransport.settings.softwareVideoDecoder == Settings.SoftwareVideoDecoder.BUNDLED_FFMPEG,
+    )
 
     private fun mediaSinkStopRequest(channel: Int): Int {
         AppLog.i("Media Sink Stop Request: " + Channel.name(channel))

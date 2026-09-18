@@ -4,6 +4,7 @@ import android.content.Context
 import com.andrerinas.openheadunit.App
 import com.andrerinas.openheadunit.aap.AapMessage
 import com.andrerinas.openheadunit.aap.ConnectionConfigPolicy
+import com.andrerinas.openheadunit.aap.GeometryProbePolicy
 import com.andrerinas.openheadunit.aap.NarrowBandProfilePolicy
 import com.andrerinas.openheadunit.aap.VehicleIdentityPolicy
 import com.andrerinas.openheadunit.aap.VehicleTypePolicy
@@ -24,31 +25,14 @@ class ServiceDiscoveryResponse(private val context: Context)
     : AapMessage(Channel.ID_CTR, Control.ControlMsgType.MESSAGE_SERVICE_DISCOVERY_RESPONSE_VALUE, makeProto(context)) {
 
     companion object {
-        private fun makeProto(context: Context): Message {
+        /**
+         * The video service exactly as service discovery announces it, read from whatever
+         * [HeadUnitScreenConfig] currently holds. Shared so a re-announcement describes the same
+         * shape the first announcement did.
+         */
+        fun videoService(context: Context): Control.Service {
             val settings = App.provide(context).settings
-            // Initialize HeadUnitScreenConfig with actual physical screen dimensions
-            HeadUnitScreenConfig.init(context, context.resources.displayMetrics, settings)
-
-            val services = mutableListOf<Control.Service>()
-
-            val sensors = Control.Service.newBuilder().also { service ->
-                service.id = Channel.ID_SEN
-                service.sensorSourceService = Control.Service.SensorSourceService.newBuilder().also { sources ->
-                    sources.addSensors(makeSensorType(Sensors.SensorType.DRIVING_STATUS))
-                    if (settings.useGpsForNavigation) {
-                        sources.addSensors(makeSensorType(Sensors.SensorType.LOCATION))
-                    }
-
-                    // Always announce Night sensor, as we control it via NightModeManager
-                    sources.addSensors(makeSensorType(Sensors.SensorType.NIGHT))
-                    AppLog.i("[ServiceDiscovery] Announcing NIGHT sensor support. Strategy: ${settings.nightMode}")
-
-                }.build()
-            }.build()
-
-            services.add(sensors)
-
-            val video = Control.Service.newBuilder().also { service ->
+            return Control.Service.newBuilder().also { service ->
                 service.id = Channel.ID_VID
                 service.mediaSinkService = Control.Service.MediaSinkService.newBuilder().also { mediaSinkServiceBuilder ->
                     val explicitSoftwareHevc =
@@ -131,9 +115,62 @@ class ServiceDiscoveryResponse(private val context: Context)
                         setMarginWidth(phoneWidthMargin)
                         setMarginHeight(phoneHeightMargin)
                         setVideoCodecType(effectiveCodec)
+                        if (settings.geometryProbeRealDensity) {
+                            // density is what the UI is laid out for, real_density the panel's own.
+                            setRealDensity(HeadUnitScreenConfig.getRealDensityDpi())
+                            AppLog.i("[ServiceDiscovery] real_density is: ${HeadUnitScreenConfig.getRealDensityDpi()}")
+                        }
                     }.build())
+
+                    // The probe offers the other orientation as index 1 so a mid-session
+                    // Media.Config has something to select. Off in every shipped configuration.
+                    if (GeometryProbePolicy.announcesSecondConfig(settings.geometryProbeMode)) {
+                        val rotated = HeadUnitScreenConfig.rotatedGeometry()
+                        AppLog.i("[ServiceDiscovery] probe: announcing index 1 as $rotated")
+                        mediaSinkServiceBuilder.addVideoConfigs(
+                            Control.Service.MediaSinkService.VideoConfiguration.newBuilder().apply {
+                                codecResolution = rotated.resolution
+                                frameRate = when (announcedFps) {
+                                    30 -> Control.Service.MediaSinkService.VideoConfiguration.VideoFrameRateType._30
+                                    else -> Control.Service.MediaSinkService.VideoConfiguration.VideoFrameRateType._60
+                                }
+                                setDensity(HeadUnitScreenConfig.getDensityDpi())
+                                setPixelAspectRatioE4(rotated.pixelAspectRatioE4)
+                                setMarginWidth(rotated.widthMargin)
+                                setMarginHeight(rotated.heightMargin)
+                                setVideoCodecType(effectiveCodec)
+                            }.build()
+                        )
+                    }
                 }.build()
             }.build()
+        }
+
+        private fun makeProto(context: Context): Message {
+            val settings = App.provide(context).settings
+            // Initialize HeadUnitScreenConfig with actual physical screen dimensions
+            HeadUnitScreenConfig.init(context, context.resources.displayMetrics, settings)
+
+            val services = mutableListOf<Control.Service>()
+
+            val sensors = Control.Service.newBuilder().also { service ->
+                service.id = Channel.ID_SEN
+                service.sensorSourceService = Control.Service.SensorSourceService.newBuilder().also { sources ->
+                    sources.addSensors(makeSensorType(Sensors.SensorType.DRIVING_STATUS))
+                    if (settings.useGpsForNavigation) {
+                        sources.addSensors(makeSensorType(Sensors.SensorType.LOCATION))
+                    }
+
+                    // Always announce Night sensor, as we control it via NightModeManager
+                    sources.addSensors(makeSensorType(Sensors.SensorType.NIGHT))
+                    AppLog.i("[ServiceDiscovery] Announcing NIGHT sensor support. Strategy: ${settings.nightMode}")
+
+                }.build()
+            }.build()
+
+            services.add(sensors)
+
+            val video = videoService(context)
 
             services.add(video)
 

@@ -931,6 +931,21 @@ class Settings(private val context: Context) {
      * Whether a wireless session on a radio with no 5 GHz band is asked for less than the settings
      * above say. On by default: measured on such a link, a full-rate stream carried no frame at all.
      */
+    /**
+     * Rotation re-negotiation probe, off in every shipped configuration. Set over
+     * ACTION_SET_SETTINGS for a rig round; there is deliberately no settings row.
+     * 0 off, 1 ServiceDiscoveryUpdate, 2 Config READY, 3 Config WAIT then READY,
+     * 4 Config then a focus cycle, 5 UpdateUiConfigRequest carrying ui_theme.
+     */
+    var geometryProbeMode: Int
+        get() = prefs.getInt(KEY_GEOMETRY_PROBE_MODE, 0)
+        set(value) { prefs.edit().putInt(KEY_GEOMETRY_PROBE_MODE, value).apply() }
+
+    /** Announce density and real_density as the two different numbers they are. */
+    var geometryProbeRealDensity: Boolean
+        get() = prefs.getBoolean(KEY_GEOMETRY_PROBE_REAL_DENSITY, false)
+        set(value) { prefs.edit().putBoolean(KEY_GEOMETRY_PROBE_REAL_DENSITY, value).apply() }
+
     var narrowBandProfileCap: Boolean
         get() = prefs.getBoolean("narrow-band-profile-cap", true)
         set(value) { prefs.edit().putBoolean("narrow-band-profile-cap", value).apply() }
@@ -1804,6 +1819,8 @@ class Settings(private val context: Context) {
         }
 
         private const val KEY_AUTO_START_ON_USB = "auto-start-on-usb"
+        const val KEY_GEOMETRY_PROBE_MODE = "geometry-probe-mode"
+        const val KEY_GEOMETRY_PROBE_REAL_DENSITY = "geometry-probe-real-density"
         const val KEY_SCREEN_ORIENTATION = "screen-orientation"
         private const val KEY_LISTEN_FOR_USB_DEVICES = "listen-for-usb-devices"
         private const val KEY_AUTO_START_BT_MAC = "auto-start-bt-mac"

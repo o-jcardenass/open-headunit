@@ -86,6 +86,21 @@ class ProjectionOrientationPolicyTest {
     }
 
     @Test
+    fun `the rotation probe lifts the pin, because it needs the panel to turn`() {
+        for (setting in listOf(Settings.ScreenOrientation.AUTO, Settings.ScreenOrientation.SYSTEM)) {
+            assertNull(
+                setting.name,
+                ProjectionOrientationPolicy.pinnedOrientation(
+                    setting,
+                    resolutionLocked = true,
+                    negotiatedLandscape = true,
+                    renegotiationProbe = true,
+                )
+            )
+        }
+    }
+
+    @Test
     fun `the requested orientation is the pin whenever there is one`() {
         for (setting in listOf(Settings.ScreenOrientation.AUTO, Settings.ScreenOrientation.SYSTEM)) {
             for (landscape in listOf(true, false)) {
