@@ -46,7 +46,6 @@ were reported under another filename, and are listed so the pairing rule does no
 - `link-stall-periodic-scan-round4-brief.md` (2.4 GHz plus constrained memory; round 5 ran first and PASSed)
 - `video-dropped-frame-keyframe-round7-brief.md` (R1 is a desk check, R2 optional)
 - `projection-raise-round5-brief.md`
-- `auto-start-loading-screen-round1-brief.md`
 
 Superseded, do not run: `hands-free-wake-and-proto-schema-round1-brief.md` is reported and is
 replaced by `hands-free-wake-round2-brief.md`; its proto, serve-path and control runs are DONE and
@@ -78,7 +77,7 @@ by `bssid-round1-results.md` and its addendum.
 
 | Thread | State | Next |
 |---|---|---|
-| `auto-start-loading-screen` | **QUEUED** | `auto-start-loading-screen-round1-brief.md`, candidate `9cca8ddc`, 2176 tests. A1-A5 are scripted on D-HU alone and need no phone: every automatic launch source must open on the loading screen, the warm `onNewIntent` path must too, and the hold past 30 s must engage only for a launch the app started itself. B1 is the point of the round, the ~113 ms of home screen the handoff used to uncover. |
+| `auto-start-loading-screen` | **DONE** | `auto-start-loading-screen-round1-results.md`, candidate `9cca8ddc`, PR-ready. A1-A5 all PASS, B1 PASS (236 ms handoff gap, no home-screen frame), B2 PASS both arms. Setup notes carry a signature-mismatch fresh-install, a brief erratum (`native-poke-all-paired` needs explicit `false` on a multi-phone rig), and an incident (an unthrottled parallel screencap loop froze D-HU, needed a power cycle; recorded in session memory, not a candidate defect). |
 | `proto-schema-corrections` | **DONE** | Folded into `hands-free-wake` round 1; see that row. Its own round 1 brief was superseded and never run. |
 | `hands-free-wake` | **DONE** | hands-free-wake-round2-results.md: O1-O5 and C1 PASS, O6 INCONCLUSIVE, H2r/H3r/H5 UNTESTABLE. Its addendum withdraws the seven-stall claim: the stall is the projection raise. The fixes and the open wake question move to `projection-raise`. |
 | `projection-raise` | **QUEUED** | `projection-raise-round5-brief.md`, candidate `ba009519`, 2164 tests. H1 and H2 grade two hands-free limits the app was silent about, one arm with the target's Bluetooth off; H3 the banner retiring; L6 the below-Lollipop WiFi rejoin by hand. |
