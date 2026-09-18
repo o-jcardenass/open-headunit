@@ -2185,13 +2185,34 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             settings.screenOrientation,
             HeadUnitScreenConfig.isResolutionLocked,
             HeadUnitScreenConfig.getNegotiatedWidth() > HeadUnitScreenConfig.getNegotiatedHeight(),
-        ) ?: return
+        )
+        if (pin == null) {
+            if (!loggedUnpinnedOrientation) {
+                loggedUnpinnedOrientation = true
+                AppLog.i(
+                    "[UI_DEBUG] Sticky Orientation: not pinned under ${settings.screenOrientation}, " +
+                        "resolution locked=${HeadUnitScreenConfig.isResolutionLocked}"
+                )
+            }
+            return
+        }
         requestOrientation(pin, "session active")
     }
 
+    /** What the pin last said, so a run where it never has to change still reports that it held. */
+    private var loggedOrientation: Int? = null
+    private var loggedUnpinnedOrientation = false
+
     private fun requestOrientation(target: Int, why: String) {
-        if (requestedOrientation == target) return
+        if (requestedOrientation == target) {
+            if (loggedOrientation != target) {
+                loggedOrientation = target
+                AppLog.i("[UI_DEBUG] Sticky Orientation: $why, already at orientation $target")
+            }
+            return
+        }
         AppLog.i("[UI_DEBUG] Sticky Orientation: $why, forcing orientation to $target")
+        loggedOrientation = target
         requestedOrientation = target
     }
 
