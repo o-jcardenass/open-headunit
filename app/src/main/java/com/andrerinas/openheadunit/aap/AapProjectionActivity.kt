@@ -1805,7 +1805,9 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
      * Exact where the confirm window is a guess, and it is what catches an outgoing call whose
      * dialling outlasts the window. API 31+; below it the window is the whole story.
      */
-    private var audioModeListener: android.media.AudioManager.OnModeChangedListener? = null
+    // Untyped on purpose: the listener interface is API 31, and naming it here fails to resolve
+    // the whole class on Android 8 with a NoClassDefFoundError the guards below cannot prevent.
+    private var audioModeListener: Any? = null
 
     private fun registerAudioModeListener() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return
@@ -1829,7 +1831,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return
         try {
             (getSystemService(Context.AUDIO_SERVICE) as android.media.AudioManager)
-                .removeOnModeChangedListener(listener)
+                .removeOnModeChangedListener(listener as android.media.AudioManager.OnModeChangedListener)
         } catch (_: Exception) {
         }
     }
