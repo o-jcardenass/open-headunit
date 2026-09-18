@@ -47,6 +47,7 @@ were reported under another filename, and are listed so the pairing rule does no
 - `video-dropped-frame-keyframe-round7-brief.md` (R1 is a desk check, R2 optional)
 - `projection-raise-round5-brief.md`
 - `rotation-geometry-round2-brief.md`
+- `hands-free-wake-verdict-round1-brief.md`
 
 Superseded, do not run: `hands-free-wake-and-proto-schema-round1-brief.md` is reported and is
 replaced by `hands-free-wake-round2-brief.md`; its proto, serve-path and control runs are DONE and
@@ -84,6 +85,7 @@ by `bssid-round1-results.md` and its addendum.
 | `proto-schema-corrections` | **DONE** | Folded into `hands-free-wake` round 1; see that row. Its own round 1 brief was superseded and never run. |
 | `hands-free-wake` | **DONE** | hands-free-wake-round2-results.md: O1-O5 and C1 PASS, O6 INCONCLUSIVE, H2r/H3r/H5 UNTESTABLE. Its addendum withdraws the seven-stall claim: the stall is the projection raise. The fixes and the open wake question move to `projection-raise`. |
 | `projection-raise` | **QUEUED** | `projection-raise-round5-brief.md`, candidate `ba009519`, 2164 tests. H1 and H2 grade two hands-free limits the app was silent about, one arm with the target's Bluetooth off; H3 the banner retiring; L6 the below-Lollipop WiFi rejoin by hand. |
+| `hands-free-wake-verdict` | **QUEUED, round 1** | `hands-free-wake-verdict-round1-brief.md`, candidate `945e1b20`, 2184 tests. A head unit that measured its hands-free wake as destructive could never re-measure it, so a field unit refused 32 pokes in one arming and never connected. V1 grades the refusal lifting after five armings that got nowhere; V2 the counter; V3 that the new radio-cycle lever stays out of the way above Android 12. The cycle itself is UNTESTABLE on this rig and section 3 says why. V5 is an unrelated API 31 class-resolution fix on D-SAM. |
 | `status-pill-stuck-after-disconnect` | **DONE** | status-pill-stuck-after-disconnect-report.md for the root cause; fix on `fix/audio-sink-and-wireless-bring-up` `8bb8b844` confirmed by audio-sink-jitter-round4-results.md N1-N3, all PASS. D-POCO does not return unaided within 5 min after N1's standdown; the WiFi button does. N2's settle gap measured ~3.8-5.4s, no `-11` this run. Nothing queued. |
 | `fps-overlay-temp-and-cpu` | **CLOSED** | fps-overlay-temp-and-cpu-findings.md; PC + one read-only adb dump on D-HU, no round. Root cause found for both: temp EINVAL on 2/19 MT50 thermal zones nulls the whole scan (not per-zone isolated); app CPU% unnormalized against core count. Suggested follow-up (not queued): extract overlay to its own file, add left/right placement. |
 | `hp-slate-bringup` | **DONE** | hp-slate-bringup-round1-results.md; R0-R2 PASS, R3 FAIL with root cause found (FPS overlay hidden under TEXTURE view-mode by an addView-order bug in `AapProjectionActivity`, not device-specific). "Can't export logs" was a wrong retrieval path (`/storage/sdcard0/...`, not `/storage/emulated/0/...`) — export itself works. Fix not applied this round (scope). |
