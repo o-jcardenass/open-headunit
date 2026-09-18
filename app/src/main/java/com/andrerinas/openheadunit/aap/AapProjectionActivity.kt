@@ -28,6 +28,7 @@ import com.andrerinas.openheadunit.App
 import com.andrerinas.openheadunit.R
 import com.andrerinas.openheadunit.aap.protocol.messages.TouchEvent
 import com.andrerinas.openheadunit.aap.protocol.messages.VideoFocusEvent
+import com.andrerinas.openheadunit.app.ProjectionOrientationPolicy
 import com.andrerinas.openheadunit.app.SurfaceActivity
 import com.andrerinas.openheadunit.connection.CommManager
 import com.andrerinas.openheadunit.contract.KeyIntent
@@ -1983,6 +1984,26 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         }
     }
 
+    /**
+     * The canvas moved under a surface that survived. Measure and correct the margins, and do none
+     * of the session work [onSurfaceChanged] does: no decoder swap, no focus nudge, no keyframe
+     * escalation, because nothing about the stream changed.
+     */
+    override fun onSurfaceResized(width: Int, height: Int) {
+        AppLog.i("[UI_DEBUG] [AapProjectionActivity] onSurfaceResized: ${width}x$height")
+        val prevUsableW = HeadUnitScreenConfig.getUsableWidth()
+        val prevUsableH = HeadUnitScreenConfig.getUsableHeight()
+        if (!HeadUnitScreenConfig.updateSurfaceDimensions(width, height)) return
+
+        AppLog.i("[UI_DEBUG_FIX] Surface resized! Expected: ${prevUsableW}x${prevUsableH}, Actual: ${width}x${height}")
+        if (!App.isPiPActive) {
+            settings.cachedSurfaceWidth = HeadUnitScreenConfig.getUsableWidth()
+            settings.cachedSurfaceHeight = HeadUnitScreenConfig.getUsableHeight()
+            settings.cachedSurfaceSettingsHash = HeadUnitScreenConfig.computeSettingsHash(settings)
+        }
+        reannounceMargins()
+    }
+
     override fun onSurfaceDestroyed(surface: android.view.Surface) {
         // A relaunched instance may already own the decoder: on a singleTask relaunch the old
         // instance's surface teardown is framework-ordered after its onDestroy, and for the GLES
@@ -2160,17 +2181,18 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
     }
 
     private fun applyStickyOrientation() {
-        if (settings.screenOrientation == Settings.ScreenOrientation.AUTO && HeadUnitScreenConfig.isResolutionLocked) {
-            val target = if (HeadUnitScreenConfig.getNegotiatedWidth() > HeadUnitScreenConfig.getNegotiatedHeight()) {
-                android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-            } else {
-                android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-            }
-            if (requestedOrientation != target) {
-                AppLog.i("[UI_DEBUG] Sticky Orientation: Session active, forcing orientation to $target")
-                requestedOrientation = target
-            }
-        }
+        val pin = ProjectionOrientationPolicy.pinnedOrientation(
+            settings.screenOrientation,
+            HeadUnitScreenConfig.isResolutionLocked,
+            HeadUnitScreenConfig.getNegotiatedWidth() > HeadUnitScreenConfig.getNegotiatedHeight(),
+        ) ?: return
+        requestOrientation(pin, "session active")
+    }
+
+    private fun requestOrientation(target: Int, why: String) {
+        if (requestedOrientation == target) return
+        AppLog.i("[UI_DEBUG] Sticky Orientation: $why, forcing orientation to $target")
+        requestedOrientation = target
     }
 
     override fun onDestroy() {
@@ -2262,16 +2284,14 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
     }
 
     private fun applyOrientationSettings() {
-        val screenOrientation = settings.screenOrientation
-        if (screenOrientation == Settings.ScreenOrientation.AUTO) {
-            applyStickyOrientation()
-            if (!HeadUnitScreenConfig.isResolutionLocked) {
-                // Before resolution is locked, allow sensor to orient the activity
-                requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR
-            }
-        } else {
-            requestedOrientation = screenOrientation.androidOrientation
-        }
+        requestOrientation(
+            ProjectionOrientationPolicy.orientationFor(
+                settings.screenOrientation,
+                HeadUnitScreenConfig.isResolutionLocked,
+                HeadUnitScreenConfig.getNegotiatedWidth() > HeadUnitScreenConfig.getNegotiatedHeight(),
+            ),
+            "orientation setting applied",
+        )
     }
 
     private fun setupProjectionView() {
