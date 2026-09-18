@@ -21,7 +21,9 @@ import java.util.concurrent.ConcurrentHashMap
 internal class AapAudio(
         private val audioDecoder: AudioDecoder,
         private val audioManager: AudioManager,
-        private val settings: Settings) {
+        private val settings: Settings,
+        /** Self Mode. A lambda, not a flag: the session is not connected when this is constructed. */
+        private val isLoopbackSession: () -> Boolean) {
 
     private val staticAudioFocus = settings.staticAudioFocus
     private val separateAudioStreams = settings.separateAudioStreams
@@ -113,6 +115,8 @@ internal class AapAudio(
 
     /** Which of the gates said no, so a reporter log names it instead of leaving it to be inferred. */
     private fun declineReason(): String = when {
+        // First, because Self Mode outranks every other answer including the mode override.
+        isLoopbackSession() -> "the player is on this device (Self Mode)"
         staticAudioFocus -> "static audio focus holds it instead"
         !enableAudioSink -> "the audio sink is off"
         // The mode is asked first because only AUTO consults the latch. Asking the latch first read
@@ -149,7 +153,8 @@ internal class AapAudio(
                 staticAudioFocus = staticAudioFocus,
                 audioSinkEnabled = enableAudioSink,
                 isAudioChannel = true,
-                selfDefeatingLatched = selfDefeatingLatched)
+                selfDefeatingLatched = selfDefeatingLatched,
+                isLoopbackSession = isLoopbackSession())
 
         if (!honour) {
             AppLog.i("AapAudio: phone asked for audio focus - leaving system audio focus alone " +
@@ -359,7 +364,8 @@ internal class AapAudio(
                 staticAudioFocus = staticAudioFocus,
                 audioSinkEnabled = enableAudioSink,
                 isAudioChannel = true,
-                selfDefeatingLatched = selfDefeatingLatched)
+                selfDefeatingLatched = selfDefeatingLatched,
+                isLoopbackSession = isLoopbackSession())
 
         if (!acquire) {
             AppLog.i("AapAudio: AA audio started (${Channel.name(channel)}) - leaving system audio focus alone " +

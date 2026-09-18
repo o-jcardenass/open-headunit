@@ -12,6 +12,7 @@ import android.os.Process
 import android.os.SystemClock
 import android.util.SparseIntArray
 import android.view.KeyEvent
+import com.andrerinas.openheadunit.App
 import com.andrerinas.openheadunit.aap.protocol.Channel
 import com.andrerinas.openheadunit.aap.protocol.messages.KeyCodeEvent
 import com.andrerinas.openheadunit.aap.protocol.messages.MediaAck
@@ -594,7 +595,11 @@ class AapTransport(
                 "useHeadUnitMicrophone=${settings.useHeadUnitMicrophone}, " +
                 "available=${micRecorder.isAvailable})")
         }
-        aapAudio = AapAudio(audioDecoder, audioManager, settings)
+        // Asked lazily: the session is still connecting here, so the endpoint that decides
+        // isLoopbackSession is not readable yet.
+        aapAudio = AapAudio(audioDecoder, audioManager, settings) {
+            App.provide(context).commManager.isLoopbackSession
+        }
         // A corrupt access unit is the one fault the phone cannot heal for us inside a GOP, and
         // hasRenderedThisSession is the gate that keeps this clear of the warm-up window
         // [WarmRelaunchKeyframePolicy] owns - the same gate VideoDecoder.notifyFrameDropped uses.

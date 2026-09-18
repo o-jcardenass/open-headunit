@@ -1242,13 +1242,15 @@ class AapService : Service() {
         // Bluetooth link that comes up later in the session never sees one.
         val mode = settings.playbackFocusMode
         val btMediaLinkActive = BluetoothHelper.isA2dpMediaLinkActive(this)
+        val loopback = commManager.isLoopbackSession
         if (!PlaybackFocusPolicy.shouldAcquirePermanent(
                 mode = mode,
                 staticAudioFocus = true,
                 audioSinkEnabled = true,
-                btMediaLinkActive = btMediaLinkActive)) {
+                btMediaLinkActive = btMediaLinkActive,
+                isLoopbackSession = loopback)) {
             AppLog.i("AapService: Static Audio Focus - leaving system audio focus alone " +
-                "(mode=$mode, bluetoothMedia=$btMediaLinkActive)")
+                "(mode=$mode, bluetoothMedia=$btMediaLinkActive, selfMode=$loopback)")
             return
         }
         AppLog.i("AapService: Static Audio Focus - acquiring permanent system audio focus " +
