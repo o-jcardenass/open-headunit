@@ -1064,7 +1064,8 @@ class CommManager(
                         mode = mode,
                         staticAudioFocus = true,
                         audioSinkEnabled = true,
-                        btMediaLinkActive = btMediaLinkActive)) {
+                        btMediaLinkActive = btMediaLinkActive,
+                        isLoopbackSession = isLoopbackSession)) {
                     transport.aapAudio?.postProtocolFocusChange(
                         AudioManager.STREAM_MUSIC,
                         AudioManager.AUDIOFOCUS_GAIN,
@@ -1072,7 +1073,7 @@ class CommManager(
                     )
                 } else {
                     AppLog.i("CommManager: Static Audio Focus - leaving system audio focus alone " +
-                            "(mode=$mode, bluetoothMedia=$btMediaLinkActive)")
+                            "(mode=$mode, bluetoothMedia=$btMediaLinkActive, selfMode=$isLoopbackSession)")
                 }
             }
             transport.startReading()
