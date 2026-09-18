@@ -8,8 +8,12 @@ import org.junit.Test
 
 class MediaKeyRoutingPolicyTest {
 
-    private fun forward(mode: Mode, isMediaKey: Boolean = true, bt: Boolean? = null) =
-        MediaKeyRoutingPolicy.shouldForward(mode, isMediaKey, bt)
+    private fun forward(
+        mode: Mode,
+        isMediaKey: Boolean = true,
+        bt: Boolean? = null,
+        loopback: Boolean = false
+    ) = MediaKeyRoutingPolicy.shouldForward(mode, isMediaKey, bt, loopback)
 
     @Test
     fun `everything that is not a media button is always forwarded`() {
@@ -45,6 +49,24 @@ class MediaKeyRoutingPolicyTest {
         // The opposite resolution to PlaybackFocusPolicy's unknown case, on purpose: a doubled skip
         // is an annoyance, media buttons that silently do nothing read as a broken app.
         assertTrue(forward(Mode.AUTO, bt = null))
+    }
+
+    @Test
+    fun `a self mode session keeps its media buttons whatever the mode says`() {
+        // The player is on this device, and a forwarded key is routed by Android Auto's input
+        // focus, so it works only while the player is the app on screen.
+        for (mode in Mode.values()) {
+            for (bt in listOf(true, false, null)) {
+                assertFalse("mode=$mode bt=$bt", forward(mode, bt = bt, loopback = true))
+            }
+        }
+    }
+
+    @Test
+    fun `a self mode session still forwards everything that is not a media button`() {
+        for (mode in Mode.values()) {
+            assertTrue("mode=$mode", forward(mode, isMediaKey = false, loopback = true))
+        }
     }
 
     @Test

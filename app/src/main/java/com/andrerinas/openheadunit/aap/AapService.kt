@@ -178,6 +178,8 @@ class AapService : Service() {
     private var wasPlayingBeforeDisconnect = false
     private var lastDisconnectTimestampMs = 0L
     private var mediaSessionIsPlaying = false
+    /** Decided per session by [MediaSessionOwnershipPolicy]; Self Mode leaves the session to the local player. */
+    private var ownsMediaSession = true
     private var mediaMetadataDecodeJob: Job? = null
     private var autoResumePlaybackJob: Job? = null
     /** Decoded on a background thread in [scheduleApplyAaMediaMetadata]; reused for notification updates on position ticks. */
@@ -354,6 +356,8 @@ class AapService : Service() {
 
     fun updateMediaSessionState(isPlaying: Boolean) {
         mediaSessionIsPlaying = isPlaying
+        // The bookkeeping above still runs: the media notification reads it as its fallback.
+        if (!ownsMediaSession) return
         var actions = PlaybackStateCompat.ACTION_STOP or
                 PlaybackStateCompat.ACTION_SKIP_TO_NEXT or
                 PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS or
@@ -383,6 +387,7 @@ class AapService : Service() {
     }
 
     private fun applyPlaceholderMediaMetadata() {
+        if (!ownsMediaSession) return
         safeMediaSessionCall {
             it.setMetadata(
                 MediaMetadataCompat.Builder()
@@ -497,6 +502,7 @@ class AapService : Service() {
     }
 
     private fun applyAaMediaMetadataToSession(meta: MediaPlayback.MediaMetaData, albumArt: Bitmap?) {
+        if (!ownsMediaSession) return
         val session = mediaSession ?: return
         val title = when {
             meta.hasSong() && meta.song.isNotBlank() -> meta.song
@@ -1343,14 +1349,23 @@ class AapService : Service() {
         // Activate session-scoped car key receivers (e.g. FYT)
         carKeysManager.onSessionStarted(this)
 
-        // Reactivate the existing MediaSession (created in onCreate, kept alive across disconnects)
-        safeMediaSessionCall { it.isActive = true }
-        updateMediaSessionState(true)
-        applyPlaceholderMediaMetadata()
+        // Reactivate the existing MediaSession (created in onCreate, kept alive across disconnects),
+        // unless this session's player is on this device and owns one of its own already.
+        ownsMediaSession = MediaSessionOwnershipPolicy.ownsMediaSession(commManager.isLoopbackSession)
+        if (ownsMediaSession) {
+            safeMediaSessionCall { it.isActive = true }
+            updateMediaSessionState(true)
+            applyPlaceholderMediaMetadata()
 
-        // Link audio focus state changes to our MediaSession state
-        commManager.onAudioFocusStateChanged = { isPlaying ->
-            updateMediaSessionState(isPlaying)
+            // Link audio focus state changes to our MediaSession state
+            commManager.onAudioFocusStateChanged = { isPlaying ->
+                updateMediaSessionState(isPlaying)
+            }
+        } else {
+            AppLog.i("AapService: media session left to the player on this device (Self Mode)")
+            safeMediaSessionCall { it.isActive = false }
+            // Unwired, or the phone's next audio focus request re-asserts PLAYING behind the check.
+            commManager.onAudioFocusStateChanged = null
         }
 
         // Acquire permanent audio focus just before starting the AA handshake so we
@@ -1598,6 +1613,8 @@ class AapService : Service() {
         lastAaPlaybackIsPlaying = null
         cachedAaAlbumArtBitmap = null
         mediaNotification.cancel()
+        // Before the calls below, which are no-ops while a Self Mode session held it back.
+        ownsMediaSession = true
         applyPlaceholderMediaMetadata()
         // Keep MediaSession alive across disconnect/reconnect cycles.
         // Only deactivate it — do NOT release it. A released session can no longer
