@@ -7,6 +7,13 @@ interface IProjectionView {
         fun onSurfaceCreated(surface: Surface)
         fun onSurfaceDestroyed(surface: Surface)
         fun onSurfaceChanged(surface: Surface, width: Int, height: Int)
+
+        /**
+         * The same surface, at a new size. Only the canvas moved, so this is deliberately not
+         * [onSurfaceChanged]: that one also re-arms the keyframe escalation and nudges video
+         * focus, which a resize has no business doing.
+         */
+        fun onSurfaceResized(width: Int, height: Int) {}
     }
 
     fun addCallback(callback: Callbacks)

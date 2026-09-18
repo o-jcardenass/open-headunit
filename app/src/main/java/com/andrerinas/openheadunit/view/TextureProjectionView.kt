@@ -83,6 +83,9 @@ class TextureProjectionView @JvmOverloads constructor(
 
     override fun onSurfaceTextureSizeChanged(surfaceTexture: SurfaceTexture, width: Int, height: Int) {
         AppLog.i("TextureProjectionView: Surface size changed: ${width}x$height")
+        // The SurfaceTexture survives a resize, so without this the only backend the app ships by
+        // default never reported a canvas change and its margins were never corrected.
+        callbacks.forEach { cb -> cb.onSurfaceResized(width, height) }
         ProjectionViewScaler.updateScale(this, videoWidth, videoHeight)
     }
 
