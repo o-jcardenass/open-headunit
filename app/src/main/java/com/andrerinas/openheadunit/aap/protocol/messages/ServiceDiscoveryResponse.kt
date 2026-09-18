@@ -125,7 +125,9 @@ class ServiceDiscoveryResponse(private val context: Context)
                     // The probe offers the other orientation as index 1 so a mid-session
                     // Media.Config has something to select. Off in every shipped configuration.
                     if (GeometryProbePolicy.announcesSecondConfig(settings.geometryProbeMode)) {
-                        val rotated = HeadUnitScreenConfig.rotatedGeometry()
+                        val landscape =
+                            HeadUnitScreenConfig.getUsableWidth() >= HeadUnitScreenConfig.getUsableHeight()
+                        val rotated = HeadUnitScreenConfig.rotatedGeometry(!landscape)
                         AppLog.i("[ServiceDiscovery] probe: announcing index 1 as $rotated")
                         mediaSinkServiceBuilder.addVideoConfigs(
                             Control.Service.MediaSinkService.VideoConfiguration.newBuilder().apply {

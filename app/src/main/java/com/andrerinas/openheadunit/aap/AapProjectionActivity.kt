@@ -1062,6 +1062,8 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
                         }
                         is CommManager.ConnectionState.TransportStarted -> {
                             watchdogHandler.removeCallbacks(exitRunnable)
+                            // A second session in the same process gets its own probe.
+                            geometryProbeFiredLandscape = null
                         }
                         // The reconnect is answering. Each of these refreshes the grace.
                         is CommManager.ConnectionState.Connecting -> noteReconnectProgress("connecting")
@@ -1965,10 +1967,11 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             AppLog.i("[UI_DEBUG_FIX] Skipping surface dimension cache update due to transient orientation mismatch: ${width}x${height}")
         }
 
+        maybeFireGeometryProbe(width >= height)
+
         if (anchorMoved) {
             AppLog.i("[UI_DEBUG_FIX] Surface mismatch! Expected: ${prevUsableW}x${prevUsableH}, Actual: ${width}x${height}")
             reannounceMargins()
-            maybeFireGeometryProbe()
             // If transport not started yet, ServiceDiscoveryResponse will use the corrected values automatically.
         }
 
@@ -2019,6 +2022,9 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         AppLog.i("[UI_DEBUG] [AapProjectionActivity] onSurfaceResized: ${width}x$height")
         val prevUsableW = HeadUnitScreenConfig.getUsableWidth()
         val prevUsableH = HeadUnitScreenConfig.getUsableHeight()
+        // Ahead of the adopt verdict on purpose: round 1's levers were all wired behind it and the
+        // app is built never to adopt a new canvas mid-session, so none of them ever fired.
+        maybeFireGeometryProbe(width >= height)
         if (!HeadUnitScreenConfig.updateSurfaceDimensions(width, height)) return
 
         AppLog.i("[UI_DEBUG_FIX] Surface resized! Expected: ${prevUsableW}x${prevUsableH}, Actual: ${width}x${height}")
@@ -2028,7 +2034,6 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             settings.cachedSurfaceSettingsHash = HeadUnitScreenConfig.computeSettingsHash(settings)
         }
         reannounceMargins()
-        maybeFireGeometryProbe()
     }
 
     override fun onSurfaceDestroyed(surface: android.view.Surface) {
@@ -2103,13 +2108,20 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
      * under a live session; send whichever lever the round is measuring and let the log say what
      * the phone did with it.
      */
-    private fun maybeFireGeometryProbe() {
+    private fun maybeFireGeometryProbe(landscape: Boolean) {
         val mode = settings.geometryProbeMode
-        if (!GeometryProbePolicy.isActive(mode)) return
-        if (commManager.connectionState.value !is CommManager.ConnectionState.TransportStarted) return
-
-        val landscape = HeadUnitScreenConfig.getUsableWidth() >= HeadUnitScreenConfig.getUsableHeight()
-        if (geometryProbeFiredLandscape == landscape) return
+        val verdict = GeometryProbePolicy.fireVerdict(
+            mode,
+            commManager.connectionState.value is CommManager.ConnectionState.TransportStarted,
+            geometryProbeFiredLandscape,
+            landscape,
+        )
+        if (verdict != GeometryProbePolicy.FireVerdict.FIRE) {
+            if (mode != GeometryProbePolicy.OFF) {
+                AppLog.i("[GEOMETRY_PROBE] mode=$mode not fired: $verdict")
+            }
+            return
+        }
         geometryProbeFiredLandscape = landscape
 
         AppLog.i(
@@ -2381,8 +2393,13 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         super.onConfigurationChanged(newConfig)
         AppLog.i("[AapProjectionActivity] onConfigurationChanged: orientation=${newConfig.orientation}")
         if (GeometryProbePolicy.isActive(settings.geometryProbeMode)) {
-            // The probe is the only case where a live session's panel can turn over.
+            // The probe is the only case where a live session's panel can turn over, and it has to
+            // drive the geometry rather than wait for an adopt the rest of the app prevents.
+            val landscape =
+                newConfig.orientation != android.content.res.Configuration.ORIENTATION_PORTRAIT
             HeadUnitScreenConfig.refreshNormalisation(this)
+            HeadUnitScreenConfig.adoptRotatedCanvas(landscape)
+            maybeFireGeometryProbe(landscape)
         }
         if (!HeadUnitScreenConfig.isResolutionLocked) {
             HeadUnitScreenConfig.init(this, resources.displayMetrics, settings)

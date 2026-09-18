@@ -66,4 +66,58 @@ class GeometryProbePolicyTest {
             assertTrue(mode.toString(), GeometryProbePolicy.renegotiates(mode))
         }
     }
+
+    @Test
+    fun `an unarmed mode refuses before anything else is asked`() {
+        assertEquals(
+            GeometryProbePolicy.FireVerdict.MODE_OFF,
+            GeometryProbePolicy.fireVerdict(GeometryProbePolicy.OFF, false, null, false)
+        )
+    }
+
+    @Test
+    fun `a rotation before the transport is up names the transport`() {
+        assertEquals(
+            GeometryProbePolicy.FireVerdict.NO_TRANSPORT,
+            GeometryProbePolicy.fireVerdict(GeometryProbePolicy.SERVICE_REDISCOVERY, false, null, false)
+        )
+    }
+
+    @Test
+    fun `the first rotation of a session fires`() {
+        for (mode in allModes.filter { it != GeometryProbePolicy.OFF }) {
+            assertEquals(
+                mode.toString(),
+                GeometryProbePolicy.FireVerdict.FIRE,
+                GeometryProbePolicy.fireVerdict(mode, true, null, false)
+            )
+        }
+    }
+
+    @Test
+    fun `one rotation fires one lever`() {
+        assertEquals(
+            GeometryProbePolicy.FireVerdict.ALREADY_FIRED,
+            GeometryProbePolicy.fireVerdict(GeometryProbePolicy.CONFIG_READY, true, false, false)
+        )
+    }
+
+    @Test
+    fun `turning back fires again`() {
+        assertEquals(
+            GeometryProbePolicy.FireVerdict.FIRE,
+            GeometryProbePolicy.fireVerdict(GeometryProbePolicy.CONFIG_READY, true, false, true)
+        )
+    }
+
+    @Test
+    fun `every refusal has a name of its own`() {
+        val verdicts = listOf(
+            GeometryProbePolicy.fireVerdict(GeometryProbePolicy.OFF, true, null, true),
+            GeometryProbePolicy.fireVerdict(GeometryProbePolicy.UI_THEME, false, null, true),
+            GeometryProbePolicy.fireVerdict(GeometryProbePolicy.UI_THEME, true, true, true),
+            GeometryProbePolicy.fireVerdict(GeometryProbePolicy.UI_THEME, true, true, false),
+        )
+        assertEquals(verdicts.size, verdicts.toSet().size)
+    }
 }
