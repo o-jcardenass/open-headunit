@@ -46,7 +46,6 @@ were reported under another filename, and are listed so the pairing rule does no
 - `link-stall-periodic-scan-round4-brief.md` (2.4 GHz plus constrained memory; round 5 ran first and PASSed)
 - `video-dropped-frame-keyframe-round7-brief.md` (R1 is a desk check, R2 optional)
 - `projection-raise-round5-brief.md`
-- `rotation-geometry-round2-brief.md`
 - `hands-free-wake-verdict-round1-brief.md`
 
 Superseded, do not run: `hands-free-wake-and-proto-schema-round1-brief.md` is reported and is
@@ -79,7 +78,7 @@ by `bssid-round1-results.md` and its addendum.
 
 | Thread | State | Next |
 |---|---|---|
-| `rotation-geometry` | **QUEUED, round 2** | `rotation-geometry-round2-brief.md`. Part A passed round 1 and is held to ship with Part B; it carries one extra commit so the pin states its decision even on a run where it never has to change one, and only A2 repeats. Part B is re-wired: round 1 put no lever on the wire because every mode sat behind a canvas adopt nothing performs mid-session, and each refusal was silent. The probe drives the geometry from the configuration change now and names every gate it stops at. Round 1's results are `rotation-geometry-round1-results.md`; its SHAs are gone, build `65e91b56` and `13d29c61`. |
+| `rotation-geometry` | **DONE, round 2** | `rotation-geometry-round2-results.md`, Part A `65e91b568` PASS (A2r), Part B `13d29c619`. The probe now fires. B1r (`ServiceDiscoveryUpdate`) is safe but produces the same squeeze as round 1, no reflow. B2r/B3r/B4r/B6r (any second video/UI-config channel message during the rotation) all crash Gearhead's own `:projection` process outright (`FATAL EXCEPTION`, `OutOfCarLifecycle`) within tens to a few hundred ms, a real Gearhead defect, not ours; our app's disconnect handling was clean in all four. B5r's 2x2 found `real_density` carries no visible cost or benefit at `dpi-pixel-density=180`: touch was already correct in both arms. |
 | `self-mode-media-session` | **DONE, round 2** | `self-mode-media-session-round2-results.md`, `d5d463d5` no blocking FAIL: R0/A3/B2/A2/B1/C1/C2/C3/D1 PASS, A1/A1c/C4 INCONCLUSIVE (rig/environment limits, not the branch). C3 (wireless recovers after a failed Self Mode launch) is the headline finding. PR-ready. |
 | `auto-start-loading-screen` | **DONE** | `auto-start-loading-screen-round2-results.md`, candidate `8a1968a3e`. V1 PASS both arms: unqualified projection pill inside the window (arm 1), suppressed-tag pill and no pill in any frame (arm 2), log and recording both confirm. V2 PASS both arms (`mode=OVERLAY`/`mode=PILL`). No FAIL. PR-ready. Found an `am start --es "val with space"` quoting bug and a fresh-install-key restore erratum, both in Setup notes. |
 | `proto-schema-corrections` | **DONE** | Folded into `hands-free-wake` round 1; see that row. Its own round 1 brief was superseded and never run. |
