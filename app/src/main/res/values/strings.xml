@@ -1082,6 +1082,12 @@
     <string name="native_wifi_version_exchange_description">Lets the phone reconnect over WiFi instead of Bluetooth, using this head unit\'s hotspot. Helps on units whose Bluetooth cannot carry the handshake, and on newer Android Auto versions. Off by default, and the first connection still goes over Bluetooth.</string>
     <string name="native_aa_complete_hfp_slc">Complete the Bluetooth connection</string>
     <string name="native_aa_complete_hfp_slc_description">Some phones will not start wireless Android Auto until this unit\'s Bluetooth counts as connected, not just paired. On by default; turn it off if calls on this device stop working.</string>
+    <string name="native_aa_wake_remeasure">Re-measure the Bluetooth wake</string>
+    <string name="native_aa_wake_verdict_unmeasured">Not measured yet</string>
+    <string name="native_aa_wake_verdict_safe">Safe on this unit</string>
+    <string name="native_aa_wake_verdict_destructive">Held back on this unit</string>
+    <string name="native_aa_wake_remeasure_confirm">Android Auto only starts wireless when it sees the Bluetooth connection change. Where this unit already holds the hands-free link, the app has to break it to make that happen, so it measures once whether the link comes back and stops if it does not. Use this if wireless stopped starting on its own and you are willing to lose hands-free for a moment while it tries again.</string>
+    <string name="native_aa_wake_remeasure_done">The Bluetooth wake will be measured again on the next connection.</string>
     <string name="announce_connection_configuration">Ask for a longer link timeout</string>
     <string name="announce_connection_configuration_description">Tells Android Auto to wait 15 seconds before treating the link as dead instead of 3, and to use larger socket buffers. It is aimed at a radio that goes off channel for a few seconds mid session and takes the connection with it. Whether your phone honours any of it has not been measured.</string>
     <string name="native_aa_ignore_external_bt">Ignore the Bluetooth compatibility check</string>

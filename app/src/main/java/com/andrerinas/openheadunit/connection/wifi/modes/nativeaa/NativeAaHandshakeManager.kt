@@ -33,6 +33,8 @@ import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import com.andrerinas.openheadunit.App
 import com.andrerinas.openheadunit.connection.CommManager
+import com.andrerinas.openheadunit.decoder.audio.CallState
+import com.andrerinas.openheadunit.decoder.audio.MicRecorder
 import com.andrerinas.openheadunit.connection.ConnectionStage
 import com.andrerinas.openheadunit.connection.ConnectionStageTracker
 import com.andrerinas.openheadunit.connection.wifi.modes.WifiLauncherNative
@@ -234,6 +236,17 @@ class NativeAaHandshakeManager(
     // of link rather than one: the link never got an uninterrupted window to come back.
     private val escalationProbeUntil = ConcurrentHashMap<String, Long>()
     @Volatile private var wakeProbeJob: Job? = null
+    // The radio cycle that replaces the wake below API 33, and its own probe. Budgeted per arming
+    // like the wake, because it costs every Bluetooth device on the unit a few seconds.
+    @Volatile private var radioCycles = 0
+    @Volatile private var lastRadioCycleAt = 0L
+    @Volatile private var radioCycleJob: Job? = null
+    // Until when each device is left alone after a cycle, so the ordinary loop does not poke away
+    // the very link the cycle handed back 15 s later.
+    private val radioCycleQuietUntil = ConcurrentHashMap<String, Long>()
+    // Whether any poke pass this arming was stood down over a hands-free link. Only those armings
+    // count towards re-measuring a DESTRUCTIVE verdict; one the phone never reached says nothing.
+    @Volatile private var standDownReachedThisArming = false
     // The chosen wake targets last reported as not phones, so the line prints on a change only.
     @Volatile private var droppedPokeTargetsLogged: Set<String>? = null
     // When this manager last closed a socket to each phone, so a Bluetooth loss that follows one
@@ -1430,7 +1443,9 @@ class NativeAaHandshakeManager(
     ): Boolean {
         val verdict = NativeAaWakeDamagePolicy.Verdict.of(settings.nativeAaWakeDamageVerdict)
         val escalate = HandsFreeWakeEscalationPolicy.shouldEscalate(
-            unitAllowsWake = NativeAaWakeDamagePolicy.allowsEscalation(verdict),
+            unitAllowsWake = NativeAaWakeDamagePolicy.allowsEscalation(
+                verdict, settings.nativeAaWakeArmingsWithoutSession
+            ),
             reason = reason,
             // Not everAcceptedAaConnection alone: it dies with the process, and a radio that
             // auto-connects hands-free at boot stands every poke down before anything can set it.
@@ -1461,6 +1476,167 @@ class NativeAaHandshakeManager(
     }
 
     /**
+     * Whether the radio cycle may take this stand-down instead of the wake. Reads the three live
+     * facts the policy cannot: the release, a call on the link this would drop, and a session.
+     */
+    private fun allowsRadioCycle(
+        device: BluetoothDevice,
+        reason: BluetoothWakePolicy.WakeReason,
+        standDownSince: Long,
+        now: Long,
+    ): Boolean = BluetoothRadioCyclePolicy.cycleDecision(
+        sdkInt = Build.VERSION.SDK_INT,
+        verdict = BluetoothRadioCyclePolicy.Verdict.of(settings.nativeAaRadioCycleVerdict),
+        reason = reason,
+        pairingHasRunAaHere = HandsFreeWakeEscalationPolicy.pairingHasRunAaHere(
+            acceptedThisProcess = everAcceptedAaConnection,
+            targetMac = device.address,
+            lastConnectedNativeMac = settings.lastConnectedNativeMac,
+        ),
+        callActive = isCallActiveNow(),
+        sessionInProgress = commManager.isConnected || isHandshakeInFlight() || isHandoffSettling(),
+        standDownSinceMs = standDownSince,
+        lastCycleMs = lastRadioCycleAt,
+        cyclesUsed = radioCycles,
+        now = now,
+    )
+
+    /** A call rides on the link a cycle would drop, and the audio mode is the read that needs no permission. */
+    private fun isCallActiveNow(): Boolean = try {
+        val mode = (context.getSystemService(Context.AUDIO_SERVICE) as android.media.AudioManager).mode
+        CallState.isCallActive(mode, MicRecorder.holdsCommunicationMode) || CallState.isCallStarting(mode)
+    } catch (e: Exception) {
+        // Unreadable is not a licence to drop somebody's call.
+        true
+    }
+
+    /**
+     * Drops and re-raises this unit's own Bluetooth, so the phone sees a fresh `ACL_CONNECTED` and
+     * hands-free connect for an address that is connected with its profile. Blocking on purpose:
+     * nothing should poke while the radio is down.
+     */
+    @SuppressLint("MissingPermission")
+    @Suppress("DEPRECATION")
+    private suspend fun cycleOwnRadio(device: BluetoothDevice, standDownSince: Long, now: Long) {
+        val adapter = BluetoothHelper.getBluetoothAdapter(context)
+        val enabled = try { adapter != null && adapter.isEnabled } catch (e: Exception) { false }
+        if (adapter == null || !enabled) {
+            AppLog.i("NativeAA: this unit's Bluetooth is already off, so there is nothing to cycle.")
+            return
+        }
+        radioCycles++
+        lastRadioCycleAt = now
+        val verdict = BluetoothRadioCyclePolicy.Verdict.of(settings.nativeAaRadioCycleVerdict)
+        AppLog.i(
+            "NativeAA: cycling this unit's Bluetooth to wake ${device.name ?: "unnamed"} " +
+                "(${device.address}) — it has not started Android Auto in " +
+                "${(now - standDownSince) / 1000}s, and a hands-free link that never changes raises " +
+                "no event for the phone to notice. A poke would take that link and keep it; this " +
+                "hands it back."
+        )
+        // The reconnect this produces is a real ACL_CONNECTED, so AutoStartReceiver will fire once,
+        // as it does for a poke. Once per arming against the poke loop's every 15 s.
+        var disableCalled = false
+        val offReached = try {
+            adapter.disable()
+            disableCalled = true
+            awaitAdapterState(adapter, BluetoothAdapter.STATE_OFF, BluetoothRadioCyclePolicy.ADAPTER_OFF_WAIT_MS)
+        } catch (e: Exception) {
+            AppLog.w("NativeAA: this unit would not turn its Bluetooth off: ${e.message}")
+            false
+        }
+        // Unconditional after a disable() that did not throw: the radio may still be on its way
+        // down, and leaving it there would cost the user Bluetooth entirely.
+        val onReached = if (!disableCalled) false else try {
+            adapter.enable()
+            awaitAdapterState(adapter, BluetoothAdapter.STATE_ON, BluetoothRadioCyclePolicy.ADAPTER_ON_WAIT_MS)
+        } catch (e: Exception) {
+            AppLog.w("NativeAA: this unit would not turn its Bluetooth back on: ${e.message}")
+            false
+        }
+        if (onReached) {
+            reopenListenersAfterCycle()
+            radioCycleQuietUntil[device.address] =
+                SystemClock.elapsedRealtime() + BluetoothRadioCyclePolicy.POST_CYCLE_QUIET_MS
+        }
+        // Null where the radio never went down: nothing was cycled, so nothing was measured either.
+        noteRadioCycleOutcome(verdict, if (offReached) onReached else null)
+    }
+
+    /**
+     * Polls rather than listening: [btStateReceiver] is for a bounce nobody asked for. The adapter
+     * is held across the transition on purpose - it is a binder proxy and survives one, while
+     * re-resolving it would run the secondary-service reflection eighty times a cycle.
+     */
+    private suspend fun awaitAdapterState(adapter: BluetoothAdapter, target: Int, boundMs: Long): Boolean {
+        val deadline = SystemClock.elapsedRealtime() + boundMs
+        while (SystemClock.elapsedRealtime() < deadline) {
+            val state = try { adapter.state } catch (e: Exception) { null }
+            if (state == target) return true
+            delay(250)
+        }
+        return false
+    }
+
+    /** The radio is back, so take the listeners up without waiting for the reopen loop's own delay. */
+    @SuppressLint("MissingPermission")
+    private fun reopenListenersAfterCycle() {
+        if (!isRunning || !aaListenerLost) return
+        aaReopenAttempts = 0
+        val adapter = BluetoothHelper.getBluetoothAdapter(context) ?: return
+        reopenAaListener(adapter, "after this unit's Bluetooth was cycled to wake the phone")
+    }
+
+    /**
+     * Records what the cycle cost, on the first one this unit ever made. A radio that never came
+     * back is settled immediately; anything else waits for the unit's own stack to reconnect.
+     */
+    private fun noteRadioCycleOutcome(verdict: BluetoothRadioCyclePolicy.Verdict, backOn: Boolean?) {
+        when (backOn) {
+            null -> AppLog.w(
+                "NativeAA: this unit's Bluetooth never went down, so nothing was cycled and nothing " +
+                    "was measured. The hands-free link is untouched."
+            )
+            false -> AppLog.w(
+                "NativeAA: this unit's Bluetooth did not come back after the cycle, so it will not " +
+                    "be cycled again — the phone has to raise the Bluetooth event itself."
+            )
+            true -> Unit
+        }
+        if (!BluetoothRadioCyclePolicy.isProbe(verdict)) return
+        val window = BluetoothRadioCyclePolicy.RECOVERY_WINDOW_MS
+        radioCycleJob?.cancel()
+        radioCycleJob = scope.launch(CoroutineName("NativeAa-RadioCycleProbe")) {
+            val link = if (backOn != true) false else {
+                delay(window)
+                BluetoothHelper.handsFreeLinkState(context, includeGatewayRole = false)
+            }
+            val measured = BluetoothRadioCyclePolicy.verdictFrom(backOn, link)
+            if (!BluetoothRadioCyclePolicy.recordable(measured)) {
+                AppLog.i(
+                    "NativeAA: this unit would not say whether its hands-free link came back after " +
+                        "the Bluetooth cycle, so whether cycling works here stays unmeasured."
+                )
+                return@launch
+            }
+            settings.nativeAaRadioCycleVerdict = measured.ordinal
+            if (measured == BluetoothRadioCyclePolicy.Verdict.RECOVERS) {
+                AppLog.i(
+                    "NativeAA: this unit's Bluetooth came back and reconnected its hands-free link " +
+                        "within ${window / 1000}s of the cycle, so cycling is how this unit wakes a " +
+                        "phone from now on."
+                )
+            } else {
+                AppLog.w(
+                    "NativeAA: this unit's hands-free link is still down ${window / 1000}s after " +
+                        "the Bluetooth cycle, so cycling costs more than it buys here and will not " +
+                        "be used again."
+                )
+            }
+        }
+    }
+
+    /**
      * Keep the durable record of another device holding this unit's hands-free link in step.
      *
      * The banner is the surface because the lever is the other device rather than a setting here,
@@ -1486,7 +1662,10 @@ class NativeAaHandshakeManager(
             NativeAaWakeDamagePolicy.Verdict.SAFE ->
                 "measured safe on this unit: the hands-free link came back on its own"
             NativeAaWakeDamagePolicy.Verdict.DESTRUCTIVE ->
-                "measured to cost this unit its hands-free link for good, so none will go out"
+                "measured to cost this unit its hands-free link for good, so none will go out " +
+                    "until ${NativeAaWakeDamagePolicy.REPROBE_AFTER_ARMINGS} armings have waited " +
+                    "it out (${settings.nativeAaWakeArmingsWithoutSession} so far) or " +
+                    "\"Re-measure the Bluetooth wake\" is used"
         }
         AppLog.i("NativeAA: waking a phone over a hands-free link it holds is $message.")
     }
@@ -1499,21 +1678,27 @@ class NativeAaHandshakeManager(
     private fun armWakeProbe(device: BluetoothDevice, verdict: NativeAaWakeDamagePolicy.Verdict) {
         val window = NativeAaWakeDamagePolicy.PROBE_WINDOW_MS
         escalationProbeUntil[device.address] = SystemClock.elapsedRealtime() + window
-        if (!NativeAaWakeDamagePolicy.isProbe(verdict)) return
+        if (!NativeAaWakeDamagePolicy.isProbe(verdict, settings.nativeAaWakeArmingsWithoutSession)) return
+        val acceptedBefore = acceptedAaConnectionThisArming
         wakeProbeJob?.cancel()
         wakeProbeJob = scope.launch(CoroutineName("NativeAa-WakeProbe")) {
             delay(window)
             val returned = BluetoothHelper.handsFreeLinkState(context, includeGatewayRole = false)
-            val measured = NativeAaWakeDamagePolicy.verdictFrom(returned)
+            val measured = NativeAaWakeDamagePolicy.verdictFrom(
+                linkReturned = returned,
+                wakeStartedAaSession = !acceptedBefore && acceptedAaConnectionThisArming,
+            )
             if (!NativeAaWakeDamagePolicy.recordable(measured)) {
                 AppLog.i("NativeAA: this unit would not say whether its hands-free link came back " +
                     "after the wake, so whether a wake costs it the link stays unmeasured.")
                 return@launch
             }
             settings.nativeAaWakeDamageVerdict = measured.ordinal
+            settings.nativeAaWakeArmingsWithoutSession = 0
             if (measured == NativeAaWakeDamagePolicy.Verdict.SAFE) {
-                AppLog.i("NativeAA: the hands-free link came back within ${window / 1000}s of the " +
-                    "wake, so waking over it costs this unit a blip and will keep being used.")
+                AppLog.i("NativeAA: the wake either brought the phone in or the hands-free link " +
+                    "came back within ${window / 1000}s, so waking over it costs this unit a blip " +
+                    "and will keep being used.")
             } else {
                 AppLog.w("NativeAA: the hands-free link is still down ${window / 1000}s after the " +
                     "wake. On this unit a wake costs the link for good, so it will not be used " +
@@ -1584,9 +1769,23 @@ class NativeAaHandshakeManager(
             // second wake is spaced by the cooldown rather than by a fresh 90 s wait. Only the guard
             // letting go of this device clears it.
             val standDownSince = handsFreeStandDownSince.getOrPut(device.address) { now }
-            if (!escalateHandsFreeWake(device, decision.reason, standDownSince, now)) {
-                noteHandsFreePokeSkip(device, decision.reason)
-                return BluetoothWakePolicy.WakeOutcome.STOOD_DOWN
+            standDownReachedThisArming = true
+            // The cycle and the wake are chosen between in one place so they can never both run for
+            // one pass. Below API 33 the cycle goes first: it gives the link back, the wake cannot.
+            val action = BluetoothRadioCyclePolicy.chooseAction(
+                cycleAllowed = allowsRadioCycle(device, decision.reason, standDownSince, now),
+                wakeAllowed = { escalateHandsFreeWake(device, decision.reason, standDownSince, now) },
+            )
+            when (action) {
+                BluetoothRadioCyclePolicy.StandDownAction.CYCLE_RADIO -> {
+                    cycleOwnRadio(device, standDownSince, now)
+                    return BluetoothWakePolicy.WakeOutcome.STOOD_DOWN
+                }
+                BluetoothRadioCyclePolicy.StandDownAction.NOTHING -> {
+                    noteHandsFreePokeSkip(device, decision.reason)
+                    return BluetoothWakePolicy.WakeOutcome.STOOD_DOWN
+                }
+                BluetoothRadioCyclePolicy.StandDownAction.ESCALATED_WAKE -> Unit
             }
         } else {
             handsFreeStandDownSince.remove(device.address)
@@ -2032,6 +2231,16 @@ class NativeAaHandshakeManager(
                     // An escalated wake has just taken this phone's hands-free slot. The guard now
                     // reads no link to defer to, so without this the ordinary loop re-takes the slot
                     // every pass and the link never gets a window in which to come back.
+                    val cycleQuietUntil = radioCycleQuietUntil[device.address] ?: 0L
+                    if (cycleQuietUntil > SystemClock.elapsedRealtime()) {
+                        val leftMs = cycleQuietUntil - SystemClock.elapsedRealtime()
+                        AppLog.i("NativeAA: leaving ${device.name ?: "unnamed"} (${device.address}) " +
+                            "unpoked for another ${leftMs / 1000}s after cycling this unit's " +
+                            "Bluetooth, so the phone can act on the connection it just saw.")
+                        continue
+                    }
+                    radioCycleQuietUntil.remove(device.address)
+
                     val probeUntil = escalationProbeUntil[device.address] ?: 0L
                     if (probeUntil > SystemClock.elapsedRealtime()) {
                         val leftMs = probeUntil - SystemClock.elapsedRealtime()
@@ -2356,6 +2565,8 @@ class NativeAaHandshakeManager(
         // primary and the secondary-radio loops are covered by one statement.
         everAcceptedAaConnection = true
         acceptedAaConnectionThisArming = true
+        // The verdict's re-measure clock is about armings that never connected; this one did.
+        settings.nativeAaWakeArmingsWithoutSession = 0
         // The poke count is deliberately not cleared here. It answers the stale-group watchdog's
         // question, which is whether the network this group saved still reaches the phone, and an
         // RFCOMM accept says nothing about the network. onSessionEstablished() clears it.
@@ -3237,7 +3448,14 @@ class NativeAaHandshakeManager(
         // Only the per-attempt count resets: everAcceptedAaConnection is deliberately kept, so a
         // unit that has connected before is not warned just because the manager was re-armed.
         pokesSinceLastAccept = 0
+        // An arming that stood a poke down over a hands-free link and never got a session is what
+        // earns a DESTRUCTIVE verdict its re-measurement. One the phone never reached says nothing.
+        if (standDownReachedThisArming && !acceptedAaConnectionThisArming) {
+            settings.nativeAaWakeArmingsWithoutSession =
+                settings.nativeAaWakeArmingsWithoutSession + 1
+        }
         acceptedAaConnectionThisArming = false
+        standDownReachedThisArming = false
         // The escalated-wake budget is per arming, so it comes back with the next start(). The
         // damage verdict is not: it is a measurement of this unit and outlives every arming.
         handsFreeStandDownSince.clear()
@@ -3247,6 +3465,11 @@ class NativeAaHandshakeManager(
         wakeProbeJob?.cancel()
         wakeProbeJob = null
         escalationProbeUntil.clear()
+        radioCycles = 0
+        lastRadioCycleAt = 0L
+        radioCycleJob?.cancel()
+        radioCycleJob = null
+        radioCycleQuietUntil.clear()
         // A mode change or a user exit is a fresh start, so the next start() serves handshakes
         // again rather than inheriting a backoff the user cannot see.
         resetHandshakeBackoff()

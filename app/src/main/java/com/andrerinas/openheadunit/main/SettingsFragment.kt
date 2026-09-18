@@ -32,6 +32,7 @@ import com.andrerinas.openheadunit.App
 import com.andrerinas.openheadunit.R
 import com.andrerinas.openheadunit.aap.AapService
 import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.CredentialField
+import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.NativeAaWakeDamagePolicy
 import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.zbt.ZbtProbe
 import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.zbt.ZbtDaemonReachability
 import com.andrerinas.openheadunit.input.MediaKeyRoutingPolicy
@@ -1395,6 +1396,41 @@ class SettingsFragment : Fragment() {
                     pendingNativeAaCompleteHfpSlc = isChecked
                     checkChanges()
                     updateSettingsList()
+                }
+            ))
+
+            // An action, not a switch: the wake's cost is a property of this unit's own Bluetooth
+            // stack, which is measured rather than asked. What a user can do is ask for the
+            // measurement again, which is the only way back for a unit condemned by one reading.
+            items.add(SettingItem.SettingEntry(
+                stableId = "nativeAaWakeRemeasure",
+                nameResId = R.string.native_aa_wake_remeasure,
+                value = getString(
+                    when (NativeAaWakeDamagePolicy.Verdict.of(settings.nativeAaWakeDamageVerdict)) {
+                        NativeAaWakeDamagePolicy.Verdict.UNKNOWN -> R.string.native_aa_wake_verdict_unmeasured
+                        NativeAaWakeDamagePolicy.Verdict.SAFE -> R.string.native_aa_wake_verdict_safe
+                        NativeAaWakeDamagePolicy.Verdict.DESTRUCTIVE -> R.string.native_aa_wake_verdict_destructive
+                    }
+                ),
+                searchKeywords = "bluetooth wake poke hands-free handsfree link reset measure again",
+                onClick = { _ ->
+                    MaterialAlertDialogBuilder(requireContext(), R.style.DarkAlertDialog)
+                        .setTitle(R.string.native_aa_wake_remeasure)
+                        .setMessage(R.string.native_aa_wake_remeasure_confirm)
+                        .setPositiveButton(android.R.string.ok) { _, _ ->
+                            settings.nativeAaWakeDamageVerdict = 0
+                            settings.nativeAaRadioCycleVerdict = 0
+                            settings.nativeAaWakeArmingsWithoutSession = 0
+                            ToastUtils.showToast(
+                                requireContext(),
+                                R.string.native_aa_wake_remeasure_done,
+                                Toast.LENGTH_LONG,
+                                force = true
+                            )
+                            updateSettingsList()
+                        }
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .show()
                 }
             ))
 
