@@ -807,6 +807,17 @@ class CommManager(
      * mechanism Google's own UiConfig comment names for a resolution change.
      */
     fun sendServiceDiscoveryUpdateForVideo(context: android.content.Context) {
+        val negotiated = _transport?.negotiatedVersion
+        // Control 26 postdates the 1.2 we announce by default, which is the likeliest reason a
+        // phone reads it and does nothing. Say so rather than sending into the dark.
+        if (com.andrerinas.openheadunit.aap.AapVersionPolicy.withholds16(negotiated)) {
+            AppLog.i(
+                "[GEOMETRY_PROBE] ServiceDiscoveryUpdate withheld: the phone selected " +
+                    "${negotiated?.let { "${it.major}.${it.minor}" } ?: "an unread version"}, " +
+                    "which is below the 1.6 message set"
+            )
+            return
+        }
         AppLog.i("[GEOMETRY_PROBE] TX ServiceDiscoveryUpdate for the video service")
         send(com.andrerinas.openheadunit.aap.protocol.messages.ServiceDiscoveryUpdate.forVideo(context))
     }

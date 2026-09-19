@@ -833,6 +833,14 @@ class Settings(private val context: Context) {
         get() = prefs.getInt(KEY_GEOMETRY_PROBE_MODE, 0)
         set(value) { prefs.edit().putInt(KEY_GEOMETRY_PROBE_MODE, value).apply() }
 
+    /**
+     * Announce AAP 1.6 instead of 1.2, so a round can ask whether the levers are version gated.
+     * Google's own constant is 1.6 and we have always asked for 1.2.
+     */
+    var geometryProbeAnnounce16: Boolean
+        get() = prefs.getBoolean(KEY_GEOMETRY_PROBE_ANNOUNCE_16, false)
+        set(value) { prefs.edit().putBoolean(KEY_GEOMETRY_PROBE_ANNOUNCE_16, value).apply() }
+
     /** Announce density and real_density as the two different numbers they are. */
     var geometryProbeRealDensity: Boolean
         get() = prefs.getBoolean(KEY_GEOMETRY_PROBE_REAL_DENSITY, false)
@@ -1713,6 +1721,7 @@ class Settings(private val context: Context) {
         private const val KEY_AUTO_START_ON_USB = "auto-start-on-usb"
         const val KEY_GEOMETRY_PROBE_MODE = "geometry-probe-mode"
         const val KEY_GEOMETRY_PROBE_REAL_DENSITY = "geometry-probe-real-density"
+        const val KEY_GEOMETRY_PROBE_ANNOUNCE_16 = "geometry-probe-announce-16"
         const val KEY_SCREEN_ORIENTATION = "screen-orientation"
         private const val KEY_LISTEN_FOR_USB_DEVICES = "listen-for-usb-devices"
         private const val KEY_AUTO_START_BT_MAC = "auto-start-bt-mac"

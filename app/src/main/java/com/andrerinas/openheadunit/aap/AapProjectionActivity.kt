@@ -2126,6 +2126,9 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
                 }
             }
             GeometryProbePolicy.UI_THEME -> commManager.sendUiThemeProbe(UI_THEME_DARK)
+            // isActive() is true for any non-zero mode, so a typo in the rig's setting used to
+            // lift the pin, drop the lock and send nothing while the log said it had fired.
+            else -> AppLog.i("[GEOMETRY_PROBE] mode=$mode has no lever wired; nothing was sent")
         }
     }
 
