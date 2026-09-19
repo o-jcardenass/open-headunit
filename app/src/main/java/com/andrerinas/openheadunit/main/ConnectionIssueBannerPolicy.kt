@@ -68,14 +68,16 @@ object ConnectionIssueBannerPolicy {
                 ConnectionIssue.WIFI_RADIO_OFF,
                 ConnectionIssue.FIVE_GHZ_CHANNEL_REFUSED,
                 ConnectionIssue.VIDEO_LINK_TOO_SLOW,
-                ConnectionIssue.HANDS_FREE_HELD_ELSEWHERE
+                ConnectionIssue.HANDS_FREE_HELD_ELSEWHERE,
+                ConnectionIssue.PHONE_HOLDS_STALE_ENDPOINT
             )
             NativeTransport.HOTSPOT -> setOf(
                 ConnectionIssue.BLUETOOTH_SENT_NO_DATA,
                 ConnectionIssue.HOTSPOT_CONFIG_UNREADABLE,
                 ConnectionIssue.HOTSPOT_NOT_RUNNING,
                 ConnectionIssue.VIDEO_LINK_TOO_SLOW,
-                ConnectionIssue.HANDS_FREE_HELD_ELSEWHERE
+                ConnectionIssue.HANDS_FREE_HELD_ELSEWHERE,
+                ConnectionIssue.PHONE_HOLDS_STALE_ENDPOINT
             )
         }
     }
@@ -108,6 +110,8 @@ object ConnectionIssueBannerPolicy {
      * either: its remedy is on the phone, and a handshake that completes disproves it.
      * `HANDS_FREE_HELD_ELSEWHERE` has none for the same shape of reason: the lever is the other
      * device, and the next wake pass that reads the link free retires it.
+     * `PHONE_HOLDS_STALE_ENDPOINT` has none either: the record lives on the phone, no setting here
+     * reaches it, and a dial this unit serves disproves it.
      *
      * @param hotspotSsid [com.andrerinas.openheadunit.utils.Settings.hotspotSsid]
      * @param hotspotPassword [com.andrerinas.openheadunit.utils.Settings.hotspotPassword] — needed

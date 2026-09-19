@@ -2144,6 +2144,11 @@ class Settings(private val context: Context) {
         get() = prefs.getLong("connection-issue-hands-free-held", 0L)
         set(value) = prefs.edit().putLong("connection-issue-hands-free-held", value).apply()
 
+    /** The phone kept dialling a TCP endpoint this unit no longer honours. */
+    var connectionIssueStaleEndpointAtEpochMs: Long
+        get() = prefs.getLong("connection-issue-stale-endpoint", 0L)
+        set(value) = prefs.edit().putLong("connection-issue-stale-endpoint", value).apply()
+
     /**
      * When the user last dismissed the failure banner.
      *

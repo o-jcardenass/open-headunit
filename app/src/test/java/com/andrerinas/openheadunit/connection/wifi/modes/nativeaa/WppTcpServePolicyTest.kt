@@ -57,6 +57,40 @@ class WppTcpServePolicyTest {
     }
 
     @Test
+    fun `every refusal is told to the phone while Bluetooth can take it instead`() {
+        for (identity in GroupIdentityStability.values()) {
+            for (port in listOf(null, 5299)) {
+                val decision = WppEndpointPolicy.decide(NativeStrategy.WIFI_DIRECT, port, identity)
+                if (WppTcpServePolicy.servesDial(decision)) continue
+                assertTrue(
+                    "$identity port=$port",
+                    WppTcpServePolicy.rejectsDial(decision, canRunRfcomm = true)
+                )
+            }
+        }
+    }
+
+    @Test
+    fun `a refusal is swallowed when there is no Bluetooth route to fall back to`() {
+        // Withdrawing the endpoint from a phone whose only way back is closed strands it: the
+        // stall it has is at least a stall it can retry out of.
+        val decision = WppEndpointPolicy.decide(
+            NativeStrategy.WIFI_DIRECT, 5299, GroupIdentityStability.CHANGED
+        )
+        assertFalse(WppTcpServePolicy.rejectsDial(decision, canRunRfcomm = false))
+    }
+
+    @Test
+    fun `a dial we serve is never rejected, whatever the Bluetooth listeners are doing`() {
+        val decision = WppEndpointPolicy.decide(
+            NativeStrategy.HOTSPOT, 5299, GroupIdentityStability.NOT_MEASURED
+        )
+        assertTrue(WppTcpServePolicy.servesDial(decision))
+        assertFalse(WppTcpServePolicy.rejectsDial(decision, canRunRfcomm = true))
+        assertFalse(WppTcpServePolicy.rejectsDial(decision, canRunRfcomm = false))
+    }
+
+    @Test
     fun `a server that is not listening is not served either`() {
         val decision = WppEndpointPolicy.decide(NativeStrategy.HOTSPOT, null, GroupIdentityStability.STABLE)
         assertFalse(WppTcpServePolicy.servesDial(decision))

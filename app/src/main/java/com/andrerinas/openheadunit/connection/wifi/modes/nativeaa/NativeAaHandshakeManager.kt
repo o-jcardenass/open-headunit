@@ -3004,7 +3004,14 @@ class NativeAaHandshakeManager(
                 WppMessageType.VERSION_RESPONSE -> {
                     val v = Wireless.WifiVersionResponse.parseFrom(msg.payload)
                     val device = if (v.hasDeviceInfo()) {
-                        " device=${v.deviceInfo.deviceId} lifetime=${v.deviceInfo.connectivityLifetimeId}"
+                        // Fields 3 and 4 are two strings the phone declares and nothing here knows
+                        // the meaning of. Printed only when present, so a capture can name them.
+                        val extra = listOfNotNull(
+                            v.deviceInfo.unknownString3.takeIf { v.deviceInfo.hasUnknownString3() && it.isNotEmpty() },
+                            v.deviceInfo.unknownString4.takeIf { v.deviceInfo.hasUnknownString4() && it.isNotEmpty() },
+                        ).joinToString(" ") { "unknown=$it" }
+                        " device=${v.deviceInfo.deviceId} lifetime=${v.deviceInfo.connectivityLifetimeId}" +
+                            if (extra.isNotEmpty()) " $extra" else ""
                     } else ""
                     // The phone's own answer to which band it wants (2.4-only / 5-only / dual). The
                     // one place it says so, and the only check on a channel we cannot read back.
@@ -3019,6 +3026,10 @@ class NativeAaHandshakeManager(
                     AppLog.i("NativeAA: [RX] WifiConnectStatus status=${WppStatus.describe(if (s.hasStatus()) s.status else null)}$hint (SUCCESS = the phone got onto our network)")
                     ConnectionStageTracker.report(ConnectionStage.PHONE_JOINING)
                 }
+                // Ours to send and never to receive: the phone's own dispatcher answers one of
+                // these with an exception rather than a reply. Named so a capture says so.
+                WppMessageType.CONNECTION_REJECTION ->
+                    AppLog.w("NativeAA: [RX] WifiConnectionRejection, which the phone should never send")
                 WppMessageType.START_RESPONSE -> {
                     val r = Wireless.WifiStartResponse.parseFrom(msg.payload)
                     val port = if (r.hasPort()) ":${r.port}" else ""
@@ -3087,6 +3098,10 @@ class NativeAaHandshakeManager(
                 this@NativeAaHandshakeManager.credentials?.identity ?: GroupIdentityStability.UNPROVEN
 
             override fun carInfo(): Wireless.WppCarInfo = this@NativeAaHandshakeManager.carInfo()
+
+            // isActive(), not isStarted(): the question is whether a phone sent back to Bluetooth
+            // right now would find the listeners open, not whether they were ever brought up.
+            override fun canRunRfcomm(): Boolean = isActive()
 
             override fun projectionSessionUp(): Boolean = commManager.isConnected
 

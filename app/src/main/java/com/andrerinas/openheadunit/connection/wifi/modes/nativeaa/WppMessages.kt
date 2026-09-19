@@ -94,6 +94,19 @@ object WppMessages {
             .setHeadUnitSoftwareVersion(SOFTWARE_VERSION)
             .build()
 
+    /**
+     * Type 10, refusing a dial and withdrawing the endpoint behind it.
+     *
+     * The reason is fixed and there is no parameter, because only two values are sendable at all:
+     * the phone throws on UNKNOWN whatever the transport, and on either reason over RFCOMM. This
+     * one says the setup the phone is dialling with is no longer valid, which is what a stale
+     * endpoint is.
+     */
+    fun connectionRejection(): Wireless.WifiConnectionRejection =
+        Wireless.WifiConnectionRejection.newBuilder()
+            .setReason(Wireless.ConnectionRejectionReason.CONNECTION_REJECTION_REASON_INVALID_SETUP_TOKEN)
+            .build()
+
     /** Type 1. Where to open the projection session once the phone is on our network. */
     fun startRequest(ip: String, port: Int): Wireless.WifiStartRequest =
         Wireless.WifiStartRequest.newBuilder()

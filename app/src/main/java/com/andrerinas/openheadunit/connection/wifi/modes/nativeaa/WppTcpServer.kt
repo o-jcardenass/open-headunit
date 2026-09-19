@@ -7,6 +7,8 @@ import com.andrerinas.openheadunit.aap.protocol.proto.Wireless
 import com.andrerinas.openheadunit.connection.wifi.direct.WifiBandCapability
 import com.andrerinas.openheadunit.ssl.SslContextFactory
 import com.andrerinas.openheadunit.utils.AppLog
+import com.andrerinas.openheadunit.utils.ConnectionIssue
+import com.andrerinas.openheadunit.utils.ConnectionIssues
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -58,6 +60,12 @@ class WppTcpServer(
 
         /** Our identity, built once by the owner so both transports announce the same thing. */
         fun carInfo(): Wireless.WppCarInfo
+
+        /**
+         * Whether the Bluetooth handshake could take this phone instead, right now. A dial is only
+         * turned away with a rejection where there is a route left for the phone to fall back to.
+         */
+        fun canRunRfcomm(): Boolean
 
         /** True once the projection session has landed, which ends the handshake. */
         fun projectionSessionUp(): Boolean
@@ -147,16 +155,8 @@ class WppTcpServer(
                         break
                     }
                     AppLog.i("WppTcpServer: connection from ${socket.inetAddress?.hostAddress}")
-                    // A phone dialling an endpoint from an earlier session, on a unit we have since
-                    // judged unsafe to be remembered by. Serving it hands out a name the next create
-                    // replaces, which it then retries instead of falling back to Bluetooth - fifteen
-                    // minutes of it, measured. See [WppTcpServePolicy].
-                    val decision = WppEndpointPolicy.decide(callbacks.strategy(), listeningPort, callbacks.identity())
-                    if (!WppTcpServePolicy.servesDial(decision)) {
-                        AppLog.w("WppTcpServer: not serving this dial: ${WppTcpServePolicy.refusalReason(decision)}")
-                        try { socket.close() } catch (_: Exception) {}
-                        continue
-                    }
+                    // Whether this dial is served is decided inside the session rather than here:
+                    // turning one away means telling the phone so, and that needs TLS up first.
                     scope.launch(Dispatchers.IO + CoroutineName("WppTcp-Session")) {
                         handleConnection(socket, factory)
                     }
@@ -201,6 +201,19 @@ class WppTcpServer(
                     "(${tls.session?.protocol}, ${tls.session?.cipherSuite})"
             )
 
+            // A phone dialling an endpoint from an earlier session, on a unit we have since judged
+            // unsafe to be remembered by. Serving it hands out a name the next create replaces,
+            // which it then retries instead of falling back to Bluetooth - fifteen minutes of it,
+            // measured. See [WppTcpServePolicy].
+            val decision = WppEndpointPolicy.decide(callbacks.strategy(), listeningPort, callbacks.identity())
+            if (!WppTcpServePolicy.servesDial(decision)) {
+                refuse(tls, decision)
+                return@withContext
+            }
+            // A dial we serve is a phone whose stored endpoint is this one, so whatever it held
+            // before is no longer the reason anything is failing.
+            ConnectionIssues.clear(context, ConnectionIssue.PHONE_HOLDS_STALE_ENDPOINT)
+
             val input = DataInputStream(tls.inputStream)
             val output = tls.outputStream
 
@@ -225,6 +238,29 @@ class WppTcpServer(
             try { (socket ?: raw).close() } catch (_: Exception) {}
             AppLog.i("WppTcpServer: session closed")
         }
+    }
+
+    /**
+     * Turns a dial away, and withdraws the endpoint that brought it here where that is safe.
+     *
+     * A bare close reads to the phone as a connect failure, which it retries against the same dead
+     * endpoint for as long as Android Auto runs. The rejection is the only thing that ends that,
+     * and it needs a Bluetooth route to send the phone back to.
+     */
+    private fun refuse(socket: SSLSocket, decision: WppEndpointDecision) {
+        val reason = WppTcpServePolicy.refusalReason(decision)
+        // Once, not per dial: the phone re-dials on its own backoff and a moving stamp would
+        // overtake the user's dismissal every time.
+        ConnectionIssues.raiseOnce(context, ConnectionIssue.PHONE_HOLDS_STALE_ENDPOINT)
+        if (!WppTcpServePolicy.rejectsDial(decision, callbacks.canRunRfcomm())) {
+            AppLog.w(
+                "WppTcpServer: not serving this dial, and not withdrawing the endpoint because the " +
+                    "Bluetooth listeners are not open for the phone to fall back to: $reason"
+            )
+            return
+        }
+        AppLog.w("WppTcpServer: rejecting this dial so the phone drops our endpoint and goes back to Bluetooth: $reason")
+        send(socket.outputStream, WppMessages.connectionRejection().toByteArray(), WppMessageType.CONNECTION_REJECTION)
     }
 
     /**

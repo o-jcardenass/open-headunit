@@ -71,8 +71,8 @@ class WppMessagesTest {
 
     @Test
     fun `no body type is announced, on any model name`() {
-        // Field 9 is not in the schema the phone parses, so a varint there lands either in unknown
-        // fields or on a field of another meaning. It stays declared for reading captures only.
+        // Field 9 is a real int32 in the schema the phone parses, but nothing recovers what it
+        // carries, so it stays declared for reading captures and unset on the wire.
         fun carInfoFor(model: String) = WppMessages.carInfo(
             "Open", model, "2026", "id", "OHU", "Revived"
         )
@@ -126,6 +126,45 @@ class WppMessagesTest {
         assertTrue(parsed.hasCarInfo())
         assertEquals(WppHandshakeSession.WPP_VERSION_MAJOR, parsed.major)
         assertEquals(WppHandshakeSession.WPP_VERSION_MINOR, parsed.minor)
+    }
+
+    @Test
+    fun `the rejection carries the one reason the phone acts on, and nothing else`() {
+        // The phone verifies this field against {0,1,2} and throws on anything else, including its
+        // own UNKNOWN. Only this value withdraws the endpoint instead of crashing its dispatcher.
+        val parsed = Wireless.WifiConnectionRejection.parseFrom(
+            WppMessages.connectionRejection().toByteArray()
+        )
+        assertTrue(parsed.hasReason())
+        assertEquals(
+            Wireless.ConnectionRejectionReason.CONNECTION_REJECTION_REASON_INVALID_SETUP_TOKEN,
+            parsed.reason
+        )
+        assertEquals(1, parsed.allFields.size)
+    }
+
+    @Test
+    fun `the rejection's reason is the number the phone reads, not its ordinal position`() {
+        // 2 on the wire. A wrong number fails the phone's verifier and lands on UNKNOWN, which
+        // throws inside its dispatcher whatever the transport.
+        assertEquals(
+            2,
+            Wireless.ConnectionRejectionReason.CONNECTION_REJECTION_REASON_INVALID_SETUP_TOKEN.number
+        )
+        assertEquals(
+            1,
+            Wireless.ConnectionRejectionReason.CONNECTION_REJECTION_REASON_MOBILE_DEVICE_ID_NOT_FOUND.number
+        )
+        assertEquals(
+            0,
+            Wireless.ConnectionRejectionReason.CONNECTION_REJECTION_REASON_UNKNOWN.number
+        )
+    }
+
+    @Test
+    fun `the rejection is type 10 and the setup info is type 11`() {
+        assertEquals(10, WppMessageType.CONNECTION_REJECTION)
+        assertEquals(11, WppMessageType.SETUP_INFO)
     }
 
     @Test
