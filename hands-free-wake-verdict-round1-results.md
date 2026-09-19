@@ -3,8 +3,9 @@
 **Candidate:** `fix/992-hands-free-wake` @ `945e1b20`       **Baseline:** none (per brief; every
 graded condition is decided on the candidate alone via settings)
 **APK md5:** `353861f8a54e26baf77ffd75eba2a14f`
-**Unit:** D-HU (UNISOC MT50, Android 14 / SDK 34, single BT radio) as the head unit; D-POCO
-(POCO X3 NFC, Gearhead 17.5) as the phone
+**Unit:** D-HU (UNISOC MT50, Android 14 / SDK 34, single BT radio) as the head unit for V1-V4;
+D-POCO (POCO X3 NFC, Gearhead 17.5) as the phone throughout; D-SAM/D-T230 (Samsung SM-T230,
+Android 4.4.2 / API 19, Dalvik) as the head unit for V5, added to the rig partway through the round
 **Date:** 2026-09-19
 
 ## Setup notes
@@ -147,9 +148,45 @@ the brief, not scrolled to search further; no screenshot taken.
 
 ## V5 — the API 31 listener resolves on an old Android
 
-**UNTESTABLE.** No D-SAM/D-T230 was connected to the machine running this round. The optional
-baseline arm's APK (`candidate-665332d8.apk`, md5 `28455e33b31ede223e76b84fc0a016d4`) was confirmed
-present and matching the brief's stated md5, but the run itself never happened.
+**Addendum: D-SAM/D-T230 was connected partway through this round** (not available for the R0-V4
+work above) and V5 was run against it, including its optional baseline arm.
+
+**INCONCLUSIVE — the check itself cannot discriminate on this unit, both ways cited below.**
+
+- Candidate (`945e1b20`, md5 `353861f8a54e26baf77ffd75eba2a14f`) installed and launched; auto-connect
+  to D-POCO was attempted (`NativeAA: Attempting manual poke to POCO X3 NFC...`) but never answered
+  (`MainActivity: Auto-connect: nothing answered this attempt (mode=PILL_THEN_OVERLAY), ending it`,
+  ~50s after the poke). D-POCO's `HeadsetService.mActiveDevice` was still latched to D-HU's address
+  throughout (checked via `dumpsys bluetooth_manager`) — D-POCO was bonded/paired with D-HU from
+  V1-V4 earlier in this same round, which is the likely reason Gearhead never woke for D-SAM's poke.
+  This is a rig pairing-contention artifact of running both head units against the same phone in one
+  round, not a candidate defect.
+- **`grep -c "OnModeChangedListener"` on the candidate capture: 4**, not the brief's expected 0.
+  All four are Dalvik verifier lines at app startup (`21:27:31`, one verification pass):
+  `Failed resolving ...ExternalSyntheticLambda11; interface ... 'AudioManager$OnModeChangedListener'`
+  and `Could not find class 'android.media.AudioManager$OnModeChangedListener', referenced from
+  method ...AapProjectionActivity.unregisterAudioModeListener`. **No `NoClassDefFoundError` and no
+  `FATAL EXCEPTION` anywhere in the capture**; the app process (pid 3855) kept running normally for
+  5+ minutes afterward.
+- **The baseline arm (`candidate-665332d8.apk`, md5 `28455e33b31ede223e76b84fc0a016d4`) was run on
+  the same device immediately after, same launch, and produced the identical result**:
+  `grep -c "OnModeChangedListener"` = **4**, same lines, same single verification pass at startup,
+  also **no crash**. The same class also throws identical Dalvik VFY chatter for two entirely
+  unrelated newer-API symbols in the same file
+  (`android.app.PictureInPictureParams$Builder` from `enterPiP`, and `AapProjectionActivity.getDisplay`
+  from `applyVirtualDisplayFix`) on **both** builds, which is not something either commit in this
+  candidate touches.
+- **Reading:** on this unit's Dalvik runtime (unlike the field reporter's Android 8/API 27, which is
+  ART), referencing `AudioManager.OnModeChangedListener` anywhere in a class produces the same lazy
+  verifier chatter whether the field's own declared type is fixed or not, and neither produces a
+  crash here. The brief's literal grep threshold (0 = PASS, any hit = FAIL) is not a valid
+  discriminator on this specific hardware: baseline and candidate are indistinguishable by it. The
+  defect itself is still evidenced independently on the field reporter's real API 27/ART device
+  (cited in the brief), and nothing here contradicts that — this unit simply cannot reproduce the
+  crash either way, so it cannot confirm or refute the fix.
+- Captures for both arms are in the `v5-captures.zip` addendum uploaded to the same release asset,
+  sha256 `b2b21573a7c2b6edd04f4371336725e2781944d1cae84c0e88112975b446efd7`.
+- D-SAM left on the candidate build (`945e1b20`) at the end of this addendum.
 
 ## Report back (§8 numbers)
 
@@ -159,7 +196,9 @@ present and matching the brief's stated md5, but the run itself never happened.
 3. **L7** count across the round = **1**. Gap: 90.132s after the first L4 in arming B, 91.183s
    after the arming's own L1/L2 line.
 4. **L11** count across the round = **0**, alongside D-HU `ro.build.version.sdk` = **34**.
-5. V5: not run (UNTESTABLE, no device). No `OnModeChangedListener` count to report.
+5. V5's `OnModeChangedListener` count: **4 on the candidate, 4 on the baseline** (identical Dalvik
+   VFY chatter, no crash on either) — see the V5 addendum for why this doesn't discriminate the fix
+   on this unit.
 
 Verdict values left in `settings.xml` at end of round: restored to the pre-round backup, in which
 both `native-aa-wake-damage-verdict` and `native-aa-wake-armings-without-session` are absent
