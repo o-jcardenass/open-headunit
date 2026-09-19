@@ -60,6 +60,7 @@ were reported under another filename, and are listed so the pairing rule does no
 - `link-stall-periodic-scan-round4-brief.md` (2.4 GHz plus constrained memory; round 5 ran first and PASSed)
 - `video-dropped-frame-keyframe-round7-brief.md` (R1 is a desk check, R2 optional)
 - `projection-raise-round5-brief.md`
+- `wpp-endpoint-depoison-round1-brief.md` (R1 poisons the phone on purpose and R2 is the measurement; record the phone's Gearhead version)
 
 Superseded, do not run: `hands-free-wake-and-proto-schema-round1-brief.md` is reported and is
 replaced by `hands-free-wake-round2-brief.md`; its proto, serve-path and control runs are DONE and
@@ -91,6 +92,7 @@ by `bssid-round1-results.md` and its addendum.
 
 | Thread | State | Next |
 |---|---|---|
+| `wpp-endpoint-depoison` | **QUEUED, round 1** | `wpp-endpoint-depoison-round1-brief.md`, candidate `020c6904`, 2170 tests. A refused WPP TCP dial is answered with a `ConnectionRejection` (type 10, `INVALID_SETUP_TOKEN`) instead of a bare close, which the phone reads as a retryable connect failure and re-dials forever. Whether the rejection actually clears the phone's stored endpoint is the open question: read on Gearhead 17.5, not reproduced on 17.8, never seen on hardware. R1 poisons the phone deliberately, R2 measures the repair, R3 is the served-dial regression and R4 the guard that stops a rejection stranding a phone whose Bluetooth route is shut. |
 | `rotation-geometry` | **DONE, round 3** | `rotation-geometry-round3-results.md`, `c4186efd`, D-POCO. **Closes the thread's central question**: C1r/C2r fired mode 2 and mode 5 with zero rotation, isolation confirmed (`canvas is already 2400x1080; nothing to adopt`), and both dropped within 6-9ms of the probe's own TX with AA's first-party `Critical error` lines (`Multiple media configs received` / `UpdateUiConfigRequest must not specify an updated UiTheme`) — the rotation was never the cause, the message alone is refused. A1r/B2r found the withhold logic untestable on this phone: it selects AAP 1.7 regardless of what we announce (1.2 or 1.6), so `ServiceDiscoveryUpdate` always sends and always produces the same squeeze, never a reflow. B1r: announcing 1.6 is safe (5min clean). Part A `65e91b568` is finished and measured but **not shipped**: no PR is open, and it is the only fix this thread produces. |
 | `self-mode-media-session` | **DONE, round 2** | `self-mode-media-session-round2-results.md`, `d5d463d5` no blocking FAIL: R0/A3/B2/A2/B1/C1/C2/C3/D1 PASS, A1/A1c/C4 INCONCLUSIVE (rig/environment limits, not the branch). C3 (wireless recovers after a failed Self Mode launch) is the headline finding. PR-ready. |
 | `auto-start-loading-screen` | **DONE** | `auto-start-loading-screen-round2-results.md`, candidate `8a1968a3e`. V1 PASS both arms: unqualified projection pill inside the window (arm 1), suppressed-tag pill and no pill in any frame (arm 2), log and recording both confirm. V2 PASS both arms (`mode=OVERLAY`/`mode=PILL`). No FAIL. PR-ready. Found an `am start --es "val with space"` quoting bug and a fresh-install-key restore erratum, both in Setup notes. |
