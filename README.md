@@ -8,6 +8,10 @@ It is `transfer/rig-rounds`. Until 2026-09-10 it was named after the round it wa
 `transfer/hotspot-unreadable-config-results-20260807`; links into that name are dead, so cite files
 here by path.
 
+**The branch was rewritten on 2026-09-18** to move the captures out to release assets. If your
+checkout predates that, or a transfer SHA you hold no longer resolves, read `REPOINT-20260918.md`
+once: it carries the reset commands and what changed. Otherwise you do not need it.
+
 ## Read this, in this order, and stop there
 
 1. **`TESTING-TEMPLATE.md`**, the standing method. Read it once: capture rules, how to read and
