@@ -1309,8 +1309,9 @@ after it had already contaminated a run.
   `STATUS_WIFI_NETWORK_UNAVAILABLE`. The phone joins on name **and** address, so an announced BSSID
   the group does not carry is a network it can never find. The one line that names it is
   `onGroupInfoAvailable: ... (source=static override)`, and the source dump above it carries the
-  group's real address. From `fcee3ea2` the two settings are separate (`static-p2p-bssid` for the
-  group), so on that build and later the hotspot's value no longer reaches a group at all.
+  group's real address. From `8b3e15f3` the two settings are separate (`static-p2p-bssid` for the
+  group) and a hand-typed address answers only where no rung read one, so on that build and later
+  the hotspot's value cannot reach a group over an address the hardware reported.
 - **`WifiVersionResponse ... status=NO_SUPPORTED_WIFI_CHANNELS(-8)` is inert.** It appears on the
   phone's channel-negotiation reply on sessions that go on to connect, nothing in the head unit
   branches on it, and a version rejection would be `-1`. Do not spend a run on it.
