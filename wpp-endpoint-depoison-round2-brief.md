@@ -1,10 +1,10 @@
 # wpp-endpoint-depoison, round 2 brief: the measurement round 1 could not reach
 
-**Build:** `fork/fix/wpp-endpoint-depoison` @ `ffca5a1f`, **three** commits on `80a81099` (current `main`).
+**Build:** `fork/fix/wpp-endpoint-depoison` @ `8b3e15f3`, **three** commits on `80a81099` (current `main`).
 
 ```bash
 git fetch fork
-git rev-parse fork/fix/wpp-endpoint-depoison    # ffca5a1f...
+git rev-parse fork/fix/wpp-endpoint-depoison    # 8b3e15f3...
 git rev-parse 80a81099                          # the base
 ```
 
@@ -12,7 +12,7 @@ git rev-parse 80a81099                          # the base
 |---|---|
 | `6da23cf0` | `wireless.proto` models the rejection, the real setup info and the access point, regenerated with protoc 25.1 |
 | `020c6904` | A WPP TCP dial we refuse is answered with a rejection instead of a bare close |
-| `ffca5a1f` | WiFi Direct gets its own static BSSID setting, separate from the access point's |
+| `8b3e15f3` | WiFi Direct gets its own static BSSID setting, separate from the access point's |
 
 ---
 
@@ -53,7 +53,7 @@ GH.WIRELESS.SETUP: State changed to ABORTED_WIFI             23:55:41.647
 
 That is the whole failure, it was deterministic, and `TESTING-TEMPLATE.md` §7a already warns about
 it. There is no radio regression: D-POCO joined this unit's group cleanly on the afternoon of the
-same day. `ffca5a1f` separates the two settings so the collision cannot recur, and **R6 grades it**.
+same day. `8b3e15f3` separates the two settings so the collision cannot recur, and **R6 grades it**.
 
 **Round 1's R2 could not have produced the measurement even with a working radio.** A dial is
 refused only when `WppEndpointPolicy.decide` returns `Withhold`, which needs
@@ -79,7 +79,7 @@ will never advertise it, which is correct and is not to be worked around.
 - **Record the phone's Gearhead version, exactly**, before the round and in the results:
   `adb shell dumpsys package com.google.android.projection.gearhead | grep versionName`. The clear
   was read on 17.5 and not reproduced on 17.8. Round 1 ran `17.8.163804-release.daily`.
-- **`static-bssid` stays set this round, deliberately.** With `ffca5a1f` in the build it must no
+- **`static-bssid` stays set this round, deliberately.** With `8b3e15f3` in the build it must no
   longer reach the group, and leaving it set is what proves that. This is R6.
 - **A refused dial completes TLS before it is refused**, because telling the phone anything requires
   a channel. `TLS handshake complete with <ip>` on a refused dial is expected, not a regression.
@@ -137,7 +137,7 @@ must start from neither.
 
 ## 4. The lines that decide every run
 
-Head unit side, verified with `grep -F` against `ffca5a1f`.
+Head unit side, verified with `grep -F` against `8b3e15f3`.
 
 **The endpoint went out (R1):**
 ```
@@ -193,14 +193,14 @@ it with its reason, and quote the ten lines after it whatever they say.
 
 ### R0: build gate
 
-`run_unit_tests.sh` on the coding host. Counts at `ffca5a1f`:
+`run_unit_tests.sh` on the coding host. Counts at `8b3e15f3`:
 
-- `P2pBssidSourcePolicyTest` **5**, new with this commit
+- `P2pBssidSourcePolicyTest` **7**, new with this commit, and `SoftApBssidPolicyTest` **20** (was 17)
 - `WppMessagesTest` 17, `WppTcpServePolicyTest` 9, `WppEndpointPolicyTest` 10,
-  `WppHandshakeSessionTest` 30, `SoftApBssidPolicyTest` 17, all unchanged
-- whole suite **2175 / 0**, up from 2170 by exactly the five new cases
+  `WppHandshakeSessionTest` 30, all unchanged
+- whole suite **2180 / 0**, up from 2170 by the ten new cases
 
-Cleared on the coding host at `ffca5a1f`: `compileGithubDebugKotlin` clean, 2175 tests, 0 failures,
+Cleared on the coding host at `8b3e15f3`: `compileGithubDebugKotlin` clean, 2180 tests, 0 failures,
 JDK 17.
 
 ### R1: poison the phone deliberately
@@ -289,15 +289,22 @@ After R2, on the head unit's main screen.
 Graded on the bring-ups R2 already needs, with `static-bssid` still set to the access point's
 address per §3.
 
+The address ranking changed with this commit, so the labels to grep for changed too. A hand-typed
+address is now applied only where every rung came back empty, on both transports, and
+`source=static override` can no longer be printed at all.
+
 - **PASS**: every `onGroupInfoAvailable` line in the WiFi Direct window names a detected source
-  (`IPv6 link-local`, `getGroupOwnerBssid()`, `sysfs / ip link`), **never** `static override` and
-  never `access point setting (stand-in)`; the `group identity` line no longer reads
-  `stable=yes (the static BSSID setting fixes the address the phone is told)`; and the address it
-  names matches the `IPv6 link-local (<iface>)` row of the same capture's source dump.
+  (`IPv6 link-local`, `getGroupOwnerBssid()`, `sysfs / ip link`), and **neither**
+  `WiFi Direct setting` nor `access point setting (stand-in)`; the `group identity` line no longer
+  reads `stable=yes (the static BSSID setting fixes the address the phone is told)`; and the address
+  it names matches the `IPv6 link-local (<iface>)` row of the same capture's source dump.
 - Also report whether the phone associates to the group at all on this build. Round 1 could not, and
   this is the run that says whether that is now repaired.
-- **FAIL**: `source=static override` on a WiFi Direct group, or an announced address that does not
-  match any detected row in the dump.
+- **FAIL**: `source=access point setting (stand-in)` while the dump shows a usable detected address,
+  or an announced address that matches no detected row in the dump.
+- The `BSSID source dump` block now names both settings separately
+  (`WiFi Direct override (Settings)`, `access point override (Settings)`). Quote it once per run:
+  it is the one block that says what every rung answered.
 
 ---
 
