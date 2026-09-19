@@ -1303,6 +1303,17 @@ after it had already contaminated a run.
   the hotspot's own static BSSID and read `identity stable=yes`, which is a false reading and voids
   anything graded on it. Clear all four (`""`, `""`, `"0"`, `""`) and read them back. Caught in
   `wpp-over-tcp` round 4 and again in `audio-sink-jitter` round 6, on a different thread's brief.
+  **Its signature is a phone that cannot join at all**, and `wpp-endpoint-depoison` round 1 lost two
+  runs to it while reading it as a radio fault: head unit `groupFormed: true isGroupOwner: true`,
+  phone `groupFormed: false`, `CONNECTING_WIFI` then `ABORTED_WIFI` about 36 s later with
+  `STATUS_WIFI_NETWORK_UNAVAILABLE`. The phone joins on name **and** address, so an announced BSSID
+  the group does not carry is a network it can never find. The one line that names it is
+  `onGroupInfoAvailable: ... (source=static override)`, and the source dump above it carries the
+  group's real address. From `fcee3ea2` the two settings are separate (`static-p2p-bssid` for the
+  group), so on that build and later the hotspot's value no longer reaches a group at all.
+- **`WifiVersionResponse ... status=NO_SUPPORTED_WIFI_CHANNELS(-8)` is inert.** It appears on the
+  phone's channel-negotiation reply on sessions that go on to connect, nothing in the head unit
+  branches on it, and a version rejection would be `-1`. Do not spend a run on it.
 - **D-POCO's `dumpsys wifip2p` reads `P2pDisabledState` for minutes after a rapid WiFi bounce while
   the radio is fine.** Seen twice in `audio-sink-jitter` round 6 after `svc wifi disable`/`enable`
   cycling, with station WiFi itself reading `Wi-Fi is enabled` and a real P2P join completing
