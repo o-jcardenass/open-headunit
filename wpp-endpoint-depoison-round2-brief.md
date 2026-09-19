@@ -1,10 +1,10 @@
 # wpp-endpoint-depoison, round 2 brief: the measurement round 1 could not reach
 
-**Build:** `fork/fix/wpp-endpoint-depoison` @ `fcee3ea2`, **three** commits on `80a81099` (current `main`).
+**Build:** `fork/fix/wpp-endpoint-depoison` @ `999398d2`, **three** commits on `80a81099` (current `main`).
 
 ```bash
 git fetch fork
-git rev-parse fork/fix/wpp-endpoint-depoison    # fcee3ea2...
+git rev-parse fork/fix/wpp-endpoint-depoison    # 999398d2...
 git rev-parse 80a81099                          # the base
 ```
 
@@ -12,7 +12,7 @@ git rev-parse 80a81099                          # the base
 |---|---|
 | `6da23cf0` | `wireless.proto` models the rejection, the real setup info and the access point, regenerated with protoc 25.1 |
 | `020c6904` | A WPP TCP dial we refuse is answered with a rejection instead of a bare close |
-| `fcee3ea2` | WiFi Direct gets its own static BSSID setting, separate from the access point's |
+| `999398d2` | WiFi Direct gets its own static BSSID setting, separate from the access point's |
 
 ---
 
@@ -53,7 +53,7 @@ GH.WIRELESS.SETUP: State changed to ABORTED_WIFI             23:55:41.647
 
 That is the whole failure, it was deterministic, and `TESTING-TEMPLATE.md` §7a already warns about
 it. There is no radio regression: D-POCO joined this unit's group cleanly on the afternoon of the
-same day. `fcee3ea2` separates the two settings so the collision cannot recur, and **R6 grades it**.
+same day. `999398d2` separates the two settings so the collision cannot recur, and **R6 grades it**.
 
 **Round 1's R2 could not have produced the measurement even with a working radio.** A dial is
 refused only when `WppEndpointPolicy.decide` returns `Withhold`, which needs
@@ -79,7 +79,7 @@ will never advertise it, which is correct and is not to be worked around.
 - **Record the phone's Gearhead version, exactly**, before the round and in the results:
   `adb shell dumpsys package com.google.android.projection.gearhead | grep versionName`. The clear
   was read on 17.5 and not reproduced on 17.8. Round 1 ran `17.8.163804-release.daily`.
-- **`static-bssid` stays set this round, deliberately.** With `fcee3ea2` in the build it must no
+- **`static-bssid` stays set this round, deliberately.** With `999398d2` in the build it must no
   longer reach the group, and leaving it set is what proves that. This is R6.
 - **A refused dial completes TLS before it is refused**, because telling the phone anything requires
   a channel. `TLS handshake complete with <ip>` on a refused dial is expected, not a regression.
@@ -137,7 +137,7 @@ must start from neither.
 
 ## 4. The lines that decide every run
 
-Head unit side, verified with `grep -F` against `fcee3ea2`.
+Head unit side, verified with `grep -F` against `999398d2`.
 
 **The endpoint went out (R1):**
 ```
@@ -193,14 +193,14 @@ it with its reason, and quote the ten lines after it whatever they say.
 
 ### R0: build gate
 
-`run_unit_tests.sh` on the coding host. Counts at `fcee3ea2`:
+`run_unit_tests.sh` on the coding host. Counts at `999398d2`:
 
 - `P2pBssidSourcePolicyTest` **5**, new with this commit
 - `WppMessagesTest` 17, `WppTcpServePolicyTest` 9, `WppEndpointPolicyTest` 10,
   `WppHandshakeSessionTest` 30, `SoftApBssidPolicyTest` 17, all unchanged
 - whole suite **2175 / 0**, up from 2170 by exactly the five new cases
 
-Cleared on the coding host at `fcee3ea2`: `compileGithubDebugKotlin` clean, 2175 tests, 0 failures,
+Cleared on the coding host at `999398d2`: `compileGithubDebugKotlin` clean, 2175 tests, 0 failures,
 JDK 17.
 
 ### R1: poison the phone deliberately
