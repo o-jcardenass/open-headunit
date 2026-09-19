@@ -906,7 +906,10 @@ class AapTransport(
             }
 
             AppLog.d("Handshake: Starting version request. TS: ${SystemClock.elapsedRealtime()}")
-            val version = Messages.versionRequest
+            val announcedMinor =
+                if (settings.geometryProbeAnnounce16) AapVersionNegotiation.FEATURE_MINOR_1_6
+                else AapVersionNegotiation.ANNOUNCED_MINOR
+            val version = Messages.versionRequest(announcedMinor)
             var ret = -1
             var attempt = 0
             var received = false
@@ -958,8 +961,14 @@ class AapTransport(
                             AppLog.i("Handshake: Version response received: the phone selected " +
                                     "${negotiated.major}.${negotiated.minor} " +
                                     "(we asked for ${AapVersionNegotiation.ANNOUNCED_MAJOR}." +
-                                    "${AapVersionNegotiation.ANNOUNCED_MINOR}), " +
-                                    "status ${negotiated.statusName}")
+                                    "$announcedMinor), " +
+                                    "status ${negotiated.statusName}, " +
+                                    "1.6 message set ${if (negotiated.supports16) "available" else "withheld"}")
+                            if (AapVersionPolicy.refusesHandshake(negotiated.status)) {
+                                AppLog.e("Handshake: the phone has no version in common with us " +
+                                        "(${negotiated.statusName}). Not starting SSL.")
+                                return false
+                            }
                             negotiated.requestedConfig?.let {
                                 AppLog.i("Handshake: the phone asks for ping timeout " +
                                         "${it.pingConfiguration.timeoutMs}ms, read timeout " +

@@ -57,6 +57,7 @@ object SettingsBackupManager {
         "bt-address" to ValueType.STRING,
         "geometry-probe-mode" to ValueType.INT,
         "geometry-probe-real-density" to ValueType.BOOLEAN,
+        "geometry-probe-announce-16" to ValueType.BOOLEAN,
         "resolutionId" to ValueType.INT,
         "video-fit-mode" to ValueType.INT,
         // Older backups carry the boolean this replaced. parseImportJson drops keys it does
