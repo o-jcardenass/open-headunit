@@ -1348,6 +1348,16 @@ after it had already contaminated a run.
   group-ssid` / `wifi-direct-last-group-bssid` / `wifi-direct-group-passphrase` keys, and D-HU's
   OS-level saved P2P groups (`cmd wifip2p init`, `list-saved-groups`, `delete-saved-group <id>` for
   each) first. `projection-raise` round 4 lost two W3r captures to this before finding it.
+- **D-HU's WiFi HAL cannot hold a SoftAP and a WiFi Direct group-owner interface at the same time,
+  and the platform tears the AP down to make room, not the app.** A run that starts a SoftAP by hand
+  and then has the app switch to WiFi Direct (`native-ap-transport=0`) loses the AP a few seconds
+  into the switch: `HalDevMgr: bestIfaceCreationProposal is null, requestIface=P2P,
+  existingIface=[name=wlan2 type=AP, name=wlan0 type=STA]` immediately followed by `WifiService:
+  stopSoftAp uid=1073` (`com.android.networkstack.tethering`) and `hostapd: wlan2: AP-DISABLED` —
+  nothing in `com.andrerinas.headunitrevived` calls `stopSoftAp`. Any brief whose measurement needs
+  both interfaces up at once on this unit cannot be scored here regardless of retries; it needs a
+  different unit or a different design. Measured in `wpp-endpoint-depoison-round2`, which lost its R2
+  (and R4/R5, which depend on R2's precondition) to exactly this.
 
 ---
 
