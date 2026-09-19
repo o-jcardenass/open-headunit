@@ -60,6 +60,7 @@ were reported under another filename, and are listed so the pairing rule does no
 - `link-stall-periodic-scan-round4-brief.md` (2.4 GHz plus constrained memory; round 5 ran first and PASSed)
 - `video-dropped-frame-keyframe-round7-brief.md` (R1 is a desk check, R2 optional)
 - `projection-raise-round5-brief.md`
+- `rotation-geometry-round3-brief.md` (§2 is four greps against round 2's own captures and needs no hardware; do those even if the rest is deferred)
 
 Superseded, do not run: `hands-free-wake-and-proto-schema-round1-brief.md` is reported and is
 replaced by `hands-free-wake-round2-brief.md`; its proto, serve-path and control runs are DONE and
@@ -91,7 +92,7 @@ by `bssid-round1-results.md` and its addendum.
 
 | Thread | State | Next |
 |---|---|---|
-| `rotation-geometry` | **DONE, round 2** | `rotation-geometry-round2-results.md`, Part A `65e91b568` PASS (A2r), Part B `13d29c619`. The probe now fires. B1r (`ServiceDiscoveryUpdate`) is safe but produces the same squeeze as round 1, no reflow. B2r/B3r/B4r/B6r (any second video/UI-config channel message during the rotation) all crash Gearhead's own `:projection` process outright (`FATAL EXCEPTION`, `OutOfCarLifecycle`) within tens to a few hundred ms, a real Gearhead defect, not ours; our app's disconnect handling was clean in all four. B5r's 2x2 found `real_density` carries no visible cost or benefit at `dpi-pixel-density=180`: touch was already correct in both arms. |
+| `rotation-geometry` | **QUEUED, round 3** | `rotation-geometry-round3-brief.md`, candidate `c4186efd`. Round 2 settled the levers: Android Auto refuses a mid-session `Media.Config` and a `ui_theme` `UpdateUiConfigRequest` **by design**, its own binary carrying the validation strings "Multiple media configs received" and "UpdateUiConfigRequest must not specify an updated UiTheme"; the `:projection` crash is downstream of the refusal and is Gearhead's own defect. **Round 2's "second message on the channel" reading is refuted**: `reannounceMargins()` is not probe-gated, so the arm that survived sent one too. Round 3 fires the levers with **no rotation**, which removes that confound entirely, and asks whether `ServiceDiscoveryUpdate` is ignored only because we announce AAP 1.2 rather than 1.6. Part A `65e91b568` is finished and ships separately. |
 | `self-mode-media-session` | **DONE, round 2** | `self-mode-media-session-round2-results.md`, `d5d463d5` no blocking FAIL: R0/A3/B2/A2/B1/C1/C2/C3/D1 PASS, A1/A1c/C4 INCONCLUSIVE (rig/environment limits, not the branch). C3 (wireless recovers after a failed Self Mode launch) is the headline finding. PR-ready. |
 | `auto-start-loading-screen` | **DONE** | `auto-start-loading-screen-round2-results.md`, candidate `8a1968a3e`. V1 PASS both arms: unqualified projection pill inside the window (arm 1), suppressed-tag pill and no pill in any frame (arm 2), log and recording both confirm. V2 PASS both arms (`mode=OVERLAY`/`mode=PILL`). No FAIL. PR-ready. Found an `am start --es "val with space"` quoting bug and a fresh-install-key restore erratum, both in Setup notes. |
 | `proto-schema-corrections` | **DONE** | Folded into `hands-free-wake` round 1; see that row. Its own round 1 brief was superseded and never run. |

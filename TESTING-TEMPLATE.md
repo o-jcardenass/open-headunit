@@ -783,6 +783,16 @@ after it had already contaminated a run.
   turn a window that is in `SCREEN_ORIENTATION_SENSOR`, which is what the app's Auto orientation
   setting resolves to, so an Auto run has to be turned by hand. Measured in
   `rotation-geometry-round1`.
+- **A configuration change without a rotation is a night-mode toggle.** `adb shell cmd uimode night
+  yes` (and `no` to restore) delivers `onConfigurationChanged` to the projection activity, because
+  `uiMode` is in its manifest `configChanges` while `density` is not, so `wm density` recreates the
+  activity instead and is not a substitute. The value of this is isolation: with no rotation there is
+  no surface callback, so `reannounceMargins()` never runs and nothing of the app's own goes out on
+  the video channel alongside whatever is under test. Set `night-mode` to `1` (DAY) first, because
+  `0` is AUTO and `4` is LIGHT_SENSOR and either can put a sensor message on the wire mid-window.
+  Confirm the trigger landed by finding the configuration-change work in the log rather than assuming
+  it; if the activity was recreated instead, the ROM is not honouring `configChanges` and the run is
+  UNTESTABLE. First used in `rotation-geometry-round3`.
 - **D-HU is not rotated, on the operator's instruction**, so any round whose lever needs a genuine
   canvas flip is Self Mode on D-POCO only. Say UNTESTABLE rather than carrying a two-device arm that
   will be skipped.
