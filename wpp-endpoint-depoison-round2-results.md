@@ -232,3 +232,46 @@ this round's tooling without risking the very in-memory state the run depends on
   (`HalDevMgr: bestIfaceCreationProposal is null` → `WifiService: stopSoftAp uid=1073` from
   `com.android.networkstack.tethering`, not the app). Any future brief that wants both up at once on this rig
   needs a different unit or a different design, not a retry.
+
+## Addendum: what the captures say about the phone's retry loop
+
+Read back from `wpp-endpoint-depoison-round2-captures.zip` after the round was filed. Three findings,
+and one sentence above withdrawn.
+
+**Withdrawn.** Setup notes say the phone "did fall back to a fresh RFCOMM/Bluetooth handshake ... once
+its WPP-TCP retries had exhausted enough attempts". The captures do not support that. The RFCOMM cycle
+at `11:51:22` was concurrent with the TCP loop, not consequent on it, and the TCP loop never ended.
+
+**1. The phone never gave up on the stale endpoint.** It re-dialled `192.168.143.137:5299` from
+`11:50:30.061` to `11:59:54.103`, which is the end of the capture: 2438 `GH.WPP.TCP` lines overall, 14
+three-attempt cycles inside the R2 window alone, and no give-up, fallback or attempt-ceiling line
+anywhere in either capture. 17 of the 42 attempts failed `ECONNREFUSED` from `192.168.143.183`, the
+other 25 `SocketTimeoutException` from `192.168.49.178` once the phone had moved onto the WiFi Direct
+subnet.
+
+**2. Gearhead runs the Bluetooth handshake and the TCP dial loop at the same time, and the Bluetooth
+half can still complete.** `GH.WIRELESS.SETUP: State changed to CONNECTING_RFCOMM` repeats every ~32 s
+straight through the failing window, and at `11:51:22.147` to `11:51:26.223` it ran a full cycle
+(`CONNECTED_RFCOMM`, `VERSION_CHECK_COMPLETE`, `WIFI_PROJECTION_START_REQUESTED`, `CONNECTING_WIFI`,
+`CONNECTED_WIFI`, `PROJECTION_INITIATED`) before dropping to `RFCOMM_READ_WRITE_FAILURE`. A second full
+cycle ran at `11:57:52.688`. So a stale endpoint is a permanent parallel failure loop rather than an
+absolute block on this build.
+
+**3. Withholding does not retract an endpoint the phone already holds.** On the `11:51:23` handshake the
+head unit withheld the endpoint, correctly, because the freshly cleared identity read `stable=no`. The
+phone went on dialling the same dead `192.168.143.137:5299` afterwards, and it alternated **two** stored
+configurations at it: `Navegadortz2` / bssid `00:27:15:43:06:6A` (the access point, 7 dials) and
+`DIRECT-RB-Navegadortz2` / bssid `16:AC:69:D7:78:CD` (the **new WiFi Direct group**, 9 dials). The type-3
+credentials updated the record's network while the withheld `wpp_info` left its address untouched. That
+is a direct measurement of why withholding is not a cure, and it is the case the rejection answers.
+
+**4. The station was not the reason the access point died.** D-HU's `wlan0` carries no
+`CTRL-EVENT-CONNECTED` anywhere in the capture, so it was never associated to anything; the HAL counted
+the interface, not the association. Standing the station down would not obviously buy the slot, and the
+R2 limit is not worked around that way.
+
+**R6's PASS re-checked line by line.** `source=static override`, `source=WiFi Direct setting` and
+`source=access point setting` are each **0** across the whole capture; every `onGroupInfoAvailable`
+summary reads `source=IPv6 link-local`; the single `group identity ssid=` line reads `stable=no`. The
+source dump lists `WiFi Direct override (Settings) = 0` beside `access point override (Settings) =
+00:27:15:43:06:6a`, and the announced `16:AC:69:D7:78:CD` matches the `IPv6 link-local` rung exactly.
