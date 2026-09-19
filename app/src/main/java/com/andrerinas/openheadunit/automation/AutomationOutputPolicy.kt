@@ -19,7 +19,8 @@ object AutomationOutputPolicy {
         "auto-start-bt-name",
         "auto-disconnect-bt-macs",
         "native-poke-bt-macs",
-        "static-bssid"
+        "static-bssid",
+        "static-p2p-bssid"
     )
 
     /** Directory names an automation command may write into, relative to external storage. */

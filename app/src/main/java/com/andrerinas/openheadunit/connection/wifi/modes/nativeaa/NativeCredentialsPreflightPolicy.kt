@@ -172,9 +172,12 @@ object NativeCredentialsPreflightPolicy {
     }
 
     private fun bssidVerdict(probe: PreflightProbe): FieldVerdict = when {
+        // The device first, because both routes now ask the hardware before the typed value and
+        // announce what they read. Saying "supplied by you" for an address that will not be used
+        // would report the wrong one as the one in force.
         // The same predicate the handshake will apply, so this cannot pass something Type 3 rejects.
-        SoftApBssidPolicy.isUsable(probe.staticBssid) -> FieldVerdict.SUPPLIED_BY_USER
         SoftApBssidPolicy.isUsable(probe.probedBssid) -> FieldVerdict.AVAILABLE_FROM_DEVICE
+        SoftApBssidPolicy.isUsable(probe.staticBssid) -> FieldVerdict.SUPPLIED_BY_USER
         probe.bssidProbeConclusive -> FieldVerdict.MUST_BE_ENTERED
         else -> FieldVerdict.UNKNOWN
     }

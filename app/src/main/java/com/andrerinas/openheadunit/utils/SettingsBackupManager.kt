@@ -225,6 +225,7 @@ object SettingsBackupManager {
         // regulatory domain rather than of this unit, so it is worth even more across a reinstall.
         "wifi-5ghz-channel" to ValueType.INT,
         "static-bssid" to ValueType.STRING,
+        "static-p2p-bssid" to ValueType.STRING,
         // Touch calibration fix and toast visibility.
         "show-toast-messages" to ValueType.BOOLEAN,
         "usb-blacklist" to ValueType.STRING_SET

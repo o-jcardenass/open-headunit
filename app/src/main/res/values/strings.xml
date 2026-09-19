@@ -455,7 +455,9 @@
 
     <string name="static_bssid_title">Static BSSID (MAC Address)</string>
     <string name="static_bssid_enter_value">Enter BSSID (XX:XX:XX:XX:XX:XX)</string>
-    <string name="static_bssid_desc">Set the BSSID for the wireless handshake by hand. Only needed where nothing on this device reports one; the log names every source that was asked.</string>
+    <string name="static_bssid_desc">Set the access point\'s BSSID by hand. Only needed where nothing on this device reports one; the log names every source that was asked.</string>
+    <string name="static_p2p_bssid_title">Static BSSID (WiFi Direct)</string>
+    <string name="static_p2p_bssid_desc">Set the WiFi Direct group\'s BSSID by hand. Separate from the access point\'s, because they are different interfaces and one is never an answer for the other.</string>
 
     <string name="custom_insets">Custom Insets (Margins)</string>
     <string name="inset_top">Top</string>

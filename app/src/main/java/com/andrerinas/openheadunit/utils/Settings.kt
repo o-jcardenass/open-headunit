@@ -347,6 +347,18 @@ class Settings(private val context: Context) {
             prefs.edit().putString("static-bssid", value).apply()
         }
 
+    /**
+     * The WiFi Direct group's address, typed by hand, and deliberately not [staticBSSID].
+     *
+     * An access point and a P2P group are different interfaces, so one address cannot be right for
+     * both: the AP's own, announced for a group, is a network no phone can find.
+     */
+    var staticP2pBSSID: String?
+        get() = try { prefs.getString("static-p2p-bssid", "0") } catch (e: Exception) { "0" } // Default 0 for Auto
+        set(value) {
+            prefs.edit().putString("static-p2p-bssid", value).apply()
+        }
+
     var fakeSpeed: Boolean
         get() = prefs.getBoolean("fake_speed", true)
         set(value) {

@@ -1010,29 +1010,27 @@ class WifiDirectManager(private val context: Context) : WifiP2pManager.Connectio
                 }
             }
             discoveredInterface = iface
-            // [BUG_FIX] The override is checked for shape, not merely for being set. It used to be
-            // taken verbatim whenever it was anything other than the unset sentinel "0", which meant
-            // a mistyped address won the chain, did not match the masked-string test below, and so
-            // suppressed all six fallbacks — and the failure then surfaced 30 s later at Type 3 time
-            // as a message blaming location services. SoftApBssidPolicy has validated this on the
-            // hotspot route since the same bug was found there; this is the other half.
-            val rawOverride = appSettings.staticBSSID
+            // [BUG_FIX] The hand-typed address is applied after every rung, not before them. It
+            // used to win the chain outright, so a value for the wrong interface was announced over
+            // an address the hardware had reported and the phone could never find the network - and
+            // a mistyped one surfaced 30 s later blaming location services. See P2pBssidSourcePolicy.
+            val rawOverride = appSettings.staticP2pBSSID
             // choose() rather than isUsable(), for the normalisation: it accepts a hand-typed
             // address written with dashes or in lower case and hands back the colon-separated upper
             // case the phone is given. The hotspot route has read the override through this call
             // since it was written.
             val overrideBssid = SoftApBssidPolicy.choose(rawOverride, null, null)
-            val isBssidSet = overrideBssid.isNotEmpty()
 
-            logBssidSourceDump(group, iface, ssid, rawOverride)
+            logBssidSourceDump(group, iface, ssid, rawOverride, appSettings.staticBSSID)
 
             // Two sources ahead of the framework's own MAC, because both survive on a device where
             // getHardwareAddress() is masked: the group owner's BSSID where the vendor exposes it,
             // and the MAC the kernel encoded in the interface's IPv6 link-local address. Which one
             // answered is carried in bssidSource so the log can say so.
-            var bssidSource = "static override"
-            var bssid: String = overrideBssid
-            if (!isBssidSet) {
+            var bssidSource = "getGroupOwnerBssid()"
+            var bssid = ""
+            var usedP2pOverride = false
+            run {
                 val ownerBssid = SoftApBssidPolicy.choose(null, getGroupOwnerBssid(group), null)
                 val linkLocalBssid =
                     SoftApBssidPolicy.choose(null, InterfaceMacReader.fromIpv6LinkLocal(iface), null)
@@ -1060,21 +1058,17 @@ class WifiDirectManager(private val context: Context) : WifiP2pManager.Connectio
                     }
                 }
             }
-            if (isBssidSet) {
-                AppLog.i("WifiDirectManager: Initial BSSID from App settings: $bssid")
-            } else {
-                if (!rawOverride.isNullOrEmpty() && rawOverride != "0") {
-                    // Said out loud rather than silently ignored: the user typed something, and
-                    // "your static BSSID is being ignored" is the only line that explains why the
-                    // value they set is not the one in the credentials.
-                    AppLog.w(
-                        "WifiDirectManager: the static BSSID setting ('$rawOverride') is not a MAC " +
-                            "address, so it is being ignored. Set it to six hex pairs " +
-                            "(XX:XX:XX:XX:XX:XX) or clear it to detect one automatically."
-                    )
-                }
-                AppLog.i("WifiDirectManager: Initial BSSID from $bssidSource: $bssid")
+            if (overrideBssid.isEmpty() && !rawOverride.isNullOrEmpty() && rawOverride != "0") {
+                // Said out loud rather than silently ignored: the user typed something, and
+                // "your static BSSID is being ignored" is the only line that explains why the
+                // value they set is not the one in the credentials.
+                AppLog.w(
+                    "WifiDirectManager: the WiFi Direct static BSSID setting ('$rawOverride') " +
+                        "is not a MAC address, so it is being ignored. Set it to six hex pairs " +
+                        "(XX:XX:XX:XX:XX:XX) or clear it to detect one automatically."
+                )
             }
+            AppLog.i("WifiDirectManager: Initial BSSID from $bssidSource: $bssid")
 
 
 
@@ -1148,6 +1142,19 @@ class WifiDirectManager(private val context: Context) : WifiP2pManager.Connectio
                 }
             }
 
+            // The hand-typed addresses answer here and nowhere earlier, after every rung above.
+            val choice = P2pBssidSourcePolicy.resolve(bssid, overrideBssid, appSettings.staticBSSID)
+            if (choice.source != P2pBssidSourcePolicy.Source.DETECTED && choice.bssid.isNotEmpty()) {
+                bssid = choice.bssid
+                bssidSource = P2pBssidSourcePolicy.label(choice.source)
+                usedP2pOverride = choice.fixedByUser
+                AppLog.w(
+                    "WifiDirectManager: nothing on this device reported the group's own address, " +
+                        "so the ${P2pBssidSourcePolicy.label(choice.source)} ($bssid) is being " +
+                        "announced instead."
+                )
+            }
+
             if (SoftApBssidPolicy.isUsable(bssid)) {
                 // Normalised once, here, so every consumer and the cache see the same upper-case
                 // colon form the hotspot route already hands over.
@@ -1201,7 +1208,7 @@ class WifiDirectManager(private val context: Context) : WifiP2pManager.Connectio
                         ssid = ssid,
                         bssid = bssid,
                         bssidUsable = bssidUsable,
-                        staticOverride = isBssidSet,
+                        staticOverride = usedP2pOverride,
                         previous = appSettings.wifiDirectLastGroup,
                         appNamesGroup = appNamesGroup,
                         nameChangesSoFar = appSettings.wifiDirectGroupNameChanges,
@@ -2732,14 +2739,16 @@ class WifiDirectManager(private val context: Context) : WifiP2pManager.Connectio
         group: WifiP2pGroup,
         iface: String?,
         ssid: String?,
-        staticOverride: String?
+        staticOverride: String?,
+        apOverride: String?
     ) {
         if (ssid != null && ssid == lastBssidDumpSsid) return
         lastBssidDumpSsid = ssid
         fun report(label: String, value: String?) =
             AppLog.i("WifiDirectManager:   ${label.padEnd(32)} = ${value ?: "null"}")
         AppLog.i("WifiDirectManager: == BSSID source dump (iface=${iface ?: "unknown"}) ==")
-        report("static override (Settings)", staticOverride)
+        report("WiFi Direct override (Settings)", staticOverride)
+        report("access point override (Settings)", apOverride)
         report("getGroupOwnerBssid()", getGroupOwnerBssid(group))
         report("IPv6 link-local ($iface)", InterfaceMacReader.fromIpv6LinkLocal(iface))
         report("IPv6 link-local (any p2p/ap)", InterfaceMacReader.fromIpv6LinkLocal(null))

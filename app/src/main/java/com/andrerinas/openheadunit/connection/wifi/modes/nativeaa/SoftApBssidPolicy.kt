@@ -56,14 +56,26 @@ object SoftApBssidPolicy {
     }
 
     /**
+     * The same chain with the hand-typed address **last**, which is where it belongs.
+     *
+     * Where a rung answers, that address is this interface's; one typed by hand can only match it
+     * or be wrong, and a wrong one is handed to the phone as a network it will never find.
+     */
+    fun chooseDetectedFirst(detected: List<String?>, staticOverride: String?): String =
+        choose(null, detected + listOf(staticOverride))
+
+    /** True when [staticOverride] is what [chooseDetectedFirst] fell back on, nothing having read one. */
+    fun overrideAnswered(detected: List<String?>, staticOverride: String?): Boolean =
+        isUsable(staticOverride) && choose(null, detected).isEmpty()
+
+    /**
      * Whether [resolvedBssid] shows this device read its own address, rather than repeating what
      * the user typed.
      *
-     * [choose] takes [staticOverride] ahead of every automatic source, and `WifiDirectManager`
-     * skips every one of its rungs when the override is usable, so a run behind one
-     * never asks the hardware the question `ConnectionIssue.BSSID_UNAVAILABLE` is about. The record
-     * therefore survives an override, and `ConnectionIssueBannerPolicy.remedyApplied` is what keeps
-     * it off the screen meanwhile.
+     * Both routes now ask the hardware first and fall back to the override, so a resolved address
+     * that equals the override means the rungs came back empty and the typed value answered. The
+     * record `ConnectionIssue.BSSID_UNAVAILABLE` describes therefore still stands behind one, and
+     * `ConnectionIssueBannerPolicy.remedyApplied` is what keeps it off the screen meanwhile.
      *
      * Compared after normalisation rather than by identity, because the override is hand-typed:
      * dashes, lower case and stray spaces all name the same address, while the automatic rungs

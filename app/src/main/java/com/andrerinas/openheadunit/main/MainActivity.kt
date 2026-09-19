@@ -1235,7 +1235,8 @@ class MainActivity : BaseActivity() {
                 remedyApplied = ConnectionIssueBannerPolicy.remedyApplied(
                     hotspotSsid = settings.hotspotSsid,
                     hotspotPassword = settings.hotspotPassword,
-                    staticBssid = settings.staticBSSID
+                    staticBssid = settings.staticBSSID,
+                    staticP2pBssid = settings.staticP2pBSSID
                 )
             )
         } catch (e: Exception) {

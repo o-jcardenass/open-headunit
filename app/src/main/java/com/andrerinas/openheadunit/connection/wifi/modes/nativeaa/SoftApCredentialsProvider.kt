@@ -396,14 +396,17 @@ class SoftApCredentialsProvider(
 
         // The IPv6 rung sits last: on a unit that runs a real access point sysfs answers, and the
         // derived address is the same interface's, so it is worth no more than the direct read.
-        val bssid = SoftApBssidPolicy.choose(
-            staticOverride = settings.staticBSSID,
-            detected = listOf(
-                InterfaceMacReader.read(iface.name),
-                hardwareAddressOf(iface.name),
-                InterfaceMacReader.fromIpv6LinkLocal(iface.name)
-            )
+        val detected = listOf(
+            InterfaceMacReader.read(iface.name),
+            hardwareAddressOf(iface.name),
+            InterfaceMacReader.fromIpv6LinkLocal(iface.name)
         )
+        // The hand-typed address answers only where none of those did: one that disagrees with the
+        // interface can only be wrong, and the phone joins on the address as well as the name.
+        val bssid = SoftApBssidPolicy.chooseDetectedFirst(detected, settings.staticBSSID)
+        if (SoftApBssidPolicy.overrideAnswered(detected, settings.staticBSSID)) {
+            AppLog.i("SoftApCredentials: nothing on ${iface.name} reported an address, so the static BSSID setting ($bssid) is being used.")
+        }
         if (bssid.isEmpty()) {
             // Not fatal on this route — see NativeCredentialsPolicy. The handshake decides.
             AppLog.w("SoftApCredentials: no source named an address for ${iface.name} - not sysfs, not the interface itself, and not its IPv6 link-local; the credentials will go out without one.")

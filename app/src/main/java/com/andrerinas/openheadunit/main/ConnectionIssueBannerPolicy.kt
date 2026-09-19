@@ -121,17 +121,21 @@ object ConnectionIssueBannerPolicy {
      *   [com.andrerinas.openheadunit.aap.SoftApCredentialsPolicy.resolve].
      * @param staticBssid [com.andrerinas.openheadunit.utils.Settings.staticBSSID], judged by the
      *   same predicate the handshake uses, so a value the chain would discard is not a remedy.
+     * @param staticP2pBssid [com.andrerinas.openheadunit.utils.Settings.staticP2pBSSID]. Either
+     *   address answers the record, which is about this unit not reading its own: the user only
+     *   types the one for the transport they run.
      */
     fun remedyApplied(
         hotspotSsid: String,
         hotspotPassword: String,
-        staticBssid: String?
+        staticBssid: String?,
+        staticP2pBssid: String? = null
     ): Set<ConnectionIssue> {
         val applied = mutableSetOf<ConnectionIssue>()
         if (hotspotSsid.isNotEmpty() && hotspotPassword.isNotEmpty()) {
             applied.add(ConnectionIssue.HOTSPOT_CONFIG_UNREADABLE)
         }
-        if (SoftApBssidPolicy.isUsable(staticBssid)) {
+        if (SoftApBssidPolicy.isUsable(staticBssid) || SoftApBssidPolicy.isUsable(staticP2pBssid)) {
             applied.add(ConnectionIssue.BSSID_UNAVAILABLE)
         }
         return applied

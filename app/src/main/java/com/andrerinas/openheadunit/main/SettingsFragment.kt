@@ -155,6 +155,7 @@ class SettingsFragment : Fragment() {
     private var pendingDpi: Int? = null
     private var pendingPixelAspectRatioE4: Int? = null
     private var pendingStaticBSSID: String? = null
+    private var pendingStaticP2pBSSID: String? = null
     private var pendingFullscreenMode: Settings.FullscreenMode? = null
     private var pendingViewMode: Settings.ViewMode? = null
     private var pendingForceSoftware: Boolean? = null
@@ -330,6 +331,7 @@ class SettingsFragment : Fragment() {
         pendingDpi = settings.dpiPixelDensity
         pendingPixelAspectRatioE4 = settings.pixelAspectRatioE4
         pendingStaticBSSID = settings.staticBSSID
+        pendingStaticP2pBSSID = settings.staticP2pBSSID
         pendingFullscreenMode = settings.fullscreenMode
         pendingViewMode = settings.viewMode
         pendingForceSoftware = settings.forceSoftwareDecoding
@@ -688,6 +690,7 @@ class SettingsFragment : Fragment() {
         pendingDpi?.let { settings.dpiPixelDensity = it }
         pendingPixelAspectRatioE4?.let { settings.pixelAspectRatioE4 = it }
         pendingStaticBSSID?.let { settings.staticBSSID = it }
+        pendingStaticP2pBSSID?.let { settings.staticP2pBSSID = it }
         pendingFullscreenMode?.let { settings.fullscreenMode = it }
         val oldViewMode = settings.viewMode
         pendingViewMode?.let { settings.viewMode = it }
@@ -837,6 +840,8 @@ class SettingsFragment : Fragment() {
                         pendingDpi != settings.dpiPixelDensity ||
                         pendingPixelAspectRatioE4 != settings.pixelAspectRatioE4 ||
                         pendingStaticBSSID != settings.staticBSSID ||
+            pendingStaticP2pBSSID != settings.staticP2pBSSID ||
+                        pendingStaticP2pBSSID != settings.staticP2pBSSID ||
                         pendingFullscreenMode != settings.fullscreenMode ||
                         pendingViewMode != settings.viewMode ||
                         pendingForceSoftware != settings.forceSoftwareDecoding ||
@@ -1562,28 +1567,42 @@ class SettingsFragment : Fragment() {
         if (pendingWifiConnectionMode == WifiLauncherMode.NATIVE ||
             (pendingWifiConnectionMode == WifiLauncherMode.HELPER && pendingHelperConnectionStrategy == HelperStrategy.WIFI_DIRECT)
         ) {
-            val bssid = pendingStaticBSSID
+            // One row, not two. An access point and a P2P group are different interfaces and keep
+            // separate addresses, but only one of them is ever in force, so the row edits the one
+            // the selected transport announces and the dialog's message says which. The title is
+            // fixed because the banner's remedy deep-links by searching for it.
+            val forP2p = pendingWifiConnectionMode == WifiLauncherMode.HELPER ||
+                pendingNativeTransport() == NativeTransport.WIFI_DIRECT
+            val bssid = if (forP2p) pendingStaticP2pBSSID else pendingStaticBSSID
             items.add(SettingItem.SettingEntry(
                 stableId = "staticBSSID",
                 nameResId = R.string.static_bssid_title,
+                searchKeywords = "bssid mac address wifi direct group access point hotspot",
                 value = if (bssid == "0" || bssid == null) getString(R.string.auto) else bssid,
                 onClick = { _ ->
-                    DialogUtils.showTextInputDialog(
+                    DialogUtils.showTextInputDialogWithMessage(
                         requireContext(),
-                        R.string.static_bssid_enter_value,
+                        R.string.static_bssid_title,
+                        if (forP2p) R.string.static_p2p_bssid_desc else R.string.static_bssid_desc,
                         if (bssid == "0" || bssid == null) "" else bssid,
                         { newVal ->
-                            val trimmed = newVal?.trim().orEmpty()
+                            val trimmed = newVal.trim()
                             // Validated here rather than accepted and dealt with later. A value that is
                             // not MAC-shaped still beats every automatic source, so it does not fail at
                             // entry — it fails 30 s into a connection with a message about location
                             // services, which is the wrong thing to send somebody looking for.
-                            when {
-                                trimmed.isEmpty() -> pendingStaticBSSID = "0"
-                                SoftApBssidPolicy.isUsable(trimmed) -> pendingStaticBSSID = trimmed
-                                else -> ToastUtils.showToast(
-                                    requireContext(), R.string.preflight_invalid_bssid, Toast.LENGTH_LONG, force = true
-                                )
+                            val stored = when {
+                                trimmed.isEmpty() -> "0"
+                                SoftApBssidPolicy.isUsable(trimmed) -> trimmed
+                                else -> {
+                                    ToastUtils.showToast(
+                                        requireContext(), R.string.preflight_invalid_bssid, Toast.LENGTH_LONG, force = true
+                                    )
+                                    null
+                                }
+                            }
+                            if (stored != null) {
+                                if (forP2p) pendingStaticP2pBSSID = stored else pendingStaticBSSID = stored
                             }
                             checkChanges()
                             updateSettingsList()
@@ -4585,7 +4604,10 @@ class SettingsFragment : Fragment() {
                     // in this session and not saved yet, and asking for it again would be absurd.
                     manualSsid = pendingHotspotSsid.orEmpty(),
                     manualPassword = pendingHotspotPassword.orEmpty(),
-                    staticBssid = pendingStaticBSSID,
+                    // The value for the transport being probed: the two addresses are different
+                    // interfaces and one is never an answer for the other.
+                    staticBssid = if (transport == NativeTransport.WIFI_DIRECT) pendingStaticP2pBSSID
+                    else pendingStaticBSSID,
                     hotspotInterface = pendingHotspotInterface.orEmpty()
                 )
                 NativeCredentialsPreflightPolicy.evaluate(transport, probe)
@@ -4690,11 +4712,20 @@ class SettingsFragment : Fragment() {
                 next()
             }
 
-            CredentialField.BSSID -> DialogUtils.showTextInputDialogWithMessage(
+            // The field for the transport the probe ran on. The two addresses are different
+            // interfaces, so writing the access point's here would be the mismatch this flow exists
+            // to repair.
+            CredentialField.BSSID -> {
+                val forP2p = pendingNativeTransport() == NativeTransport.WIFI_DIRECT
+                val current = if (forP2p) pendingStaticP2pBSSID else pendingStaticBSSID
+                fun store(value: String) {
+                    if (forP2p) pendingStaticP2pBSSID = value else pendingStaticBSSID = value
+                }
+                DialogUtils.showTextInputDialogWithMessage(
                 requireContext(),
-                R.string.static_bssid_title,
-                R.string.static_bssid_desc,
-                pendingStaticBSSID?.takeIf { SoftApBssidPolicy.isUsable(it) }.orEmpty()
+                if (forP2p) R.string.static_p2p_bssid_title else R.string.static_bssid_title,
+                if (forP2p) R.string.static_p2p_bssid_desc else R.string.static_bssid_desc,
+                current?.takeIf { SoftApBssidPolicy.isUsable(it) }.orEmpty()
             ) { newVal ->
                 // Checked here as well as at the row, because a value that is not MAC-shaped is
                 // worse than none: it beats every automatic source and fails much later, at Type 3
@@ -4702,13 +4733,13 @@ class SettingsFragment : Fragment() {
                 val trimmed = newVal.trim()
                 when {
                     trimmed.isEmpty() -> {
-                        pendingStaticBSSID = "0"
+                        store("0")
                         checkChanges()
                         updateSettingsList()
                         next()
                     }
                     SoftApBssidPolicy.isUsable(trimmed) -> {
-                        pendingStaticBSSID = trimmed
+                        store(trimmed)
                         checkChanges()
                         updateSettingsList()
                         next()
@@ -4720,6 +4751,7 @@ class SettingsFragment : Fragment() {
                         promptForField(missing, index)
                     }
                 }
+            }
             }
         }
     }
