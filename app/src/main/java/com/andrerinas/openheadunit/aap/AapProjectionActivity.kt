@@ -42,6 +42,7 @@ import com.andrerinas.openheadunit.decoder.video.VideoDecoder
 import com.andrerinas.openheadunit.decoder.video.VideoDimensionsListener
 import com.andrerinas.openheadunit.utils.AppLog
 import com.andrerinas.openheadunit.utils.BluetoothHelper
+import com.andrerinas.openheadunit.utils.DisplayTargets
 import com.andrerinas.openheadunit.connection.self.SelfModeCallRaisePolicy
 import com.andrerinas.openheadunit.connection.usb.UsbSwitchClaim
 import com.andrerinas.openheadunit.decoder.audio.CallState
@@ -970,6 +971,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         // ensures the window manager has correctly resolved the display's physical orientation
         // before we lock it.
         applyOrientationSettings()
+        logLandedDisplay()
 
         // In onCreate and not onStart: the whole point is to hear a call while the activity is
         // stopped behind the phone's call screen.
@@ -1436,6 +1438,22 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
 
     override fun onRetainCustomNonConfigurationInstance(): Any? {
         return true
+    }
+
+    /**
+     * Where the projection actually came up, against where it was aimed.
+     *
+     * A launch that is refused a display fails silently, and the picture then carries the built-in
+     * panel's geometry, which service discovery has already announced and cannot take back.
+     */
+    private fun logLandedDisplay() {
+        val landedOn = DisplayTargets.displayIdOf(this)
+        val asked = DisplayTargets.choose(this, settings).displayId
+        if (landedOn == asked) {
+            AppLog.i("AapProjectionActivity: projecting on display $landedOn")
+        } else {
+            AppLog.w("AapProjectionActivity: asked for display $asked but came up on $landedOn")
+        }
     }
 
     private fun applyVirtualDisplayFix() {

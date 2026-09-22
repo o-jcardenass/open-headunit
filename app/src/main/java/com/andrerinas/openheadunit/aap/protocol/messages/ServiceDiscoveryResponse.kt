@@ -17,6 +17,7 @@ import com.andrerinas.openheadunit.aap.protocol.proto.Sensors
 import com.andrerinas.openheadunit.connection.wifi.direct.WifiBandCapability
 import com.andrerinas.openheadunit.decoder.video.VideoDecoder
 import com.andrerinas.openheadunit.utils.AppLog
+import com.andrerinas.openheadunit.utils.DisplayTargets
 import com.andrerinas.openheadunit.utils.HeadUnitScreenConfig
 import com.google.protobuf.Message
 
@@ -26,8 +27,11 @@ class ServiceDiscoveryResponse(private val context: Context)
     companion object {
         private fun makeProto(context: Context): Message {
             val settings = App.provide(context).settings
-            // Initialize HeadUnitScreenConfig with actual physical screen dimensions
-            HeadUnitScreenConfig.init(context, context.resources.displayMetrics, settings)
+            // Measure the display the projection will actually use. The geometry goes out once, in
+            // this message, and cannot be renegotiated, so a reading taken from the built-in panel
+            // while the picture lives on an external one is wrong for the whole session.
+            val screenContext = DisplayTargets.contextFor(context, DisplayTargets.choose(context, settings).displayId)
+            HeadUnitScreenConfig.init(screenContext, screenContext.resources.displayMetrics, settings)
 
             val services = mutableListOf<Control.Service>()
 

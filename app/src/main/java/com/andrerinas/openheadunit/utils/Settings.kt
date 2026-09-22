@@ -935,6 +935,16 @@ class Settings(private val context: Context) {
         get() = prefs.getBoolean("narrow-band-profile-cap", true)
         set(value) { prefs.edit().putBoolean("narrow-band-profile-cap", value).apply() }
 
+    /** Which Android display the projection uses, by [DisplayTargetPolicy.Mode] ordinal. */
+    var preferredDisplayMode: Int
+        get() = prefs.getInt("preferred-display-mode", DisplayTargetPolicy.Mode.DEFAULT.ordinal)
+        set(value) { prefs.edit().putInt("preferred-display-mode", value).apply() }
+
+    /** The display id the user picked, honoured only while [preferredDisplayMode] is SECONDARY. */
+    var preferredDisplayId: Int
+        get() = prefs.getInt("preferred-display-id", DisplayTargetPolicy.DEFAULT_DISPLAY_ID)
+        set(value) { prefs.edit().putInt("preferred-display-id", value).apply() }
+
     var hasAcceptedDisclaimer: Boolean
         get() = prefs.getBoolean("has-accepted-disclaimer", false)
         set(value) { prefs.edit().putBoolean("has-accepted-disclaimer", value).apply() }
