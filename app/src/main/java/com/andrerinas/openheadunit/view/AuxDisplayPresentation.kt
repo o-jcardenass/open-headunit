@@ -20,6 +20,7 @@ internal class AuxDisplayPresentation(
     outerContext: Context,
     display: Display,
     private val decoder: VideoDecoder,
+    private val onSurfaceReady: () -> Unit,
 ) : Presentation(outerContext, display) {
 
     private var surfaceView: SurfaceView? = null
@@ -36,6 +37,8 @@ internal class AuxDisplayPresentation(
             override fun surfaceCreated(holder: SurfaceHolder) {
                 AppLog.i("AuxDisplayPresentation: surface ready on display ${display.displayId}")
                 decoder.setSurface(holder.surface)
+                // A surface recreated mid-session restarts the decoder, which then needs a keyframe.
+                onSurfaceReady()
             }
 
             override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {

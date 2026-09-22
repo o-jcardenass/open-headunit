@@ -674,6 +674,7 @@ class AapTransport(
         onMicSessionEnded()
         sendHandler?.removeCallbacks(focusCycleGainRunnable)
         sendHandler?.removeCallbacks(unrepairedCheckRunnable)
+        sendHandler?.removeCallbacks(auxCycleGainRunnable)
         pollThread?.quit()
         sendThread?.quit()
         videoLane.quit()
@@ -713,6 +714,39 @@ class AapTransport(
         sendThread = null
     }
 
+    @Volatile private var lastAuxCycleMs = 0L
+    @Volatile private var auxCycleStopExpected = false
+
+    private val auxCycleGainRunnable = Runnable {
+        send(VideoFocusEvent(gain = true, unsolicited = true, channel = Channel.ID_VID2))
+    }
+
+    /**
+     * A keyframe for the second display, by a focus cycle on its own channel only.
+     *
+     * Separate from the main picture's lever and budget: it touches nothing the driver is watching.
+     */
+    @Synchronized
+    internal fun requestAuxKeyframe(reason: String) {
+        if (auxVideoLane == null) return
+        val handler = sendHandler ?: return
+        val now = SystemClock.elapsedRealtime()
+        if (!SecondaryVideoFocusPolicy.mayCycleAux(now, lastAuxCycleMs)) return
+        lastAuxCycleMs = now
+        AppLog.i("AapTransport: cycling the auxiliary display's video focus for a keyframe ($reason)")
+        auxCycleStopExpected = true
+        send(VideoFocusEvent(gain = false, unsolicited = false, channel = Channel.ID_VID2))
+        handler.removeCallbacks(auxCycleGainRunnable)
+        handler.postDelayed(auxCycleGainRunnable, SecondaryVideoFocusPolicy.AUX_CYCLE_GAP_MS)
+    }
+
+    /** Whether the auxiliary sink stop just received was the one [requestAuxKeyframe] asked for. */
+    internal fun consumeAuxCycleStop(): Boolean {
+        val expected = auxCycleStopExpected
+        auxCycleStopExpected = false
+        return expected
+    }
+
     /** Hands a video-channel message to its lane, and answers whether it was picture. */
     internal fun dispatchVideo(message: AapMessage): Boolean =
         if (message.channel == Channel.ID_VID2) {
@@ -732,9 +766,9 @@ class AapTransport(
         auxVideoLane?.let { return it }
         if (!settings.auxDisplayEnabled) return null
         val decoder = App.provide(context).requireAuxVideoDecoder()
-        // No focus-cycle recovery hung off this one: the cycle is the main picture's repair, and
-        // firing it for the auxiliary stream would interrupt the display the driver is using.
-        val lane = VideoLane(Channel.ID_VID2, AapVideo(decoder, settings) {}, "AapTransport:Handler::VideoAux") {
+        // Recovery cycles focus on this channel alone, so the main picture never pays for it.
+        val onCorrupted = { requestAuxKeyframe("a corrupt frame") }
+        val lane = VideoLane(Channel.ID_VID2, AapVideo(decoder, settings, onCorrupted), "AapTransport:Handler::VideoAux") {
             sendMediaAck(it)
         }
         lane.start()
@@ -768,6 +802,8 @@ class AapTransport(
         // This object outlives a session and is re-armed for the next one, so a stamp left by the
         // previous phone would read as a live link for the first seconds of this one.
         lastMessageReceivedMs = 0L
+        lastAuxCycleMs = 0L
+        auxCycleStopExpected = false
         linkGapMonitor.reset()
         videoGapMonitor.reset()
         audioGapMonitor.reset()

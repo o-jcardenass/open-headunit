@@ -1458,7 +1458,9 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             return
         }
         try {
-            val presentation = AuxDisplayPresentation(this, display, App.provide(this).requireAuxVideoDecoder())
+            val presentation = AuxDisplayPresentation(this, display, App.provide(this).requireAuxVideoDecoder()) {
+                commManager.requestAuxKeyframe("the auxiliary surface was recreated")
+            }
             presentation.show()
             auxPresentation = presentation
             AppLog.i("AapProjectionActivity: the auxiliary display is up on ${display.displayId}")

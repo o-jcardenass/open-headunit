@@ -859,6 +859,12 @@ class CommManager(
         }
     }
 
+    /** A keyframe for the second display only; a no-op before its stream exists. */
+    fun requestAuxKeyframe(reason: String) {
+        if (_connectionState.value !is ConnectionState.TransportStarted) return
+        _transport?.requestAuxKeyframe(reason)
+    }
+
     fun updateAudioGains() {
         _transport?.aapAudio?.updateGains()
     }
