@@ -135,7 +135,7 @@ internal class AapControlMedia(
     }
 
     private fun maxUnackedFor(channel: Int): Int {
-        if (channel == Channel.ID_VID) {
+        if (Channel.isVideo(channel)) {
             val softwareHevc =
                 aapTransport.settings.videoCodec == VideoDecoder.CodecType.H265.settingsValue &&
                         aapTransport.settings.forceSoftwareDecoding &&
@@ -508,7 +508,8 @@ internal class AapControlGateway(
             Channel.ID_CTR -> return serviceControl.execute(message)
             Channel.ID_INP -> return touchControl.execute(message)
             Channel.ID_SEN -> return sensorControl.execute(message)
-            Channel.ID_VID, Channel.ID_AUD, Channel.ID_AU1, Channel.ID_AU2, Channel.ID_MIC -> return mediaControl.execute(message)
+            Channel.ID_VID, Channel.ID_VID2, Channel.ID_AUD, Channel.ID_AU1, Channel.ID_AU2, Channel.ID_MIC ->
+                return mediaControl.execute(message)
         }
         return 0
     }

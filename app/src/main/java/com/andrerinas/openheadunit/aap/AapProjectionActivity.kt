@@ -43,6 +43,7 @@ import com.andrerinas.openheadunit.decoder.video.VideoDimensionsListener
 import com.andrerinas.openheadunit.utils.AppLog
 import com.andrerinas.openheadunit.utils.BluetoothHelper
 import com.andrerinas.openheadunit.utils.DisplayTargets
+import com.andrerinas.openheadunit.view.AuxDisplayPresentation
 import com.andrerinas.openheadunit.connection.self.SelfModeCallRaisePolicy
 import com.andrerinas.openheadunit.connection.usb.UsbSwitchClaim
 import com.andrerinas.openheadunit.decoder.audio.CallState
@@ -1194,6 +1195,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         userLeftDeliberately = false
         closeCallRaiseEpisode("the projection is back in front")
         AppLog.i("AapProjectionActivity: onResume")
+        showAuxDisplay()
         // Show the one-time rename notice even here, on top of an active projection.
         RenameNotice.maybeShow(this, App.provide(this).settings)
         Aa174Notice.maybeShow(this, App.provide(this).settings)
@@ -1438,6 +1440,38 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
 
     override fun onRetainCustomNonConfigurationInstance(): Any? {
         return true
+    }
+
+    private var auxPresentation: AuxDisplayPresentation? = null
+
+    /**
+     * Brings up the auxiliary display's window, when one was asked for and is attached.
+     *
+     * Hosted by this activity rather than the service because a Presentation shown from a service
+     * needs the overlay permission, which this feature should not make a condition of working.
+     */
+    private fun showAuxDisplay() {
+        if (!settings.auxDisplayEnabled) return
+        if (auxPresentation?.isShowing == true) return
+        val display = DisplayTargets.display(this, settings.auxDisplayId) ?: run {
+            AppLog.w("AapProjectionActivity: the auxiliary display ${settings.auxDisplayId} is not attached")
+            return
+        }
+        try {
+            val presentation = AuxDisplayPresentation(this, display, App.provide(this).requireAuxVideoDecoder())
+            presentation.show()
+            auxPresentation = presentation
+            AppLog.i("AapProjectionActivity: the auxiliary display is up on ${display.displayId}")
+        } catch (e: Exception) {
+            // Never fatal to the session: the main picture is the one the driver is using.
+            AppLog.e("AapProjectionActivity: could not open the auxiliary display: ${e.message}")
+            auxPresentation = null
+        }
+    }
+
+    private fun dismissAuxDisplay() {
+        try { auxPresentation?.dismiss() } catch (_: Exception) {}
+        auxPresentation = null
     }
 
     /**
@@ -2217,6 +2251,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
 
     override fun onDestroy() {
         super.onDestroy()
+        dismissAuxDisplay()
         autoStartOfferTimer?.cancel()
         autoStartOfferTimer = null
         HeadUnitScreenConfig.onMarginsDiverged = null

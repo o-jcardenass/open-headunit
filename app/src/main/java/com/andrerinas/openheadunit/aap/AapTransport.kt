@@ -12,6 +12,7 @@ import android.os.Process
 import android.os.SystemClock
 import android.util.SparseIntArray
 import android.view.KeyEvent
+import com.andrerinas.openheadunit.App
 import com.andrerinas.openheadunit.aap.protocol.Channel
 import com.andrerinas.openheadunit.aap.protocol.messages.KeyCodeEvent
 import com.andrerinas.openheadunit.aap.protocol.messages.MediaAck
@@ -87,6 +88,10 @@ class AapTransport(
     private var pollThread: HandlerThread? = null
     /** The main display's video. A second display gets its own lane, never a share of this one. */
     private val videoLane: VideoLane
+
+    /** The auxiliary display's, built on its first message because a session may not have one. */
+    @Volatile
+    private var auxVideoLane: VideoLane? = null
     private val micRecorder: MicRecorder = MicRecorder(context)
     private val sessionIds = SparseIntArray(4)
     private val startedSensors = HashSet<Int>(4)
@@ -672,6 +677,7 @@ class AapTransport(
         pollThread?.quit()
         sendThread?.quit()
         videoLane.quit()
+        auxVideoLane?.quit()
         aapAudio.releaseAllFocus()
 
         // Never let a half-finished cycle outlive the transport that owed the regain: the claim is
@@ -688,6 +694,7 @@ class AapTransport(
             if (Thread.currentThread() != pollThread) pollThread?.join(1000)
             sendThread?.join(1000)
             videoLane.join(1000)
+            auxVideoLane?.join(1000)
         } catch (e: InterruptedException) {
             AppLog.e("Failed to join threads", e)
         }
@@ -695,6 +702,8 @@ class AapTransport(
         // After the join, not before it: the run state this closes is the video thread's now, and
         // resetting it under a thread still assembling would hand the next session a half-run.
         videoLane.release()
+        auxVideoLane?.release()
+        auxVideoLane = null
 
         aapRead = null
         ssl.release()
@@ -705,7 +714,34 @@ class AapTransport(
     }
 
     /** Hands a video-channel message to its lane, and answers whether it was picture. */
-    internal fun dispatchVideo(message: AapMessage): Boolean = videoLane.dispatch(message)
+    internal fun dispatchVideo(message: AapMessage): Boolean =
+        if (message.channel == Channel.ID_VID2) {
+            auxLane()?.dispatch(message) ?: false
+        } else {
+            videoLane.dispatch(message)
+        }
+
+    /**
+     * The auxiliary lane, created on demand and only where one was advertised.
+     *
+     * Null means the phone sent on a channel we never offered, which is handled by ignoring it: an
+     * auxiliary display must never be able to cost the main session.
+     */
+    @Synchronized
+    private fun auxLane(): VideoLane? {
+        auxVideoLane?.let { return it }
+        if (!settings.auxDisplayEnabled) return null
+        val decoder = App.provide(context).requireAuxVideoDecoder()
+        // No focus-cycle recovery hung off this one: the cycle is the main picture's repair, and
+        // firing it for the auxiliary stream would interrupt the display the driver is using.
+        val lane = VideoLane(Channel.ID_VID2, AapVideo(decoder, settings) {}, "AapTransport:Handler::VideoAux") {
+            sendMediaAck(it)
+        }
+        lane.start()
+        auxVideoLane = lane
+        AppLog.i("AapTransport: the auxiliary display's video lane is open")
+        return lane
+    }
 
     /** Video messages handed over and not yet processed. See [TransportDispatchMonitor]. */
     internal fun videoQueueDepth(): Int = videoLane.queueDepth()

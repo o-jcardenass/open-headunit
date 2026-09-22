@@ -117,10 +117,20 @@ object DisplayTargets {
         }
     }
 
-    /** Prints what is attached and which one was taken, so a reporter's log answers both. */
+    /**
+     * Prints what is attached and which one was taken, but only when that changes.
+     *
+     * Several callers ask per session, and an INFO line per call is how a reporter's log fills with
+     * one repeated fact instead of the session.
+     */
+    private var lastLogged: String? = null
+
     private fun logChoice(choice: DisplayTargetPolicy.Choice, displays: List<DisplayTargetPolicy.DisplayInfo>) {
         val attached = displays.joinToString { "${it.displayId}:${it.name} ${it.widthPx}x${it.heightPx}@${it.densityDpi}" }
-        AppLog.i("DisplayTargets: projecting on display ${choice.displayId} because ${choice.reason} [$attached]")
+        val line = "DisplayTargets: projecting on display ${choice.displayId} because ${choice.reason} [$attached]"
+        if (line == lastLogged) return
+        lastLogged = line
+        AppLog.i(line)
     }
 
     private fun info(display: Display): DisplayTargetPolicy.DisplayInfo {

@@ -60,6 +60,7 @@ import com.andrerinas.openheadunit.main.settings.SettingsAdapter
 import com.andrerinas.openheadunit.utils.AppLog
 import com.andrerinas.openheadunit.utils.AppPermissions
 import com.andrerinas.openheadunit.utils.AppThemeManager
+import com.andrerinas.openheadunit.decoder.video.AuxDisplayProfilePolicy
 import com.andrerinas.openheadunit.utils.DisplayTargetPolicy
 import com.andrerinas.openheadunit.utils.DisplayTargets
 import com.andrerinas.openheadunit.utils.Settings
@@ -143,7 +144,7 @@ class SettingsFragment : Fragment() {
         "gpsNavigation",
         // Graphic
         "resolution", "dpiPixelDensity", "viewMode", "screenOrientation", "projectionDisplay",
-        "startInFullscreenMode",
+        "auxDisplay", "auxDisplayContent", "startInFullscreenMode",
         // Theming
         "theming", "loadingScreen", "customization",
         // Video
@@ -2130,6 +2131,7 @@ class SettingsFragment : Fragment() {
         // Which Android display the projection uses. Saved immediately rather than pended, because
         // it only takes effect at the next connect: the geometry goes out once, in service discovery.
         addProjectionDisplayRow(items)
+        addAuxDisplayRows(items)
 
         // Video fit: how a mismatched-aspect video is fitted into the panel (object-fit style).
         items.add(SettingItem.SettingEntry(
@@ -4603,6 +4605,81 @@ class SettingsFragment : Fragment() {
                     .setTitle(R.string.change_projection_display)
                     .setSingleChoiceItems(labels, selectedIndex) { dialog, which ->
                         entries.getOrNull(which)?.second?.invoke()
+                        settings.commit()
+                        dialog.dismiss()
+                        updateSettingsList()
+                    }
+                    .show()
+            }
+        ))
+    }
+
+    /**
+     * A second Android Auto picture for a cluster or passenger screen.
+     *
+     * Offered only where there is somewhere to put it: a head unit with one panel has nothing this
+     * row could do, and a control that changes nothing is worse than none.
+     */
+    private fun addAuxDisplayRows(items: MutableList<SettingItem>) {
+        val projectionDisplayId = DisplayTargets.choose(requireContext(), settings).displayId
+        val attached = DisplayTargets.candidates(requireContext()).filter { it.displayId != projectionDisplayId }
+        if (attached.isEmpty() && !settings.auxDisplayEnabled) return
+
+        val labels = mutableListOf(getString(R.string.aux_display_off))
+        labels.addAll(attached.map { "${it.name} (${it.widthPx}x${it.heightPx})" })
+        val selected = if (!settings.auxDisplayEnabled) 0
+        else attached.indexOfFirst { it.displayId == settings.auxDisplayId }.let { if (it >= 0) it + 1 else 0 }
+
+        items.add(SettingItem.SettingEntry(
+            stableId = "auxDisplay",
+            nameResId = R.string.aux_display,
+            value = labels.getOrElse(selected) { labels.first() },
+            searchKeywords = labels.joinToString(" "),
+            onClick = { _ ->
+                MaterialAlertDialogBuilder(requireContext(), R.style.DarkAlertDialog)
+                    .setTitle(R.string.change_aux_display)
+                    .setSingleChoiceItems(labels.toTypedArray(), selected) { dialog, which ->
+                        if (which == 0) {
+                            settings.auxDisplayEnabled = false
+                        } else {
+                            attached.getOrNull(which - 1)?.let {
+                                settings.auxDisplayEnabled = true
+                                settings.auxDisplayId = it.displayId
+                            }
+                        }
+                        settings.commit()
+                        dialog.dismiss()
+                        updateSettingsList()
+                    }
+                    .show()
+            }
+        ))
+        items.add(SettingItem.InfoBanner(stableId = "auxDisplayHint", textResId = R.string.aux_display_hint))
+
+        if (!settings.auxDisplayEnabled) return
+
+        val contentLabels = arrayOf(
+            getString(R.string.aux_display_content_map),
+            getString(R.string.aux_display_content_turn_card),
+        )
+        val contentIndex =
+            if (AuxDisplayProfilePolicy.contentKeycodeOrDefault(settings.auxDisplayContent) ==
+                AuxDisplayProfilePolicy.KEYCODE_TURN_CARD
+            ) 1 else 0
+        items.add(SettingItem.SettingEntry(
+            stableId = "auxDisplayContent",
+            nameResId = R.string.aux_display_content,
+            value = contentLabels[contentIndex],
+            searchKeywords = contentLabels.joinToString(" "),
+            onClick = { _ ->
+                MaterialAlertDialogBuilder(requireContext(), R.style.DarkAlertDialog)
+                    .setTitle(R.string.change_aux_display_content)
+                    .setSingleChoiceItems(contentLabels, contentIndex) { dialog, which ->
+                        settings.auxDisplayContent = if (which == 1) {
+                            AuxDisplayProfilePolicy.KEYCODE_TURN_CARD
+                        } else {
+                            AuxDisplayProfilePolicy.KEYCODE_NAVIGATION
+                        }
                         settings.commit()
                         dialog.dismiss()
                         updateSettingsList()
