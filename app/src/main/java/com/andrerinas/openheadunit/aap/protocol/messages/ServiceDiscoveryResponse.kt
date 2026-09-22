@@ -30,8 +30,8 @@ class ServiceDiscoveryResponse(private val context: Context)
         /**
          * A second video sink for an auxiliary display, or null when there is nothing to announce.
          *
-         * AUXILIARY rather than CLUSTER on purpose: a cluster's content is chosen by the phone from
-         * its own settings, and only an auxiliary display honours initial_content_keycode.
+         * AUXILIARY by default: a cluster's content is chosen by the phone from its own settings,
+         * and only an auxiliary display honours initial_content_keycode.
          */
         private fun auxVideoService(context: Context, settings: Settings): Control.Service? {
             if (!settings.auxDisplayEnabled) return null
@@ -45,10 +45,14 @@ class ServiceDiscoveryResponse(private val context: Context)
                 return null
             }
             val profile = AuxDisplayProfilePolicy.profileFor(panel.widthPx, panel.heightPx, panel.densityDpi)
-            val keycode = AuxDisplayProfilePolicy.contentKeycodeOrDefault(settings.auxDisplayContent)
+            val role = settings.auxDisplayRole
+            val keycode = if (AuxDisplayProfilePolicy.announcesContent(role)) {
+                AuxDisplayProfilePolicy.contentKeycodeOrDefault(settings.auxDisplayContent)
+            } else null
             AppLog.i("[ServiceDiscovery] Announcing an auxiliary display on ${Channel.name(Channel.ID_VID2)}: " +
                 "${panel.name} ${panel.widthPx}x${panel.heightPx} as ${profile.resolution}, margins " +
-                "${profile.widthMargin}x${profile.heightMargin}, density ${profile.density}, content $keycode")
+                "${profile.widthMargin}x${profile.heightMargin}, density ${profile.density}, " +
+                "role=$role, content ${keycode ?: "the phone's choice"}")
             return Control.Service.newBuilder().also { service ->
                 service.id = Channel.ID_VID2
                 service.mediaSinkService = Control.Service.MediaSinkService.newBuilder().also { sink ->
@@ -56,8 +60,8 @@ class ServiceDiscoveryResponse(private val context: Context)
                     sink.availableType = Media.MediaCodecType.MEDIA_CODEC_VIDEO_H264_BP
                     sink.audioType = Media.AudioStreamType.NONE
                     sink.displayId = 1
-                    sink.displayType = Control.DisplayType.DISPLAY_TYPE_AUXILIARY
-                    sink.initialContentKeycode = keycode
+                    sink.displayType = AuxDisplayProfilePolicy.displayType(role)
+                    keycode?.let { sink.initialContentKeycode = it }
                     sink.addVideoConfigs(Control.Service.MediaSinkService.VideoConfiguration.newBuilder().apply {
                         codecResolution = profile.resolution
                         frameRate = profile.frameRate

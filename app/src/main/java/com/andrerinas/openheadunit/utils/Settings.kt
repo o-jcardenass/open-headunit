@@ -961,6 +961,11 @@ class Settings(private val context: Context) {
         get() = prefs.getInt("aux-display-id", DisplayTargetPolicy.DEFAULT_DISPLAY_ID)
         set(value) { prefs.edit().putInt("aux-display-id", value).apply() }
 
+    /** Whether the second sink is announced as an auxiliary display or as the instrument cluster. */
+    var auxDisplayRole: AuxDisplayProfilePolicy.Role
+        get() = AuxDisplayProfilePolicy.roleOrDefault(prefs.getString("aux-display-role", null))
+        set(value) { prefs.edit().putString("aux-display-role", value.name).apply() }
+
     /** What the auxiliary display opens with: the navigation map, or the turn card. */
     var auxDisplayContent: Int
         get() = prefs.getInt("aux-display-content", AuxDisplayProfilePolicy.KEYCODE_NAVIGATION)

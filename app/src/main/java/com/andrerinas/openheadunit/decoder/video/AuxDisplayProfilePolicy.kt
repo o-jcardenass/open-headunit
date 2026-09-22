@@ -64,6 +64,22 @@ object AuxDisplayProfilePolicy {
         )
     }
 
+    /**
+     * What the second sink is announced as. AUXILIARY honours our content choice; CLUSTER gets
+     * whatever the phone decides an instrument cluster shows.
+     */
+    enum class Role { AUXILIARY, CLUSTER }
+
+    fun roleOrDefault(stored: String?): Role = Role.values().firstOrNull { it.name == stored } ?: Role.AUXILIARY
+
+    fun displayType(role: Role): Control.DisplayType = when (role) {
+        Role.AUXILIARY -> Control.DisplayType.DISPLAY_TYPE_AUXILIARY
+        Role.CLUSTER -> Control.DisplayType.DISPLAY_TYPE_CLUSTER
+    }
+
+    /** The phone ignores a content keycode on a cluster, so none is sent there. */
+    fun announcesContent(role: Role): Boolean = role == Role.AUXILIARY
+
     /** Whether a stored content choice is one the protocol allows on an auxiliary display. */
     fun contentKeycodeOrDefault(stored: Int): Int =
         if (stored == KEYCODE_TURN_CARD) KEYCODE_TURN_CARD else KEYCODE_NAVIGATION

@@ -311,6 +311,10 @@
     <string name="change_aux_display">Choose the second Android Auto screen</string>
     <string name="aux_display_off">Off</string>
     <string name="aux_display_hint">Asks Android Auto for a second picture for an instrument cluster or passenger screen. Needs Google Maps on the phone, and applies at the next connection.</string>
+    <string name="aux_display_role">Second screen role</string>
+    <string name="change_aux_display_role">Choose the second screen\'s role</string>
+    <string name="aux_display_role_auxiliary">Auxiliary display (you choose what it shows)</string>
+    <string name="aux_display_role_cluster">Instrument cluster (Android Auto chooses)</string>
     <string name="aux_display_content">What the second screen shows</string>
     <string name="change_aux_display_content">Choose what the second screen shows</string>
     <string name="aux_display_content_map">Navigation map</string>

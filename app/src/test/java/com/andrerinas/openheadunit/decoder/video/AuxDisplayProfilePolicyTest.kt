@@ -71,4 +71,19 @@ class AuxDisplayProfilePolicyTest {
         assertEquals(AuxDisplayProfilePolicy.KEYCODE_NAVIGATION, AuxDisplayProfilePolicy.contentKeycodeOrDefault(0))
         assertEquals(AuxDisplayProfilePolicy.KEYCODE_NAVIGATION, AuxDisplayProfilePolicy.contentKeycodeOrDefault(65537))
     }
+
+    @Test
+    fun `a missing or unknown stored role reads as auxiliary`() {
+        assertEquals(AuxDisplayProfilePolicy.Role.AUXILIARY, AuxDisplayProfilePolicy.roleOrDefault(null))
+        assertEquals(AuxDisplayProfilePolicy.Role.AUXILIARY, AuxDisplayProfilePolicy.roleOrDefault("PASSENGER"))
+        assertEquals(AuxDisplayProfilePolicy.Role.CLUSTER, AuxDisplayProfilePolicy.roleOrDefault("CLUSTER"))
+    }
+
+    @Test
+    fun `each role goes out as its own display type and only auxiliary names its content`() {
+        assertEquals(Control.DisplayType.DISPLAY_TYPE_AUXILIARY, AuxDisplayProfilePolicy.displayType(AuxDisplayProfilePolicy.Role.AUXILIARY))
+        assertEquals(Control.DisplayType.DISPLAY_TYPE_CLUSTER, AuxDisplayProfilePolicy.displayType(AuxDisplayProfilePolicy.Role.CLUSTER))
+        assertEquals(true, AuxDisplayProfilePolicy.announcesContent(AuxDisplayProfilePolicy.Role.AUXILIARY))
+        assertEquals(false, AuxDisplayProfilePolicy.announcesContent(AuxDisplayProfilePolicy.Role.CLUSTER))
+    }
 }

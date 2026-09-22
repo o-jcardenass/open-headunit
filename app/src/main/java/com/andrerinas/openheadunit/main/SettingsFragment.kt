@@ -144,7 +144,7 @@ class SettingsFragment : Fragment() {
         "gpsNavigation",
         // Graphic
         "resolution", "dpiPixelDensity", "viewMode", "screenOrientation", "projectionDisplay",
-        "auxDisplay", "auxDisplayContent", "startInFullscreenMode",
+        "auxDisplay", "auxDisplayRole", "auxDisplayContent", "startInFullscreenMode",
         // Theming
         "theming", "loadingScreen", "customization",
         // Video
@@ -4657,6 +4657,33 @@ class SettingsFragment : Fragment() {
         items.add(SettingItem.InfoBanner(stableId = "auxDisplayHint", textResId = R.string.aux_display_hint))
 
         if (!settings.auxDisplayEnabled) return
+
+        val roleLabels = arrayOf(
+            getString(R.string.aux_display_role_auxiliary),
+            getString(R.string.aux_display_role_cluster),
+        )
+        val roleIndex = if (settings.auxDisplayRole == AuxDisplayProfilePolicy.Role.CLUSTER) 1 else 0
+        items.add(SettingItem.SettingEntry(
+            stableId = "auxDisplayRole",
+            nameResId = R.string.aux_display_role,
+            value = roleLabels[roleIndex],
+            searchKeywords = roleLabels.joinToString(" "),
+            onClick = { _ ->
+                MaterialAlertDialogBuilder(requireContext(), R.style.DarkAlertDialog)
+                    .setTitle(R.string.change_aux_display_role)
+                    .setSingleChoiceItems(roleLabels, roleIndex) { dialog, which ->
+                        settings.auxDisplayRole =
+                            if (which == 1) AuxDisplayProfilePolicy.Role.CLUSTER else AuxDisplayProfilePolicy.Role.AUXILIARY
+                        settings.commit()
+                        dialog.dismiss()
+                        updateSettingsList()
+                    }
+                    .show()
+            }
+        ))
+
+        // A cluster shows what the phone chooses, so there is nothing to pick.
+        if (!AuxDisplayProfilePolicy.announcesContent(settings.auxDisplayRole)) return
 
         val contentLabels = arrayOf(
             getString(R.string.aux_display_content_map),
