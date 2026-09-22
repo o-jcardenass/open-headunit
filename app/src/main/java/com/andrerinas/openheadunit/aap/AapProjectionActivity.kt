@@ -44,6 +44,7 @@ import com.andrerinas.openheadunit.utils.AppLog
 import com.andrerinas.openheadunit.utils.BluetoothHelper
 import com.andrerinas.openheadunit.utils.DisplayTargets
 import com.andrerinas.openheadunit.view.AuxDisplayPresentation
+import com.andrerinas.openheadunit.secondscreen.SecondScreenOutputPolicy
 import com.andrerinas.openheadunit.connection.self.SelfModeCallRaisePolicy
 import com.andrerinas.openheadunit.connection.usb.UsbSwitchClaim
 import com.andrerinas.openheadunit.decoder.audio.CallState
@@ -1452,6 +1453,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
      */
     private fun showAuxDisplay() {
         if (!settings.auxDisplayEnabled) return
+        if (settings.auxOutput != SecondScreenOutputPolicy.Output.ANDROID_DISPLAY) return
         if (auxPresentation?.isShowing == true) return
         val display = DisplayTargets.display(this, settings.auxDisplayId) ?: run {
             AppLog.w("AapProjectionActivity: the auxiliary display ${settings.auxDisplayId} is not attached")
