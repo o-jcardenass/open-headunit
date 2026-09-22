@@ -28,6 +28,9 @@ object AuxDisplayProfilePolicy {
         Resolution._1080x1920 to (1080 to 1920),
     )
 
+    /** The pixel size of an announced resolution, which is the size the phone's stream decodes to. */
+    fun dimensions(resolution: Resolution): Pair<Int, Int>? = SIZES.firstOrNull { it.first == resolution }?.second
+
     /** What goes into the auxiliary sink's `VideoConfiguration`. */
     data class Profile(
         val resolution: Resolution,
