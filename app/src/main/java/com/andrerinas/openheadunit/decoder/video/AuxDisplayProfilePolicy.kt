@@ -31,6 +31,17 @@ object AuxDisplayProfilePolicy {
     /** The pixel size of an announced resolution, which is the size the phone's stream decodes to. */
     fun dimensions(resolution: Resolution): Pair<Int, Int>? = SIZES.firstOrNull { it.first == resolution }?.second
 
+    /**
+     * How much to enlarge a frame, from its top-left, so the panel shows only the picture: Android
+     * Auto draws the panel's size at the top-left of the frame and leaves the margins blank.
+     */
+    fun marginCropScale(profile: Profile): Pair<Float, Float> {
+        val (w, h) = dimensions(profile.resolution) ?: return 1f to 1f
+        val pictureW = (w - profile.widthMargin).coerceAtLeast(1)
+        val pictureH = (h - profile.heightMargin).coerceAtLeast(1)
+        return w.toFloat() / pictureW to h.toFloat() / pictureH
+    }
+
     /** What goes into the auxiliary sink's `VideoConfiguration`. */
     data class Profile(
         val resolution: Resolution,

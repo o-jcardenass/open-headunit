@@ -27,6 +27,11 @@ object SecondScreenHub {
     var announced: Output? = null
         private set
 
+    /** The panel size that output announced, for the Android display to crop the margin by. */
+    @Volatile
+    var announcedTarget: Target? = null
+        private set
+
     @Volatile
     private var current: SecondScreenOutput? = null
 
@@ -37,11 +42,13 @@ object SecondScreenHub {
     fun announce(context: Context, settings: Settings): Target? {
         if (!settings.auxDisplayEnabled) {
             announced = null
+            announcedTarget = null
             return null
         }
         val output = settings.auxOutput
         val target = SecondScreenOutputPolicy.target(output, availability(context, settings, output))
         announced = if (target != null) output else null
+        announcedTarget = target
         if (target == null) {
             AppLog.w("SecondScreen: the ${output.name} output is not available, so one display is announced")
         }
