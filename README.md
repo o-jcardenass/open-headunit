@@ -76,7 +76,6 @@ were reported under another filename, and are listed so the pairing rule does no
 - `link-stall-periodic-scan-round4-brief.md` (2.4 GHz plus constrained memory; round 5 ran first and PASSed)
 - `video-dropped-frame-keyframe-round7-brief.md` (R1 is a desk check, R2 optional)
 - `projection-raise-round5-brief.md`
-- `native-aa-dsam-wifi-unavailable-round3-brief.md` (D-SAM and D-POCO; D-HU optional)
 
 Superseded, do not run: `hands-free-wake-and-proto-schema-round1-brief.md` is reported and is
 replaced by `hands-free-wake-round2-brief.md`; its proto, serve-path and control runs are DONE and
@@ -182,7 +181,7 @@ by `bssid-round1-results.md` and its addendum.
 | `video-black-after-background` | **MERGED** | video-black-after-background-round8-results.md; closed at round 8, shipped upstream. |
 | `link-stall-periodic-scan` | **QUEUED** | link-stall-periodic-scan-round5-results.md; round 5 PASS, mechanism absent on this rig. Round 4 (2.4GHz + constrained memory) still queued via link-stall-periodic-scan-round4-brief.md. **The mechanism this thread called untestable has since been caught**, on D-POCO in audio-sink-jitter-round4-results.md: a background scan deauthed the phone off a live WiFi Direct group with `locally_generated=1 reason=3`. Read that before briefing round 4 here. Possible further corroboration, unscripted: `native-aa-dsam-wifi-unavailable-round1-results.md` (D-SAM, 2.4GHz-only unit) caught the phone reporting `WifiConnectStatus WIFI_NETWORK_UNAVAILABLE(-11)` on two live connect attempts, ruling out an app-side teardown race as the cause. |
 | `media-key-routing` | **MERGED** | media-key-routing-round1-results.md; merged upstream. Nothing queued. |
-| `native-aa-dsam-wifi-unavailable` | **QUEUED** | native-aa-dsam-wifi-unavailable-round3-brief.md, `675a0827`: round 2's candidate plus credentials dropped on the platform's own group-removal broadcast, the trigger C2 missed. |
+| `native-aa-dsam-wifi-unavailable` | **DONE** | native-aa-dsam-wifi-unavailable-round3-results.md, `675a0827`: PASS, 5/5 hits and 5/5 cycles, R2 D-HU control PASS. Credential-drop-on-removal-broadcast fix closes round 2's C2 gap. |
 | `external-bt-zbt` / `zlink-wpp-channel` | **IN FLIGHT** | external-bt-tcp-link-findings.md; candidate b64912805, 8 commits on main. Pending: speak-first fallback, Type 4/1 retransmits, daemon-reachability gate, rmnet* exclusion from soft-AP pick. |
 | `zlink-media-usb-and-carlink` | **DONE** | zlink-media-usb-and-carlink-results.md; PC-only. AA sink can announce AAC (runtime `get_is_AA_AAC_audiotype`); no video branch on `CHANNELS_24GHZ_ONLY`; no BT link action after `AA_wait_port ok`. Wired AA = libusb AOA; wired CarPlay = USB-gadget NCM + libusbmuxd; no Android USB filter. CarLink = BLE-GATT mode, disjoint from AA. Descriptor decode blocked (script absent). Response: zlink-media-usb-and-carlink-response.md (Q4's AP-host line corrected: the vendor head unit hosts the SoftAP). |
 | `zlink-aa-sink-decision` | **QUEUED** | zlink-aa-sink-decision-brief.md; PC-only, part three: descriptor decode plus disassembly of `get_is_AA_AAC_audiotype`, `max_unacked` and the offered video list. Scripts shipped in `tools/zbt/`. |
