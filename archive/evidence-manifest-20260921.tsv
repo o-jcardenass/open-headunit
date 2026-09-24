@@ -1,0 +1,14 @@
+thread	old_release	asset	bytes	sha256	archive_release	swept_date
+hands-free-wake-verdict	rig-evidence-hands-free-wake-verdict-round1	hands-free-wake-verdict-round1-captures.zip	6113507	09afd90ef148b594d6b43992d5d8930bee9ffae636056e14af393ff0f8bf55d4	rig-evidence-legacy	2026-09-21
+wpp-endpoint-depoison	rig-evidence-wpp-endpoint-depoison-round4-addendum	rig-evidence-wpp-endpoint-depoison-round4-addendum.zip	10266195	8857700e88d8e080ee1019c2b7420c7868e5caddb2a2854cbbb73ad7960f7dd8	rig-evidence-legacy	2026-09-21
+wpp-endpoint-depoison	rig-evidence-wpp-endpoint-depoison-round4	rig-evidence-wpp-endpoint-depoison-round4.zip	4335905	bd2c3ec23609c590ab9abe7d96a71d14bf901b5d86ab1d94b3f3f57f682bb318	rig-evidence-legacy	2026-09-21
+wpp-endpoint-depoison	rig-evidence-wpp-endpoint-depoison-round5	rig-evidence-wpp-endpoint-depoison-round5.zip	15410909	711f118c8fde4311613f62d4919ded846f0ff25cffc16d31b8c8198290b4055f	rig-evidence-legacy	2026-09-21
+rotation-geometry	rig-evidence-rotation-geometry-round3	rotation-geometry-round3-captures.zip	13492042	7f0f8ce3a53a6b63d7a6113b438127b179af8abb1c2140f23b7a59731e7c9aab	rig-evidence-legacy	2026-09-21
+hands-free-wake-verdict	rig-evidence-hands-free-wake-verdict-round1	v5-captures.zip	180955	b2b21573a7c2b6edd04f4371336725e2781944d1cae84c0e88112975b446efd7	rig-evidence-legacy	2026-09-21
+wpp-endpoint-depoison	rig-evidence-wpp-endpoint-depoison-round1	wpp-endpoint-depoison-round1-captures.zip	57772134	587933c79bdb8b401dc50748c260f7280529f5c99167784c2bb8a80f592c6afa	rig-evidence-legacy	2026-09-21
+wpp-endpoint-depoison	rig-evidence-wpp-endpoint-depoison-round2	wpp-endpoint-depoison-round2-captures.zip	10913977	76e04ad321c44b0d225af128e7ab230bb08438c12e616bcf2974b13d4d30acea	rig-evidence-legacy	2026-09-21
+wpp-endpoint-depoison	rig-evidence-wpp-endpoint-depoison-round3	wpp-endpoint-depoison-round3-captures.zip	20898963	2c139915eac1df31d7daeafc8957819da56d3883acdd653a1f11b06dd2e4ac07	rig-evidence-legacy	2026-09-21
+native-aa-wireless	rig-evidence-native-aa-wireless-round1	native-aa-wireless-round1-captures.zip	24940620	c56c1eb61b28399acd630bb92575ebac989b17c750ab1a01cf3627ca96e290e2	rig-evidence-legacy	2026-09-21
+native-aa-wireless	rig-evidence-native-aa-wireless-round2	native-aa-wireless-round2-captures.zip	3545135	d62beb4679e1db97cc37e3ef676cd95b2ae55475982c60406f14556165ddfb1b	rig-evidence-legacy	2026-09-21
+native-aa-wireless	rig-evidence-native-aa-wireless-round3	rig-evidence-native-aa-wireless-round3.zip	347950	11bdc28d98415c5600ac392a576e56e5fb24d65b4718871d36acdd0437c5f45e	rig-evidence-legacy	2026-09-21
+native-aa-wireless	rig-evidence-native-aa-wireless	native-aa-wireless-round4-captures.zip	112596	d4ddaa57bb6c72c124508fec3d7831b16f72a85c34e013eeab7ec5e97905c180	rig-evidence-legacy	2026-09-21
