@@ -2,11 +2,11 @@
 
 ## 1. Build and baseline
 
-- Candidate: branch `fix/hold-aa-rfcomm` on the fork, SHA **`0b5b0170`** (`main` `7db89757` plus two commits). JVM suite on that SHA: 2402 tests, 0 failures.
+- Candidate: branch `fix/hold-aa-rfcomm` on the fork, SHA **`c3c5a2d8`** (`main` `7db89757` plus one commit). JVM suite on that SHA: 2402 tests, 0 failures.
 - Control: `main` at **`7db89757`**, for R1 only.
   ```bash
   git fetch fork fix/hold-aa-rfcomm main
-  git checkout 0b5b0170   # or 7db89757 for R1
+  git checkout c3c5a2d8   # or 7db89757 for R1
   ```
 - What the candidate changes, in the Native AA Bluetooth handshake only:
   - Once the phone's projection session lands, the app **keeps the Android Auto RFCOMM channel open** for the rest of the session and answers the phone's WiFi-projection pings (type 8 with type 9).
@@ -50,14 +50,14 @@ Record `native-ap-transport`, `wifi-direct-band` and `stand-down-station-mode` a
 Each run follows the clean-run protocol (§4), with markers from `send ACTION_LOG_MARKER --es text <Rn-step>`. Once SSL is up, start music on the phone (`adb -s <D-MOTO> shell input keyevent KEYCODE_MEDIA_PLAY`).
 
 ### R0. Identity
-`send ACTION_QUERY_STATE`. `commit` must begin `7db89757` for R1 and `0b5b0170` for everything else.
+`send ACTION_QUERY_STATE`. `commit` must begin `7db89757` for R1 and `c3c5a2d8` for everything else.
 
 ### R1. Control, `main`, hands-free held (the retry we expect to remove)
 1. Arm with `send ACTION_START_WIRELESS_SCAN`, and wait for `SSL handshake complete`.
 2. Hold the session for **5 minutes**, then `send ACTION_DISCONNECT`.
 
 ### R2. Candidate, hands-free held (the point of the round)
-R1's steps on `0b5b0170`, for **10 minutes**.
+R1's steps on `c3c5a2d8`, for **10 minutes**.
 
 ### R3. Candidate, exit and reconnect, 3 cycles
 From a live session:
@@ -84,7 +84,7 @@ Write `<boolean name="native-aa-hold-bluetooth-channel" value="false" />` with t
 
 ## 6. The lines that decide it
 
-App (D-HU), verbatim from `0b5b0170`:
+App (D-HU), verbatim from `c3c5a2d8`:
 ```
 NativeAA: WiFi session landed. Holding the Bluetooth channel for the session and answering the phone's pings, as a head unit does.
 NativeAA: [HOLD] Bluetooth channel held Ns, N pings answered.
