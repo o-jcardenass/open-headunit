@@ -2,17 +2,18 @@
 
 ## 1. Build and baseline
 
-- Candidate: branch `fix/hold-aa-rfcomm` on the fork, SHA **`bf091a02`** (`main` `7db89757` plus one commit). JVM suite on that SHA: 2402 tests, 0 failures.
+- Candidate: branch `fix/hold-aa-rfcomm` on the fork, SHA **`0b5b0170`** (`main` `7db89757` plus two commits). JVM suite on that SHA: 2402 tests, 0 failures.
 - Control: `main` at **`7db89757`**, for R1 only.
   ```bash
   git fetch fork fix/hold-aa-rfcomm main
-  git checkout bf091a02   # or 7db89757 for R1
+  git checkout 0b5b0170   # or 7db89757 for R1
   ```
 - What the candidate changes, in the Native AA Bluetooth handshake only:
   - Once the phone's projection session lands, the app **keeps the Android Auto RFCOMM channel open** for the rest of the session and answers the phone's WiFi-projection pings (type 8 with type 9).
   - It still closes the listeners, so no second connection is accepted.
   - It releases the channel when the session ends, or earlier if the phone closes it.
   - Before this build, the app closed the channel within about a second of the session landing.
+  - A new switch, **"Keep the Bluetooth channel open during a session"** (`native-aa-hold-bluetooth-channel`, default `true`), restores the old release when it is off. R6 runs that.
 
 ## 2. What this is and why it exists
 
@@ -49,14 +50,14 @@ Record `native-ap-transport`, `wifi-direct-band` and `stand-down-station-mode` a
 Each run follows the clean-run protocol (§4), with markers from `send ACTION_LOG_MARKER --es text <Rn-step>`. Once SSL is up, start music on the phone (`adb -s <D-MOTO> shell input keyevent KEYCODE_MEDIA_PLAY`).
 
 ### R0. Identity
-`send ACTION_QUERY_STATE`. `commit` must begin `7db89757` for R1 and `bf091a02` for everything else.
+`send ACTION_QUERY_STATE`. `commit` must begin `7db89757` for R1 and `0b5b0170` for everything else.
 
 ### R1. Control, `main`, hands-free held (the retry we expect to remove)
 1. Arm with `send ACTION_START_WIRELESS_SCAN`, and wait for `SSL handshake complete`.
 2. Hold the session for **5 minutes**, then `send ACTION_DISCONNECT`.
 
 ### R2. Candidate, hands-free held (the point of the round)
-R1's steps on `bf091a02`, for **10 minutes**.
+R1's steps on `0b5b0170`, for **10 minutes**.
 
 ### R3. Candidate, exit and reconnect, 3 cycles
 From a live session:
@@ -78,9 +79,12 @@ If `cmd bluetooth_manager` is refused on D-MOTO, record the refusal and skip R4.
 - Then run R2's steps for 3 minutes.
 - Record whether the session still reached SSL. The handshake itself still runs over Bluetooth, which is expected.
 
+### R6. Candidate with the switch off (the old behaviour, on the new build)
+Write `<boolean name="native-aa-hold-bluetooth-channel" value="false" />` with the app stopped, then R1's steps for 5 minutes. Restore it to `true` afterwards.
+
 ## 6. The lines that decide it
 
-App (D-HU), verbatim from `bf091a02`:
+App (D-HU), verbatim from `0b5b0170`:
 ```
 NativeAA: WiFi session landed. Holding the Bluetooth channel for the session and answering the phone's pings, as a head unit does.
 NativeAA: [HOLD] Bluetooth channel held Ns, N pings answered.
@@ -88,7 +92,7 @@ NativeAA: the session ended; releasing the held Bluetooth channel after Ns and N
 NativeAA: the phone closed the held Bluetooth channel after Ns and N pings; the Android Auto listeners reopen when this session ends.
 NativeAA: BT Handshake link closed.
 ```
-On `7db89757`, the landing line reads `WiFi session landed. Handshake session ending, releasing Bluetooth connection.` instead.
+On `7db89757`, the landing line reads `WiFi session landed. Handshake session ending, releasing Bluetooth connection.` instead. On the candidate with the switch off (R6), it reads `WiFi session landed. Releasing the Bluetooth channel, because holding it is turned off in Settings.`
 
 Phone (D-MOTO). Count each over the window from `SSL handshake complete` on D-HU to the disconnect marker, matched case-insensitively:
 ```
@@ -119,6 +123,7 @@ Also run `grep -ciE "rfcomm|wpp"` over that window, and quote the first 20 match
 
   **This is a measurement, not a grade.**
 - **R5 PASS:** SSL is reached, and the session holds 3 minutes.
+- **R6 PASS:** the switch-off landing line prints, `BT Handshake link closed.` follows within about a second, and the phone's counts match R1's shape.
 - Across all runs, report `Throughput over` fps and `inbound link quiet` counts per run, so the two builds can be compared, even though 5 GHz is not expected to stutter.
 
 ## 8. Report back
