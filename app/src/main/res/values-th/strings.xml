@@ -1082,6 +1082,8 @@
     <string name="preflight_invalid_bssid">นั่นไม่ใช่ที่อยู่ Wi-Fi ป้อนตัวเลขฐานสิบหก 6 คู่ เช่น 02:1A:11:FF:3C:4D</string>
     <string name="native_aa_complete_hfp_slc">ทำการเชื่อมต่อบลูทูธให้สมบูรณ์</string>
     <string name="native_aa_complete_hfp_slc_description">โทรศัพท์บางรุ่นจะไม่เริ่ม Android Auto ไร้สายจนกว่าบลูทูธจะนับว่าเชื่อมต่อแล้ว เปิดใช้งานเป็นค่าเริ่มต้น</string>
+    <string name="native_aa_hold_bluetooth_channel">เปิดช่อง Bluetooth ค้างไว้ระหว่างเซสชัน</string>
+    <string name="native_aa_hold_bluetooth_channel_description">Android Auto คาดว่าเครื่องเสียงจะเปิดช่อง Bluetooth ค้างไว้ระหว่างการฉายภาพ การปิดช่องจะทำให้โทรศัพท์พยายามเชื่อมต่อใหม่ตลอดเวลา ซึ่งอาจทำให้ภาพและเสียงกระตุกบนเครื่องที่ใช้ WiFi 2.4 GHz เปิดไว้เป็นค่าเริ่มต้น ปิดเพื่อปล่อย Bluetooth เมื่อ WiFi รับช่วงต่อ เหมือนเวอร์ชันก่อนหน้า</string>
     <string name="native_aa_wake_remeasure">วัดค่าการปลุกบลูทูธใหม่</string>
     <string name="native_aa_wake_verdict_unmeasured">ยังไม่ได้วัดค่า</string>
     <string name="native_aa_wake_verdict_safe">ปลอดภัยสำหรับยูนิตนี้</string>

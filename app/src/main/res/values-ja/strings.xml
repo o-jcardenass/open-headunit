@@ -1011,6 +1011,8 @@
     <string name="preflight_invalid_bssid">無効なWiFiアドレスです。6組の16進数を入力してください（例：02:1A:11:FF:3C:4D）。</string>
     <string name="native_aa_complete_hfp_slc">Bluetooth接続を完了する</string>
     <string name="native_aa_complete_hfp_slc_description">一部のスマートフォンは、この機器のBluetoothがペアリング済みではなく接続済みとみなされるまで、ワイヤレスAndroid Autoを開始しません。既定でオン。この端末での通話が使えなくなった場合はオフにしてください。</string>
+    <string name="native_aa_hold_bluetooth_channel">セッション中はBluetoothチャネルを開いたままにする</string>
+    <string name="native_aa_hold_bluetooth_channel_description">Android Autoは、投影中にヘッドユニットがBluetoothチャネルを開いたままにすることを前提としています。閉じるとスマートフォンが再接続を試み続け、2.4 GHz WiFiのユニットでカクつきの原因になることがあります。既定でオン。以前のバージョンのように、WiFiに切り替わった後でBluetoothを解放するにはオフにしてください。</string>
     <string name="announce_connection_configuration">より長いリンクタイムアウトを要求</string>
     <string name="announce_connection_configuration_description">Android Autoに対し、リンクが切断されたと判断するまでの待機時間を3秒ではなく15秒にし、より大きなソケットバッファーを使うよう指示します。これは、セッションの途中で数秒間チャンネルを離れ、接続を道連れにしてしまう無線機を対象としています。お使いのスマートフォンがこれに従うかどうかは測定されていません。</string>
     <string name="native_aa_ignore_external_bt">Bluetooth互換性チェックを無視する</string>

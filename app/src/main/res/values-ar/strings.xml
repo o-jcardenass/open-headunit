@@ -1004,6 +1004,8 @@
     <string name="preflight_invalid_bssid">عنوان WiFi غير صالح. أدخل 6 أزواج سداسية عشرية مثل 02:1A:11:FF:3C:4D.</string>
     <string name="native_aa_complete_hfp_slc">إكمال اتصال البلوتوث</string>
     <string name="native_aa_complete_hfp_slc_description">بعض الهواتف لا تبدأ Android Auto اللاسلكي حتى يُعتبر بلوتوث هذه الوحدة متصلاً، وليس مقترناً فقط. مفعّل افتراضياً؛ عطّله إذا توقفت المكالمات على هذا الجهاز عن العمل.</string>
+    <string name="native_aa_hold_bluetooth_channel">إبقاء قناة البلوتوث مفتوحة أثناء الجلسة</string>
+    <string name="native_aa_hold_bluetooth_channel_description">يتوقع Android Auto أن تُبقي وحدة الرأس قناة البلوتوث مفتوحة أثناء العرض. إغلاقها يجعل الهاتف يحاول إعادة الاتصال باستمرار، مما قد يسبب تقطعًا في الوحدات ذات شبكة WiFi بتردد 2.4 جيجاهرتز. مفعّل افتراضيًا؛ أوقفه لتحرير البلوتوث بعد انتقال الاتصال إلى WiFi، كما في الإصدارات السابقة.</string>
     <string name="announce_connection_configuration">طلب مهلة اتصال أطول</string>
     <string name="announce_connection_configuration_description">يطلب هذا الخيار من Android Auto الانتظار 15 ثانية بدلاً من 3 قبل اعتبار الاتصال منقطعاً، واستخدام مخازن مؤقتة أكبر للمقبس. وهو موجه لراديو يخرج عن قناته لبضع ثوانٍ في منتصف الجلسة ويأخذ الاتصال معه. لم يُقَس ما إذا كان هاتفك يلتزم بأي من ذلك.</string>
     <string name="native_aa_ignore_external_bt">تجاهل فحص توافق البلوتوث</string>

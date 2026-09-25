@@ -196,6 +196,7 @@ object SettingsBackupManager {
         // On by default, so what is worth carrying is the opt-out: a user who turned it off should
         // not have to find it again after a reinstall.
         "native-aa-complete-hfp-slc" to ValueType.BOOLEAN,
+        "native-aa-hold-bluetooth-channel" to ValueType.BOOLEAN,
         // The mode itself is carried, so leaving this behind would restore Native AA onto a
         // flagged unit in the one state where it refuses to start, and the row that turns it back
         // on renders only on flagged units.

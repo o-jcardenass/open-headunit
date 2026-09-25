@@ -1082,6 +1082,8 @@
     <string name="preflight_invalid_bssid">Itu bukan alamat Wi-Fi yang valid. Masukkan enam pasang digit heksadesimal, seperti 02:1A:11:FF:3C:4D.</string>
     <string name="native_aa_complete_hfp_slc">Selesaikan koneksi Bluetooth</string>
     <string name="native_aa_complete_hfp_slc_description">Beberapa ponsel tidak akan memulai Android Auto nirkabel sampai Bluetooth unit ini dihitung sebagai terhubung, bukan hanya dipasangkan. Aktif secara default; matikan jika panggilan pada perangkat ini berhenti berfungsi.</string>
+    <string name="native_aa_hold_bluetooth_channel">Biarkan saluran Bluetooth terbuka selama sesi</string>
+    <string name="native_aa_hold_bluetooth_channel_description">Android Auto mengharapkan head unit menjaga saluran Bluetooth-nya tetap terbuka selama proyeksi. Menutupnya membuat ponsel terus mencoba menyambung ulang, yang dapat menyebabkan patah-patah pada unit dengan WiFi 2,4 GHz. Aktif secara default; matikan untuk melepas Bluetooth setelah WiFi mengambil alih, seperti versi sebelumnya.</string>
     <string name="native_aa_wake_remeasure">Ukur ulang bangun Bluetooth</string>
     <string name="native_aa_wake_verdict_unmeasured">Belum diukur</string>
     <string name="native_aa_wake_verdict_safe">Aman di unit ini</string>

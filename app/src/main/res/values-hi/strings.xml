@@ -1082,6 +1082,8 @@
     <string name="preflight_invalid_bssid">यह एक वाई-फ़ाई पता नहीं है। हेक्स अंकों के छह जोड़े दर्ज करें, जैसे 02:1A:11:FF:3C:4D।</string>
     <string name="native_aa_complete_hfp_slc">ब्लूटूथ कनेक्शन पूरा करें</string>
     <string name="native_aa_complete_hfp_slc_description">कुछ फ़ोन तब तक वायरलेस Android Auto शुरू नहीं करेंगे जब तक कि इस यूनिट का ब्लूटूथ कनेक्टेड न माना जाए। डिफ़ॉल्ट रूप से चालू।</string>
+    <string name="native_aa_hold_bluetooth_channel">सत्र के दौरान ब्लूटूथ चैनल खुला रखें</string>
+    <string name="native_aa_hold_bluetooth_channel_description">Android Auto अपेक्षा करता है कि हेड यूनिट प्रोजेक्शन के दौरान अपना ब्लूटूथ चैनल खुला रखे। इसे बंद करने पर फ़ोन बार-बार दोबारा जुड़ने की कोशिश करता है, जिससे 2.4 GHz WiFi वाली यूनिट पर रुकावट आ सकती है। डिफ़ॉल्ट रूप से चालू; WiFi के संभालने के बाद ब्लूटूथ छोड़ने के लिए इसे बंद करें, जैसा पुराने संस्करणों में होता था।</string>
     <string name="native_aa_wake_remeasure">ब्लूटूथ वेक को पुनः मापें</string>
     <string name="native_aa_wake_verdict_unmeasured">अभी तक नहीं मापा गया</string>
     <string name="native_aa_wake_verdict_safe">इस यूनिट पर सुरक्षित</string>

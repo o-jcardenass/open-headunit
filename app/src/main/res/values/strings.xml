@@ -1114,6 +1114,8 @@
     <string name="preflight_invalid_bssid">That is not a WiFi address. Enter six pairs of hex digits, like 02:1A:11:FF:3C:4D.</string>
     <string name="native_aa_complete_hfp_slc">Complete the Bluetooth connection</string>
     <string name="native_aa_complete_hfp_slc_description">Some phones will not start wireless Android Auto until this unit\'s Bluetooth counts as connected, not just paired. On by default; turn it off if calls on this device stop working.</string>
+    <string name="native_aa_hold_bluetooth_channel">Keep the Bluetooth channel open during a session</string>
+    <string name="native_aa_hold_bluetooth_channel_description">Android Auto expects the head unit to keep its Bluetooth channel open while it projects. Closing it makes the phone keep trying to reconnect, which can cause stutter on units with 2.4 GHz WiFi. On by default; turn it off to release Bluetooth once WiFi takes over, as older versions did.</string>
     <string name="native_aa_wake_remeasure">Re-measure the Bluetooth wake</string>
     <string name="native_aa_wake_verdict_unmeasured">Not measured yet</string>
     <string name="native_aa_wake_verdict_safe">Safe on this unit</string>

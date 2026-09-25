@@ -202,6 +202,7 @@ class SettingsFragment : Fragment() {
     private var pendingNativeAaIgnoreExternalBt: Boolean? = null
     private var pendingExternalBtZbtTransport: Boolean? = null
     private var pendingNativeAaCompleteHfpSlc: Boolean? = null
+    private var pendingNativeAaHoldBluetoothChannel: Boolean? = null
     private var pendingAnnounceConnectionConfiguration: Boolean? = null
 
     // The probe's verdict is not a pending setting: it changes nothing and there is nothing to
@@ -397,6 +398,7 @@ class SettingsFragment : Fragment() {
         pendingNativeAaIgnoreExternalBt = settings.nativeAaIgnoreExternalBt
         pendingExternalBtZbtTransport = settings.externalBtZbtTransport
         pendingNativeAaCompleteHfpSlc = settings.nativeAaCompleteHfpSlc
+        pendingNativeAaHoldBluetoothChannel = settings.nativeAaHoldBluetoothChannel
         pendingAnnounceConnectionConfiguration = settings.announceConnectionConfiguration
         pendingNativeApTransport = settings.nativeApStrategy
         pendingNativeDriverSelectionMode = settings.nativeDriverSelectionMode
@@ -533,6 +535,7 @@ class SettingsFragment : Fragment() {
         pendingNativeAaIgnoreExternalBt = settings.nativeAaIgnoreExternalBt
         pendingExternalBtZbtTransport = settings.externalBtZbtTransport
         pendingNativeAaCompleteHfpSlc = settings.nativeAaCompleteHfpSlc
+        pendingNativeAaHoldBluetoothChannel = settings.nativeAaHoldBluetoothChannel
         pendingAnnounceConnectionConfiguration = settings.announceConnectionConfiguration
         pendingNativeApTransport = settings.nativeApStrategy
         pendingNativeDriverSelectionMode = NativeDriverSelectionPolicy.Mode.AUTO
@@ -780,6 +783,7 @@ class SettingsFragment : Fragment() {
         pendingNativeAaIgnoreExternalBt?.let { settings.nativeAaIgnoreExternalBt = it }
         pendingExternalBtZbtTransport?.let { settings.externalBtZbtTransport = it }
         pendingNativeAaCompleteHfpSlc?.let { settings.nativeAaCompleteHfpSlc = it }
+        pendingNativeAaHoldBluetoothChannel?.let { settings.nativeAaHoldBluetoothChannel = it }
         pendingAnnounceConnectionConfiguration?.let { settings.announceConnectionConfiguration = it }
         pendingNativeApTransport?.let { settings.nativeApStrategy = it }
         pendingNativeDriverSelectionMode?.let { settings.nativeDriverSelectionMode = it }
@@ -919,6 +923,7 @@ class SettingsFragment : Fragment() {
                         pendingNativeAaIgnoreExternalBt != settings.nativeAaIgnoreExternalBt ||
                         pendingExternalBtZbtTransport != settings.externalBtZbtTransport ||
                         pendingNativeAaCompleteHfpSlc != settings.nativeAaCompleteHfpSlc ||
+                        pendingNativeAaHoldBluetoothChannel != settings.nativeAaHoldBluetoothChannel ||
                         pendingAnnounceConnectionConfiguration != settings.announceConnectionConfiguration ||
                         pendingNativeApTransport != settings.nativeApStrategy ||
                         pendingNativeDriverSelectionMode != settings.nativeDriverSelectionMode ||
@@ -1414,6 +1419,19 @@ class SettingsFragment : Fragment() {
                 searchKeywords = "bluetooth hfp hands-free handsfree calls profile wireless",
                 onCheckedChanged = { isChecked ->
                     pendingNativeAaCompleteHfpSlc = isChecked
+                    checkChanges()
+                    updateSettingsList()
+                }
+            ))
+
+            items.add(SettingItem.ToggleSettingEntry(
+                stableId = "nativeAaHoldBluetoothChannel",
+                nameResId = R.string.native_aa_hold_bluetooth_channel,
+                descriptionResId = R.string.native_aa_hold_bluetooth_channel_description,
+                isChecked = pendingNativeAaHoldBluetoothChannel ?: settings.nativeAaHoldBluetoothChannel,
+                searchKeywords = "bluetooth rfcomm channel hold keep release stutter wireless",
+                onCheckedChanged = { isChecked ->
+                    pendingNativeAaHoldBluetoothChannel = isChecked
                     checkChanges()
                     updateSettingsList()
                 }

@@ -2405,6 +2405,12 @@ class Settings(private val context: Context) {
         get() = prefs.getBoolean("native-aa-complete-hfp-slc", true)
         set(value) = prefs.edit().putBoolean("native-aa-complete-hfp-slc", value).apply()
 
+    // Keep the phone's Android Auto Bluetooth channel open for the session, as a head unit does.
+    // Off releases it once WiFi takes over, which the phone keeps re-dialling while a profile is up.
+    var nativeAaHoldBluetoothChannel: Boolean
+        get() = prefs.getBoolean("native-aa-hold-bluetooth-channel", true)
+        set(value) = prefs.edit().putBoolean("native-aa-hold-bluetooth-channel", value).apply()
+
     // What an escalated wake did to this unit's own hands-free link, as NativeAaWakeDamagePolicy.
     // Measured rather than chosen: the poke displaces the phone's single slot by design and no API
     // puts it back, but whether the link returns is a property of this unit's stack. The first
