@@ -275,6 +275,16 @@
              an activity because Tasker and MacroDroid can send to one without holding "Display
              over other apps", which an activity target needs on Android 10+. The configuring
              actions are refused unless the user turns on "Allow external configuration". -->
+        <!-- Probe, never merged: a LocalOnlyHotspot started from a rig script. -->
+        <receiver
+            android:name=".connection.wifi.modes.nativeaa.LocalOnlyHotspotProbeReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.andrerinas.openheadunit.PROBE_LOHS_START" />
+                <action android:name="com.andrerinas.openheadunit.PROBE_LOHS_STOP" />
+            </intent-filter>
+        </receiver>
+
         <receiver
             android:name=".automation.AutomationReceiver"
             android:exported="true">
