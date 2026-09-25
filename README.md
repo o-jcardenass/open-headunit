@@ -76,6 +76,7 @@ were reported under another filename, and are listed so the pairing rule does no
 - `link-stall-periodic-scan-round4-brief.md` (2.4 GHz plus constrained memory; round 5 ran first and PASSed)
 - `video-dropped-frame-keyframe-round7-brief.md` (R1 is a desk check, R2 optional)
 - `projection-raise-round5-brief.md`
+- `station-scan-round1-brief.md` (D-POCO, D-HU and D-SAM as head units, D-MOTO as phone; measurement, no candidate)
 
 Superseded, do not run: `hands-free-wake-and-proto-schema-round1-brief.md` is reported and is
 replaced by `hands-free-wake-round2-brief.md`; its proto, serve-path and control runs are DONE and
@@ -180,6 +181,7 @@ by `bssid-round1-results.md` and its addendum.
 | `mic-uplink` | **DONE** | mic-uplink-round3-results.md; round 3 PASS, M6a fixed 5/5, branch ships. Nothing queued. |
 | `discovery-socket-leak` | **DONE** | discovery-socket-leak-round7-results.md; answered at round 7, awaiting a PR. Nothing queued. |
 | `video-black-after-background` | **MERGED** | video-black-after-background-round8-results.md; closed at round 8, shipped upstream. |
+| `station-scan` | **QUEUED, round 1** | `station-scan-round1-brief.md` on probe `b887adeb`. Two reporter tablets stutter on every one of their unjoined station's scans; D-HU does not (link-stall-periodic-scan round 5). Measures whether a `LocalOnlyHotspot` takes the station down and carries a session. |
 | `link-stall-periodic-scan` | **QUEUED** | link-stall-periodic-scan-round5-results.md; round 5 PASS, mechanism absent on this rig. Round 4 (2.4GHz + constrained memory) still queued via link-stall-periodic-scan-round4-brief.md. **The mechanism this thread called untestable has since been caught**, on D-POCO in audio-sink-jitter-round4-results.md: a background scan deauthed the phone off a live WiFi Direct group with `locally_generated=1 reason=3`. Read that before briefing round 4 here. Possible further corroboration, unscripted: `native-aa-dsam-wifi-unavailable-round1-results.md` (D-SAM, 2.4GHz-only unit) caught the phone reporting `WifiConnectStatus WIFI_NETWORK_UNAVAILABLE(-11)` on two live connect attempts, ruling out an app-side teardown race as the cause. |
 | `media-key-routing` | **MERGED** | media-key-routing-round1-results.md; merged upstream. Nothing queued. |
 | `native-aa-dsam-wifi-unavailable` | **DONE** | native-aa-dsam-wifi-unavailable-round3-results.md, `675a0827`: PASS, 5/5 hits and 5/5 cycles, R2 D-HU control PASS. Credential-drop-on-removal-broadcast fix closes round 2's C2 gap. |
