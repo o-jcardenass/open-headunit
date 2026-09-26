@@ -662,6 +662,15 @@ Every one of these was measured across `t230-native-aa-bringup` rounds 1 to 4.
   invalidated a run that assumed a fresh unit. Read any counter a run grades before the run and
   reset it deliberately, never assume it starts at zero.
 
+- **Every clean Native AA session prints two `createGroup SUCCESS` and two `Handling handshake for`
+  lines before SSL**, and the phone's `ConnectionStateCallback` `1-2-3-4-0` sequence twice with them.
+  The P2P interface index does not move, and there is one SSL. This is how the unit settles, not
+  contamination, so the second-group discard rule does not apply before SSL here. A mid-run Bluetooth
+  toggle looks different: no handshake ever completes. Measured on B1 and B2 of `hold-aa-rfcomm`
+  round 1 addendum 3.
+- **`set_prefs_runas_host.py` writes this unit's settings unchanged**, as it does D-POCO's, because
+  it never runs `sed` on the device. It replaces the manual `python3`-and-push recipe above.
+
 ### D-SAM and D-HP, both
 
 - **Only for a hand step a brief names (§3): `input tap` takes the UIAutomator logical coordinate
@@ -745,6 +754,16 @@ after it had already contaminated a run.
   should be poked" and clears only the MAC lists has not asked for what it means.
 
 ### Everything else
+
+- **`ACTION_START_WIRELESS_SCAN` is refused on D-POCO right after a force-stop**, with
+  `startForegroundService() not allowed due to mAllowStartForeground false`. That is Android 12+
+  blocking a background foreground-service start. D-HU accepted the verb in the same thread,
+  probably because of its overlay permission. On an API 31+ unit without that permission, arm with
+  `adb shell am start -n $PKG/com.andrerinas.openheadunit.main.MainActivity`, which arms the stored
+  mode on launch, and say so in Setup notes. Measured in `hold-aa-rfcomm` round 1 addendum 3.
+- **`WifiDirectManager: operating channel` never prints at API 29 and above.** It is the pre-Q
+  reflection path. Read the group's frequency from `adb shell dumpsys wifip2p | grep -i frequency`
+  instead.
 
 - **One hands-free link per device, in both directions, and it shapes any round with two phones or
   two head units.** A phone's Audio Gateway serves one hands-free device, and a head unit serves one
