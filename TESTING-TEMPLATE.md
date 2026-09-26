@@ -1577,6 +1577,23 @@ A brief that gets a useful round back has these parts, in this order:
 8. **Do not re-run** — settled runs, so the round is not spent re-proving them.
 9. **Report back** — the two or three numbers that actually decide the shipping question.
 
+**Written for a Haiku executor (2026-09-25).** On the rig a Haiku agent runs each run and a
+Sonnet host grades it from what Haiku returns (`CLAUDE.md`, Subagent model routing). A brief works
+for that split when:
+
+- every step of a run is a paste-ready command (`send ...`, a script with its arguments, a
+  `sleep`), in order, with nothing left to infer; a step that needs judgement mid-run ("if the
+  session looks stuck, ...") names the exact observable and the exact command for each branch;
+- every run names the markers that bound it and the greps that decide it, each with the file it
+  runs on (part 6 already asks for the lines verbatim; add the file and the marker window);
+- every PASS / FAIL condition is a comparison over those counts and timestamps ("`Client list
+  empty` to the candidate's line within 5 s, for every hit"), never a reading of the log as a
+  whole, so Sonnet can grade from the Haiku extract alone;
+- the round's stop rule is a count too ("stop after the 3rd cycle that hits the trigger").
+
+A condition that can only be judged by reading the capture end to end is still allowed, but say
+so in the run: the host then reads the named window itself rather than trusting an extract.
+
 Prefer a positive control wherever one exists: a setting that makes the defect *reappear* proves the
 fix addresses the real mechanism, and is worth more than any number of passes. A control that is a
 **settings change on the candidate** beats one that needs a second build: round 8 ran its whole

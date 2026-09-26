@@ -33,8 +33,9 @@ behind them and its scripts name a branch that no longer exists.
 - **`README.md` is a router again.** Its 67 thread rows were condensed to one line each and a
   `## Queue` section lists every unrun brief. Read the Queue and your own row, nothing else; the
   rows as they stood are in `archive/threads-table-through-2026-09-10.md`.
-- **Subagent model routing is below.** Opus takes verdicts only; a grep or a lookup goes to Sonnet
-  or Haiku, and a capture is never read whole into the host session.
+- **Subagent model routing is below.** The Sonnet host takes verdicts; running the brief, greps
+  and lookups go to Haiku in the foreground, and a capture is never read whole into the host
+  session.
 
 ## Layout
 
@@ -64,31 +65,54 @@ the row names, and inventory `hur-wifi-test-scripts/` on the rig before building
 
 ## Subagent model routing
 
-When part of a round is delegated with the `Agent` tool, the model is chosen by the kind of work,
-and the point is token spend: a web search or a log grep never needs Opus. Opus is the strongest
-model on this machine and is not reserved for code planning, which a round rarely needs: it is the
-model for every verdict, and for nothing routine. Two cost facts decide most cases. Every spawned
-agent reloads its orientation, so an agent is cheaper than the host only when it keeps bulk *out*
-of the host's context; a grep whose output is a few lines runs in Bash in the host, cheaper than
-any agent. And a `fork` copies the whole conversation at the host model's rate, so it is never a
-saving. Effort is not a per-call argument here (no `.claude/agents/` directory, so every agent runs
-its definition's default).
+This machine runs **Sonnet as the host session** and **Haiku as the executor** (2026-09-25; until
+then this section named Opus as host and judge, which is not what runs here). The split is by kind
+of work, and the point is token spend and keeping the host's context small:
 
 | Work | Model | How it is set |
 |---|---|---|
-| External lookup: an `adb` or `gradle` error message, an Android API or `dumpsys` field, a vendor ROM or chipset fact, an Android Auto release note | **Haiku** | `Agent(model: "haiku")`, always; search results are large and never belong in the host |
-| **Volume:** counting landmarks in a capture with the greps a brief names, md5s and `git log` listings for the header block, inventorying `hur-wifi-test-scripts/` and `evidence/`, running the build and the unit tests, drafting the per-run tables of a results file from measured numbers, locating a file or a caller in the app worktree | **Sonnet** | `Agent(model: "sonnet")`; one agent per capture carrying every grep the brief names, never one agent per grep |
-| **Judgement:** assigning a run its verdict, reading a FAIL capture end to end, deciding whether a log string that does not match means the brief or the build is wrong, deciding whether a code change a round needs is within scope, writing the Setup notes and the closing section, editing the README's thread row | **Opus** | in the host session, which already runs Opus; `Agent(model: "opus")` only when the read needs a capture the host must not load, never in a fan-out wider than 2 |
-| Reading the brief, choosing the run order, a change to the clean-run protocol, the commit and the push | **Opus** | the host session only, never delegated |
-| **Refusal fallback:** an Opus prompt that stops on a classifier refusal is re-run once in the host session with the prompt narrowed to the capture at hand | **Opus** | the host session, and say so in Setup notes |
+| External lookup: an `adb` or `gradle` error message, an Android API or `dumpsys` field, a vendor ROM or chipset fact, an Android Auto release note | **Haiku** | `Agent(model: "claude-haiku-4-5-20251001")` |
+| **Execution:** running a brief's runs (the `send` verbs, the helper scripts in `hur-wifi-test-scripts/`, captures, markers), counting landmarks in a capture with the greps a brief names, md5s and `git log` listings for the header block, inventorying `hur-wifi-test-scripts/` and `evidence/`, running the build and the unit tests | **Haiku** | `Agent(model: "claude-haiku-4-5-20251001")`, **in the foreground**: the host waits for it, never a background agent (see below). One agent per run or per capture, carrying every command and grep the brief names for it, never one agent per grep |
+| **Judgement:** assigning a run its verdict, reading a FAIL's extract end to end, deciding whether a log string that does not match means the brief or the build is wrong, deciding whether a code change a round needs is within scope, writing the Setup notes, the results file and the closing section, editing the README's thread row | **Sonnet** | the host session |
+| Reading the brief, choosing the run order, a change to the clean-run protocol, the commit and the push | **Sonnet** | the host session only, never delegated |
+| **Refusal fallback:** a prompt that stops on a classifier refusal is re-run once in the host session with the prompt narrowed to the step at hand; if it still refuses, hand the exact command to the operator | **Sonnet** | the host session, and say so in Setup notes |
 
-Three rules the table implies. **A capture is never opened with Read or `cat` in the host**: one
-is about 140k tokens and is re-sent on every turn after, so grep it with Bash, or hand the file to
-a Sonnet agent that returns counts, timestamps and excerpts. A Sonnet pass never returns a verdict:
-a run is PASS or FAIL only after the Opus step reads what the pass found, so a round of five runs
-is five Sonnet grep passes feeding one Opus read, not five Opus agents. And Haiku never touches a
-device or the tree: it answers what the outside world says, and a Sonnet agent or the host checks
-that against the rig.
+Five rules the table implies.
+
+1. **A capture is never opened with Read or `cat` in the host.** One is about 140k tokens and is
+   re-sent on every turn after. Grep it with Bash, or hand it to a Haiku agent.
+2. **Haiku returns data, never a verdict.** Every execution agent ends with one JSON block, and
+   nothing else counts as its result:
+
+   ```json
+   {"run": "R3", "commands": ["send ...", "..."], "exit_codes": [0, 0],
+    "markers": {"R3-start": "15:27:01.112", "R3-end": "15:31:40.020"},
+    "greps": [{"pattern": "Client list empty", "file": "dsam_c2.logcat", "count": 4,
+               "first_ts": "15:27:04.658", "last_ts": "15:29:11.003",
+               "excerpt_lines": [1841, 1902]}],
+    "anomalies": ["logcat -c left 3 lines older than R3-start"]}
+   ```
+
+   Counts are anchored to the run's own markers, never to a whole-file grep (D-SAM's `logcat -c`
+   does not clear its buffer). A run is PASS or FAIL only after the Sonnet host reads these blocks
+   against the brief's conditions: five runs are five Haiku blocks feeding one Sonnet read.
+3. **The host checks the files, not the message.** Before grading, re-run one grep per run
+   yourself (`grep -c`) and compare it with the block's count; a mismatch means the Haiku pass is
+   re-run once, and a second mismatch is graded from the host's own greps and noted in Setup notes.
+4. **Execution agents run in the foreground, one runner at a time.** A background agent died
+   silently mid-round and left the rig unsupervised for about 68 minutes
+   (`audio-focus-round10-results.md`, Setup notes), and two concurrent runs of one script corrupted
+   a cycle (`native-aa-dsam-wifi-unavailable-round2-results.md`, Setup notes). So: no background
+   agent ever drives a device, and every script run takes the rig lock, which fails fast instead of
+   racing a second terminal:
+
+   ```bash
+   flock -n /tmp/ohu-rig.lock ./partB_cycles.sh || echo "another run holds the rig; stop and check"
+   ```
+
+5. **Haiku never decides scope and never writes this branch.** It does not edit briefs, results,
+   the README or app code, does not commit, and runs no `git reset`, `git checkout` of another
+   branch, `git push` or `git stash`. Those belong to the host.
 
 ## Modifying app code
 
@@ -192,6 +216,14 @@ Setup notes; a round that skips it costs the next round the same hours.
 Verdicts are exactly one of **PASS**, **FAIL**, **INCONCLUSIVE**, **UNTESTABLE**, per §6. For a
 FAIL, attach the full capture, never an excerpt. Give the measurement, never an adjective:
 "5180 MHz", not "5 GHz".
+
+**The bolded verdict line is always there, even when a run is graded per hit or per cycle.** A
+per-hit table is evidence under the verdict, not a replacement for it: `## R<id>`, then the bold
+verdict alone on its line, then the table. A round-level verdict, when the brief asks for one, is
+its own `## Round verdict: <VERDICT>` line. Tools that read results files (and the evals that
+check the Haiku-to-Sonnet split) find verdicts by those two shapes only;
+`native-aa-dsam-wifi-unavailable-round2-results.md` stated its FAIL only in a sentence under a
+table, and nothing but a person can read that.
 
 Evidence goes in `evidence/<topic>-round<N>/`. A photo-heavy round also gets a sibling
 `<topic>-round<N>-photos/` directory next to the results file, as several `ultrawide-touch-alignment`
