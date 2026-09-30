@@ -10,28 +10,29 @@ unchanged. Adopted 2026-09-30; the operator's rules in `CLAUDE.md` win wherever 
 | File | Role | Model |
 |---|---|---|
 | `agents/rig-executor.md` | runs one run's commands (or the prepare step) under the rig lock, returns the JSON block `CLAUDE.md` defines | Haiku |
-| `agents/rig-grader.md` | plan: brief into a run list; grade: one run after its own `grep -c`; report: drafts the results file | Sonnet |
-| `workflows/rig-round.workflow.md` | judgement half only: modes `plan`, `grade`, `report`. Never drives a device | (script) |
-| `skills/rig-round/SKILL.md` | `/rig-round <thread> <N>`: the host runs executors in the foreground, calls the workflow to grade, commits after `approve` | host |
+| `skills/rig-round/SKILL.md` | `/rig-round <thread> <N>`: the host plans, runs executors in the foreground, grades, drafts, and commits after `approve` | host (Sonnet) |
 | `skills/rig-diagnose/SKILL.md` | what to do when a run surprises you mid-round | host |
 
-**Rule 4 is unchanged:** no background agent drives a device. The workflow runs in the background,
-so it only reads, grades and drafts; every `rig-executor` run is a foreground call from the host,
-one at a time, under `flock -n /tmp/ohu-rig.lock`. Its one executor use is a grep-only pass over an
-existing capture.
+**Rule 4 is unchanged:** no background agent drives a device. Every `rig-executor` run is a
+foreground call from the host, one at a time, under `flock -n /tmp/ohu-rig.lock`.
+
+**No workflow and no grader agent on the rig, on purpose.** The rig runs on a Pro allowance, and
+once execution is sequential and in the foreground a workflow only re-reads the brief and the
+template in a fresh Sonnet context per grade. The host has both loaded already, so it plans, grades
+and drafts itself. The coding side's `/ohu-sdlc` keeps its workflow, which fans out in parallel.
 
 Install on the rig, from the root of this worktree (`.claude/` stays untracked here; add
-`/.claude/agents/`, `/.claude/skills/` and `/.claude/workflows/` to `.git/info/exclude` so it is
+`/.claude/agents/` and `/.claude/skills/` to `.git/info/exclude` so it is
 never committed to this branch):
 
 ```bash
-mkdir -p .claude/agents .claude/skills .claude/workflows
+mkdir -p .claude/agents .claude/skills
 cp rig-sdlc/agents/*.md .claude/agents/
 cp -r rig-sdlc/skills/rig-round rig-sdlc/skills/rig-diagnose .claude/skills/
-sed -n '/^```js$/,/^```$/p' rig-sdlc/workflows/rig-round.workflow.md | sed '1d;$d' > .claude/workflows/rig-round.js
 ```
 
-Restart Claude Code afterwards: agents and workflows added mid-session do not register until then.
+Restart Claude Code afterwards: agents added mid-session do not register until then. An install from
+before this change also removes `.claude/workflows/rig-round.js` and `.claude/agents/rig-grader.md`.
 
 ## Conventions
 

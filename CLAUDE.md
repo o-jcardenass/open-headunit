@@ -118,7 +118,7 @@ Five rules the table implies.
 
 `/rig-round <thread> <N>` (see `rig-sdlc/README.md`) runs a queued brief. The host runs each run
 through the Haiku `rig-executor` in the foreground under the rig lock, one at a time (rule 4 stands;
-the `rig-round` workflow only plans, grades and drafts, it never drives a device). The host commits
+the host itself plans, grades and drafts; there is no workflow on the rig). The host commits
 and pushes after the operator's `approve`, then returns to the branch it came from.
 
 ## Modifying app code
