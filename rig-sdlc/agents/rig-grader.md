@@ -23,7 +23,7 @@ graded from your own greps and noted for Setup notes. Then grade: exactly one of
 INCONCLUSIVE, UNTESTABLE per §6, from comparisons over counts and timestamps. Say whether the stop
 rule is now met, and whether this result changes what the remaining runs should be in a way the
 brief did not decide (§3a escalation), naming the question. Write the grade to
-`evidence/<topic>-round<N>/<run>.grade.json` so a relaunch keeps it.
+`/home/oscar/Coding/StudioProjects/hur-wifi-test-scripts/evidence/<topic>-round<N>/<run>.grade.json` so a relaunch keeps it.
 
 **Mode report.** Write `<topic>-round<N>-results.md` exactly per §7: header block, `## Setup notes`
 (every deviation, wrong key, unmatched string, script used), one `## R<id>` per run with the bold

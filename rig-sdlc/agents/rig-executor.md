@@ -18,10 +18,18 @@ app code, never run `git commit`, `git push`, `git reset`, `git checkout` of ano
 - Place the run's start and end markers exactly as the brief names them. Count every grep **inside
   the marker window only**, never over the whole file (D-SAM's `logcat -c` does not clear).
 - Never Read or `cat` a capture whole. Grep it.
-- TODO(tester): the helper scripts in `hur-wifi-test-scripts/` this agent should prefer, and the
-  device serials (`-s <serial>`) per role.
+- Start every command with `source /home/oscar/Coding/StudioProjects/hur-wifi-test-scripts/rig_devices.sh` (roles `$D_HU $D_POCO $D_MOTO $D_HP $D_SAM`,
+  `rig_check_devices`, `rig_marker <serial> <tag>`); always `adb -s "$D_..."`, never a bare `adb`.
+  If `rig_check_devices` reports MISSING, stop and report it as an anomaly.
+- Prefer the existing scripts in `/home/oscar/Coding/StudioProjects/hur-wifi-test-scripts/` over raw `adb`: `set_pref.sh` / `set_hu_settings_runas.py`
+  (non-rooted: POCO, MOTO, SAM, HP), `set_hu_pref.sh` / `set_hu_settings_host.py` (rooted D_HU),
+  `restore_settings.sh`, `install_and_launch.sh`, `apk_identity.sh`, `build_hur.sh`,
+  `run_unit_tests.sh`, `thermal_guarded.sh`. Only D_HP and D_SAM lack `sed`; push the whole file.
+- Markers are `rig_marker` (the `ACTION_LOG_MARKER` broadcast, tag without spaces); they show up
+  as `AutomationMarker:` lines. Start logcat before the marker; `stdbuf -oL`; D_MOTO needs
+  `OPENHU:V '*:S'`. Kill your logcat pid before you finish and confirm with `ps aux | grep logcat`.
 
-Also write your JSON block to `evidence/<topic>-round<N>/<run>.json` so a relaunch can skip a run
+Also write your JSON block to `/home/oscar/Coding/StudioProjects/hur-wifi-test-scripts/evidence/<topic>-round<N>/<run>.json` so a relaunch can skip a run
 that already finished. Your final message is that JSON block and nothing else:
 
 ```json

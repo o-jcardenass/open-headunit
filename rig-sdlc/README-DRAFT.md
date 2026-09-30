@@ -40,14 +40,23 @@ Restart Claude Code afterwards: agents and workflows added mid-session do not re
 3. **Commit and push stay in the host**, after the operator's `approve`, exactly as today.
 4. **Hand steps** pause the workflow (`AWAITING_HAND`) and resume on `/rig-round ... hand <runId>`.
 
-## TODO(tester)
+## Resolved from the TODO(tester) list
 
-- The build-and-install script the prepare step should call (§5), and the APK identity check.
-- Device serials per role (D-HU, D-POCO, D-SAM, D-HP) and how `send` targets each.
-- The marker verb, if it is not the §3 one the draft assumes.
-- Whether `/tmp/ohu-rig.lock` is the lock path on the rig.
-- Which `hur-wifi-test-scripts/` helpers the executor should prefer over raw `adb`.
-- Whether a round may span a Claude restart (the draft supports it; the rig may not want it).
+Helpers live in `hur-wifi-test-scripts/` (sibling directory), evidence and results drafts in its
+`evidence/<thread>-round<N>/`.
+
+- **Build and install:** `build_hur.sh` then `run_unit_tests.sh`, both with `HUR_DIR=<worktree of the
+  candidate>` (never the transfer worktree), then `adb -s <serial> install -r -d` per role.
+- **APK identity:** `apk_identity.sh <apk> <serial>...` (md5 of the pulled install vs the built APK).
+- **Serials and marker verb:** `source hur-wifi-test-scripts/rig_devices.sh` (roles, `rig_check_devices`,
+  `rig_marker <serial> <tag>`, the `ACTION_LOG_MARKER` broadcast, no spaces in the tag). Serials are
+  unverified against live hardware until the first run.
+- **Lock:** `/tmp/ohu-rig.lock`; no existing script takes it, only the executor's `flock`.
+- **Helper preference:** listed in `agents/rig-executor.md`.
+- **Restart mid-round:** allowed; the host checks for stray `logcat` and a free lock, then relaunches with `done`.
+
+Still open: `TESTING-TEMPLATE.md` was not available when this was written, so the section references
+(§3, §4, §5) are unchecked.
 
 ## Proposed line for the rig `CLAUDE.md`
 

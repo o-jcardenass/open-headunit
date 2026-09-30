@@ -14,7 +14,8 @@ export const meta = {
 // Finished runs are skipped on relaunch via args.done (the evidence/<topic>-round<N>/<run>.json files).
 const a = args || {}
 const done = new Set(a.done || [])
-const ctx = `Thread ${a.thread}, round ${a.round}. Brief: ${a.brief}. Worktree: ${a.worktree}. Evidence dir: evidence/${a.thread}-round${a.round}/.`
+const EV = `/home/oscar/Coding/StudioProjects/hur-wifi-test-scripts/evidence/${a.thread}-round${a.round}`
+const ctx = `Thread ${a.thread}, round ${a.round}. Brief: ${a.brief}. Worktree: ${a.worktree}. Evidence dir: ${EV}. Scripts: /home/oscar/Coding/StudioProjects/hur-wifi-test-scripts (source rig_devices.sh).`
 
 const S = {
   plan: { type: 'object', properties: {
@@ -35,8 +36,7 @@ phase('Prepare')
 const plan = await agent(`${ctx}\nMode plan.`, { agentType: 'rig-grader', label: 'read brief', schema: S.plan })
 if (!plan) return { status: 'STOPPED', reason: 'the brief reader returned nothing' }
 if (!done.has('prepare')) {
-  // TODO(tester): the rig's own build-and-install script (TESTING-TEMPLATE.md section 5), APK md5s, identity check.
-  const prep = await agent(`${ctx}\nPrepare step: fetch and build ${plan.build ? plan.build.branch + ' @ ' + plan.build.sha : 'the brief\'s candidate'} with the rig's own scripts per TESTING-TEMPLATE.md section 5, install it, back up settings.xml, and report the APK md5s and the build/test gate exit codes. Write evidence/${a.thread}-round${a.round}/prepare.json.`,
+  const prep = await agent(`${ctx}\nPrepare step: fetch and build ${plan.build ? plan.build.branch + ' @ ' + plan.build.sha : 'the brief\'s candidate'} with HUR_DIR=<a worktree of that candidate, never this transfer worktree> build_hur.sh, then run_unit_tests.sh with the same HUR_DIR, install it per device role with adb -s <serial> install -r -d, run apk_identity.sh <apk> <serials>, back up settings.xml, and report the APK md5s and the build/test gate exit codes. Write ${EV}/prepare.json.`,
     { agentType: 'rig-executor', label: 'prepare build', schema: S.block })
   if (!prep) return { status: 'STOPPED', reason: 'prepare agent died; check the rig before relaunching', plan }
   if ((prep.exit_codes || []).some(c => c !== 0)) return { status: 'ESCALATE', reason: 'build or unit-test gate failed (section 3a)', prep }
@@ -50,10 +50,10 @@ for (const run of plan.runs) {
   if (run.handStep && !(a.handDone || []).includes(run.id)) {
     return { status: 'AWAITING_HAND', run: run.id, reason: 'this run names a hand step; do it, then relaunch with it marked done', graded }
   }
-  let block = await agent(`${ctx}\nExecute run ${run.id} exactly:\n${run.steps}\nWrite evidence/${a.thread}-round${a.round}/${run.id}.json.`,
+  let block = await agent(`${ctx}\nExecute run ${run.id} exactly:\n${run.steps}\nWrite ${EV}/${run.id}.json.`,
     { agentType: 'rig-executor', label: `run ${run.id}`, schema: S.block })
   if (!block) return { status: 'STOPPED', reason: `executor died during ${run.id}; the rig may be mid-run, check it before relaunching`, graded }
-  let g = await agent(`${ctx}\nMode grade for ${run.id}. Also write your grade to evidence/${a.thread}-round${a.round}/${run.id}.grade.json. Conditions:\n${run.conditions}\nExecutor block:\n${JSON.stringify(block)}`,
+  let g = await agent(`${ctx}\nMode grade for ${run.id}. Also write your grade to ${EV}/${run.id}.grade.json. Conditions:\n${run.conditions}\nExecutor block:\n${JSON.stringify(block)}`,
     { agentType: 'rig-grader', label: `grade ${run.id}`, schema: S.grade })
   if (g && g.mismatch) {
     block = await agent(`${ctx}\nGrep pass only for ${run.id}, no device commands: re-run every grep in this block inside its marker window and return the corrected block.\n${JSON.stringify(block)}`,

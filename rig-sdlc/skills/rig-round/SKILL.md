@@ -15,7 +15,7 @@ always; this skill does not replace them.
    Inventory `hur-wifi-test-scripts/`.
 2. **Launch** `Workflow({name: "rig-round", args})` with
    `{thread, round: N, brief: "<file>", worktree: "<abs path>", done: [ids that have
-   evidence/<thread>-round<N>/<id>.json, plus "prepare" if prepare.json exists], handDone: [...]}`.
+   /home/oscar/Coding/StudioProjects/hur-wifi-test-scripts/evidence/<thread>-round<N>/<id>.json, plus "prepare" if prepare.json exists], handDone: [...]}`.
 3. **On the result:**
    - `AWAITING_HAND`: tell the operator the hand step, wait for `/rig-round <thread> <N> hand <runId>`,
      then relaunch with it in `handDone`.
@@ -26,5 +26,8 @@ always; this skill does not replace them.
    with the sha256 in the results file, `git add` the results file and `README.md` by name, commit
    (`<thread>: round <N> results - <short outcome>`, no issue numbers, no trailers), push to `fork`.
 
-TODO(tester): device serials per role, where the rig lock lives if not `/tmp/ohu-rig.lock`, and
-whether a round may span a session restart (the workflow skips finished runs by their evidence file).
+Device serials, the lock path (`/tmp/ohu-rig.lock`) and the marker verb live in
+`/home/oscar/Coding/StudioProjects/hur-wifi-test-scripts/rig_devices.sh`. Evidence JSON, grades, captures and the results draft go under
+`/home/oscar/Coding/StudioProjects/hur-wifi-test-scripts/evidence/<thread>-round<N>/`; on `approve`, the host copies the results file next to its brief
+in the worktree for the commit. A round may span a session restart: before relaunching, the host
+checks `ps aux | grep logcat` and `flock -n /tmp/ohu-rig.lock true`, then relaunches with `done`.

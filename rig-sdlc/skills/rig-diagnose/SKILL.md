@@ -14,8 +14,8 @@ Matt Pocock's `diagnosing-bugs`, cut down to what a round may do.
    starvation cap from earlier fumbles. A quirk hit is a discard and a re-run (§4), not a FAIL.
 2. **Raise the reproduction rate, not the cleanliness.** If the failure is intermittent, repeat the
    run's trigger within the brief's stop rule and report the rate (3 of 5), never "sometimes".
-3. **Instrument with markers only.** Add `send marker <tag>` style markers around the suspect window
-   (TODO(tester): the exact marker verb) so the next grep is bounded. Do not add app log lines
+3. **Instrument with markers only.** Add `rig_marker <serial> <tag>` markers (from `rig_devices.sh`, no spaces in the tag) around the
+   suspect window so the next grep is bounded. Do not add app log lines
    unless the brief allows a code change (rig CLAUDE.md, Modifying app code).
 4. **Capture, do not theorise.** Quote the decisive lines with timestamps, keep the full capture
    for a FAIL, and write what you saw in Setup notes and "Anything the brief did not ask about".
