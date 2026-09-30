@@ -6,8 +6,8 @@ disable-model-invocation: true
 
 # /rig-round
 
-Usage: `/rig-round <thread> <N> [hand <runId> | approve]`. Read `TESTING-TEMPLATE.md` and this
-worktree's `CLAUDE.md` first, as always; this skill does not replace them. Rule 4 holds: **no
+Usage: `/rig-round <thread> <N> [hand <runId> | approve]`. This worktree's `CLAUDE.md` is already
+loaded; this skill does not replace it or `TESTING-TEMPLATE.md`, it only says which parts to read. Rule 4 holds: **no
 background agent drives a device.** The host runs every `rig-executor` in the foreground, one at a
 time, and does all the judgement itself. There is no workflow and no grader agent: the host has
 already read the brief and the template, so grading in its own context is the cheapest place to do it.
@@ -17,8 +17,14 @@ Shell prelude for every command: `source /home/oscar/Coding/StudioProjects/hur-w
 
 1. **Before launching.** Note the branch you came from. `git fetch fork`, check out and
    fast-forward `transfer/rig-rounds`, read `README.md`'s `## Queue` and the thread's row only,
-   confirm `<thread>-round<N>-brief.md` exists with no results file. Inventory `hur-wifi-test-scripts/`.
-   `rig_check_devices` for the roles the brief names, `ps aux | grep logcat` for strays, and
+   confirm `<thread>-round<N>-brief.md` exists with no results file.
+   **Read only what the round needs**, once, and never the whole template or the whole quirk list:
+   - the template without §7b and §8: `sed '/^## 7b\./,/^## 8\./{/^## 8\./!d}; /^## 8\./,$d' TESTING-TEMPLATE.md`
+     (§7b only when a phone is the USB host; §8 is for whoever writes briefs);
+   - from §7a's index: `rig-quirks/topics/tooling.md`, `rig-quirks/units/<unit>.md` for every unit the
+     brief names, and the topic files for the areas its runs touch
+     (`grep -il <term> rig-quirks/topics/*.md` when unsure). Say in Setup notes which quirk files you read.
+   Inventory `hur-wifi-test-scripts/`, then `rig_check_devices` for the roles the brief names, `ps aux | grep logcat` for strays, and
    `flock -n /tmp/ohu-rig.lock true` to confirm the rig is free.
 2. **Plan (host).** Read the brief once and write down the run list in the brief's order: id, title,
    whether it is the point of the round, whether it has a hand step, the stop rule, and for each run

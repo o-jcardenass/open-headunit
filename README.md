@@ -16,7 +16,8 @@ once: it carries the reset commands and what changed. Otherwise you do not need 
 
 1. **`TESTING-TEMPLATE.md`**, the standing method. Read it once: capture rules, how to read and
    write `settings.xml`, the app's automation surface, the clean-run protocol, install discipline,
-   the four verdicts, and the format results come back in.
+   the four verdicts, and the format results come back in. The rig quirks are in `rig-quirks/`, indexed by
+   §7a: read the files for your units and your runs' areas, not all of them.
 2. **`## Queue` below, then your own row in `## Threads`**, found with
    `grep -F '| `<thread>`' README.md`. The row names the one brief to read; it names everything
    else it needs.
