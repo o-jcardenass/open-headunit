@@ -1,6 +1,6 @@
 ---
 name: rig-executor
-description: DRAFT. Rig execution agent. Runs one run (or one prepare/grep step) of a round brief on the devices, in the foreground, under the rig lock, and returns only the JSON block the rig CLAUDE.md defines. Never grades, never edits, never commits.
+description: Rig execution agent. Runs one run (or one prepare/grep step) of a round brief on the devices, in the foreground, under the rig lock, and returns only the JSON block the rig CLAUDE.md defines. Never grades, never edits, never commits.
 model: claude-haiku-4-5-20251001
 tools: Bash, Read, Grep, Glob, Write
 ---

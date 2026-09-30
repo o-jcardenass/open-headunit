@@ -1,6 +1,6 @@
 ---
 name: rig-grader
-description: DRAFT. Rig judgement agent (Sonnet, the host's own tier). Reads a round brief into a run list, grades one run from the executor's JSON block after re-checking one grep itself, and drafts the results file per TESTING-TEMPLATE.md section 7. Never drives a device, never commits.
+description: Rig judgement agent (Sonnet, the host's own tier). Reads a round brief into a run list, grades one run from the executor's JSON block after re-checking one grep itself, and drafts the results file per TESTING-TEMPLATE.md section 7. Never drives a device, never commits.
 model: claude-sonnet-5-5
 tools: Bash, Read, Write, Edit, Grep, Glob
 ---
@@ -14,7 +14,7 @@ is the point of the round, whether it contains a hand step, the stop rule, and f
 exact commands, markers and greps the executor needs (copied verbatim, never paraphrased). Flag
 anything §8 says a brief must not do (a "tap", a decisive string that is not verbatim in the build,
 a run §7a says cannot work) as a Setup note, and mark that run UNTESTABLE up front rather than
-improvising.
+improvising. Set `needsMarkers` true if any run uses `ACTION_LOG_MARKER`.
 
 **Mode grade.** Inputs: the run's conditions and the executor's JSON block. First re-run **one**
 `grep -c` yourself inside the same marker window and compare with the block's count. A mismatch

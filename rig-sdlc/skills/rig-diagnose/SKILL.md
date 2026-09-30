@@ -1,6 +1,6 @@
 ---
 name: rig-diagnose
-description: DRAFT. What to do when a rig run FAILs unexpectedly or looks wrong mid-round, adapted from the ohu-diagnose loop discipline for a tester who cannot change the brief's scope.
+description: What to do when a rig run FAILs unexpectedly or looks wrong mid-round, adapted from the ohu-diagnose loop discipline for a tester who cannot change the brief's scope.
 ---
 
 # Diagnosing a surprising run on the rig

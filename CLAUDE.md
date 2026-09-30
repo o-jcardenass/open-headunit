@@ -114,6 +114,13 @@ Five rules the table implies.
    the README or app code, does not commit, and runs no `git reset`, `git checkout` of another
    branch, `git push` or `git stash`. Those belong to the host.
 
+## Running a round with `/rig-round`
+
+`/rig-round <thread> <N>` (see `rig-sdlc/README.md`) runs a queued brief. The host runs each run
+through the Haiku `rig-executor` in the foreground under the rig lock, one at a time (rule 4 stands;
+the `rig-round` workflow only plans, grades and drafts, it never drives a device). The host commits
+and pushes after the operator's `approve`, then returns to the branch it came from.
+
 ## Modifying app code
 
 A round sometimes needs a code change: a log line the brief asks for, a build break to fix, or a

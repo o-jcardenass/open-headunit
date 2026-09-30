@@ -1585,6 +1585,9 @@ A brief that gets a useful round back has these parts, in this order:
 3. **What is different about this round** — rig-specific facts that change the runs, and any run that
    is expected to be INCONCLUSIVE, said up front so it is not treated as a failure.
 4. **Settings keys this round needs** — as a table of elements, ready to paste.
+   If any run stamps `ACTION_LOG_MARKER` and the candidate still lists it in
+   `AutomationCommandPolicy.CONFIGURING`, add `allow-external-configuration` = `true` to this table
+   (current `main` does not gate it; grep the candidate).
 5. **Every action as an `AutomationReceiver` verb** (§3), written as the `send ...` line to paste.
    Never write "tap" or `input tap` for anything on the app. If a step has no verb, either add one
    on the branch under test or name the step a hand step with the reason; a brief that leaves the
