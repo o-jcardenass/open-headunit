@@ -5,6 +5,8 @@ The rig half of the coding side's `/ohu-sdlc` pipeline. The coding side publishe
 `ohu-rig-grade` agent picks up `<thread>-round<N>-results.md`. The brief/results contract is
 unchanged. Adopted 2026-09-30; the operator's rules in `CLAUDE.md` win wherever they disagree.
 
+**Upgrading an existing install:** follow `rig-sdlc/APPLY-2026-09-30.md` once.
+
 ## What is here
 
 | File | Role | Model |
