@@ -80,6 +80,7 @@ were reported under another filename, and are listed so the pairing rule does no
 - `video-dropped-frame-keyframe-round7-brief.md` (R1 is a desk check, R2 optional)
 - `projection-raise-round5-brief.md`
 - `station-scan-round1-brief.md` (D-POCO, D-HU and D-SAM as head units, D-MOTO as phone; measurement, no candidate)
+- `external-bt-module-coldstart-round1-brief.md` (candidate `4335f0f8`; vendor daemon cold-start re-dial, hotspot restart read-back)
 
 Superseded, do not run: `hands-free-wake-and-proto-schema-round1-brief.md` is reported and is
 replaced by `hands-free-wake-round2-brief.md`; its proto, serve-path and control runs are DONE and
@@ -111,6 +112,7 @@ by `bssid-round1-results.md` and its addendum.
 
 | Thread | State | Next |
 |---|---|---|
+| `external-bt-module-coldstart` | **QUEUED** | `external-bt-module-coldstart-round1-brief.md`, candidate `4335f0f8` on `fix/external-bt-module-coldstart`. |
 | `home-wifi-reconnect-mid-session` | **Round 1 reported**: D-HU PASS (B-R2, B-R3, B-R1), D-SAM A-R2 FAIL (platform drops the P2P group on a rejoin), R5 FAIL (restore lost to a process death, slow rejoin) | `home-wifi-reconnect-mid-session-round1-results.md`, candidate `9676eee4`. |
 | `rig-sdlc` | **DONE, adopted** | `rig-sdlc/README.md`: `/rig-round`, host-driven (no workflow on the rig), Haiku `rig-executor` in the foreground; install steps inside. |
 | `adaptive-audio` | **Round 1 DONE, one FAIL, audible regression on weak hardware** | `adaptive-audio-round1-results.md`, `a22579ee5` on `emotionbug/open-headunit`. R0/A1/A3/A5/H1/P1 PASS, A2 FAIL (default-latency bank never settles back to 60-150ms after a real late-batch growth event), A4 INCONCLUSIVE both arms (phone sends 0 `type:1` configs), A6/A7 no pass-fail. **Headline finding, not in the brief's own criteria**: operator heard 5-6 audible stutters on S1's candidate arm vs 1 on baseline, and "a lot" on H1's candidate, both with every app-level counter reading perfectly clean — the log-only PASS criteria miss it entirely on weak/old hardware (D-T230 API19, D-HP API17). |
