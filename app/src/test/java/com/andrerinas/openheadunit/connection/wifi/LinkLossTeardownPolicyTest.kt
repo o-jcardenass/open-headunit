@@ -37,6 +37,19 @@ class LinkLossTeardownPolicyTest {
     }
 
     @Test
+    fun `a self mode loopback session survives wifi off beside a P2P launcher`() {
+        for (launcher in listOf(
+            WifiLauncherMock.create(WifiLauncherMode.NATIVE),
+            WifiLauncherMock.create(WifiLauncherMode.HELPER, HelperStrategy.WIFI_DIRECT),
+        )) {
+            assertFalse(LinkLossTeardownPolicy.shouldTearDown(
+                LinkLossTrigger.WIFI_STATION_DISABLING, launcher,
+                sessionIsWireless = true, peerIsHeadUnitServer = true
+            ))
+        }
+    }
+
+    @Test
     fun `a device shutdown takes every route down, so every route closes first`() {
         for (mode in 1..3) {
             for (strategy in 0..4) {
