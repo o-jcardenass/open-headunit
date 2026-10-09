@@ -82,13 +82,14 @@ in the commit that pushes the results.
 - `call-audio-route-round1-brief.md` (measurement on `main` `28d73e2f`, D-HU and D-MOTO with the KY Pro intercom; hand-rung calls; I-car against I-moto is the point)
 - `pr-1076-text-keycodes-round1-brief.md` (D-HU with D-POCO, A/B; R1 is the point)
 - `pr-1001-devserver-p2p-round1-brief.md` (B `0cbff004`, P `7f5bc6e9` = `fork/review/pr-1001`, F `ce5e61cb` = `fork/review/pr-1001-loopback-fix`; stage 1 D-POCO as head unit in Self Mode, stage 2 D-HU with D-POCO; R3 is the point; hand steps HS1 to HS4; renames D-HU's WiFi Direct device to OpenHU)
+- `usb-reattach-round3-brief.md` (candidate `bcf3b1a3`, rebuilt on `main` `71375a68`; the attempt slot is the point; export build E for the Save stage)
 
 ## Threads
 
 | Thread | State | Next |
 |---|---|---|
 | `call-audio-route` | Round 1 queued | `call-audio-route-round1-brief.md`. Measures whether Motorcycle plus head unit microphone off moves a phone call's audio, with and without an intercom on the phone, and where the assistant opens SCO. No candidate. |
-| `usb-reattach` | Round 2 done | `usb-reattach-round2-results.md`. Plain retry on `main` recovered 0 of 11 cycles; candidate reset re-enumerated 8 of 8, re-switch 0 of 6; give-up, bound, banner and clearing all held (RG PASS). Round 1: `usb-reattach-round1-results.md`. |
+| `usb-reattach` | Round 3 briefed | `usb-reattach-round3-brief.md`. Candidate `bcf3b1a3`. Round 2: `usb-reattach-round2-results.md`. Round 1: `usb-reattach-round1-results.md`. |
 | `build-speed` | Round 3 done | `build-speed-round3-results.md`. M2 (Kotlin in-process, 3 GB Gradle heap) is now the tester PC's standing `~/.gradle/gradle.properties`; T1/T2 PASS, but T2 (30 s) was a build-cache restore, not a cold compile. Round 2: `build-speed-round2-results.md`. |
 | `bluetooth-audio-disabled-usb-connect` | ROUND 5 DONE, INCONCLUSIVE | `bluetooth-audio-disabled-usb-connect-round5-results.md`: C0 and C1 both NO_DISABLE (D-MOTO changed since round 3), skip claim ungraded; announce, media and back-to-real parts PASS. Next: decide whether to re-measure on a D-MOTO that disables. |
 | `pr-1001-devserver-p2p` | Round 1 queued | `pr-1001-devserver-p2p-round1-brief.md`. Automatic WiFi Direct for Headunit Server mode. R3: a Self Mode session must survive station WiFi off beside an armed WiFi Direct launcher (B and F keep it, P is expected to close it). |
