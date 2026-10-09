@@ -83,6 +83,7 @@ in the commit that pushes the results.
 - `pr-1076-text-keycodes-round1-brief.md` (D-HU with D-POCO, A/B; R1 is the point)
 - `pr-1001-devserver-p2p-round1-brief.md` (B `0cbff004`, P `7f5bc6e9` = `fork/review/pr-1001`, F `ce5e61cb` = `fork/review/pr-1001-loopback-fix`; stage 1 D-POCO as head unit in Self Mode, stage 2 D-HU with D-POCO; R3 is the point; hand steps HS1 to HS4; renames D-HU's WiFi Direct device to OpenHU)
 - `usb-reattach-round4-brief.md` (`fix/usb-reattach` `b48da528` plus export build E on D-POCO; U0 gate, then U1; `held` must be 0)
+- `second-screen-outputs-round1-brief.md` (`feat/second-screen-outputs` `331b0a8c`, force-pushed; D-HU with D-POCO, D-SAM as a viewer; R2 network output is the point)
 
 ## Threads
 
@@ -99,6 +100,7 @@ in the commit that pushes the results.
 | `station-scan` | **QUEUED, round 1** | `station-scan-round1-brief.md` on probe `b887adeb`. Two reporter tablets stutter on every one of their unjoined station's scans; D-HU does not (link-stall-periodic-scan round 5). Measures whether a `LocalOnlyHotspot` takes the station down and carries a session. |
 | `dsam-widget-layout-dpi` | Round 1 reported, no brief | `dsam-widget-layout-dpi-round1-results.md`. D-SAM shows the portrait widget layout from the announced density, not orientation: 1280x720 landscape at 175 dpi (about 658 dp tall) shows the weather widget, at 198 it does not. Auto orientation also pins a portrait start (R1 FAIL). dpi left at 198. |
 | `samsung-driver-native` | **R1 PASS; addendum done** | `samsung-driver-native-round1-results.md` (`## Addendum`). D-POCO holds its group IP and BSSID (safe cell); S24 reconnected 2 of 2 over the stored WPP endpoint. A2 not needed. Phone captures stay private. |
+| `second-screen-outputs` | **QUEUED, round 1** | `second-screen-outputs-round1-brief.md`. First hardware round of the auxiliary display on channel 14. R1 feature off; R2 network output to a scripted receiver, VLC on the tester PC and VLC on D-SAM; R3/R4 session end and sleep on a simulated display. |
 
 Round files are `<thread>-round<N>-brief.md` and `<thread>-round<N>-results.md`. A brief with no
 matching results file is a round nobody has run yet. That pairing is the only queue there is, so
