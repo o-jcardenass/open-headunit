@@ -109,3 +109,56 @@ Not run: only if R1 FAILED and R3 PASSED.
 - **A group named from before the bring-up was already up on D-SAM at the start of R0-1** (`a group named ... is already up from before this bring-up; reading it instead of tearing it down`).
 - **Report-back (brief section 9):** (1) R1: session formed in 2 of 2 bring-ups, no failing gate. (2) R3 not run, so the result reads neither "Samsung" nor "phone as head unit"; nothing failed. (3) P3: notification access 1, Gearhead 17.7.663654-release; residue check PASS.
 - **Brief changes worth making before another round:** P3 must read the adapter address from somewhere that is not redacted (for example the head unit's own `Connection accepted from` line, or ask the operator); drop `Service Discovery Response`; take `Initializing WiFi Mode: NATIVE` from the full capture; drop the phone `Creating rfcomm socket` gate or note it never appears on Gearhead 17.7; mention that D-SAM cannot switch its Bluetooth off over adb.
+
+## Addendum
+
+Run of `samsung-driver-native-round1-addendum.md` on the same build (`main` `71375a68`, APK md5 `fdda065c`), D-POCO as head unit, S24 as driver, 2026-10-09 17:44 to 17:51 (D-POCO clock). Scripts `scripts/a0.sh`, `scripts/a1.sh`, `scripts/grade_a1.sh` in the round's data folder. Head unit captures: release asset `rig-evidence-samsung-driver-native`, `samsung-driver-native-round1-addendum-captures.zip`, sha256 `8828194ade992d68f1414c0e3caf20c92999cacabc24fb18b7f4b4acfd9ff1ab`. S24 captures stay private.
+
+### Addendum setup notes
+
+- **Pre-flight:** D-POCO, D-HU wifi 1 bt 1 and D-MOTO bt 0, `PREFLIGHT OK` on the second attempt; the first FAILED on my own idle Gradle daemon from the earlier build (killed by pid).
+- **S24 set-up:** the operator unpaired D-SAM's radio on the S24 (D-POCO's only), re-granted Gearhead's permissions after a separate cleaned-permissions test (not part of this addendum), and kept the S24 unlocked on home. USB debugging was still on. `residue-before-addendum.txt` equals round 1's baseline.
+- **`S24_MAC`:** D-POCO's bonded list also redacts it (`XX:XX:XX:XX:70:EF`), so the address saved by the app after the earlier dial-in was used from cycle 1 on (a wake list present from the start, not empty). A0 used an empty wake list (`<set name="native-poke-bt-macs">` with no strings) and `native-poke-all-paired` false; no poke went out in any A0 create.
+- **Before A0:** D-POCO's `settings.xml` had no `wifi-direct-last-identity-verdict` and no `wifi-direct-last-group-bssid` key; after A0 the verdict reads `STABLE`.
+- **A1 script:** the brief's `bringup` with its fixed 60 s and 87 s sleeps replaced by the addendum's wait loop (poll `SSL handshake complete` every 5 s up to 150 s, 20 s with the session up, `ACTION_DISCONNECT`, 10 s, end marker). D-MOTO Bluetooth off for the stage and back on afterwards; D-POCO settings restored from the pre-round backup (diff empty).
+- **A2 not run:** only if A1 was POISONED.
+
+### A0
+
+**RECORDED (no PASS or FAIL by the addendum)**
+
+D-POCO's cell: **IP holds, BSSID holds** (safe unit, like D-HU).
+
+| Create | `GO IP` | SSID token | BSSID token | `stable=` |
+|---|---|---|---|---|
+| A0-1 | `192.168.49.1` | SSID-1 | BSSID-1 | no (first group under this name) |
+| A0-2 | `192.168.49.1` | SSID-1 | BSSID-1 | yes (same name and same BSSID as the last group) |
+| A0-3 | `192.168.49.1` | SSID-1 | BSSID-1 | yes |
+
+The three IPs are equal, the three BSSID tokens are equal. Each group was persistent (`persistent=yes`, one network id across the three). `ip -4 addr show` at +30 s read `192.168.49.1/24` on `p2p0` in each. No WPP-over-TCP endpoint line printed in A0 (no phone joined). A0-1 `Group formed` 17:44:53.996, A0-2 17:45:44.480, A0-3 17:46:35.012. This is not the field fault's shape, so A1 is not expected to poison on this unit.
+
+### A1
+
+**PASS**
+
+3 cycles, S24 bonded to D-POCO only. Paired with A0's cell, this proves only that the safe path works.
+
+| Cycle | Start to SSL | Endpoint line | Dial of the endpoint | Grade |
+|---|---|---|---|---|
+| A1-1 (forms the record) | 10.3 s | `NativeAA: advertising WPP over TCP at 192.168.49.1:5299` at 17:48:03.401; `Connection accepted from` 1; `Incoming connection detected from` 1 | none (first connection over Bluetooth) | session formed; `Native AA user exit` 17:48:36.636 |
+| A1-2 (reconnect) | 8.7 s | no `advertising` line in the window | `WppTcpServer: connection from 192.168.49.112` at 17:49:26.173; SSL 17:49:26.877 | **RECONNECT-OK**; user exit 17:49:48.319 |
+| A1-3 (reconnect) | 8.0 s | no `advertising` line in the window | `WppTcpServer: connection from 192.168.49.112` at 17:50:23.619; SSL 17:50:24.277 | **RECONNECT-OK**; user exit 17:50:46.385 |
+
+Both reconnects came in over WPP-over-TCP at the stored endpoint, with `Connection accepted from` 0 and `Attempting active poke` 0 in their windows (the phone dialled without any Bluetooth wake). Phone side, A1-2 and A1-3: `Trying to start WPP on TCP with configuration` 1 each, `No WPP on TCP configuration found in storage` 0, `NETWORK_NOT_FOUND` / `TCP_SOCKET_CONNECTION_FAILED` / `BSSID_MISMATCH` 0, `Restarting WPP over TCP` 0, `THROTTLE_LIMIT_EXCEEDED` 0, `TapHeadUnitActivity` 0. In A1-1 the phone logged `No WPP on TCP configuration found in storage` 1, `Trying to start WPP on TCP` 1 and `Restarting WPP over TCP` 1 (record created). `needs this head unit forgotten` 0 and `not advertising WPP over TCP:` 0 in all three. No POISONED cycle, so the recovery step and A2 were not needed.
+
+### Addendum residue check
+
+**PASS**
+
+`residue-before-addendum.txt` against `residue-after-addendum.txt` (ignoring the date line): diff empty; `find` count 0. The operator's closing hand steps (forget only rig vehicles in Android Auto, unpair D-POCO's radio, forget `DIRECT-` saved networks, revoke USB debugging authorisations, USB debugging off) are theirs.
+
+### Addendum report back
+
+1. A0's cell for D-POCO: IP holds, BSSID holds; `stable=` no, yes, yes.
+2. A1: cycle 2 and cycle 3 both RECONNECT-OK, by WPP-over-TCP at `192.168.49.1:5299` (endpoint line printed once, in cycle 1).
+3. A2: not run.

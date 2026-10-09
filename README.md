@@ -78,7 +78,6 @@ Three rules from the template are worth repeating, because breaking any of them 
 A brief with no results file of the same name. Add a line here when a brief is pushed; delete it
 in the commit that pushes the results.
 
-- `samsung-driver-native-round1-addendum.md` (stand-alone stage after round 1: D-POCO as head unit, S24 as driver, read-only on the S24; A0 classifies whether D-POCO's group IP or BSSID moves, A1 reconnect cycles are the point)
 - `station-scan-round1-brief.md` (D-POCO, D-HU and D-SAM as head units, D-MOTO as phone; measurement, no candidate)
 - `call-audio-route-round1-brief.md` (measurement on `main` `28d73e2f`, D-HU and D-MOTO with the KY Pro intercom; hand-rung calls; I-car against I-moto is the point)
 - `pr-1076-text-keycodes-round1-brief.md` (D-HU with D-POCO, A/B; R1 is the point)
@@ -99,7 +98,7 @@ in the commit that pushes the results.
 | `pr-1042-disabled-home-buttons` | Round 1 reported | `pr-1042-disabled-home-buttons-round1-results.md`. `3404e4e4`: R4 FAIL as predicted (only WiFi ticked, session live in picture-in-picture: Self Mode button reads enabled=no, press does nothing); R1, R2, R3, R5 PASS; R2 shows the legacy single choice greys Self Mode and USB. |
 | `station-scan` | **QUEUED, round 1** | `station-scan-round1-brief.md` on probe `b887adeb`. Two reporter tablets stutter on every one of their unjoined station's scans; D-HU does not (link-stall-periodic-scan round 5). Measures whether a `LocalOnlyHotspot` takes the station down and carries a session. |
 | `dsam-widget-layout-dpi` | Round 1 reported, no brief | `dsam-widget-layout-dpi-round1-results.md`. D-SAM shows the portrait widget layout from the announced density, not orientation: 1280x720 landscape at 175 dpi (about 658 dp tall) shows the weather widget, at 198 it does not. Auto orientation also pins a portrait start (R1 FAIL). dpi left at 198. |
-| `samsung-driver-native` | **R1 PASS, round 1 done** | `samsung-driver-native-round1-results.md`. S24 formed a session 2 of 2 against D-POCO (SSL ~10 s); on D-SAM it needed a second handshake after the group removal. R3 and R4 not needed. Phone captures stay private. Next: `samsung-driver-native-round1-addendum.md`, reconnects after a user exit and a moving group IP. |
+| `samsung-driver-native` | **R1 PASS; addendum done** | `samsung-driver-native-round1-results.md` (`## Addendum`). D-POCO holds its group IP and BSSID (safe cell); S24 reconnected 2 of 2 over the stored WPP endpoint. A2 not needed. Phone captures stay private. |
 
 Round files are `<thread>-round<N>-brief.md` and `<thread>-round<N>-results.md`. A brief with no
 matching results file is a round nobody has run yet. That pairing is the only queue there is, so
