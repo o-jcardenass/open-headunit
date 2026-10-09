@@ -2,8 +2,10 @@
 
 Published name: `samsung-driver-native-round1-addendum.md`. Results go into a section
 `## Addendum` of `samsung-driver-native-round1-results.md`. Same build (`main` `71375a68`), same
-helpers (brief section 5) and same S24 rules (brief section 0) as the round 1 brief. **Every rule in
-brief section 0 applies here without change.** Estimated time: 30 min.
+helpers (brief section 5, as `scripts/bringup.sh` in the round's data folder) and same S24 rules
+(brief section 0) as the round 1 brief. **Every rule in brief section 0 applies here without
+change.** Estimated time: 30 min of runs, plus the pre-flight below. Round 1 is done (R1 PASS), so
+this addendum is a stand-alone stage.
 
 ## Why
 
@@ -20,6 +22,31 @@ move its group IP, its BSSID, both or neither. A0 answers that, and A1 shows wha
 with it.
 
 A phone head unit is also the field case: one reporter drives a Samsung into a Nothing Phone 1.
+
+## Pre-flight (one batch, before A0)
+
+Round 1 ended with the operator's closing hand steps, so the S24 is no longer set up. Ask the
+operator, in one message, to:
+
+1. Turn USB debugging on again on the S24 and accept the PC's key.
+2. Turn the S24's Bluetooth on if it is off, and pair it with D-POCO's radio (`POCO X3 NFC`) only.
+3. Keep the S24 unlocked on its home screen during A1.
+
+Then, read-only on the S24: re-run brief step P2 into `residue-before-addendum.txt`. Put D-POCO in
+as the head unit, and D-MOTO's Bluetooth off. D-HU stays plugged in for A2; its app stays stopped.
+
+**The S24's Bluetooth address (`S24_MAC`).** Round 1 found that the S24's own `dumpsys` redacts the
+first four octets. Read it from D-POCO's bonded list instead, matching the S24's device name, and
+check it has no `XX`:
+
+```bash
+adb -s 4f4027e9 shell dumpsys bluetooth_manager | grep -a -A12 "Bonded devices"
+```
+
+If D-POCO also redacts it, leave the wake list empty, keep `native-poke-all-paired` `false`, and let
+the first A1 cycle wait for the S24 to dial in, as round 1's R0-1 did. Then read the address the app
+saved (`last-connected-native-mac` in D-POCO's `settings.xml`) and use it from cycle 2 on. Say which
+way it was read.
 
 ## Settings (D-POCO, app stopped)
 
@@ -46,7 +73,7 @@ Record the verdict and whether a last BSSID exists (yes or no, never the value).
 | `Native AA user exit` | the exit removed the group |
 | `needs this head unit forgotten` | the app saw its own advertised address move |
 | `Connection accepted from` | the phone came back over Bluetooth |
-| `SSL handshake complete`, `Service Discovery Response` | session formed |
+| `SSL handshake complete`, `Service Discovery Request: Android` | session formed |
 
 **Phone capture.** Gearhead strings, so they drift. A zero means absent or renamed:
 
@@ -59,9 +86,11 @@ grep -a -o "WIRELESS_SETUP_[A-Z_]*" $P | sort | uniq -c
 grep -a -c "THROTTLE_LIMIT_EXCEEDED" $P
 ```
 
-## Runs (Stage B, D-POCO as head unit; S24 bonded to D-POCO only; D-MOTO Bluetooth off)
+## Runs (D-POCO as head unit; S24 bonded to D-POCO only; D-MOTO Bluetooth off)
 
-Run A0 and A1 after R1 and before R2/R3, while the S24 is still paired with D-POCO.
+Round 1 errata apply: grade a session on `SSL handshake complete` plus `Service Discovery Request: Android`
+(`Service Discovery Response` is not in this build's log), read `Initializing WiFi Mode: NATIVE` from the
+full capture, and grade the dialled radio from `Connection accepted from ... on local radio [POCO X3 NFC]`.
 
 **A0 - does D-POCO move its group, and does it advertise? (6 min, no S24 needed in the grade)**
 Three creates. The S24 stays as it is, but the wake list is **empty** and
@@ -113,8 +142,15 @@ connected cars > forget **only** D-POCO's entry. Then one more `bringup A1-r $S2
 Record whether a first-run screen appeared. Do not reboot or clear the S24.
 
 **A2 - the same cycle on D-HU (4 min). Only if A1 was POISONED.** D-HU holds `192.168.49.1`, so it
-is the negative control: the S24 should reconnect where it failed on D-POCO. Runs in Stage C with
-the S24 paired to D-HU only. Two cycles as A1. PASS: cycle 2 is RECONNECT-OK.
+is the negative control: the S24 should reconnect where it failed on D-POCO. Hand step first: the
+operator unpairs D-POCO's radio on the S24 and pairs D-HU's (`Navegadortz2`). Two cycles as A1. PASS: cycle 2 is RECONNECT-OK.
+
+## Residue check and cleanup (last adb commands on the S24)
+
+Re-run brief step P2 into `residue-after-addendum.txt`, diff it against `residue-before-addendum.txt`,
+and run the brief's `find` count. PASS: empty diff. Then the operator repeats the brief's closing hand
+steps: forget only the rig vehicles in Android Auto, unpair D-POCO's radio (and D-HU's if A2 ran),
+forget any `DIRECT-` saved network, revoke USB debugging authorisations, then turn USB debugging off.
 
 ## Report back
 
