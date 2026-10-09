@@ -232,7 +232,7 @@ class WifiLauncherNative : WifiLauncher {
 
     /**
      * The access point graded the way a group is, across bring-ups, plus the address and password
-     * the phone also stores, which a group never needed because its owner is always 192.168.49.1.
+     * the phone also stores, which a group grades separately.
      */
     private fun softApIdentity(ssid: String, psk: String, ip: String, bssid: String): GroupIdentityStability {
         val key = "$ssid|$ip|${SoftApEndpointStabilityPolicy.passphraseDigest(psk)}"

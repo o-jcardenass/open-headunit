@@ -3,7 +3,10 @@ package com.andrerinas.openheadunit.connection.wifi.modes.nativeaa
 import com.andrerinas.openheadunit.connection.wifi.direct.GroupIdentityStability
 import java.security.MessageDigest
 
-/** The access point's address and passphrase as last read, and whether that address outlived a restart. */
+/**
+ * The address and passphrase of an access point or group as last read, and whether that address
+ * outlived a restart. For a group, a restart is a new create.
+ */
 data class SoftApAddressRecord(
     val ip: String,
     val passphraseDigest: String,
@@ -20,7 +23,7 @@ data class SoftApAdvertisedEndpoint(
 )
 
 /**
- * The half of the access point's identity that a name and BSSID do not cover.
+ * The half of an access point's or WiFi Direct group's identity that a name and BSSID do not cover.
  *
  * The phone dials the address it was given, and tethering picks a random one per boot since R, so
  * the address has to repeat across a restart before an endpoint is safe. It only ever demotes.
@@ -41,7 +44,8 @@ object SoftApEndpointStabilityPolicy {
      * Grades [ip] and [passphrase] against [previous], on top of the name-and-BSSID [identity].
      *
      * A null [bootCount] means the platform cannot say, which is below API 24 where tethering used a
-     * fixed address, so a repeat there is enough.
+     * fixed address, so a repeat there is enough. [readNotCreated] marks a read of a surviving group,
+     * which repeats by construction and so proves nothing.
      */
     fun grade(
         identity: GroupIdentityStability,
@@ -49,16 +53,18 @@ object SoftApEndpointStabilityPolicy {
         passphrase: String,
         bootCount: Int?,
         previous: SoftApAddressRecord?,
+        readNotCreated: Boolean = false,
+        network: String = "access point",
     ): Verdict {
         if (ip.isBlank()) {
-            return Verdict(demote(identity, GroupIdentityStability.UNPROVEN), null, "no address could be read for the access point")
+            return Verdict(demote(identity, GroupIdentityStability.UNPROVEN), null, "no address could be read for the $network")
         }
         val digest = passphraseDigest(passphrase)
         if (previous == null) {
             return Verdict(
                 demote(identity, GroupIdentityStability.UNPROVEN),
                 SoftApAddressRecord(ip, digest, bootCount, spannedBoot = false),
-                "first reading of the access point's address at $ip; it has to come back after a restart",
+                "first reading of the $network's address at $ip; it has to come back after a restart",
             )
         }
         if (previous.ip != ip || previous.passphraseDigest != digest) {
@@ -66,11 +72,11 @@ object SoftApEndpointStabilityPolicy {
             return Verdict(
                 demote(identity, GroupIdentityStability.CHANGED),
                 SoftApAddressRecord(ip, digest, bootCount, spannedBoot = false),
-                "the access point came back but $moved, and the phone would keep the old one",
+                "the $network came back but $moved, and the phone would keep the old one",
             )
         }
-        val spanned = previous.spannedBoot || bootCount == null || previous.bootCount == null ||
-            bootCount != previous.bootCount
+        val spanned = previous.spannedBoot || (!readNotCreated &&
+            (bootCount == null || previous.bootCount == null || bootCount != previous.bootCount))
         val record = previous.copy(spannedBoot = spanned)
         if (!spanned && identity == GroupIdentityStability.STABLE) {
             return Verdict(
@@ -80,6 +86,25 @@ object SoftApEndpointStabilityPolicy {
         }
         return Verdict(identity, record, null)
     }
+
+    /** How the group now up came to be. UNDECIDED is until a bring-up chooses to adopt or create. */
+    enum class GroupOrigin { CREATED, READ, UNDECIDED }
+
+    /** A fresh or stopped manager has chosen nothing, and a group from before it can still be up. */
+    const val UNDECIDED_UNTIL_BRING_UP = true
+
+    fun groupOrigin(wasRead: Boolean, adoptDecisionPending: Boolean): GroupOrigin = when {
+        adoptDecisionPending -> GroupOrigin.UNDECIDED
+        wasRead -> GroupOrigin.READ
+        else -> GroupOrigin.CREATED
+    }
+
+    /** Only a create proves the address; an undecided group may be a surviving one. */
+    fun gradesAsRead(origin: GroupOrigin): Boolean = origin != GroupOrigin.CREATED
+
+    /** An undecided group or an unread address writes nothing, so a later delivery's grade is recorded. */
+    fun recordsAddress(origin: GroupOrigin, ip: String?): Boolean =
+        origin != GroupOrigin.UNDECIDED && !ip.isNullOrBlank()
 
     /** What moved between the access point an endpoint went out on and this one, or null if nothing did. */
     fun movedSinceAdvertised(

@@ -803,6 +803,21 @@ class Settings(private val context: Context) {
                 .apply()
         }
 
+    /** The WiFi Direct group's IP as last read on a create, graded by SoftApEndpointStabilityPolicy. */
+    var wifiDirectAddressRecord: SoftApAddressRecord?
+        get() {
+            val ip = prefs.getString("wifi-direct-last-ip", null) ?: return null
+            val digest = prefs.getString("wifi-direct-last-ip-psk-digest", null) ?: return null
+            return SoftApAddressRecord(ip, digest, null, prefs.getBoolean("wifi-direct-ip-repeated", false))
+        }
+        set(value) {
+            prefs.edit()
+                .putString("wifi-direct-last-ip", value?.ip)
+                .putString("wifi-direct-last-ip-psk-digest", value?.passphraseDigest)
+                .putBoolean("wifi-direct-ip-repeated", value?.spannedBoot ?: false)
+                .apply()
+        }
+
     /** The access point a WPP endpoint last went out on, so a bring-up that moved it can say so. */
     var softApAdvertisedEndpoint: SoftApAdvertisedEndpoint?
         get() {

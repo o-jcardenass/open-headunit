@@ -90,4 +90,117 @@ class SoftApEndpointStabilityPolicyTest {
         assertNull(SoftApEndpointStabilityPolicy.movedSinceAdvertised(null, "x", psk, "56:A1:4C:D3:A0:F2", "192.168.4.159"))
         assertNull(SoftApEndpointStabilityPolicy.advertisement("AndroidAP_7935", psk, "56:A1:4C:D3:A0:F2", ""))
     }
+
+    private val groupNet = "WiFi Direct group"
+
+    @Test
+    fun `a WiFi Direct group whose name and BSSID repeat but whose IP moved is not stable`() {
+        val prev = SoftApAddressRecord("192.168.119.244", digest, null, true)
+        val v = SoftApEndpointStabilityPolicy.grade(STABLE, "192.168.85.190", psk, null, prev, network = groupNet)
+        assertEquals(CHANGED, v.stability)
+        assertTrue(WppEndpointPolicy.decide(NativeStrategy.WIFI_DIRECT, 5299, v.stability) is WppEndpointDecision.Withhold)
+        assertFalse(WppEndpointPolicy.keepsNetwork(v.stability))
+    }
+
+    @Test
+    fun `a group IP that moves on every create never grades stable`() {
+        var rec: SoftApAddressRecord? = null
+        for (ip in listOf("192.168.85.176", "192.168.52.47", "192.168.119.244", "192.168.85.190", "192.168.232.193")) {
+            val v = SoftApEndpointStabilityPolicy.grade(STABLE, ip, psk, null, rec, network = groupNet)
+            assertTrue(v.stability != STABLE)
+            rec = v.remember
+        }
+    }
+
+    @Test
+    fun `a group at 192-168-49-1 across two creates grades stable`() {
+        val first = SoftApEndpointStabilityPolicy.grade(STABLE, "192.168.49.1", psk, null, null, network = groupNet)
+        assertEquals(UNPROVEN, first.stability)
+        val second = SoftApEndpointStabilityPolicy.grade(STABLE, "192.168.49.1", psk, null, first.remember, network = groupNet)
+        assertEquals(STABLE, second.stability)
+        assertEquals(WppEndpointDecision.Advertise(5299), WppEndpointPolicy.decide(NativeStrategy.WIFI_DIRECT, 5299, second.stability))
+    }
+
+    @Test
+    fun `a repeat seen only by reading a surviving group does not prove the address`() {
+        val prev = SoftApAddressRecord("192.168.49.1", digest, null, false)
+        val v = SoftApEndpointStabilityPolicy.grade(STABLE, "192.168.49.1", psk, null, prev, readNotCreated = true, network = groupNet)
+        assertEquals(UNPROVEN, v.stability)
+        assertFalse(v.remember!!.spannedBoot)
+    }
+
+    @Test
+    fun `a group graded before the adopt decision counts as a read and writes nothing`() {
+        val origin = SoftApEndpointStabilityPolicy.groupOrigin(wasRead = false, adoptDecisionPending = true)
+        assertEquals(SoftApEndpointStabilityPolicy.GroupOrigin.UNDECIDED, origin)
+        assertTrue(SoftApEndpointStabilityPolicy.gradesAsRead(origin))
+        assertFalse(SoftApEndpointStabilityPolicy.recordsAddress(origin, "192.168.49.1"))
+        val prev = SoftApAddressRecord("192.168.49.1", digest, null, false)
+        val v = SoftApEndpointStabilityPolicy.grade(
+            STABLE, "192.168.49.1", psk, null, prev,
+            readNotCreated = SoftApEndpointStabilityPolicy.gradesAsRead(origin), network = groupNet,
+        )
+        assertEquals(UNPROVEN, v.stability)
+        assertFalse(v.remember!!.spannedBoot)
+    }
+
+    @Test
+    fun `a surviving group delivered before any bring-up chose is undecided and writes nothing`() {
+        val origin = SoftApEndpointStabilityPolicy.groupOrigin(
+            wasRead = false, adoptDecisionPending = SoftApEndpointStabilityPolicy.UNDECIDED_UNTIL_BRING_UP)
+        assertEquals(SoftApEndpointStabilityPolicy.GroupOrigin.UNDECIDED, origin)
+        assertFalse(SoftApEndpointStabilityPolicy.recordsAddress(origin, "192.168.49.1"))
+        val prev = SoftApAddressRecord("192.168.49.1", digest, null, false)
+        val v = SoftApEndpointStabilityPolicy.grade(
+            STABLE, "192.168.49.1", psk, null, prev,
+            readNotCreated = SoftApEndpointStabilityPolicy.gradesAsRead(origin), network = groupNet,
+        )
+        assertFalse(v.remember!!.spannedBoot)
+    }
+
+    @Test
+    fun `only a decided group writes the record, and only a create proves it`() {
+        val read = SoftApEndpointStabilityPolicy.groupOrigin(wasRead = true, adoptDecisionPending = false)
+        val created = SoftApEndpointStabilityPolicy.groupOrigin(wasRead = false, adoptDecisionPending = false)
+        assertEquals(SoftApEndpointStabilityPolicy.GroupOrigin.READ, read)
+        assertEquals(SoftApEndpointStabilityPolicy.GroupOrigin.CREATED, created)
+        assertTrue(SoftApEndpointStabilityPolicy.recordsAddress(read, "192.168.49.1"))
+        assertTrue(SoftApEndpointStabilityPolicy.recordsAddress(created, "192.168.49.1"))
+        assertTrue(SoftApEndpointStabilityPolicy.gradesAsRead(read))
+        assertFalse(SoftApEndpointStabilityPolicy.gradesAsRead(created))
+    }
+
+    @Test
+    fun `a decided delivery that read no address leaves the grade to the next delivery`() {
+        val created = SoftApEndpointStabilityPolicy.groupOrigin(wasRead = false, adoptDecisionPending = false)
+        assertFalse(SoftApEndpointStabilityPolicy.recordsAddress(created, null))
+        assertFalse(SoftApEndpointStabilityPolicy.recordsAddress(created, ""))
+        val v = SoftApEndpointStabilityPolicy.grade(STABLE, "", psk, null, null, network = groupNet)
+        assertEquals(null, v.remember)
+    }
+
+    @Test
+    fun `a read keeps an address that a create already proved`() {
+        val prev = SoftApAddressRecord("192.168.49.1", digest, null, true)
+        val v = SoftApEndpointStabilityPolicy.grade(STABLE, "192.168.49.1", psk, null, prev, readNotCreated = true, network = groupNet)
+        assertEquals(STABLE, v.stability)
+    }
+
+    @Test
+    fun `the reason names the network it graded`() {
+        val prev = SoftApAddressRecord("192.168.119.244", digest, null, true)
+        val v = SoftApEndpointStabilityPolicy.grade(STABLE, "192.168.85.190", psk, null, prev, network = groupNet)
+        assertTrue(v.reason!!.contains(groupNet))
+        assertFalse(v.reason!!.contains("access point"))
+    }
+
+    @Test
+    fun `fields 5 and 6 agree on every grade`() {
+        for (v in listOf(UNPROVEN, CHANGED, RENAMED, STABLE)) {
+            assertEquals(
+                WppEndpointPolicy.keepsNetwork(v),
+                WppEndpointPolicy.decide(NativeStrategy.WIFI_DIRECT, 5299, v) is WppEndpointDecision.Advertise,
+            )
+        }
+    }
 }

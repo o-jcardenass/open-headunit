@@ -26,7 +26,7 @@ sealed class WppEndpointDecision {
  * qualifies once this unit has shown, across two bring-ups, that its kept name comes back with the
  * same address (GroupIdentityStabilityPolicy); until then, and on a unit that re-addresses every
  * time, nothing is advertised. The access point is measured the same way, and its address too,
- * which tethering re-randomises per boot (SoftApEndpointStabilityPolicy).
+ * which tethering re-randomises per boot, and a group's IP (SoftApEndpointStabilityPolicy).
  *
  * Withholding is not a cure, only a way of not causing it. An endpoint the phone was given earlier
  * survives for the life of its Android Auto process and is dialled in preference to Bluetooth, so

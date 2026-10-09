@@ -4,13 +4,13 @@ package com.andrerinas.openheadunit.connection.wifi.direct
  * How long to look for the group interface's own IP before handing the phone the one the platform
  * fixes anyway.
  *
- * A P2P group owner is always 192.168.49.1, and the delivery already fell back to it - after up to
- * fifteen one-second reads. Waiting for a number we are going to substitute delays the credentials,
- * and the wake poke behind them.
+ * AOSP gives a P2P group owner 192.168.49.1, but some units pick another subnet per group. The
+ * fallback still goes to the phone, never to the stability grade, and waiting for it delays the
+ * credentials and the wake poke.
  */
 object GroupIpResolutionPolicy {
 
-    /** The address AOSP gives every P2P group owner. */
+    /** The address AOSP gives a P2P group owner; some units use another. */
     const val GROUP_OWNER_IP = "192.168.49.1"
 
     /** Re-reads a client spends waiting for its DHCP lease, one per second, after the first read. */
