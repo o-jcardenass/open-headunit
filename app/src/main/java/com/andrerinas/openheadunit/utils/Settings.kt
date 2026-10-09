@@ -836,6 +836,24 @@ class Settings(private val context: Context) {
                 .apply()
         }
 
+    /** The WiFi Direct group an endpoint last went out on, kept apart from the identity retirement clears. */
+    var wifiDirectAdvertisedEndpoint: SoftApAdvertisedEndpoint?
+        get() {
+            val ssid = prefs.getString("wifi-direct-advertised-endpoint-ssid", null) ?: return null
+            val digest = prefs.getString("wifi-direct-advertised-endpoint-psk-digest", null) ?: return null
+            val bssid = prefs.getString("wifi-direct-advertised-endpoint-bssid", null) ?: return null
+            val ip = prefs.getString("wifi-direct-advertised-endpoint-ip", null) ?: return null
+            return SoftApAdvertisedEndpoint(ssid, digest, bssid, ip)
+        }
+        set(value) {
+            prefs.edit()
+                .putString("wifi-direct-advertised-endpoint-ssid", value?.ssid)
+                .putString("wifi-direct-advertised-endpoint-psk-digest", value?.passphraseDigest)
+                .putString("wifi-direct-advertised-endpoint-bssid", value?.bssid)
+                .putString("wifi-direct-advertised-endpoint-ip", value?.ip)
+                .apply()
+        }
+
     /**
      * The verdict the last *create* earned, so a group found already up and read as-is hands it
      * back instead of grading itself against its own stored record and always answering STABLE.

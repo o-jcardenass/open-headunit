@@ -124,6 +124,16 @@ object SoftApEndpointStabilityPolicy {
         return moved.takeIf { it.isNotEmpty() }?.joinToString(", ")
     }
 
+    /** The move of a group's IP under the network an endpoint went out on, or null if it did not move. */
+    fun groupAddressMoved(advertised: SoftApAdvertisedEndpoint?, ssid: String, passphrase: String, ip: String): String? {
+        if (advertised == null || !sameNetwork(advertised, ssid, passphrase) || advertised.ip == ip) return null
+        return "address ${advertised.ip} -> $ip"
+    }
+
+    /** Whether [ssid] and [passphrase] are the network the endpoint went out on; a rotation is not. */
+    fun sameNetwork(advertised: SoftApAdvertisedEndpoint?, ssid: String, passphrase: String): Boolean =
+        advertised != null && advertised.ssid == ssid && advertised.passphraseDigest == passphraseDigest(passphrase)
+
     fun advertisement(ssid: String, passphrase: String, bssid: String, ip: String): SoftApAdvertisedEndpoint? {
         if (ssid.isBlank() || ip.isBlank()) return null
         return SoftApAdvertisedEndpoint(ssid, passphraseDigest(passphrase), bssid, ip)

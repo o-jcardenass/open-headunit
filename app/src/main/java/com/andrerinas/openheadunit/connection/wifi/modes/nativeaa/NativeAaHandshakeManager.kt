@@ -2767,10 +2767,13 @@ class NativeAaHandshakeManager(
      * Only a served dial used to, and a rejection that works means no dial ever arrives again, so
      * the banner stood forever on exactly the units the fix had repaired.
      */
+    private fun addressMayHaveMoved(): Boolean =
+        launcher.strategy == NativeStrategy.HOTSPOT || settings.wifiDirectAddressRecord?.spannedBoot != true
+
     private fun retireStaleEndpointRecord() {
         val refused = dialRefusedSinceLastLanding
         dialRefusedSinceLastLanding = false
-        if (!StaleEndpointRecordPolicy.retiredByHandshake(refused, launcher.strategy == NativeStrategy.HOTSPOT)) return
+        if (!StaleEndpointRecordPolicy.retiredByHandshake(refused, addressMayHaveMoved())) return
         ConnectionIssues.clear(context, ConnectionIssue.PHONE_HOLDS_STALE_ENDPOINT)
     }
 
@@ -3629,6 +3632,9 @@ class NativeAaHandshakeManager(
             val ap = SoftApEndpointStabilityPolicy.advertisement(creds.ssid, creds.psk, creds.bssid, creds.ip) ?: return
             if (settings.softApAdvertisedEndpoint != ap) settings.softApAdvertisedEndpoint = ap
             return
+        }
+        SoftApEndpointStabilityPolicy.advertisement(creds.ssid, creds.psk, creds.bssid, creds.ip)?.let {
+            if (settings.wifiDirectAdvertisedEndpoint != it) settings.wifiDirectAdvertisedEndpoint = it
         }
         val pair = EndpointRetirementPolicy.recordsAdvertisement(transport, creds.ssid, creds.psk) ?: return
         if (settings.wifiDirectAdvertisedIdentity != pair) settings.wifiDirectAdvertisedIdentity = pair

@@ -125,4 +125,22 @@ class WppTcpServePolicyTest {
         val decision = WppEndpointPolicy.decide(NativeStrategy.HOTSPOT, null, GroupIdentityStability.STABLE)
         assertFalse(WppTcpServePolicy.servesDial(decision))
     }
+    @Test
+    fun `a rejected dial to an unproven group leaves nothing to forget`() {
+        // The dial reached the group's live address, so the rejection clears the phone's record.
+        assertFalse(WppTcpServePolicy.raisesStaleEndpointRecord(
+            NativeStrategy.WIFI_DIRECT, GroupIdentityStability.UNPROVEN, rejected = true))
+    }
+
+    @Test
+    fun `a moved group, an access point or an unsent rejection still raises the record`() {
+        assertTrue(WppTcpServePolicy.raisesStaleEndpointRecord(
+            NativeStrategy.WIFI_DIRECT, GroupIdentityStability.CHANGED, rejected = true))
+        assertTrue(WppTcpServePolicy.raisesStaleEndpointRecord(
+            NativeStrategy.WIFI_DIRECT, GroupIdentityStability.RENAMED, rejected = true))
+        assertTrue(WppTcpServePolicy.raisesStaleEndpointRecord(
+            NativeStrategy.WIFI_DIRECT, GroupIdentityStability.UNPROVEN, rejected = false))
+        assertTrue(WppTcpServePolicy.raisesStaleEndpointRecord(
+            NativeStrategy.HOTSPOT, GroupIdentityStability.UNPROVEN, rejected = true))
+    }
 }

@@ -1,5 +1,7 @@
 package com.andrerinas.openheadunit.connection.wifi.modes.nativeaa
 
+import com.andrerinas.openheadunit.connection.wifi.direct.GroupIdentityStability
+
 /**
  * Whether to run the handshake for a phone that dialled our WPP TCP port.
  *
@@ -37,6 +39,17 @@ object WppTcpServePolicy {
      */
     fun blamesStaleEndpoint(decision: WppEndpointDecision): Boolean =
         decision is WppEndpointDecision.Withhold && !decision.ourOwnState
+
+    /**
+     * Whether a refused dial raises the stale-endpoint record. A dial that reached the group came to
+     * its live address, so while the group is only unproven a rejection leaves nothing to forget.
+     */
+    fun raisesStaleEndpointRecord(
+        strategy: NativeStrategy,
+        identity: GroupIdentityStability,
+        rejected: Boolean,
+    ): Boolean =
+        !(rejected && strategy == NativeStrategy.WIFI_DIRECT && identity == GroupIdentityStability.UNPROVEN)
 
     /** Why a dial is refused, written to be logged as-is. */
     fun refusalReason(decision: WppEndpointDecision): String = when (decision) {

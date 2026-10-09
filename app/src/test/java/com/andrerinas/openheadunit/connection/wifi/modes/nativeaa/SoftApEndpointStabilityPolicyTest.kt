@@ -203,4 +203,34 @@ class SoftApEndpointStabilityPolicyTest {
             )
         }
     }
+
+    private val groupAd = SoftApEndpointStabilityPolicy.advertisement("DIRECT-ab-car", psk, "0a:11:22:33:44:55", "192.168.85.190")
+
+    @Test
+    fun `an endpoint advertised at one group IP and a create at another names the move`() {
+        assertEquals(
+            "address 192.168.85.190 -> 192.168.52.47",
+            SoftApEndpointStabilityPolicy.groupAddressMoved(groupAd, "DIRECT-ab-car", psk, "192.168.52.47"),
+        )
+    }
+
+    @Test
+    fun `the same group IP owes nothing`() {
+        assertNull(SoftApEndpointStabilityPolicy.groupAddressMoved(groupAd, "DIRECT-ab-car", psk, "192.168.85.190"))
+        assertTrue(SoftApEndpointStabilityPolicy.sameNetwork(groupAd, "DIRECT-ab-car", psk))
+    }
+
+    @Test
+    fun `a rotated name or passphrase is not a move`() {
+        assertNull(SoftApEndpointStabilityPolicy.groupAddressMoved(groupAd, "DIRECT-cd-car", psk, "192.168.52.47"))
+        assertNull(SoftApEndpointStabilityPolicy.groupAddressMoved(groupAd, "DIRECT-ab-car", "other-pass-9", "192.168.52.47"))
+        assertFalse(SoftApEndpointStabilityPolicy.sameNetwork(groupAd, "DIRECT-cd-car", psk))
+        assertFalse(SoftApEndpointStabilityPolicy.sameNetwork(groupAd, "DIRECT-ab-car", "other-pass-9"))
+    }
+
+    @Test
+    fun `nothing advertised on a group owes nothing`() {
+        assertNull(SoftApEndpointStabilityPolicy.groupAddressMoved(null, "DIRECT-ab-car", psk, "192.168.52.47"))
+        assertFalse(SoftApEndpointStabilityPolicy.sameNetwork(null, "DIRECT-ab-car", psk))
+    }
 }

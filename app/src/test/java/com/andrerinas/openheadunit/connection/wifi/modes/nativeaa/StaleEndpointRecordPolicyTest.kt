@@ -42,11 +42,11 @@ class StaleEndpointRecordPolicyTest {
     }
 
     @Test
-    fun `a hotspot landing never retires it, because the old address can never be refused`() {
+    fun `a landing never retires it where the address may have moved`() {
         for (refused in listOf(true, false)) {
             assertFalse(
                 "refused=$refused",
-                StaleEndpointRecordPolicy.retiredByHandshake(refused, onHotspot = true)
+                StaleEndpointRecordPolicy.retiredByHandshake(refused, addressMayHaveMoved = true)
             )
         }
     }
