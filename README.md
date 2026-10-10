@@ -82,7 +82,6 @@ in the commit that pushes the results.
 - `call-audio-route-round1-brief.md` (measurement on `main` `28d73e2f`, D-HU and D-MOTO with the KY Pro intercom; hand-rung calls; I-car against I-moto is the point)
 - `pr-1076-text-keycodes-round1-brief.md` (D-HU with D-POCO, A/B; R1 is the point)
 - `pr-1001-devserver-p2p-round1-brief.md` (B `0cbff004`, P `7f5bc6e9` = `fork/review/pr-1001`, F `ce5e61cb` = `fork/review/pr-1001-loopback-fix`; stage 1 D-POCO as head unit in Self Mode, stage 2 D-HU with D-POCO; R3 is the point; hand steps HS1 to HS4; renames D-HU's WiFi Direct device to OpenHU)
-- `second-screen-outputs-round2-brief.md` (candidate `4897c121` on `fork/feat/second-screen-outputs`; D-HU, D-POCO, D-SAM; R2 is the point)
 - `forget-car-every-connection-round2-brief.md` (candidate `c06d35b5` on `fork/fix/forget-car-every-connection`; D-HU, D-POCO as head units; H1, H2, H4, P1 rerun)
 - `audio-stutter-round1-brief.md` (candidate `d96f17c1` on `fork/fix/audio-stutter`, baseline `d5528b51`, both on the merged audio-transitions PR; A/B device buffer below API 24, D-HP over USB)
 
@@ -96,7 +95,7 @@ in the commit that pushes the results.
 | `pr-1042-disabled-home-buttons` | Round 1 reported | `pr-1042-disabled-home-buttons-round1-results.md`. `3404e4e4`: R4 FAIL as predicted (only WiFi ticked, session live in picture-in-picture: Self Mode button reads enabled=no, press does nothing); R1, R2, R3, R5 PASS; R2 shows the legacy single choice greys Self Mode and USB. |
 | `station-scan` | **QUEUED, round 1** | `station-scan-round1-brief.md` on probe `b887adeb`. Two reporter tablets stutter on every one of their unjoined station's scans; D-HU does not (link-stall-periodic-scan round 5). Measures whether a `LocalOnlyHotspot` takes the station down and carries a session. |
 | `dsam-widget-layout-dpi` | Round 1 reported, no brief | `dsam-widget-layout-dpi-round1-results.md`. D-SAM shows the portrait widget layout from the announced density, not orientation: 1280x720 landscape at 175 dpi (about 658 dp tall) shows the weather widget, at 198 it does not. Auto orientation also pins a portrait start (R1 FAIL). dpi left at 198. |
-| `second-screen-outputs` | Round 2 queued | `second-screen-outputs-round2-brief.md`. Candidate `4897c121` fixes the round 1 FAIL-B (R2). Reruns R1, R2, R2C, R3 and R4; D-SAM views R2. |
+| `second-screen-outputs` | Round 2 done at `4897c121`: R0-R4 PASS, VIEWER-SAM PASS, VIEWER-PC FAIL (VLC wrote 0 PNGs); the aux input fixes round 1 | `second-screen-outputs-round2-results.md`. Next: PR-ready; PC viewer needs another capture method. |
 | `forget-car-every-connection` | Round 2 queued | `forget-car-every-connection-round2-brief.md`. Candidate `c06d35b5` on `fork/fix/forget-car-every-connection`. Reruns the round 1 FAIL items (H1, H2, H4, P1); D-HU, D-POCO. |
 | `main-beta5-regression` | Round 1 done on `ec9d9c33`: R0, W2, W4, U1, H1 PASS; W1 FAIL (6 fps static map, no overlay in dumps); W3 UNTESTABLE (stale taps) | `main-beta5-regression-round1-results.md`. Fix brief errata (L-SDR string, overlay, taps, no `nc -z`) before any round 2. |
 | `audio-stutter` | Round 1 queued | `audio-stutter-round1-brief.md`. Candidate `d96f17c1` vs baseline `d5528b51`. Below API 24, does a 200 ms fixed device buffer stop mixer-thread stutters on D-HP over USB. |
