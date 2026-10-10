@@ -46,7 +46,7 @@ was swept in on 2026-09-21 along with `hands-free-wake-verdict`, `rotation-geome
 `wpp-endpoint-depoison`, and the per-round releases that predate the one-release-per-thread rule went
 the same way. `adaptive-audio`, `check-for-updates`, `hold-aa-rfcomm` and
 `native-aa-dsam-wifi-unavailable` followed on 2026-09-30, and the ten releases of the stacked PRs
-(1045 to 1047, 1064 to 1067, the stack round) and `settings-defaults` on 2026-10-09, then the four of `build-speed`, `wizard-display-and-vehicle` and `bluetooth-audio-disabled-usb-connect` the same day, then `usb-reattach`'s; a thread that runs another round creates its
+(1045 to 1047, 1064 to 1067, the stack round) and `settings-defaults` on 2026-10-09, then the four of `build-speed`, `wizard-display-and-vehicle` and `bluetooth-audio-disabled-usb-connect` the same day, then `usb-reattach`'s and `samsung-driver-native`'s; a thread that runs another round creates its
 release again, as on its first round. Asset filenames are unchanged, so fetch by filename rather than by the tag a results
 file names:
 
