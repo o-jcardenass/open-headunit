@@ -8,17 +8,17 @@ Publish as `audio-stutter-round1-brief.md`. Results go in `audio-stutter-round1-
 
 | | |
 |---|---|
-| Candidate | `fork/fix/audio-stutter` @ `fe3f9c7ea842f3e4eb32f1064d293bfe1fa67a4b` (`fe3f9c7e`, "Playback: size the device buffer to ride out mixer-thread stalls") |
-| Baseline | the commit below it, `743b091dd6352403339967094c18e2b458264ddc` (`743b091d`, "Audio: name the cause of each audible stutter in the log") |
-| Base | `main` @ `ec9d9c33` |
-| History | first publication of this branch. The fix rounds folded four `fixup!` commits into `743b091d` before the push, with identical trees. |
+| Candidate | `fork/fix/audio-stutter` @ `95b78b1a2377d344437bb13df06c4e2aaef42e9e` (`95b78b1a`, "Playback: size the device buffer to ride out mixer-thread stalls") |
+| Baseline | the commit below it, `a88e881bcbe076cafcd8396800f2c01b434b6da3` (`a88e881b`, "Audio: name the cause of each audible stutter in the log") |
+| Base | `main` @ `7e92cd7a` (PR #1090 merged) |
+| History | **rebased and force-pushed on 2026-10-10**, before any run of this round. The first publication was `fe3f9c7e` on `ec9d9c33`. The rebase took PR #1090 into the base. Commit 1 did not change. In commit 2, the 200 ms buffer below API 24 moved into #1090's `AudioTrackBufferSizing`. |
 
 The baseline is commit 1 alone, not `main`. Both builds then print the same new diagnostic lines, and the only difference between them is the device buffer.
 
 ```bash
 git fetch fork fix/audio-stutter
-git rev-parse fork/fix/audio-stutter            # must print fe3f9c7ea842...
-git rev-parse fork/fix/audio-stutter~1          # must print 743b091dd635...
+git rev-parse fork/fix/audio-stutter            # must print 95b78b1a2377...
+git rev-parse fork/fix/audio-stutter~1          # must print a88e881bcbe0...
 ```
 
 Build each SHA in its own detached worktree (`wt-new.sh`) with `build_hur_cool.sh`, after the thermal gate (rig-quirks `topics/tooling.md`, first entry). Copy each APK out of `apks/` at once into `audio-stutter-round1/` as `baseline.apk` and `candidate.apk`, because `build_hur.sh` deletes the previous APK. Run `run_unit_tests.sh` once, on the candidate worktree.
@@ -29,23 +29,37 @@ Users report audio stutter, crackle and clicks on 3.5.0-beta3 and later. One rep
 
 The diagnosis ranks one cause first (H1). Since 3.5.0-beta3, all audio goes `bank -> AudioMixer thread -> one AudioTrack`. The device buffer between the mixer thread and the speaker is 20 ms at start, grows 10 ms per underrun and stops at 60 ms. Below API 24 it stays at the platform minimum for the whole session. If the mixer thread stalls for longer than the buffer holds, the device underruns. The bank cannot help, because the stalled thread feeds it. No user setting reaches this buffer.
 
+**PR #1090 is now in `main`, so both arms carry it.** It sets the floor to the platform minimum (`getMinBufferSize`), with the same 10 ms growth step, and adds a waveform-matched recovery and a 5 ms ramp at a stream end. The `pr-1090-audio-transitions` rounds measured the platform minimum at 3844 frames (80 ms) on D-POCO, 3848 on D-HU and 2229 (46 ms) on D-HP. Below API 24 the baseline buffer is that minimum for the whole session. So this round now asks if our branch adds to #1090.
+
 The two commits:
 
-1. **`743b091d` (baseline), diagnostics only.** Each audible event (device underrun, start of a concealment, stale discard, catch-up compression) prints one `AudioStutter:` line with the cause it fits. `MIXER_STALL` means the time the device went unfed (`unfedMs`) was longer than the device buffer (`deviceMs`). Time that output is held for audio focus does not count. `PHONE_FLOW_RESET` needs an arrival gap of 280 to 400 ms; a longer gap is `LINK_LATE`. `PHONE_FLOW_RESET`, `LINK_LATE` and `PHONE_SOURCE_GAP` put the fault on the phone or the link. `STREAM_EDGE` is a stream start or stop. The 10 s mixer line gains a per-cause roll-up. It also adds a clock drift estimate (`clock drift=`) and timing for the AAC path (`media timing:`). It does not change playback.
-2. **`fe3f9c7e` (candidate), the fix.** The device buffer floor is 100 ms, the ceiling 400 ms, and growth 50 ms per underrun. Below API 24 the buffer is a fixed 200 ms. Nothing else changes.
+1. **`a88e881b` (baseline), diagnostics only.** Each audible event (device underrun, start of a concealment, stale discard, catch-up compression) prints one `AudioStutter:` line with the cause it fits. `MIXER_STALL` means the time the device went unfed (`unfedMs`) was longer than the device buffer (`deviceMs`). Time that output is held for audio focus does not count. `PHONE_FLOW_RESET` needs an arrival gap of 280 to 400 ms; a longer gap is `LINK_LATE`. `PHONE_FLOW_RESET`, `LINK_LATE` and `PHONE_SOURCE_GAP` put the fault on the phone or the link. `STREAM_EDGE` is a stream start or stop. The 10 s mixer line gains a per-cause roll-up. It also adds a clock drift estimate (`clock drift=`) and timing for the AAC path (`media timing:`). It does not change playback.
+2. **`95b78b1a` (candidate), the fix.** The device buffer floor is 100 ms or the platform minimum, whichever is larger. The ceiling is 400 ms, and growth is 50 ms per underrun. Below API 24 the buffer is a fixed 200 ms, or the platform minimum if that is larger. Nothing else changes.
+
+Expected buffer sizes, in frames (48 frames = 1 ms), as the L-OUT line prints them:
+
+| Unit | Baseline `effective=` / `maximum=` | Candidate `effective=` / `maximum=` |
+|---|---|---|
+| D-HP (API 17) | 2229 (46 ms) / 3360 | 9600 (200 ms) / 19200 |
+| D-POCO (API 35) | 4320 (90 ms) / 5280 | 4800 (100 ms) / 19200 |
+| D-HU (API 34), R5 | not run | 4800 (100 ms) / 19200 |
+
+On D-HP the arms differ by 154 ms of buffer. On D-POCO the start buffer differs by only 10 ms, and the arms differ mostly in the growth step and the ceiling.
 
 The JVM model of the mixer gives 0 underruns on the candidate for 30 ms and 80 ms stalls, against 3 and 23 on the baseline. Only hardware says how long the mixer thread really stops, and whether a heard stutter goes away.
 
 ## 3. What is different this round
 
 - **First round of this thread.** Open a `README.md` row for `audio-stutter`.
+- **Revised before any run** for the rebase onto PR #1090 (section 1). Other changes in that revision: the buffer values are read from L-OUT, not L-OPEN; the R0 symbol is `GROWTH_MS`; `heard` reads nothing from stdin. The `pr-1090-audio-transitions` rounds found the last two faults in an earlier brief.
+- **L-OPEN is a placeholder.** It prints `opened Awaiting output ... effective=960 ... minimum=960` before the AudioTrack exists, on every unit and in both arms. Every buffer check in this brief reads L-OUT.
 - **D-HU cannot host USB** (rig-quirks `topics/tooling.md`, "No USB accessory path"). The plan's two D-HU USB runs move to **D-POCO as the USB host** (API 35). That keeps the API 24+ path, where the buffer size changes at run time. D-HU runs only R5, over Native AA, log only, because it has no speaker.
 - **D-MOTO is the phone in every run.** It has VLC and an MP3, and it has run USB with D-POCO and D-HP as hosts, and Native AA with D-HU, in `bluetooth-audio-disabled-usb-connect` rounds 1 to 4.
 - **D-HP over USB.** D-HP hosts D-MOTO on its only port, so D-HP runs on wireless adb, as in `bluetooth-audio-disabled-usb-connect` round 4. D-HP's host capture has died silently in long runs (rig-quirks `units/D-HP.md`), so every hold checks the capture each 60 s and restarts it.
 - **The operator listens in R1 to R4** and presses Enter in a second terminal at each stutter or click heard. That stamps `HEARD` into the head unit's log. This is the one hand step in the runs. Per TESTING-TEMPLATE §0, no verdict rests on it: each verdict uses the log, and the heard counts are a separate measurement in the results.
 - **`xruns` reads `N/A` on D-HP.** The platform gives no underrun count below API 24. On D-HP the instruments are `loopGapMax`, the `AudioStutter:` lines and the heard markers.
 - **No navigation prompts.** Nothing on this rig reliably sends guidance audio (`audio-sink-jitter` round 1: mock locations retired). So `STREAM_EDGE` and the 16 kHz guidance path are graded only if guidance traffic happens by chance. Report it if it does.
-- **Expected INCONCLUSIVE:** on a unit where the baseline arm shows 0 `cause=MIXER_STALL` lines, 0 `xruns` growth and 0 heard stutters, there is no fault to remove, and the candidate's PASS on that unit says nothing about H1. Section 8 marks where this applies.
+- **Expected INCONCLUSIVE:** on a unit where the baseline arm shows 0 `cause=MIXER_STALL` lines, 0 `xruns` growth and 0 heard stutters, there is no fault to remove, and the candidate's PASS on that unit says nothing about H1. Section 8 marks where this applies. This is now likely on D-POCO, where the baseline already starts at 90 ms.
 - **The rig's audio settings are a deliberate worst case**: `use-aac-audio` true, `audio-latency-multiplier` 2, `audio-queue-capacity` 20. Do not reset them to defaults. Read each unit's values at the start of the round and record them. If a unit differs, write the worst-case values, and say so in Setup notes. Both arms on a unit must run with the same file.
 
 ## 4. Pre-flight (one batched ask to the operator, before R0)
@@ -131,7 +145,8 @@ hold() { end=$((SECONDS+$2)); ns=$((SECONDS+30)); nl=$((SECONDS+60))
 **The operator's terminal** (R1 to R4 only). Same `HU` and the same `A` function. Start it after `<run>-music` and stop it with Ctrl-C after `<run>-end`:
 
 ```bash
-heard() { n=0; while read -r _; do n=$((n+1)); A shell log -t HEARD "stutter-$n"; echo "stamped $n"; done; }
+# </dev/null: without it, adb reads the next Enter presses and those stamps are lost.
+heard() { n=0; while read -r _; do n=$((n+1)); A shell log -t HEARD "stutter-$n" </dev/null; echo "stamped $n"; done; }
 ```
 
 `log -t` is a native binary, so a stamp costs the unit almost no CPU. `input` and `am` start a Java process, which costs real CPU on D-HP; both arms carry the same swipes, and every swipe is stamped `RIGSWIPE`.
@@ -146,17 +161,17 @@ Stage H: `HU=<D-HP IP>:5555 PH=<D-MOTO IP>:5555`. Stage P: `HU=<D-POCO IP>:5555 
 
 ## 7. The deciding lines
 
-All head unit lines are `AppLog.i` or `AppLog.w` with no `LOG_VERBOSE` guard, so INFO (`log-level` 2) carries them. The mixer lines go through `AudioDiagnostics`, which appends ` eventElapsedMs=N`. Each string was checked with `grep -F -r` against `app/src/main` on `fe3f9c7e`; composed lines are listed by their fixed parts. Grep them in `<run>-hu.txt` between `<run>-music` and `<run>-end`, unless the table says otherwise.
+All head unit lines are `AppLog.i` or `AppLog.w` with no `LOG_VERBOSE` guard, so INFO (`log-level` 2) carries them. The mixer lines go through `AudioDiagnostics`, which appends ` eventElapsedMs=N`. Each string was checked with `grep -F -r` against `app/src/main` on `95b78b1a`; composed lines are listed by their fixed parts. Grep them in `<run>-hu.txt` between `<run>-music` and `<run>-end`, unless the table says otherwise.
 
 **Before counting, remove duplicate lines** from any capture that `alive` restarted: `awk '!seen[$0]++' <run>-hu.txt > <run>-hu.dedup.txt`, and count on that file.
 
 | Id | Grep (`grep -a`) | What to read |
 |---|---|---|
-| L-OPEN | `AudioMixer: id=[0-9]* opened ` | backend, `effective=`, `burst=`, `minimum=`, `maximum=`. Whole capture, not only the window. |
+| L-OPEN | `AudioMixer: id=[0-9]* opened ` | the placeholder line (section 3). Report it only; it decides nothing. |
 | L-MIX | `AudioMixer: id=[0-9]* .* loopGapMax=` | the 10 s device line. Read `effective=` (frames; divide by 48 for ms), `xruns=`, `loopGapMax=`, `writeMax=`, and the roll-up `stutters= mixer= flowReset= linkLate= sourceGap= edge= unknown= suppressed=` |
 | L-CH6 | `AudioMixer: id=[0-9]* channel=6 target=` | the 10 s media channel line. Read `arrivalGapMax=`, `concealedFrames=`, `staleFrames=`, `compressedFrames=` |
 | L-ST | `AudioStutter: id=` | one per audible event. Read the time, `kind=`, `cause=`, `unfedMs=`, `deviceMs=`, `arrivalGapMs=`, `sourceGapMs=`, `edgeMs=`. At most 2 a second per channel; the rest are in `suppressed=`. |
-| L-OUT | `AudioMixer: id=[0-9]* output .* requested=` | a buffer change. `AppLog.w` when it follows an xrun. Count it. |
+| L-OUT | `AudioMixer: id=[0-9]* output .* requested=` | the real buffer. Whole capture: the first line comes when the AudioTrack opens, before the window. Read `output AudioTrack`, `requested=`, `effective=`, `minimum=`, `maximum=`. Later lines are buffer changes, `AppLog.w` when one follows an xrun. Count the lines in the window. |
 | L-OVF | `PCM overflow channel=` | must be 0 in R5 |
 | L-DRIFT | `AUDIO clock drift=` | composed `AapAudio: AUDIO clock drift=+N ppm over Ns (N windows)`. Report the last value. |
 | L-TIME | `AUDIO media timing:` | report the last line |
@@ -201,11 +216,11 @@ Every run's window starts at `<run>-music`, 20 s after the media channel opens, 
 
 ### R0. Build and identity gate (about 30 min)
 
-1. Build both SHAs (section 1). Run `run_unit_tests.sh` on the candidate. Expect 3156 tests, 0 failures.
+1. Build both SHAs (section 1). Run `run_unit_tests.sh` on the candidate. Expect 3177 tests, 0 failures.
 2. `md5sum baseline.apk candidate.apk`. The two must differ.
-3. `unzip -p candidate.apk 'classes*.dex' | strings | grep -c -F requestBytes` must be 1 or more. Run the same on `baseline.apk` and record the count (expected 0; the commit check in step 5 decides if it is not).
+3. `unzip -p candidate.apk 'classes*.dex' | strings | grep -c -F GROWTH_MS` must be 1 or more. Run the same on `baseline.apk` and record the count (expected 0; the commit check in step 5 decides if it is not).
 4. Install `baseline.apk` on D-HP and D-POCO, and `candidate.apk` on D-HU, with `adb install -r -d`. Pull each installed APK (`pm path`, then `adb pull`) and `md5sum` it. It must match its source.
-5. On each unit: `send ACTION_QUERY_STATE`. The `commit` on the `data=` line must start with `743b091d` on D-HP and D-POCO, and with `fe3f9c7e` on D-HU. A `-dirty` suffix from an untracked file is accepted; say so.
+5. On each unit: `send ACTION_QUERY_STATE`. The `commit` on the `data=` line must start with `a88e881b` on D-HP and D-POCO, and with `95b78b1a` on D-HU. A `-dirty` suffix from an untracked file is accepted; say so.
 
 PASS: 0 test failures, md5s differ and match, commits match. **A failure here stops the round.**
 
@@ -235,18 +250,18 @@ Setup: `AKEYS` + `UKEYS` on D-HP, `baseline.apk`. Read the keys back.
 8. `mark R1-end`. The operator stops `heard`. End the run (section 6).
 
 **Preflight checks** (a failed check is a setup failure: fix the settings and re-run once, never grade it):
-- L-OPEN reads `opened AudioTrack` and `maximum=` below 19200.
+- The first L-OUT reads `output AudioTrack`, `effective=2229` and `maximum=` below 19200 (expected 3360). If `effective=` differs, record it; the check is `maximum=` below 19200.
 - L-DEC reads `channel=6`, `codec=AAC_LC` or `codec=AAC_LC_ADTS`, `latencyMultiplier=2`, `queueCapacity=20`.
 - L-ACC 1 or more, L-SSL exactly 1 in the run, L-WIFI 0.
 - L-MIX lines in the window: 55 or more.
 
-No PASS bar: this is the baseline. **Record:** the L-OPEN `effective=` in frames and ms; every L-MIX `loopGapMax=` and `writeMax=` with its time; the count of L-MIX windows whose `loopGapMax` is above the `effective` ms; the L-ST counts by `cause=` and by `kind=`; the L-CH6 deltas of `concealedFrames`, `staleFrames` and `compressedFrames`; the L-HEARD count and how many matched, with their causes; L-DRIFT, S-UND, S-UF, the L-TP median; and the phone counts.
+No PASS bar: this is the baseline. **Record:** the first L-OUT `effective=` and `minimum=` in frames and ms; every L-MIX `loopGapMax=` and `writeMax=` with its time; the count of L-MIX windows whose `loopGapMax` is above the `effective` ms; the L-ST counts by `cause=` and by `kind=`; the L-CH6 deltas of `concealedFrames`, `staleFrames` and `compressedFrames`; the L-HEARD count and how many matched, with their causes; L-DRIFT, S-UND, S-UF, the L-TP median; and the phone counts.
 
 ### R2. D-HP (API 17), USB, candidate (10 min hold) (the point)
 
-Install `candidate.apk` on D-HP over wireless adb (`adb -s $HU install -r -d candidate.apk`; it took 97 s in an earlier round). Pull and `md5sum` it, then `send ACTION_QUERY_STATE`: the commit must start with `fe3f9c7e`. Read every key back. Then run R1's steps 1 to 8 with label `R2`.
+Install `candidate.apk` on D-HP over wireless adb (`adb -s $HU install -r -d candidate.apk`; it took 97 s in an earlier round). Pull and `md5sum` it, then `send ACTION_QUERY_STATE`: the commit must start with `95b78b1a`. Read every key back. Then run R1's steps 1 to 8 with label `R2`.
 
-Preflight checks: as R1, except L-OPEN must read `maximum=19200` and `effective=` 9600 or more (200 ms).
+Preflight checks: as R1, except the first L-OUT must read `maximum=19200` and `effective=` 9600 or more (200 ms).
 
 PASS, all of these:
 - L-ST with `cause=MIXER_STALL`: 0 in the window.
@@ -266,7 +281,7 @@ The operator moves D-MOTO to D-POCO's OTG port. `adb -s <D-POCO IP>:5555 shell s
 
 Setup: `AKEYS` + `UKEYS` on D-POCO, `baseline.apk`. Run R1's steps with label `R3` and `hold R3 480`.
 
-Preflight checks: as R1, except L-OPEN reads `opened AudioTrack`, `effective=` below 4800 (expected 960) and `maximum=` below 19200. L-MIX windows: 44 or more.
+Preflight checks: as R1, except the first L-OUT reads `output AudioTrack`, `effective=` below 4800 (expected 4320) and `maximum=` below 19200 (expected 5280). L-MIX windows: 44 or more.
 
 No PASS bar. **Record** as R1, plus the `xruns=` delta and the count of L-OUT lines.
 
@@ -274,7 +289,7 @@ No PASS bar. **Record** as R1, plus the `xruns=` delta and the count of L-OUT li
 
 Install `candidate.apk` on D-POCO over wireless adb, check the md5 and the commit, read the keys back. Run R1's steps with label `R4` and `hold R4 480`.
 
-Preflight checks: as R3, except L-OPEN must read `maximum=19200` and `effective=` 4800 or more.
+Preflight checks: as R3, except the first L-OUT must read `maximum=19200` and `effective=` 4800 or more.
 
 PASS, all of these:
 - `xruns=` delta 0. If R3's delta is also 0, a delta of 1 still passes.
@@ -301,7 +316,7 @@ The operator moves D-MOTO back to the PC. `adb -s <D-POCO IP>:5555 shell cmd con
 7. `hold R5 300`
 8. `mark R5-end`. End the run (section 6). Then `adb -s $PH shell svc power stayon false`.
 
-Preflight checks: L-WIFI reads `NATIVE`. L-FREQ reads `Freq: ` 4900 MHz or more; if the group landed on 2.4 GHz, re-run once. L-OPEN reads `maximum=19200`. L-DEC as R1. Discard and re-run once on L-MATCH 1 or more, or a second L-SSL.
+Preflight checks: L-WIFI reads `NATIVE`. L-FREQ reads `Freq: ` 4900 MHz or more; if the group landed on 2.4 GHz, re-run once. The first L-OUT reads `maximum=19200`. L-DEC as R1. Discard and re-run once on L-MATCH 1 or more, or a second L-SSL.
 
 PASS, all of these:
 - L-OVF is 0.
@@ -337,7 +352,8 @@ Put each unit back as it was: restore its round-start `settings.xml` and read it
 - The AAC permit window: `adaptive-audio` round 1 A4, untestable on this phone.
 - A 15 minute drift soak: `clock drift=` grades drift inside each run.
 - Navigation prompts from mock locations: retired in `audio-sink-jitter` round 1.
-- The stall model rows, the policy sizes and the attribution rules: JVM tests on the branch (3156 tests).
+- The stall model rows, the policy sizes and the attribution rules: JVM tests on the branch (3177 tests).
+- PR #1090's floor, waveform-matched recovery and ending ramp: `pr-1090-audio-transitions` rounds 1 and 2. Both arms here carry them.
 
 ## 11. Report back
 
@@ -347,7 +363,7 @@ Put each unit back as it was: restore its round-start `settings.xml` and read it
 
 Also give the `cause=` shares of R1 and R3, the last `clock drift=` value of each run, and every phone count. Captures go to the release `rig-evidence-audio-stutter` as `audio-stutter-round1-captures.zip` (TESTING-TEMPLATE §7). Run time: about 41 minutes of holds; about 2 hours 15 minutes with builds, stage changes and priming.
 
-The first block below holds the phone's and the system's strings, which are not in this repository: the phone strings are checked against the Gearhead 17.8 decompile, and the two system strings are AudioFlinger and media metrics lines. The last block, `decisive-strings`, holds the app's own strings, each checked with `grep -F -r` against `app/src/main` on `fe3f9c7e`. Composed lines appear as their fixed parts. Some lines end in a space, which is part of the string.
+The first block below holds the phone's and the system's strings, which are not in this repository: the phone strings are checked against the Gearhead 17.8 decompile, and the two system strings are AudioFlinger and media metrics lines. The last block, `decisive-strings`, holds the app's own strings, each checked with `grep -F -r` against `app/src/main` on `95b78b1a`. Composed lines appear as their fixed parts. Some lines end in a space, which is part of the string.
 
 ```decisive-strings-external
 Creating MediaSourceFlowController for
@@ -359,4 +375,25 @@ Car connection state changed
 FATAL EXCEPTION
 disabled due to previous underrun
 underrunframes=
+```
+
+```decisive-strings
+AudioStutter: id=
+loopGapMax=
+ requested=
+PCM overflow channel=
+clock drift=
+media timing:
+AudioDecoder.start: channel=
+Media Start Request %s: session=
+Media Sink Setup Request: 
+SSL handshake complete
+Sending acc start
+WifiLauncher: Initializing WiFi Mode: 
+WifiLauncher: wireless bring-up requested, but WiFi is not one of the chosen 
+WifiDirectManager: onGroupInfoAvailable: 
+MATCH! Starting AapService
+Throughput over 
+AutomationReceiver: 
+AutomationMarker: 
 ```
