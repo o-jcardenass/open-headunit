@@ -86,7 +86,6 @@ in the commit that pushes the results.
 - `forget-car-every-connection-round2-brief.md` (candidate `c06d35b5` on `fork/fix/forget-car-every-connection`; D-HU, D-POCO as head units; H1, H2, H4, P1 rerun)
 - `audio-stutter-round1-brief.md` (candidate `fe3f9c7e` on `fork/fix/audio-stutter`, baseline `743b091d`; A/B device buffer over USB and wireless)
 - `aa-178-protocol-levers-round1-brief.md` (candidate `dd5b2a82` on `fork/feat/aa-178-protocol-levers`; D-HU with D-POCO; R1, R2, R4 and R3)
-- `pr-1090-audio-transitions-round2-brief.md` (D-POCO only; C1 `528a1741` against P `f81fd51a` at the same buffer, R2 is the point; R3 checks `fork/fix/boot-service-refusal` `bb5ff8d5`)
 
 ## Threads
 
@@ -103,7 +102,7 @@ in the commit that pushes the results.
 | `main-beta5-regression` | Round 1 done on `ec9d9c33`: R0, W2, W4, U1, H1 PASS; W1 FAIL (6 fps static map, no overlay in dumps); W3 UNTESTABLE (stale taps) | `main-beta5-regression-round1-results.md`. Fix brief errata (L-SDR string, overlay, taps, no `nc -z`) before any round 2. |
 | `audio-stutter` | Round 1 queued | `audio-stutter-round1-brief.md`. Candidate `fe3f9c7e` vs baseline `743b091d`. Does a larger device buffer stop mixer-thread stutters, old tablet and modern phone, over USB; short wireless check for added loss. |
 | `aa-178-protocol-levers` | Round 1 queued | `aa-178-protocol-levers-round1-brief.md`. Candidate `dd5b2a82`. Test the protocol levers on D-HU with D-POCO: R1, R2, R4 and R3. |
-| `pr-1090-audio-transitions` | Round 2 queued | `pr-1090-audio-transitions-round2-brief.md`. Round 1's recovery FAIL tracks the 70 ms buffer rise; round 2 compares commit 1 alone with the PR head on D-POCO, plus the boot receiver fix. |
+| `pr-1090-audio-transitions` | Round 2 done, no FAIL | `pr-1090-audio-transitions-round2-results.md`. At the same 4320 buffer matched recovery repays (median excess +6.5 ms over commit 1); boot receiver fix catches the refusal. Ready for the PR. |
 
 Round files are `<thread>-round<N>-brief.md` and `<thread>-round<N>-results.md`. A brief with no
 matching results file is a round nobody has run yet. That pairing is the only queue there is, so
