@@ -25,6 +25,9 @@ internal class AudioTimestampMonitor(private val windowUs: Long = 10_000_000L) {
     private var spikeSourceGapUs = -1L
     private var spikePreviousDurationUs = 0L
     private var spikeDurationUs = 0L
+    /** The newest valid source interval in milliseconds, or -1 when the last pair had none. */
+    @Volatile var lastSourceGapMs = -1L
+        private set
 
     @Synchronized
     fun onPacket(sourceUs: Long, arrivalUs: Long, durationUs: Long): Report? {
@@ -32,6 +35,7 @@ internal class AudioTimestampMonitor(private val windowUs: Long = 10_000_000L) {
         if (previousArrivalUs > arrivalUs) reset()
         if (windowStartUs < 0) windowStartUs = arrivalUs
         packets++
+        lastSourceGapMs = -1L
         if (sourceUs <= 0) missingTimestamps++
         if (previousArrivalUs >= 0) {
             val arrivalGap = arrivalUs - previousArrivalUs
@@ -60,6 +64,7 @@ internal class AudioTimestampMonitor(private val windowUs: Long = 10_000_000L) {
                 }
                 if (sourceUs > 0 && previousSourceUs > 0) {
                     if (sourceGap in 1..MAX_INTERVAL_US) {
+                        lastSourceGapMs = sourceGap / 1000
                         maxSourceGapUs = maxOf(maxSourceGapUs, sourceGap)
                         if (sameDuration) {
                             comparablePairs++
@@ -91,6 +96,7 @@ internal class AudioTimestampMonitor(private val windowUs: Long = 10_000_000L) {
         previousSourceUs = -1L
         previousArrivalUs = -1L
         previousDurationUs = 0L
+        lastSourceGapMs = -1L
         clearWindow()
     }
 
@@ -145,7 +151,7 @@ internal class AudioTimestampMonitor(private val windowUs: Long = 10_000_000L) {
     ) {
         val hasGap: Boolean get() = maxArrivalExcessUs >= 20_000L || maxSourceExcessUs >= 20_000L
 
-        override fun toString(): String = "PCM timing: packets=$packets, pairs=$comparablePairs, " +
+        override fun toString(): String = "media timing: packets=$packets, pairs=$comparablePairs, " +
             "durationChanges=$durationChanges, missingPts=$missingTimestamps, discontinuities=$discontinuities, " +
             "sourceGapMaxMs=${maxSourceGapUs / 1000}, arrivalGapMaxMs=${maxArrivalGapUs / 1000}, " +
             "sourceExcessMaxMs=${maxSourceExcessUs / 1000}, " +
@@ -155,4 +161,51 @@ internal class AudioTimestampMonitor(private val windowUs: Long = 10_000_000L) {
     }
 
     companion object { private const val MAX_INTERVAL_US = 5_000_000L }
+}
+
+/**
+ * AAC units drained from one PCM input share its timestamp. This groups them, so the monitor
+ * sees one packet per timestamp with the summed duration. Primitive fields: no allocation per unit.
+ */
+internal class AacTimingBatcher {
+    var closedSourceUs = 0L
+        private set
+    var closedArrivalUs = 0L
+        private set
+    var closedDurationUs = 0L
+        private set
+    /** Gap to the previous group, as if that group were one unit; -1 when it is not known. */
+    var sourceGapUs = -1L
+        private set
+    private var sourceUs = -1L
+    private var arrivalUs = 0L
+    private var durationUs = 0L
+
+    /** True when this unit starts a new timestamp and the previous group is now in the closed* fields. */
+    @Synchronized
+    fun onUnit(unitSourceUs: Long, unitArrivalUs: Long, unitDurationUs: Long): Boolean {
+        sourceGapUs = -1L
+        if (sourceUs >= 0 && unitSourceUs == sourceUs) {
+            durationUs += unitDurationUs
+            return false
+        }
+        val closed = sourceUs > 0 && unitSourceUs > 0
+        if (closed) {
+            closedSourceUs = sourceUs
+            closedArrivalUs = arrivalUs
+            closedDurationUs = durationUs
+            if (unitSourceUs > sourceUs) {
+                sourceGapUs = unitDurationUs + maxOf(0L, unitSourceUs - sourceUs - durationUs)
+            }
+        }
+        sourceUs = unitSourceUs
+        arrivalUs = unitArrivalUs
+        durationUs = unitDurationUs
+        return closed
+    }
+
+    @Synchronized
+    fun reset() {
+        sourceUs = -1L; arrivalUs = 0L; durationUs = 0L; sourceGapUs = -1L
+    }
 }

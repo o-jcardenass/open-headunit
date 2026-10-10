@@ -60,6 +60,17 @@ class AudioMixer(
         var reportedRebanks = 0L
         var reportedDropped = 0L
         var reportedConcealed = 0L
+        val ingress = AudioIngressTracker()
+        val stutterBudget = StutterLogBudget()
+        // START and STOP bump the sequence; the mixer thread stamps it with its own clock.
+        @Volatile var edgeSeq = 0
+        var seenEdgeSeq = 0
+        var edgeAtMs = -1L
+        var seenConcealed = 0L
+        var seenDropped = 0L
+        var seenCompressed = 0L
+        var concealing = false
+        var compressing = false
     }
     private val channels = ConcurrentHashMap<Int, Channel>()
     @Volatile private var channelSnapshot = emptyArray<Channel>()
@@ -76,6 +87,8 @@ class AudioMixer(
     private val mediaBuffer = IntArray(SHORTS_PER_CYCLE)
     private val channelBuffer = ShortArray(SHORTS_PER_CYCLE)
     private val outputBuffer = ShortArray(SHORTS_PER_CYCLE)
+    private val stutterCounts = IntArray(AudioStutterAttribution.Cause.values().size)
+    private val deviceStutterBudget = StutterLogBudget()
     private val limiter = MixerSoftClipper()
     private val ducking = MixerDuckingEnvelope(OUTPUT_SAMPLE_RATE)
 
@@ -145,11 +158,14 @@ class AudioMixer(
         outputUnavailableSinceMs = -1L
         output?.preparePlayback()
         val now = SystemClock.elapsedRealtime()
+        state.edgeSeq++
+        state.ingress.reset()
         if (state.firstPcmMs < 0) state.preparedMs = now
         state.warmupUntilMs = now + OUTPUT_WARMUP_MS
         if (feedSignal.availablePermits() == 0) feedSignal.release()
     }
     internal fun finishChannel(state: Channel) {
+        state.edgeSeq++
         state.warmupUntilMs = 0
         if (state.firstPcmMs < 0) state.preparedMs = -1L
         state.buffer.finish()
@@ -166,7 +182,8 @@ class AudioMixer(
     fun depthFramesFor(channel: Int): Int = channels[channel]?.buffer?.depthFrames() ?: 0
 
     /** Called at transport ingress, before codec and playback scheduling can distort timing. */
-    internal fun noteArrival(state: Channel, inputFrames: Int, nowMs: Long) {
+    internal fun noteArrival(state: Channel, inputFrames: Int, nowMs: Long, sourceGapMs: Long = -1L) {
+        state.ingress.onArrival(nowMs, inputFrames * 1000L / state.rate, sourceGapMs)
         state.buffer.noteArrival(nowMs, (inputFrames.toLong() * OUTPUT_SAMPLE_RATE / state.rate).toInt())
     }
 
@@ -246,8 +263,10 @@ class AudioMixer(
         var loopGapMaxMs = 0L
         var mixWorkMaxMs = 0L
         var writeMaxMs = 0L
+        val unfed = MixerUnfedGap()
         while (running.get()) {
             val now = SystemClock.elapsedRealtime()
+            unfed.onCycle(now)
             if (lastCycleMs >= 0) loopGapMaxMs = maxOf(loopGapMaxMs, now - lastCycleMs)
             lastCycleMs = now
             if (now >= nextPcmDiagnosticMs) {
@@ -284,6 +303,7 @@ class AudioMixer(
             }
             val idle = channels.values.all { it.buffer.isIdle() }
             if (!idle && !canRender()) {
+                unfed.onHold(now)
                 feedSignal.tryAcquire(10, TimeUnit.MILLISECONDS)
                 continue
             }
@@ -292,12 +312,14 @@ class AudioMixer(
                 device.bufferFrames * 1000L / OUTPUT_SAMPLE_RATE + 20)) {
                 MixerOutputLifecycle.Action.WAIT -> {
                     lastCycleMs = -1L
+                    unfed.reset()
                     feedSignal.tryAcquire(200, TimeUnit.MILLISECONDS)
                     continue
                 }
                 MixerOutputLifecycle.Action.START -> device.start()
                 MixerOutputLifecycle.Action.PAUSE -> {
                     device.pause()
+                    unfed.reset()
                     continue
                 }
                 MixerOutputLifecycle.Action.WRITE -> Unit
@@ -315,11 +337,15 @@ class AudioMixer(
                         "depth=${state.buffer.depthFrames()} outputBudget=${device.bufferFrames} frames")
                 }
             }
+            val unfedGapMs = unfed.gapMs(SystemClock.elapsedRealtime())
+            val deviceMs = device.bufferFrames * 1000L / OUTPUT_SAMPLE_RATE
+            for ((id, state) in channels) scanStutters(id, state, now, unfedGapMs, deviceMs)
             val writeStartMs = SystemClock.elapsedRealtime()
             val epochBeforeWrite = device.outputEpoch
             val replayBeforeWrite = device.recoveryProgressSamples
             var replayAnnounced = false
             mixWorkMaxMs = maxOf(mixWorkMaxMs, writeStartMs - now)
+            unfed.onWriteStart(writeStartMs)
             val result = AudioWriteLoop.writeFully(SHORTS_PER_CYCLE, { running.get() },
                 { offset, remaining ->
                     if (!device.isParked) outputUnavailableSinceMs = -1L
@@ -330,8 +356,16 @@ class AudioMixer(
                         onRecoveryActivity()
                         replayAnnounced = true
                     }
-                    val written = if ((!replay && cycleChannels.none { it.activeThisCycle }) || canRender())
-                        device.write(outputBuffer, offset, remaining) else {
+                    val written = if ((!replay && cycleChannels.none { it.activeThisCycle }) || canRender()) {
+                        val callStartMs = SystemClock.elapsedRealtime()
+                        val callEpoch = device.outputEpoch
+                        device.write(outputBuffer, offset, remaining).also {
+                            // A reopen inside the call is output recovery, not a stalled thread.
+                            if (it >= 0 && callEpoch == device.outputEpoch && !device.hasPendingRecovery)
+                                unfed.onDeviceCall(callStartMs, SystemClock.elapsedRealtime(),
+                                    it * 1000L / (OUTPUT_SAMPLE_RATE * OUTPUT_CHANNELS))
+                        }
+                    } else {
                         feedSignal.tryAcquire(if (outputUnavailableSinceMs >= 0) 200 else 10,
                             TimeUnit.MILLISECONDS)
                         0
@@ -348,10 +382,15 @@ class AudioMixer(
                         0
                     } else written
                 },
-                {}, { Thread.sleep(1) })
+                {}, {
+                    val sleepStartMs = SystemClock.elapsedRealtime()
+                    Thread.sleep(1)
+                    unfed.onDeviceCall(sleepStartMs, SystemClock.elapsedRealtime(), 0)
+                })
             writeMaxMs = maxOf(writeMaxMs, SystemClock.elapsedRealtime() - writeStartMs)
             check(result >= 0) { "${device.name} write failed: $result" }
             val writeCompletedMs = SystemClock.elapsedRealtime()
+            unfed.onWriteDone(writeCompletedMs)
             outputDrainMs = device.bufferFrames * 1000L / OUTPUT_SAMPLE_RATE + 20
             recoveryPending = device.hasPendingRecovery
             val recovered = epochBeforeWrite != device.outputEpoch ||
@@ -374,6 +413,12 @@ class AudioMixer(
                     requestedFrames = -1
                 }
                 val xruns = device.underruns
+                if (xruns > previousOutputXruns) {
+                    val owner = channels.entries.firstOrNull { it.value.activeThisCycle }
+                        ?: channels.entries.firstOrNull()
+                    noteStutter(owner?.key ?: -1, owner?.value, AudioStutterAttribution.Kind.XRUN, now,
+                        unfed.gapMs(writeCompletedMs), deviceMs)
+                }
                 val target = policy.update(now, xruns)
                 if (bufferTuner.update(device, target,
                         force = target != requestedFrames || xruns != previousOutputXruns)) {
@@ -394,7 +439,8 @@ class AudioMixer(
                     "staging=${device.stagingBufferFrames}, xruns=${if (device.underrunsSupported) device.underruns.toString() else "N/A"}, " +
                     "producerUnderruns=${device.producerUnderruns}, burst=${device.burstFrames}, " +
                     "requested=$requestedFrames, stableFloor=${policy.stableFloorFrames}, maximum=${policy.maximumFrames}, " +
-                    "loopGapMax=${loopGapMaxMs}ms mixWorkMax=${mixWorkMaxMs}ms writeMax=${writeMaxMs}ms", remember = false)
+                    "loopGapMax=${loopGapMaxMs}ms mixWorkMax=${mixWorkMaxMs}ms writeMax=${writeMaxMs}ms " +
+                    stutterRollup(), remember = false)
                 for ((id, state) in channels) {
                     AudioDiagnostics.report(now, "AudioMixer: id=$diagnosticId channel=$id target=${state.buffer.targetFrames() * 1000L / OUTPUT_SAMPLE_RATE}ms " +
                         "depth=${state.buffer.depthFrames() * 1000L / OUTPUT_SAMPLE_RATE}ms " +
@@ -406,6 +452,54 @@ class AudioMixer(
                 nextReportMs = now + 10_000L
             }
         }
+    }
+
+    private fun scanStutters(id: Int, state: Channel, now: Long, unfedMs: Long, deviceMs: Long) {
+        if (state.edgeSeq != state.seenEdgeSeq) { state.seenEdgeSeq = state.edgeSeq; state.edgeAtMs = now }
+        val concealed = state.buffer.concealedFrames
+        val dropped = state.buffer.droppedFrames
+        val compressed = state.buffer.compressedFrames
+        // A concealment or catch-up spans many cycles; only its first cycle is an audible event.
+        if (concealed != state.seenConcealed) {
+            if (!state.concealing) noteStutter(id, state, AudioStutterAttribution.Kind.CONCEAL, now, unfedMs, deviceMs)
+            state.concealing = true
+        } else state.concealing = false
+        if (dropped != state.seenDropped) noteStutter(id, state, AudioStutterAttribution.Kind.STALE, now, unfedMs, deviceMs)
+        if (compressed != state.seenCompressed) {
+            if (!state.compressing) noteStutter(id, state, AudioStutterAttribution.Kind.COMPRESS, now, unfedMs, deviceMs)
+            state.compressing = true
+        } else state.compressing = false
+        state.seenConcealed = concealed
+        state.seenDropped = dropped
+        state.seenCompressed = compressed
+    }
+
+    private fun noteStutter(id: Int, state: Channel?, kind: AudioStutterAttribution.Kind, now: Long,
+                            unfedMs: Long, deviceMs: Long) {
+        val edgeMs = if (state != null && state.edgeAtMs >= 0) now - state.edgeAtMs else -1L
+        val facts = state?.ingress?.facts(now, unfedMs, deviceMs, edgeMs, state.isMediaSink)
+            ?: AudioStutterAttribution.Facts(unfedMs, deviceMs, -1L, -1L, 20L, false, -1L, true)
+        val cause = AudioStutterAttribution.classify(facts)
+        stutterCounts[cause.ordinal]++
+        if (!(state?.stutterBudget ?: deviceStutterBudget).tryLog(now)) return
+        AudioDiagnostics.report(now, "AudioStutter: id=$diagnosticId channel=$id kind=$kind cause=$cause " +
+            "unfedMs=${facts.unfedMs} deviceMs=${facts.deviceMs} arrivalGapMs=${facts.arrivalGapMs} " +
+            "sourceGapMs=${facts.sourceGapMs} edgeMs=${facts.edgeMs}")
+    }
+
+    /** Joins the 10 s mixer line and clears the window's counts. */
+    private fun stutterRollup(): String {
+        val c = AudioStutterAttribution.Cause.values()
+        var suppressed = deviceStutterBudget.takeSuppressed()
+        for (state in channelSnapshot) suppressed += state.stutterBudget.takeSuppressed()
+        val line = "stutters=${stutterCounts.sum()} mixer=${stutterCounts[c.indexOf(AudioStutterAttribution.Cause.MIXER_STALL)]} " +
+            "flowReset=${stutterCounts[c.indexOf(AudioStutterAttribution.Cause.PHONE_FLOW_RESET)]} " +
+            "linkLate=${stutterCounts[c.indexOf(AudioStutterAttribution.Cause.LINK_LATE)]} " +
+            "sourceGap=${stutterCounts[c.indexOf(AudioStutterAttribution.Cause.PHONE_SOURCE_GAP)]} " +
+            "edge=${stutterCounts[c.indexOf(AudioStutterAttribution.Cause.STREAM_EDGE)]} " +
+            "unknown=${stutterCounts[c.indexOf(AudioStutterAttribution.Cause.UNKNOWN)]} suppressed=$suppressed"
+        stutterCounts.fill(0)
+        return line
     }
 
     private fun recordDiagnostic(nowMs: Long, message: String, warning: Boolean = false) {

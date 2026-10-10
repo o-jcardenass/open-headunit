@@ -48,6 +48,16 @@ internal class AapAudio(
         Channel.ID_AU1 to AudioTimestampMonitor(),
         Channel.ID_AU2 to AudioTimestampMonitor()
     )
+    private val clockDrift = mapOf(
+        Channel.ID_AUD to AudioClockDrift(),
+        Channel.ID_AU1 to AudioClockDrift(),
+        Channel.ID_AU2 to AudioClockDrift()
+    )
+    private val aacBatch = mapOf(
+        Channel.ID_AUD to AacTimingBatcher(),
+        Channel.ID_AU1 to AacTimingBatcher(),
+        Channel.ID_AU2 to AacTimingBatcher()
+    )
     private val audioQueueCapacity get() = settings.audioQueueCapacity
     private val enableAudioSink = sessionConfig.enabled
     private val attachHwDspEqualizer = sessionConfig.attachHwDspEqualizer
@@ -380,8 +390,8 @@ internal class AapAudio(
         val offset = AudioMediaPayload.offset(message)
         if (offset >= 0) {
             if (AudioMediaPayload.requiresAck(message.type)) {
-                notePcmTiming(message, message.size - offset)
-                decode(message.channel, offset, message.data, message.size - offset)
+                val sourceGapMs = noteMediaTiming(message, message.size - offset)
+                decode(message.channel, offset, message.data, message.size - offset, sourceGapMs)
             } else {
                 // CSD is not playback: do not take focus, duck music or feed the jitter bank.
                 if (audioDecoder.getTrack(message.channel, decoderSession) == null) {
@@ -393,23 +403,48 @@ internal class AapAudio(
         return true
     }
 
-    private fun notePcmTiming(message: AapMessage, size: Int) {
-        val monitor = pcmTiming[message.channel] ?: return
-        // AAC timestamps can be repeated for several access units from the same capture batch.
-        if ((audioDecoder.sinkCodecFor(message.channel, decoderSession) ?: sinkCodecs[message.channel] ?: defaultCodec).isAac) return
+    /** Feeds the timing instruments and returns the phone's source interval in ms, or -1 if unknown. */
+    private fun noteMediaTiming(message: AapMessage, size: Int): Long {
+        val monitor = pcmTiming[message.channel] ?: return -1L
+        val isAac = (audioDecoder.sinkCodecFor(message.channel, decoderSession) ?: sinkCodecs[message.channel] ?: defaultCodec).isAac
         val format = AudioConfigs.get(message.channel)
         val bytesPerFrame = format.numberOfChannels * format.numberOfBits / 8
-        if (bytesPerFrame <= 0 || format.sampleRate <= 0) return
-        val durationUs = (size / bytesPerFrame).toLong() * 1_000_000L / format.sampleRate
+        if (bytesPerFrame <= 0 || format.sampleRate <= 0) return -1L
         val arrivalUs = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             SystemClock.elapsedRealtimeNanos() / 1000L
         } else {
             SystemClock.elapsedRealtime() * 1000L
         }
-        val report = monitor.onPacket(AudioMediaPayload.timestampUs(message), arrivalUs, durationUs) ?: return
-        val line = "AapAudio: ${Channel.name(message.channel)} $report"
-        AppLog.i(line)
-        if (report.hasGap) AudioDiagnostics.record(arrivalUs / 1000L, line)
+        val sourceUs = AudioMediaPayload.timestampUs(message)
+        clockDrift[message.channel]?.onPacket(sourceUs, arrivalUs)?.let {
+            AppLog.i("AapAudio: ${Channel.name(message.channel)} $it")
+        }
+        val report: AudioTimestampMonitor.Report?
+        val sourceGapMs: Long
+        if (isAac) {
+            // Units drained from one PCM input share its timestamp, so the monitor sees one group.
+            val unitUs = AAC_FRAMES_PER_UNIT * 1_000_000L / format.sampleRate
+            val batch = aacBatch[message.channel] ?: return -1L
+            val closed = batch.onUnit(sourceUs, arrivalUs, unitUs)
+            sourceGapMs = if (batch.sourceGapUs >= 0) batch.sourceGapUs / 1000 else -1L
+            report = if (closed) monitor.onPacket(batch.closedSourceUs, batch.closedArrivalUs, batch.closedDurationUs) else null
+        } else {
+            val durationUs = (size / bytesPerFrame).toLong() * 1_000_000L / format.sampleRate
+            report = monitor.onPacket(sourceUs, arrivalUs, durationUs)
+            sourceGapMs = monitor.lastSourceGapMs
+        }
+        if (report != null) {
+            val line = "AapAudio: ${Channel.name(message.channel)} $report"
+            AppLog.i(line)
+            if (report.hasGap) AudioDiagnostics.record(arrivalUs / 1000L, line)
+        }
+        return sourceGapMs
+    }
+
+    private fun resetTiming(channel: Int) {
+        pcmTiming[channel]?.reset()
+        clockDrift[channel]?.reset()
+        aacBatch[channel]?.reset()
     }
 
     /**
@@ -530,7 +565,7 @@ internal class AapAudio(
     /** Records the codec the phone named for [channel] in its Media Sink Setup. */
     fun noteSinkCodec(channel: Int, setupType: Int) {
         if (!Channel.isAudio(channel)) return
-        pcmTiming[channel]?.reset()
+        resetTiming(channel)
         val codec = AudioSinkCodecPolicy.codecFor(setupType)
         if (codec == null) {
             AppLog.w("AapAudio: sink setup type $setupType on ${Channel.name(channel)} is not an audio codec, keeping codec=$defaultCodec from the setting")
@@ -564,12 +599,12 @@ internal class AapAudio(
 
     /** The sink is ready at Setup; Start can warm its output before the first PCM arrives. */
     fun preparePlayback(channel: Int) {
-        pcmTiming[channel]?.reset()
+        resetTiming(channel)
         if (!enableAudioSink || !Channel.isAudio(channel)) return
         audioDecoder.preparePlayback(channel, decoderSession)?.let { onAudioPlaybackStarted(channel, it) }
     }
 
-    private fun decode(channel: Int, start: Int, buf: ByteArray, len: Int) {
+    private fun decode(channel: Int, start: Int, buf: ByteArray, len: Int, sourceGapMs: Long) {
         var length = len
         if (length > AUDIO_BUFS_SIZE) {
             AppLog.e("Error audio len: %d  aud_buf_BUFS_SIZE: %d", length, AUDIO_BUFS_SIZE)
@@ -585,7 +620,7 @@ internal class AapAudio(
             onAudioPlaybackStarted(channel, track.playbackOwner)
         }
 
-        audioDecoder.decode(channel, buf, start, length, decoderSession)
+        audioDecoder.decode(channel, buf, start, length, decoderSession, sourceGapMs)
     }
 
     fun updateGains() {
@@ -606,14 +641,14 @@ internal class AapAudio(
 
     fun restartAudio() {
         AppLog.i("AapAudio: Restarting all audio tracks")
-        pcmTiming.values.forEach { it.reset() }
+        pcmTiming.keys.forEach(::resetTiming)
         // sinkCodecs is kept: the phone sets a sink up once per session, and a restarted track
         // still carries the codec that setup named.
         audioDecoder.stop(decoderSession)
     }
 
     fun stopAudio(channel: Int) {
-        pcmTiming[channel]?.reset()
+        resetTiming(channel)
         AppLog.i("Audio Stop: " + Channel.name(channel))
         // The mixer drains buffered speech and controls media ducking on its render clock.
         // Keep the decoder/output alive for the next prompt or media resume.
@@ -627,12 +662,13 @@ internal class AapAudio(
      */
     fun pauseAllAudio() {
         AppLog.i("AapAudio: Pausing all audio tracks for sleep")
-        pcmTiming.values.forEach { it.reset() }
+        pcmTiming.keys.forEach(::resetTiming)
         audioDecoder.pauseAll(decoderSession)
         postPlaybackRelease(playbackLease.clear())
     }
 
     companion object {
         private const val AUDIO_BUFS_SIZE = 65536 * 4  // Up to 256 Kbytes
+        private const val AAC_FRAMES_PER_UNIT = 1024L
     }
 }

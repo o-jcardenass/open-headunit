@@ -528,9 +528,9 @@ class AudioTrackWrapper(
         if (!config.sameAs(checkNotNull(incomingAacConfig))) incomingAacConfig = config
     }
 
-    fun write(buffer: ByteArray, offset: Int, size: Int) {
+    fun write(buffer: ByteArray, offset: Int, size: Int, sourceGapMs: Long = -1L) {
         if (!isRunning) return
-        mixer.noteArrival(mixerChannel, if (isAac) 1024 else size / bytesPerFrame, SystemClock.elapsedRealtime())
+        mixer.noteArrival(mixerChannel, if (isAac) 1024 else size / bytesPerFrame, SystemClock.elapsedRealtime(), sourceGapMs)
         if (!isAac) {
             // The transport can reuse its decrypted array immediately after this bounded copy.
             feedPcm(buffer, offset, size, mixerChannel.format)

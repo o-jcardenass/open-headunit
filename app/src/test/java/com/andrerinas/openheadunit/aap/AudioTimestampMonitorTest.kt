@@ -181,3 +181,59 @@ class AudioTimestampMonitorTest {
         assertNull(monitor.onPacket(2_128_001, 6_128_001, frameUs)!!.arrivalSpike)
     }
 }
+
+class AacTimingBatcherTest {
+    private val unitUs = 21_333L
+
+    @Test fun `units that share a timestamp reach the monitor once with their summed duration`() {
+        val batcher = AacTimingBatcher()
+        assertFalse(batcher.onUnit(1_000_000, 5_000_000, unitUs))
+        assertFalse(batcher.onUnit(1_000_000, 5_000_100, unitUs))
+        assertTrue(batcher.onUnit(1_042_666, 5_042_000, unitUs))
+        assertEquals(1_000_000L, batcher.closedSourceUs)
+        assertEquals(5_000_000L, batcher.closedArrivalUs)
+        assertEquals(2 * unitUs, batcher.closedDurationUs)
+        assertFalse(batcher.onUnit(1_042_666, 5_042_100, unitUs))
+        assertTrue(batcher.onUnit(1_085_332, 5_085_000, unitUs))
+        assertEquals(1_042_666L, batcher.closedSourceUs)
+        assertEquals(2 * unitUs, batcher.closedDurationUs)
+    }
+
+    @Test fun `the monitor reads a steady AAC stream as having no gap`() {
+        val batcher = AacTimingBatcher()
+        val monitor = AudioTimestampMonitor(100_000)
+        var report: AudioTimestampMonitor.Report? = null
+        for (group in 0 until 6) {
+            for (unit in 0 until 2) {
+                if (batcher.onUnit(1_000_000 + group * 2 * unitUs, 5_000_000 + group * 2 * unitUs, unitUs)) {
+                    report = monitor.onPacket(batcher.closedSourceUs, batcher.closedArrivalUs, batcher.closedDurationUs) ?: report
+                }
+            }
+        }
+        assertNotNull(report)
+        assertFalse(report!!.hasGap)
+        assertTrue(report.toString().startsWith("media timing:"))
+    }
+
+    @Test fun `a source pause shows as a source gap above one unit`() {
+        val batcher = AacTimingBatcher()
+        batcher.onUnit(1_000_000, 5_000_000, unitUs)
+        batcher.onUnit(1_000_000, 5_000_100, unitUs)
+        batcher.onUnit(1_200_000, 5_200_000, unitUs)
+        assertEquals(unitUs + (200_000 - 2 * unitUs), batcher.sourceGapUs)
+    }
+
+    @Test fun `a repeated or backwards timestamp reports no source gap`() {
+        val batcher = AacTimingBatcher()
+        batcher.onUnit(1_000_000, 5_000_000, unitUs)
+        batcher.onUnit(900_000, 5_020_000, unitUs)
+        assertEquals(-1L, batcher.sourceGapUs)
+    }
+
+    @Test fun `reset starts a fresh group`() {
+        val batcher = AacTimingBatcher()
+        batcher.onUnit(1_000_000, 5_000_000, unitUs)
+        batcher.reset()
+        assertFalse(batcher.onUnit(2_000_000, 6_000_000, unitUs))
+    }
+}

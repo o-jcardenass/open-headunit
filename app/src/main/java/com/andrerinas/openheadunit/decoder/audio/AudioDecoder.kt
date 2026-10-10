@@ -66,9 +66,10 @@ class AudioDecoder {
     fun sinkCodecFor(channel: Int, session: PlaybackSession = activeSession): AudioSinkCodec? =
         synchronized(this) { if (accepts(session)) audioTracks[channel]?.builtCodec() else null }
 
-    fun decode(channel: Int, buffer: ByteArray, offset: Int, size: Int, session: PlaybackSession = activeSession) {
+    fun decode(channel: Int, buffer: ByteArray, offset: Int, size: Int, session: PlaybackSession = activeSession,
+               sourceGapMs: Long = -1L) {
         val audioTrack = synchronized(this) { if (accepts(session)) audioTracks[channel] else null }
-        audioTrack?.write(buffer, offset, size)
+        audioTrack?.write(buffer, offset, size, sourceGapMs)
     }
 
     fun configure(channel: Int, buffer: ByteArray, offset: Int, size: Int, session: PlaybackSession = activeSession) {
