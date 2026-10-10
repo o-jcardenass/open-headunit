@@ -150,10 +150,13 @@ object NativeDriverSelectionPolicy {
         chosenAgeMs: Long,
         switchedAwayFrom: String?,
         switchAgeMs: Long,
-        chosenWakeActive: Boolean = false
+        chosenWakeActive: Boolean,
+        chosenExplicit: Boolean,
+        chosenWakeUnanswered: Boolean
     ): SwitchGate = when {
         remoteMac.isEmpty() -> SwitchGate.ACCEPT
-        !chosenMac.isNullOrEmpty() && chosenExclusive(chosenAgeMs, chosenWakeActive) ->
+        !chosenMac.isNullOrEmpty() &&
+            chosenExclusive(chosenAgeMs, chosenWakeActive, chosenExplicit, chosenWakeUnanswered) ->
             if (remoteMac.equals(chosenMac, ignoreCase = true)) SwitchGate.ACCEPT
             else SwitchGate.WRONG_PHONE
         !switchedAwayFrom.isNullOrEmpty() && switchAgeMs < SWITCH_AWAY_REFUSAL_MS &&
@@ -164,12 +167,25 @@ object NativeDriverSelectionPolicy {
     /**
      * Whether the chosen driver is still the only phone the accept gate lets in.
      *
-     * Tied to the wake rather than to a flat deadline: the phone gets one 20 s hold per round, so a
-     * window that outran the wake handed the session back to the phone the driver had just left.
+     * Only a pick the user made locks the gate, and one the phone never answered lapses after the
+     * floor. Otherwise the lock follows the wake: a window that outran it let the old phone back.
      */
-    fun chosenExclusive(chosenAgeMs: Long, wakeActive: Boolean): Boolean =
-        chosenAgeMs < CHOSEN_EXCLUSIVE_MAX_MS &&
-            (wakeActive || chosenAgeMs < CHOSEN_EXCLUSIVE_MS)
+    fun chosenExclusive(
+        chosenAgeMs: Long,
+        wakeActive: Boolean,
+        explicit: Boolean,
+        wakeUnanswered: Boolean
+    ): Boolean =
+        explicit && chosenAgeMs < CHOSEN_EXCLUSIVE_MAX_MS &&
+            (chosenAgeMs < CHOSEN_EXCLUSIVE_MS || (wakeActive && !wakeUnanswered))
+
+    /**
+     * Whether a wake round ends the lock of a pick the user made.
+     * A round the phone never answered says it may be off; the floor still covers a phone whose
+     * first round lost to another phone's connect.
+     */
+    fun explicitPickLapses(outcome: BluetoothWakePolicy.WakeOutcome, answeredSincePick: Boolean): Boolean =
+        outcome == BluetoothWakePolicy.WakeOutcome.DIALLED && !answeredSincePick
 
     /**
      * The phones an automatic pick may name: those the wake list allows.

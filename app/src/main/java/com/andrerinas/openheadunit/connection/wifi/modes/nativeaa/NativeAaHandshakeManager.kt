@@ -442,6 +442,10 @@ class NativeAaHandshakeManager(
         private set
     /** When that choice was made, so its exclusive window can expire. */
     @Volatile private var selectionTargetSetAt = 0L
+    /** Whether the user picked that phone, and what its wake rounds have shown since. */
+    @Volatile private var chosenExplicit = false
+    @Volatile private var chosenWakeAnswered = false
+    @Volatile private var chosenWakeUnanswered = false
     /** The phone a driver switch moved away from, refused until somebody is chosen. */
     @Volatile private var switchedAwayFromMac: String? = null
     /** When that switch was asked for, so its refusal window can expire. */
@@ -451,16 +455,28 @@ class NativeAaHandshakeManager(
     @Volatile private var lastRefusedMac: String? = null
     @Volatile private var refusalSpokenAt = 0L
 
+    /** Forgets the chosen driver and everything its wake learned. */
+    private fun clearChosenDriver() {
+        pendingSelectionTargetMac = null
+        selectionTargetSetAt = 0L
+        chosenExplicit = false
+        chosenWakeAnswered = false
+        chosenWakeUnanswered = false
+    }
+
     /**
      * Targets a specific driver device, ending the prompt window and waking only that device.
      */
-    fun selectDriver(mac: String) {
-        AppLog.i("NativeAA: Driver selected: $mac")
+    fun selectDriver(mac: String, explicit: Boolean) {
+        AppLog.i("NativeAA: Driver selected: $mac (${if (explicit) "explicit" else "automatic"} pick)")
         clearSelectionPrompt()
         isSelectionCanceled = false
         selectionCanceledAt = 0L
         pendingSelectionTargetMac = mac
         selectionTargetSetAt = SystemClock.elapsedRealtime()
+        chosenExplicit = explicit
+        chosenWakeAnswered = false
+        chosenWakeUnanswered = false
         // The switch-away stamps deliberately survive the pick. Choosing who to let in is not the
         // same question as whether the phone the driver just left may come straight back.
         clearGateRefusals()
@@ -478,8 +494,7 @@ class NativeAaHandshakeManager(
         AppLog.i("NativeAA: a driver switch is starting, so $previousMac is not let straight back in.")
         switchedAwayFromMac = previousMac
         driverSwitchStartedAt = SystemClock.elapsedRealtime()
-        pendingSelectionTargetMac = null
-        selectionTargetSetAt = 0L
+        clearChosenDriver()
         clearGateRefusals()
     }
 
@@ -526,8 +541,7 @@ class NativeAaHandshakeManager(
         clearSelectionPrompt()
         isSelectionCanceled = false
         selectionCanceledAt = 0L
-        pendingSelectionTargetMac = null
-        selectionTargetSetAt = 0L
+        clearChosenDriver()
         clearDriverSwitch()
         clearGateRefusals()
     }
@@ -587,8 +601,7 @@ class NativeAaHandshakeManager(
         clearSelectionPrompt()
         isSelectionCanceled = true
         selectionCanceledAt = SystemClock.elapsedRealtime()
-        pendingSelectionTargetMac = null
-        selectionTargetSetAt = 0L
+        clearChosenDriver()
         clearDriverSwitch()
         clearGateRefusals()
         pokeJob?.cancel()
@@ -638,7 +651,9 @@ class NativeAaHandshakeManager(
             chosenAgeMs = now - selectionTargetSetAt,
             switchedAwayFrom = switchedAwayFromMac,
             switchAgeMs = now - driverSwitchStartedAt,
-            chosenWakeActive = chosenWakeActive
+            chosenWakeActive = chosenWakeActive,
+            chosenExplicit = chosenExplicit,
+            chosenWakeUnanswered = chosenWakeUnanswered
         )) {
             NativeDriverSelectionPolicy.SwitchGate.WRONG_PHONE -> return refuseAtGate(
                 remoteAddress,
@@ -2543,6 +2558,7 @@ class NativeAaHandshakeManager(
                     val wakeStartedAt = SystemClock.elapsedRealtime()
                     var roundsDialled = 0
                     var outcome = BluetoothWakePolicy.WakeOutcome.STOOD_DOWN
+                    val pickStamp = selectionTargetSetAt
                     fun keepWaking() = NativeDriverSelectionPolicy.chosenWakeContinues(
                         outcome, roundsDialled, SystemClock.elapsedRealtime() - wakeStartedAt
                     )
@@ -2565,6 +2581,17 @@ class NativeAaHandshakeManager(
                         ConnectionStageTracker.report(ConnectionStage.WAKING_PHONE)
                         outcome = pokeDevice(device, holdMs = 20000)
                         AppLog.i("NativeAA: Manual poke to ${device.name} finished.")
+                        // A cancelled job's blocking connect can return after a newer pick.
+                        if (selectionTargetSetAt == pickStamp &&
+                            pendingSelectionTargetMac.equals(device.address, ignoreCase = true)) {
+                            if (outcome == BluetoothWakePolicy.WakeOutcome.ANSWERED) chosenWakeAnswered = true
+                            if (chosenExplicit && !chosenWakeUnanswered &&
+                                NativeDriverSelectionPolicy.explicitPickLapses(outcome, chosenWakeAnswered)) {
+                                chosenWakeUnanswered = true
+                                AppLog.i("NativeAA: ${device.name ?: "unnamed"} (${device.address}) did not answer a whole " +
+                                    "wake round, so other phones are let in once the first 30s pass.")
+                            }
+                        }
                         if (outcome != BluetoothWakePolicy.WakeOutcome.ANSWERED) {
                             ConnectionStageTracker.retreat(ConnectionStage.WAKING_PHONE, ConnectionStage.WAITING_FOR_PHONE)
                         }
@@ -3767,8 +3794,7 @@ class NativeAaHandshakeManager(
     fun onSessionEstablished() {
         // A phone is projecting, so the switch is over and the choice has been honoured. Left
         // standing, the stamps would refuse the next session's phone on the way in.
-        pendingSelectionTargetMac = null
-        selectionTargetSetAt = 0L
+        clearChosenDriver()
         clearDriverSwitch()
         clearGateRefusals(logSummary = true)
         // The phone is on the network, which is the only thing that retires the stale-group count.

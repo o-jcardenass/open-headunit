@@ -3162,7 +3162,7 @@ class AapService : Service() {
                         val launcher = wifiLauncherManager.active
 
                         if (launcher is WifiLauncherNative) {
-                            launcher.handshakeManager?.selectDriver(mac)
+                            launcher.handshakeManager?.selectDriver(mac, intent?.getBooleanExtra(EXTRA_EXPLICIT_PICK, false) ?: false)
                         } else {
                             ToastUtils.showToast(this, "Native AA mode not active.")
                         }
@@ -3252,6 +3252,7 @@ class AapService : Service() {
                         val pokeIntent = Intent(this@AapService, AapService::class.java).apply {
                             action = ACTION_NATIVE_AA_POKE
                             putExtra(EXTRA_MAC, targetMac)
+                            putExtra(EXTRA_EXPLICIT_PICK, true)
                         }
                         startService(pokeIntent)
                     } else {
@@ -3859,6 +3860,7 @@ class AapService : Service() {
         /** On [ACTION_BT_AUTO_START]: the receiver did not raise the home screen over settings. */
         const val EXTRA_UI_HELD = "ui_held"
         const val EXTRA_MAC = "extra_mac"
+        const val EXTRA_EXPLICIT_PICK = "extra_explicit_pick"
         const val EXTRA_ENDPOINT_ID = "extra_endpoint_id"
     }
 }

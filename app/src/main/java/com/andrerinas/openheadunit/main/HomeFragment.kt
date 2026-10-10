@@ -614,7 +614,7 @@ class HomeFragment : Fragment() {
                             if (autoTargetMac != null) {
                                 val targetDev = cands.deviceFor(autoTargetMac)
                                 val devName = targetDev?.name ?: autoTargetMac
-                                connectToNativeDevice(autoTargetMac, devName, connectedMacs)
+                                connectToNativeDevice(autoTargetMac, devName, connectedMacs, explicit = false)
                             } else {
                                 // AapService drops a poke with no MAC, so this branch used to be a
                                 // toast and nothing else. Ask which phone instead, which is what
@@ -624,7 +624,7 @@ class HomeFragment : Fragment() {
                         } else if (!shouldShow && autoTargetMac != null) {
                             val targetDev = cands.deviceFor(autoTargetMac)
                             val devName = targetDev?.name ?: autoTargetMac
-                            connectToNativeDevice(autoTargetMac, devName, connectedMacs)
+                            connectToNativeDevice(autoTargetMac, devName, connectedMacs, explicit = false)
                         } else {
                             showNativeAaDeviceSelector(autoCountdown = false)
                         }
@@ -842,7 +842,7 @@ class HomeFragment : Fragment() {
             val targetDev = cands.deviceFor(autoTargetMac)
             val devName = targetDev?.name ?: autoTargetMac
             AppLog.i("HomeFragment: Unambiguous driver ($devName) - auto-connecting directly without prompt")
-            connectToNativeDevice(autoTargetMac, devName, connectedMacs)
+            connectToNativeDevice(autoTargetMac, devName, connectedMacs, explicit = false)
             return true
         }
         return false
@@ -1071,7 +1071,7 @@ class HomeFragment : Fragment() {
             driverCountdownTimer = null
             dialog.dismiss()
             val chosen = currentDevices.getOrNull(position) ?: return@setOnItemClickListener
-            connectToNativeDevice(chosen.address, chosen.name ?: "Device", connectedMacs)
+            connectToNativeDevice(chosen.address, chosen.name ?: "Device", connectedMacs, explicit = true)
         }
 
         val timeoutSec = NativeDriverSelectionPolicy.sanitizeTimeout(appSettings.nativeDriverSelectionTimeoutSec)
@@ -1098,7 +1098,7 @@ class HomeFragment : Fragment() {
                     if (!isAdded || dialog.isShowing != true) return
                     selectionResolved = true
                     dialog.dismiss()
-                    connectToNativeDevice(autoTargetMac, targetName, connectedMacs)
+                    connectToNativeDevice(autoTargetMac, targetName, connectedMacs, explicit = false)
                 }
             }
             countdownSubtitle.text = getString(R.string.driver_selection_auto_in, timeoutSec, targetName)
@@ -1129,7 +1129,7 @@ class HomeFragment : Fragment() {
      * so every path gets the non-blocking pill with its step line; the full-screen overlay takes
      * over once the phone answers. The pill names the phone, so no toast repeats it.
      */
-    private fun connectToNativeDevice(mac: String, name: String, connectedMacs: Collection<String>) {
+    private fun connectToNativeDevice(mac: String, name: String, connectedMacs: Collection<String>, explicit: Boolean) {
         val reachable = NativeDriverSelectionPolicy.connectUiIsImmediate(mac, connectedMacs)
         AppLog.i("HomeFragment: Connecting to Native-AA device: $name ($mac), btConnected=$reachable")
         // Without a status text the indicator falls back to "Android Auto is starting", which is the
@@ -1145,6 +1145,7 @@ class HomeFragment : Fragment() {
         val intent = Intent(requireContext(), AapService::class.java).apply {
             action = AapService.ACTION_NATIVE_AA_POKE
             putExtra(AapService.EXTRA_MAC, mac)
+            putExtra(AapService.EXTRA_EXPLICIT_PICK, explicit)
         }
         ContextCompat.startForegroundService(requireContext(), intent)
     }
