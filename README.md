@@ -31,7 +31,7 @@ The same goes for `archive/`. It is the historical record, not orientation.
 
 **A brief may cite a file that is not at the root.** Closed threads' briefs, results and findings
 moved to `archive/rounds/` on 2026-10-08 under their own filenames. Look there by the same name.
-Their README rows are in `archive/threads-table-through-2026-10-08.md`. On 2026-10-09 the threads of the contributor's stacked PRs (1045, 1047, 1064, 1065, 1067 and the stack round) and `settings-defaults` moved the same way, then `build-speed`, `wizard-display-and-vehicle` and `bluetooth-audio-disabled-usb-connect`, rows in `archive/threads-table-through-2026-10-09.md`.
+Their README rows are in `archive/threads-table-through-2026-10-08.md`. On 2026-10-09 the threads of the contributor's stacked PRs (1045, 1047, 1064, 1065, 1067 and the stack round) and `settings-defaults` moved the same way, then `build-speed`, `wizard-display-and-vehicle` and `bluetooth-audio-disabled-usb-connect`, then `usb-reattach`, rows in `archive/threads-table-through-2026-10-09.md`.
 
 **Captures are not on this branch.** It is markdown only. Screenshots, logs and traces go to the fork
 as a release asset, **one release per thread and one asset per round**: the release is
@@ -46,7 +46,7 @@ was swept in on 2026-09-21 along with `hands-free-wake-verdict`, `rotation-geome
 `wpp-endpoint-depoison`, and the per-round releases that predate the one-release-per-thread rule went
 the same way. `adaptive-audio`, `check-for-updates`, `hold-aa-rfcomm` and
 `native-aa-dsam-wifi-unavailable` followed on 2026-09-30, and the ten releases of the stacked PRs
-(1045 to 1047, 1064 to 1067, the stack round) and `settings-defaults` on 2026-10-09, then the four of `build-speed`, `wizard-display-and-vehicle` and `bluetooth-audio-disabled-usb-connect` the same day; a thread that runs another round creates its
+(1045 to 1047, 1064 to 1067, the stack round) and `settings-defaults` on 2026-10-09, then the four of `build-speed`, `wizard-display-and-vehicle` and `bluetooth-audio-disabled-usb-connect` the same day, then `usb-reattach`'s; a thread that runs another round creates its
 release again, as on its first round. Asset filenames are unchanged, so fetch by filename rather than by the tag a results
 file names:
 
@@ -90,7 +90,6 @@ in the commit that pushes the results.
 | Thread | State | Next |
 |---|---|---|
 | `call-audio-route` | Round 1 queued | `call-audio-route-round1-brief.md`. Measures whether Motorcycle plus head unit microphone off moves a phone call's audio, with and without an intercom on the phone, and where the assistant opens SCO. No candidate. |
-| `usb-reattach` | Round 4 done | `usb-reattach-round4-results.md`: U0 and U1 PASS on `b48da528` (`held` 0, `handoff` 2, `accstart` 1, SSL 9.9 s behind the open screen). Open: session drops at screen close. Round 3: `usb-reattach-round3-results.md`. |
 | `pr-1001-devserver-p2p` | Round 1 queued | `pr-1001-devserver-p2p-round1-brief.md`. Automatic WiFi Direct for Headunit Server mode. R3: a Self Mode session must survive station WiFi off beside an armed WiFi Direct launcher (B and F keep it, P is expected to close it). |
 | `pr-1076-text-keycodes` | Round 1 queued | `pr-1076-text-keycodes-round1-brief.md`. Letter keycodes advertised to the phone. R1: does a Maps search open the head unit or phone keyboard, B vs M; R2 typed keys; R3 a typed 'n' with a night key mapped. |
 | `pr-1042-disabled-home-buttons` | Round 1 reported | `pr-1042-disabled-home-buttons-round1-results.md`. `3404e4e4`: R4 FAIL as predicted (only WiFi ticked, session live in picture-in-picture: Self Mode button reads enabled=no, press does nothing); R1, R2, R3, R5 PASS; R2 shows the legacy single choice greys Self Mode and USB. |
