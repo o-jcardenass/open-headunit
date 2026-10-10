@@ -84,7 +84,6 @@ in the commit that pushes the results.
 - `pr-1001-devserver-p2p-round1-brief.md` (B `0cbff004`, P `7f5bc6e9` = `fork/review/pr-1001`, F `ce5e61cb` = `fork/review/pr-1001-loopback-fix`; stage 1 D-POCO as head unit in Self Mode, stage 2 D-HU with D-POCO; R3 is the point; hand steps HS1 to HS4; renames D-HU's WiFi Direct device to OpenHU)
 - `second-screen-outputs-round1-brief.md` (`feat/second-screen-outputs` `331b0a8c`, force-pushed; D-HU with D-POCO, D-SAM as a viewer; R2 network output is the point)
 - `forget-car-every-connection-round1-brief.md` (`fix/forget-car-every-connection` `93a59f7a`; WPP over TCP endpoint kept across groups; D-HU with a phone)
-- `main-beta5-regression-round1-brief.md` (upstream `main` `ec9d9c33`, no A/B; stages W D-HU with D-POCO, U D-POCO with dongle and D-MOTO, H D-HP; W1 is the point; leaves main on all five units)
 
 ## Threads
 
@@ -98,7 +97,7 @@ in the commit that pushes the results.
 | `dsam-widget-layout-dpi` | Round 1 reported, no brief | `dsam-widget-layout-dpi-round1-results.md`. D-SAM shows the portrait widget layout from the announced density, not orientation: 1280x720 landscape at 175 dpi (about 658 dp tall) shows the weather widget, at 198 it does not. Auto orientation also pins a portrait start (R1 FAIL). dpi left at 198. |
 | `second-screen-outputs` | **QUEUED, round 1** | `second-screen-outputs-round1-brief.md`. First hardware round of the auxiliary display on channel 14. R1 feature off; R2 network output to a scripted receiver, VLC on the tester PC and VLC on D-SAM; R3/R4 session end and sleep on a simulated display. |
 | `forget-car-every-connection` | **QUEUED, round 1** | `forget-car-every-connection-round1-brief.md`. Phone forgets the car on every connection. Checks that the stored WPP over TCP endpoint survives a new group. |
-| `main-beta5-regression` | **QUEUED, round 1** | `main-beta5-regression-round1-brief.md`. The merged 3.5.0-beta5 candidate end to end: Native AA soak, Exit in AA, Save, Disconnect, USB dongle and API 17 Headunit Server sessions. Then installs main on every unit. |
+| `main-beta5-regression` | Round 1 done on `ec9d9c33`: R0, W2, W4, U1, H1 PASS; W1 FAIL (6 fps static map, no overlay in dumps); W3 UNTESTABLE (stale taps) | `main-beta5-regression-round1-results.md`. Fix brief errata (L-SDR string, overlay, taps, no `nc -z`) before any round 2. |
 
 Round files are `<thread>-round<N>-brief.md` and `<thread>-round<N>-results.md`. A brief with no
 matching results file is a round nobody has run yet. That pairing is the only queue there is, so
