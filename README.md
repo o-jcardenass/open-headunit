@@ -84,6 +84,7 @@ in the commit that pushes the results.
 - `pr-1001-devserver-p2p-round1-brief.md` (B `0cbff004`, P `7f5bc6e9` = `fork/review/pr-1001`, F `ce5e61cb` = `fork/review/pr-1001-loopback-fix`; stage 1 D-POCO as head unit in Self Mode, stage 2 D-HU with D-POCO; R3 is the point; hand steps HS1 to HS4; renames D-HU's WiFi Direct device to OpenHU)
 - `second-screen-outputs-round2-brief.md` (candidate `4897c121` on `fork/feat/second-screen-outputs`; D-HU, D-POCO, D-SAM; R2 is the point)
 - `forget-car-every-connection-round2-brief.md` (candidate `c06d35b5` on `fork/fix/forget-car-every-connection`; D-HU, D-POCO as head units; H1, H2, H4, P1 rerun)
+- `audio-stutter-round1-brief.md` (candidate `fe3f9c7e` on `fork/fix/audio-stutter`, baseline `743b091d`; A/B device buffer over USB and wireless)
 
 ## Threads
 
@@ -98,6 +99,7 @@ in the commit that pushes the results.
 | `second-screen-outputs` | Round 2 queued | `second-screen-outputs-round2-brief.md`. Candidate `4897c121` fixes the round 1 FAIL-B (R2). Reruns R1, R2, R2C, R3 and R4; D-SAM views R2. |
 | `forget-car-every-connection` | Round 2 queued | `forget-car-every-connection-round2-brief.md`. Candidate `c06d35b5` on `fork/fix/forget-car-every-connection`. Reruns the round 1 FAIL items (H1, H2, H4, P1); D-HU, D-POCO. |
 | `main-beta5-regression` | Round 1 done on `ec9d9c33`: R0, W2, W4, U1, H1 PASS; W1 FAIL (6 fps static map, no overlay in dumps); W3 UNTESTABLE (stale taps) | `main-beta5-regression-round1-results.md`. Fix brief errata (L-SDR string, overlay, taps, no `nc -z`) before any round 2. |
+| `audio-stutter` | Round 1 queued | `audio-stutter-round1-brief.md`. Candidate `fe3f9c7e` vs baseline `743b091d`. Does a larger device buffer stop mixer-thread stutters, old tablet and modern phone, over USB; short wireless check for added loss. |
 
 Round files are `<thread>-round<N>-brief.md` and `<thread>-round<N>-results.md`. A brief with no
 matching results file is a round nobody has run yet. That pairing is the only queue there is, so
