@@ -63,3 +63,7 @@ bluetooth-audio-disabled-usb-connect	rig-evidence-bluetooth-audio-disabled-usb-c
 bluetooth-audio-disabled-usb-connect	rig-evidence-bluetooth-audio-disabled-usb-connect	bluetooth-audio-disabled-usb-connect-round3-captures.zip	31029369	be6ea955c2116160c3aa147a3f0476e559814e28802afeeba9883327956aafff	rig-evidence-legacy	2026-10-09
 bluetooth-audio-disabled-usb-connect	rig-evidence-bluetooth-audio-disabled-usb-connect	bluetooth-audio-disabled-usb-connect-round5-captures.zip	49177069	53261d3925ed4ee2aa001d34427f2e0b91d98d658f45410918ce4c31b653d01f	rig-evidence-legacy	2026-10-09
 bluetooth-audio-disabled-usb-connect	rig-evidence-bluetooth-audio-disabled-usb-connect-round4	bluetooth-audio-disabled-usb-connect-round4-captures.zip	14723607	fc5a9c1354cf6fc8a1572b74a21bac4a4cf2de8a689dfbaaf32fa0c21de56bc3	rig-evidence-legacy	2026-10-09
+usb-reattach	rig-evidence-usb-reattach	usb-reattach-round1-captures.zip	29538728	263ac55e36e3d1e2f09dadb0f023cab00ec7608ad36d3cdc6b9f3102bf32478a	rig-evidence-legacy	2026-10-09
+usb-reattach	rig-evidence-usb-reattach	usb-reattach-round2-captures.zip	22042106	34a1b01f0cdb8679acb73c61460c7e730e7f39320b0412f80c3c623467bd52da	rig-evidence-legacy	2026-10-09
+usb-reattach	rig-evidence-usb-reattach	usb-reattach-round3-captures.zip	9857400	ced6a2109157ebf0153264793b27f20cf2bfe719478706dda722fed7b829c7c6	rig-evidence-legacy	2026-10-09
+usb-reattach	rig-evidence-usb-reattach	usb-reattach-round4-captures.zip	1813774	5687c78a3b4c87d574a50f437e896aa619aa39dc50c674549c2a97215907cbf7	rig-evidence-legacy	2026-10-09
