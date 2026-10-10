@@ -1,4 +1,5 @@
 app/src/main/java/com/andrerinas/openheadunit/aap/AapAudio.kt
+app/src/main/java/com/andrerinas/openheadunit/aap/AudioClockDrift.kt
 app/src/main/java/com/andrerinas/openheadunit/aap/AudioMediaPayload.kt
 app/src/main/java/com/andrerinas/openheadunit/aap/AudioSinkCodecPolicy.kt
 app/src/main/java/com/andrerinas/openheadunit/aap/AudioTimestampMonitor.kt
@@ -23,6 +24,7 @@ app/src/main/java/com/andrerinas/openheadunit/decoder/audio/AudioSinkHealthMonit
 app/src/main/java/com/andrerinas/openheadunit/decoder/audio/AudioSinkCodec.kt
 app/src/main/java/com/andrerinas/openheadunit/decoder/audio/AudioSinkSetupPolicy.kt
 app/src/main/java/com/andrerinas/openheadunit/decoder/audio/AudioStreamCatalog.kt
+app/src/main/java/com/andrerinas/openheadunit/decoder/audio/AudioStutterAttribution.kt
 app/src/main/java/com/andrerinas/openheadunit/decoder/audio/AudioThreadPriority.kt
 app/src/main/java/com/andrerinas/openheadunit/decoder/audio/AudioTrackWrapper.kt
 app/src/main/java/com/andrerinas/openheadunit/decoder/audio/AudioWriteLoop.kt
