@@ -83,6 +83,7 @@ in the commit that pushes the results.
 - `pr-1076-text-keycodes-round1-brief.md` (D-HU with D-POCO, A/B; R1 is the point)
 - `pr-1001-devserver-p2p-round1-brief.md` (B `0cbff004`, P `7f5bc6e9` = `fork/review/pr-1001`, F `ce5e61cb` = `fork/review/pr-1001-loopback-fix`; stage 1 D-POCO as head unit in Self Mode, stage 2 D-HU with D-POCO; R3 is the point; hand steps HS1 to HS4; renames D-HU's WiFi Direct device to OpenHU)
 - `audio-stutter-round1-brief.md` (candidate `d96f17c1` on `fork/fix/audio-stutter`, baseline `d5528b51`, both on the merged audio-transitions PR; A/B device buffer below API 24, D-HP over USB)
+- `driver-select-off-phone-round1-brief.md` (candidate `b7793646` on `fork/fix/driver-select-off-phone`; does driver selection work when the chosen phone is off)
 
 ## Threads
 
@@ -98,6 +99,7 @@ in the commit that pushes the results.
 | `forget-car-every-connection` | Round 2 done, no FAIL | PR-ready: all of H1-H6 and P1 PASS on `c06d35b5` (`forget-car-every-connection-round2-results.md`). Round 1 FAILs fixed; H5 false banner gone, H4/H6 separate read from create. |
 | `main-beta5-regression` | Round 1 done on `ec9d9c33`: R0, W2, W4, U1, H1 PASS; W1 FAIL (6 fps static map, no overlay in dumps); W3 UNTESTABLE (stale taps) | `main-beta5-regression-round1-results.md`. Fix brief errata (L-SDR string, overlay, taps, no `nc -z`) before any round 2. |
 | `audio-stutter` | Round 1 queued | `audio-stutter-round1-brief.md`. Candidate `d96f17c1` vs baseline `d5528b51`. Below API 24, does a 200 ms fixed device buffer stop mixer-thread stutters on D-HP over USB. |
+| `driver-select-off-phone` | Round 1 queued | `driver-select-off-phone-round1-brief.md`. Candidate `b7793646`. Does the head unit pick and connect a driver phone that is off or out of reach. |
 | `aa-178-protocol-levers` | Round 1 done on `dd5b2a82`: R1 PASS, R2 FAIL by letter (control holds), R4 and R3 INCONCLUSIVE | `aa-178-protocol-levers-round1-results.md`. Fallback works on 2.4 GHz; fix brief conditions 8 and 9 for GH 17.9; selector AUTO picked a BT-off phone. |
 | `pr-1090-audio-transitions` | Round 2 done, no FAIL | `pr-1090-audio-transitions-round2-results.md`. At the same 4320 buffer matched recovery repays (median excess +6.5 ms over commit 1); boot receiver fix catches the refusal. Ready for the PR. |
 
