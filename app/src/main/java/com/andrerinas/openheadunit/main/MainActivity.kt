@@ -148,6 +148,7 @@ class MainActivity : BaseActivity() {
         requestedOrientation = Settings(this).screenOrientation.androidOrientation
         super.onCreate(savedInstanceState)
 
+        applyTurnScreenOn(intent)
         logLaunchSource()
         clearBootLoopGuardIfOpenedByHand()
 
@@ -997,6 +998,7 @@ class MainActivity : BaseActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
+        applyTurnScreenOn(intent)
         handleLaunchIntent(intent)
     }
 
@@ -1375,8 +1377,17 @@ class MainActivity : BaseActivity() {
         startActivity(aapIntent)
     }
 
+    /** Lights the panel for a service-raised launch; onPause clears it so a later resume does not. */
+    private fun applyTurnScreenOn(launchIntent: Intent?) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 &&
+            launchIntent?.getBooleanExtra(EXTRA_TURN_SCREEN_ON, false) == true) {
+            setTurnScreenOn(true)
+        }
+    }
+
     override fun onPause() {
         super.onPause()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) setTurnScreenOn(false)
         if (isOrientationReceiverRegistered) {
             unregisterReceiver(orientationReceiver)
             isOrientationReceiverRegistered = false
@@ -1451,6 +1462,7 @@ class MainActivity : BaseActivity() {
         private const val permissionRequestCode = 97
         @Volatile var hasRequestedPermissionsThisSession: Boolean = false
         const val EXTRA_LAUNCH_SOURCE = "launch_source"
+        const val EXTRA_TURN_SCREEN_ON = "turn_screen_on"
         const val LAUNCH_SOURCE_BLUETOOTH = "Bluetooth auto-start"
         const val EXTRA_SHOW_DRIVER_SELECTOR = "show_driver_selector"
 

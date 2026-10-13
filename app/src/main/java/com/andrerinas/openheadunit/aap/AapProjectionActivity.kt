@@ -996,6 +996,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        applyTurnScreenOn(intent)
         // [FIX] applyOrientationSettings() must be called AFTER super.onCreate() so that the
         // Activity window is fully initialized before we lock the orientation. Calling it before
         // super.onCreate() caused SCREEN_ORIENTATION_LOCKED to inherit the orientation context
@@ -1211,6 +1212,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         isForeground = false
         AppLog.i("AapProjectionActivity: onPause")
         super.onPause()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) setTurnScreenOn(false)
         RenameNotice.dismiss()
         Aa174Notice.dismiss()
         // Clear any activity-local fullscreen override when leaving the Activity so
@@ -1308,6 +1310,15 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         AppLog.i("AapProjectionActivity: onNewIntent received")
+        applyTurnScreenOn(intent)
+    }
+
+    /** Lights the panel for a service-raised screen-on; onPause clears it so a later resume does not. */
+    private fun applyTurnScreenOn(launchIntent: Intent?) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 &&
+            launchIntent?.getBooleanExtra(EXTRA_TURN_SCREEN_ON, false) == true) {
+            setTurnScreenOn(true)
+        }
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -2366,6 +2377,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         /** Long enough for a surface callback to arrive first on a return, short enough to beat the stall window. */
         private const val RETURN_REARM_DELAY_MS = 300L
         const val EXTRA_FOCUS = "focus"
+        const val EXTRA_TURN_SCREEN_ON = "turn_screen_on"
         @Volatile var isForeground = false
 
         /**
