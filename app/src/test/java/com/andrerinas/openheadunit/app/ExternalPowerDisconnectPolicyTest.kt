@@ -11,10 +11,15 @@ class ExternalPowerDisconnectPolicyTest {
     private val P = ExternalPowerDisconnectPolicy
 
     @Test
-    fun `a switch that is off ignores every event`() {
+    fun `a switch that is off arms nothing`() {
         assertEquals(ExternalPowerArm.IGNORE, P.onPowerEvent(false, connected = false, sessionUp = true))
-        assertEquals(ExternalPowerArm.IGNORE, P.onPowerEvent(false, connected = true, sessionUp = true))
         assertEquals(ExternalPowerArm.IGNORE, P.onPowerEvent(false, connected = false, sessionUp = false))
+    }
+
+    @Test
+    fun `power back cancels even with the switch turned off`() {
+        assertEquals(ExternalPowerArm.CANCEL, P.onPowerEvent(false, connected = true, sessionUp = true))
+        assertEquals(ExternalPowerArm.CANCEL, P.onPowerEvent(false, connected = true, sessionUp = false))
     }
 
     @Test
@@ -65,9 +70,14 @@ class ExternalPowerDisconnectPolicyTest {
 
     @Test
     fun `a live session ends when power stayed away`() {
-        assertTrue(P.shouldEndSession(sessionUp = true, chargerBack = false))
-        assertFalse(P.shouldEndSession(sessionUp = false, chargerBack = false))
-        assertFalse(P.shouldEndSession(sessionUp = true, chargerBack = true))
+        assertTrue(P.shouldEndSession(enabled = true, sessionUp = true, chargerBack = false))
+        assertFalse(P.shouldEndSession(enabled = true, sessionUp = false, chargerBack = false))
+        assertFalse(P.shouldEndSession(enabled = true, sessionUp = true, chargerBack = true))
+    }
+
+    @Test
+    fun `a switch turned off during the delay ends nothing`() {
+        assertFalse(P.shouldEndSession(enabled = false, sessionUp = true, chargerBack = false))
     }
 
     @Test
@@ -111,7 +121,28 @@ class ExternalPowerDisconnectPolicyTest {
 
     @Test
     fun `the stand-down holds only while power is still out`() {
-        assertTrue(P.standDownHolds(powerBack = false))
-        assertFalse(P.standDownHolds(powerBack = true))
+        assertTrue(P.standDownHolds(powerBackSeen = false, pluggedNow = false))
+        assertFalse(P.standDownHolds(powerBackSeen = true, pluggedNow = true))
+    }
+
+    @Test
+    fun `a return unplugged again before the stand-down still stands down`() {
+        assertTrue(P.standDownHolds(powerBackSeen = true, pluggedNow = false))
+    }
+
+    @Test
+    fun `a wired re-arm runs now when the stand-down does not hold`() {
+        assertEquals(WiredRearm.NOW, P.wiredRearm(standDownHolds = false, endedByPower = true))
+        assertEquals(WiredRearm.NOW, P.wiredRearm(standDownHolds = false, endedByPower = false))
+    }
+
+    @Test
+    fun `a wired re-arm waits for power back after a power stand-down`() {
+        assertEquals(WiredRearm.ON_POWER_BACK, P.wiredRearm(standDownHolds = true, endedByPower = true))
+    }
+
+    @Test
+    fun `a wired re-arm is dropped after a Bluetooth stand-down`() {
+        assertEquals(WiredRearm.DROP, P.wiredRearm(standDownHolds = true, endedByPower = false))
     }
 }
