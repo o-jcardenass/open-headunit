@@ -34,6 +34,7 @@ import com.andrerinas.openheadunit.contract.KeyIntent
 import com.andrerinas.openheadunit.decoder.video.WarmRelaunchKeyframePolicy
 import com.andrerinas.openheadunit.input.ProjectionKeyPolicy
 import com.andrerinas.openheadunit.input.TouchCoordinateMapper
+import com.andrerinas.openheadunit.input.TouchReleasePolicy
 import kotlinx.coroutines.launch
 import com.andrerinas.openheadunit.decoder.audio.MicRecorder
 import com.andrerinas.openheadunit.decoder.video.DecoderStopPolicy
@@ -2188,6 +2189,10 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
     }
 
     private fun sendTouchEvent(event: MotionEvent) {
+        if (event.actionMasked == MotionEvent.ACTION_CANCEL) {
+            sendTouchRelease(event)
+            return
+        }
         val action = TouchEvent.motionEventToAction(event) ?: return
         val ts = SystemClock.elapsedRealtime()
 
@@ -2253,6 +2258,15 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         }
     }
 
+
+    /** A system gesture took the touch: lift it off the canvas so the phone clicks nothing. */
+    private fun sendTouchRelease(event: MotionEvent) {
+        val ts = SystemClock.elapsedRealtime()
+        val pointerIds = List(event.pointerCount) { event.getPointerId(it) }
+        TouchReleasePolicy.release(pointerIds).forEach { step ->
+            commManager.send(TouchEvent(ts, step.action, step.actionIndex, step.pointers))
+        }
+    }
 
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
         val action = event.action
