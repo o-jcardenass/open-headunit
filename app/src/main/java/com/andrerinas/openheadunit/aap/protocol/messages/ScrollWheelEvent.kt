@@ -16,7 +16,6 @@ class ScrollWheelEvent(timeStamp: Long, delta: Int)
 
             return Input.InputReport.newBuilder().also {
                 it.timestamp = timeStamp * 1000000L
-                it.keyEvent = Input.KeyEvent.newBuilder().build() // TODO: check if requred
                 it.relativeEvent = Input.RelativeEvent.newBuilder().also { event ->
                     event.addData(Input.RelativeEvent_Rel.newBuilder().apply {
                         setDelta(delta)

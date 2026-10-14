@@ -8,9 +8,8 @@ internal data class GalDisplaySettings(val hideClock: Boolean, val hideBattery: 
 
 /** Immutable visibility settings for discovery and subsequent UI updates in one session. */
 internal class GalDisplayContract(private val settings: GalDisplaySettings, private val modern: Boolean) {
-    /** Both discovery encodings must describe the same connection-time visibility settings. */
+    /** Sends the connection-time visibility settings as session bits; the phone does not read field 12. */
     fun applyDiscoveryVisibility(builder: Control.ServiceDiscoveryResponse.Builder) {
-        builder.hideProjectedClock = settings.hideClock
         // SessionConfiguration uses clock/signal/battery bits; 0x08 is native media during VR.
         builder.sessionConfiguration = (if (settings.hideClock) 0x01 else 0) or
             (if (settings.hideSignal) 0x02 else 0) or

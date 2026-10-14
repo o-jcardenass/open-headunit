@@ -93,8 +93,6 @@ internal class ServiceDiscoveryResponse private constructor(proto: Control.Servi
                     }
 
                     mediaSinkServiceBuilder.availableType = effectiveCodec
-                    mediaSinkServiceBuilder.audioType = Media.AudioStreamType.NONE
-                    mediaSinkServiceBuilder.availableWhileInCall = true
 
                     // Decided once, above every line that reports it: the probe below must
                     // describe the profile actually being asked for, not the one in Settings.

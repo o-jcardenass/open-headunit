@@ -19635,8 +19635,7 @@ public final class Control {
 
     /**
      * <pre>
-     * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-     * measured to work; if that ever stops, this is where it moved.
+     * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
      * </pre>
      *
      * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -19645,8 +19644,7 @@ public final class Control {
     boolean hasHeadunitInfo();
     /**
      * <pre>
-     * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-     * measured to work; if that ever stops, this is where it moved.
+     * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
      * </pre>
      *
      * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -19655,8 +19653,7 @@ public final class Control {
     com.andrerinas.openheadunit.aap.protocol.proto.Common.HeadUnitInfo getHeadunitInfo();
     /**
      * <pre>
-     * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-     * measured to work; if that ever stops, this is where it moved.
+     * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
      * </pre>
      *
      * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -20316,8 +20313,7 @@ public final class Control {
     private com.andrerinas.openheadunit.aap.protocol.proto.Common.HeadUnitInfo headunitInfo_;
     /**
      * <pre>
-     * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-     * measured to work; if that ever stops, this is where it moved.
+     * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
      * </pre>
      *
      * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -20329,8 +20325,7 @@ public final class Control {
     }
     /**
      * <pre>
-     * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-     * measured to work; if that ever stops, this is where it moved.
+     * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
      * </pre>
      *
      * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -20342,8 +20337,7 @@ public final class Control {
     }
     /**
      * <pre>
-     * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-     * measured to work; if that ever stops, this is where it moved.
+     * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
      * </pre>
      *
      * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -22604,8 +22598,7 @@ public final class Control {
           com.andrerinas.openheadunit.aap.protocol.proto.Common.HeadUnitInfo, com.andrerinas.openheadunit.aap.protocol.proto.Common.HeadUnitInfo.Builder, com.andrerinas.openheadunit.aap.protocol.proto.Common.HeadUnitInfoOrBuilder> headunitInfoBuilder_;
       /**
        * <pre>
-       * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-       * measured to work; if that ever stops, this is where it moved.
+       * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
        * </pre>
        *
        * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -22616,8 +22609,7 @@ public final class Control {
       }
       /**
        * <pre>
-       * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-       * measured to work; if that ever stops, this is where it moved.
+       * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
        * </pre>
        *
        * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -22632,8 +22624,7 @@ public final class Control {
       }
       /**
        * <pre>
-       * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-       * measured to work; if that ever stops, this is where it moved.
+       * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
        * </pre>
        *
        * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -22653,8 +22644,7 @@ public final class Control {
       }
       /**
        * <pre>
-       * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-       * measured to work; if that ever stops, this is where it moved.
+       * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
        * </pre>
        *
        * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -22672,8 +22662,7 @@ public final class Control {
       }
       /**
        * <pre>
-       * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-       * measured to work; if that ever stops, this is where it moved.
+       * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
        * </pre>
        *
        * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -22698,8 +22687,7 @@ public final class Control {
       }
       /**
        * <pre>
-       * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-       * measured to work; if that ever stops, this is where it moved.
+       * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
        * </pre>
        *
        * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -22716,8 +22704,7 @@ public final class Control {
       }
       /**
        * <pre>
-       * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-       * measured to work; if that ever stops, this is where it moved.
+       * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
        * </pre>
        *
        * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -22729,8 +22716,7 @@ public final class Control {
       }
       /**
        * <pre>
-       * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-       * measured to work; if that ever stops, this is where it moved.
+       * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
        * </pre>
        *
        * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -22745,8 +22731,7 @@ public final class Control {
       }
       /**
        * <pre>
-       * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-       * measured to work; if that ever stops, this is where it moved.
+       * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
        * </pre>
        *
        * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>

@@ -80,15 +80,14 @@ class GalConnectionContractTest {
 
     @Test fun `legacy and modern discovery visibility use one frozen snapshot`() {
         for (profile in GalProfile.entries) for (bits in 0..7) {
-            var settings = GalDisplaySettings(bits and 1 != 0, bits and 4 != 0, bits and 2 != 0)
+            val settings = GalDisplaySettings(bits and 1 != 0, bits and 4 != 0, bits and 2 != 0)
             val contract = GalConnectionContract.resolve(galTestContract(profile).negotiation, settings)
-            settings = GalDisplaySettings(!settings.hideClock, !settings.hideBattery, !settings.hideSignal)
-            val builder = galTestDiscovery().toBuilder().setHideProjectedClock(settings.hideClock)
+            val builder = galTestDiscovery().toBuilder()
                 .setSessionConfiguration(bits xor 7)
             contract.display.applyDiscoveryVisibility(builder)
             val wire = Control.ServiceDiscoveryResponse.parseFrom(builder.build().toByteArray())
             assertEquals(bits, wire.sessionConfiguration)
-            assertEquals(bits and 1 != 0, wire.hideProjectedClock)
+            assertFalse(wire.hasHideProjectedClock())
             val initial = contract.display.initial(0, 0)
             if (initial != null) {
                 assertEquals(bits and 1 != 0, Media.UiConfig.UiElement.CLOCK in initial.uiElementsList)
