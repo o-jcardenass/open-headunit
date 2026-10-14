@@ -19430,8 +19430,7 @@ public final class Control {
 
     /**
      * <pre>
-     * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-     * measured to work; if that ever stops, this is where it moved.
+     * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
      * </pre>
      *
      * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -19440,8 +19439,7 @@ public final class Control {
     boolean hasHeadunitInfo();
     /**
      * <pre>
-     * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-     * measured to work; if that ever stops, this is where it moved.
+     * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
      * </pre>
      *
      * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -19450,8 +19448,7 @@ public final class Control {
     com.andrerinas.openheadunit.aap.protocol.proto.Common.HeadUnitInfo getHeadunitInfo();
     /**
      * <pre>
-     * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-     * measured to work; if that ever stops, this is where it moved.
+     * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
      * </pre>
      *
      * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -20111,8 +20108,7 @@ public final class Control {
     private com.andrerinas.openheadunit.aap.protocol.proto.Common.HeadUnitInfo headunitInfo_;
     /**
      * <pre>
-     * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-     * measured to work; if that ever stops, this is where it moved.
+     * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
      * </pre>
      *
      * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -20124,8 +20120,7 @@ public final class Control {
     }
     /**
      * <pre>
-     * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-     * measured to work; if that ever stops, this is where it moved.
+     * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
      * </pre>
      *
      * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -20137,8 +20132,7 @@ public final class Control {
     }
     /**
      * <pre>
-     * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-     * measured to work; if that ever stops, this is where it moved.
+     * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
      * </pre>
      *
      * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -22399,8 +22393,7 @@ public final class Control {
           com.andrerinas.openheadunit.aap.protocol.proto.Common.HeadUnitInfo, com.andrerinas.openheadunit.aap.protocol.proto.Common.HeadUnitInfo.Builder, com.andrerinas.openheadunit.aap.protocol.proto.Common.HeadUnitInfoOrBuilder> headunitInfoBuilder_;
       /**
        * <pre>
-       * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-       * measured to work; if that ever stops, this is where it moved.
+       * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
        * </pre>
        *
        * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -22411,8 +22404,7 @@ public final class Control {
       }
       /**
        * <pre>
-       * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-       * measured to work; if that ever stops, this is where it moved.
+       * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
        * </pre>
        *
        * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -22427,8 +22419,7 @@ public final class Control {
       }
       /**
        * <pre>
-       * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-       * measured to work; if that ever stops, this is where it moved.
+       * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
        * </pre>
        *
        * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -22448,8 +22439,7 @@ public final class Control {
       }
       /**
        * <pre>
-       * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-       * measured to work; if that ever stops, this is where it moved.
+       * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
        * </pre>
        *
        * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -22467,8 +22457,7 @@ public final class Control {
       }
       /**
        * <pre>
-       * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-       * measured to work; if that ever stops, this is where it moved.
+       * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
        * </pre>
        *
        * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -22493,8 +22482,7 @@ public final class Control {
       }
       /**
        * <pre>
-       * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-       * measured to work; if that ever stops, this is where it moved.
+       * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
        * </pre>
        *
        * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -22511,8 +22499,7 @@ public final class Control {
       }
       /**
        * <pre>
-       * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-       * measured to work; if that ever stops, this is where it moved.
+       * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
        * </pre>
        *
        * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -22524,8 +22511,7 @@ public final class Control {
       }
       /**
        * <pre>
-       * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-       * measured to work; if that ever stops, this is where it moved.
+       * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
        * </pre>
        *
        * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -22540,8 +22526,7 @@ public final class Control {
       }
       /**
        * <pre>
-       * Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-       * measured to work; if that ever stops, this is where it moved.
+       * The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
        * </pre>
        *
        * <code>optional .com.andrerinas.openheadunit.aap.protocol.proto.HeadUnitInfo headunit_info = 17;</code>
@@ -23569,14 +23554,14 @@ public final class Control {
     /**
      * <code>optional uint32 socket_receive_buffer_size_kb = 1 [deprecated = true];</code>
      * @deprecated com.andrerinas.openheadunit.aap.protocol.proto.WirelessTcpConfiguration.socket_receive_buffer_size_kb is deprecated.
-     *     See control.proto;l=273
+     *     See control.proto;l=272
      * @return Whether the socketReceiveBufferSizeKb field is set.
      */
     @java.lang.Deprecated boolean hasSocketReceiveBufferSizeKb();
     /**
      * <code>optional uint32 socket_receive_buffer_size_kb = 1 [deprecated = true];</code>
      * @deprecated com.andrerinas.openheadunit.aap.protocol.proto.WirelessTcpConfiguration.socket_receive_buffer_size_kb is deprecated.
-     *     See control.proto;l=273
+     *     See control.proto;l=272
      * @return The socketReceiveBufferSizeKb.
      */
     @java.lang.Deprecated int getSocketReceiveBufferSizeKb();
@@ -23584,14 +23569,14 @@ public final class Control {
     /**
      * <code>optional uint32 socket_send_buffer_size_kb = 2 [deprecated = true];</code>
      * @deprecated com.andrerinas.openheadunit.aap.protocol.proto.WirelessTcpConfiguration.socket_send_buffer_size_kb is deprecated.
-     *     See control.proto;l=274
+     *     See control.proto;l=273
      * @return Whether the socketSendBufferSizeKb field is set.
      */
     @java.lang.Deprecated boolean hasSocketSendBufferSizeKb();
     /**
      * <code>optional uint32 socket_send_buffer_size_kb = 2 [deprecated = true];</code>
      * @deprecated com.andrerinas.openheadunit.aap.protocol.proto.WirelessTcpConfiguration.socket_send_buffer_size_kb is deprecated.
-     *     See control.proto;l=274
+     *     See control.proto;l=273
      * @return The socketSendBufferSizeKb.
      */
     @java.lang.Deprecated int getSocketSendBufferSizeKb();
@@ -23694,7 +23679,7 @@ public final class Control {
     /**
      * <code>optional uint32 socket_receive_buffer_size_kb = 1 [deprecated = true];</code>
      * @deprecated com.andrerinas.openheadunit.aap.protocol.proto.WirelessTcpConfiguration.socket_receive_buffer_size_kb is deprecated.
-     *     See control.proto;l=273
+     *     See control.proto;l=272
      * @return Whether the socketReceiveBufferSizeKb field is set.
      */
     @java.lang.Override
@@ -23704,7 +23689,7 @@ public final class Control {
     /**
      * <code>optional uint32 socket_receive_buffer_size_kb = 1 [deprecated = true];</code>
      * @deprecated com.andrerinas.openheadunit.aap.protocol.proto.WirelessTcpConfiguration.socket_receive_buffer_size_kb is deprecated.
-     *     See control.proto;l=273
+     *     See control.proto;l=272
      * @return The socketReceiveBufferSizeKb.
      */
     @java.lang.Override
@@ -23717,7 +23702,7 @@ public final class Control {
     /**
      * <code>optional uint32 socket_send_buffer_size_kb = 2 [deprecated = true];</code>
      * @deprecated com.andrerinas.openheadunit.aap.protocol.proto.WirelessTcpConfiguration.socket_send_buffer_size_kb is deprecated.
-     *     See control.proto;l=274
+     *     See control.proto;l=273
      * @return Whether the socketSendBufferSizeKb field is set.
      */
     @java.lang.Override
@@ -23727,7 +23712,7 @@ public final class Control {
     /**
      * <code>optional uint32 socket_send_buffer_size_kb = 2 [deprecated = true];</code>
      * @deprecated com.andrerinas.openheadunit.aap.protocol.proto.WirelessTcpConfiguration.socket_send_buffer_size_kb is deprecated.
-     *     See control.proto;l=274
+     *     See control.proto;l=273
      * @return The socketSendBufferSizeKb.
      */
     @java.lang.Override
@@ -24269,7 +24254,7 @@ public final class Control {
       /**
        * <code>optional uint32 socket_receive_buffer_size_kb = 1 [deprecated = true];</code>
        * @deprecated com.andrerinas.openheadunit.aap.protocol.proto.WirelessTcpConfiguration.socket_receive_buffer_size_kb is deprecated.
-       *     See control.proto;l=273
+       *     See control.proto;l=272
        * @return Whether the socketReceiveBufferSizeKb field is set.
        */
       @java.lang.Override
@@ -24279,7 +24264,7 @@ public final class Control {
       /**
        * <code>optional uint32 socket_receive_buffer_size_kb = 1 [deprecated = true];</code>
        * @deprecated com.andrerinas.openheadunit.aap.protocol.proto.WirelessTcpConfiguration.socket_receive_buffer_size_kb is deprecated.
-       *     See control.proto;l=273
+       *     See control.proto;l=272
        * @return The socketReceiveBufferSizeKb.
        */
       @java.lang.Override
@@ -24289,7 +24274,7 @@ public final class Control {
       /**
        * <code>optional uint32 socket_receive_buffer_size_kb = 1 [deprecated = true];</code>
        * @deprecated com.andrerinas.openheadunit.aap.protocol.proto.WirelessTcpConfiguration.socket_receive_buffer_size_kb is deprecated.
-       *     See control.proto;l=273
+       *     See control.proto;l=272
        * @param value The socketReceiveBufferSizeKb to set.
        * @return This builder for chaining.
        */
@@ -24303,7 +24288,7 @@ public final class Control {
       /**
        * <code>optional uint32 socket_receive_buffer_size_kb = 1 [deprecated = true];</code>
        * @deprecated com.andrerinas.openheadunit.aap.protocol.proto.WirelessTcpConfiguration.socket_receive_buffer_size_kb is deprecated.
-       *     See control.proto;l=273
+       *     See control.proto;l=272
        * @return This builder for chaining.
        */
       @java.lang.Deprecated public Builder clearSocketReceiveBufferSizeKb() {
@@ -24317,7 +24302,7 @@ public final class Control {
       /**
        * <code>optional uint32 socket_send_buffer_size_kb = 2 [deprecated = true];</code>
        * @deprecated com.andrerinas.openheadunit.aap.protocol.proto.WirelessTcpConfiguration.socket_send_buffer_size_kb is deprecated.
-       *     See control.proto;l=274
+       *     See control.proto;l=273
        * @return Whether the socketSendBufferSizeKb field is set.
        */
       @java.lang.Override
@@ -24327,7 +24312,7 @@ public final class Control {
       /**
        * <code>optional uint32 socket_send_buffer_size_kb = 2 [deprecated = true];</code>
        * @deprecated com.andrerinas.openheadunit.aap.protocol.proto.WirelessTcpConfiguration.socket_send_buffer_size_kb is deprecated.
-       *     See control.proto;l=274
+       *     See control.proto;l=273
        * @return The socketSendBufferSizeKb.
        */
       @java.lang.Override
@@ -24337,7 +24322,7 @@ public final class Control {
       /**
        * <code>optional uint32 socket_send_buffer_size_kb = 2 [deprecated = true];</code>
        * @deprecated com.andrerinas.openheadunit.aap.protocol.proto.WirelessTcpConfiguration.socket_send_buffer_size_kb is deprecated.
-       *     See control.proto;l=274
+       *     See control.proto;l=273
        * @param value The socketSendBufferSizeKb to set.
        * @return This builder for chaining.
        */
@@ -24351,7 +24336,7 @@ public final class Control {
       /**
        * <code>optional uint32 socket_send_buffer_size_kb = 2 [deprecated = true];</code>
        * @deprecated com.andrerinas.openheadunit.aap.protocol.proto.WirelessTcpConfiguration.socket_send_buffer_size_kb is deprecated.
-       *     See control.proto;l=274
+       *     See control.proto;l=273
        * @return This builder for chaining.
        */
       @java.lang.Deprecated public Builder clearSocketSendBufferSizeKb() {

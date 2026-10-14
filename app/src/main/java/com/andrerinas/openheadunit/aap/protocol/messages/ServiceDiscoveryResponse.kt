@@ -111,8 +111,6 @@ internal class ServiceDiscoveryResponse(context: Context, audioConfig: AudioSess
                     }
 
                     mediaSinkServiceBuilder.availableType = effectiveCodec
-                    mediaSinkServiceBuilder.audioType = Media.AudioStreamType.NONE
-                    mediaSinkServiceBuilder.availableWhileInCall = true
 
                     // Decided once, above every line that reports it: the probe below must
                     // describe the profile actually being asked for, not the one in Settings.
@@ -351,7 +349,7 @@ internal class ServiceDiscoveryResponse(context: Context, audioConfig: AudioSess
                 headUnitSoftwareVersion = "0.1.0"
                 driverPosition = if (settings.rightHandDrive) Control.DriverPosition.DRIVER_POSITION_RIGHT else Control.DriverPosition.DRIVER_POSITION_LEFT
                 canPlayNativeMediaDuringVr = false
-                hideProjectedClock = settings.hideClock
+                // The session configuration bit 0x01 hides the clock; the phone does not read field 12.
                 sessionConfiguration = sessionConfig
                 setDisplayName(settings.vehicleDisplayName)
 

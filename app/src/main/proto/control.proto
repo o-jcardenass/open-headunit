@@ -252,8 +252,7 @@ message ServiceDiscoveryResponse
     optional bool probe_for_support = 15;
     optional ConnectionConfiguration connection_configuration = 16;
     optional HeadUnitInfo headunit_info = 17;
-    // Android Auto reserves 18 for vehicle type. We carry ours on HeadUnitInfo field 9, which is
-    // measured to work; if that ever stops, this is where it moved.
+    // The vehicle type rides on HeadUnitInfo field 9, the field Android Auto 17.5 and 17.8 read.
 }
 
 // How this head unit wants the link run. Defaults in the comments are Android Auto's own.
