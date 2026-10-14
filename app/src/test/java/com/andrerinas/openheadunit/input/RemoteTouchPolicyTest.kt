@@ -25,6 +25,17 @@ class RemoteTouchPolicyTest {
 
     private fun ids(send: Send) = send.pointers.map { it.id }
 
+    @Test
+    fun `a cancel leaves the caller only the fingers the phone saw`() {
+        holdFirst()
+        assertEquals(emptyList<Int>(), policy.heldPointerIds)
+        policy.holdExpired()
+        feed(Local.POINTER_DOWN, 1, false, p(0, 60f, 452f), p(1, 260f, 502f))
+        assertEquals(listOf(0, 1), policy.heldPointerIds)
+        feed(Local.CANCEL, 0, false, p(0, 60f, 452f), p(1, 260f, 502f))
+        assertEquals(emptyList<Int>(), policy.heldPointerIds)
+    }
+
     private fun holdFirst(x: Float = 60f, y: Float = 452f) = feed(Local.DOWN, 0, false, p(0, x, y), mayStart = true)
 
     private fun startUndecided(x: Float = 60f, y: Float = 452f) {

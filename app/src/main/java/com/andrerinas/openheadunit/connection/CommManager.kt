@@ -12,6 +12,7 @@ import com.andrerinas.openheadunit.aap.NarrowBandProfilePolicy
 import com.andrerinas.openheadunit.input.KeyLearnPolicy
 import com.andrerinas.openheadunit.input.MediaKeyRoutingPolicy
 import com.andrerinas.openheadunit.input.ProjectionKeyPolicy
+import com.andrerinas.openheadunit.input.TouchReleasePolicy
 import com.andrerinas.openheadunit.decoder.audio.PlaybackFocusPolicy
 import com.andrerinas.openheadunit.utils.AppLog
 import com.andrerinas.openheadunit.utils.BluetoothHelper
@@ -38,7 +39,6 @@ import com.andrerinas.openheadunit.aap.protocol.proto.MediaPlayback
 import java.net.Socket
 import android.view.KeyEvent
 import com.andrerinas.openheadunit.aap.protocol.messages.TouchEvent
-import com.andrerinas.openheadunit.aap.protocol.proto.Input.TouchEvent.PointerAction
 import com.andrerinas.openheadunit.connection.projection.AbstractUsbProjectionConnection
 import com.andrerinas.openheadunit.connection.projection.ProjectionConnection
 import com.andrerinas.openheadunit.connection.projection.LibusbProjectionConnection
@@ -1493,12 +1493,10 @@ class CommManager(
     fun loseFocus() {
         val transport = _transport ?: return
         val ts = SystemClock.elapsedRealtime()
-
-        transport.send(TouchEvent(
-            ts,
-            PointerAction.TOUCH_ACTION_DOWN,
-            0,
-            mutableListOf(Triple(0, 0, 0))))
+        // A press with no release left the phone holding a finger; this one lands on nothing.
+        TouchReleasePolicy.tapOffCanvas().forEach { step ->
+            transport.send(TouchEvent(ts, step.action, step.actionIndex, step.pointers))
+        }
     }
 
     fun sendUpdateUiConfigRequest(left: Int, top: Int, right: Int, bottom: Int) {
