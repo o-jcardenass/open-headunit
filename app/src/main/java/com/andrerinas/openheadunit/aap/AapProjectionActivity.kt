@@ -45,6 +45,7 @@ import com.andrerinas.openheadunit.input.LocalAction
 import com.andrerinas.openheadunit.input.TwoFingerGestureTracker
 import com.andrerinas.openheadunit.main.AppLauncher
 import com.andrerinas.openheadunit.utils.ActivityState
+import com.andrerinas.openheadunit.input.TouchReleasePolicy
 import kotlinx.coroutines.launch
 import com.andrerinas.openheadunit.decoder.audio.MicRecorder
 import com.andrerinas.openheadunit.decoder.video.DecoderStopPolicy
@@ -2863,11 +2864,13 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             remoteGiveUpPending = false
             sendRemote(remoteTouch.giveUp(pointersOf(event)), g, ts)
         }
+        val heldByPhone = remoteTouch.heldPointerIds
         val sends = remoteTouch.onEvent(
             local, event.actionIndex, pointersOf(event), mayStart, twoFingerTracker != null,
             ViewConfiguration.get(this).scaledTouchSlop.toFloat()
         )
         sendRemote(sends, g, ts)
+        if (local == RemoteTouchPolicy.Local.CANCEL) sendTouchRelease(heldByPhone, ts)
         if (!remoteTouch.mayStartGesture) {
             gestureHandler.removeCallbacks(remoteHoldExpired)
         } else if (local == RemoteTouchPolicy.Local.DOWN) {
@@ -2881,6 +2884,13 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         }
     }
 
+
+    /** A system gesture took the touch: lift it off the canvas so the phone clicks nothing. */
+    private fun sendTouchRelease(pointerIds: List<Int>, ts: Long) {
+        TouchReleasePolicy.release(pointerIds).forEach { step ->
+            commManager.send(TouchEvent(ts, step.action, step.actionIndex, step.pointers))
+        }
+    }
 
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
         val action = event.action
