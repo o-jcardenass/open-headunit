@@ -28,6 +28,9 @@ class RemoteTouchPolicy {
     /** True while only a withheld first finger is down: the one state a gesture can start from. */
     val mayStartGesture get() = phase == Phase.HOLDING && withheld.size == 1 && !lifted
 
+    /** The fingers the phone holds down now, in landing order. */
+    val heldPointerIds get() = held.keys.toList()
+
     fun onEvent(
         local: Local,
         actionIndex: Int,
@@ -146,7 +149,8 @@ class RemoteTouchPolicy {
                 if (local == Local.UP) reset()
                 return listOf(send)
             }
-            // The phone never gets a CANCEL, and an UP here would be a tap on whatever is under the finger.
+            // The phone never gets a CANCEL, and an UP here would be a tap on whatever is under the finger;
+            // the caller lifts heldPointerIds off the canvas instead.
             Local.CANCEL -> {
                 reset()
                 return emptyList()
