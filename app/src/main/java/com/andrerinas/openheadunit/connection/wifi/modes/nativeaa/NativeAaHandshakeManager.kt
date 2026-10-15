@@ -2833,7 +2833,9 @@ class NativeAaHandshakeManager(
         val carrier = ZbtAaCarrier(
             // The module's arrival is this route's "phone answered", or the pill never moves past waking.
             serve = { link ->
-                ConnectionStageTracker.report(ConnectionStage.PHONE_ANSWERED)
+                if (ModuleAnswerStagePolicy.reportsPhoneAnswered(link.peerReportedPresent)) {
+                    ConnectionStageTracker.report(ConnectionStage.PHONE_ANSWERED)
+                }
                 handleHandshake(link)
             },
             isRunning = { isRunning },
@@ -2993,7 +2995,9 @@ class NativeAaHandshakeManager(
         )
         val carrier = BlinkAaCarrier(
             serve = { link ->
-                ConnectionStageTracker.report(ConnectionStage.PHONE_ANSWERED)
+                if (ModuleAnswerStagePolicy.reportsPhoneAnswered(link.peerReportedPresent)) {
+                    ConnectionStageTracker.report(ConnectionStage.PHONE_ANSWERED)
+                }
                 handleHandshake(link)
             },
             isRunning = { isRunning },
