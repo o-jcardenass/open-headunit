@@ -162,7 +162,6 @@ class SettingsFragment : Fragment() {
 
     // Local state to hold changes before saving
     private val pending = SettingsPendingCopy()
-    private var pendingAdvancedSettings: Boolean? = null
     private var pendingUseGps by pending::useGps
     private var pendingShowNavigationNotifications by pending::showNavigationNotifications
     private var pendingSyncMediaSessionAaMetadata by pending::syncMediaSessionAaMetadata
@@ -344,7 +343,6 @@ class SettingsFragment : Fragment() {
         settings = App.provide(requireContext()).settings
 
         // Initialize local state with current values
-        pendingAdvancedSettings = settings.isAdvancedSettingsActive
         pending.loadFrom(settings)
 
         // Loading screen settings are handled in LoadingScreenFragment (saves directly)
@@ -364,19 +362,6 @@ class SettingsFragment : Fragment() {
 
         setupTabsAndSearch(view)
 
-        // Receive the DPI chosen in the DPI sub-screen and feed it into the pending flow,
-        // so the main "Save (Reconnect needed)" applies it.
-        findNavController().currentBackStackEntry
-            ?.savedStateHandle
-            ?.getLiveData<Int>(DpiSettingsFragment.KEY_DPI_RESULT)
-            ?.observe(viewLifecycleOwner) { newDpi ->
-                if (newDpi != pendingDpi) {
-                    pendingDpi = newDpi
-                    checkChanges()
-                    updateSettingsList()
-                }
-            }
-
         updateSettingsList()
         setupToolbar()
 
@@ -395,7 +380,6 @@ class SettingsFragment : Fragment() {
     }
 
     private fun reloadPendingStateFromSettings() {
-        pendingAdvancedSettings = settings.isAdvancedSettingsActive
         pending.loadFrom(settings)
         CarLauncherManager.syncWithSettings(requireContext(), settings.enableCarLauncher)
     }
@@ -532,7 +516,6 @@ class SettingsFragment : Fragment() {
         var audioSessionEnded = false
         val languageChanged = pendingAppLanguage != settings.appLanguage
 
-        pendingAdvancedSettings?.let { if (it != settings.isAdvancedSettingsActive) settings.isAdvancedSettingsActive = it }
         pendingUseGps?.let { if (it != settings.useGpsForNavigation) settings.useGpsForNavigation = it }
         pendingShowNavigationNotifications?.let { if (it != settings.showNavigationNotifications) settings.showNavigationNotifications = it }
         pendingSyncMediaSessionAaMetadata?.let { if (it != settings.syncMediaSessionWithAaMetadata) settings.syncMediaSessionWithAaMetadata = it }
@@ -709,10 +692,7 @@ class SettingsFragment : Fragment() {
 
     private fun checkChanges() {
         // Check for any changes
-        val anyChange = pendingAdvancedSettings != settings.isAdvancedSettingsActive ||
-                        pending.differsFrom(settings)
-
-        hasChanges = anyChange
+        hasChanges = pending.differsFrom(settings)
 
         // Check for restart requirement
         requiresRestart = pendingResolution != settings.resolutionId ||
@@ -2946,11 +2926,12 @@ class SettingsFragment : Fragment() {
         settingsTabGroup = view.findViewById(R.id.settingsTabGroup)
         searchInput = view.findViewById(R.id.settingsSearch)
 
-        settingsTabGroup?.check(if (pendingAdvancedSettings == false) R.id.tabBasic else R.id.tabAdvanced)
+        settingsTabGroup?.check(if (settings.isAdvancedSettingsActive) R.id.tabAdvanced else R.id.tabBasic)
+        // The tab is a view choice and saves at once, so it never counts as an unsaved change.
         settingsTabGroup?.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (!isChecked) return@addOnButtonCheckedListener
-            pendingAdvancedSettings = (checkedId == R.id.tabAdvanced)
-            checkChanges()
+            val advanced = checkedId == R.id.tabAdvanced
+            if (advanced != settings.isAdvancedSettingsActive) settings.isAdvancedSettingsActive = advanced
             renderSettings()
         }
 
@@ -3056,7 +3037,7 @@ class SettingsFragment : Fragment() {
             return headerMatchesQuery || searchableText(item).contains(query, ignoreCase = true)
         }
 
-        if (pendingAdvancedSettings == true) return true
+        if (settings.isAdvancedSettingsActive) return true
 
         return item.stableId in basicSettingIds
     }
