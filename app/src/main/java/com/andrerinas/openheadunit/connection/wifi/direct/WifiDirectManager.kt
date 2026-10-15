@@ -44,6 +44,7 @@ import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.SoftApBssidPol
 import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.SoftApEndpointStabilityPolicy
 import com.andrerinas.openheadunit.main.MainActivity
 import com.andrerinas.openheadunit.utils.AppLog
+import com.andrerinas.openheadunit.utils.HotspotManager
 import com.andrerinas.openheadunit.utils.ScreenPower
 import com.andrerinas.openheadunit.utils.ConnectionIssue
 import com.andrerinas.openheadunit.utils.ConnectionIssues
@@ -58,7 +59,10 @@ import java.net.Socket
 
 
 
-class WifiDirectManager(private val context: Context) : WifiP2pManager.ConnectionInfoListener, WifiP2pManager.GroupInfoListener {
+class WifiDirectManager(
+    private val context: Context,
+    private val accessPointTeardownAllowed: Boolean,
+) : WifiP2pManager.ConnectionInfoListener, WifiP2pManager.GroupInfoListener {
 
     private companion object {
         /** How many two-second rounds to spend waiting for the WiFi radio before saying it will not come on. */
@@ -304,6 +308,11 @@ class WifiDirectManager(private val context: Context) : WifiP2pManager.Connectio
 
     /** Cancels spent this bring-up. Reset where [nativeRecreateCount] is. */
     private var stuckCreateCancels = 0
+
+    /** Whether this bring-up has already taken a leftover access point down for a BUSY create. */
+    private var accessPointTeardownSpent = false
+    private var accessPointTeardownReadDown = false
+    private var accessPointReturnLogged = false
 
     /**
      * Bumped by every create, cancel and stop, so a group-info retry loop posted under an earlier
@@ -2569,6 +2578,40 @@ class WifiDirectManager(private val context: Context) : WifiP2pManager.Connectio
     }
 
     /**
+     * A BUSY create beside a soft AP of ours: take the AP down once, then run [retry].
+     * True when it took the failure over, so the caller returns.
+     */
+    private fun freesRadioAfterBusy(reason: Int, retry: () -> Unit): Boolean {
+        val apUp = reason == P2pCreateWedgePolicy.BUSY && HotspotManager.isAccessPointUp(context)
+        when (P2pBusyCausePolicy.stepAfterBusy(reason, apUp, accessPointTeardownAllowed, accessPointTeardownSpent)) {
+            P2pBusyCausePolicy.Step.LADDER -> {
+                // Once, and only after our take-down read the AP down: else the failure was our own.
+                if (apUp && accessPointTeardownReadDown && !accessPointReturnLogged) {
+                    accessPointReturnLogged = true
+                    AppLog.w("WifiDirectManager: this unit's access point is up again after the app took it down, so something else raised it; the create ladder carries on.")
+                }
+                return false
+            }
+            P2pBusyCausePolicy.Step.FREE_RADIO -> {
+                accessPointTeardownSpent = true
+                claimNativeCreateWindow("this unit's own access point holds the radio")
+                val gen = generation
+                AppLog.i("WifiDirectManager: the group create got BUSY while this unit's own access point is up; taking it down once and asking again.")
+                Thread {
+                    val down = HotspotManager.disableAndAwaitDown(context)
+                    handler.post {
+                        if (supersededByStop(gen, "the access point take-down before a Native AA retry")) return@post
+                        accessPointTeardownReadDown = down
+                        AppLog.i("WifiDirectManager: access point take-down finished (down=$down); asking for the group again.")
+                        retry()
+                    }
+                }.start()
+                return true
+            }
+        }
+    }
+
+    /**
      * What a failed Native AA group request does next.
      *
      * The ordering is [NativeGroupBandPolicy.nextStepAfterFailure]'s; this only carries it out and
@@ -2598,6 +2641,7 @@ class WifiDirectManager(private val context: Context) : WifiP2pManager.Connectio
             )
             return
         }
+        if (freesRadioAfterBusy(reason) { createQuietGroup(retryCount) }) return
         val requestLabel =
             if (requestedFrequency > 0) "$bandLabel ${FiveGhzChannelPolicy.describe(chosenChannel)}"
             else bandLabel
@@ -2786,6 +2830,7 @@ class WifiDirectManager(private val context: Context) : WifiP2pManager.Connectio
                             )
                             return
                         }
+                        if (freesRadioAfterBusy(reason) { standardCreateGroup(mgr, ch, retryCount, groupMode) }) return
                         if (reason == 2 && retryCount < MAX_NATIVE_STANDARD_CREATE_RETRIES) {
                             AppLog.w("WifiDirectManager: standard createGroup failed ($reasonStr), removing group and retrying standard in 2s...")
                             invalidateNativeGroupCredentials("the standard create was refused and is being retried")
@@ -2832,6 +2877,7 @@ class WifiDirectManager(private val context: Context) : WifiP2pManager.Connectio
                     )
                     return
                 }
+                if (freesRadioAfterBusy(reason) { standardCreateGroup(mgr, ch, retryCount, groupMode) }) return
                 if (reason == 2 && retryCount < MAX_NATIVE_STANDARD_CREATE_RETRIES) {
                     AppLog.w("WifiDirectManager: standard createGroup failed ($reasonStr), removing group and retrying standard in 2s...")
                     invalidateNativeGroupCredentials("the standard create was refused and is being retried")
@@ -3350,6 +3396,9 @@ class WifiDirectManager(private val context: Context) : WifiP2pManager.Connectio
         acceptedCreateWithoutGroupSinceMs = 0L
         wedgeCancelSpentForStampMs = 0L
         stuckCreateCancels = 0
+        accessPointTeardownSpent = false
+        accessPointTeardownReadDown = false
+        accessPointReturnLogged = false
         groupInfoEpoch++
         handler.removeCallbacksAndMessages(null)
         // Both of these guard an operation that is finished the moment we stop, and both used to be
