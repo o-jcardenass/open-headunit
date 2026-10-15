@@ -970,6 +970,12 @@
 
     <string name="supported_nativeaa">การสนับสนุนระบบไร้สายขั้นสูง</string>
     <string name="supported_nativeaa_desc">ข่าวดี! อุปกรณ์ของคุณรองรับโหมด \"Native Wireless\" คุณต้องการเปลี่ยนเป็นโหมด Native AA ตอนนี้หรือไม่?</string>
+    <string name="automation_connect_no_permission">อนุญาตบลูทูธให้แอปนี้เพื่อเชื่อมต่อด้วยชื่อ</string>
+    <string name="automation_connect_not_found">ไม่มีโทรศัพท์ที่จับคู่ไว้ที่ใช้ชื่อนี้</string>
+    <string name="automation_connect_ambiguous">มีโทรศัพท์ที่จับคู่ไว้หลายเครื่องใช้ชื่อนี้</string>
+    <string name="automation_connect_not_a_phone">อุปกรณ์ที่จับคู่ไว้นี้ไม่ใช่โทรศัพท์</string>
+    <string name="automation_connect_not_paired">ที่อยู่บลูทูธนี้ยังไม่ได้จับคู่</string>
+    <string name="automation_connect_live_session">มีโทรศัพท์เครื่องอื่นเชื่อมต่ออยู่แล้ว</string>
     <string name="native_aa_poke_not_running">บลูทูธไร้สายไม่ได้ทำงานบนเฮดยูนิตนี้ ตรวจสอบการตั้งค่า</string>
     <string name="not_supported_nativeaa">ดูเหมือนว่าไม่รองรับ Native Wireless</string>
     <string name="not_supported_nativeaa_desc">อุปกรณ์ของคุณอาจไม่รองรับคุณสมบัติบลูทูธหรือ Wi-Fi ที่จำเป็นสำหรับ Native Wireless</string>

@@ -970,6 +970,12 @@
 
     <string name="supported_nativeaa">उन्नत वायरलेस समर्थन</string>
     <string name="supported_nativeaa_desc">शानदार खबर! आपका डिवाइस \"मूल वायरलेस\" (Native Wireless) मोड का समर्थन करता है। क्या आप अभी Native AA मोड पर स्विच करना चाहते हैं?</string>
+    <string name="automation_connect_no_permission">नाम से कनेक्ट करने के लिए इस ऐप्लिकेशन को ब्लूटूथ की अनुमति दें.</string>
+    <string name="automation_connect_not_found">इस नाम वाला कोई पेयर किया गया फ़ोन नहीं है.</string>
+    <string name="automation_connect_ambiguous">इस नाम वाले एक से ज़्यादा पेयर किए गए फ़ोन हैं.</string>
+    <string name="automation_connect_not_a_phone">पेयर किया गया यह डिवाइस फ़ोन नहीं है.</string>
+    <string name="automation_connect_not_paired">यह ब्लूटूथ पता पेयर नहीं किया गया है.</string>
+    <string name="automation_connect_live_session">दूसरा फ़ोन पहले से कनेक्ट है.</string>
     <string name="native_aa_poke_not_running">इस हेड यूनिट पर वायरलेस ब्लूटूथ नहीं चल रहा है। सेटिंग्स जांचें।</string>
     <string name="not_supported_nativeaa">मूल वायरलेस समर्थित नहीं लगता है</string>
     <string name="not_supported_nativeaa_desc">हो सकता है कि आपका डिवाइस मूल वायरलेस के लिए आवश्यक ब्लूटूथ या वाई-फ़ाई सुविधाओं का समर्थन न करे।</string>

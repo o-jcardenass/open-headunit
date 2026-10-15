@@ -548,6 +548,12 @@
 
     <string name="supported_nativeaa">გაუმჯობესებული უსადენო მხარდაჭერა</string>
     <string name="supported_nativeaa_desc">შესანიშნავი სიახლე! თქვენს მოწყობილობას აქვს \"Native Wireless\" რეჟიმის მხარდაჭერა, რაც უზრუნველყოფს Android Auto-ს უფრო სტაბილურ მუშაობას. \n\nამის გასააქტიურებლად საჭიროა Bluetooth ქეშის განახლება. გთხოვთ: \n1. წაშალეთ არსებული კავშირი (pairing) ტელეფონში \n2. დააჭირეთ OK-ს Bluetooth-ის გადასატვირთად \n3. ხელახლა დააწყვილეთ ტელეფონი \n\nგსურთ გადახვიდეთ Native AA რეჟიმზე ახლავე?</string>
+    <string name="automation_connect_no_permission">მიეცით ამ აპს Bluetooth-ის გამოყენების ნებართვა სახელით დასაკავშირებლად.</string>
+    <string name="automation_connect_not_found">ამ სახელით დაწყვილებული ტელეფონი არ არის.</string>
+    <string name="automation_connect_ambiguous">ამ სახელით ერთზე მეტი დაწყვილებული ტელეფონია.</string>
+    <string name="automation_connect_not_a_phone">ეს დაწყვილებული მოწყობილობა ტელეფონი არ არის.</string>
+    <string name="automation_connect_not_paired">ეს Bluetooth-მისამართი დაწყვილებული არ არის.</string>
+    <string name="automation_connect_live_session">სხვა ტელეფონი უკვე დაკავშირებულია.</string>
     <string name="native_aa_poke_not_running">უსადენო Bluetooth ამ მოწყობილობაზე არ მუშაობს. შეამოწმეთ პარამეტრები.</string>
     <string name="not_supported_nativeaa">Native Wireless მხარდაჭერა ვერ მოიძებნა</string>
     <string name="not_supported_nativeaa_desc">თქვენს მოწყობილობას შესაძლოა არ ჰქონდეს Native Wireless-ისთვის საჭირო Bluetooth ან Wi-Fi ფუნქციების მხარდაჭერა. შეგიძლიათ მაინც სცადოთ, მაგრამ თუ არ იმუშავებს, გამოიყენეთ რეჟიმი \"Wireless Helper\" ან \"Auto (Headunit Server)\".</string>

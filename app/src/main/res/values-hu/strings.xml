@@ -508,6 +508,12 @@
     <string name="wireless_24ghz_warning">Megjegyzés: A vezeték nélküli Android Auto 2,4 GHz-es eszközökön akadozáshoz, szaggatáshoz és leálláshoz vezethet. Ha problémákat tapasztal, kérjük, tesztelje USB-n keresztül, hogy megerősítse, hálózati korlátozásról van-e szó.</string>
     <string name="supported_nativeaa">Speciális vezeték nélküli támogatás</string>
     <string name="supported_nativeaa_desc">Jó hírek! Eszköze támogatja a „Native Wireless” módot, amely zökkenőmentesebb Android Auto élményt nyújt. \n\nA bekapcsoláshoz frissítenünk kell a Bluetooth-gyorsítótárat. Kérjük: \n1. Távolítsa el a meglévő párosítást a telefonjáról \n2. Kattintson az OK gombra a Bluetooth újraindításához \n3. Párosítsa újra a telefont \n\nSzeretne jetzt átváltani a Native AA módra?</string>
+    <string name="automation_connect_no_permission">Engedélyezd a Bluetoothot a név szerinti csatlakozáshoz.</string>
+    <string name="automation_connect_not_found">Nincs ilyen nevű párosított telefon.</string>
+    <string name="automation_connect_ambiguous">Több párosított telefonnak is ez a neve.</string>
+    <string name="automation_connect_not_a_phone">Ez a párosított eszköz nem telefon.</string>
+    <string name="automation_connect_not_paired">Ez a Bluetooth-cím nincs párosítva.</string>
+    <string name="automation_connect_live_session">Már csatlakoztatva van egy másik telefon.</string>
     <string name="fake_speed_title">Videózár letiltása (Fake Speed)</string>
     <string name="fake_speed_description">Folyamatos alacsony sebességet (0,5 m/s) jelent a telefonnak, hogy megakadályozza a videótartalmak blokkolását vezetés közben. Óvatosan használja.</string>
     <string name="wireless_mode_helper">Wireless Helper</string>

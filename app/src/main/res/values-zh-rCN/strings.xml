@@ -508,6 +508,12 @@
     <string name="wireless_24ghz_warning">注意：在 2.4GHz 设备上使用无线 Android Auto 可能会导致延迟、卡顿和断开连接。如果您遇到问题，请透过 USB 进行测试，以确认是否为网络限制。</string>
     <string name="supported_nativeaa">增强型无线支持</string>
     <string name="supported_nativeaa_desc">好消息！您的设备支持“原生无线”模式，这将提供更无缝的 Android Auto 体验。\n\n要启用此功能，我们需要重新整理您的蓝牙缓存。请：\n1. 移除手机上现有的配对\n2. 点击“确定”以重启蓝牙\n3. 重新配对您的手机\n\n您想现在切换到原生 AA 模式吗？</string>
+    <string name="automation_connect_no_permission">请允许此应用使用蓝牙，以便按名称连接。</string>
+    <string name="automation_connect_not_found">没有名称匹配的已配对手机。</string>
+    <string name="automation_connect_ambiguous">有多部已配对手机使用此名称。</string>
+    <string name="automation_connect_not_a_phone">该已配对设备不是手机。</string>
+    <string name="automation_connect_not_paired">该蓝牙地址未配对。</string>
+    <string name="automation_connect_live_session">已连接另一部手机。</string>
     <string name="fake_speed_title">停用影片锁定 (虚拟速度)</string>
     <string name="fake_speed_description">向手机报告稳定的低速 (0.5 m/s)，以防止驾驶时影片内容被锁定。请谨慎使用。</string>
     <string name="wireless_mode_helper">苏醒助手 (Wireless Helper)</string>

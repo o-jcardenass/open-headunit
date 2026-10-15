@@ -970,6 +970,12 @@
 
     <string name="supported_nativeaa">Dukungan Nirkabel yang Ditingkatkan</string>
     <string name="supported_nativeaa_desc">Kabar baik! Perangkat Anda mendukung mode \"Nirkabel Asli\" (Native Wireless), yang memberikan pengalaman Android Auto yang lebih mulus.\n\nUntuk mengaktifkannya, kami perlu menyegarkan cache Bluetooth Anda. Harap:\n1. Hapus penyandingan yang ada di ponsel Anda\n2. Klik OK untuk memulai ulang Bluetooth\n3. Sandingkan kembali ponsel Anda\n\nApakah Anda ingin beralih ke mode Native AA sekarang?</string>
+    <string name="automation_connect_no_permission">Izinkan Bluetooth untuk aplikasi ini agar dapat terhubung berdasarkan nama.</string>
+    <string name="automation_connect_not_found">Tidak ada ponsel yang dipasangkan dengan nama itu.</string>
+    <string name="automation_connect_ambiguous">Lebih dari satu ponsel yang dipasangkan memiliki nama itu.</string>
+    <string name="automation_connect_not_a_phone">Perangkat yang dipasangkan itu bukan ponsel.</string>
+    <string name="automation_connect_not_paired">Alamat Bluetooth itu belum dipasangkan.</string>
+    <string name="automation_connect_live_session">Ponsel lain sudah terhubung.</string>
     <string name="native_aa_poke_not_running">Bluetooth nirkabel tidak berjalan pada head unit ini. Periksa Pengaturan.</string>
     <string name="not_supported_nativeaa">Nirkabel Asli tampaknya tidak didukung</string>
     <string name="not_supported_nativeaa_desc">Perangkat Anda mungkin tidak mendukung fitur Bluetooth atau Wi-Fi yang diperlukan untuk Nirkabel Asli. Anda dapat mencobanya, namun jika gagal, gunakan mode \"Wireless Helper\" atau \"Otomatis (Headunit Server)\".</string>

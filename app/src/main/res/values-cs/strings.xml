@@ -509,6 +509,12 @@
     <string name="wireless_24ghz_warning">Poznámka: Bezdrátové Android Auto na 2,4GHz zařízeních může vést k lagům, sekání a odpojování. Pokud máte problémy, otestujte připojení přes USB, abyste potvrdili, zda se jedná o omezení sítě.</string>
     <string name="supported_nativeaa">Vylepšená bezdrátová podpora</string>
     <string name="supported_nativeaa_desc">Skvělá zpráva! Vaše zařízení podporuje režim „Native Wireless“, který poskytuje plynulejší zážitek z Android Auto. \n\nPro aktivaci potřebujeme obnovit vaši Bluetooth mezipaměť. Prosím: \n1. Odstraňte stávající spárování v telefonu \n2. Klikněte na OK pro restart Bluetooth \n3. Znovu spárujte telefon \n\nChcete nyní přepnout do režimu Native AA?\"</string>
+    <string name="automation_connect_no_permission">Povolte této aplikaci Bluetooth, aby se mohla připojit podle názvu.</string>
+    <string name="automation_connect_not_found">Žádný spárovaný telefon nemá tento název.</string>
+    <string name="automation_connect_ambiguous">Více spárovaných telefonů má tento název.</string>
+    <string name="automation_connect_not_a_phone">Toto spárované zařízení není telefon.</string>
+    <string name="automation_connect_not_paired">Tato adresa Bluetooth není spárována.</string>
+    <string name="automation_connect_live_session">Již je připojen jiný telefon.</string>
     <string name="fake_speed_title">Zakázat blokování videa (Fake Speed)</string>
     <string name="fake_speed_description">Hlásí telefonu konstantní nízkou rychlost (0,5 m/s), aby se zabránilo blokování video obsahu během jízdy. Používejte opatrně.</string>
     <string name="wireless_mode_helper">Wireless Helper</string>

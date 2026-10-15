@@ -509,6 +509,12 @@
     <string name="wireless_24ghz_warning">ملاحظة: يمكن أن يؤدي استخدام Android Auto اللاسلكي على أجهزة 2.4 جيجا هرتز إلى حدوث تأخير وتقطع وانقطاع في الاتصال. إذا واجهت مشكلات، يرجى الاختبار عبر USB للتأكد مما ifا كان ذلك بسبب قيود الشبكة.</string>
     <string name="supported_nativeaa">دعم لاسلكي محسّن</string>
     <string name="supported_nativeaa_desc">أخبار رائعة! يدعم جهازك وضع \"لاسلكي أصلي\"، مما يوفر تجربة Android Auto أكثر سلاسة. \n\nلتفعيل هذا السمة، نحتاج إلى تحديث ذاكرة التخزين المؤقت للبلوتوث. يرجى: \n1. إزالة الاقتران الحالي على هاتفك \n2. النقر على موافق لإعادة تشغيل البلوتوث \n3. إعادة اقتران هاتفك \n\nهل ترغب في الانتقال إلى وضع AA الأصلي الآن؟</string>
+    <string name="automation_connect_no_permission">اسمح لهذا التطبيق باستخدام بلوتوث ليتصل بالاسم.</string>
+    <string name="automation_connect_not_found">لا يوجد هاتف مقترن بهذا الاسم.</string>
+    <string name="automation_connect_ambiguous">يوجد أكثر من هاتف مقترن بهذا الاسم.</string>
+    <string name="automation_connect_not_a_phone">الجهاز المقترن ليس هاتفًا.</string>
+    <string name="automation_connect_not_paired">عنوان بلوتوث هذا غير مقترن.</string>
+    <string name="automation_connect_live_session">هاتف آخر متصل بالفعل.</string>
     <string name="fake_speed_title">تعطيل قفل الفيديو (Fake Speed)</string>
     <string name="fake_speed_description">يبلغ الهاتف سرعة منخفضة ثابتة (0.5 م/ث) لمنع قفل محتوى الفيديو أثناء القيادة. استخدم بحذر.</string>
     <string name="wireless_mode_helper">Wireless Helper</string>
