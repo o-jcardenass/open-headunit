@@ -308,6 +308,10 @@ class SoftApCredentialsProvider(
                             AppLog.i("SoftApCredentials: No access point after ${waited / 1000}s — trying to switch this device's hotspot on (attempt $attempt of ${SoftApAutoEnablePolicy.MAX_ATTEMPTS}).")
                             // Best effort; most unrooted units lack the permission. Keep polling
                             // anyway, since the user may switch it on by hand.
+                            if (!(isActive && isRunning)) {
+                                autoEnableInFlight = false
+                                break
+                            }
                             autoEnabled = enableHotspot()
                             if (!autoEnabled) AppLog.w("SoftApCredentials: the hotspot did not come up on attempt $attempt.")
                         }

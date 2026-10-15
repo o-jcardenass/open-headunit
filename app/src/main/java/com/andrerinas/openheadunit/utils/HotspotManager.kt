@@ -109,8 +109,10 @@ object HotspotManager {
      */
     fun restart(context: Context): Boolean {
         AppLog.i("HotspotManager: Restarting the hotspot so any joined client is put off it.")
-        setHotspotEnabled(context, false)
+        logSetRequest(context, false)
+        val ownStop = requestDown(context).generation
         try {
+            awaitStartDrained()
             // Wait for the access point to actually be down, then leave it down long enough for a
             // joined client to notice. Counting two seconds at a driver still tearing down is how
             // the start that follows loses to it.
@@ -124,11 +126,19 @@ object HotspotManager {
             // WRITE_SETTINGS nothing else can. Put it back before unwinding, then restore the flag
             // so whatever cancelled us still sees it.
             AppLog.w("HotspotManager: Interrupted while the hotspot was down; bringing it back before giving up.")
+            if (!HotspotStartSupersededPolicy.restartReenables(ownStop, stopGeneration)) {
+                Thread.currentThread().interrupt()
+                return true
+            }
             val restored = setHotspotEnabled(context, true)
             Thread.currentThread().interrupt()
             return restored
         }
 
+        if (!HotspotStartSupersededPolicy.restartReenables(ownStop, stopGeneration)) {
+            AppLog.i("HotspotManager: another stop arrived while the hotspot was down for a restart, so it stays down.")
+            return true
+        }
         if (setHotspotEnabled(context, true)) return confirmRestartHeld(context)
 
         AppLog.e("HotspotManager: The hotspot was taken down to put the phone off the network and would not come back up. It is off now, and this app cannot force it: switch it on in system settings, or just connect again — the app switches it back on itself at the start of a connection.")
@@ -160,16 +170,11 @@ object HotspotManager {
     }
 
     fun setHotspotEnabled(context: Context, enabled: Boolean): Boolean {
-        AppLog.i("HotspotManager: Setting hotspot enabled=$enabled (API ${Build.VERSION.SDK_INT}, canWriteSettings=${AppPermissions.isWriteSettingsGranted(context)})")
+        logSetRequest(context, enabled)
 
         // Disabling has no band to choose and nothing to confirm afterwards. It can land in the
-        // middle of a start, which is what stopGeneration is for. The band below is unused, since
-        // SoftApConfigCompat.enableHotspot() returns before reading it when enabled is false.
-        if (!enabled) {
-            // Before the request, so a start already inside its confirm window sees it.
-            stopGeneration++
-            return startOnBand(context, enabled = false, band = ApBand.BAND_5GHZ).attempted
-        }
+        // middle of a start, which is what stopGeneration is for.
+        if (!enabled) return requestDown(context).attempted
 
         // Claimed before anything slow runs, or the WiFi-disable wait below is long enough for a
         // second caller to walk straight past the check.
@@ -195,8 +200,10 @@ object HotspotManager {
                     wm.isWifiEnabled = false
                     // Wait for the state, not for a stopwatch. Asking a radio that is still on its
                     // way down produces a start that fails for twelve seconds and says nothing.
-                    if (awaitWifiDisabled(wm)) {
+                    if (awaitWifiDisabled(wm, startedAtGeneration)) {
                         AppLog.i("HotspotManager: WiFi disabled before enabling hotspot.")
+                    } else if (!HotspotStartSupersededPolicy.keepsWaiting(startedAtGeneration, stopGeneration)) {
+                        // A stop ended the wait, not the clock; the band step below says so.
                     } else if (wm.isWifiEnabled) {
                         AppLog.i("HotspotManager: Asked to disable WiFi and the platform ignored it (expected on modern Android); the framework will take the radio itself if it needs to.")
                     } else {
@@ -218,16 +225,18 @@ object HotspotManager {
                 if (index > 0) {
                     AppLog.w("HotspotManager: no access point on ${SoftApBandPolicy.describe(order[index - 1])}; retrying on ${SoftApBandPolicy.describe(band)}. Measured on 2.4 GHz: a 1080p/60 session connects, opens the video channel and then dies having sent no frame at all, while the same access point carries 800x480/30 indefinitely. If the projection dies shortly after connecting, this line is why, and a lower resolution and frame rate is the other way out.")
                 }
-                val outcome = startOnBand(context, enabled = true, band = band)
+                if (HotspotStartSupersededPolicy.beforeRequest(startedAtGeneration, stopGeneration) != HotspotStartSupersededPolicy.Step.CARRY_ON) {
+                    AppLog.i("HotspotManager: a stop arrived before this start asked for ${SoftApBandPolicy.describe(band)}, so it sends no request.")
+                    return false
+                }
+                val outcome = startOnBand(context, enabled = true, band = band, startedAt = startedAtGeneration)
                 attemptedAny = attemptedAny || outcome.attempted
+                val step = HotspotStartSupersededPolicy.afterWait(startedAtGeneration, stopGeneration, outcome.up || isApUp(context), attemptedAny)
+                if (step != HotspotStartSupersededPolicy.Step.CARRY_ON) return supersededExit(context, step)
                 if (outcome.up) {
                     everBroughtApUp = true
                     AppLog.i(describeApUp(outcome.configured, band))
                     return true
-                }
-                if (stopGeneration != startedAtGeneration) {
-                    AppLog.i("HotspotManager: The hotspot was switched off while this start was still running, so it is giving up rather than reporting a failure that was not one.")
-                    return false
                 }
                 if (!outcome.configured) {
                     // The band never reached the framework, so the next one would post the same
@@ -248,7 +257,12 @@ object HotspotManager {
             // A request the framework accepted late still brings an access point up, after the band
             // it belonged to has been written off. Look once more before reporting failure: saying
             // no here is what makes a caller start a second, overlapping sweep.
-            if (attemptedAny && awaitApUp(context)) {
+            val lateUp = attemptedAny && awaitApUp(context, startedAtGeneration)
+            if (attemptedAny) {
+                val step = HotspotStartSupersededPolicy.afterWait(startedAtGeneration, stopGeneration, lateUp || isApUp(context), true)
+                if (step != HotspotStartSupersededPolicy.Step.CARRY_ON) return supersededExit(context, step)
+            }
+            if (lateUp) {
                 everBroughtApUp = true
                 AppLog.i("HotspotManager: An access point came up after its band's window had expired; taking it. Which band it chose is not something this app can read.")
                 return true
@@ -316,7 +330,7 @@ object HotspotManager {
             "HotspotManager: Hotspot is up, but this device refused the request for ${SoftApBandPolicy.describe(band)} — the band is whatever it already had configured, which this app cannot read. If the projection dies seconds after connecting with no picture, check the hotspot's channel: on 2.4 GHz a full-resolution stream was measured to do exactly that, while a lower resolution and frame rate held."
         }
 
-    private fun startOnBand(context: Context, enabled: Boolean, band: ApBand): BandOutcome {
+    private fun startOnBand(context: Context, enabled: Boolean, band: ApBand, startedAt: Int? = null): BandOutcome {
         // [BUG_FIX] Must fall through, not return. enableHotspot() only calls
         // setSoftApConfiguration() — it configures an access point, it does not start one — yet
         // its `true` used to short-circuit the whole function, so on API 30+ we wrote the SSID and
@@ -349,7 +363,7 @@ object HotspotManager {
         // on one head unit the framework refused it a millisecond later ("Tethering is already
         // active or in recovering") while this method reported success and logged nothing at all.
         // Only "an access point is up" is worth reporting as success.
-        return BandOutcome(attempted, up = awaitApUp(context), configured = configured)
+        return BandOutcome(attempted, up = awaitApUp(context, startedAt), configured = configured)
     }
 
     /**
@@ -375,9 +389,10 @@ object HotspotManager {
      * Polls until WiFi reports itself off, or the budget expires. False means it never got there,
      * which includes the platform ignoring the request entirely.
      */
-    private fun awaitWifiDisabled(wm: WifiManager): Boolean {
+    private fun awaitWifiDisabled(wm: WifiManager, startedAt: Int): Boolean {
         val deadline = System.currentTimeMillis() + RADIO_SETTLE_TIMEOUT_MS
         while (true) {
+            if (!HotspotStartSupersededPolicy.keepsWaiting(startedAt, stopGeneration)) return false
             if (wm.wifiState == WifiManager.WIFI_STATE_DISABLED) {
                 // The state flips before the driver has finished with the radio.
                 try { Thread.sleep(RADIO_SETTLE_GRACE_MS) } catch (e: InterruptedException) { return true }
@@ -401,12 +416,57 @@ object HotspotManager {
         // Asked for unconditionally, as this caller always did: the request also cancels a start
         // that is in flight, which looking for an access point first would miss.
         setHotspotEnabled(context, false)
+        awaitStartDrained()
         val down = awaitApDown(context)
         if (!down) {
             AppLog.w("HotspotManager: the access point was still up ${RADIO_SETTLE_TIMEOUT_MS / 1000}s after being asked down; carrying on without it.")
         }
         return down
     }
+
+    private fun logSetRequest(context: Context, enabled: Boolean) {
+        AppLog.i("HotspotManager: Setting hotspot enabled=$enabled (API ${Build.VERSION.SDK_INT}, canWriteSettings=${AppPermissions.isWriteSettingsGranted(context)})")
+    }
+
+    private class StopRequest(val attempted: Boolean, val generation: Int)
+
+    /**
+     * Asks the AP down. The generation is taken with the bump, before the request, so a start inside
+     * its confirm window sees it and a stop landing during the request is not counted as this one.
+     * The band is unused: SoftApConfigCompat.enableHotspot() returns before reading it on a disable.
+     */
+    private fun requestDown(context: Context): StopRequest {
+        val generation = synchronized(this) { ++stopGeneration }
+        return StopRequest(startOnBand(context, enabled = false, band = ApBand.BAND_5GHZ).attempted, generation)
+    }
+
+    /** A superseded start leaves no AP behind: TAKE_DOWN asks it down without moving the generation. */
+    private fun supersededExit(context: Context, step: HotspotStartSupersededPolicy.Step): Boolean {
+        AppLog.i("HotspotManager: a stop arrived while this start was running, so the access point it asked for is taken down again.")
+        if (step == HotspotStartSupersededPolicy.Step.TAKE_DOWN) {
+            startOnBand(context, enabled = false, band = ApBand.BAND_5GHZ)
+        }
+        return false
+    }
+
+    /** Waits, bounded, for a start in flight to see the stop and finish, so the AP read is final. */
+    private fun awaitStartDrained() {
+        val began = System.currentTimeMillis()
+        try {
+            while (HotspotStartSupersededPolicy.drainsStart(startInFlight, System.currentTimeMillis() - began)) {
+                Thread.sleep(100)
+            }
+        } catch (e: InterruptedException) {
+            Thread.currentThread().interrupt()
+            return
+        }
+        if (startInFlight) {
+            AppLog.w("HotspotManager: a start was still running ${HotspotStartSupersededPolicy.START_DRAIN_CEILING_MS}ms after the stop; reading the access point anyway.")
+        }
+    }
+
+    /** Whether a soft AP is running right now. */
+    fun isAccessPointUp(context: Context): Boolean = isApUp(context)
 
     /** Polls until no soft AP is running, or the budget expires. */
     private fun awaitApDown(context: Context): Boolean {
@@ -424,10 +484,11 @@ object HotspotManager {
      * `getWifiApState()` is hidden but widely present; where it is blocked, fall back to looking
      * for the interface, which is what a running access point is from the outside anyway.
      */
-    private fun awaitApUp(context: Context): Boolean {
+    private fun awaitApUp(context: Context, startedAt: Int? = null): Boolean {
         val deadline = System.currentTimeMillis() + AP_STATE_TIMEOUT_MS
         while (true) {
             if (isApUp(context)) return true
+            if (startedAt != null && !HotspotStartSupersededPolicy.keepsWaiting(startedAt, stopGeneration)) return false
             if (System.currentTimeMillis() >= deadline) return false
             try { Thread.sleep(400) } catch (e: InterruptedException) { return false }
         }
