@@ -65,8 +65,6 @@ class WifiLauncherSharedServices(val service: AapService) {
         if (wifiDirectManager != null)
             stopWifiDirect() // reset from previous session
 
-        wifiDirectManager = WifiDirectManager(service)
-
         // This chipset potentially can't run SoftAP and WiFi Direct concurrently — make sure hotspot
         // is off before P2P starts. On IO because the wait for it to actually go is a blocking one.
         // Skipped when no group can ever form: freeing the radio for one buys nothing, and on a
@@ -75,6 +73,7 @@ class WifiLauncherSharedServices(val service: AapService) {
             service.applicationContext.getSystemService(Context.WIFI_SERVICE) as? WifiManager
         val radioBlockedOff = wifiManager != null &&
             WifiRadioSwitchPolicy.isBlockedOff(wifiManager.isWifiEnabled, Build.VERSION.SDK_INT)
+        wifiDirectManager = WifiDirectManager(service, accessPointTeardownAllowed = !radioBlockedOff)
         if (radioBlockedOff) {
             AppLog.i(
                 "AapService: WiFi is off and this Android does not let an app switch it on, so no " +
