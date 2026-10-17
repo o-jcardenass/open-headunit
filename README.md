@@ -95,6 +95,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 2. `wifi-direct-named-connect-round1-brief.md` (candidate `c22f5c56` on `fork/feat/wifi-direct-named-connect`, rebased 2026-10-17; no baseline)
 3. `automation-screen-disconnect-round2-brief.md` (candidate `8db52ceb` on `fork/feat/automation-screen-disconnect`, round 1's patches rebased 2026-10-17, so a new build; four units on PC cables)
 4. `forget-car-still-needed-round2-brief.md` (F `96304bce` on `fork/fix/forget-car-still-needed`, C `28af450d` = `main`, both rebuilt; units D-HU and D-POCO; R1 is the point)
+5. `native-join-scan-round1-brief.md` (no candidate, `22392a15` = `main`, reuse the installed APK if its md5 matches; units D-HU and D-POCO, D-MOTO Bluetooth off; one hand step at each end on D-POCO; R1 is the point)
 
 ## Threads
 
@@ -107,6 +108,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 | `forget-car-still-needed` | Round 1 done: R1 INCONCLUSIVE, R2 R3 PASS, R4 FAIL one rep. Round 2 QUEUED on F `96304bce` vs C `28af450d`. | `forget-car-still-needed-round2-brief.md`. Round 1 detail in `forget-car-still-needed-round1-results.md`. |
 | `pr-1110-wifi-direct-wedge` | **Round 1 done.** R1, R2 PASS (no false wedge); R3, R5 INCONCLUSIVE; R4 not run | `pr-1110-wifi-direct-wedge-round1-results.md`. Restart path untested on hardware; needs a lever that keeps WiFi up and makes creates fail. |
 | `late-listener-poke` | Round 1 done: R1-R4 PASS, R5 not run (`22392a15`) | `late-listener-poke-round1-results.md`. Poke off, phone redials a held late listener every ~5.3 s, D1 2.2-3.3 s, still dialling at 150 s; 90 s escalation never reached. |
+| `native-join-scan` | **QUEUED, round 1** | `native-join-scan-round1-brief.md`. Build `22392a15`. Does a group kept across a force-stop let the phone skip its WiFi scan, screen on and off. |
 
 Round files are `<thread>-round<N>-brief.md` and `<thread>-round<N>-results.md`. A brief with no
 matching results file is a round nobody has run yet. That pairing is the only queue there is, so
