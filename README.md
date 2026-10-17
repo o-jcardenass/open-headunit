@@ -96,6 +96,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 2. `wifi-direct-named-connect-round1-brief.md` (candidate `c22f5c56` on `fork/feat/wifi-direct-named-connect`, rebased 2026-10-17; no baseline)
 3. `automation-screen-disconnect-round2-brief.md` (candidate `8db52ceb` on `fork/feat/automation-screen-disconnect`, round 1's patches rebased 2026-10-17, so a new build; four units on PC cables)
 4. `forget-car-still-needed-round2-brief.md` (F `96304bce` on `fork/fix/forget-car-still-needed`, C `28af450d` = `main`, both rebuilt; units D-HU and D-POCO; R1 is the point)
+5. `pr-1110-wifi-direct-wedge-round1-brief.md` (candidate `58828f81` = contributor PR head, fetch `origin pull/1110/head`; units D-HU and D-POCO; R1 is the point; R3 and R4 may be INCONCLUSIVE)
 
 ## Threads
 
@@ -106,6 +107,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 | `wifi-direct-named-connect` | **QUEUED, round 1** | `wifi-direct-named-connect-round1-brief.md`. Candidate `c22f5c56`. Does a named or MAC connect request reach the right phone over WiFi Direct. |
 | `import-settings-unsaved-changes` | **QUEUED, round 2** | `import-settings-unsaved-changes-round2-brief.md`. Candidate `2ab6f398`. Round 1 brief was never published. |
 | `forget-car-still-needed` | Round 1 done: R1 INCONCLUSIVE, R2 R3 PASS, R4 FAIL one rep. Round 2 QUEUED on F `96304bce` vs C `28af450d`. | `forget-car-still-needed-round2-brief.md`. Round 1 detail in `forget-car-still-needed-round1-results.md`. |
+| `pr-1110-wifi-direct-wedge` | **QUEUED, round 1** | `pr-1110-wifi-direct-wedge-round1-brief.md`. Candidate `58828f81`. No false wedge on a force-stop or WiFi toggle; restart only via local ADB on D-HU. |
 
 Round files are `<thread>-round<N>-brief.md` and `<thread>-round<N>-results.md`. A brief with no
 matching results file is a round nobody has run yet. That pairing is the only queue there is, so
