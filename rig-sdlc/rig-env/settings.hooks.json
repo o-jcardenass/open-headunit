@@ -1,0 +1,29 @@
+{
+  "model": "sonnet",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|Write|Edit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -I \"$HOME/.claude/hooks/rig-tidy-guard.py\"",
+            "timeout": 10,
+            "statusMessage": "Checking StudioProjects layout..."
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$HOME/Coding/StudioProjects/rig-toolkit/studio-clean.sh\" status > \"$HOME/.claude/hooks/last-studio-status.txt\" 2>&1 || true",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
