@@ -95,6 +95,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 2. `wifi-direct-named-connect-round1-brief.md` (candidate `c22f5c56` on `fork/feat/wifi-direct-named-connect`, rebased 2026-10-17; no baseline)
 3. `automation-screen-disconnect-round2-brief.md` (candidate `8db52ceb` on `fork/feat/automation-screen-disconnect`, round 1's patches rebased 2026-10-17, so a new build; four units on PC cables)
 4. `forget-car-still-needed-round2-brief.md` (F `96304bce` on `fork/fix/forget-car-still-needed`, C `28af450d` = `main`, both rebuilt; units D-HU and D-POCO; R1 is the point)
+5. `late-listener-poke-round1-brief.md` (one build, `22392a15` = `main`, no candidate; units D-HU and D-POCO, D-MOTO Bluetooth off; R1 is the point)
 
 ## Threads
 
@@ -106,6 +107,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 | `import-settings-unsaved-changes` | **ROUND 2 DONE** | `import-settings-unsaved-changes-round2-results.md`. C `2ab6f398`: R1 PASS 3/3 (0 dialogs on BACK), R6 PASS 3/3, PC-1 PASS, R3 INCONCLUSIVE (float row off screen after import recreate). Next: redesign R3. |
 | `forget-car-still-needed` | Round 1 done: R1 INCONCLUSIVE, R2 R3 PASS, R4 FAIL one rep. Round 2 QUEUED on F `96304bce` vs C `28af450d`. | `forget-car-still-needed-round2-brief.md`. Round 1 detail in `forget-car-still-needed-round1-results.md`. |
 | `pr-1110-wifi-direct-wedge` | **Round 1 done.** R1, R2 PASS (no false wedge); R3, R5 INCONCLUSIVE; R4 not run | `pr-1110-wifi-direct-wedge-round1-results.md`. Restart path untested on hardware; needs a lever that keeps WiFi up and makes creates fail. |
+| `late-listener-poke` | **QUEUED, round 1** | `late-listener-poke-round1-brief.md`. Build `22392a15`. Does the phone redial a late RFCOMM listener while HFP is held, with the wake poke off. |
 
 Round files are `<thread>-round<N>-brief.md` and `<thread>-round<N>-results.md`. A brief with no
 matching results file is a round nobody has run yet. That pairing is the only queue there is, so
