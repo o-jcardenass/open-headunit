@@ -92,7 +92,6 @@ worktree, batch builds) and §8. `rig-sdlc/` changed with them. Before the next 
 restart Claude Code. It copies the new skills into `.claude/`.
 After that, `/rig-round` re-copies them itself when a pull changes them, and asks for the restart.
 
-1. `import-settings-unsaved-changes-round2-brief.md` (candidate `2ab6f398` on `fork/fix/import-settings-unsaved-changes`, rebased 2026-10-17; one unit D-HU, no baseline; R1 is the point)
 2. `wifi-direct-named-connect-round1-brief.md` (candidate `c22f5c56` on `fork/feat/wifi-direct-named-connect`, rebased 2026-10-17; no baseline)
 3. `automation-screen-disconnect-round2-brief.md` (candidate `8db52ceb` on `fork/feat/automation-screen-disconnect`, round 1's patches rebased 2026-10-17, so a new build; four units on PC cables)
 4. `forget-car-still-needed-round2-brief.md` (F `96304bce` on `fork/fix/forget-car-still-needed`, C `28af450d` = `main`, both rebuilt; units D-HU and D-POCO; R1 is the point)
@@ -104,7 +103,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 | `pr-1001-devserver-p2p` | Round 1 done on B `0cbff004`, P `7f5bc6e9`, F `ce5e61cb`: R3 P FAIL (expected, H1 real) and B, F PASS; R1-B FAIL, R1-P INCONCLUSIVE; R5A PASS, R5B INCONCLUSIVE; R4 PASS (OpenHU rename refused, joined as the unit name); R6 FAIL (no ByeBye on the P2P route); R2 PASS both. | `pr-1001-devserver-p2p-round1-results.md`. Review the refused rename and R6 condition 2. |
 | `automation-screen-disconnect` | **QUEUED, round 2** | Round 1 stopped after C0 (D-HU lever sends no POWER_* broadcast). Next: `automation-screen-disconnect-round2-brief.md`. |
 | `wifi-direct-named-connect` | **QUEUED, round 1** | `wifi-direct-named-connect-round1-brief.md`. Candidate `c22f5c56`. Does a named or MAC connect request reach the right phone over WiFi Direct. |
-| `import-settings-unsaved-changes` | **QUEUED, round 2** | `import-settings-unsaved-changes-round2-brief.md`. Candidate `2ab6f398`. Round 1 brief was never published. |
+| `import-settings-unsaved-changes` | **ROUND 2 DONE** | `import-settings-unsaved-changes-round2-results.md`. C `2ab6f398`: R1 PASS 3/3 (0 dialogs on BACK), R6 PASS 3/3, PC-1 PASS, R3 INCONCLUSIVE (float row off screen after import recreate). Next: redesign R3. |
 | `forget-car-still-needed` | Round 1 done: R1 INCONCLUSIVE, R2 R3 PASS, R4 FAIL one rep. Round 2 QUEUED on F `96304bce` vs C `28af450d`. | `forget-car-still-needed-round2-brief.md`. Round 1 detail in `forget-car-still-needed-round1-results.md`. |
 | `pr-1110-wifi-direct-wedge` | **Round 1 done.** R1, R2 PASS (no false wedge); R3, R5 INCONCLUSIVE; R4 not run | `pr-1110-wifi-direct-wedge-round1-results.md`. Restart path untested on hardware; needs a lever that keeps WiFi up and makes creates fail. |
 
