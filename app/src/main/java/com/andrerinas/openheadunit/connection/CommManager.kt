@@ -1168,10 +1168,14 @@ class CommManager(
      * @param source   where this delivery came from, for the log. One press reaching several
      *                 sources is the normal case on these head units, and naming them is what makes
      *                 a user's log readable.
+     * @return `false` only when [MediaKeyRoutingPolicy] left this key to another consumer, so a
+     *         caller dispatching a real `KeyEvent` can let the system route it instead of eating it.
+     *         A de-duplicated press still returns `true`: that key is ours and we chose not to
+     *         re-send it, and passing it on would be the double skip the de-duplication exists for.
      */
-    fun sendKey(keyCode: Int, isPress: Boolean, downTime: Long? = null, source: String = "unknown") {
+    fun sendKey(keyCode: Int, isPress: Boolean, downTime: Long? = null, source: String = "unknown"): Boolean {
         if (_connectionState.value !is ConnectionState.TransportStarted) {
-            return
+            return true
         }
 
         // 1. Remapping (Physical -> Logical)
@@ -1185,7 +1189,7 @@ class CommManager(
         // Sending them directly to AA would result in KEYCODE_UNKNOWN.
         if (keyCode >= 1000 && logicalCode == keyCode) {
             AppLog.v("CommManager: Ignoring unmapped proprietary key $keyCode")
-            return
+            return true
         }
 
         // [FIX] BMW/Rotary Enter remapping: Most AA apps expect DPAD_CENTER (23) for selection,
@@ -1201,10 +1205,12 @@ class CommManager(
         // Only media keys can be held back, so nothing else pays for the Bluetooth probe.
         if (isMedia) {
             val routing = settings.mediaKeyRouting
-            if (source != "auto-resume" && !MediaKeyRoutingPolicy.shouldForward(routing, true, btMediaLinkForKeys())) {
-                AppLog.v("CommManager: Not sending media key $logicalCode to Android Auto " +
-                        "(routing=$routing, src=$source)")
-                return
+            val loopback = isLoopbackSession
+            if (source != "auto-resume" &&
+                !MediaKeyRoutingPolicy.shouldForward(routing, true, btMediaLinkForKeys(), loopback)) {
+                AppLog.i("CommManager: Not sending media key $logicalCode to Android Auto " +
+                        "(routing=$routing, selfMode=$loopback, src=$source)")
+                return false
             }
         }
 
@@ -1221,7 +1227,7 @@ class CommManager(
 
         if (!decision.forward) {
             AppLog.v("CommManager: Dropping key $logicalCode (isPress=$isPress, src=$source) - ${decision.dropReason}")
-            return
+            return true
         }
 
         if (decision.releaseFirst) {
@@ -1231,6 +1237,7 @@ class CommManager(
 
         AppLog.i("CommManager: TX Key -> AA=$logicalCode (isPress=$isPress) src=$source")
         _transport?.send(logicalCode, isPress)
+        return true
     }
 
     /**
