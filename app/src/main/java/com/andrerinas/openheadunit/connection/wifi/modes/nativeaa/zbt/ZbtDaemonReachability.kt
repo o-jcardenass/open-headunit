@@ -232,15 +232,18 @@ object ZbtDaemonReachability {
             return report(ZbtReachabilityPolicy.classify(e.javaClass.simpleName, false), e.message)
         }
         try {
-            return report(awaitGreeting(channel, System.currentTimeMillis() + HELLO_BUDGET_MS), null)
+            return report(awaitGreeting(channel, SystemClock.elapsedRealtime() + HELLO_BUDGET_MS), null)
         } finally {
             channel.close()
         }
     }
 
-    /** The byte-channel deadline is wall time. A closed stream cannot produce another frame. */
+    /**
+     * The byte-channel deadline uses elapsed realtime, unaffected by wall-clock corrections.
+     * A closed stream cannot produce another frame.
+     */
     internal fun awaitGreeting(channel: ZbtByteChannel, deadlineMs: Long): ZbtReachabilityPolicy.Verdict {
-        while (System.currentTimeMillis() < deadlineMs) {
+        while (SystemClock.elapsedRealtime() < deadlineMs) {
             when (channel.pumpOnce(deadlineMs)) {
                 ZbtByteChannel.Pump.FRAME -> return ZbtReachabilityPolicy.Verdict.ANSWERED
                 ZbtByteChannel.Pump.QUIET -> Unit
