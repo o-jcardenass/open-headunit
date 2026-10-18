@@ -1248,4 +1248,6 @@
     <string name="pref_set_default_launcher_title">تطبيق الصفحة الرئيسية الافتراضي</string>
     <string name="pref_default_launcher_status_active">نشط (اضغط للإدارة)</string>
     <string name="pref_default_launcher_status_inactive">غير محدد (اضغط لتعيين كافتراضي)</string>
+    <string name="native_aa_candidate_android_radio_description">استخدم Bluetooth في Android بدلاً من اختيار وحدة Bluetooth في الجهاز تلقائياً. اترك الخيار معطلاً للاختيار التلقائي. إذا كان أي خيار للاتصال عبر الوحدة مفعلاً، فعطّله أولاً.</string>
+    <string name="external_bt_candidate_transport_description">افرض الاتصال عبر وحدة Bluetooth في الجهاز بدلاً من الاختيار التلقائي. يتطلب ذلك خدمة وحدة متوافقة. اترك الخيار معطلاً للسماح باستخدام Bluetooth في Android عند عدم استجابة الخدمة؛ تفعيله يمنع هذا البديل.</string>
 </resources>

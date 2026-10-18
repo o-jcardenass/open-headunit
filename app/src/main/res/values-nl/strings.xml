@@ -1250,4 +1250,6 @@
     <string name="pref_set_default_launcher_title">Standaard start-app</string>
     <string name="pref_default_launcher_status_active">Actief (Tik om te beheren)</string>
     <string name="pref_default_launcher_status_inactive">Niet ingesteld (Tik om in te stellen)</string>
+    <string name="native_aa_candidate_android_radio_description">Gebruik Android-Bluetooth in plaats van automatisch de Bluetooth-module van de headunit te kiezen. Laat uitgeschakeld voor automatische selectie. Schakel een ingeschakelde optie voor verbinding via de module eerst uit.</string>
+    <string name="external_bt_candidate_transport_description">Forceer verbinding via de Bluetooth-module van de headunit in plaats van automatische selectie. Vereist een compatibele moduleservice. Laat uitgeschakeld om Android-Bluetooth te kunnen gebruiken als de service niet reageert; inschakelen voorkomt deze terugval.</string>
 </resources>
