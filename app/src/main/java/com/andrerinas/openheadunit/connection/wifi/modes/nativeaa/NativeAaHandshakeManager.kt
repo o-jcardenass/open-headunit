@@ -823,6 +823,22 @@ class NativeAaHandshakeManager(
         }
     }
 
+    /** Apply the result on Main only while this arming still owns discovery and its phone pick. */
+    internal fun completeDaemonMeasurement(
+        generation: Int,
+        decision: ZbtDiscoveryPolicy.Decision,
+        completion: ZbtDiscovery.Measurement.Completion,
+        arm: () -> Unit = { start(resumingMeasurement = true) },
+    ) {
+        if (measureGeneration != generation || !measuringDaemon) return
+        if (completion == ZbtDiscovery.Measurement.Completion.CANCELLED) return
+        if (completion == ZbtDiscovery.Measurement.Completion.CARRIER_BUSY) {
+            ZbtDiscovery.deferIdentityForArming(decision)
+            AppLog.w("NativeAA: Bluetooth module still busy after 10s; using Android Bluetooth for this arming.")
+        }
+        resumeAfterDaemonMeasurement(generation, arm)
+    }
+
     fun start() = start(resumingMeasurement = false)
 
     @SuppressLint("MissingPermission")
@@ -865,22 +881,11 @@ class NativeAaHandshakeManager(
             val generation = measureGeneration
             scope.launch(Dispatchers.IO + CoroutineName("NativeAa-ZbtReachability")) {
                 val measurement = ZbtDiscovery.measurement(discovery.decision)
-                while (measuringDaemon && measureGeneration == generation) {
-                    // A replaced carrier may still be leaving its backoff. Do not spin between
-                    // Main and IO, or cache ownership as a failed firmware measurement.
-                    if (measurement.waitsForCarrier) {
-                        delay(250L)
-                        continue
-                    }
-                    measurement.resolve(
-                        retryRefusals = true,
-                        keepTrying = { measuringDaemon && measureGeneration == generation }
-                    )
-                    if (measurement.settled) break
-                    delay(250L)
-                }
+                val completion = measurement.awaitResolution(
+                    keepTrying = { measuringDaemon && measureGeneration == generation }
+                )
                 withContext(Dispatchers.Main.immediate) {
-                    resumeAfterDaemonMeasurement(generation)
+                    completeDaemonMeasurement(generation, discovery.decision, completion)
                 }
             }
             return

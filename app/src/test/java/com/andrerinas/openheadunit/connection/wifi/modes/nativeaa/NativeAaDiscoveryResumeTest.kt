@@ -1,6 +1,9 @@
 package com.andrerinas.openheadunit.connection.wifi.modes.nativeaa
 
 import com.andrerinas.openheadunit.utils.AppLog
+import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.zbt.ZbtDiscovery
+import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.zbt.ZbtDiscoveryPolicy
+import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.zbt.ZbtDaemonReachability
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
@@ -17,13 +20,15 @@ class NativeAaDiscoveryResumeTest {
 
     @Before fun setup() {
         clock = org.mockito.Mockito.mockStatic(android.os.SystemClock::class.java)
+        ZbtDaemonReachability.forget()
+        ZbtDiscovery.beginArming()
         logger = AppLog.LOGGER
         AppLog.LOGGER = object : AppLog.Logger {
             override fun println(priority: Int, tag: String, msg: String) = Unit
         }
     }
 
-    @After fun restore() { AppLog.LOGGER = logger; clock.close() }
+    @After fun restore() { ZbtDiscovery.beginArming(); AppLog.LOGGER = logger; clock.close() }
 
     private fun set(manager: NativeAaHandshakeManager, field: String, value: Any?) {
         NativeAaHandshakeManager::class.java.getDeclaredField(field).apply { isAccessible = true }.set(manager, value)
@@ -43,12 +48,31 @@ class NativeAaDiscoveryResumeTest {
         }.whenever(manager).manualPoke(any())
         manager.selectDriver("11:22:33:44:55:66", explicit = true)
         assertTrue(wakes.isEmpty())
-        manager.resumeAfterDaemonMeasurement(4) {
+        val decision = ZbtDiscoveryPolicy.Decision(ZbtDiscoveryPolicy.Mode.IDENTITY, "QF")
+        manager.completeDaemonMeasurement(4, decision, ZbtDiscovery.Measurement.Completion.CARRIER_BUSY) {
+            assertFalse(manager.isMeasuringDaemon())
+            val snapshot = ZbtDiscovery.measurement(decision).snapshot()
+            assertEquals(ExternalBtTransportPolicy.Route.NORMAL,
+                ExternalBtTransportPolicy.route(snapshot, false, false))
+            assertFalse(ExternalBtTransportPolicy.needsDaemonMeasurement(snapshot, false, false))
+            assertNull(ZbtDaemonReachability.cached(requireIdentity = true))
             assertEquals("11:22:33:44:55:66", manager.pendingSelectionTargetMac)
             set(manager, "isRunning", true)
         }
         assertEquals(listOf("11:22:33:44:55:66"), wakes)
         assertEquals("11:22:33:44:55:66", manager.pendingSelectionTargetMac)
+    }
+
+    @Test fun staleTimeoutCannotDeferOrResumeReplacementArming() {
+        val manager = mock(NativeAaHandshakeManager::class.java, CALLS_REAL_METHODS)
+        set(manager, "measureGeneration", 5)
+        set(manager, "measuringDaemon", true)
+        val decision = ZbtDiscoveryPolicy.Decision(ZbtDiscoveryPolicy.Mode.IDENTITY, "QF")
+        manager.completeDaemonMeasurement(4, decision, ZbtDiscovery.Measurement.Completion.CARRIER_BUSY) {
+            fail("old timeout armed listeners")
+        }
+        assertTrue(manager.isMeasuringDaemon())
+        assertNull(ZbtDiscovery.measurement(decision).snapshot().reachable)
     }
 
     @Test fun stoppedGenerationCannotArmOrWakeItsOldPick() {

@@ -2,12 +2,24 @@ package com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.zbt
 
 import android.content.ComponentName
 import android.content.pm.PackageManager
+import android.os.SystemClock
 import com.andrerinas.openheadunit.App
 import com.andrerinas.openheadunit.utils.BluetoothHelper
+import kotlinx.coroutines.delay
 import java.io.File
 
 /** Keeps vendor discovery and its cache choice inside the shared ZBT transport. */
 object ZbtDiscovery {
+    internal const val CARRIER_WAIT_MS = 10_000L
+    // A busy carrier is not a failed identity probe. Keep the fallback only for this arming,
+    // shared by routing and UI, without writing a negative result into the ten-minute cache.
+    @Volatile private var deferredIdentity: ZbtDiscoveryPolicy.Decision? = null
+
+    internal fun deferIdentityForArming(decision: ZbtDiscoveryPolicy.Decision) {
+        require(decision.requiresIdentity)
+        deferredIdentity = decision
+    }
+
     private val latch = ZbtDiscoveryPolicy.Latch {
         ZbtDiscoveryPolicy.detect(
             externalModuleEvidence = { BluetoothHelper.externalBtEvidence },
@@ -33,6 +45,7 @@ object ZbtDiscovery {
 
     /** Call once for a fresh arming, not when its asynchronous measurement resumes. */
     fun beginArming() {
+        deferredIdentity = null
         latch.reconsiderForArming(carrierOwnsSlot())
         ZbtDaemonReachability.expireIdleIdentity()
     }
@@ -56,7 +69,39 @@ object ZbtDiscovery {
             ZbtDaemonReachability.cached(requireIdentity = requireIdentity)
         } else null
 
-        fun snapshot(): ZbtDiscoveryPolicy.Snapshot = ZbtDiscoveryPolicy.Snapshot(decision, cached())
+        fun snapshot(): ZbtDiscoveryPolicy.Snapshot = ZbtDiscoveryPolicy.Snapshot(
+            decision, if (deferredIdentity == decision) false else cached()
+        )
+
+        internal enum class Completion { SETTLED, CARRIER_BUSY, CANCELLED }
+
+        /**
+         * A retiring carrier may keep its single-client slot through a read or reopen backoff.
+         * Bound the polling across ownership races; never probe through that carrier or record
+         * its ownership as a negative identity. The caller applies fallback only after checking
+         * that this arming is still current. Socket probes retain their own bounded deadlines.
+         */
+        internal suspend fun awaitResolution(
+            keepTrying: () -> Boolean,
+            nowMs: () -> Long = { SystemClock.elapsedRealtime() },
+            pause: suspend (Long) -> Unit = { delay(it) },
+            probe: () -> Unit = { resolve(retryRefusals = true, keepTrying = keepTrying); Unit },
+        ): Completion {
+            val startedAt = nowMs()
+            while (keepTrying()) {
+                if (requireIdentity && nowMs() - startedAt >= CARRIER_WAIT_MS) {
+                    return Completion.CARRIER_BUSY
+                }
+                if (!waitsForCarrier) {
+                    probe()
+                    if (!keepTrying()) return Completion.CANCELLED
+                    if (settled) return Completion.SETTLED
+                }
+                val remaining = CARRIER_WAIT_MS - (nowMs() - startedAt)
+                pause(if (requireIdentity) minOf(250L, remaining.coerceAtLeast(0L)) else 250L)
+            }
+            return Completion.CANCELLED
+        }
 
         /** Blocking socket work: call off the main thread. Settings previews do not cache refusals. */
         fun resolve(

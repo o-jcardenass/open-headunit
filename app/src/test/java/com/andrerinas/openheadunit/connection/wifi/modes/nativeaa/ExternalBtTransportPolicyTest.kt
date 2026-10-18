@@ -171,20 +171,28 @@ class ExternalBtTransportPolicyTest {
     }
 
     @Test
-    fun `refusing and still-worth-asking are exact complements of a blocked route`() {
-        // Neither may be relaxed on its own: together they must cover BLOCKED exactly once.
-        val cases = listOf<Boolean?>(null, true, false)
-        for (evidenceValue in listOf(null, evidence))
-            for (zbt in listOf(false, true))
-                for (ignore in listOf(false, true))
-                    for (cached in cases) {
-                        val blocked = ExternalBtTransportPolicy
-                            .route(legacy(evidenceValue, cached), zbt, ignore) == Route.BLOCKED
-                        val refused = refuses(evidenceValue, zbt, ignore, cached)
-                        val asking = needsMeasurement(evidenceValue, zbt, ignore, cached)
-                        assertEquals(blocked, refused || asking)
-                        assertFalse(refused && asking)
-                    }
+    fun `refusal and measurement are exclusive and cover every blocked route in all discovery modes`() {
+        for (mode in ZbtDiscoveryPolicy.Mode.entries)
+            for (cached in listOf<Boolean?>(null, true, false))
+                for (zbt in listOf(false, true))
+                    for (ignore in listOf(false, true))
+                        for (blink in listOf(false, true))
+                            for (fyt in listOf(null, "FYT")) {
+                                val decision = ZbtDiscoveryPolicy.Decision(mode,
+                                    if (mode == ZbtDiscoveryPolicy.Mode.NONE) null else "module")
+                                val snapshot = ZbtDiscoveryPolicy.Snapshot(decision, cached)
+                                val route = ExternalBtTransportPolicy.route(snapshot, zbt, ignore, blink, fyt)
+                                val refused = ExternalBtTransportPolicy.refusesBringUp(snapshot, zbt, ignore, blink, fyt)
+                                val asking = ExternalBtTransportPolicy.needsDaemonMeasurement(snapshot, zbt, ignore, blink, fyt)
+                                assertFalse("$mode/$cached/$zbt/$ignore/$blink/$fyt", refused && asking)
+                                if (route == Route.BLOCKED) assertTrue(refused || asking)
+                                if (refused) assertEquals(Route.BLOCKED, route)
+                            }
+        // Unknown identity is intentionally both eligible for measurement and safe to fall back.
+        val unknown = candidate("HCT", null)
+        assertEquals(Route.NORMAL, ExternalBtTransportPolicy.route(unknown, false, false))
+        assertTrue(ExternalBtTransportPolicy.needsDaemonMeasurement(unknown, false, false))
+        assertFalse(ExternalBtTransportPolicy.refusesBringUp(unknown, false, false))
     }
 
     @Test

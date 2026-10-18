@@ -81,8 +81,9 @@ object ExternalBtTransportPolicy {
     /**
      * Whether this unit refuses to bring Native AA up at all over its external Bluetooth.
      *
-     * The exact complement of [needsDaemonMeasurement] on the BLOCKED arm: a daemon that has not
-     * been asked yet is not a refusal, and treating it as one skipped the very code that asks.
+     * Refusal and measurement are mutually exclusive and together cover every BLOCKED route.
+     * An unconfirmed firmware candidate can also need measurement on the NORMAL route: it
+     * retains Android fallback. Treating every unknown daemon as a refusal skips the probe.
      */
     fun refusesBringUp(
         discovery: ZbtDiscoveryPolicy.Snapshot,
