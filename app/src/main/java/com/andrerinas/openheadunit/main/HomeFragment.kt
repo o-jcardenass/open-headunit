@@ -857,6 +857,7 @@ class HomeFragment : Fragment() {
         val adapter = BluetoothHelper.getBluetoothAdapter(requireContext())
 
         if (adapter == null || !adapter.isEnabled) {
+            if (adapter == null && BluetoothDevicePicker.showManufacturerDevices(requireContext())) return
             ToastUtils.showToast(requireContext(), getString(R.string.bt_not_enabled), Toast.LENGTH_SHORT, force = true)
             return
         }
@@ -867,6 +868,7 @@ class HomeFragment : Fragment() {
         val cands = BluetoothHelper.driverCandidates(requireContext(), preferredMac, lastUsedMac)
         val bondedDevices = cands.all.map { it.device }
         if (bondedDevices.isEmpty()) {
+            if (BluetoothDevicePicker.showManufacturerDevices(requireContext(), cands.inventory)) return
             ToastUtils.showToast(requireContext(), "No paired Bluetooth devices found", Toast.LENGTH_SHORT, force = true)
             return
         }
