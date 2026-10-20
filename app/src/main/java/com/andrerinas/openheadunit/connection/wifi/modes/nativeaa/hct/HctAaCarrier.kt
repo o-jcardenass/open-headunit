@@ -53,6 +53,7 @@ internal class HctAaCarrier(
         AppLog.i("NativeAA: [HCT] waiting for a fresh manufacturer AA connection")
     }
 
+    /** Explicit phone selection authorizes one OEM disconnect/reconnect, including this phone. */
     fun requestWakeFor(mac: String) {
         if (!stopped) {
             selectedMac = BluetoothPeerInventory.normalizeAddress(mac)
@@ -72,7 +73,7 @@ internal class HctAaCarrier(
             val wakeJob = launch(Dispatchers.IO) {
                 for (mac in wakes) {
                     if (stopped || !mayServe()) continue
-                    val result = status.requestWake(mac) { mayServe() && selectedMac == mac }
+                    val result = status.requestWake(mac, allowReconnect = true) { mayServe() && selectedMac == mac }
                     AppLog.i("NativeAA: [HCT] selected-phone wake: $result")
                     if (result != HctWakePolicy.Result.REQUESTED) onUnavailable(result)
                 }

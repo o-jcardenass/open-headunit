@@ -273,11 +273,13 @@ internal class HctServiceObserver(
 
     /**
      * User-directed wake only. A new HFP connection can trigger the phone's AA SDP discovery.
-     * AT-CC disconnects an existing HFP connection, even to the same phone, so unknown/active
-     * states refuse this operation. Sending the request does not mean AA has connected.
+     * AT-CC disconnects an existing HFP connection, even to the same phone. An explicit
+     * selection may allow one such reconnect while HFP is idle; calls and unknown/changing
+     * states refuse it. Sending the request does not mean AA has connected.
      */
     suspend fun requestWake(
         targetMac: String?,
+        allowReconnect: Boolean = false,
         mayWake: () -> Boolean = { true }
     ): HctWakePolicy.Result {
         if (closed) return HctWakePolicy.Result.CLOSED
@@ -292,7 +294,7 @@ internal class HctServiceObserver(
                     val before = snapshot(gate, remote)
                     val paired = BluetoothPeerDiscovery.manufacturerInventory(context).manufacturerPairing(target)
                     val after = snapshot(gate, remote, stateLast = true)
-                    val result = HctWakePolicy.decide(target, paired, before, after, epoch == admission.epoch())
+                    val result = HctWakePolicy.decide(target, paired, before, after, epoch == admission.epoch(), allowReconnect)
                     if (result != HctWakePolicy.Result.REQUESTED) return@call result
                     synchronized(lifecycle) {
                         if (closed) return@call HctWakePolicy.Result.CLOSED
