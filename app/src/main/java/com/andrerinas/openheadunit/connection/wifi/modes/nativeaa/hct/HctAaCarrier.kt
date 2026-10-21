@@ -69,10 +69,13 @@ internal class HctAaCarrier(
         try {
             withContext(Dispatchers.Main.immediate) { if (!stopped) status.start() }
             if (stopped) return@coroutineScope
-            withTimeout(3_000L) { status.awaitService() }
+            // A timeout here is a CancellationException and would end the stack with no reason logged.
+            withTimeoutOrNull(3_000L) { status.awaitService() }
+                ?: throw IOException("Bluetooth status service did not connect within 3 s")
             val wakeJob = launch(Dispatchers.IO) {
                 for (mac in wakes) {
-                    if (stopped || !mayServe()) continue
+                    if (stopped) continue
+                    if (!mayServe()) { onUnavailable(HctWakePolicy.Result.STATE_CHANGED); continue }
                     val result = status.requestWake(mac, allowReconnect = true) { mayServe() && selectedMac == mac }
                     AppLog.i("NativeAA: [HCT] selected-phone wake: $result")
                     if (result != HctWakePolicy.Result.REQUESTED) onUnavailable(result)

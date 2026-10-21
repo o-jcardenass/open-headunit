@@ -1252,7 +1252,7 @@ class NativeAaHandshakeManager(
             aaListenersClosedForSession = false
             aaListenerLost = false
             aaReopenAttempts = 0
-            AppLog.i("NativeAA: [BLINK] session state re-armed; the module bridge remains ready for the next phone channel.")
+            AppLog.i("NativeAA: [${transportRoute(context)}] session state re-armed; the module bridge remains ready for the next phone channel.")
             return
         }
 
