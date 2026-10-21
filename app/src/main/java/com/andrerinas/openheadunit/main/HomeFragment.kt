@@ -1181,7 +1181,17 @@ class HomeFragment : Fragment() {
                 .setTitle(R.string.bt_manufacturer_devices_title)
                 .setNegativeButton(android.R.string.cancel) { _, _ -> cancelSelection() }
             if (peers.isEmpty()) {
-                builder.setMessage(R.string.hct_aa_no_paired_phone)
+                // Nothing to pick: a plain notice, which must not hold or cancel the handoff.
+                MaterialAlertDialogBuilder(context, R.style.DarkAlertDialog)
+                    .setTitle(R.string.bt_manufacturer_devices_title)
+                    .setMessage(R.string.hct_aa_no_paired_phone)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .create().also { notice ->
+                        notice.setOnDismissListener { if (activeDialog === notice) activeDialog = null }
+                        activeDialog = notice
+                        notice.show()
+                    }
+                return@launch
             } else {
                 val labels = peers.map { peer -> peer.name?.let { "$it (${peer.address})" } ?: peer.address }
                 builder.setItems(labels.toTypedArray()) { _, index ->

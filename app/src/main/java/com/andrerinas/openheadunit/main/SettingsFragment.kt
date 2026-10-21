@@ -1499,7 +1499,9 @@ class SettingsFragment : Fragment() {
             val ignoreChecked = pendingNativeAaIgnoreExternalBt ?: settings.nativeAaIgnoreExternalBt
             val explicitModule = (pendingExternalBtBlinkTransport ?: settings.externalBtBlinkTransport) ||
                 (radioFytEvidence == null && (pendingExternalBtZbtTransport ?: settings.externalBtZbtTransport))
-            if ((radioDiscovery.decision.available || radioFytEvidence != null) &&
+            // HCT can route with no ZBT markers, and this switch is its only way back to Android.
+            val hctService = HctServiceObserver.available(requireContext())
+            if ((radioDiscovery.decision.available || radioFytEvidence != null || hctService) &&
                 (ignoreChecked || !explicitModule)) {
                 items.add(SettingItem.ToggleSettingEntry(
                     stableId = "nativeAaIgnoreExternalBt",
