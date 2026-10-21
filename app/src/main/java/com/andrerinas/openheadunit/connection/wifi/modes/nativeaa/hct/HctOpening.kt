@@ -165,7 +165,9 @@ internal object HctOpening {
         ) {
             throw IOException("HCT WPP version response is incomplete")
         }
-        if (response.status != 0) {
+        // -8 (NO_SUPPORTED_WIFI_CHANNELS) is the normal answer on a 2.4 GHz group or the hotspot,
+        // and the handshake goes on; the Android radio route continues past it too.
+        if (response.status != 0 && response.status != NO_SUPPORTED_WIFI_CHANNELS) {
             throw IOException("Phone rejected HCT WPP opening: status=${response.status}")
         }
         // Lower or higher versions are not assumed compatible with this carrier's opening.
@@ -175,4 +177,6 @@ internal object HctOpening {
         }
         return response
     }
+
+    private const val NO_SUPPORTED_WIFI_CHANNELS = -8
 }

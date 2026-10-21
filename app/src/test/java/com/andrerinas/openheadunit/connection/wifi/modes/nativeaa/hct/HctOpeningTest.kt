@@ -160,7 +160,7 @@ class HctOpeningTest {
         }
         for (frame in listOf(
             response(0, 7), response(-1, 7), response(1, -1),
-            response(status = -8), response(status = 1),
+            response(status = -2), response(status = 1),
         )) {
             assertThrows(IOException::class.java) { exchange(ByteArrayInputStream(frame)) }
         }
@@ -225,7 +225,7 @@ class HctOpeningTest {
     @Test
     fun `later response is validated independently after a queued success`() {
         val initial = response()
-        val rejected = response(status = -8)
+        val rejected = response(status = -2)
         val input = ByteArrayInputStream(initial + rejected)
         assertArrayEquals(initial, exchange(input))
         val later = input.readBytes()
@@ -322,5 +322,11 @@ class HctOpeningTest {
         val output = ByteArrayOutputStream()
         assertThrows(EOFException::class.java) { exchange(ByteArrayInputStream(start()), output) }
         assertArrayEquals(expectedRequest, output.toByteArray())
+    }
+
+    @Test
+    fun `no supported channels is the normal 2_4 GHz answer and is accepted`() {
+        val frame = response(status = -8)
+        assertEquals(-8, HctOpening.validateResponse(frame.copyOfRange(WppFraming.HEADER_SIZE, frame.size)).status)
     }
 }
