@@ -98,7 +98,6 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 5. `fps-cap-round1-brief.md` (candidate `8e031b17` on `fork/feat/overlay-device-fields`; conditional `v.3.4.0` `013b05bc`; units D-POCO as head unit and D-MOTO, D-HU idle; R1 and R3 are the point)
 6. `pr-1091-pcm-guidance-round1-brief.md` (C `dcc3c708` on `fork/test/pr-1091`, a contributor audio PR merged onto `main` `b3ef3355`; one build, four settings arms; units D-HU and D-POCO; R2 is the point)
 7. `automation-screen-disconnect-round3-brief.md` (C `b5bd8145` on `fork/feat/automation-screen-disconnect`, on `main` `e9377ff9`; units D-POCO, D-MOTO and D-HU for Bluetooth; operator present for HS2 and Stage U; V3, V4k and R11 are the point)
-8. `settings-help-button-round3-brief.md` (C `e3b2597c` on `fork/docs/call-audio-needs-hfp`, stacked on the settings redesign `c43896b1`, not `main`; one build; units D-HU and D-SAM, no phone; R1 is the point)
 9. `aap-protocol-revision-round1-brief.md` (T `c30da573` on `fork/fix/touch-cancel-release`, U `d811b612` on `fork/chore/aap-unread-fields`, A `f809e6dd` on `fork/feat/update-apk-button`, B `e9377ff9` = `main`; four builds in one worktree; units D-HU, D-POCO and D-SAM, D-MOTO Bluetooth off; R1 is the point)
 10. `self-mode-media-session-round3-brief.md` (C `e4f8f6d9` on `fork/fix/929-self-mode-media-session`, on `main` `e9377ff9`, one build, no baseline; units D-HU and D-POCO, D-MOTO Bluetooth off; P1 and H2 are the point)
 11. `second-screen-outputs-round3-brief.md` (C `e85e5c10` on `fork/feat/second-screen-outputs`, on `main` `e9377ff9`, one build, no baseline; units D-HU and D-POCO, D-MOTO radios off; a smoke after two rebases; P1 is the point)
@@ -121,7 +120,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 | `aap-protocol-revision` | **QUEUED, round 1** | `aap-protocol-revision-round1-brief.md`. A cancelled touch ends off the canvas, never as a held press; four unread AAP fields dropped; the APK download on API 19. |
 | `self-mode-media-session` | **QUEUED, round 3** (rounds 1 and 2 archived) | `self-mode-media-session-round3-brief.md`. First hardware read of the Self Mode key routing and the wireless re-arm after the 2026-10-17 rework. |
 | `second-screen-outputs` | **QUEUED, round 3** (rounds 1 and 2 archived) | `second-screen-outputs-round3-brief.md`. Smoke after two rebases: an RTP push session ends cleanly by user exit and link loss, then reconnects. |
-| `settings-help-button` | Round 3 briefed on C `e3b2597c`. Round 1 done: no FAIL, operator did not approve (rows lack a (?)). | `settings-help-button-round3-brief.md` |
+| `settings-help-button` | Round 3 on C `e3b2597c` done: R1-TALL PASS (point), R2/R3/R4/R6/R7 PASS, no-Save PASS, R1-T2/T1 INCONCLUSIVE (below fold), R5 info (seed fills box only with orientation 0). | `settings-help-button-round3-results.md` |
 
 Round files are `<thread>-round<N>-brief.md` and `<thread>-round<N>-results.md`. A brief with no
 matching results file is a round nobody has run yet. That pairing is the only queue there is, so
