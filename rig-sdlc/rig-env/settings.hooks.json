@@ -1,0 +1,40 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "command": "python3 -I \"$HOME/.claude/hooks/rig-tidy-guard.py\"",
+            "statusMessage": "Checking StudioProjects layout...",
+            "timeout": 10,
+            "type": "command"
+          }
+        ],
+        "matcher": "Bash|Write|Edit|NotebookEdit"
+      },
+      {
+        "hooks": [
+          {
+            "command": "python3 -I \"$HOME/.claude/hooks/rig-kill-guard.py\"",
+            "statusMessage": "Checking for self-matching kills...",
+            "timeout": 10,
+            "type": "command"
+          }
+        ],
+        "matcher": "Bash"
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "command": "case \"${CLAUDE_PROJECT_DIR:-$PWD}\" in \"$HOME/Coding/StudioProjects\"/*) bash \"$HOME/Coding/StudioProjects/rig-toolkit/studio-clean.sh\" status > \"$HOME/.claude/hooks/last-studio-status.txt\" 2>&1 ;; esac; true",
+            "timeout": 30,
+            "type": "command"
+          }
+        ]
+      }
+    ]
+  },
+  "model": "sonnet"
+}
