@@ -92,7 +92,6 @@ worktree, batch builds) and §8. `rig-sdlc/` changed with them. Before the next 
 restart Claude Code. It copies the new skills into `.claude/`.
 After that, `/rig-round` re-copies them itself when a pull changes them, and asks for the restart.
 
-1. `pr-1119-home-redesign-round3-brief.md` (one APK, `135131ce` = upstream PR head, fetched by pull ref; units D-HU, D-MOTO, D-HP, D-POCO; HU-B5 and HU-W12a/b are the point)
 2. `wifi-direct-named-connect-round1-brief.md` (candidate `6a0089d6` on `fork/feat/wifi-direct-named-connect`, rebased 2026-10-22; no baseline)
 3. `forget-car-still-needed-round2-brief.md` (F `048fd16a` on `fork/fix/forget-car-still-needed`, C `e9377ff9` = `main`, both rebuilt; units D-HU and D-POCO; R1 is the point)
 4. `usb-native-loop-round1-brief.md` (tags `v.3.4.0` `013b05bc` and `v.3.5.0` `1c1b5b72`; units D-POCO as USB host and D-MOTO; one hand step to cable them; Part B is the point)
@@ -116,7 +115,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 | `late-listener-poke` | Round 1 done: R1-R4 PASS, R5 not run (`22392a15`) | `late-listener-poke-round1-results.md`. Poke off, phone redials a held late listener every ~5.3 s, D1 2.2-3.3 s, still dialling at 150 s; 90 s escalation never reached. |
 | `emotionbug-batch` | Round 2 done on C `4c5960c7`: PRESENT, BRIDGE, SCAN PASS; FRAMING and LIBUSB FAIL on the letter (U1 unplug read error 1654 ms vs 1 s bound; U3 five write timeouts, recovered). | `emotionbug-batch-round2-results.md`. Round 1 in `emotionbug-batch-round1-results.md`. |
 | `pr-1091-pcm-guidance` | **Round 1 queued** on C `dcc3c708`: PCM guidance beside AAC music, and a 48 kHz SPEECH format the phone may pick. | `pr-1091-pcm-guidance-round1-brief.md`. |
-| `pr-1119-home-redesign` | **Round 3 QUEUED** on `135131ce`. R2 on `0d333b19`: 11 PASS, B5 UNTESTABLE. | `pr-1119-home-redesign-round3-brief.md`; `-round2-results.md`, `-round1-results.md`, `-round1-d-sam-loop-findings.md`. |
+| `pr-1119-home-redesign` | R3 on `135131ce`: CD, B5 (finished path), W12a/b, ROW, W8 PASS; B1 and U1 UNTESTABLE (brief order, armed home cannot be dumped); POCO-U3 UNTESTABLE (no route); W10 reverts, ring clear. Reconnect overlay after End session. | `pr-1119-home-redesign-round3-results.md`; `-round2-results.md`, `-round1-results.md`. |
 | `usb-native-loop` | **QUEUED, round 1** | `usb-native-loop-round1-brief.md`. Does a stored Native mode turn one USB drop into a reconnect loop on 3.4.0, and does 3.5.0 stop it. |
 | `fps-cap` | **QUEUED, round 1** | `fps-cap-round1-brief.md`. What holds the projection at 30 fps on D-POCO with fps-limit 60: Android Auto's frame-rate dump, idle and panned, in the trip setup and in Self Mode. |
 | `aap-protocol-revision` | **QUEUED, round 1** | `aap-protocol-revision-round1-brief.md`. A cancelled touch ends off the canvas, never as a held press; four unread AAP fields dropped; the APK download on API 19. |
