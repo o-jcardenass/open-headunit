@@ -100,6 +100,9 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 6. `pr-1091-pcm-guidance-round1-brief.md` (C `dcc3c708` on `fork/test/pr-1091`, a contributor audio PR merged onto `main` `b3ef3355`; one build, four settings arms; units D-HU and D-POCO; R2 is the point)
 7. `automation-screen-disconnect-round3-brief.md` (C `b5bd8145` on `fork/feat/automation-screen-disconnect`, on `main` `e9377ff9`; units D-POCO, D-MOTO and D-HU for Bluetooth; operator present for HS2 and Stage U; V3, V4k and R11 are the point)
 8. `settings-help-button-round3-brief.md` (C `e3b2597c` on `fork/docs/call-audio-needs-hfp`, stacked on the settings redesign `c43896b1`, not `main`; one build; units D-HU and D-SAM, no phone; R1 is the point)
+9. `aap-protocol-revision-round1-brief.md` (T `c30da573` on `fork/fix/touch-cancel-release`, U `d811b612` on `fork/chore/aap-unread-fields`, A `f809e6dd` on `fork/feat/update-apk-button`, B `e9377ff9` = `main`; four builds in one worktree; units D-HU, D-POCO and D-SAM, D-MOTO Bluetooth off; R1 is the point)
+10. `self-mode-media-session-round3-brief.md` (C `e4f8f6d9` on `fork/fix/929-self-mode-media-session`, on `main` `e9377ff9`, one build, no baseline; units D-HU and D-POCO, D-MOTO Bluetooth off; P1 and H2 are the point)
+11. `second-screen-outputs-round3-brief.md` (C `e85e5c10` on `fork/feat/second-screen-outputs`, on `main` `e9377ff9`, one build, no baseline; units D-HU and D-POCO, D-MOTO radios off; a smoke after two rebases; P1 is the point)
 
 ## Threads
 
@@ -116,6 +119,9 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 | `pr-1119-home-redesign` | **Round 3 QUEUED** on `135131ce`. R2 on `0d333b19`: 11 PASS, B5 UNTESTABLE. | `pr-1119-home-redesign-round3-brief.md`; `-round2-results.md`, `-round1-results.md`, `-round1-d-sam-loop-findings.md`. |
 | `usb-native-loop` | **QUEUED, round 1** | `usb-native-loop-round1-brief.md`. Does a stored Native mode turn one USB drop into a reconnect loop on 3.4.0, and does 3.5.0 stop it. |
 | `fps-cap` | **QUEUED, round 1** | `fps-cap-round1-brief.md`. What holds the projection at 30 fps on D-POCO with fps-limit 60: Android Auto's frame-rate dump, idle and panned, in the trip setup and in Self Mode. |
+| `aap-protocol-revision` | **QUEUED, round 1** | `aap-protocol-revision-round1-brief.md`. A cancelled touch ends off the canvas, never as a held press; four unread AAP fields dropped; the APK download on API 19. |
+| `self-mode-media-session` | **QUEUED, round 3** (rounds 1 and 2 archived) | `self-mode-media-session-round3-brief.md`. First hardware read of the Self Mode key routing and the wireless re-arm after the 2026-10-17 rework. |
+| `second-screen-outputs` | **QUEUED, round 3** (rounds 1 and 2 archived) | `second-screen-outputs-round3-brief.md`. Smoke after two rebases: an RTP push session ends cleanly by user exit and link loss, then reconnects. |
 | `settings-help-button` | Round 3 briefed on C `e3b2597c`. Round 1 done: no FAIL, operator did not approve (rows lack a (?)). | `settings-help-button-round3-brief.md` |
 
 Round files are `<thread>-round<N>-brief.md` and `<thread>-round<N>-results.md`. A brief with no
