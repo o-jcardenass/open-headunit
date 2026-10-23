@@ -102,7 +102,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 9. `aap-protocol-revision-round1-brief.md` (T `c30da573` on `fork/fix/touch-cancel-release`, U `d811b612` on `fork/chore/aap-unread-fields`, A `f809e6dd` on `fork/feat/update-apk-button`, B `e9377ff9` = `main`; four builds in one worktree; units D-HU, D-POCO and D-SAM, D-MOTO Bluetooth off; R1 is the point)
 10. `self-mode-media-session-round3-brief.md` (C `e4f8f6d9` on `fork/fix/929-self-mode-media-session`, on `main` `e9377ff9`, one build, no baseline; units D-HU and D-POCO, D-MOTO Bluetooth off; P1 and H2 are the point)
 11. `second-screen-outputs-round3-brief.md` (C `e85e5c10` on `fork/feat/second-screen-outputs`, on `main` `e9377ff9`, one build, no baseline; units D-HU and D-POCO, D-MOTO radios off; a smoke after two rebases; P1 is the point)
-12. `zj-bt-unix-socket-round1-brief.md` (C `1c425934` on `fork/feat/zj-bt-unix-socket`, on `contrib/zj-unix-socket` `cda1a1db`; one build, no baseline; units D-HU (root) and D-POCO, D-MOTO Bluetooth off; R2 is the point)
+12. `zj-bt-unix-socket-round1-brief.md` (C `bbda5eff` on `fork/feat/zj-bt-unix-socket`, on `contrib/zj-unix-socket` `cda1a1db`; one build, no baseline; units D-HU (root) and D-POCO, D-MOTO Bluetooth off; R2 is the point)
 
 ## Threads
 
