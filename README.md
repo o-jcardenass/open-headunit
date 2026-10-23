@@ -102,6 +102,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 10. `self-mode-media-session-round3-brief.md` (C `e4f8f6d9` on `fork/fix/929-self-mode-media-session`, on `main` `e9377ff9`, one build, no baseline; units D-HU and D-POCO, D-MOTO Bluetooth off; P1 and H2 are the point)
 11. `second-screen-outputs-round3-brief.md` (C `e85e5c10` on `fork/feat/second-screen-outputs`, on `main` `e9377ff9`, one build, no baseline; units D-HU and D-POCO, D-MOTO radios off; a smoke after two rebases; P1 is the point)
 12. `zj-bt-unix-socket-round1-brief.md` (C `d594102c` on `fork/feat/zj-bt-unix-socket`, on `main` `94082d41`; one build, no baseline; units D-HU (root) and D-POCO, D-MOTO Bluetooth off; R2 is the point)
+13. `pr-1141-cover-keeps-decoder-round1-brief.md` (C `24dd2219` from upstream `pull/1141/head`, a contributor fix; B `afe6a534`, its parent; two builds in one worktree; units D-HU and D-POCO, D-MOTO airplane mode if plugged in; R1 is the point)
 
 ## Threads
 
@@ -123,6 +124,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 | `self-mode-media-session` | **QUEUED, round 3** (rounds 1 and 2 archived) | `self-mode-media-session-round3-brief.md`. First hardware read of the Self Mode key routing and the wireless re-arm after the 2026-10-17 rework. |
 | `second-screen-outputs` | **QUEUED, round 3** (rounds 1 and 2 archived) | `second-screen-outputs-round3-brief.md`. Smoke after two rebases: an RTP push session ends cleanly by user exit and link loss, then reconnects. |
 | `zj-bt-unix-socket` | **QUEUED, round 1** | `zj-bt-unix-socket-round1-brief.md`. Does the Bluetooth route over a Unix socket connect a phone on the head unit. R2 is the point. |
+| `pr-1141-cover-keeps-decoder` | **QUEUED, round 1** | `pr-1141-cover-keeps-decoder-round1-brief.md`. Does a short cover keep the decoder and the picture on return, on each view mode. R1 is the point. |
 | `settings-help-button` | Round 3 on C `e3b2597c` done: R1-TALL PASS (point), R2/R3/R4/R6/R7 PASS, no-Save PASS, R1-T2/T1 INCONCLUSIVE (below fold), R5 info (seed fills box only with orientation 0). | `settings-help-button-round3-results.md` |
 
 Round files are `<thread>-round<N>-brief.md` and `<thread>-round<N>-results.md`. A brief with no
