@@ -92,7 +92,6 @@ worktree, batch builds) and §8. `rig-sdlc/` changed with them. Before the next 
 restart Claude Code. It copies the new skills into `.claude/`.
 After that, `/rig-round` re-copies them itself when a pull changes them, and asks for the restart.
 
-1. `usb-dongle-regression-round1-brief.md` (`v.3.4.0` `013b05bc`, `v.3.5.0` `1c1b5b72` and C = `v.3.5.0` plus the beta4 keycode list, built on the rig; conditional beta4 `0cbff004` and beta5 `d25c0703`; units D-HP then D-POCO as USB host with the dongle, D-MOTO as its phone; shares the A and B builds with `usb-native-loop`; P-C is the point)
 2. `wifi-direct-named-connect-round1-brief.md` (candidate `6a0089d6` on `fork/feat/wifi-direct-named-connect`, rebased 2026-10-22; no baseline)
 3. `forget-car-still-needed-round2-brief.md` (F `048fd16a` on `fork/fix/forget-car-still-needed`, C `e9377ff9` = `main`, both rebuilt; units D-HU and D-POCO; R1 is the point)
 4. `usb-native-loop-round1-brief.md` (tags `v.3.4.0` `013b05bc` and `v.3.5.0` `1c1b5b72`; units D-POCO as USB host and D-MOTO; one hand step to cable them; Part B is the point)
@@ -108,7 +107,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 
 | Thread | State | Next |
 |---|---|---|
-| `usb-dongle-regression` | **QUEUED, round 1** | `usb-dongle-regression-round1-brief.md`. A wireless AA dongle fails every attempt on 3.5.0: the phone goes silent after our service discovery response. Does the beta4 keycode list bring it back. |
+| `usb-dongle-regression` | **ROUND 1 DONE, inconclusive** | `usb-dongle-regression-round1-results.md`. Rig dongle never fails on v.3.5.0 (H-B 3/3, P-B 5/5 project), so P-C not run; v.3.4.0 control P-A 0/5. Keycode list untested. Next: cold-start cycles on B and C. |
 | `pr-1132-exit-dialog` | round 1 done on C `f17c14ef`: SAM-4 and HP-4 PASS (font scale kept, F 0.986 and 1.006; B loses it, Fb100 0.763), HU/SAM/HP-2 scale PASS, HP-1 Stop INCONCLUSIVE (tap missed row) | `pr-1132-exit-dialog-round1-results.md`. HU-2 130% dialog fills full height. Fix the HP tap mapping and the HU focus read if re-run. |
 | `pr-1001-devserver-p2p` | Round 1 done on B `0cbff004`, P `7f5bc6e9`, F `ce5e61cb`: R3 P FAIL (expected, H1 real) and B, F PASS; R1-B FAIL, R1-P INCONCLUSIVE; R5A PASS, R5B INCONCLUSIVE; R4 PASS (OpenHU rename refused, joined as the unit name); R6 FAIL (no ByeBye on the P2P route); R2 PASS both. | `pr-1001-devserver-p2p-round1-results.md`. Review the refused rename and R6 condition 2. |
 | `automation-screen-disconnect` | **ROUND 2 DONE, round 3 QUEUED** on C `b5bd8145` | R1, R2, R10, R6, R5, T1, S1, S2 PASS; V3, V4, R7 FAIL: screen-on wakes the panel by wake lock first, so the raise is skipped and the lock screen covers the projection. R1s UNTESTABLE. See `automation-screen-disconnect-round2-results.md`. |
