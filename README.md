@@ -99,6 +99,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 5. `fps-cap-round1-brief.md` (candidate `8e031b17` on `fork/feat/overlay-device-fields`; conditional `v.3.4.0` `013b05bc`; units D-POCO as head unit and D-MOTO, D-HU idle; R1 and R3 are the point)
 6. `pr-1091-pcm-guidance-round1-brief.md` (C `dcc3c708` on `fork/test/pr-1091`, a contributor audio PR merged onto `main` `b3ef3355`; one build, four settings arms; units D-HU and D-POCO; R2 is the point)
 7. `automation-screen-disconnect-round3-brief.md` (C `b5bd8145` on `fork/feat/automation-screen-disconnect`, on `main` `e9377ff9`; units D-POCO, D-MOTO and D-HU for Bluetooth; operator present for HS2 and Stage U; V3, V4k and R11 are the point)
+8. `settings-help-button-round3-brief.md` (C `e3b2597c` on `fork/docs/call-audio-needs-hfp`, stacked on the settings redesign `c43896b1`, not `main`; one build; units D-HU and D-SAM, no phone; R1 is the point)
 
 ## Threads
 
@@ -115,7 +116,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 | `pr-1119-home-redesign` | **Round 3 QUEUED** on `135131ce`. R2 on `0d333b19`: 11 PASS, B5 UNTESTABLE. | `pr-1119-home-redesign-round3-brief.md`; `-round2-results.md`, `-round1-results.md`, `-round1-d-sam-loop-findings.md`. |
 | `usb-native-loop` | **QUEUED, round 1** | `usb-native-loop-round1-brief.md`. Does a stored Native mode turn one USB drop into a reconnect loop on 3.4.0, and does 3.5.0 stop it. |
 | `fps-cap` | **QUEUED, round 1** | `fps-cap-round1-brief.md`. What holds the projection at 30 fps on D-POCO with fps-limit 60: Android Auto's frame-rate dump, idle and panned, in the trip setup and in Self Mode. |
-| `settings-help-button` | Round 1 done on C `ba1a5c6d`: no FAIL; R1 PASS on D-HU T2 and T1, D-SAM R1 and R5 UNTESTABLE (search extra ignored there). Operator does not approve: many rows lack a (?), AAC text still says experimental. | `settings-help-button-round1-results.md` |
+| `settings-help-button` | Round 3 briefed on C `e3b2597c`. Round 1 done: no FAIL, operator did not approve (rows lack a (?)). | `settings-help-button-round3-brief.md` |
 
 Round files are `<thread>-round<N>-brief.md` and `<thread>-round<N>-results.md`. A brief with no
 matching results file is a round nobody has run yet. That pairing is the only queue there is, so
