@@ -7,8 +7,8 @@ Evidence: create the release `rig-evidence-zj-bt-unix-socket` (first round of th
 Units: D-HU (head unit, root adbd) and D-POCO (phone, R1 only). D-MOTO takes no part: its Bluetooth is
 off for the whole round. D-SAM and D-HP take no part. No hand steps and no injected taps.
 
-Queue line: `zj-bt-unix-socket-round1-brief.md` (C `bbda5eff` on `fork/feat/zj-bt-unix-socket`, stacked on
-`contrib/zj-unix-socket` `cda1a1db`; one build, no baseline; units D-HU (root) and D-POCO, D-MOTO Bluetooth
+Queue line: `zj-bt-unix-socket-round1-brief.md` (C `d594102c` on `fork/feat/zj-bt-unix-socket`, on
+`main` `94082d41`; one build, no baseline; units D-HU (root) and D-POCO, D-MOTO Bluetooth
 off; R2 is the point).
 
 Estimated time: 10 min pre-flight, 20 min build, 6 min R1, 3 min R4a, 8 min R2 with R3, 5 min R4b, 5 min R5,
@@ -20,14 +20,14 @@ Estimated time: 10 min pre-flight, 20 min build, 6 min R1, 3 min R4a, 8 min R2 w
 
 | Arm | Ref | Commit | Tree |
 |---|---|---|---|
-| C (candidate) | `fork/feat/zj-bt-unix-socket` | `bbda5effebc6e16382ee26518154156f9412f90f` | `ecbc2c0c3720704c5f2bc1039dc4e971d6078ff8` |
+| C (candidate) | `fork/feat/zj-bt-unix-socket` | `d594102c6ff06c5883e3b2f7d63d69f36e2646c9` | `c69094625e9d99b3fe62563a3e126c02b8e71ee0` |
 
-The branch was rewritten once after its first push: `1c425934` became `bbda5eff`, with the same tree.
-It has two commits on `contrib/zj-unix-socket`
-(`cda1a1dbde6ed25b4cfaa3411aa006e99038cccb`). That base is a contributor's commit on top of a contributor's
-HCT Bluetooth route, on `main` `e9377ff9`. No other queued round shares this base.
+The branch was rewritten twice after its first push: `1c425934` was squashed to `bbda5eff` (same tree),
+then rebased to `d594102c` when the HCT route (#1106) merged. It has three commits on `main`
+`94082d41a73a2c9b435c91f9a85fc689bf95a857`: a contributor's commit (`d8430bee`), then two of ours.
+No other queued round shares this base.
 
-The dev host ran the JVM suite at this tree: 3694 tests, 0 failures. Do not run the unit tests on the rig.
+The dev host ran the JVM suite at this tree: 3911 tests, 0 failures. Do not run the unit tests on the rig.
 
 No baseline APK. There is no `main` behaviour to compare with: the route does not exist on `main`.
 
@@ -37,8 +37,8 @@ No baseline APK. There is no `main` behaviour to compare with: the route does no
 OUT=rig-data/rounds/zj-bt-unix-socket-round1; mkdir -p $OUT
 git fetch fork feat/zj-bt-unix-socket
 WT=$(ls -d worktrees/*zj-bt* 2>/dev/null | head -1)   # else create one with wt-new.sh
-git -C $WT checkout --detach bbda5effebc6e16382ee26518154156f9412f90f
-git -C $WT rev-parse 'HEAD^{tree}'                    # MUST print ecbc2c0c3720704c5f2bc1039dc4e971d6078ff8
+git -C $WT checkout --detach d594102c6ff06c5883e3b2f7d63d69f36e2646c9
+git -C $WT rev-parse 'HEAD^{tree}'                    # MUST print c69094625e9d99b3fe62563a3e126c02b8e71ee0
 $RIG_TOOLKIT/rig_thermal.sh wait 70
 HUR_DIR=$WT MAX_WORKERS=2 $RIG_TOOLKIT/build_hur_cool.sh   # copy the APK out of apks/ to $OUT/apk-C.apk at once
 md5sum $OUT/apk-C.apk                                 # record as WANT_MD5
@@ -46,7 +46,7 @@ md5sum $OUT/apk-C.apk                                 # record as WANT_MD5
 
 Install with `adb -s $HU install -r -d $OUT/apk-C.apk`. Identity, after the install:
 
-- `send ACTION_QUERY_STATE`: the `data=` line MUST carry commit `bbda5effebc6`.
+- `send ACTION_QUERY_STATE`: the `data=` line MUST carry commit `d594102c6ff0`.
 - Pull the live APK (`apk_check`, section 5). In it, `unzip -p $OUT/live.apk 'classes*.dex' | strings | grep -c ZjSocketProbe`
   MUST be at least 1, and the same count for `RawUnixSocketCarrier` MUST be 0.
 
@@ -264,7 +264,7 @@ ps -A -o PID,ARGS | grep -e 'nc -L -U' -e 'cat >/dev/null' | grep -v grep | whil
 
 ## 6. The deciding lines
 
-Each head unit string was checked with `grep -F -r` on `app/src/main` at `bbda5eff`. All print at INFO
+Each head unit string was checked with `grep -F -r` on `app/src/main` at `d594102c`. All print at INFO
 or WARN. A line with a run-time value is listed here by its run-time text, and by its source fragment
 in the `decisive-strings` block at the end.
 
