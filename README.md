@@ -102,7 +102,6 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 10. `self-mode-media-session-round3-brief.md` (C `e4f8f6d9` on `fork/fix/929-self-mode-media-session`, on `main` `e9377ff9`, one build, no baseline; units D-HU and D-POCO, D-MOTO Bluetooth off; P1 and H2 are the point)
 11. `second-screen-outputs-round3-brief.md` (C `e85e5c10` on `fork/feat/second-screen-outputs`, on `main` `e9377ff9`, one build, no baseline; units D-HU and D-POCO, D-MOTO radios off; a smoke after two rebases; P1 is the point)
 12. `zj-bt-unix-socket-round1-brief.md` (C `d594102c` on `fork/feat/zj-bt-unix-socket`, on `main` `94082d41`; one build, no baseline; units D-HU (root) and D-POCO, D-MOTO Bluetooth off; R2 is the point)
-13. `pr-1146-video-preflight-round1-brief.md` (C `90b3d74b`, upstream `pull/1146/head`, a contributor wizard PR on `main` `e9377ff9`; one build, no baseline; units D-HU, D-POCO and D-SAM, D-MOTO airplane mode; operator present for Stage O; W1 is the point)
 
 ## Threads
 
@@ -126,7 +125,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 | `zj-bt-unix-socket` | **QUEUED, round 1** | `zj-bt-unix-socket-round1-brief.md`. Does the Bluetooth route over a Unix socket connect a phone on the head unit. R2 is the point. |
 | `pr-1141-cover-keeps-decoder` | **Round 1 done, no FAIL** | `pr-1141-cover-keeps-decoder-round1-results.md`. C keeps the decoder through 6 s covers on TEXTURE and GLES (R1 5/5); SURFACE still stops it by surfaceDestroyed (R4); after a 30 s cover the codec rebuilds within 81 ms (R2). |
 | `settings-help-button` | Round 3 on C `e3b2597c` done: R1-TALL PASS (point), R2/R3/R4/R6/R7 PASS, no-Save PASS, R1-T2/T1 INCONCLUSIVE (below fold), R5 info (seed fills box only with orientation 0). | `settings-help-button-round3-results.md` |
-| `pr-1146-video-preflight` | **Round 1 queued** on C `90b3d74b`: the wizard's video test, guided sound check and home suggestion, plus four review findings to confirm (orientation, H.265, health record, stale suggestion). | `pr-1146-video-preflight-round1-brief.md`. |
+| `pr-1146-video-preflight` | Round 1 done on C `90b3d74b`: W1/W2/H1/H2 PASS; R-A, R-B, R-D confirmed (FAIL); W3 UNTESTABLE (session forms before poke); H3 INCONCLUSIVE; S1 FAIL (D-SAM TEXTURE FEW_FRAMES); Stage O not run. | `pr-1146-video-preflight-round1-results.md`. Re-run W3/H3 with a race-free session and Stage O on the moved PR head. |
 
 Round files are `<thread>-round<N>-brief.md` and `<thread>-round<N>-results.md`. A brief with no
 matching results file is a round nobody has run yet. That pairing is the only queue there is, so
