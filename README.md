@@ -92,6 +92,7 @@ worktree, batch builds) and §8. `rig-sdlc/` changed with them. Before the next 
 restart Claude Code. It copies the new skills into `.claude/`.
 After that, `/rig-round` re-copies them itself when a pull changes them, and asks for the restart.
 
+1. `pr-1132-exit-dialog-round1-brief.md` (C `f17c14ef` on `fork/fix/pr-1132-exit-dialog`, B `443faca8` = the contributor's PR head, both in one worktree; units D-HU, D-SAM and D-HP, no phone; SAM-4 and HP-4 are the point)
 2. `wifi-direct-named-connect-round1-brief.md` (candidate `6a0089d6` on `fork/feat/wifi-direct-named-connect`, rebased 2026-10-22; no baseline)
 3. `forget-car-still-needed-round2-brief.md` (F `048fd16a` on `fork/fix/forget-car-still-needed`, C `e9377ff9` = `main`, both rebuilt; units D-HU and D-POCO; R1 is the point)
 4. `usb-native-loop-round1-brief.md` (tags `v.3.4.0` `013b05bc` and `v.3.5.0` `1c1b5b72`; units D-POCO as USB host and D-MOTO; one hand step to cable them; Part B is the point)
@@ -106,6 +107,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 
 | Thread | State | Next |
 |---|---|---|
+| `pr-1132-exit-dialog` | **QUEUED, round 1** on C `f17c14ef` | `pr-1132-exit-dialog-round1-brief.md`. The contributor's exit dialog scale and hidden bars, plus our fix that keeps the system font scale on API 17 to 23. No phone. |
 | `pr-1001-devserver-p2p` | Round 1 done on B `0cbff004`, P `7f5bc6e9`, F `ce5e61cb`: R3 P FAIL (expected, H1 real) and B, F PASS; R1-B FAIL, R1-P INCONCLUSIVE; R5A PASS, R5B INCONCLUSIVE; R4 PASS (OpenHU rename refused, joined as the unit name); R6 FAIL (no ByeBye on the P2P route); R2 PASS both. | `pr-1001-devserver-p2p-round1-results.md`. Review the refused rename and R6 condition 2. |
 | `automation-screen-disconnect` | **ROUND 2 DONE, round 3 QUEUED** on C `b5bd8145` | R1, R2, R10, R6, R5, T1, S1, S2 PASS; V3, V4, R7 FAIL: screen-on wakes the panel by wake lock first, so the raise is skipped and the lock screen covers the projection. R1s UNTESTABLE. See `automation-screen-disconnect-round2-results.md`. |
 | `wifi-direct-named-connect` | **QUEUED, round 1** | `wifi-direct-named-connect-round1-brief.md`. Candidate `6a0089d6` (rebased 2026-10-22). Does a named or MAC connect request reach the right phone over WiFi Direct. |
