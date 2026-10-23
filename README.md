@@ -92,12 +92,13 @@ worktree, batch builds) and §8. `rig-sdlc/` changed with them. Before the next 
 restart Claude Code. It copies the new skills into `.claude/`.
 After that, `/rig-round` re-copies them itself when a pull changes them, and asks for the restart.
 
-1. `wifi-direct-named-connect-round1-brief.md` (candidate `6a0089d6` on `fork/feat/wifi-direct-named-connect`, rebased 2026-10-22; no baseline)
-2. `forget-car-still-needed-round2-brief.md` (F `048fd16a` on `fork/fix/forget-car-still-needed`, C `e9377ff9` = `main`, both rebuilt; units D-HU and D-POCO; R1 is the point)
-3. `usb-native-loop-round1-brief.md` (tags `v.3.4.0` `013b05bc` and `v.3.5.0` `1c1b5b72`; units D-POCO as USB host and D-MOTO; one hand step to cable them; Part B is the point)
-4. `fps-cap-round1-brief.md` (candidate `8e031b17` on `fork/feat/overlay-device-fields`; conditional `v.3.4.0` `013b05bc`; units D-POCO as head unit and D-MOTO, D-HU idle; R1 and R3 are the point)
-5. `pr-1091-pcm-guidance-round1-brief.md` (C `dcc3c708` on `fork/test/pr-1091`, a contributor audio PR merged onto `main` `b3ef3355`; one build, four settings arms; units D-HU and D-POCO; R2 is the point)
-6. `automation-screen-disconnect-round3-brief.md` (C `b5bd8145` on `fork/feat/automation-screen-disconnect`, on `main` `e9377ff9`; units D-POCO, D-MOTO and D-HU for Bluetooth; operator present for HS2 and Stage U; V3, V4k and R11 are the point)
+1. `pr-1119-home-redesign-round3-brief.md` (one APK, `135131ce` = upstream PR head, fetched by pull ref; units D-HU, D-MOTO, D-HP, D-POCO; HU-B5 and HU-W12a/b are the point)
+2. `wifi-direct-named-connect-round1-brief.md` (candidate `6a0089d6` on `fork/feat/wifi-direct-named-connect`, rebased 2026-10-22; no baseline)
+3. `forget-car-still-needed-round2-brief.md` (F `048fd16a` on `fork/fix/forget-car-still-needed`, C `e9377ff9` = `main`, both rebuilt; units D-HU and D-POCO; R1 is the point)
+4. `usb-native-loop-round1-brief.md` (tags `v.3.4.0` `013b05bc` and `v.3.5.0` `1c1b5b72`; units D-POCO as USB host and D-MOTO; one hand step to cable them; Part B is the point)
+5. `fps-cap-round1-brief.md` (candidate `8e031b17` on `fork/feat/overlay-device-fields`; conditional `v.3.4.0` `013b05bc`; units D-POCO as head unit and D-MOTO, D-HU idle; R1 and R3 are the point)
+6. `pr-1091-pcm-guidance-round1-brief.md` (C `dcc3c708` on `fork/test/pr-1091`, a contributor audio PR merged onto `main` `b3ef3355`; one build, four settings arms; units D-HU and D-POCO; R2 is the point)
+7. `automation-screen-disconnect-round3-brief.md` (C `b5bd8145` on `fork/feat/automation-screen-disconnect`, on `main` `e9377ff9`; units D-POCO, D-MOTO and D-HU for Bluetooth; operator present for HS2 and Stage U; V3, V4k and R11 are the point)
 
 ## Threads
 
@@ -111,7 +112,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 | `late-listener-poke` | Round 1 done: R1-R4 PASS, R5 not run (`22392a15`) | `late-listener-poke-round1-results.md`. Poke off, phone redials a held late listener every ~5.3 s, D1 2.2-3.3 s, still dialling at 150 s; 90 s escalation never reached. |
 | `emotionbug-batch` | Round 2 done on C `4c5960c7`: PRESENT, BRIDGE, SCAN PASS; FRAMING and LIBUSB FAIL on the letter (U1 unplug read error 1654 ms vs 1 s bound; U3 five write timeouts, recovered). | `emotionbug-batch-round2-results.md`. Round 1 in `emotionbug-batch-round1-results.md`. |
 | `pr-1091-pcm-guidance` | **Round 1 queued** on C `dcc3c708`: PCM guidance beside AAC music, and a 48 kHz SPEECH format the phone may pick. | `pr-1091-pcm-guidance-round1-brief.md`. |
-| `pr-1119-home-redesign` | R2 on `0d333b19`: 11 PASS, B5 UNTESTABLE (no set-up widget came up); HU-F1 pill X PASS. D-HP finds D-POCO's server by TCP (ping check is wrong), video 23-29 fps after a server restart | `pr-1119-home-redesign-round2-results.md`, `-round1-results.md`, `-round1-d-sam-loop-findings.md`. |
+| `pr-1119-home-redesign` | **Round 3 QUEUED** on `135131ce`. R2 on `0d333b19`: 11 PASS, B5 UNTESTABLE. | `pr-1119-home-redesign-round3-brief.md`; `-round2-results.md`, `-round1-results.md`, `-round1-d-sam-loop-findings.md`. |
 | `usb-native-loop` | **QUEUED, round 1** | `usb-native-loop-round1-brief.md`. Does a stored Native mode turn one USB drop into a reconnect loop on 3.4.0, and does 3.5.0 stop it. |
 | `fps-cap` | **QUEUED, round 1** | `fps-cap-round1-brief.md`. What holds the projection at 30 fps on D-POCO with fps-limit 60: Android Auto's frame-rate dump, idle and panned, in the trip setup and in Self Mode. |
 | `settings-help-button` | Round 1 done on C `ba1a5c6d`: no FAIL; R1 PASS on D-HU T2 and T1, D-SAM R1 and R5 UNTESTABLE (search extra ignored there). Operator does not approve: many rows lack a (?), AAC text still says experimental. | `settings-help-button-round1-results.md` |
