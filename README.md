@@ -8,7 +8,7 @@ It is `transfer/rig-rounds`. Until 2026-09-10 it was named after the round it wa
 `transfer/hotspot-unreadable-config-results-20260807`; links into that name are dead, so cite files
 here by path.
 
-**The branch was squashed again on 2026-10-17** into one baseline commit, every file byte-identical. A checkout
+**The branch was squashed again on 2026-10-22** (and on 2026-10-17 before it) into one baseline commit, every file byte-identical. A checkout
 from before that resets once with `git fetch fork && git reset --hard fork/transfer/rig-rounds`, after any
 unpushed results are pushed or copied out.
 **The branch was squashed on 2026-10-15** to a base commit plus one commit per queued brief, and the old history
