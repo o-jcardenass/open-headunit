@@ -39,8 +39,8 @@ object SystemUI {
     }
 
     /**
-     * [notesCanvas] false for a window that is not the projection, so it cannot describe a canvas
-     * the video will never be drawn into.
+     * [notesCanvas] false for a window that is not the projection. Its own decor and keyboard
+     * must not replace either the projection's canvas or the insets used to measure that canvas.
      */
     fun apply(
         window: Window,
@@ -69,9 +69,10 @@ object SystemUI {
 
         // Modern Edge-to-Edge for Android 11+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            // Only force decor to NOT fit if we are in some kind of immersive mode.
-            // If mode is NONE, we want the system to fit the window naturally.
-            window.setDecorFitsSystemWindows(mode == Settings.FullscreenMode.NONE)
+            // Normally force decor to NOT fit only when we are in some kind of immersive mode.
+            // NONE fits naturally on older releases, but API 35+ targeting 35+ enforces
+            // edge-to-edge: its root must own fitting instead.
+            window.setDecorFitsSystemWindows(mode == Settings.FullscreenMode.NONE && !enforcesEdgeToEdge(window))
         }
 
         // Apply visibility using Compat API
@@ -149,6 +150,10 @@ object SystemUI {
         }
     }
 
+    // Both gates matter: adding system padding while the OS still fits NONE would count it twice.
+    private fun enforcesEdgeToEdge(window: Window): Boolean =
+        Build.VERSION.SDK_INT >= 35 && window.context.applicationInfo.targetSdkVersion >= 35
+
     private fun applyInsets(
         window: Window,
         root: View,
@@ -170,7 +175,9 @@ object SystemUI {
         canvasView?.let { noteContentSize(it) }
 
         root.setPadding(manualL, manualT, manualR, manualB)
-        HeadUnitScreenConfig.updateInsets(manualL, manualT, manualR, manualB)
+        if (notesCanvas) {
+            HeadUnitScreenConfig.updateInsets(manualL, manualT, manualR, manualB, settings, root.resources.configuration.orientation)
+        }
 
         // Android 4.x Legacy Fallback
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
@@ -190,7 +197,12 @@ object SystemUI {
                     val insetR = size.x - rect.right
 
                     AppLog.d("[UI_DEBUG] Legacy SystemUI: Detected Insets L$insetL T$insetT R$insetR B$insetB")
-                    HeadUnitScreenConfig.updateInsets(manualL + insetL, manualT + insetT, manualR + insetR, manualB + insetB)
+                    if (notesCanvas) {
+                        HeadUnitScreenConfig.updateInsets(
+                            manualL + insetL, manualT + insetT, manualR + insetR, manualB + insetB,
+                            settings, root.resources.configuration.orientation,
+                        )
+                    }
                     onInsetsChanged?.invoke()
                     root.viewTreeObserver.removeGlobalOnLayoutListener(this)
                 }
@@ -199,10 +211,12 @@ object SystemUI {
 
         // Set up listener for dynamic system bars (API 21+)
         ViewCompat.setOnApplyWindowInsetsListener(root) { v, insetsCompat ->
-            if (mode == Settings.FullscreenMode.NONE) {
-                // In standard mode, let the system handle fitting and don't apply manual padding.
-                // We still update HeadUnitScreenConfig with 0 insets because the window is already resized.
-                HeadUnitScreenConfig.updateInsets(manualL, manualT, manualR, manualB)
+            if (mode == Settings.FullscreenMode.NONE && !enforcesEdgeToEdge(window)) {
+                // The system already fits this window. Keep only the manual padding seeded above,
+                // and report only that padding so the bar-reduced canvas is not reduced twice.
+                if (notesCanvas) {
+                    HeadUnitScreenConfig.updateInsets(manualL, manualT, manualR, manualB, settings, root.resources.configuration.orientation)
+                }
                 onInsetsChanged?.invoke()
                 return@setOnApplyWindowInsetsListener insetsCompat
             }
@@ -235,6 +249,8 @@ object SystemUI {
             // content shrinks while the IME is up (0 when the keyboard is hidden).
             typeMask = typeMask or WindowInsetsCompat.Type.ime()
 
+            // Bars, cutout and IME can cover the same edge. Take their union, not their sum;
+            // manual margins are an additional user offset and are applied exactly once below.
             val bars = if (typeMask != 0) {
                 insetsCompat.getInsets(typeMask)
             } else {
@@ -242,9 +258,22 @@ object SystemUI {
             }
 
             v.setPadding(bars.left + manualL, bars.top + manualT, bars.right + manualR, bars.bottom + manualB)
-            HeadUnitScreenConfig.updateInsets(bars.left + manualL, bars.top + manualT, bars.right + manualR, bars.bottom + manualB)
+            if (notesCanvas) {
+                // Keyboard padding is temporary viewport space, not a new projection size to remember.
+                // Publish every root-owned mode so returning from NONE also retires the fitted surface.
+                val publishCanvas = enforcesEdgeToEdge(window) && canvasView != null &&
+                    insetsCompat.getInsets(WindowInsetsCompat.Type.ime()) == androidx.core.graphics.Insets.NONE
+                HeadUnitScreenConfig.updateInsets(
+                    bars.left + manualL, bars.top + manualT, bars.right + manualR, bars.bottom + manualB,
+                    settings,
+                    v.resources.configuration.orientation,
+                    if (publishCanvas) canvasView!!.width else 0,
+                    if (publishCanvas) canvasView!!.height else 0,
+                )
+            }
 
             onInsetsChanged?.invoke()
+            // This root owns fitting; descendants must not apply the consumed system insets again.
             WindowInsetsCompat.CONSUMED
         }
 
@@ -270,7 +299,7 @@ object SystemUI {
     private fun noteContentSize(content: View) {
         if (content.width <= 0 || content.height <= 0) return
         val ime = ViewCompat.getRootWindowInsets(content)?.getInsets(WindowInsetsCompat.Type.ime())
-        if (ime != null && (ime.bottom > 0 || ime.top > 0)) return
+        if (ime != null && ime != androidx.core.graphics.Insets.NONE) return
         HeadUnitScreenConfig.noteWindowContent(content.width, content.height)
     }
 
