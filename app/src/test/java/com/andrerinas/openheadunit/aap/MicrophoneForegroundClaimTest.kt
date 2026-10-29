@@ -12,8 +12,11 @@ import androidx.core.content.PermissionChecker
 import com.andrerinas.openheadunit.App
 import com.andrerinas.openheadunit.AppComponent
 import com.andrerinas.openheadunit.connection.CommManager
+import com.andrerinas.openheadunit.connection.self.SelfLauncherManager
+import com.andrerinas.openheadunit.connection.wifi.WifiLauncherManager
 import com.andrerinas.openheadunit.utils.AppLog
 import com.andrerinas.openheadunit.utils.Settings
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Assert.*
 import org.junit.Test
 import org.mockito.Mockito
@@ -21,7 +24,7 @@ import org.mockito.kotlin.*
 
 /** Exercises the actual Service decision, rather than preselecting a mocked claim result. */
 class MicrophoneForegroundClaimTest {
-    @Test fun `service declines missing microphone type and can claim after permission or setting recovers`() {
+    @Test fun `service refresh preserves capture ownership but stop prevents late reclaim`() {
         val sdk = Build.VERSION::class.java.getDeclaredField("SDK_INT").apply { isAccessible = true }
         val oldSdk = sdk.getInt(null)
         // SDK_INT is final in the host Android stub; restore its original value after this test.
@@ -52,7 +55,8 @@ class MicrophoneForegroundClaimTest {
             val settings = mock<Settings>()
             whenever(settings.useHeadUnitMicrophone).thenReturn(true)
             val component = mock<AppComponent>()
-            whenever(component.commManager).thenReturn(mock<CommManager>())
+            val commManager = mock<CommManager>()
+            whenever(component.commManager).thenReturn(commManager)
             val app = mock<App>()
             App::class.java.getDeclaredField("component\$delegate").apply { isAccessible = true }
                 .set(app, lazyOf(component))
@@ -63,20 +67,93 @@ class MicrophoneForegroundClaimTest {
                 .set(service, lazyOf(settings))
             val promote = AapService::class.java.getDeclaredMethod("promoteForMicrophone").apply { isAccessible = true }
             fun claim() = promote.invoke(service) as Boolean
+            val command = mock<Intent>()
+            whenever(command.action).thenReturn(AapService.ACTION_CONNECT_SOCKET)
+            doCallRealMethod().whenever(service).onStartCommand(anyOrNull(), any(), any())
+            fun refresh() {
+                assertEquals(android.app.Service.START_STICKY, service.onStartCommand(command, 0, 1))
+            }
+            val demote = AapService::class.java.getDeclaredMethod("demoteAfterMicrophone").apply { isAccessible = true }
+            val baseMask = ServiceInfo.FOREGROUND_SERVICE_TYPE_CONNECTED_DEVICE or
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK
+            val capturing = baseMask or ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE
 
-            for (deniedBySetting in listOf(true, false)) {
+            setSdk(28)
+            refresh()
+            assertTrue(claim())
+            demote.invoke(service)
+            verify(service).startForeground(eq(1), same(notification))
+            verify(service, never()).startForeground(any(), any(), any())
+
+            for (sdkInt in listOf(29, 30, 34, 35, 36)) {
+                setSdk(sdkInt)
                 clearInvocations(service)
-                allowed = deniedBySetting
-                whenever(settings.useHeadUnitMicrophone).thenReturn(!deniedBySetting)
-                assertFalse(claim())
-                verify(service, never()).startForeground(any(), any(), any())
+                refresh()
+                verify(service).startForeground(eq(1), same(notification), eq(baseMask))
+
+                for (deniedBySetting in listOf(true, false)) {
+                    clearInvocations(service)
+                    allowed = deniedBySetting
+                    whenever(settings.useHeadUnitMicrophone).thenReturn(!deniedBySetting)
+                    assertFalse(claim())
+                    verify(service, never()).startForeground(any(), any(), any())
+
+                    allowed = true
+                    whenever(settings.useHeadUnitMicrophone).thenReturn(true)
+                    assertTrue(claim())
+                    verify(service).startForeground(eq(1), same(notification), eq(capturing))
+
+                    // A setting/permission change does not transfer the capture worker's ownership
+                    // to an unrelated service command; its release remains the closing boundary.
+                    clearInvocations(service)
+                    allowed = false
+                    whenever(settings.useHeadUnitMicrophone).thenReturn(false)
+                    refresh()
+                    verify(service).startForeground(eq(1), same(notification), eq(capturing))
+
+                    clearInvocations(service)
+                    demote.invoke(service)
+                    refresh()
+                    verify(service, times(2)).startForeground(eq(1), same(notification), eq(baseMask))
+                }
 
                 allowed = true
                 whenever(settings.useHeadUnitMicrophone).thenReturn(true)
-                assertTrue(claim())
-                val mask = argumentCaptor<Int>()
-                verify(service).startForeground(eq(1), same(notification), mask.capture())
-                assertTrue(mask.firstValue and ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE != 0)
+                doThrow(SecurityException("background microphone")).whenever(service)
+                    .startForeground(eq(1), same(notification), eq(capturing))
+                assertFalse(claim())
+                clearInvocations(service)
+                refresh()
+                verify(service).startForeground(eq(1), same(notification), eq(baseMask))
+                doNothing().whenever(service).startForeground(eq(1), same(notification), eq(capturing))
+            }
+
+            setSdk(34)
+            assertTrue(claim())
+            whenever(commManager.connectionState).thenReturn(
+                MutableStateFlow<CommManager.ConnectionState>(CommManager.ConnectionState.Disconnected()))
+            AapService::class.java.getDeclaredField("wifiLauncherManager").apply { isAccessible = true }
+                .set(service, mock<WifiLauncherManager>())
+            AapService::class.java.getDeclaredField("selfLauncherManager").apply { isAccessible = true }
+                .set(service, mock<SelfLauncherManager>())
+            val oldUserStop = AapService.destroyIsUserStop
+            try {
+                whenever(command.action).thenReturn(AapService.ACTION_STOP_SERVICE)
+                assertEquals(android.app.Service.START_NOT_STICKY, service.onStartCommand(command, 0, 2))
+                verify(service).stopForeground(true)
+                verify(service).stopSelf()
+                clearInvocations(service)
+
+                // Recorder cleanup runs on its lifecycle FIFO after the service removes its
+                // notification. Releasing that capture must not put the stopped service back.
+                demote.invoke(service)
+                verify(service, never()).startForeground(any(), any(), any())
+                assertFalse(claim())
+                whenever(command.action).thenReturn(AapService.ACTION_CONNECT_SOCKET)
+                refresh()
+                verify(service, never()).startForeground(any(), any(), any())
+            } finally {
+                AapService.destroyIsUserStop = oldUserStop
             }
         } finally {
             resources.asReversed().forEach { it.close() }
