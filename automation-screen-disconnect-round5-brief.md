@@ -1,9 +1,14 @@
 # automation-screen-disconnect, round 5 brief: does a named connect wake a phone that nothing else would bring in?
 
+> **Revised 2026-10-29: arm C moved again and must be rebuilt.** C was rebased from `d7d9596b` (on `main`
+> `947b3ae9`) to `7059511a` (on `2018d8f0`) on 2026-10-27, and now to `512343ca` on `main` `a4f80ff1`. Both rebases
+> applied with no conflict, and the new tree equals `merge-tree(main, 7059511a)`. 4401 tests, 0 failures. Every string in section 6 is
+> unchanged. Only section 1's SHA, tree and test count moved.
+>
 > **Revised 2026-10-26: arm C moved and must be rebuilt.** C was rebased from `3101712a` (on `main` `f9a72d48`)
 > to `d7d9596bd5f4` on `main` `947b3ae9`. The patch was hand-resolved: the external-power stand-down moved onto
 > main's new cleanup-ticket ownership in `AapService.onDisconnected`. Round 4's APK no longer matches, so R0 builds,
-> installs and checks identity. The md5 reuse path is gone. The test count is 4310. No run, string or verdict rule changed.
+> installs and checks identity. The md5 reuse path is gone. The test count was 4310. No run, string or verdict rule changed.
 
 Publish name on `transfer/rig-rounds`: `automation-screen-disconnect-round5-brief.md`. Results go in
 `automation-screen-disconnect-round5-results.md`. Evidence goes in the existing release
@@ -31,17 +36,18 @@ only if it wakes neither D-POCO nor D-MOTO.
 
 | Arm | Ref | SHA | `commit` in `ACTION_QUERY_STATE` |
 |---|---|---|---|
-| **C** (candidate) | `fork/feat/automation-screen-disconnect` | `d7d9596bd5f45c638609770480b6ccf33019b5c0` | `d7d9596bd5f4` (a `-dirty` suffix is expected) |
+| **C** (candidate) | `fork/feat/automation-screen-disconnect` | `512343cad8601e3970eb652e9f6a3e95b73450d8` | `512343cad860` (a `-dirty` suffix is expected) |
 
-History was rewritten once since round 4: C was rebased onto `main` `947b3ae9` on 2026-10-26. Round 4's build
-(`3101712a`, APK md5 `edac10621db7e3a3dcd37f4b256207db`) is stale. Build C once in R0. 4310 JVM tests passed on the
+History was rewritten three times since round 4: C was rebased onto `main` `947b3ae9` on 2026-10-26, onto `2018d8f0`
+on 2026-10-27 and onto `a4f80ff1` on 2026-10-29. Round 4's build
+(`3101712a`, APK md5 `edac10621db7e3a3dcd37f4b256207db`) is stale. Build C once in R0. 4401 JVM tests passed on the
 dev host at this SHA, with 0 failures. Do not run the unit tests.
 
-**gate.sh**
+**`gate.sh`**
 ```bash
 git fetch fork feat/automation-screen-disconnect
-git rev-parse fork/feat/automation-screen-disconnect          # must print d7d9596bd5f45c638609770480b6ccf33019b5c0
-git rev-parse fork/feat/automation-screen-disconnect^{tree}   # must print c75e7818023cb434253d6e07206762e154707d91
+git rev-parse fork/feat/automation-screen-disconnect          # must print 512343cad8601e3970eb652e9f6a3e95b73450d8
+git rev-parse fork/feat/automation-screen-disconnect^{tree}   # must print 9cd49b3fbe4b7caa2569db2c6fb0b4445f960951
 ```
 
 If either line differs, stop the round.
@@ -50,27 +56,27 @@ If either line differs, stop the round.
 
 Make `rig-data/rounds/automation-screen-disconnect-round5/` and set `OUT` to it. Save the scripts in
 section 5 first. In one worktree, run `git fetch fork feat/automation-screen-disconnect`, then
-`git checkout --detach d7d9596bd5f45c638609770480b6ccf33019b5c0`. Check that the tree hash is
-`c75e7818023cb434253d6e07206762e154707d91` and that `git status --porcelain` prints nothing. Run
+`git checkout --detach 512343cad8601e3970eb652e9f6a3e95b73450d8`. Check that the tree hash is
+`9cd49b3fbe4b7caa2569db2c6fb0b4445f960951` and that `git status --porcelain` prints nothing. Run
 `$RIG_TOOLKIT/rig_thermal.sh wait 70`, then build with
 `HUR_DIR=<wt> MAX_WORKERS=2 $RIG_TOOLKIT/build_hur_cool.sh`. Copy the APK out of `apks/` at once to
 `$OUT/apk/C.apk` and record its md5. Run `install.sh` below, then `r0_identity.sh`.
 
-**r0_identity.sh**
+**`r0_identity.sh`**
 ```bash
 mkdir -p $OUT/apk
 md5sum $OUT/apk/C.apk                                                              # record it in Setup notes
 adb -s $POCO shell am force-stop $PKG; sleep 0.3
-send ACTION_QUERY_STATE | grep -a 'data=' | tee $OUT/R0.state                      # commit must start d7d9596bd5f4
+send ACTION_QUERY_STATE | grep -a 'data=' | tee $OUT/R0.state                      # commit must start 512343cad860
 adb -s $POCO shell am force-stop $PKG; sleep 0.3
 ```
 
-- If `R0.state` shows `commit` starting `d7d9596bd5f4`, R0 PASSES.
+- If `R0.state` shows `commit` starting `512343cad860`, R0 PASSES.
 - If the build fails, stop the round.
 - If `commit` shows any other value, stop the round.
 - D-HU needs no install: this round holds only its Bluetooth off.
 
-**install.sh**
+**`install.sh`**
 ```bash
 adb -s $POCO shell am force-stop $PKG; sleep 0.3
 adb -s $POCO shell run-as $PKG cat $F > $OUT/pre-install-D-POCO.xml
@@ -197,7 +203,7 @@ Write with the app stopped, with `put`. `put` starts every write from D-POCO's o
 P), so the rig's audio settings and the group identity keep their values. Read the keys back with
 `rd` before the launch. A key that does not read back voids the run before it starts: write it again.
 
-**r5keys.sh**
+**`r5keys.sh`**
 ```bash
 BASE="int:wifi-connection-mode=3 int:native-ap-transport=0 int:native-driver-selection-mode=0 bool:native-poke-all-paired=false set:native-poke-bt-macs= set:auto-start-bt-macs= del:last-connected-native-mac del:native-preferred-device-mac bool:auto-connect-last-session=false bool:auto-start-on-boot=false bool:auto-start-on-screen-on=false bool:auto-start-on-usb=false bool:auto-start-self-mode=false bool:kill-on-disconnect=false bool:external-power-disconnect=false bool:allow-external-configuration=false int:onboarding-version=2 int:log-level=2 del:native-aa-wake-damage-verdict del:video-profile-starvation-cap"
 ```
@@ -222,7 +228,7 @@ from this brief. Run each script through `runlocked.sh`, as round 4 did. Every s
 `th_gate` and `th_report` from `ptr_lib.sh` (they run `$RIG_TOOLKIT/rig_thermal.sh wait 75`, per
 `rig-quirks/topics/tooling.md`).
 
-**r5_lib.sh**
+**`r5_lib.sh`**
 ```bash
 # r5_lib.sh : source after ptr_lib.sh. Needs OUT. RUN is set per run. D-POCO is the head unit, D-MOTO the phone.
 PKG=com.andrerinas.headunitrevived
@@ -324,7 +330,7 @@ adb calls against one unit at the same time.
 
 ## 6. The deciding lines
 
-Every app string below matched `git grep -F` in `app/src/main` at `d7d9596b`. All are INFO or WARN,
+Every app string below matched `git grep -F` in `app/src/main` at `512343ca`. All are INFO or WARN,
 so `log-level` 2 carries them. App lines are grepped in D-POCO's capture (`$(HF)`), phone lines in
 D-MOTO's capture (`$(PF)`), each in the marker window its run names.
 
@@ -400,7 +406,7 @@ midnight: `gap` uses the time of day.
 
 Record every output in Setup notes. P writes `p.env`; every later script sources it.
 
-**p_precheck.sh**
+**`p_precheck.sh`**
 ```bash
 adb -s $DHU shell am force-stop $PKG; sleep 0.3
 adb -s $POCO shell am force-stop $PKG; sleep 0.3
@@ -437,7 +443,7 @@ Then:
 3. If D-MOTO's keyguard reads `true` and its screen asks for a PIN, cue HS0 once.
 4. Run `r0_identity.sh` again and record `R0.state`.
 
-**p_radios.sh**
+**`p_radios.sh`**
 ```bash
 adb -s $POCO shell locksettings set-disabled true; sleep 0.5
 adb -s $POCO shell locksettings get-disabled                  # must print true
@@ -461,7 +467,7 @@ each launch and each command.
 This is the control for N1 and N2. It shows that, in this state, nothing brings the phone in during
 a window as long as a named run's command window.
 
-**q.sh**
+**`q.sh`**
 ```bash
 RUN=Q; prep
 ready cmd; mark Q-cmd; sleep 140; mark Q-session
@@ -487,7 +493,7 @@ line, `n "$PW" 'State changed to '`, and `Q.dhu-after-quiet`.
 `Creating rfcomm socket for device: ` line names. Then run `requiet.sh` and run `q.sh` once more.
 A second failure stops the round (section 7).
 
-**requiet.sh**
+**`requiet.sh`**
 ```bash
 clean_hu; dhu_bt_off
 adb -s $MOTO shell svc bluetooth disable; sleep 5; btstate $MOTO     # must read off
@@ -497,7 +503,7 @@ sleep 60
 
 ### N1. The point of the round: connect by name (about 5 min)
 
-**n1.sh**
+**`n1.sh`**
 ```bash
 RUN=N1; prep
 if grep -aqF 'quiet=held' $OUT/N1.summary; then
@@ -554,7 +560,7 @@ the `N1-cmd.reply` `data=` line.
 
 ### N2. Connect by MAC (about 5 min)
 
-**n2.sh**
+**`n2.sh`**
 ```bash
 RUN=N2; prep
 if grep -aqF 'quiet=held' $OUT/N2.summary; then
@@ -578,7 +584,7 @@ The C5p rule from round 4: B uses the old poke path, which this branch does not 
 state. If B forms a session and the named run did not, the named run FAILs condition 8. If B also
 forms none, the named run's condition 8 is INCONCLUSIVE (rig or phone state, shared by both paths).
 
-**b.sh**
+**`b.sh`**
 ```bash
 RUN=B; prep
 if grep -aqF 'quiet=held' $OUT/B.summary; then
@@ -597,7 +603,7 @@ is 1 and holds `$MOTO_BT`; `n "$W" 'NativeAA: Driver selected: ' 'automatic'` is
 
 ### Contingency scripts
 
-**thr.sh**
+**`thr.sh`**
 ```bash
 clean_hu; dhu_bt_off
 adb -s $MOTO reboot; adb -s $MOTO wait-for-device
@@ -608,7 +614,7 @@ adb -s $MOTO shell input keyevent KEYCODE_HOME; sleep 1; btstate $MOTO
 sleep 60
 ```
 
-**forget_cue.sh**
+**`forget_cue.sh`**
 ```bash
 clean_hu
 cue "FORGET: on D-MOTO, open Android Auto settings and forget the car POCO X3 NFC; say done"
@@ -618,7 +624,7 @@ After FORGET, wait for the operator, then run the run once more.
 
 ### X. Restore
 
-**x_restore.sh**
+**`x_restore.sh`**
 ```bash
 adb -s $POCO shell am force-stop $PKG; sleep 0.3
 adb -s $POCO push $OUT/backup-D-POCO.xml /data/local/tmp/ohu-w.xml >/dev/null; sleep 0.3
@@ -637,7 +643,7 @@ Then set D-MOTO's radios back to `MOTO_WIFI0` and `MOTO_BT0` from P with `svc wi
 
 ## 8. Do not re-run
 
-- **Unit tests.** 4310 JVM tests, 0 failures, at `d7d9596b` on the dev host.
+- **Unit tests.** 4401 JVM tests, 0 failures, at `512343ca` on the dev host.
 - **Every round 4 run that passed:** R0, V3, V4n, R5n, R7n, V4k, R5k, R7k, C5u, C3, C5p, C2, C4,
   C4c. They ran on `3101712a`; the rebase changed no logic they measured.
 - **R11.** Our grade passed it against the plan: the brief's `Initializing` clause did not allow for
@@ -677,7 +683,7 @@ THROTTLE_LIMIT_EXCEEDED
 OHURIG
 ```
 
-The block below lists every app string the runs grep. Each one is in `app/src/main` at `d7d9596b`.
+The block below lists every app string the runs grep. Each one is in `app/src/main` at `512343ca`.
 
 ```decisive-strings
 AutomationReceiver: 

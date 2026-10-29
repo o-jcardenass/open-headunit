@@ -1,5 +1,10 @@
 # zj-bt-unix-socket, round 1 brief
 
+> **Revised 2026-10-29: C moved, nothing to re-read but section 1.** C was rebased from `2b381091` (on `main`
+> `947b3ae9`) to `73249d8b` (on `2018d8f0`) on 2026-10-27, and now to `390b6931` on `main` `a4f80ff1`, after #1163
+> (the HCT-owned WPP route) merged. The one conflict was route context in `NativeAaHandshakeManager.start`: the ZJ arm
+> now sits under main's `selectedRoute`. The ZJ code and every string in section 6 are unchanged. Rebuild.
+>
 > **Revised 2026-10-26: C moved again.** C was rebased from `d594102c` to `2b381091d1ab` on `main`
 > `947b3ae9`. The patch gained a fourth commit, `Native AA: Ask the ZJ socket at the first ZBT refusal`,
 > and one log line was hand-merged with main's rewording. Re-read section 1 and rebuild. The W string in
@@ -16,8 +21,8 @@ Evidence: create the release `rig-evidence-zj-bt-unix-socket` (first round of th
 Units: D-HU (head unit, root adbd) and D-POCO (phone, R1 only). D-MOTO takes no part: its Bluetooth is
 off for the whole round. D-SAM and D-HP take no part. No hand steps and no injected taps.
 
-Queue line: `zj-bt-unix-socket-round1-brief.md` (C `2b381091` on `fork/feat/zj-bt-unix-socket`, on
-`main` `947b3ae9`; one build, no baseline; units D-HU (root) and D-POCO, D-MOTO Bluetooth
+Queue line: `zj-bt-unix-socket-round1-brief.md` (C `390b6931` on `fork/feat/zj-bt-unix-socket`, on
+`main` `a4f80ff1`; one build, no baseline; units D-HU (root) and D-POCO, D-MOTO Bluetooth
 off; R2 is the point).
 
 Estimated time: 10 min pre-flight, 20 min build, 6 min R1, 3 min R4a, 7 min R2 with R3, 5 min R4b, 5 min R5,
@@ -29,26 +34,25 @@ Estimated time: 10 min pre-flight, 20 min build, 6 min R1, 3 min R4a, 7 min R2 w
 
 | Arm | Ref | Commit | Tree |
 |---|---|---|---|
-| C (candidate) | `fork/feat/zj-bt-unix-socket` | `2b381091d1abd18c1e74d94f71dd58d06b435bbf` | `76764791b933f6e293768a266116b2b85efc3910` |
+| C (candidate) | `fork/feat/zj-bt-unix-socket` | `390b6931e1a6f44959f411f81e09a25c2af34fd7` | `00003772e4dc902bb260f3014957a1262dd9d7f3` |
 
 The branch was rewritten three times after its first push: `1c425934` was squashed to `bbda5eff` (same
-tree), rebased to `d594102c` when the HCT route (#1106) merged, then rebased to `2b381091` on 2026-10-26.
-It has four commits on `main` `947b3ae9fae9834aa8e4145ee91751ed743c2ae0`: a contributor's commit
-(`659669d8`, Justus Mungard), then three of ours.
+tree), rebased to `d594102c` when the HCT route (#1106) merged, then rebased to `2b381091` on 2026-10-26, to `73249d8b` on 2026-10-27 and to `390b6931` on 2026-10-29.
+It has four commits on `main` `a4f80ff1b6aa6726c17e7385192cf23abe0d0e9f`: a contributor's commit
+(`21087973`, Justus Mungard), then three of ours.
 No other queued round shares this base.
 
-The dev host ran the JVM suite at this tree: 4289 tests, 0 failures. Do not run the unit tests on the rig.
+The dev host ran the JVM suite at this tree: 4380 tests, 0 failures. Do not run the unit tests on the rig.
 
 No baseline APK. There is no `main` behaviour to compare with: the route does not exist on `main`.
 
-**get_apk.sh**
-
+**`get_apk.sh`**
 ```bash
 OUT=rig-data/rounds/zj-bt-unix-socket-round1; mkdir -p $OUT
 git fetch fork feat/zj-bt-unix-socket
 WT=$(ls -d worktrees/*zj-bt* 2>/dev/null | head -1)   # else create one with wt-new.sh
-git -C $WT checkout --detach 2b381091d1abd18c1e74d94f71dd58d06b435bbf
-git -C $WT rev-parse 'HEAD^{tree}'                    # MUST print 76764791b933f6e293768a266116b2b85efc3910
+git -C $WT checkout --detach 390b6931e1a6f44959f411f81e09a25c2af34fd7
+git -C $WT rev-parse 'HEAD^{tree}'                    # MUST print 00003772e4dc902bb260f3014957a1262dd9d7f3
 $RIG_TOOLKIT/rig_thermal.sh wait 70
 HUR_DIR=$WT MAX_WORKERS=2 $RIG_TOOLKIT/build_hur_cool.sh   # copy the APK out of apks/ to $OUT/apk-C.apk at once
 md5sum $OUT/apk-C.apk                                 # record as WANT_MD5
@@ -56,7 +60,7 @@ md5sum $OUT/apk-C.apk                                 # record as WANT_MD5
 
 Install with `adb -s $HU install -r -d $OUT/apk-C.apk`. Identity, after the install:
 
-- `send ACTION_QUERY_STATE`: the `data=` line MUST carry commit `2b381091d1ab`.
+- `send ACTION_QUERY_STATE`: the `data=` line MUST carry commit `390b6931e1a6`.
 - Pull the live APK (`apk_check`, section 5). In it, `unzip -p $OUT/live.apk 'classes*.dex' | strings | grep -c ZjSocketProbe`
   MUST be at least 1, and the same count for `RawUnixSocketCarrier` MUST be 0.
 
@@ -157,8 +161,7 @@ so `allow-external-configuration` is not needed.
 Run every adb call in sequence, never two at once against one unit. The D-POCO WiFi hold loop talks to
 D-POCO only. Write the results file after every run.
 
-**lib.sh**
-
+**`lib.sh`**
 ```bash
 PKG=com.andrerinas.headunitrevived
 RX=$PKG/com.andrerinas.openheadunit.automation.AutomationReceiver
@@ -253,9 +256,10 @@ apk_check() { adb -s $HU pull $(adb -s $HU shell pm path $PKG | cut -d: -f2 | tr
   [ "$m" = "$WANT_MD5" ] || { echo APK_MISMATCH | tee -a $OUT/apk-check.log; return 1; }; }
 ```
 
-**zj_stub.sh** (push once to `/data/local/tmp/`). A silent daemon stand-in: it accepts every connect,
+`zj_stub.sh` (push once to `/data/local/tmp/`). A silent daemon stand-in: it accepts every connect,
 reads and discards, and never writes. `umask 000` makes the socket file `srwxrwxrwx`.
 
+**`zj_stub.sh`**
 ```sh
 #!/system/bin/sh
 P=/dev/socket/zj_bt_socket
@@ -264,9 +268,10 @@ umask 000
 exec toybox nc -L -U -s $P sh -c 'cat >/dev/null'
 ```
 
-**zj_kill.sh** (push once to `/data/local/tmp/`). It kills the listener and every open connection by
+`zj_kill.sh` (push once to `/data/local/tmp/`). It kills the listener and every open connection by
 pid, and leaves the socket file.
 
+**`zj_kill.sh`**
 ```sh
 #!/system/bin/sh
 ps -A -o PID,ARGS | grep -e 'nc -L -U' -e 'cat >/dev/null' | grep -v grep | while read pid rest; do kill $pid; done
@@ -274,7 +279,7 @@ ps -A -o PID,ARGS | grep -e 'nc -L -U' -e 'cat >/dev/null' | grep -v grep | whil
 
 ## 6. The deciding lines
 
-Each head unit string was checked with `grep -F -r` on `app/src/main` at `2b381091`. All print at INFO
+Each head unit string was checked with `grep -F -r` on `app/src/main` at `390b6931`. All print at INFO
 or WARN. A line with a run-time value is listed here by its run-time text, and by its source fragment
 in the `decisive-strings` block at the end.
 
@@ -365,8 +370,7 @@ The property is not set and no socket file exists. This is a regression guard. I
 whether the change works or does nothing, because no ZJ code runs here. It proves only that ordinary
 hardware is not touched.
 
-**r1.sh**
-
+**`r1.sh`**
 ```bash
 RUN=R1; th_gate; hustop; base; zj_default; hu_read R1
 adb -s $PH shell svc bluetooth disable; adb -s $PH shell svc wifi disable
@@ -399,8 +403,7 @@ Report: seconds from `R1-phone` to `SSL handshake complete`; the condition 6 cou
 
 ### R4a. A marked unit with no socket file keeps today's refusal
 
-**r4a.sh**
-
+**`r4a.sh`**
 ```bash
 RUN=R4a; th_gate; hustop; ph_off; adb -s $HU shell rm -f $SOCK; prop_on; base; zj_default; hu_read R4a
 cap_on R4a
@@ -425,8 +428,7 @@ Report: T0 to W in seconds; the count of `classified as refused` lines.
 The property is set and the stand-in listens. D-POCO stays off the link from R4a. R3 continues in the
 same capture.
 
-**r2r3.sh**
-
+**`r2r3.sh`**
 ```bash
 RUN=R2; th_gate; hustop; prop_on; base; zj_default; hu_read R2
 stub_up R2                                        # MUST print STUB_UP
@@ -521,8 +523,7 @@ Report: N; stop line to `R3-rearm` with 0 dials (yes/no); `R3-rearm` to the new 
 Part 1 needs the stale socket file from pre-flight step 6. If that file did not stay after `stub_down`,
 part 1 is INCONCLUSIVE (no stale file), and part 2 still runs.
 
-**r4b.sh**
-
+**`r4b.sh`**
 ```bash
 RUN=R4b; th_gate; hustop; prop_on; base; zj_default; hu_read R4b
 stub_up R4b-make; stub_down                      # leaves a socket file that nothing accepts on
@@ -570,8 +571,7 @@ press to T0 and T0 to W2, in seconds.
 
 ### R5. The switch forces the route on an unmarked unit; the carrier survives a daemon restart
 
-**r5.sh**
-
+**`r5.sh`**
 ```bash
 RUN=R5; th_gate; hustop; prop_off; base; zj_forced; hu_read R5
 stub_up R5                                        # MUST print STUB_UP
@@ -614,8 +614,7 @@ Report: start to C1, in seconds; `R5-restart` to the second C, in seconds; the t
 
 ### Cleanup (mandatory)
 
-**cleanup.sh**
-
+**`cleanup.sh`**
 ```bash
 hustop
 adb -s $HU shell sh /data/local/tmp/zj_kill.sh; adb -s $HU shell rm -f $SOCK; adb -s $HU shell ls -l $SOCK   # expect absent
