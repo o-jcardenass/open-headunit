@@ -104,6 +104,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 13. `main-smoke-round1-brief.md` (one arm, `main` `947b3ae9`, one build; units D-HU, D-SAM, D-HP, D-POCO, D-MOTO and the USB dongle; M3, M6 and M7 are the point)
 14. `pr-train-20261029-round1-brief.md` (T `e2b1264c` on `fork/test/pr-train-20261029`, nine contributor PRs merged onto `main` `a4f80ff1`, B `a4f80ff1` = `main`; two builds in one worktree; units D-HU, D-POCO (phone and head unit), D-MOTO, D-SAM; X1 and W1 are the point)
 15. `native-bt-broker-esp32-round2-brief.md` (C `f1bed4ee` on `fork/test/pr-1187-relay`, a contributor PR merged onto `main` `a4f80ff1`; one build, no baseline, release firmware; units D-HU, D-POCO, board E-1, D-SAM, D-MOTO radios off; B is the point)
+16. `second-screen-rtp-push-round3-brief.md` (C `8d4af793` on `fork/fix/rtp-push-recovery`, on `fork/feat/second-screen-outputs` `9350946f`; one build, no baseline; units D-HU and D-POCO, the tester PC as RTP receiver; S1 is the point)
 
 ## Threads
 
@@ -121,6 +122,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 | `aap-protocol-revision` | **QUEUED, round 1** | `aap-protocol-revision-round1-brief.md`. A cancelled touch ends off the canvas, never as a held press; four unread AAP fields dropped; the APK download on API 19. |
 | `self-mode-media-session` | **QUEUED, round 3** (rounds 1 and 2 archived) | `self-mode-media-session-round3-brief.md`. First hardware read of the Self Mode key routing and the wireless re-arm after the 2026-10-17 rework. |
 | `second-screen-outputs` | **QUEUED, round 3** (rounds 1 and 2 archived) | `second-screen-outputs-round3-brief.md`. Smoke after three rebases: an RTP push session ends cleanly by user exit and link loss, then reconnects. |
+| `second-screen-rtp-push` | **QUEUED, round 3** (rounds 1 and 2 archived) on C `8d4af793` | `second-screen-rtp-push-round3-brief.md`. Does the phone answer the RTP push's keyframe refresh on the aux channel (S1), does a late receiver get a moving map (S2), and does the push recover from lost packets with the refresh on and not with it off (S3, S4). |
 | `zj-bt-unix-socket` | **QUEUED, round 1** on C `390b6931` | `zj-bt-unix-socket-round1-brief.md`. Does the Bluetooth route over a Unix socket connect a phone on the head unit. R2 is the point. |
 | `settings-help-button` | Round 4 on `1c25716f` done: R1 PASS (point), R2-R6, S1, S2 PASS, R7 INCONCLUSIVE (D-HU no rotation). Rail rows spacing noted. | `settings-help-button-round4-results.md`, `settings-help-button-round4-brief.md` |
 | `native-bt-broker-esp32` | **ROUND 1 DONE, round 2 QUEUED** on C `f1bed4ee` (`native-bt-broker-esp32-round1-results.md`, `-addendum.md`): B FAIL, S FAIL, B2 and C2 UNTESTABLE; control: v1.0.0 pairs where apply_hfp times out. | PR code vs unpinned toolchain not separated; D-SAM needs a build put back. |
