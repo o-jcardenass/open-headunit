@@ -1649,7 +1649,7 @@ class HomeFragment : Fragment() {
             } else {
                 AppLog.i("VPN permission already granted. Self Mode will prepare it after launch admission.")
             }
-        } else if (offline) {
+        } else if (offline && path != null) {
             if (path == SelfLaunchPath.HEADUNIT_SERVER) {
                 AppLog.i("HomeFragment: Device is offline; Android Auto 17.4+ connects over 127.0.0.1:5277, so no dummy VPN.")
             } else {
