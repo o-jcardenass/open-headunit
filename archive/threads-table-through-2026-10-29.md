@@ -1,0 +1,16 @@
+# Threads table rows archived on 2026-10-29
+
+The `## Threads` rows of `README.md` for ten threads whose PRs merged (1119, 1131, 1132, 1138, 1141, 1146, 1163, 1198 and 1199, plus `wifi-direct-named-connect`, already merged into another thread), and their files moved to `archive/rounds/`. Verbatim, in the original order.
+
+| Thread | State | Next |
+|---|---|---|
+| `pr-1163-hct-owned-wpp` | round 1 queued on C `e22017de`: non-HCT regressions only (Exit routing through the service, re-arm, disconnect with no session, no HCT line) | `pr-1163-hct-owned-wpp-round1-brief.md` |
+| `automatic-dpi-panel` | Round 2 on C `677f118e`: PASS. Automatic sends 309 on both phones, widescreen kept (GH.WidescreenIM present), card stays on a map touch; K arm retracts it. D-MOTO re-run with map-side touches (layout mirrored) | `automatic-dpi-panel-round2-results.md`. Ready for the engineer's legibility call at 309. |
+| `pr-1132-exit-dialog` | round 1 done on C `f17c14ef`: SAM-4 and HP-4 PASS (font scale kept, F 0.986 and 1.006; B loses it, Fb100 0.763), HU/SAM/HP-2 scale PASS, HP-1 Stop INCONCLUSIVE (tap missed row) | `pr-1132-exit-dialog-round1-results.md`. HU-2 130% dialog fills full height. Fix the HP tap mapping and the HU focus read if re-run. |
+| `wifi-direct-named-connect` | **MERGED into `automation-screen-disconnect`** | Its runs are C1 to C5 in round 4; results in `automation-screen-disconnect-round4-results.md`. |
+| `import-settings-unsaved-changes` | **ROUND 2 DONE** | `import-settings-unsaved-changes-round2-results.md`. C `2ab6f398`: R1 PASS 3/3 (0 dialogs on BACK), R6 PASS 3/3, PC-1 PASS, R3 INCONCLUSIVE (float row off screen after import recreate). Next: redesign R3. |
+| `home-widgets-opacity` | round 4 on `4f04c168` done: L1 PASS twice (grant stores launcher mode); L3 INCONCLUSIVE twice (BACK left the filtered settings screen up, brief check void). Next: L3 with a BACK that leaves the screen | `home-widgets-opacity-round4-results.md`; `-round3-results.md` |
+| `pr-1119-home-redesign` | R3 on `135131ce`: CD, B5 (finished path), W12a/b, ROW, W8 PASS; B1 and U1 UNTESTABLE (brief order, armed home cannot be dumped); POCO-U3 UNTESTABLE (no route); W10 reverts, ring clear. Reconnect overlay after End session. | `pr-1119-home-redesign-round3-results.md`; `-round2-results.md`, `-round1-results.md`. |
+| `pr-1141-cover-keeps-decoder` | **Round 1 done, no FAIL** | `pr-1141-cover-keeps-decoder-round1-results.md`. C keeps the decoder through 6 s covers on TEXTURE and GLES (R1 5/5); SURFACE still stops it by surfaceDestroyed (R4); after a 30 s cover the codec rebuilds within 81 ms (R2). |
+| `pr-1146-video-preflight` | Round 1 done on C `90b3d74b`: W1/W2/H1/H2 PASS; R-A, R-B, R-D confirmed (FAIL); W3 UNTESTABLE (session forms before poke); H3 INCONCLUSIVE; S1 FAIL (D-SAM TEXTURE FEW_FRAMES); Stage O not run. | `pr-1146-video-preflight-round1-results.md`. Re-run W3/H3 with a race-free session and Stage O on the moved PR head. |
+| `update-apk-button` | Round 1 done: Download APK shown on MT50, HP, POCO, Moto (R1 PASS); no-APK release shows only the GitHub button (R2); SM-T230 UNTESTABLE. | `update-apk-button-round1-results.md`. Message still says Download the APK with no APK button. |
