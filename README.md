@@ -102,7 +102,6 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 11. `second-screen-outputs-round3-brief.md` (C `2812a70e` on `fork/feat/second-screen-outputs`, on `main` `947b3ae9`, one build, no baseline; units D-HU and D-POCO, D-MOTO radios off; a smoke after three rebases; P1 is the point)
 12. `zj-bt-unix-socket-round1-brief.md` (C `2b381091` on `fork/feat/zj-bt-unix-socket`, on `main` `947b3ae9`; one build, no baseline; units D-HU (root) and D-POCO, D-MOTO Bluetooth off; R2 is the point)
 13. `main-smoke-round1-brief.md` (one arm, `main` `947b3ae9`, one build; units D-HU, D-SAM, D-HP, D-POCO, D-MOTO and the USB dongle; M3, M6 and M7 are the point)
-15. `usb-dialog-round8-brief.md` (one arm, `fork/fix/usb-permission-dialog` `15a13bff`; units D-POCO and D-S24P; about 75 min after the build, 90 min with the optional runs; Q2, Q3 and R1 are the point)
 
 ## Threads
 
@@ -125,7 +124,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 | `native-bt-broker-esp32` | **ROUND 1 DONE** (`native-bt-broker-esp32-round1-results.md`, `-addendum.md`): B FAIL, S FAIL, B2 and C2 UNTESTABLE; control: v1.0.0 pairs where apply_hfp times out. | PR code vs unpinned toolchain not separated; D-SAM needs a build put back. |
 | `pr-merge-train` | Rounds 1 to 4 run on `fork/test/pr-merge-train`: R1 PASS, R2 X1 FAIL, R3 PASS; round 4 SB/SA/HB/HA all PASS, A no worse on D-SAM and better on D-HP (Headunit Server). | `pr-merge-train-round4-results.md`. Briefs need `narrow-band-profile-cap=false` for PCM on 2.4 GHz units. |
 | `main-smoke` | Round 1 queued: current `main` on every unit and route, the dongle included. | `main-smoke-round1-brief.md`. |
-| `usb-dialog` | Round 8 queued on `15a13bff`: Samsung S24+ (D-S24P, a personal phone) on D-POCO; Q1-Q5 USB modes and dialogs, R1-R4 the USB link-loss fault and its notice; round 7 passed TD-P, F-P, F-H, L-P | `usb-dialog-round8-brief.md` |
+| `usb-dialog` | Round 8 on `15a13bff` done: R1/R1-on FAIL (fault ends session as read failure, no desync line; recovery 13 s, 36 s with a permission ask), Q3/Q4-ptp/R2/R4 PASS, Q1/Q2/R3 INCONCLUSIVE, Q4-midi/Q5 battery; phone mode was PTP not File transfer | `usb-dialog-round8-results.md` |
 | `pico-usb-stand-in` | Round 1 done, R0-R4 PASS: firmware builds, all 5 identities enumerate; console is /dev/ttyACM1, pass --port | `pico-usb-stand-in-round1-results.md`; firmware in `tools/pico-usb-stand-in/` |
 
 Round files are `<thread>-round<N>-brief.md` and `<thread>-round<N>-results.md`. A brief with no
