@@ -22,19 +22,19 @@ Android Auto send a new keyframe on the second display when we cycle that displa
 ## 0. What a session needs
 
 ```rig-requires
-lib f2d7a951f
+lib 0602b3d87
 unit D-HU   role=headunit wifi=on bt=on
 unit D-POCO role=phone wifi=on bt=on bond=D-HU aa=D-HU battery=30
 unit D-MOTO wifi=off bt=off
 candidate C 8d4af793b5e87a7b44f1e0ac01976a8db21766f6
-hardware on the tester PC, open UDP 5004 and 5005 to D-HU's subnet: paste the line the rig gives you, `! sudo ufw allow proto udp from <subnet>.0/24 to any port 5004:5005` with D-HU's subnet filled in (it asks for your password)
+hardware on the tester PC, open UDP 5004 and 5005 to D-HU's subnet: paste the line the rig gives you into a separate terminal, `sudo ufw allow proto udp from <subnet>.0/24 to any port 5004:5005` with D-HU's subnet filled in (it asks for your password)
 run R0 cap=300 script=r0.sh grade=grade-r0.sh
 run S12 cap=900 script=s12.sh grade=grade-s12.sh point=yes
 run S2 cap=60 script=s2.sh grade=grade-s2.sh
 run S4 cap=600 script=s4.sh grade=grade-s4.sh
 run S3 cap=600 script=s3.sh grade=grade-s3.sh
 run S5 cap=60 script=s5.sh grade=grade-s5.sh
-run cleanup cap=180 script=cleanup.sh grade=grade-cleanup.sh always=yes hand="paste the line the rig gives you to remove the UDP 5004 and 5005 rule: ! sudo ufw delete allow proto udp from <subnet>.0/24 to any port 5004:5005"
+run cleanup cap=180 script=cleanup.sh grade=grade-cleanup.sh always=yes hand="paste the line the rig gives you to remove the UDP 5004 and 5005 rule, in a separate terminal: sudo ufw delete allow proto udp from <subnet>.0/24 to any port 5004:5005"
 stop R0 FAIL,INCONCLUSIVE,UNTESTABLE skip=all
 stop S12 UNTESTABLE skip=all
 stop S4 UNTESTABLE skip=all
