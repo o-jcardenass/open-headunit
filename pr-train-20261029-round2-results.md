@@ -43,3 +43,5 @@ Exit 0.
 ## Anything the brief did not ask about
 
 - The cropped D-SAM projection described in Setup notes appeared in the T build's first W1 session; it was not compared against B (WB ran B and was not looked at). Worth a control on B before attributing it to T.
+
+- Evidence: release `rig-evidence-pr-train-20261029`, asset `pr-train-20261029-round2-captures.zip` (4482495 bytes), sha256 `2c52af6315a7f02c3c80179257aa2a54455726e31eb0c34980d69e984713ab03` (moved from `rig-evidence-pr-train-20261029-round2` on 2026-10-30).

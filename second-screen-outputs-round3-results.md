@@ -137,3 +137,5 @@
 ## Anything the brief did not ask about
 
 - Nothing outside the brief's conditions was observed; no run needed a host override.
+
+- Evidence: release `rig-evidence-second-screen-outputs`, asset `second-screen-outputs-round3-captures.zip` (16103835 bytes), sha256 `638d5dd083ffefd9d5194159b2509b05df5b73113ebdfd6e55057cce66d727da` (moved from `rig-evidence-second-screen-outputs-round3` on 2026-10-30).

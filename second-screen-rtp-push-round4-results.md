@@ -53,4 +53,4 @@ C1 to C4 met (graded 08:18:59). Refresh 10000 ms, 3 burst lines, 15 dropped, 15 
 - S5's `rendered_ok` rule (`x[0] == 30`) fails on a capture that has 29 windows all rendered. The brief's author may want `windows >= 29` or a ratio.
 - S2 missed its limit by 5.60 s while S12, S4 and S3 all got pictures; one attempt only, no re-run.
 - Evidence zip and sha256: see the upload line the publishing step adds.
-- Evidence: release asset `rig-evidence-second-screen-rtp-push-round4` / `second-screen-rtp-push-round4-captures.zip`, sha256 `c6d327f0ebd7318ce2f4ddb75e85adf622d1fd480a06ae0a6d260265babfd242`. Closing check: `rig_cleanup.sh list` clean; baseline left D-HP and D-SAM Bluetooth unreadable (API 19).
+- Evidence: release `rig-evidence-second-screen-rtp-push`, asset `second-screen-rtp-push-round4-captures.zip` (64539907 bytes), sha256 `c6d327f0ebd7318ce2f4ddb75e85adf622d1fd480a06ae0a6d260265babfd242` (moved from `rig-evidence-second-screen-rtp-push-round4` on 2026-10-30). Closing check: `rig_cleanup.sh list` clean; baseline left D-HP and D-SAM Bluetooth unreadable (API 19).

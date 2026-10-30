@@ -39,4 +39,4 @@ Same two ROW_NOT_FOUND lines (graded 08:40:33). Here the screen is the app's Set
 
 - The R6 wait loop is the thing to fix before another round: on D-SAM the row is in the dump and the loop misses it. On D-HU Settings never appeared.
 - Round 1 also ended with R6 "settings row not found", so this is the second round lost to the same step.
-- Evidence: release asset `rig-evidence-aap-protocol-revision-round2` / `aap-protocol-revision-round2-captures.zip`, sha256 `2dbe866582e77ae73968da69b74cdc7a7b9ef6ea9f5adc6910760982ecb8548b`. Closing check: `rig_cleanup.sh list` clean; baseline left D-HP and D-SAM Bluetooth unreadable (API 19).
+- Evidence: release `rig-evidence-aap-protocol-revision`, asset `aap-protocol-revision-round2-captures.zip` (23320550 bytes), sha256 `2dbe866582e77ae73968da69b74cdc7a7b9ef6ea9f5adc6910760982ecb8548b` (moved from `rig-evidence-aap-protocol-revision-round2` on 2026-10-30). Closing check: `rig_cleanup.sh list` clean; baseline left D-HP and D-SAM Bluetooth unreadable (API 19).

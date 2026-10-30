@@ -33,3 +33,5 @@ Exit 0.
 ## Anything the brief did not ask about
 
 - The S crash is in `onDestroyView` of `BrokerSettingsFragment` on an API 19 unit: `scanner` is a lateinit read before it was set, in a path where the view is destroyed during activity start.
+
+- Evidence: release `rig-evidence-native-bt-broker-esp32`, asset `native-bt-broker-esp32-round3-captures.zip` (2380496 bytes), sha256 `cd7a3ad04d65b2f0f2f6dc8e507a2742d55d9e161da25291faad1c248ba87c14` (moved from `rig-evidence-native-bt-broker-esp32-round3` on 2026-10-30).

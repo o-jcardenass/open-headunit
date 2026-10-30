@@ -57,3 +57,5 @@ Script graded FAIL; overridden. c1 ROW_NOT_FOUND. c2 reached the dialog with the
 
 - The R1 observation on T above (launcher grid still shown in `c`).
 - R4 and R3 control behaviour show D-HU's phone side did not move rotary focus on either arm.
+
+- Evidence: release `rig-evidence-aap-protocol-revision`, asset `aap-protocol-revision-round1-captures.zip` (6853898 bytes), sha256 `cc1619212ca53ab9ef8237b921d512189302acc43d617ccc4042fda75b18054d` (moved from `rig-evidence-aap-protocol-revision-round1` on 2026-10-30).

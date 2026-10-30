@@ -34,3 +34,5 @@ Run by hand; RESTORED=1, exit 1, cause unexplained. The firewall hand step was d
 ## Anything the brief did not ask about
 
 - The brief needs its unnamed script blocks extracted; see Setup notes, a defect for the brief's writer.
+
+- Evidence: release `rig-evidence-second-screen-rtp-push`, asset `second-screen-rtp-push-round3-captures.zip` (4257345 bytes), sha256 `f21bb2b27f2a79c92f356bc87efb4d11334f94e1d8f12d2ea8e03828e3a5b0e8` (moved from `rig-evidence-second-screen-rtp-push-round3` on 2026-10-30).
