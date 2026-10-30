@@ -86,13 +86,16 @@ A brief with no results file of the same name. Add a line here when a brief is p
 in the commit that pushes the results. Run them in the order listed: fixes first, then features. A line
 that holds two briefs is a pair: run them at the same time, per `TESTING-TEMPLATE.md` §3b.
 
+**Changed on 2026-10-29:** every brief below carries a `rig-requires` block and runs as one
+`rig_session.py` process (`rig-sdlc/skills/rig-round/SKILL.md` step 4). Set the session order with
+`rig-lib/rig_requires.py order --live`, not by the numbers here.
+
 **Changed on 2026-10-15:** §3b (paired rounds), §5 (no rig unit tests unless a brief asks, one build
 worktree, batch builds) and §8. `rig-sdlc/` changed with them. Before the next `/rig-round`, type
 `Run git fetch fork, then follow rig-sdlc/APPLY-2026-10-15.md as it is on fork/transfer/rig-rounds` once, then
 restart Claude Code. It copies the new skills into `.claude/`.
 After that, `/rig-round` re-copies them itself when a pull changes them, and asks for the restart.
 
-2. `automation-screen-disconnect-round5-brief.md` (C `512343ca` on `fork/feat/automation-screen-disconnect`, rebased onto `main` `a4f80ff1` and rebuilt in R0; units D-POCO as head unit and D-MOTO as phone, D-HU Bluetooth off; about 60 min; N1 is the point: a named connect puts a real poke on the air)
 3. `forget-car-still-needed-round2-brief.md` (F `6c23c264` on `fork/fix/forget-car-still-needed`, C `947b3ae9` = `main`, both rebuilt; units D-HU and D-POCO; R1 is the point)
 4. `usb-native-loop-round2-brief.md` (`main` `f9a72d480` and tag `v.3.4.0` `013b05bc`; units D-POCO as USB host and D-MOTO, D-SAM optional for K2, D-HU Bluetooth only; replaces round 1, which is not run; R4-G and K1 are the point)
 5. `fps-cap-round1-brief.md` (candidate `main` `947b3ae9`, fetched from origin, PR #1139 merged; conditional `v.3.4.0` `013b05bc`; units D-POCO as head unit and D-MOTO, D-HU idle; R1 and R3 are the point)
@@ -100,11 +103,10 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 9. `aap-protocol-revision-round1-brief.md` (T `a9988ed8` on `fork/fix/touch-cancel-release`, U `97d1ee06` on `fork/chore/aap-unread-fields`, B `947b3ae9` = `main`, A* = `main` with one `versionName` line changed; four builds in one worktree; units D-HU, D-POCO and D-SAM, D-MOTO Bluetooth off; R1 is the point)
 10. `self-mode-media-session-round3-brief.md` (C `6d4de0d0` on `fork/fix/929-self-mode-media-session`, on `main` `947b3ae9`, one build, no baseline; units D-HU and D-POCO, D-MOTO Bluetooth off; P1 and H2 are the point)
 11. `second-screen-outputs-round3-brief.md` (C `2812a70e` on `fork/feat/second-screen-outputs`, on `main` `947b3ae9`, one build, no baseline; units D-HU and D-POCO, D-MOTO radios off; a smoke after three rebases; P1 is the point)
-12. `zj-bt-unix-socket-round1-brief.md` (C `390b6931` on `fork/feat/zj-bt-unix-socket`, on `main` `a4f80ff1`; one build, no baseline; units D-HU (root) and D-POCO, D-MOTO Bluetooth off; R2 is the point)
 13. `main-smoke-round1-brief.md` (one arm, `main` `947b3ae9`, one build; units D-HU, D-SAM, D-HP, D-POCO, D-MOTO and the USB dongle; M3, M6 and M7 are the point)
-14. `pr-train-20261029-round1-brief.md` (T `e2b1264c` on `fork/test/pr-train-20261029`, nine contributor PRs merged onto `main` `a4f80ff1`, B `a4f80ff1` = `main`; two builds in one worktree; units D-HU, D-POCO (phone and head unit), D-MOTO, D-SAM; X1 and W1 are the point)
-15. `native-bt-broker-esp32-round2-brief.md` (C `f1bed4ee` on `fork/test/pr-1187-relay`, a contributor PR merged onto `main` `a4f80ff1`; one build, no baseline, release firmware; units D-HU, D-POCO, board E-1, D-SAM, D-MOTO radios off; B is the point)
 16. `second-screen-rtp-push-round3-brief.md` (C `8d4af793` on `fork/fix/rtp-push-recovery`, on `fork/feat/second-screen-outputs` `9350946f`; one build, no baseline; units D-HU and D-POCO, the tester PC as RTP receiver; S1 is the point)
+17. `pr-train-20261029-round2-brief.md` (T `e2b1264c`, B `a4f80ff1b`, the round 1 builds; stage W only, on D-SAM with D-POCO as phone and D-POCO not bonded to D-HU; W1 is the point)
+18. `native-bt-broker-esp32-round3-brief.md` (C `f1bed4ee`, the round 2 build, release firmware; K with D-POCO bonded to D-HU, then S on D-SAM, then the closing round 2 skipped; K is the point)
 
 ## Threads
 
@@ -112,7 +114,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 |---|---|---|
 | `usb-dongle-regression` | **ROUND 1 DONE, inconclusive** | `usb-dongle-regression-round1-results.md`. Rig dongle never fails on v.3.5.0 (H-B 3/3, P-B 5/5 project), so P-C not run; v.3.4.0 control P-A 0/5. Keycode list untested. Next: cold-start cycles on B and C. |
 | `pr-1001-devserver-p2p` | Round 1 done on B `0cbff004`, P `7f5bc6e9`, F `ce5e61cb`: R3 P FAIL (expected, H1 real) and B, F PASS; R1-B FAIL, R1-P INCONCLUSIVE; R5A PASS, R5B INCONCLUSIVE; R4 PASS (OpenHU rename refused, joined as the unit name); R6 FAIL (no ByeBye on the P2P route); R2 PASS both. | `pr-1001-devserver-p2p-round1-results.md`. Review the refused rename and R6 condition 2. |
-| `automation-screen-disconnect` | **ROUND 4 DONE, round 5 QUEUED** on C `512343ca` | V3, V4n/k, R5n/k, R7n/k, C2-C5 PASS. R11 FAIL (cond 8: USB attempt in flight holds wireless at power back; likely brief expectation). C1, C1d INCONCLUSIVE (phone self-dials). See `automation-screen-disconnect-round4-results.md`. |
+| `automation-screen-disconnect` | **ROUND 5 DONE** on C `512343ca`: R0, P, Q, N1, N2 PASS | `automation-screen-disconnect-round5-results.md`. |
 | `forget-car-still-needed` | Round 1 done: R1 INCONCLUSIVE, R2 R3 PASS, R4 FAIL one rep. Round 2 QUEUED on F `6c23c264` vs C `947b3ae9`. | `forget-car-still-needed-round2-brief.md`. Round 1 detail in `forget-car-still-needed-round1-results.md`. |
 | `late-listener-poke` | Round 1 done: R1-R4 PASS, R5 not run (`22392a15`) | `late-listener-poke-round1-results.md`. Poke off, phone redials a held late listener every ~5.3 s, D1 2.2-3.3 s, still dialling at 150 s; 90 s escalation never reached. |
 | `emotionbug-batch` | Round 2 done on C `4c5960c7`: PRESENT, BRIDGE, SCAN PASS; FRAMING and LIBUSB FAIL on the letter (U1 unplug read error 1654 ms vs 1 s bound; U3 five write timeouts, recovered). | `emotionbug-batch-round2-results.md`. Round 1 in `emotionbug-batch-round1-results.md`. |
@@ -123,11 +125,11 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 | `self-mode-media-session` | **QUEUED, round 3** (rounds 1 and 2 archived) | `self-mode-media-session-round3-brief.md`. First hardware read of the Self Mode key routing and the wireless re-arm after the 2026-10-17 rework. |
 | `second-screen-outputs` | **QUEUED, round 3** (rounds 1 and 2 archived) | `second-screen-outputs-round3-brief.md`. Smoke after three rebases: an RTP push session ends cleanly by user exit and link loss, then reconnects. |
 | `second-screen-rtp-push` | **QUEUED, round 3** (rounds 1 and 2 archived) on C `8d4af793` | `second-screen-rtp-push-round3-brief.md`. Does the phone answer the RTP push's keyframe refresh on the aux channel (S1), does a late receiver get a moving map (S2), and does the push recover from lost packets with the refresh on and not with it off (S3, S4). |
-| `zj-bt-unix-socket` | **QUEUED, round 1** on C `390b6931` | `zj-bt-unix-socket-round1-brief.md`. Does the Bluetooth route over a Unix socket connect a phone on the head unit. R2 is the point. |
+| `zj-bt-unix-socket` | **ROUND 1 DONE** on C `390b6931`: all PASS, R1 on the fourth attempt (brief hang) | `zj-bt-unix-socket-round1-results.md`. |
 | `settings-help-button` | Round 4 on `1c25716f` done: R1 PASS (point), R2-R6, S1, S2 PASS, R7 INCONCLUSIVE (D-HU no rotation). Rail rows spacing noted. | `settings-help-button-round4-results.md`, `settings-help-button-round4-brief.md` |
-| `native-bt-broker-esp32` | **ROUND 1 DONE, round 2 QUEUED** on C `f1bed4ee` (`native-bt-broker-esp32-round1-results.md`, `-addendum.md`): B FAIL, S FAIL, B2 and C2 UNTESTABLE; control: v1.0.0 pairs where apply_hfp times out. | PR code vs unpinned toolchain not separated; D-SAM needs a build put back. |
+| `native-bt-broker-esp32` | Round 2 partial on C `f1bed4ee`: P, B (5 of 5), C1, C2 PASS, K INCONCLUSIVE, S not run. **QUEUED, round 3** (K, S, closing) | `native-bt-broker-esp32-round3-brief.md`; round 2 in `native-bt-broker-esp32-round2-results.md`. |
 | `pr-merge-train` | Rounds 1 to 4 run on `fork/test/pr-merge-train`: R1 PASS, R2 X1 FAIL, R3 PASS; round 4 SB/SA/HB/HA all PASS, A no worse on D-SAM and better on D-HP (Headunit Server). | `pr-merge-train-round4-results.md`. Briefs need `narrow-band-profile-cap=false` for PCM on 2.4 GHz units. |
-| `pr-train-20261029` | **QUEUED, round 1** on T `e2b1264c` | `pr-train-20261029-round1-brief.md`. Nine contributor PRs on one build: a double Exit (X1), insets on API 35 (P1, P2), a WiFi Direct rotation below API 29 (W1). |
+| `pr-train-20261029` | Round 1 partial: X1 PASS, P1 INCONCLUSIVE, stage W not run. **QUEUED, round 2** (stage W) | `pr-train-20261029-round2-brief.md`; round 1 in `pr-train-20261029-round1-results.md`. |
 | `main-smoke` | Round 1 queued: current `main` on every unit and route, the dongle included. | `main-smoke-round1-brief.md`. |
 | `usb-dialog` | Round 8 on `15a13bff` done: R1/R1-on FAIL (fault ends session as read failure, no desync line; recovery 13 s, 36 s with a permission ask), Q3/Q4-ptp/R2/R4 PASS, Q1/Q2/R3 INCONCLUSIVE, Q4-midi/Q5 battery; phone mode was PTP not File transfer | `usb-dialog-round8-results.md` |
 | `pico-usb-stand-in` | Round 1 done, R0-R4 PASS: firmware builds, all 5 identities enumerate; console is /dev/ttyACM1, pass --port | `pico-usb-stand-in-round1-results.md`; firmware in `tools/pico-usb-stand-in/` |

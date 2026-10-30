@@ -8,7 +8,8 @@ Units: D-HU (head unit), D-POCO (phone). D-MOTO, D-SAM and D-HP take no part. D-
 Queue line: `pr-1091-pcm-guidance-round1-brief.md` (C `dcc3c708` on `fork/test/pr-1091`, a contributor audio PR merged
 onto `main` `b3ef3355`, one arm, four settings arms, no baseline build; units D-HU, D-POCO; R2 is the point).
 
-Pairing: none needed. Any round that does not use D-HU or D-POCO can run beside it (`TESTING-TEMPLATE.md` §3b).
+Pairing: D-POCO bonded to D-HU, as for any D-HU stock run (section 0). Any round that does not use D-HU or D-POCO
+can run beside it (`TESTING-TEMPLATE.md` §3b).
 
 Hand steps: none. Injected taps: at most one per run, into the projected video, only if music does not start (section 5, `music`).
 
@@ -21,8 +22,35 @@ Hand steps: none. Injected taps: at most one per run, into the projected video, 
 | R3 | D | false | true | true | 7 |
 | R4 | B, option off | true | false | true | 7 |
 
-All four runs share one capture. Each run ends the session, rewrites three keys with the app stopped and starts a new
-session. R1 and R2 differ in one key only, so R1 is the control for R2.
+Each run has its own capture on both units. Each run rewrites three keys with the app stopped and starts a new
+session, and ends it. R1 and R2 differ in one key only, so R1 is the control for R2.
+
+## 0. What the session needs
+
+`rig_session.py` runs the round from this block, in this order.
+
+```rig-requires
+lib 19f862828
+candidate C dcc3c7085d7be1aa520c802a825685c539f41ce4
+unit D-HU   role=headunit wifi=on bt=on
+unit D-POCO role=phone wifi=on bt=on bond=D-HU aa=D-HU
+unit D-SAM  bt=off
+confirm Spotify on D-POCO holds a playlist of 6 or more tracks as its current queue, so MEDIA_PLAY starts it
+run pre     cap=300  script=pre.sh     grade=grade-pre.sh
+run R1      cap=900  script=arm.sh     grade=grade-arm.sh
+run R2      cap=900  script=arm.sh     grade=grade-arm.sh point=yes
+run R3      cap=900  script=arm.sh     grade=grade-arm.sh
+run R4      cap=900  script=arm.sh     grade=grade-arm.sh
+run cleanup cap=180  script=cleanup.sh grade=grade-cleanup.sh always=yes
+stop pre FAIL,UNTESTABLE skip=all
+stop R1 UNTESTABLE skip=all
+stop R2 UNTESTABLE skip=all
+stop R3 UNTESTABLE skip=all
+```
+
+With D-POCO bonded to D-HU, Android Auto on D-POCO dials D-HU and nothing else. A run with no session is
+UNTESTABLE after its own second bring-up, so one such run is two misses in a row and stops the round. Every
+arm cap includes up to 10 min of the thermal gate.
 
 ## 1. Build and baseline
 
@@ -39,25 +67,23 @@ the new head may differ from this build; the round still answers the protocol qu
 The dev host ran the JVM suite at `dcc3c708`: 3462 tests, 0 failures, 0 skipped. The host audio checks
 (`app/src/test/host-audio/run.py`) gave 84 PASS, 0 FAIL. Do not run the unit tests on the rig.
 
-**get_apk.sh**
+**Prepare (the host, before the session):** build C and copy the APK to `$EV/apk/C.apk` at once. Prepare installs
+nothing: `pre` backs up `settings.xml` first, then installs C on D-HU only. D-POCO is the phone and keeps the APK it has.
 
-```bash
-OUT=rig-data/rounds/pr-1091-pcm-guidance-round1; mkdir -p $OUT
-WT=$(ls -d worktrees/* 2>/dev/null | head -1)        # any existing worktree; else create one with wt-new.sh
-git -C $WT fetch fork test/pr-1091
-git -C $WT checkout --detach dcc3c7085d7be1aa520c802a825685c539f41ce4
-git -C $WT rev-parse 'HEAD^{tree}'                    # MUST print 630a06ce1874ab8a0642f8fd08f6cf1601aa3f2b
-$RIG_TOOLKIT/rig_thermal.sh wait 70
-HUR_DIR=$WT MAX_WORKERS=2 $RIG_TOOLKIT/build_hur_cool.sh   # copy the APK out of apks/ to $OUT/apk-C.apk at once
-md5sum $OUT/apk-C.apk                                 # record in Setup notes
+```text
+WT=$($RIG_TOOLKIT/wt-new.sh pr-1091-pcm-guidance scratch dcc3c7085d7be1aa520c802a825685c539f41ce4 | tail -1)
+git -C $WT fetch fork test/pr-1091; git -C $WT checkout --detach dcc3c7085d7be1aa520c802a825685c539f41ce4
+git -C $WT rev-parse 'HEAD^{tree}'      MUST print 630a06ce1874ab8a0642f8fd08f6cf1601aa3f2b
+$RIG_TOOLKIT/rig_thermal.sh wait 70; HUR_DIR=$WT MAX_WORKERS=2 $RIG_TOOLKIT/build_hur_cool.sh
+copy the APK out of rig-data/apks/ to $EV/apk/C.apk; record its md5 in Setup notes
 ```
 
-Install with `adb install -r -d $OUT/apk-C.apk` on D-HU only. D-POCO is the phone and keeps the APK it has.
-Identity on D-HU after the install:
+Identity on D-HU after the install (`grade-pre.sh` checks all three):
 
-- `send ACTION_QUERY_STATE`: the `data=` line MUST carry commit `dcc3c708`.
-- Pull the live APK and run `unzip -p live.apk 'classes*.dex' | strings | grep -c AudioSinkServices`. It MUST be at
-  least 1. The class is new in this PR, so no earlier build has it.
+- The live APK's md5 equals `$EV/apk/C.apk`'s.
+- `send ACTION_QUERY_STATE`: the `data=` line carries commit `dcc3c7085d7b`.
+- `unzip -p live.apk 'classes*.dex' | strings | grep -c AudioSinkServices` is at least 1. The class is new in this
+  PR, so no earlier build has it.
 
 ## 2. What this is and why
 
@@ -98,30 +124,37 @@ INCONCLUSIVE on this phone and the fallback to 16 kHz is what those runs prove. 
   destinations about 1.3 km north and south of D-POCO's last fix, alternated, so each intent starts a new route that
   speaks its first instruction. That round got an `AUDIO1` start on 6 of 8 intents. D-POCO has no mobile data and its
   offline maps cover Medellin, Marinilla and Rionegro (`rig-quirks/units/D-POCO.md`); the rig sits inside them. If
-  `loc` finds no fix, use `Parque Principal Marinilla` and `Parque Principal Rionegro` as D1 and D2.
+  `pre` finds no fix, D1 and D2 are `Parque Principal Marinilla` and `Parque Principal Rionegro` (`$EV/dest.txt`).
 - **A run needs at least 2 `AUDIO1` starts to grade its guidance bullets.** With fewer, those bullets are
   INCONCLUSIVE and the session bullets still grade.
 - **The 2.4 GHz cap can turn music AAC by itself.** If the session's link is 2.4 GHz, `[ServiceDiscovery] AAC music
   announced by the 2.4 GHz cap (Use AAC Audio is off)` prints in R3 and its music is AAC. Then R3 measures E again
-  rather than D: record it, and grade R3's music bullet against AAC.
-- **Music.** D-POCO plays a playlist of 6 or more tracks in the rig's player, playing before each session starts
-  (as in `emotionbug-batch-round2-brief.md`). Prompts are spoken over the music.
+  rather than D: the grade records it and grades R3's music bullets against AAC.
+- **Music.** Each run sends `MEDIA_PLAY` (key 126) to D-POCO once the session is up, so Spotify plays its queue.
+  Prompts are spoken over the music. If no music channel opens in 20 s, `music` taps Android Auto's play control once.
 - **SSL line.** Match `SSL handshake complete` with no `Handshake:` prefix (`log-level=2`).
 - **On mode 3 the launch arms the stack.** No `ACTION_START_WIRELESS_SCAN` straight after a launch.
-- **The phone leaves the link by `svc`**, not airplane mode (`ph_off`).
-- **`playback-focus-self-defeating`.** Read it before R1 and after R4 (`rig-quirks/topics/audio.md`). If it reads
-  true before R1, write false with the app stopped and say so.
+- **The phone leaves the link by `svc`**, not airplane mode (`link_off`). D-POCO's WiFi turns itself back on a few
+  seconds after one disable (`D-POCO.md`), so `rl_hold_off` repeats the disable every 3 s until `link_on`.
+- **`playback-focus-self-defeating`.** `pre` reads it before R1, and `cleanup` after R4 (`rig-quirks/topics/audio.md`).
+  If it reads true before R1, `pre` writes false with the app stopped; say so in Setup notes.
+- **The export is named by the app.** `ACTION_EXPORT_LOG` logs `Automation: log export finished (<path>)`, and the
+  run pulls that path. D-HU's clock is months off, so the newest file by time is not the run's.
+- **The thermal gate is `rl_thermal_gate`** (`$RIG_TOOLKIT/rig_thermal.sh`, limits in `rig-quirks/topics/tooling.md`).
+  If its second wait fails, the run writes `$EV/HOST_HOT`, grades UNTESTABLE, and the stop rule ends the round.
 - **Expected INCONCLUSIVE:** the 48 kHz bullets of R2 and R3 if the phone picks index 0; the guidance bullets of any
   run with fewer than 2 `AUDIO1` starts. The rate change during a draining prompt (a Start that picks a different
   index than the one before) cannot be forced from the rig; the host audio checks cover it.
 
 ## 4. Settings keys
 
-Back up D-HU's `settings.xml` at the start (`$OUT/settings-backup-hu.xml`) and diff it against the end. State the
-delta in Setup notes. Record `video-profile-starvation-cap`; if it is true, delete it and say so (it forces AAC).
-Leave the other audio keys as they are and record `audio-latency-multiplier` and `use-aaudio-output`.
+`pre` backs up D-HU's `settings.xml` (`$EV/settings-backup-hu.xml`), and `cleanup` saves the end state, restores the
+backup and diffs it. State the delta in Setup notes. `pre` records `video-profile-starvation-cap`; if it is true,
+`pre` deletes it (it forces AAC): say so. Leave the other audio keys as they are and record
+`audio-latency-multiplier` and `use-aaudio-output` (`$EV/pre-audio-keys.txt`).
 
-**D-HU, every run:**
+**D-HU, every run** (`arm_try` writes them with `set_hu_settings_host.py`, app stopped, and reads them back to
+`$EV/settings-<run>-keys.xml`):
 
 ```xml
 <int name="wifi-connection-mode" value="3" />
@@ -134,91 +167,88 @@ Leave the other audio keys as they are and record `audio-latency-multiplier` and
 <boolean name="external-bt-blink-transport" value="false" />
 ```
 
-**Per run** (the table at the top): `use-aac-audio`, `use-pcm-guidance`, `prefer-48k-guidance`, all booleans.
-
-Write them with `set_hu_settings_host.py` with the app stopped, and read every one back.
+**Per run** (the table at the top, `arm_keys` in `lib.sh`): `use-aac-audio`, `use-pcm-guidance`,
+`prefer-48k-guidance`, all booleans. `allow-external-configuration` is there for `ACTION_EXPORT_LOG`, which the
+candidate gates.
 
 ## 5. Helpers
 
-Run every adb call in sequence, never two at once against one unit. Write the results file after every run.
+Every adb call runs in sequence, never two at once against one unit. `lib.sh` is sourced before every script and
+grade. A run's script reads its run id from `$RUN`.
 
-**lib.sh**
-
+**`lib.sh`**
 ```bash
 PKG=com.andrerinas.headunitrevived
 RX=$PKG/com.andrerinas.openheadunit.automation.AutomationReceiver
-HU=27870808938846; PH=4f4027e9; D=$HU
+MAIN=$PKG/com.andrerinas.openheadunit.main.MainActivity
+HU=27870808938846; PH=4f4027e9
 MAPS=com.google.android.apps.maps
-OUT=rig-data/rounds/pr-1091-pcm-guidance-round1; mkdir -p $OUT
-export LC_ALL=C
-send() { a=$1; shift; adb -s $D shell am broadcast -f 0x00000020 -n $RX -a com.andrerinas.openheadunit.$a "$@"; }
-# marker on both units: AutomationMarker on D-HU, RIGMARK on D-POCO
-mark() { send ACTION_LOG_MARKER --es text "$1" >/dev/null; sleep 0.3; adb -s $PH shell log -t RIGMARK "$1"
-  echo "$1 $(date '+%m-%d %H:%M:%S')" >> $OUT/marks.txt; }
-launch() { adb -s $D shell am start -n $PKG/com.andrerinas.openheadunit.main.MainActivity >/dev/null; }
-appexit() { adb -s $D shell am start -a android.intent.action.VIEW -d "headunit://exit" >/dev/null; sleep 5
-  adb -s $D shell am force-stop $PKG; sleep 1; }
-# lines of the D-HU capture between <run>-start and <run>-end; of the phone capture between the RIGMARK lines
-win()  { sed -n "/AutomationMarker: $1-start/,/AutomationMarker: $1-end/p" $OUT/hu.txt; }
-pwin() { sed -n "/RIGMARK.*$1-start/,/RIGMARK.*$1-end/p" $OUT/phone.txt; }
-cnt()  { win $1 | grep -acF -- "$2"; }
-# count of a fixed string after the last occurrence of a marker, and a capped wait on it
-after() { sed -n "/AutomationMarker: $1/,\$p" $OUT/hu.txt | grep -acF -- "$2"; }
-waitn() { local m=$1 s=$2 n=$3 cap=$4 t=0
-  while [ $t -lt $cap ]; do [ "$(after $m "$s")" -ge $n ] && return 0; sleep 1; t=$((t+1)); done; return 1; }
+C_COMMIT=dcc3c7085d7b
+send() { local a=$1; shift; adb -s "$HU" shell am broadcast -f 0x00000020 -n "$RX" -a "com.andrerinas.openheadunit.$a" "$@"; }
+# one marker in both captures: AutomationMarker on D-HU, the same text under tag RIG on D-POCO
+step() { rl_step "$1"; send ACTION_LOG_MARKER --es text "$1" >/dev/null; adb -s "$PH" shell log -t RIG "AutomationMarker: $1"; sleep 0.3; }
+launch() { adb -s "$HU" shell am start -n "$MAIN" >/dev/null; }
+hustop() { adb -s "$HU" shell am force-stop "$PKG"; sleep 1; }
+appexit() { adb -s "$HU" shell am start -a android.intent.action.VIEW -d "headunit://exit" >/dev/null; sleep 5; hustop; }
 
-# host thermal (rig-quirks/topics/tooling.md)
-th_gate() { $RIG_TOOLKIT/rig_thermal.sh wait 75 || $RIG_TOOLKIT/rig_thermal.sh wait 75 || { echo HOST_HOT; return 1; }
-  $RIG_TOOLKIT/rig_thermal.sh watch $OUT/thermal-$1.log & THPID=$!; }
-th_end() { kill $THPID 2>/dev/null; wait $THPID 2>/dev/null; }
+# host thermal: a second failed wait marks the run UNTESTABLE, and the stop rule ends the round
+cool() { [ -f "$EV/HOST_HOT" ] && { echo HOST_HOT; exit 3; }
+  rl_step "WAIT cap=600s host thermal gate"; rl_thermal_gate 75 || { touch "$EV/HOST_HOT"; exit 3; }
+  touch "$EV/$RUN-ran"; }
 
-# phone radios
-ph_bt()  { adb -s $PH shell svc bluetooth $1; sleep 4; adb -s $PH shell dumpsys bluetooth_manager | grep -m1 -E "^ *state:"; }
-ph_off() { adb -s $PH shell svc wifi disable; sleep 0.3; ph_bt disable; adb -s $PH shell dumpsys wifi | grep -m1 "Wi-Fi is"; }
-ph_on()  { adb -s $PH shell svc wifi enable; sleep 0.3; ph_bt enable; adb -s $PH shell dumpsys wifi | grep -m1 "Wi-Fi is"; }
+# D-POCO off and on the link with svc; its WiFi turns itself back on, so the disable is held
+link_off() { rl_hold_off "$PH" wifi 3; rl_radio "$PH" bt off; }
+link_on()  { rl_release "$PH" wifi; rl_radio "$PH" wifi on; rl_radio "$PH" bt on; }
 
-# two destinations about 1.3 km north and south of the phone's last fix
-loc() { L=$(adb -s $PH shell dumpsys location | grep -a -m1 -oE -- '-?[0-9]{1,3}\.[0-9]{4,},-?[0-9]{1,3}\.[0-9]{4,}')
-  if [ -z "$L" ]; then D1="Parque+Principal+Marinilla"; D2="Parque+Principal+Rionegro"
-  else D1=$(awk -v p="$L" 'BEGIN{split(p,a,","); printf "%.6f,%.6f", a[1]+0.012, a[2]}')
-       D2=$(awk -v p="$L" 'BEGIN{split(p,a,","); printf "%.6f,%.6f", a[1]-0.012, a[2]}'); fi
-  echo "fix=$L D1=$D1 D2=$D2" | tee -a $OUT/loc.txt; }
-# nav <1|2> <label>: start a route to D1 or D2; a new route speaks its first instruction
-nav() { local d=$D1; [ "$1" = 2 ] && d=$D2; mark "$2"
-  adb -s $PH shell "am start -a android.intent.action.VIEW -d 'google.navigation:q=$d&mode=d' -p $MAPS" >/dev/null; }
-# music: wait up to 20 s for the music channel; else one tap on Android Auto's play control in the projected video
-music() { waitn $1-start "Media Start Request AUDIO:" 1 20 && return 0
-  adb -s $D shell input tap 272 657; echo "$1 music tap $(date +%T)" >> $OUT/marks.txt
-  waitn $1-start "Media Start Request AUDIO:" 1 20 || echo "$1 NO_MUSIC" >> $OUT/marks.txt; }
-```
+# settings on D-HU, app stopped (adbd is root on D-HU, so no su)
+hu_keys() { python3 -I "$RIG_TOOLKIT/set_hu_settings_host.py" "$HU" "$@" >> "$EV/keys.log" 2>&1; }
+hu_cat()  { adb -s "$HU" shell cat "/data/data/$PKG/shared_prefs/settings.xml"; }
+# the four arms: use-aac-audio use-pcm-guidance prefer-48k-guidance
+arm_keys() { case "$RUN" in
+  R2) echo "true true true" ;; R3) echo "false true true" ;; R4) echo "true false true" ;; *) echo "true true false" ;; esac; }
 
-**arm.sh** (one run: `arm R2 true true true`)
+# nav N LABEL: a route to line N of $EV/dest.txt; a new route speaks its first instruction
+nav() { local d; d=$(sed -n "${1}p" "$EV/dest.txt" 2>/dev/null); [ -n "$d" ] || d=Parque+Principal+Marinilla
+  step "$2"; adb -s "$PH" shell "am start -a android.intent.action.VIEW -d 'google.navigation:q=$d&mode=d' -p $MAPS" >/dev/null; }
+# music: MEDIA_PLAY on the phone; if no music channel opens in 20 s, one tap on Android Auto's play control
+music() { adb -s "$PH" shell input keyevent 126
+  rl_wait_line "$EV/$RUN-hu.txt" 'Media Start Request AUDIO:' 20 && return 0   # not-literal
+  adb -s "$HU" shell input tap 272 657; echo "music tap $(date +%T)" >> "$EV/$RUN-music.txt"
+  rl_wait_line "$EV/$RUN-hu.txt" 'Media Start Request AUDIO:' 20 && return 0   # not-literal
+  echo NO_MUSIC >> "$EV/$RUN-music.txt"; }
 
-```bash
-arm() { local R=$1 AAC=$2 PCM=$3 P48=$4
-  th_gate $R || return 1
-  ph_off
-  adb -s $D shell am force-stop $PKG
-  # write use-aac-audio=$AAC use-pcm-guidance=$PCM prefer-48k-guidance=$P48 with set_hu_settings_host.py; read all three back
-  launch; sleep 2; mark $R-start
-  ph_on
-  waitn $R-start "SSL handshake complete" 1 120 || { echo "$R NO_SESSION" >> $OUT/marks.txt; mark $R-end; th_end; appexit; return 1; }
-  waitn $R-start "Throughput over" 1 30
-  music $R
-  sleep 10
-  for i in 1 2 3; do nav $(( (i % 2) + 1 )) $R-p$i; sleep 35; done
-  send ACTION_EXPORT_LOG          # keep the newest HUR_Log_*.txt as $OUT/$R-export.txt
-  mark $R-end
-  send ACTION_DISCONNECT; sleep 5
-  adb -s $PH shell am force-stop $MAPS
-  th_end; appexit
-}
+# one bring-up: phone off, keys, captures, launch, phone on. 0 when the SSL handshake completed
+arm_try() { local aac pcm p48
+  read -r aac pcm p48 <<< "$(arm_keys)"
+  link_off; hustop
+  hu_keys scalar:int:wifi-connection-mode:3 scalar:int:native-ap-transport:0 scalar:int:log-level:2 \
+    scalar:int:onboarding-version:2 scalar:boolean:allow-external-configuration:true scalar:boolean:enable-audio-sink:true \
+    scalar:boolean:external-bt-zbt-transport:false scalar:boolean:external-bt-blink-transport:false \
+    "scalar:boolean:use-aac-audio:$aac" "scalar:boolean:use-pcm-guidance:$pcm" "scalar:boolean:prefer-48k-guidance:$p48"
+  hu_cat > "$EV/settings-$RUN-keys.xml"
+  adb -s "$HU" logcat -G 16M; adb -s "$HU" logcat -c
+  adb -s "$PH" logcat -G 16M; adb -s "$PH" logcat -c
+  rl_cap_start "$RUN-hu" "$HU"
+  rl_cap_start "$RUN-phone" "$PH"
+  launch; sleep 2; step "$RUN-start"
+  link_on
+  rl_wait_line "$EV/$RUN-hu.txt" 'SSL handshake complete' 120 || return 1
+  rl_wait_line "$EV/$RUN-hu.txt" 'Throughput over' 30; return 0; }
+
+# --- grading ---
+NFAIL=0; INC=""
+cnd() { local l; l=$(rl_cond "$@"); echo "$l"; case "$l" in *" FAIL "*) NFAIL=$((NFAIL + 1)) ;; esac; }
+inc() { INC="${INC:+$INC; }$*"; }
+same() { [ "$1" = "$2" ] && echo 1 || echo 0; }
+untestable_if_hot() { if [ -f "$EV/HOST_HOT" ] && [ ! -f "$EV/$RUN-ran" ]; then
+  rl_verdict UNTESTABLE "host thermal: the second cooling wait failed"; exit 0; fi; }
 ```
 
 ## 6. The deciding lines
 
 All verified with `grep -F -r` in `app/src/main` at `dcc3c708`. Every one is INFO or WARN, so `log-level=2` carries
-them. Grep every capture with `-a`.
+them. Grep every capture with `-a`. A line with a run-time value (`AUDIO1`, `channel=4,`) is matched in two steps:
+the literal prefix with `grep -F`, then the value with `awk index()`.
 
 | Id | Line | Level | Read |
 |---|---|---|---|
@@ -226,7 +256,7 @@ them. Grep every capture with `-a`.
 | L-CAP | `[ServiceDiscovery] AAC music announced by the 2.4 GHz cap` | INFO | present means music is AAC whatever `use-aac-audio` says |
 | L-VER | `Handshake: the phone selected ` | INFO | the negotiated AAP version; 1.6 or more is needed for 48 kHz |
 | L-SETUP | `Media Sink Setup Request: ` | INFO | `N on channel AUDIO1`; the Config response follows it |
-| L-IDX | `configuration_indices: 1` | INFO, a line of the `Config response:` proto | in the 6 lines after `on channel AUDIO1`: the 48 kHz offer went out |
+| L-IDX | `configuration_indices: 1` | INFO, a line of the `Config response:` proto | between `Config response:` and `(maxUnacked=` after the `on channel AUDIO1` setup: the 48 kHz offer went out |
 | L-MSR1 | `Media Start Request AUDIO1:` | INFO | one per prompt; read `config_index=K` |
 | L-MSR6 | `Media Start Request AUDIO:` | INFO | music started |
 | L-SEL | `AapAudio: AUDIO1 selected configuration=` | INFO | `configuration=K sampleRate=S`, once per `AUDIO1` Start |
@@ -239,6 +269,7 @@ them. Grep every capture with `-a`.
 | L-SSL | `SSL handshake complete` | INFO | the session formed |
 | L-TP | `Throughput over` | INFO | `rendered=N` |
 | L-EXP | `pcmGuidance:` | export header | `pcmGuidance:<b> prefer48kGuidance:<b>` must match the run's keys |
+| L-EXPF | `Automation: log export finished (` | INFO | names the exported file the run pulls |
 
 FAIL lines. Any one of these in a run's window is a FAIL for that run:
 
@@ -249,7 +280,7 @@ FAIL lines. Any one of these in a run's window is a FAIL for that run:
 | `is not an audio codec, keeping codec=` | WARN |
 | `FATAL EXCEPTION` in a line block that names `com.andrerinas` | ERROR (AndroidRuntime) |
 
-Phone capture, between the run's RIGMARK lines: `Critical error` and `ByeBye` (Gearhead). Each MUST be 0.
+Phone capture, between the run's markers (`log -t RIG`): `Critical error` and `ByeBye` (Gearhead). Each MUST be 0.
 
 **What each arm must announce (L-SD) and decode (L-DEC, L-DEC6).** L-SD prints `MEDIA_CODEC_AUDIO_AAC_LC` or
 `MEDIA_CODEC_AUDIO_PCM`; L-DEC prints `codec=AAC_LC` or `codec=PCM`.
@@ -261,55 +292,198 @@ Phone capture, between the run's RIGMARK lines: `Critical error` and `ByeBye` (G
 | R3 | PCM (AAC_LC if L-CAP) | PCM | PCM | 1 |
 | R4 | AAC_LC | AAC_LC | AAC_LC | 0 |
 
-L-IDX needs L-VER of 1.6 or more in R2 and R3. If L-VER reads below 1.6, L-IDX 0 is correct there; record it and
-mark the 48 kHz bullets INCONCLUSIVE.
+L-IDX needs L-VER of 1.6 or more in R2 and R3. If L-VER reads below 1.6, L-IDX 0 is correct there; the grade
+records it and marks the 48 kHz bullets INCONCLUSIVE.
 
-## 7. Pre-flight (6 min)
+## 7. Runs
 
-**preflight.sh**
+### pre: backup, install, identity, destinations (6 min)
 
+Records the `shared_prefs` owner (`rig-quirks/units/D-HU.md`), backs up `settings.xml`, records the audio keys and the
+audio route, clears the two latches section 3 and 4 name, installs C, checks its identity, and writes the two
+destinations.
+
+**`pre.sh`**
 ```bash
-. ./lib.sh
-adb -s $HU shell stat -c '%U:%G %a' /data/data/$PKG/shared_prefs | tee $OUT/pre-stat.txt   # rig-quirks/units/D-HU.md
-adb -s $HU shell su -c "cat /data/data/$PKG/shared_prefs/settings.xml" > $OUT/settings-backup-hu.xml
-grep -o 'name="\(video-profile-starvation-cap\|playback-focus-self-defeating\|audio-latency-multiplier\|use-aaudio-output\|use-aac-audio\)"[^/]*' $OUT/settings-backup-hu.xml | tee $OUT/pre-audio-keys.txt
-adb -s $HU shell dumpsys audio | grep -a -m3 -i "speaker\|A2DP" | tee $OUT/pre-route.txt
-adb -s $PH shell dumpsys bluetooth_manager | grep -a -A8 'Bonded devices' | tee $OUT/pre-bonds.txt
-adb -s $PH shell am start -a android.intent.action.VIEW -d "headunit://exit" >/dev/null; sleep 4; adb -s $PH shell am force-stop $PKG
-adb -s 30041c35642d2200 shell svc bluetooth disable 2>/dev/null   # D-SAM, if attached
-loc
-# one capture for the whole round, on both units
-adb -s $HU logcat -G 16M; adb -s $HU logcat -c
-stdbuf -oL adb -s $HU logcat -v time > $OUT/hu.txt & echo $! > $OUT/hu.pid
-adb -s $PH logcat -G 16M; adb -s $PH logcat -c
-stdbuf -oL adb -s $PH logcat -v time > $OUT/phone.txt & echo $! > $OUT/phone.pid
+rl_step "backup"
+hustop
+adb -s "$HU" shell stat -c '%U:%G %a' "/data/data/$PKG/shared_prefs" > "$EV/pre-stat.txt"
+hu_cat > "$EV/settings-backup-hu.xml"
+grep -aoE '(video-profile-starvation-cap|playback-focus-self-defeating|audio-latency-multiplier|use-aaudio-output|use-aac-audio)"[^/]*' \
+  "$EV/settings-backup-hu.xml" > "$EV/pre-audio-keys.txt"
+adb -s "$HU" shell dumpsys audio | grep -a -m3 -i "speaker\|A2DP" > "$EV/pre-route.txt"
+grep -q 'name="video-profile-starvation-cap" value="true"' "$EV/settings-backup-hu.xml" &&   # not-literal
+  { hu_keys del:video-profile-starvation-cap; echo "deleted video-profile-starvation-cap=true" >> "$EV/pre-notes.txt"; }
+grep -q 'name="playback-focus-self-defeating" value="true"' "$EV/settings-backup-hu.xml" &&   # not-literal
+  { hu_keys scalar:boolean:playback-focus-self-defeating:false; echo "wrote playback-focus-self-defeating=false" >> "$EV/pre-notes.txt"; }
+rl_step "install"
+adb -s "$HU" install -r -d "$EV/apk/C.apk" > "$EV/pre-install.txt" 2>&1
+P=$(adb -s "$HU" shell pm path "$PKG" | cut -d: -f2 | tr -d '\r')
+adb -s "$HU" pull "$P" "$EV/live.apk" >/dev/null 2>&1
+echo "want=$(md5sum < "$EV/apk/C.apk" | cut -d' ' -f1) live=$(md5sum < "$EV/live.apk" | cut -d' ' -f1)" > "$EV/ident-C.txt"
+echo "dex AudioSinkServices=$(unzip -p "$EV/live.apk" 'classes*.dex' | strings | grep -c AudioSinkServices)" >> "$EV/ident-C.txt"
+launch; sleep 5; send ACTION_QUERY_STATE > "$EV/qs-C.txt"; appexit
+rl_step "destinations"
+adb -s "$PH" shell input keyevent KEYCODE_HOME
+L=$(adb -s "$PH" shell dumpsys location | grep -a -m1 -oE -- '-?[0-9]{1,3}\.[0-9]{4,},-?[0-9]{1,3}\.[0-9]{4,}')
+if [ -z "$L" ]; then printf '%s\n' Parque+Principal+Marinilla Parque+Principal+Rionegro > "$EV/dest.txt"
+else awk -v p="$L" 'BEGIN {split(p, a, ","); printf "%.6f,%.6f\n%.6f,%.6f\n", a[1] + 0.012, a[2], a[1] - 0.012, a[2]}' > "$EV/dest.txt"; fi
+echo "fix=$L" > "$EV/loc.txt"
 ```
 
-Start music on D-POCO now and leave it playing for the round.
+**`grade-pre.sh`**
+```bash
+cnd pre-backup ge "$(grep -ac '</map>' "$EV/settings-backup-hu.xml" 2>/dev/null)" 1 "D-HU settings.xml backed up"
+MD=$(awk '{split($1, a, "="); split($2, b, "=")} a[2] != "" && a[2] == b[2] {n++} END {print n+0}' "$EV/ident-C.txt" 2>/dev/null)
+cnd id-md5 eq "${MD:-0}" 1 "live APK is apk/C.apk"
+cnd id-commit ge "$(grep -acF -- "$C_COMMIT" "$EV/qs-C.txt" 2>/dev/null)" 1 "QUERY_STATE commit $C_COMMIT"
+cnd id-dex ge "$(grep -a 'dex AudioSinkServices=' "$EV/ident-C.txt" 2>/dev/null | cut -d= -f2)" 1 "AudioSinkServices in the DEX"   # not-literal
+echo "INFO $(tr '\n' ' ' < "$EV/pre-audio-keys.txt" 2>/dev/null)"
+echo "INFO $(cat "$EV/pre-notes.txt" 2>/dev/null) dest=$(tr '\n' ' ' < "$EV/dest.txt" 2>/dev/null)"
+[ "$NFAIL" -eq 0 ] || rl_verdict UNTESTABLE "no backup, or the build on D-HU is not C"
+```
 
-## 8. Runs
+PASS: a whole backup, and the live APK, its commit and its DEX all match C. Otherwise the run is UNTESTABLE and the
+round stops: there is nothing to measure and nothing to restore.
 
-`arm R1 true true false`, then `arm R2 true true true`, `arm R3 false true true`, `arm R4 true false true`. After R4:
-`kill $(cat $OUT/hu.pid) $(cat $OUT/phone.pid)`, restore D-HU's `settings.xml` from the backup and read
-`playback-focus-self-defeating` once more.
+### R1, R2, R3 and R4: one settings arm each (R2 is THE POINT)
 
-Stop rule: a run with no `SSL handshake complete` within 120 s of `<run>-start` ends there and is graded from what it
-has. Retry a run at most once. Stop the round after 2 runs with no session.
+`arm.sh` is the same script for every run, and `$RUN` picks the keys from `arm_keys`. One bring-up, and one more on
+a miss (the first capture is kept as `<run>-hu-miss.txt`). Then music, 10 s, three routes 35 s apart (D2, D1, D2),
+the export, `<run>-end`, `ACTION_DISCONNECT`, Maps stopped, the app exited. The `ByeBye` from `ACTION_DISCONNECT` comes
+after `<run>-end`, so it is outside the window.
 
-Every run's PASS needs these **session bullets**, in its `win`:
+**`arm.sh`**
+```bash
+cool
+if ! arm_try; then
+  step "$RUN-miss"; rl_cap_stop; appexit
+  mv "$EV/$RUN-hu.txt" "$EV/$RUN-hu-miss.txt"; mv "$EV/$RUN-phone.txt" "$EV/$RUN-phone-miss.txt"
+  arm_try || { echo session=none > "$EV/$RUN-session.txt"; step "$RUN-end"; rl_cap_stop; appexit; link_off; exit 0; }
+fi
+echo session=ok > "$EV/$RUN-session.txt"
+music
+rl_sleep 10
+nav 2 "$RUN-p1"; rl_sleep 35
+nav 1 "$RUN-p2"; rl_sleep 35
+nav 2 "$RUN-p3"; rl_sleep 35
+OFF=$(rl_offset "$EV/$RUN-hu.txt")
+send ACTION_EXPORT_LOG > "$EV/$RUN-export-reply.txt"
+rl_wait_line "$EV/$RUN-hu.txt" 'Automation: log export finished (' 60 "$OFF"
+F=$(tail -c +$((OFF + 1)) "$EV/$RUN-hu.txt" | grep -aF 'Automation: log export finished (' | tail -1 | sed 's/.*finished (\(.*\)).*/\1/' | tr -d '\r')
+[ -n "$F" ] && adb -s "$HU" pull "$F" "$EV/$RUN-export.txt" >/dev/null 2>&1
+step "$RUN-end"
+send ACTION_DISCONNECT >/dev/null; sleep 5
+adb -s "$PH" shell am force-stop "$MAPS"
+rl_cap_stop; appexit; link_off
+```
+
+**`grade-arm.sh`**
+```bash
+untestable_if_hot
+H="$EV/$RUN-hu.txt"; P="$EV/$RUN-phone.txt"; W="$EV/$RUN-win.txt"
+[ "$(cat "$EV/$RUN-session.txt" 2>/dev/null)" = session=ok ] ||
+  { rl_verdict UNTESTABLE "no SSL handshake within 120 s, on two bring-ups"; exit 0; }
+rl_win "$H" "$RUN-start" "$RUN-end" > "$W"
+read -r AAC PCM P48 <<< "$(arm_keys)"
+S4=PCM; [ "$PCM" = false ] && S4=AAC_LC
+M6=AAC_LC; [ "$AAC" = false ] && M6=PCM
+CAP=$(grep -acF '[ServiceDiscovery] AAC music announced by the 2.4 GHz cap' "$W")
+[ "${CAP:-0}" -ge 1 ] && { M6=AAC_LC; echo "INFO L-CAP printed: music is AAC by the 2.4 GHz cap"; }
+
+# session bullets
+cnd S1 ge "$(grep -acF 'SSL handshake complete' "$W")" 1 "L-SSL the session formed"
+REND=$(grep -aF 'Throughput over' "$W" | tail -1 | grep -ao 'rendered=[0-9]*' | cut -d= -f2)   # not-literal
+cnd S2 gt "${REND:-0}" 0 "the last L-TP rendered frames"
+VL=$(grep -aF 'Handshake: the phone selected ' "$W")
+cnd S3 eq "$(printf '%s' "$VL" | grep -ac .)" 1 "L-VER exactly one version line"
+cnd S4 eq "$(printf '%s\n' "$VL" | grep -acF 'STATUS_SUCCESS')" 1 "L-VER status STATUS_SUCCESS"
+VER=$(printf '%s\n' "$VL" | grep -ao 'selected [0-9]*\.[0-9]*' | head -1 | cut -d' ' -f2)
+V16=0; case "$VER" in 1.[6-9]|1.[1-9][0-9]|[2-9].*) V16=1 ;; esac
+echo "INFO L-VER $VER"
+sdc() { grep -aF '[ServiceDiscovery] Audio sink channel=' "$W" |
+  awk -v ch="channel=$1 " -v cd="codec=MEDIA_CODEC_AUDIO_$2" 'index($0, ch) && index($0, cd) {n++} END {print n+0}'; }
+cnd S5 eq "$(grep -acF '[ServiceDiscovery] Audio sink channel=' "$W")" 3 "L-SD exactly three sinks"
+cnd S6 eq "$(sdc 6 "$M6")" 1 "L-SD channel 6 is $M6"
+cnd S7 eq "$(sdc 4 "$S4")" 1 "L-SD channel 4 is $S4"
+cnd S8 eq "$(sdc 5 "$S4")" 1 "L-SD channel 5 is $S4"
+if grep -q NO_MUSIC "$EV/$RUN-music.txt" 2>/dev/null; then inc "music bullet: no music channel opened"
+else
+  DEC6=$(grep -aF 'AudioDecoder.start: channel=' "$W" | awk -v cd="codec=$M6" 'index($0, "channel=6,") && index($0, cd) {n++} END {print n+0}')
+  cnd S9 ge "$DEC6" 1 "L-DEC6 music output codec=$M6"
+  cnd S10 ge "$(awk 'index($0, "Media Start Request AUDIO:") {n++} END {print n+0}' "$W")" 1 "L-MSR6 music started"
+fi
+read -r SET1 IDX1 <<< "$(awk '
+  index($0, "Media Sink Setup Request: ") && index($0, "on channel AUDIO1") {s++; want = 1; next}
+  want && index($0, "Config response:") {inb = 1}
+  inb && index($0, "configuration_indices: 1") {i++}
+  inb && index($0, "(maxUnacked=") {inb = 0; want = 0}
+  END {print s + 0, (i > 0 ? 1 : 0)}' "$W")"
+WANT_IDX=0; case "$RUN" in R2|R3) WANT_IDX=$V16 ;; esac
+cnd S11 ge "$SET1" 1 "L-SETUP the AUDIO1 sink was set up"
+cnd S12 eq "$IDX1" "$WANT_IDX" "L-IDX the 48 kHz offer is $WANT_IDX"
+case "$RUN" in R2|R3) [ "$V16" = 1 ] || inc "AAP $VER is below 1.6: the 48 kHz bullets are INCONCLUSIVE" ;; esac
+cnd F1 eq "$(grep -acF 'AapAudio: invalid configuration=' "$W")" 0 "no invalid configuration line"
+cnd F2 eq "$(grep -acF ' has only configuration 0; ignoring index=' "$W")" 0 "no ignored index line"
+cnd F3 eq "$(grep -acF 'is not an audio codec, keeping codec=' "$W")" 0 "no non-audio codec line"
+cnd F4 eq "$(grep -a -A3 'FATAL EXCEPTION' "$W" | grep -acF com.andrerinas)" 0 "no crash of the app"   # system
+cnd P1 eq "$(rl_cnt "$P" "$RUN-start" "$RUN-end" 'Critical error')" 0 "phone Critical error"   # phone
+cnd P2 eq "$(rl_cnt "$P" "$RUN-start" "$RUN-end" 'ByeBye')" 0 "phone ByeBye"
+EXP=$(grep -a -m1 -o 'pcmGuidance:[a-z]* prefer48kGuidance:[a-z]*' "$EV/$RUN-export.txt" 2>/dev/null)
+cnd S13 eq "$(same "$EXP" "pcmGuidance:$PCM prefer48kGuidance:$P48")" 1 "L-EXP export header matches the keys"
+
+# guidance bullets: one pass over the window, in log order
+read -r NMSR NSEL BADSEL BADRATE BADDEC BADCODEC BADSRC NSTOP OPEN PICK1 IDXS CONC STALE <<< "$(awk -v codec="codec=$S4" '
+  function num(s, k,   i, t) { i = index(s, k); if (!i) return -1; t = substr(s, i + length(k)); sub(/[^0-9].*/, "", t); return t + 0 }
+  index($0, "Media Start Request AUDIO1:") { m++; p = num($0, "config_index="); pend = 1; lm = NR; if (p == 1) one++
+    idx = idx (idx == "" ? "" : ",") p }
+  index($0, "AapAudio: AUDIO1 selected configuration=") { s++; k = num($0, "configuration="); r = num($0, "sampleRate=")
+    if (pend && k != p) bsel++; pend = 0
+    if ((k == 0 && r != 16000) || (k == 1 && r != 48000)) brate++
+    cur = r; seen = 1 }
+  index($0, "AudioDecoder.start: channel=4,") { r = num($0, "sampleRate=")
+    if ((seen && r != cur) || (!seen && r != 16000)) bdec++
+    if (!index($0, codec)) bcod++ }
+  index($0, "PCM channel=4 source=") { r = num($0, "source="); if (seen && r != cur) bsrc++ }
+  index($0, "PCM overflow channel=4 negotiatedSource=") { r = num($0, "negotiatedSource="); if (seen && r != cur) bsrc++ }
+  index($0, "Audio Stop: AUDIO1") { st++; ls = NR }
+  index($0, "AudioMixer: id=") && index($0, " channel=4 target=") { c = num($0, "concealedFrames="); x = num($0, "staleFrames=")
+    if (c > mc) mc = c; if (x > mx) mx = x }
+  END { print m + 0, s + 0, bsel + 0, brate + 0, bdec + 0, bcod + 0, bsrc + 0, st + 0, (lm > ls ? 1 : 0), one + 0,
+    (idx == "" ? "-" : idx), mc + 0, mx + 0 }' "$W")"
+echo "INFO AUDIO1 starts=$NMSR stops=$NSTOP config_index=$IDXS concealedFrames.max=$CONC staleFrames.max=$STALE"
+if [ "${NMSR:-0}" -lt 2 ]; then inc "guidance bullets: $NMSR AUDIO1 starts, 2 needed"
+else
+  STOPOK=0
+  if [ "$NSTOP" -eq "$NMSR" ] || { [ "$NSTOP" -eq $((NMSR - 1)) ] && [ "$OPEN" -eq 1 ]; }; then STOPOK=1; fi
+  cnd G1 eq "$STOPOK" 1 "L-STOP1 every prompt ended ($NSTOP stops, $NMSR starts)"
+  cnd G2 eq "$NSEL" "$NMSR" "L-SEL one per AUDIO1 start"
+  cnd G3 eq "$BADSEL" 0 "L-SEL configuration equals the config_index before it"
+  cnd G4 eq "$BADRATE" 0 "L-SEL configuration 0 is 16000, 1 is 48000"
+  cnd G5 eq "$BADDEC" 0 "L-DEC sampleRate follows L-SEL (16000 before the first)"
+  cnd G6 eq "$BADCODEC" 0 "L-DEC codec=$S4"
+  cnd G7 eq "$BADSRC" 0 "L-SRC and L-OVF rates follow L-SEL"
+fi
+case "$RUN" in
+  R1|R4) cnd G8 eq "${PICK1:-0}" 0 "every config_index is 0" ;;
+  R2|R3) [ "${NMSR:-0}" -ge 1 ] && [ "${PICK1:-0}" -eq 0 ] && inc "D-POCO kept 16 kHz (no config_index=1): the 48 kHz path is INCONCLUSIVE" ;;
+esac
+if [ "$NFAIL" -eq 0 ] && [ -n "$INC" ]; then rl_verdict INCONCLUSIVE "$INC"; fi
+```
+
+Every run's PASS needs these **session bullets**, in its window from `<run>-start` to `<run>-end` (S1 to S13, F1 to
+F4, P1 and P2 in the grade):
 
 - L-SSL ≥ 1, the last L-TP has `rendered=` > 0, and L-VER = 1 ending `status STATUS_SUCCESS`. Record `X.Y`.
 - L-SD: exactly 3 lines, and the codecs match the run's row in section 6.
 - L-DEC6 ≥ 1 with the codec of the row's channel 6 (`codec=AAC_LC` or `codec=PCM`), and L-MSR6 ≥ 1. If `music`
   wrote `NO_MUSIC`, this bullet is INCONCLUSIVE.
-- L-SETUP has a line `on channel AUDIO1`, and L-IDX in the 6 lines after it matches the row.
+- L-SETUP has a line `on channel AUDIO1`, and L-IDX in its Config response matches the row.
 - 0 lines from the FAIL table.
-- Phone: `pwin <run> | grep -acF 'Critical error'` = 0 and `pwin <run> | grep -acF ByeBye` = 0. The `ByeBye` from
-  `ACTION_DISCONNECT` comes after `<run>-end`, so it is outside the window.
-- The export: `grep -a -m1 -o 'pcmGuidance:[a-z]* prefer48kGuidance:[a-z]*' $OUT/<run>-export.txt` matches the run's
-  keys.
+- Phone: `Critical error` = 0 and `ByeBye` = 0 in the window.
+- The export header `pcmGuidance:<b> prefer48kGuidance:<b>` matches the run's keys.
 
-And these **guidance bullets**, graded only when L-MSR1 ≥ 2 (else INCONCLUSIVE):
+And these **guidance bullets** (G1 to G7), graded only when L-MSR1 ≥ 2 (else INCONCLUSIVE):
 
 - L-STOP1 = L-MSR1, or L-MSR1 - 1 when the last prompt was still speaking at `<run>-end` (each prompt ended).
 - L-SEL count = L-MSR1, and for every L-MSR1 line the next L-SEL line has `configuration=` equal to its
@@ -325,19 +499,50 @@ And these **guidance bullets**, graded only when L-MSR1 ≥ 2 (else INCONCLUSIVE
 
 Run-specific:
 
-- **R1 (control):** every `config_index=` is 0.
+- **R1 (control):** every `config_index=` is 0 (G8).
 - **R2 (the point):** record whether the phone picked 1. If every `config_index=` is 0, the 48 kHz bullets are
   INCONCLUSIVE (this phone keeps 16 kHz), and the rest still grade. If any is 1, the rate bullets above MUST hold
   for it.
 - **R3:** as R2. Record L-CAP.
-- **R4 (option off):** every `config_index=` is 0, L-IDX is 0 although `prefer-48k-guidance` is true, and channel 4
-  is `AAC_LC` in L-SD and L-DEC.
+- **R4 (option off):** every `config_index=` is 0 (G8), L-IDX is 0 although `prefer-48k-guidance` is true, and
+  channel 4 is `AAC_LC` in L-SD and L-DEC.
 
-## 9. Do not re-run
+Stop rule: a run with no `SSL handshake complete` within 120 s of `<run>-start` gets one more bring-up. A second
+miss makes it UNTESTABLE, and the round stops there (section 0).
+
+### cleanup: restore D-HU
+
+**`cleanup.sh`**
+```bash
+rl_step "restore D-HU"
+hustop
+hu_cat > "$EV/settings-end-hu.xml"
+grep -ao 'playback-focus-self-defeating"[^/]*' "$EV/settings-end-hu.xml" > "$EV/post-focus-latch.txt"
+N=$(grep -ac '</map>' "$EV/settings-backup-hu.xml" 2>/dev/null)
+if [ "${N:-0}" -ge 1 ]; then
+  F=/data/data/$PKG/shared_prefs/settings.xml
+  OWN=$(adb -s "$HU" shell stat -c %u:%g "/data/data/$PKG" | tr -d '\r')
+  adb -s "$HU" push "$EV/settings-backup-hu.xml" /data/local/tmp/pcm-restore.xml >/dev/null
+  adb -s "$HU" shell cp /data/local/tmp/pcm-restore.xml "$F"
+  adb -s "$HU" shell chown "$OWN" "$F"
+  adb -s "$HU" shell chmod 660 "$F"
+  hu_cat > "$EV/settings-after-hu.xml"
+  diff "$EV/settings-backup-hu.xml" "$EV/settings-after-hu.xml" > "$EV/settings-diff-hu.txt"
+fi
+adb -s "$PH" shell am force-stop "$MAPS"
+```
+
+**`grade-cleanup.sh`**
+```bash
+cnd restore-hu eq "$(wc -c < "$EV/settings-diff-hu.txt" 2>/dev/null)" 0 "D-HU settings.xml back to the backup"
+echo "INFO after R4: $(cat "$EV/post-focus-latch.txt" 2>/dev/null)"
+```
+
+## 8. Do not re-run
 
 Nothing from earlier threads. Music-only stutter grading belongs to the audio continuity thread.
 
-## 10. Report back
+## 9. Report back
 
 1. For R2 and R3: L-VER, L-IDX, and every `config_index=` the phone sent. Did D-POCO ever pick 48 kHz?
 2. Did the four rates agree for every prompt (phone index, `selected configuration`, `AudioDecoder.start`, mixer

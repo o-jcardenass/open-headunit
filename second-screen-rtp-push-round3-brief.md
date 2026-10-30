@@ -5,16 +5,46 @@ Published name on the transfer branch: `second-screen-rtp-push-round3-brief.md`.
 published, so this is the thread's third published round. Evidence: upload to the existing release
 `rig-evidence-second-screen-rtp-push`, asset `second-screen-rtp-push-round3-captures.zip`.
 
-Units: **D-HU** (head unit), **D-POCO** (phone), and the **tester PC** as the RTP receiver.
-Queue line: D-HU, D-POCO, tester PC. No other unit is used, so the README can pair this round with a
-round on D-MOTO, D-SAM or D-HP (template section 3b).
+> **Revised 2026-10-29: moved onto `rig-lib`.** The round runs as one `rig_session.py` process from the
+> `rig-requires` block below. Every script is a named block built on `rig-lib/rig_lib.sh`, and no file is copied
+> from round 2's folder. S4 now runs before S3, because S3's grade reads S4's. No condition or build changed.
 
-Estimated time: about 15 min of pre-flight, 15 min for R0 (one build), then about 20 min of runs
-(S12 8 min, S3 5 min, S4 5 min, S5 graded from them). Add up to 10 min for each thermal wait. Total
-about 50 min.
+Units: **D-HU** (head unit), **D-POCO** (phone), and the **tester PC** as the RTP receiver, with D-MOTO's
+radios off. Queue line: D-HU, D-POCO, tester PC. No other unit is used, so the README can pair this round with
+a round on D-SAM or D-HP (template section 3b).
+
+Estimated time: 15 min for the build, then about 26 min of runs (R0 3 min, S12 8 min, S4 5 min, S3 5 min,
+S2, S5 and cleanup 2 min). Add up to 10 min for each thermal wait. Total about 45 min.
 
 **S1 is the point of the round.** It asks one question that no earlier round could answer: does
 Android Auto send a new keyframe on the second display when we cycle that display's video focus?
+
+## 0. What a session needs
+
+```rig-requires
+lib 19f862828
+unit D-HU   role=headunit wifi=on bt=on
+unit D-POCO role=phone wifi=on bt=on bond=D-HU aa=D-HU battery=30
+unit D-MOTO wifi=off bt=off
+candidate C 8d4af793b5e87a7b44f1e0ac01976a8db21766f6
+confirm The tester PC has ffmpeg installed, and its firewall lets UDP 5004 and 5005 in from D-HU's subnet (on ufw: sudo ufw allow proto udp from <D-HU subnet>.0/24 to any port 5004:5005). Say the exact rule you added.
+run R0 cap=300 script=r0.sh grade=grade-r0.sh
+run S12 cap=900 script=s12.sh grade=grade-s12.sh point=yes
+run S2 cap=60 script=s2.sh grade=grade-s2.sh
+run S4 cap=600 script=s4.sh grade=grade-s4.sh
+run S3 cap=600 script=s3.sh grade=grade-s3.sh
+run S5 cap=60 script=s5.sh grade=grade-s5.sh
+run cleanup cap=180 script=cleanup.sh grade=grade-cleanup.sh always=yes hand="remove the PC firewall rule for UDP 5004 and 5005 if one was added for this round, and tell the host the command you used"
+stop R0 FAIL,INCONCLUSIVE,UNTESTABLE skip=all
+stop S12 UNTESTABLE skip=all
+stop S4 UNTESTABLE skip=all
+stop S3 UNTESTABLE skip=all
+```
+
+D-POCO must be bonded to D-HU: with that bond, D-POCO's Android Auto dials D-HU only. D-MOTO's radios stay off
+so that it cannot connect to D-HU. The S12 grade is S1's verdict; S2 and S5 run no device step and grade from
+the files that S12, S3 and S4 left. Each cap covers one in-script bring-up retry. The rig host reads
+`rig_session.py view`, not this whole file.
 
 ## 1. Build and baseline
 
@@ -30,11 +60,20 @@ Android Auto send a new keyframe on the second display when we cycle that displa
 - **No baseline build.** S4 is the control. It is a settings change on the candidate
   (`aux-rtp-refresh-seconds` = 0), so one APK serves every run.
 
-```bash
+The host builds (the rig-round skill, step 3), and the APK goes to `$EV/apk/C.apk`. If `ls-remote` prints
+another SHA or nothing, stop and report: the round has no candidate.
+
+```text
 git ls-remote fork fix/rtp-push-recovery   # MUST print 8d4af793b5e87a7b44f1e0ac01976a8db21766f6
+git -C ~/Coding/StudioProjects/headunit-revived fetch fork fix/rtp-push-recovery
+WT=$($RIG_TOOLKIT/wt-new.sh second-screen-rtp-push candidate 8d4af793b5e87a7b44f1e0ac01976a8db21766f6 | tail -1)
+git -C $WT rev-parse 'HEAD^{tree}'         # MUST print 153794946844e3a07135c9ad9b505bdcee096d4f
+$RIG_TOOLKIT/rig_thermal.sh wait 70
+HUR_DIR=$WT MAX_WORKERS=2 $RIG_TOOLKIT/build_hur_cool.sh   # then copy the APK to $EV/apk/C.apk at once
 ```
 
-If `ls-remote` prints another SHA or nothing, stop and report. The round has no candidate.
+R0 takes the PC harness from `~/Coding/StudioProjects/headunit-revived` at that SHA with `git archive`, so the
+fetch above must have run.
 
 ## 2. What this is and why
 
@@ -88,7 +127,7 @@ Auto's projected map, and it runs adb calls to D-POCO in parallel with the run's
 
 **The strict receiver is the branch's `rtp_grade.py`, and the lossy forwarder is its
 `lossy_proxy.py`.** Do not edit the files on the branch. `patch_tools.py` (section 5) makes rig copies
-with four small additions, and refuses to write them if a source file's md5 differs:
+in `$EV/tools/` with four small additions, and refuses to write them if a source file's md5 differs:
 
 - `lossy_proxy_rig.py` gets `--bind` (the branch binds `127.0.0.1`, which D-HU cannot reach across
   the LAN), `--first-wait` (the branch waits only 30 s for the first datagram, less than a
@@ -105,18 +144,21 @@ the 3 s window is slightly strict, never loose.
 **Other facts that change the runs:**
 
 - **Native AA, as in rounds 1 and 2.** D-HU cannot host USB (`rig-quirks/topics/tooling.md`). D-HU's
-  station must stay on the house WiFi (`network=wlan0` in every earlier session).
+  station must stay on the house WiFi (`network=wlan0` in every earlier session). R0 checks it.
 - **The PC firewall rule for UDP 5004 and 5005 may be gone again.** Round 2 found round 1's rule
-  gone. P5 probes it. The proxy forwards to the grader on `127.0.0.1:5006`, which needs no rule.
+  gone. The session's one `confirm` asks for it, and R0 probes it. The proxy forwards to the grader on
+  `127.0.0.1:5006`, which needs no rule.
 - **The rig's audio settings are a deliberate worst case.** Do not change `use-aac-audio`,
-  `audio-latency-multiplier`, `audio-queue-capacity` or `enable-audio-sink`. Read them back and
-  record them. Round 2 read the multiplier as 8.
-- **The phones may run Gearhead 18.1.164344**, which is not decompiled. Record the version. Phone
+  `audio-latency-multiplier`, `audio-queue-capacity` or `enable-audio-sink`. R0 records them. Round 2
+  read the multiplier as 8.
+- **The phones may run Gearhead 18.1.164344**, which is not decompiled. R0 records the version. Phone
   strings in this brief are Gearhead's, not ours, and cannot be checked against our tree.
 - **`ACTION_LOG_MARKER` is not in `AutomationCommandPolicy.CONFIGURING`** at the candidate, so
   `allow-external-configuration` is not needed.
 - **Not covered:** the new "Refresh the picture every" row, and the address and port rows. Entry
   needs a dialog or typing. Say so in Setup notes. It is a known gap, not a finding.
+- **Thermal:** every device run starts with `rl_thermal_gate 75` (the table in `rig-quirks/topics/tooling.md`).
+  A gate that fails twice grades the run UNTESTABLE (host thermal), and the stop lines skip every run after it.
 - **Expected INCONCLUSIVE, said now:**
   - S1, if the phone sends IDRs at least every 15 s by itself (then fewer than 5 requests go out).
   - S2, if neither the second display nor D-HU's main screen changes after a route change (the map
@@ -125,9 +167,8 @@ the 3 s window is slightly strict, never loose.
 
 ## 4. Settings keys
 
-All runs are on D-HU, written as root with the app stopped, by `hu_keys` (round 1's `ssr_lib.sh`).
-`hu_keys` reads every key back and prints `KEYS_OK` or `KEYS_MISMATCH <keys>`. `POCO_MAC` comes from
-P3 and `HOSTIP` from P5.
+All runs are on D-HU, written as root with the app stopped, by `hu_keys` in `ss_lib.sh`. It reads every key
+back and logs `KEYS_OK` or `KEYS_MISMATCH <keys>`. `POCO_MAC` and `HOSTIP` come from R0 (`$EV/env.sh`).
 
 **Every run (`BASE`), the same as rounds 1 and 2:**
 
@@ -148,7 +189,7 @@ P3 and `HOSTIP` from P5.
 | `video-profile-starvation-cap` | boolean | delete | a latch that forces 720p30 and AAC |
 | `night-mode` | int | `1` | DAY, no sensor message mid-window |
 
-**Per run:**
+**Per run (`K10` and `K0` in `ss_lib.sh`):**
 
 | Key | Type | S12, S3 | S4 (the control) |
 |---|---|---|---|
@@ -166,19 +207,17 @@ P3 and `HOSTIP` from P5.
 | `preferred-display-id` | int | delete | delete |
 
 10 is the default of `aux-rtp-refresh-seconds`. It is written anyway, so `KEYS_OK` proves it.
-No run changes the WiFi Direct identity, so leave `wifi-direct-last-identity-verdict` as found and
-record its value in P2.
-
-`p_pre.sh` (section 7) writes these as `BASE`, `K10` and `K0` into `env.sh`.
+No run changes the WiFi Direct identity, so leave `wifi-direct-last-identity-verdict` as found. R0 records
+its value.
 
 ## 5. Every action as a verb, and the helpers
 
 | Step | Command |
 |---|---|
-| marker, both units | `mark <label>` (in `ssr_lib.sh`: `send ACTION_LOG_MARKER --es text <label>`, then `log -t AutomationMarker <label>` on D-POCO) |
-| marker with its PC time | `markt <label>` (in `r3_lib.sh`: writes the PC time, then `mark`) |
+| marker, both units | `mark <label>` (`send ACTION_LOG_MARKER --es text <label>`, then `log -t AutomationMarker <label>` on D-POCO) |
+| marker with its PC time | `markt <label>` (writes the PC time to `$EV/<RUN>.pcmarks`, then `mark`) |
 | identity | `send ACTION_QUERY_STATE` |
-| raise the projection, fallback only | `send ACTION_RAISE_PROJECTION` (inside `bringup`; it prints `RAISE_VERB_USED`) |
+| raise the projection, fallback only | `send ACTION_RAISE_PROJECTION` (inside `bringup`; it records `RAISE_USED`) |
 | exit at run end | `send ACTION_EXIT`, then `am force-stop` (inside `run_end`) |
 
 **No verb exists for these, and none is needed on the app:**
@@ -186,41 +225,258 @@ record its value in P2.
 - Launch: `adb shell am start -n $PKG/com.andrerinas.openheadunit.main.MainActivity` (inside `bringup`).
 - The route: `ph_nav` sends a `google.navigation:` intent to Google Maps on D-POCO. It acts on Maps.
 - The screenshots of D-HU's main screen: `adb exec-out screencap`, one at a time, never in a loop.
-- The grader, the proxy and FFmpeg run on the PC.
+- The grader, the proxy and FFmpeg run on the PC, each as an `rl_bg` job that `rl_stop` ends.
 
-**There is no tap and no hand step during the runs.** The only human steps are the P6 ask and the
-firewall removal at Cleanup.
+**There is no tap and no hand step during the runs.** The only human steps are the firewall `confirm`
+before the session and its removal at cleanup.
 
 ### Scripts
 
-Make the folder `$RIG_DATA/rounds/second-screen-rtp-push-round3/scripts/` and `cd` into it for the
-whole round. Save every block below that has a `name` line with
-`$RIG_TOOLKIT/extract_brief_blocks.py <brief> .`. List the folder's files and their md5 in Setup
-notes. `python3 -I` runs every Python file.
+`rig_session.py` saves every named block to `$EV/scripts/` and sources `ss_lib.sh` before every script and
+grade. Captures, waits, radios, background jobs and the thermal gate are `rl_*` helpers from `rig-lib`. Every
+file a run writes is in `$EV`. A run's script writes its decisions to `$EV/<RUN>.vars`, and its grade script
+sources that file.
 
-**Six files come from round 2's folder.** Copy them, and compare the md5 prefixes with round 2's
-Setup notes:
+**ss_lib.sh**
 
 ```bash
-S2D=../../second-screen-rtp-push-round2/scripts      # adjust if that folder is elsewhere
-cp $S2D/ssr_lib.sh $S2D/ssr_keys.py $S2D/rtp_recv.py $S2D/rtp_lib.sh $S2D/udp_probe.sh $S2D/fps30.py .
-md5sum ssr_lib.sh ssr_keys.py rtp_recv.py rtp_lib.sh udp_probe.sh fps30.py
-# round 2 read: ssr_lib.sh 37fa464e, ssr_keys.py 3e9ffa2e, rtp_recv.py 7b6df231, rtp_lib.sh 9c1530fc,
-#               udp_probe.sh a9ebfbf3, fps30.py c31e93ef
+# ss_lib.sh: serials, paths, verbs, settings writes and greps for this round. Sourced before every script.
+source ~/Coding/StudioProjects/rig-toolkit/rig_devices.sh
+PKG=com.andrerinas.headunitrevived
+RX=$PKG/com.andrerinas.openheadunit.automation.AutomationReceiver
+MAIN=$PKG/com.andrerinas.openheadunit.main.MainActivity
+HU=$D_HU; PH=$D_POCO
+SD=$EV/scripts; OUT=$EV; APK_C=$EV/apk/C.apk; SHA_C=8d4af793b5e8; SHA_FULL=8d4af793b5e87a7b44f1e0ac01976a8db21766f6
+APP=~/Coding/StudioProjects/headunit-revived; TOOLS=$EV/tools; RPORT=5004; GPORT=5006
+CAP=$OUT/${RUN:-run}-hu.txt; PCAP=$OUT/${RUN:-run}-phone.txt; VARS=$OUT/${RUN:-run}.vars
+[ -f "$OUT/env.sh" ] && source "$OUT/env.sh"
+rm -f "$OUT/win-${RUN:-run}-"*.txt 2>/dev/null   # a window file never outlives a re-run
+BASE="int:wifi-connection-mode=3 set:native-poke-bt-macs=${POCO_MAC:-} bool:native-poke-all-paired=false int:native-driver-selection-mode=0 int:onboarding-version=2 int:log-level=2 str:video-codec=H.264 int:resolutionId=3 int:view-mode=1 bool:force-software-decoding=false del:software-video-decoder del:debug-video-fault-injection del:video-profile-starvation-cap int:night-mode=1"
+AUXREST="int:aux-rtp-port=5004 int:aux-network-size=1 del:aux-network-port del:aux-display-role del:aux-display-content del:aux-display-id del:preferred-display-mode del:preferred-display-id"
+K10="bool:aux-display-enabled=true str:aux-output=RTP_PUSH str:aux-rtp-destination=${HOSTIP:-} int:aux-rtp-refresh-seconds=10 $AUXREST"
+K0="bool:aux-display-enabled=true str:aux-output=RTP_PUSH str:aux-rtp-destination=${HOSTIP:-} int:aux-rtp-refresh-seconds=0 $AUXREST"
+
+send() { local a=$1; shift; adb -s "$HU" shell am broadcast -f 0x00000020 -n "$RX" -a "com.andrerinas.openheadunit.$a" "$@"; sleep 0.3; }
+# mark writes the same label into both captures, so a marker window works on the phone file too
+mark() { send ACTION_LOG_MARKER --es text "$1" >/dev/null; adb -s "$PH" shell log -t AutomationMarker "$1"; sleep 0.3; }
+markt() { echo "$1 $(date +%s.%N)" >> "$OUT/$RUN.pcmarks"; mark "$1"; }   # a marker with the PC time of its send
+hu_ip() { adb -s "$HU" shell ip -4 addr show wlan0 | grep -a -o 'inet [0-9.]*/[0-9]*' | cut -d' ' -f2; sleep 0.3; }
+link_down() { rl_radio "$PH" wifi off; rl_radio "$PH" bt off; }
+link_up() { rl_radio "$PH" bt on; rl_radio "$PH" wifi on; }
+
+hu_keys() {  # hu_keys SPEC...: BASE plus SPEC into settings.xml as root, read back; 1 on a mismatch
+  local cur=$OUT/$RUN.cur.xml new=$OUT/$RUN.new.xml own
+  adb -s "$HU" shell cat /data/data/$PKG/shared_prefs/settings.xml > "$cur"; sleep 0.3
+  python3 -I "$SD/ssr_keys.py" "$cur" "$new" $BASE "$@" || return 1
+  adb -s "$HU" push "$new" /data/local/tmp/ss-settings.xml >/dev/null; sleep 0.3
+  own=$(adb -s "$HU" shell stat -c %u:%g /data/data/$PKG | tr -d '\r'); sleep 0.3
+  adb -s "$HU" shell cp /data/local/tmp/ss-settings.xml /data/data/$PKG/shared_prefs/settings.xml; sleep 0.3
+  adb -s "$HU" shell chown "$own" /data/data/$PKG/shared_prefs/settings.xml; sleep 0.3
+  adb -s "$HU" shell chmod 660 /data/data/$PKG/shared_prefs/settings.xml; sleep 0.3
+  adb -s "$HU" shell cat /data/data/$PKG/shared_prefs/settings.xml > "$OUT/$RUN.prefs.xml"; sleep 0.3
+  python3 -I "$SD/ssr_keys.py" --check "$OUT/$RUN.prefs.xml" $BASE "$@" >> "$OUT/$RUN.keys"; }
+
+picture() {  # picture FROM_BYTE N: wait up to N throughput windows after FROM_BYTE for one that rendered a frame
+  local k=1
+  while [ "$k" -le "$2" ]; do
+    rl_wait_count "$CAP" "$k" 'Throughput over ' 12 "$1" >/dev/null || return 1
+    tail -c +$(( $1 + 1 )) "$CAP" | grep -aqE 'Throughput over [0-9]+ms: rendered=[1-9]' && return 0
+    k=$((k + 1))
+  done
+  return 1; }
+
+bringup() {  # bringup SPEC...: 0 a session with a picture; 1 no session; 2 a phone Critical error and no frame
+  adb -s "$HU" shell am force-stop "$PKG"; sleep 1
+  link_down; adb -s "$PH" shell input keyevent KEYCODE_HOME; sleep 0.3
+  hu_keys "$@" || { echo "KEYS_FAIL $RUN"; return 1; }
+  adb -s "$HU" logcat -G 16M; sleep 0.3; adb -s "$HU" logcat -c; sleep 0.3
+  rl_cap_start "$RUN-hu" "$HU"
+  rl_cap_start "$RUN-phone" "$PH" -T 1 -b main,system,crash
+  adb -s "$HU" shell am start -n "$MAIN" >/dev/null; rl_sleep 3; mark "$RUN-launch"; rl_sleep 15
+  local L; L=$(rl_offset "$CAP"); link_up; mark "$RUN-phone-on"
+  rl_wait_line "$CAP" 'SSL handshake complete. ' 150 "$L" || { echo "SESSION_FAIL_SSL $RUN"; return 1; }
+  picture "$L" 8 && { mark "$RUN-up"; return 0; }
+  grep -aqF 'Critical error' "$PCAP" && { echo "PHONE_CRITICAL $RUN"; return 2; }   # phone
+  send ACTION_RAISE_PROJECTION >/dev/null; echo "RAISE_USED=1" >> "$VARS"
+  picture "$L" 6 && { mark "$RUN-up"; return 0; }
+  grep -aqF 'Critical error' "$PCAP" && return 2   # phone
+  echo "SESSION_FAIL_NO_FRAMES $RUN"; return 1; }
+
+run_end() {  # run_end: the Exit verb and the closing markers, then stop the app and both captures
+  mark "$RUN-end"; send ACTION_EXIT >/dev/null; rl_sleep 4; mark "$RUN-closed"; rl_sleep 1
+  adb -s "$HU" shell am force-stop "$PKG"; sleep 0.3
+  rl_cap_stop "$RUN-hu"; rl_cap_stop "$RUN-phone"; }
+
+keep_attempt() {  # keep_attempt [LABEL]: keep a failed first attempt's files (and LABEL's grader files) before the retry
+  local f g; for f in hu.txt phone.txt pcmarks rx rx.json idr proxy; do
+    for g in "$OUT/$RUN-$f" "$OUT/$RUN.$f" "$OUT/${1:-$RUN}.$f"; do [ -f "$g" ] && mv "$g" "${g%/*}/a1-${g##*/}"; done; done; }
+
+# --- the PC side: each tool is a tracked job; rl_stop ends it and its children ---
+grader_on() {  # grader_on LABEL BIND PORT DURATION_S: the strict receiver; its GRADE line lands in LABEL.rx
+  rl_bg "grader:$1" python3 -I "$TOOLS/rtp_grade_rig.py" --bind "$2" --port "$3" --first-wait 400 --idle 15 \
+    --duration "$4" --label "$1" --idr-log "$OUT/$1.idr" --json "$OUT/$1.rx.json" > "$OUT/$1.rx" 2>&1
+  rl_sleep 1; }
+proxy_on() {  # proxy_on: the lossy proxy on UDP 5004 of every interface, bursts at 30, 60 and 90 s, to the grader on 5006
+  rl_bg "proxy:$RUN" python3 -I "$TOOLS/lossy_proxy_rig.py" --bind 0.0.0.0 --listen "$RPORT" --forward "127.0.0.1:$GPORT" \
+    --first-wait 400 --idle 15 --drop-at 30 --drop-at 60 --drop-at 90 > "$OUT/$RUN.proxy" 2>&1
+  rl_sleep 1; }
+ff_s2() {  # ff_s2: FFmpeg on stream.sdp, 60 s of decode into framemd5 and a PNG every 10 s; run it with rl_bg
+  timeout 100 ffmpeg -nostdin -hide_banner -loglevel info -protocol_whitelist file,udp,rtp \
+    -analyzeduration 25000000 -probesize 50000000 -i "$OUT/stream.sdp" \
+    -map 0:v:0 -t 60 -f framemd5 "$OUT/S2.framemd5" \
+    -map 0:v:0 -t 60 -vf fps=1/10 -y "$OUT/S2-snap%02d.png" > "$OUT/S2-ffmpeg.log" 2>&1
+  echo "rc=$? t=$(date +%s.%N)" > "$OUT/S2.ffexit"; }
+ph_nav() {  # ph_nav DESTINATION: a driving route on D-POCO, inside its offline map area
+  adb -s "$PH" shell am start -a android.intent.action.VIEW -p com.google.android.apps.maps \
+    -d "google.navigation:q=$1\&mode=d" >/dev/null; sleep 0.3; }
+maps_notes() { adb -s "$PH" shell dumpsys notification --noredact | grep -a NotificationRecord | grep -ac 'pkg=com.google.android.apps.maps'; sleep 0.3; }   # system
+hu_shot() { local t; t=$(date +%s.%N); adb -s "$HU" exec-out screencap -p > "$OUT/$1.png"; echo "shot $t $OUT/$1.png" >> "$OUT/S2.events"; sleep 0.3; }
+
+loss_run() {  # loss_run KEYS: the push through the lossy proxy (bursts at 30, 60, 90 s) to the strict grader
+  rl_thermal_gate 75 || { echo "HOT=1" >> "$VARS"; return 0; }
+  : > "$OUT/$RUN.pcmarks"
+  proxy_on; grader_on "$RUN" 127.0.0.1 "$GPORT" 150
+  local rc; bringup $1; rc=$?
+  if [ "$rc" = 1 ]; then run_end; rl_stop "grader:"; rl_stop "proxy:"; keep_attempt; echo "RETRIED=1" >> "$VARS"
+    : > "$OUT/$RUN.pcmarks"; proxy_on; grader_on "$RUN" 127.0.0.1 "$GPORT" 150; bringup $1; rc=$?; fi
+  echo "RC=$rc" >> "$VARS"
+  [ "$rc" = 0 ] || { rl_stop "grader:"; rl_stop "proxy:"; run_end; return 0; }
+  ph_nav "Parque+Principal+Marinilla"; markt "$RUN-nav"
+  rl_wait_line "$OUT/$RUN.rx" 'GRADE ' 260 >/dev/null || echo "GRADER_KILLED=1" >> "$VARS"
+  rl_stop "grader:$RUN"
+  markt "$RUN-gend"
+  run_end
+  rl_wait_line "$OUT/$RUN.proxy" 'PROXY seen=' 30 >/dev/null   # not-literal: the PC proxy prints it
+  rl_stop "proxy:$RUN"; }
+
+# --- grading: counts inside marker windows; each window is cut once into its own file ---
+win() { local w="$OUT/win-$(basename "$1" .txt)-$2-$3.txt"; [ -s "$w" ] || rl_win "$1" "$2" "$3" > "$w"; echo "$w"; }
+pk() { grep -ao "\b$1=[^ ]*" "$2" 2>/dev/null | head -1 | cut -d= -f2; }   # pk KEY FILE: the first KEY=value
+x100() { awk -v v="$1" 'BEGIN { if (v ~ /^-?[0-9]+(\.[0-9]+)?$/) printf "%d", v * 100 + (v < 0 ? -0.5 : 0.5); else print "none" }'; }
+num() { [[ "$1" =~ ^-?[0-9]+$ ]] && echo "$1" || echo "$2"; }
+pre() {  # pre: the capture ran the path under test (Native, TEXTURE, an H.264 main sink, no hotspot, a phone log)
+  pre_native=$(grep -acF 'WifiLauncher: Initializing WiFi Mode: NATIVE' "$CAP")   # not-literal: "...Mode: ${newLauncher.mode}"
+  pre_texture=$(grep -acF 'Projection backend: viewMode=TEXTURE ' "$CAP")   # not-literal: "viewMode=$mode "
+  pre_h264=$(grep -acE 'Media Sink Setup Request: 3 on channel VIDEO[[:space:]]*$' "$CAP")   # not-literal: "%d on channel %s"
+  pre_hotspot=$(grep -aE 'HotspotManager:|SoftApCredentials:' "$CAP" | grep -avc 'hotspot enabled=false')   # not-literal
+  pre_gh=$(grep -ac 'GH\.' "$PCAP")   # phone
+  [ "$pre_native" -ge 1 ] && [ "$pre_texture" -ge 1 ] && [ "$pre_h264" -ge 1 ] && [ "$pre_hotspot" -eq 0 ] && [ "$pre_gh" -ge 1 ]; }
+push_counts() {  # push_counts RUN FROM TO: head unit counts inside one marker window, as e_name=value lines
+  local W; W=$(win "$OUT/$1-hu.txt" "$2" "$3")
+  echo "window=$2..$3 lines=$(wc -l < "$W")"
+  echo "e_announce=$(grep -acF 'Announcing an auxiliary display on ' "$W") e_unavail=$(grep -acF 'output is not available, so one display is announced' "$W") e_lane=$(grep -acF "AapTransport: the auxiliary display's video lane is open" "$W")"
+  echo "e_open=$(grep -acF 'SecondScreen: RTP push to ' "$W") e_outopen=$(grep -acF 'SecondScreen: the RTP_PUSH output is open' "$W") e_nostart=$(grep -acF 'SecondScreen: could not start the ' "$W")"   # not-literal: "the ${output.name} output is open"
+  local O; O=$(grep -aF 'SecondScreen: RTP push to ' "$W" | head -1)
+  echo "e_network=$(echo "$O" | sed -n 's/.* open (network=\(.*\), refresh=\([0-9]*\)ms)[[:space:]]*$/\1/p') e_refresh_ms=$(echo "$O" | sed -n 's/.* open (network=\(.*\), refresh=\([0-9]*\)ms)[[:space:]]*$/\2/p')"
+  grep -aoE 'RTP push sent [0-9]+ packets, [0-9]+ bytes, [0-9]+ keyframes in [0-9]+ms, [0-9]+ keyframes carried their own SPS and PPS, [0-9]+ refreshes asked, [0-9]+ pacing pauses' "$W" \
+    | awk '{n++; p+=$4; b+=$6; k+=$8; if ($8 > 0) kl++; j+=$12; r+=$20; q+=$23} END {printf "e_sent_lines=%d e_packets=%d e_bytes=%d e_keyframes=%d e_kf_lines=%d e_kf_own=%d e_refreshes=%d e_pauses=%d\n", n, p, b, k, kl, j, r, q}'
+  echo "e_asks=$(grep -acF 'SecondScreen: RTP push asking for a keyframe, none sent for ' "$W") e_cyc_push=$(grep -acF "cycling the auxiliary display's video focus for a keyframe (the second screen asked for one)" "$W") e_cyc_all=$(grep -acF "AapTransport: cycling the auxiliary display's video focus for a keyframe (" "$W") e_kf_early=$(grep -acF 'AapTransport: no auxiliary keyframe cycle before its setup ()' "$W")"   # not-literal: "... ($reason)"
+  echo "e_aux_stop_cycle=$(grep -acF 'Auxiliary Video Sink Stopped -> Ignored (Forced Keyframe Request)' "$W") e_aux_stop_other=$(grep -acF 'Auxiliary Video Sink Stopped -> the main session continues' "$W") e_aux_start=$(grep -acF 'Media Start Request VIDEO_AUX: ' "$W") e_aux_released=$(grep -acF "The phone released the second display's video. The main session continues." "$W")"   # not-literal: "Media Start Request %s: "
+  echo "e_main_stop=$(grep -acE 'Media Sink Stop Request: VIDEO[[:space:]]*$' "$W") e_main_vss=$(grep -aF 'Video Sink Stopped -> ' "$W" | grep -avcF 'Auxiliary') e_main_retake=$(grep -acF 'retaking video focus to complete the keyframe cycle' "$W") e_main_start=$(grep -acF 'Media Start Request VIDEO: ' "$W") e_main_setup=$(grep -acE 'Media Sink Setup Request: [0-9]+ on channel VIDEO[[:space:]]*$' "$W")"   # not-literal: "Media Sink Stop Request: " + channel
+  echo "e_fail_lines=$(grep -acF 'SecondScreen: RTP push send failed (' "$W") e_ssl=$(grep -acF 'SSL handshake complete. ' "$W") e_destroy=$(grep -acF 'AapService destroying' "$W") e_errors=$(grep -acF 'Error processing video message' "$W") e_shed=$(grep -acF ' messages behind, shedding' "$W")"
+  echo "e_stopped=$(grep -acF 'SecondScreen: RTP push stopped' "$W") e_auxdec=$(grep -acF 'Decoder stopped: CommManager: doDisconnect (second screen)' "$W")"; }   # not-literal: "Decoder stopped: $reason"
+phone() {  # phone FROM TO: phone counts inside one window of $PCAP
+  local w; w=$(win "$PCAP" "$1" "$2")
+  ph_markers=$(grep -acF 'AutomationMarker: ' "$w")
+  ph_crit=$(grep -acF 'Critical error' "$w")   # phone
+  ph_crit_file=$(grep -acF 'Critical error' "$PCAP")   # phone
+  ph_noinput=$(grep -acF 'No input for display' "$w")   # phone
+  ph_early=$(grep -acF 'Video focus gained before configurations received' "$w"); }   # phone
+bad=""; i=0
+c() { i=$((i + 1)); local l; l=$(rl_cond "$i" "$@"); echo "$l"; case "$l" in *" FAIL "*) bad="$bad ${sec:-x}" ;; esac; }
+failed() { local s; for s in "$@"; do case " $bad " in *" $s "*) return 0 ;; esac; done; return 1; }
+mac_ok() { [[ "$1" =~ ^([0-9A-F]{2}:){5}[0-9A-F]{2}$ ]] && [ "$1" != 02:00:00:00:00:00 ] && echo 1 || echo 0; }
+yes1() { [ "$1" = "$2" ] && echo 1 || echo 0; }
 ```
 
-If a prefix differs, record it and use the file anyway. If the folder is missing, take the files
-from the round 2 evidence zip (release `rig-evidence-second-screen-rtp-push`, asset
-`second-screen-rtp-push-round2-captures.zip`, which holds the scripts folder). Record the source.
+`c` numbers the conditions and records the section (`sec`) of each one that fails; `failed` asks whether a
+section failed. `e_main_vss` counts every main-display `Video Sink Stopped -> ` line, the forced and the normal
+one. `RTP_PUSH` builds no aux decoder, so every `Throughput over` line is the main decoder's. If a `push_counts`
+value comes back empty rather than a number, the pattern is wrong: say so in Setup notes.
 
-From `ssr_lib.sh` this round uses `send`, `mark`, `nl`, `waitfor`, `seg`, the thermal gate, `ph_off`,
-`ph_on`, `cap_start`, `cap_stop`, `hu_keys`, `bringup`, `keep_attempt`, `preflight`, `run_end` and
-`phone_grades`. From `rtp_lib.sh` it uses only `hu_ip`. Do not use `rtp_counts`: it cannot read the
-new end of the open line. `push_counts` replaces it.
+**udp_probe.sh** (pushed to D-HU and run there)
 
-**Six files are new.**
+```sh
+#!/system/bin/sh
+# udp_probe.sh <ip> <port> : five UDP datagrams from D-HU by toybox nc, each bounded at 3 s
+i=0; while [ $i -lt 5 ]; do echo "ohu-udp-probe-$i" | timeout 3 toybox nc -u -w 1 "$1" "$2" 2>&1 | head -2; i=$((i+1)); done
+echo PROBE_SENT
+```
 
-**`patch_tools.py`**
+**udp_rx_probe.py** (the probe half of round 1's `rtp_recv.py`)
+
+```python
+# udp_rx_probe.py <port> <secs> : counts any datagrams, prints PROBE datagrams=N from=<ips>
+import socket, sys, time
+port, secs = int(sys.argv[1]), float(sys.argv[2])
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM); s.bind(("0.0.0.0", port)); s.settimeout(0.5)
+n = 0; src = set(); end = time.time() + secs
+while time.time() < end:
+    try:
+        d, a = s.recvfrom(65535); n += 1; src.add(a[0])
+    except socket.timeout:
+        pass
+print("PROBE datagrams=%d from=%s" % (n, ",".join(sorted(src)) or "none"), flush=True)
+```
+
+**ssr_keys.py**
+
+```python
+# ssr_keys.py <in.xml> <out.xml> <spec>...   writes the specs into a copy of settings.xml
+# ssr_keys.py --check <file.xml> <spec>...   prints KEYS_OK, or KEYS_MISMATCH and each bad key (exit 1)
+# spec = int:K=V bool:K=V str:K=V set:K=a,b del:K
+import sys, xml.etree.ElementTree as E
+check = sys.argv[1] == "--check"
+tree = E.parse(sys.argv[2] if check else sys.argv[1]); root = tree.getroot()
+specs = sys.argv[3:] if not check else sys.argv[3:]
+bad = []
+for spec in specs:
+    kind, kv = spec.split(":", 1); key, _, val = kv.partition("=")
+    found = [e for e in root if e.get("name") == key]
+    if check:
+        if kind == "del": ok = not found
+        elif len(found) != 1: ok = False
+        elif kind in ("int", "bool"): ok = found[0].get("value") == val
+        elif kind == "str": ok = (found[0].text or "") == val
+        else: ok = sorted(x.text or "" for x in found[0]) == sorted(val.split(",") if val else [])
+        if not ok: bad.append(key)
+        continue
+    for e in found: root.remove(e)
+    if kind == "del": continue
+    tag = {"int": "int", "bool": "boolean", "str": "string", "set": "set"}[kind]
+    e = E.SubElement(root, tag, {"name": key})
+    if kind in ("int", "bool"): e.set("value", val)
+    elif kind == "str": e.text = val
+    else:
+        for item in (val.split(",") if val else []): E.SubElement(e, "string").text = item
+if check:
+    print("KEYS_OK" if not bad else "KEYS_MISMATCH " + " ".join(bad)); sys.exit(1 if bad else 0)
+tree.write(sys.argv[2], encoding="utf-8", xml_declaration=True)
+```
+
+**fps30.py**
+
+```python
+# fps30.py <capture> <from_marker> [<n>] : the first <n> (default 30) "Throughput over" windows after the marker
+import re, sys
+cap, a = sys.argv[1], sys.argv[2]; n = int(sys.argv[3]) if len(sys.argv) > 3 else 30
+rx = re.compile(r"Throughput over (\d+)ms: rendered=(\d+) \((\d+)fps\), fed=(\d+) \((\d+)fps\), dropped=(\d+)")
+on = False; w = []
+for l in open(cap, "r", errors="replace"):
+    if not on:
+        on = l.rstrip().endswith("AutomationMarker: " + a); continue
+    m = rx.search(l)
+    if m:
+        w.append((int(m.group(2)), int(m.group(3)), int(m.group(5)), int(m.group(6))))
+        if len(w) == n: break
+if not on: print("FPS30 error=marker_missing from=%s" % a); sys.exit(1)
+med = lambda xs: sorted(xs)[len(xs) // 2] if xs else "na"
+print("FPS30 from=%s windows=%d rendered_ge1=%d median_fps=%s median_fed_fps=%s dropped_sum=%d"
+      % (a, len(w), sum(1 for x in w if x[0] >= 1), med([x[1] for x in w]), med([x[2] for x in w]), sum(x[3] for x in w)))
+```
+
+**patch_tools.py**
+
 ```python
 # patch_tools.py <harness_dir> : rig copies of the branch's lossy_proxy.py and rtp_grade.py.
 # Adds --bind and --first-wait to the proxy and a burst line; adds --idr-log and --duration to the grader.
@@ -278,7 +534,8 @@ ran together against a synthetic sender: 2 bursts printed 2 `PROXY burst` lines 
 `dropped=10`, and the grader read `lost=10 broken_n=2 unrecovered=0`, wrote 4 IDR lines and ended
 at `--duration 7`.
 
-**`s1_pair.py`**
+**s1_pair.py**
+
 ```python
 # s1_pair.py <hu.txt> <phone.txt> <pcmarks> <idr.log> <from> <to> [win_s] :
 # pairs each keyframe request on the head unit with the next whole IDR at the PC grader.
@@ -373,7 +630,8 @@ What its fields mean:
 On the brief's host, a synthetic capture with 17 requests, 13 of them answered 1.2 s later, read back
 `asks=17 cycled=17 answered=13 answered_pct=76 lat_med_s=1.20 offset_spread_s=0.00 stops=17 starts=17`.
 
-**`s2_grade.py`**
+**s2_grade.py**
+
 ```python
 # s2_grade.py <framemd5> <snap_glob_prefix> <events> : grades the late receiver's picture.
 # <events> lines: "join <pc_epoch>", "reroute <pc_epoch>", "shot <pc_epoch> <png>" (main screen of the head unit).
@@ -434,7 +692,8 @@ What its fields mean:
 On the brief's host, a synthetic `framemd5` with 41 hashes over 50 s read back `distinct=41
 decode_span_s=50.0 r1_new_frames=41 r1_main_changed=yes r2_new_frames=0 r2_main_changed=no`.
 
-**`s5.py`**
+**s5.py**
+
 ```python
 # s5.py <out_dir> : the main picture with the refresh on (S12, S3) against off (S4), from the FPS30 lines
 import re, sys
@@ -452,81 +711,20 @@ print("S5 F10=%.1f F0=%d fed10=%.1f fed0=%d fps_ok=%s rendered_ok=%s" % (f10, f0
       "yes" if f10 >= f0 - 3 else "no", "yes" if all(x[0] == 30 and x[1] >= 27 for x in v.values()) else "no"))
 ```
 
-**`r3_lib.sh`**
-```bash
-# r3_lib.sh : second-screen-rtp-push round 3. Source it after ssr_lib.sh and rtp_lib.sh.
-RPORT=5004; GPORT=5006
-# markt <label> : a marker, with the PC time of its send in $OUT/$RUN.pcmarks (for the clock pairing)
-markt() { echo "$1 $(date +%s.%N)" >> "$OUT/$RUN.pcmarks"; mark "$1"; }
-# grade_start <label> <bind> <port> <duration_s> : the strict receiver, in the background
-grade_start() { python3 -I "$D/rtp_grade_rig.py" --bind "$2" --port "$3" --first-wait 400 --idle 15 --duration "$4" \
-    --label "$1" --idr-log "$OUT/$1.idr" --json "$OUT/$1.grade.json" > "$OUT/$1.grade" 2>&1 & GPID=$!; sleep 1; cat "$OUT/$1.grade"; }
-# grade_wait <label> <cap_s> : waits for it to end, kills it at the cap, prints its GRADE line
-grade_wait() { local n=0; while kill -0 $GPID 2>/dev/null && [ $n -lt $2 ]; do sleep 1; n=$((n+1)); done
-  kill -0 $GPID 2>/dev/null && { kill $GPID; echo "GRADER_KILLED $1 after ${2}s"; }; wait $GPID 2>/dev/null; GPID=
-  grep -a '^GRADE ' "$OUT/$1.grade" || echo "GRADE missing $1"; }
-# proxy_start <label> : the lossy proxy on UDP 5004 of every interface, bursts at 30, 60 and 90 s, to the grader on 5006
-proxy_start() { python3 -I "$D/lossy_proxy_rig.py" --bind 0.0.0.0 --listen $RPORT --forward 127.0.0.1:$GPORT \
-    --first-wait 400 --idle 15 --drop-at 30 --drop-at 60 --drop-at 90 > "$OUT/$1.proxy" 2>&1 & XPID=$!; sleep 1; cat "$OUT/$1.proxy"; }
-proxy_wait() { local n=0; while kill -0 $XPID 2>/dev/null && [ $n -lt $2 ]; do sleep 1; n=$((n+1)); done
-  kill -0 $XPID 2>/dev/null && { kill $XPID; echo "PROXY_KILLED $1 after ${2}s"; }; wait $XPID 2>/dev/null; XPID=; cat "$OUT/$1.proxy"; }
-# rx_kill : stops the grader and the proxy of a failed bring-up
-rx_kill() { for p in $GPID $XPID; do kill $p 2>/dev/null; wait $p 2>/dev/null; done; GPID=; XPID=; }
-# ph_nav <destination> : a driving route on D-POCO, inside its offline map area
-ph_nav() { adb -s $PH shell am start -a android.intent.action.VIEW -p com.google.android.apps.maps \
-    -d "google.navigation:q=$1\&mode=d" >/dev/null; sleep 0.3; }
-# maps_notes : posted Google Maps notifications on D-POCO (report only)
-maps_notes() { adb -s $PH shell dumpsys notification --noredact | grep -a NotificationRecord | grep -ac 'pkg=com.google.android.apps.maps'; sleep 0.3; }
-# hu_shot <name> : one screenshot of D-HU's main screen, logged in S2.events
-hu_shot() { local t; t=$(date +%s.%N); adb -s $HU exec-out screencap -p > "$OUT/$1.png"; echo "shot $t $OUT/$1.png" >> "$OUT/S2.events"; sleep 0.3; }
-# ff_s2 : FFmpeg on stream.sdp as written, 60 s of decode into framemd5 and a PNG every 10 s
-ff_s2() { rm -f "$OUT/S2.framemd5" "$OUT"/S2-snap*.png "$OUT/S2.ffexit"; echo "join $(date +%s.%N)" >> "$OUT/S2.events"
-  ( timeout 100 ffmpeg -nostdin -hide_banner -loglevel info -protocol_whitelist file,udp,rtp \
-      -analyzeduration 25000000 -probesize 50000000 -i "$D/stream.sdp" \
-      -map 0:v:0 -t 60 -f framemd5 "$OUT/S2.framemd5" \
-      -map 0:v:0 -t 60 -vf fps=1/10 -y "$OUT/S2-snap%02d.png" > "$OUT/S2-ffmpeg.log" 2>&1
-    echo "rc=$? t=$(date +%s.%N)" > "$OUT/S2.ffexit" ) & FFPID=$!; }
-# ff_s2_wait <cap_s> : waits for FFmpeg, stops it at the cap, prints its exit and its error lines
-ff_s2_wait() { local n=0; while kill -0 $FFPID 2>/dev/null && [ $n -lt $1 ]; do sleep 1; n=$((n+1)); done
-  kill -0 $FFPID 2>/dev/null && pkill -f '^ffmpeg -nostdin -hide_banner'; wait $FFPID 2>/dev/null; FFPID=
-  cat "$OUT/S2.ffexit"; grep -a -i -E 'error|non-existing|Stream #0' "$OUT/S2-ffmpeg.log" | head -8 | cut -c1-200; true; }
-# push_counts <RUN> <from> <to> : head unit counts inside one marker window
-push_counts() { local W=$OUT/$1-$2.win
-  seg "$OUT/$1-hu.txt" "$2" "$3" > "$W"
-  echo "window=$2..$3 lines=$(wc -l < "$W")"
-  echo "e_announce=$(grep -acF '[ServiceDiscovery] Announcing an auxiliary display on VIDEO_AUX: RTP_PUSH ' "$W") e_unavail=$(grep -acF 'SecondScreen: the RTP_PUSH output is not available, so one display is announced' "$W") e_lane=$(grep -acF "AapTransport: the auxiliary display's video lane is open" "$W")"
-  echo "e_open=$(grep -acF 'SecondScreen: RTP push to ' "$W") e_outopen=$(grep -acF 'SecondScreen: the RTP_PUSH output is open' "$W") e_nostart=$(grep -acF 'SecondScreen: could not start the ' "$W")"
-  local O; O=$(grep -aF 'SecondScreen: RTP push to ' "$W" | head -1); echo "$O" | cut -c1-260
-  echo "e_network=$(echo "$O" | sed -n 's/.* open (network=\(.*\), refresh=\([0-9]*\)ms)[[:space:]]*$/\1/p') e_refresh_ms=$(echo "$O" | sed -n 's/.* open (network=\(.*\), refresh=\([0-9]*\)ms)[[:space:]]*$/\2/p')"
-  grep -aoE 'RTP push sent [0-9]+ packets, [0-9]+ bytes, [0-9]+ keyframes in [0-9]+ms, [0-9]+ keyframes carried their own SPS and PPS, [0-9]+ refreshes asked, [0-9]+ pacing pauses' "$W" \
-    | awk '{n++; p+=$4; b+=$6; k+=$8; if ($8 > 0) kl++; j+=$12; r+=$20; q+=$23} END {printf "e_sent_lines=%d e_packets=%d e_bytes=%d e_keyframes=%d e_kf_lines=%d e_kf_own=%d e_refreshes=%d e_pauses=%d\n", n, p, b, k, kl, j, r, q}'
-  echo "e_asks=$(grep -acF 'SecondScreen: RTP push asking for a keyframe, none sent for ' "$W") e_cyc_push=$(grep -acF "cycling the auxiliary display's video focus for a keyframe (the second screen asked for one)" "$W") e_cyc_all=$(grep -acF "AapTransport: cycling the auxiliary display's video focus for a keyframe (" "$W") e_kf_early=$(grep -acF 'AapTransport: no auxiliary keyframe cycle before its setup ()' "$W")"
-  echo "e_aux_stop_cycle=$(grep -acF 'Auxiliary Video Sink Stopped -> Ignored (Forced Keyframe Request)' "$W") e_aux_stop_other=$(grep -acF 'Auxiliary Video Sink Stopped -> the main session continues' "$W") e_aux_start=$(grep -acF 'Media Start Request VIDEO_AUX: ' "$W") e_aux_released=$(grep -acF "The phone released the second display's video. The main session continues." "$W")"
-  echo "e_main_stop=$(grep -acE 'Media Sink Stop Request: VIDEO[[:space:]]*$' "$W") e_main_vss=$(grep -aF 'Video Sink Stopped -> ' "$W" | grep -avcF 'Auxiliary') e_main_retake=$(grep -acF 'retaking video focus to complete the keyframe cycle' "$W") e_main_start=$(grep -acF 'Media Start Request VIDEO: ' "$W") e_main_setup=$(grep -acE 'Media Sink Setup Request: [0-9]+ on channel VIDEO[[:space:]]*$' "$W")"
-  echo "e_fail_lines=$(grep -acF 'SecondScreen: RTP push send failed (' "$W") e_ssl=$(grep -acF 'SSL handshake complete' "$W") e_destroy=$(grep -acF 'AapService destroying' "$W") e_errors=$(grep -acF 'Error processing video message' "$W") e_shed=$(grep -acF ' messages behind, shedding' "$W")"
-  echo "e_stopped=$(grep -acF 'SecondScreen: RTP push stopped' "$W") e_auxdec=$(grep -acF 'Decoder stopped: CommManager: doDisconnect (second screen)' "$W")"; }
-```
-
-`push_counts` ran on the brief's host on a synthetic capture with the candidate's line formats. Its
-open-line parse read `e_network=wlan0 e_refresh_ms=10000`. If a count comes back empty rather than a
-number, the pattern is wrong: fix it, say so in Setup notes, and keep going.
-
-`e_main_vss` counts every main-display `Video Sink Stopped -> ` line, the forced and the normal one.
-`RTP_PUSH` builds no aux decoder, so every `Throughput over` line is the main decoder's.
-
 ## 6. The deciding lines
 
-Every head unit string below was checked with `grep -F -r` in `app/src/main` at `8d4af793b`. All are
-INFO, WARN or ERROR, so `log-level` 2 carries them. `...` marks a value the app fills in. Files:
-`$OUT/<RUN>-hu.txt` (head unit) and `$OUT/<RUN>-phone.txt` (phone). Windows are marker pairs.
+`brief_check.py` checked every string a script greps against `app/src/main` at `8d4af793b`. Lines marked
+`# not-literal` are built at run time from the fragments in the comment. All are INFO, WARN or ERROR, so
+`log-level` 2 carries them. `...` marks a value the app fills in. Files: `$EV/<RUN>-hu.txt` (head unit) and
+`$EV/<RUN>-phone.txt` (phone). Windows are marker pairs.
 
 | Line (head unit) | File in the tree | Means |
 |---|---|---|
 | `AutomationReceiver: ` | `automation/AutomationReceiver.kt` | a verb landed. A step with no such line is void, not a FAIL |
-| `WifiLauncher: Initializing WiFi Mode: NATIVE` | `connection/wifi/WifiLauncherManager.kt` | preflight: Native path |
-| `Projection backend: viewMode=TEXTURE ` | `aap/AapProjectionActivity.kt` | preflight: view backend |
-| `Media Sink Setup Request: 3 on channel VIDEO` at line end | `aap/AapControl.kt` | preflight: the main sink, H.264 |
-| `SSL handshake complete` | `aap/AapSslContext.kt` | a session formed. One per session at INFO |
+| `WifiLauncher: Initializing WiFi Mode: NATIVE` | `connection/wifi/WifiLauncherManager.kt` | `pre`: Native path |
+| `Projection backend: viewMode=TEXTURE ` | `aap/AapProjectionActivity.kt` | `pre`: view backend |
+| `Media Sink Setup Request: 3 on channel VIDEO` at line end | `aap/AapControl.kt` | `pre`: the main sink, H.264 |
+| `SSL handshake complete. ` | `aap/AapSslContext.kt` | a session formed. One per session at INFO |
 | `AapService destroying` | `aap/AapService.kt` | the service went down. Must be 0 inside a run |
 | `Throughput over ...ms: rendered=N (Xfps), fed=N (Yfps), dropped=N` | `decoder/video/VideoDecoder.kt` | the main decoder's frames (`fps30.py`) |
 | `[ServiceDiscovery] Announcing an auxiliary display on VIDEO_AUX: RTP_PUSH 1280x720 as ...` | `ServiceDiscoveryResponse.kt` | the aux display was announced for the push |
@@ -553,8 +751,8 @@ INFO, WARN or ERROR, so `log-level` 2 carries them. `...` marks a value the app 
 | ` messages behind, shedding` | `aap/VideoLane.kt` | the aux lane shed its backlog. Must be 0 |
 | `Decoder stopped: CommManager: doDisconnect (second screen)` | `decoder/video/VideoDecoder.kt`, `connection/CommManager.kt` | an aux decoder stopped. Must be 0 |
 
-**Phone strings** (`$OUT/<RUN>-phone.txt`, by `phone_grades`). They are Gearhead's, not ours, and
-they drift between builds.
+**Phone strings** (`$EV/<RUN>-phone.txt`, by `phone`). They are Gearhead's, not ours, and they drift between
+builds.
 
 | Phone line | Graded | Means |
 |---|---|---|
@@ -564,9 +762,9 @@ they drift between builds.
 | `No input for display` | 0 | the aux display has no input |
 | `Video focus gained before configurations received` | 0 | a focus gain before the aux Config |
 
-The exit teardown makes the phone log `Critical error` lines after `<RUN>-end`. The window stops at
-`<RUN>-end`, so they do not count (memory: about 1.1 s after each Exit). Report
-`critical_error_file` beside the windowed count.
+The exit teardown makes the phone log `Critical error` lines after `<RUN>-end` (memory: about 1.1 s after each
+Exit). Every phone window stops at `<RUN>-end`, which `run_end` marks before it sends the Exit, so those lines
+never count. `ph_crit_file` is reported beside the windowed count.
 
 **PC strings** (not in our tree): `GRADE `, `GRADER listening=`, `PROXY listening=`, `PROXY burst `,
 `PROXY seen=`, `PATCH_OK `, `PATCH_FAIL `, `S1ASK `, `S1PAIR `, `S2GRADE `, `S2BUCKETS `, `S5RUN `,
@@ -574,194 +772,192 @@ The exit teardown makes the phone log `Critical error` lines after `<RUN>-end`. 
 
 ## 7. Runs
 
-Start each run script with `nohup bash <script> > <script>.log 2>&1 &` and watch its log for
-`script exit=`, as round 2 did. Run them in order, one at a time. Thermal limits are those in
-`rig-quirks/topics/tooling.md`: `rig_thermal.sh wait 70` before the build, `wait 75` before a run
-(`bringup` gates on 75C), and a run that cannot start below 75C after two waits is UNTESTABLE (host
-thermal), and so is every run after it.
+`rig_session.py` runs them in the block's order, one at a time: R0, S12, S2, S4, S3, S5, cleanup. S4 runs before
+S3 because S3's grade reads S4's outcome. A failed `pre` grades a run INCONCLUSIVE (setup): fix the keys and
+re-run that run once.
 
-### Pre-flight (one batch, before R0)
+### R0. Identity, rig state and the PC route (3 min)
 
-**`p_pre.sh`**
+**r0.sh**
+
 ```bash
-# p_pre.sh : P1 to P5 in one pass. Writes env.sh. Run it from the scripts folder.
-cd "$(dirname "$0")"; source ~/Coding/StudioProjects/rig-toolkit/rig_devices.sh
-source ./ssr_lib.sh; source ./rtp_lib.sh; source ./r3_lib.sh
-echo "== P1 units"; adb devices -l
-for s in ZY22GC3BM4; do adb devices | grep -q "^$s" && { adb -s $s shell svc bluetooth disable; sleep 0.3; adb -s $s shell svc wifi disable; sleep 0.3; }; done
-for s in 30041c35642d2200 0123456789ABCDEF CNU350BGBJ; do adb devices | grep -q "^$s" && { adb -s $s shell am force-stop com.andrerinas.headunitrevived; sleep 0.3; }; done
-$RIG_TOOLKIT/rig_preflight.sh D_HU:wifi,bt D_POCO:wifi,bt
-echo "== P2 D-HU"
-adb -s $HU shell stat -c '%U:%G' /data/data/$PKG/shared_prefs; sleep 0.3
-adb -s $HU shell cat /data/data/$PKG/shared_prefs/settings.xml > settings-backup-HU.xml; md5sum settings-backup-HU.xml
-grep -o -E '(use-aac-audio|audio-latency-multiplier|audio-queue-capacity|enable-audio-sink)[^/]*' settings-backup-HU.xml
-grep -o -E '(video-profile-starvation-cap|wifi-direct-last-identity-verdict)[^/]*' settings-backup-HU.xml
-grep -o -E 'aux-[a-z-]*|preferred-display-[a-z]*' settings-backup-HU.xml | sort -u
-HUIP_P=$(hu_ip); echo "HUIP_P=$HUIP_P"; HUIP=${HUIP_P%/*}
-echo "== P3 D-POCO"
-adb -s $PH shell dumpsys package com.google.android.projection.gearhead | grep -a -m2 -E "versionName|versionCode"; sleep 0.3
-adb -s $PH shell pm path com.google.android.apps.maps; sleep 0.3
-POCO_MAC=$(adb -s $PH shell settings get secure bluetooth_address | tr -d '\r' | tr a-f A-F); echo "POCO_MAC=$POCO_MAC"; sleep 0.3
-adb -s $PH shell dumpsys window | grep -a mCurrentFocus; sleep 0.3
-adb -s $PH shell input keyevent KEYCODE_HOME; sleep 0.3
-echo "== P4 PC tools"; python3 --version; command -v ffmpeg; ffmpeg -version 2>/dev/null | head -1
-echo "== P5 route from D-HU to the PC"
-HOSTIP=$(ip -4 route get "$HUIP" | grep -o 'src [0-9.]*' | cut -d' ' -f2); echo "HOSTIP=$HOSTIP"
-adb -s $HU shell ping -c 3 -W 2 $HOSTIP | tail -2; sleep 0.3
-adb -s $HU push udp_probe.sh /data/local/tmp/udp_probe.sh >/dev/null; sleep 0.3
-python3 -I rtp_recv.py --probe 5004 25 > "$OUT/P5-probe.txt" & PRB=$!; sleep 2
-adb -s $HU shell sh /data/local/tmp/udp_probe.sh $HOSTIP 5004; wait $PRB; cat "$OUT/P5-probe.txt"
-printf 'v=0\no=- 0 0 IN IP4 %s\ns=Open Headunit second screen\nc=IN IP4 %s\nt=0 0\nm=video 5004 RTP/AVP 96\na=rtpmap:96 H264/90000\na=fmtp:96 packetization-mode=1' "$HOSTIP" "$HOSTIP" > stream.sdp
-cat stream.sdp; echo; wc -l stream.sdp
-cat > env.sh <<EOF
-POCO_MAC=$POCO_MAC; HOSTIP=$HOSTIP; HUIP=$HUIP
-BASE="int:wifi-connection-mode=3 set:native-poke-bt-macs=$POCO_MAC bool:native-poke-all-paired=false int:native-driver-selection-mode=0 int:onboarding-version=2 int:log-level=2 str:video-codec=H.264 int:resolutionId=3 int:view-mode=1 bool:force-software-decoding=false del:software-video-decoder del:debug-video-fault-injection del:video-profile-starvation-cap int:night-mode=1"
-AUXREST="int:aux-rtp-port=5004 int:aux-network-size=1 del:aux-network-port del:aux-display-role del:aux-display-content del:aux-display-id del:preferred-display-mode del:preferred-display-id"
-K10="bool:aux-display-enabled=true str:aux-output=RTP_PUSH str:aux-rtp-destination=$HOSTIP int:aux-rtp-refresh-seconds=10 \$AUXREST"
-K0="bool:aux-display-enabled=true str:aux-output=RTP_PUSH str:aux-rtp-destination=$HOSTIP int:aux-rtp-refresh-seconds=0 \$AUXREST"
-EOF
-source ./env.sh; for v in POCO_MAC HOSTIP HUIP BASE K10 K0; do echo "$v=${!v}"; done
-echo "script exit=0"
+adb -s "$HU" shell am force-stop "$PKG"; sleep 1
+for s in "$D_SAM" "$D_HP"; do adb -s "$s" shell am force-stop "$PKG" >/dev/null 2>&1; sleep 0.3; done
+rl_step "R0 D-HU state"
+echo "PREFS_OWNER=$(adb -s "$HU" shell stat -c '%U:%G' /data/data/$PKG/shared_prefs | tr -d '\r')" >> "$VARS"; sleep 0.3
+B=$OUT/settings-backup-HU.xml
+[ -s "$B" ] || adb -s "$HU" shell cat /data/data/$PKG/shared_prefs/settings.xml > "$B"; sleep 0.3
+md5sum "$B" > "$OUT/R0-backup.md5"
+grep -o -E '(use-aac-audio|audio-latency-multiplier|audio-queue-capacity|enable-audio-sink|video-profile-starvation-cap|wifi-direct-last-identity-verdict)[^/]*' "$B" > "$OUT/R0-keys-found.txt"
+grep -o -E 'aux-[a-z-]*|preferred-display-[a-z]*' "$B" | sort -u > "$OUT/R0-aux-keys.txt"
+HUIP_P=$(hu_ip); HUIP=${HUIP_P%/*}
+rl_step "R0 D-POCO state"
+adb -s "$PH" shell dumpsys package com.google.android.projection.gearhead | grep -a -m2 -E 'versionName|versionCode' > "$OUT/R0-gearhead.txt"; sleep 0.3
+echo "MAPS=$(adb -s "$PH" shell pm path com.google.android.apps.maps | grep -c 'package:')" >> "$VARS"; sleep 0.3   # system
+POCO_MAC=$(adb -s "$PH" shell settings get secure bluetooth_address | tr -d '\r' | tr a-f A-F); sleep 0.3
+adb -s "$PH" shell input keyevent KEYCODE_HOME; sleep 0.3
+rl_step "R0 PC tools and route"
+if command -v ffmpeg >/dev/null; then echo "FFMPEG=1" >> "$VARS"; ffmpeg -version 2>/dev/null | head -1 > "$OUT/R0-ffmpeg.txt"; else echo "FFMPEG=0" >> "$VARS"; fi
+HOSTIP=""
+[ -n "$HUIP" ] && HOSTIP=$(ip -4 route get "$HUIP" | grep -o 'src [0-9.]*' | cut -d' ' -f2)
+[ -n "$HOSTIP" ] && { adb -s "$HU" shell ping -c 3 -W 2 "$HOSTIP" | tail -2 > "$OUT/R0-ping.txt"; sleep 0.3; }
+printf 'POCO_MAC=%q\nHUIP=%q\nHOSTIP=%q\n' "$POCO_MAC" "$HUIP" "$HOSTIP" > "$OUT/env.sh"
+printf 'v=0\no=- 0 0 IN IP4 %s\ns=Open Headunit second screen\nc=IN IP4 %s\nt=0 0\nm=video 5004 RTP/AVP 96\na=rtpmap:96 H264/90000\na=fmtp:96 packetization-mode=1' "$HOSTIP" "$HOSTIP" > "$OUT/stream.sdp"
+if [ -n "$HOSTIP" ]; then
+  rl_step "R0 UDP probe"
+  adb -s "$HU" push "$SD/udp_probe.sh" /data/local/tmp/udp_probe.sh >/dev/null; sleep 0.3
+  rl_bg probe python3 -I "$SD/udp_rx_probe.py" 5004 25 > "$OUT/R0-probe.txt" 2>&1; rl_sleep 2
+  adb -s "$HU" shell sh /data/local/tmp/udp_probe.sh "$HOSTIP" 5004 > "$OUT/R0-probe-hu.txt"; sleep 0.3
+  rl_wait_line "$OUT/R0-probe.txt" 'PROBE datagrams=' 30 >/dev/null   # not-literal: the PC probe prints it
+  rl_stop probe
+fi
+rl_step "R0 harness"
+rm -rf "$EV/harness"; mkdir -p "$EV/harness" "$TOOLS"
+git -C "$APP" archive "$SHA_FULL" tools/second-screen/rtp-harness | tar -x -C "$EV/harness"
+( cd "$TOOLS" && python3 -I "$SD/patch_tools.py" "$EV/harness/tools/second-screen/rtp-harness" ) > "$OUT/R0-patch.txt" 2>&1
+rl_step "R0 install and identity"
+adb -s "$HU" install -r -d "$APK_C" > "$OUT/R0-install.txt" 2>&1; sleep 0.3
+"$RIG_TOOLKIT/apk_identity.sh" "$APK_C" "$HU" > "$OUT/R0-identity.txt" 2>&1; echo "IDENTITY_RC=$?" >> "$VARS"
+F=$OUT/live.apk
+adb -s "$HU" pull "$(adb -s "$HU" shell pm path "$PKG" | cut -d: -f2 | tr -d '\r')" "$F" >/dev/null 2>&1; sleep 0.3
+echo "MD5_LIVE=$(md5sum < "$F" | cut -d' ' -f1)" >> "$VARS"
+echo "MD5_WANT=$(md5sum < "$APK_C" | cut -d' ' -f1)" >> "$VARS"
+echo "DEX_REFRESH=$(unzip -p "$F" 'classes*.dex' 2>/dev/null | strings | grep -c 'RtpRefreshPolicy')" >> "$VARS"
+echo "DEX_PACING=$(unzip -p "$F" 'classes*.dex' 2>/dev/null | strings | grep -c 'RtpPacingPolicy')" >> "$VARS"
+adb -s "$HU" shell am start -n "$MAIN" >/dev/null; rl_sleep 4
+send ACTION_QUERY_STATE > "$OUT/R0-query.txt"
+adb -s "$HU" shell am force-stop "$PKG"; sleep 0.3
 ```
 
-Check these in the log, and record each one in Setup notes:
+**grade-r0.sh**
 
-- **P1.** `27870808938846` (D-HU) and `4f4027e9` (D-POCO) are listed. `rig_preflight.sh` prints
-  `PREFLIGHT OK`. If it prints `PREFLIGHT FAILED`, stop and tell the operator.
-- **P2.** Record the `stat` owner, the backup md5, the four audio keys, the two state keys and any
-  `aux-*` keys. `HUIP_P` MUST be an address such as `192.168.1.9/24`. If it is empty, put "join D-HU
-  to the house WiFi" in P6.
-- **P3.** Record the Gearhead version. `pm path` for Maps MUST print a path. `POCO_MAC` MUST be a real
-  address, not empty and not `02:00:00:00:00:00`.
-- **P4.** If `ffmpeg` is absent, put its install in P6.
-- **P5.** `PROBE datagrams=` 1 or more with `from=` holding `$HUIP`: `UDP_PROBE=ok`. `datagrams=0`
-  after `PROBE_SENT`: `UDP_PROBE=blocked`, so put the firewall rule in P6. `stream.sdp` has 8 lines
-  (7 newlines).
-- **env.sh.** No value printed at the end is empty, and `K10` and `K0` each end with the
-  `aux-rtp-port=5004` keys.
-
-**P6. The one ask, only if needed.** Ask the operator in one message, and only for these:
-
-- any rig unit that is powered on but not on adb (P1): switch its Bluetooth off or power it off;
-- if P2 found no `wlan0` address on D-HU: join D-HU to the house WiFi;
-- if P4 found no `ffmpeg`: may the executor run `sudo apt-get install -y ffmpeg` on the PC?
-- if P5 read `UDP_PROBE=blocked`: may the executor open UDP 5004 and 5005 on the PC's firewall for
-  D-HU's subnet? On `ufw` that is `sudo ufw allow proto udp from ${HUIP%.*}.0/24 to any port 5004:5005`.
-  Record the exact rule.
-
-If none of these applies, skip P6. After the answers, run `p_pre.sh` again.
-
-### R0. Build, install and identity
-
-**`r0.sh`**
 ```bash
-# r0.sh : fetch, build, install and prove the candidate. Run it from the scripts folder.
-cd "$(dirname "$0")"; source ~/Coding/StudioProjects/rig-toolkit/rig_devices.sh
-source ./ssr_lib.sh; source ./rtp_lib.sh; source ./r3_lib.sh
-SHA=8d4af793b5e87a7b44f1e0ac01976a8db21766f6; TREE=153794946844e3a07135c9ad9b505bdcee096d4f
-APP=~/Coding/StudioProjects/headunit-revived
-git -C $APP fetch fork fix/rtp-push-recovery
-echo "FETCHED=$(git -C $APP rev-parse FETCH_HEAD)"                     # MUST equal $SHA
-WT=$($RIG_TOOLKIT/wt-new.sh second-screen-rtp-push candidate $SHA | tail -1); echo "WT=$WT"
-echo "HEAD=$(git -C $WT rev-parse HEAD) TREEREAD=$(git -C $WT rev-parse HEAD^{tree})"   # MUST equal $SHA and $TREE
-python3 -I patch_tools.py $WT/tools/second-screen/rtp-harness              # MUST print two PATCH_OK lines
-$RIG_TOOLKIT/rig_thermal.sh wait 70 || $RIG_TOOLKIT/rig_thermal.sh wait 70
-HUR_DIR=$WT MAX_WORKERS=2 $RIG_TOOLKIT/build_hur_cool.sh; echo "BUILD_RC=$?"
-mkdir -p $RIG_DATA/apks/second-screen-rtp-push-round3
-APK=$(ls -t $RIG_DATA/apks/*.apk | head -1); cp "$APK" $RIG_DATA/apks/second-screen-rtp-push-round3/cand.apk
-CAND=$RIG_DATA/apks/second-screen-rtp-push-round3/cand.apk; md5sum $CAND
-adb -s $HU shell am force-stop $PKG; sleep 0.3
-adb -s $HU install -r -d $CAND; sleep 0.3
-$RIG_TOOLKIT/apk_identity.sh $CAND $HU; echo "IDENTITY_RC=$?"
-adb -s $HU pull $(adb -s $HU shell pm path $PKG | cut -d: -f2 | tr -d '\r') "$OUT/live.apk" >/dev/null; md5sum "$OUT/live.apk"
-send ACTION_QUERY_STATE
-echo "DEX_REFRESH=$(unzip -p "$OUT/live.apk" 'classes*.dex' | strings | grep -c 'secondscreen/rtp/RtpRefreshPolicy')"
-echo "DEX_PACING=$(unzip -p "$OUT/live.apk" 'classes*.dex' | strings | grep -c 'secondscreen/rtp/RtpPacingPolicy')"
-echo "script exit=0"
+source "$VARS" 2>/dev/null
+sec=r0
+c eq "$(grep -acE '^PATCH_OK (lossy_proxy_rig.py md5=db455889b4eab3e50c6cad32adf94dc5|rtp_grade_rig.py md5=38e9d5b4796ee1b2cf432a5d4b2b34ba)$' "$OUT/R0-patch.txt")" 2 'two PATCH_OK lines with the md5s in section 5'   # not-literal
+c eq "${IDENTITY_RC:-}" 0 'apk_identity.sh exit'
+c eq "$( [ -n "${MD5_LIVE:-}" ] && [ "$MD5_LIVE" = "${MD5_WANT:-}" ] && echo 1 || echo 0 )" 1 'the live APK md5 equals apk/C.apk'
+c ge "$(grep -acF "$SHA_C" "$OUT/R0-query.txt")" 1 'ACTION_QUERY_STATE data= carries 8d4af793b5e8'
+c ge "${DEX_REFRESH:-}" 1 'the DEX holds RtpRefreshPolicy'
+c ge "${DEX_PACING:-}" 1 'the DEX holds RtpPacingPolicy'
+c eq "$(mac_ok "${POCO_MAC:-}")" 1 "POCO_MAC is a real address (${POCO_MAC:-empty})"
+c eq "$( [ -n "${HUIP:-}" ] && echo 1 || echo 0 )" 1 "D-HU has a wlan0 address (${HUIP:-none})"
+c ge "${MAPS:-}" 1 'Google Maps is installed on D-POCO'
+c eq "${FFMPEG:-0}" 1 'ffmpeg is on the PC'
+n=$(grep -ao 'PROBE datagrams=[0-9]*' "$OUT/R0-probe.txt" 2>/dev/null | cut -d= -f2)   # not-literal
+c ge "$n" 1 'UDP probe: datagrams from D-HU reached the PC'
+c eq "$( [ -n "${HUIP:-}" ] && grep -aq "from=.*$HUIP" "$OUT/R0-probe.txt" 2>/dev/null && echo 1 || echo 0 )" 1 'UDP probe: from= holds HUIP'
+c eq "$(wc -l < "$OUT/stream.sdp")" 7 'stream.sdp has 8 lines (7 newlines)'
 ```
 
-**PASS:** all of these.
-
-- `FETCHED`, `HEAD` and `TREEREAD` equal the SHA and the tree in section 1.
-- Two `PATCH_OK` lines with the md5s in section 5.
-- `BUILD_RC=0`, `IDENTITY_RC=0`, and the `live.apk` md5 equals the `cand.apk` md5.
-- The `data=` reply of `ACTION_QUERY_STATE` carries commit `8d4af793b5e8`. A `-dirty` suffix from
-  `.WORKTREE-INFO` alone is fine.
-- `DEX_REFRESH` 1 or more and `DEX_PACING` 1 or more. Both classes are new in `d73c45df1`, so no older
-  build carries them.
-
-**FAIL stops the round:** a SHA or tree mismatch, a `PATCH_FAIL`, a build failure, or a DEX count of
-0. Report the lines. `hu_keys` writes and checks every key on every run, so an install that wipes
-`settings.xml` does no harm.
+**PASS:** every condition above. **FAIL stops the round**, as before: a wrong patch, identity, md5, query
+commit or DEX count, no station, no Maps, no ffmpeg, or a blocked probe. Both DEX classes are new in
+`d73c45df1`, so no older build carries them. `hu_keys` writes and checks every key on every run, so an install
+that wipes `settings.xml` does no harm. Record `PREFS_OWNER`, the backup md5, `R0-keys-found.txt`, the aux keys,
+the Gearhead version and the ffmpeg version in Setup notes.
 
 ### S12. S1 and S2 in one session (8 min)
 
 S1 and S2 share one session. S1 ends when the grader ends. S2 starts at once on the same live
-stream, so the FFmpeg join is a real late join, about 185 s after the push opened.
+stream, so the FFmpeg join is a real late join, about 185 s after the push opened. The screenshots are
+sequential adb calls with `sleep 0.3` after each one. FFmpeg and the grader talk to D-HU over the WiFi,
+not over adb.
 
-**`run_s12.sh`**
+**s12.sh**
+
 ```bash
-# run_s12.sh : S1 (the phone answers the refresh) then S2 (a late receiver), one session, refresh 10 s.
-cd "$(dirname "$0")"; source ~/Coding/StudioProjects/rig-toolkit/rig_devices.sh
-source ./ssr_lib.sh; source ./rtp_lib.sh; source ./r3_lib.sh; source ./env.sh
-RUN=S12; : > "$OUT/S12.pcmarks"; : > "$OUT/S2.events"
-th_wait 75 || th_wait 75 || { echo "HOST_TOO_HOT S12"; echo "script exit=3"; exit 0; }
-grade_start S1 0.0.0.0 $RPORT 180
-bringup S12 $K10; rc=$?
-if [ $rc = 1 ]; then run_end; keep_attempt S12; rx_kill
-  for f in S1.grade S1.idr S1.grade.json S12.pcmarks; do [ -f "$OUT/$f" ] && mv "$OUT/$f" "$OUT/a1-$f"; done
-  RUN=S12; : > "$OUT/S12.pcmarks"; grade_start S1 0.0.0.0 $RPORT 180; bringup S12 $K10; rc=$?; fi
-echo "S12_BRINGUP rc=$rc"                    # 2 = Critical error with no frame: do not retry; 3 = host too hot
-if [ $rc != 0 ]; then rx_kill; run_end; echo "script exit=$rc"; exit 0; fi
-preflight
-echo "HUIP_SESSION=$(hu_ip)" | tee "$OUT/S12.huip"
+rl_thermal_gate 75 || { echo "HOT=1" >> "$VARS"; exit 0; }
+: > "$OUT/S12.pcmarks"; : > "$OUT/S2.events"
+grader_on S1 0.0.0.0 "$RPORT" 180
+bringup $K10; rc=$?
+if [ "$rc" = 1 ]; then run_end; rl_stop "grader:"; keep_attempt S1; echo "RETRIED=1" >> "$VARS"
+  : > "$OUT/S12.pcmarks"; grader_on S1 0.0.0.0 "$RPORT" 180; bringup $K10; rc=$?; fi
+echo "RC=$rc" >> "$VARS"
+[ "$rc" = 0 ] || { rl_stop "grader:"; run_end; exit 0; }
+echo "HUIP_SESSION=$(hu_ip)" >> "$VARS"
 # S1: the grader holds UDP 5004 for 180 s from the first datagram
 ph_nav "Parque+Principal+Marinilla"; markt S1-nav
-for i in 1 2 3 4 5; do sleep 30; markt S1-m$i; done
-grade_wait S1 120 | tee "$OUT/S1.gradeline"
+for n in 1 2 3 4 5; do rl_sleep 30; markt "S1-m$n"; done
+rl_wait_line "$OUT/S1.rx" 'GRADE ' 120 >/dev/null || echo "GRADER_KILLED=1" >> "$VARS"
+rl_stop "grader:S1"
 markt S1-gend
-echo "maps_notes=$(maps_notes)" | tee -a "$OUT/S12.notes"
+echo "MAPS_NOTES_1=$(maps_notes)" >> "$VARS"
 # S2: FFmpeg joins the live stream once a report shows packets
-L=$(nl); if waitfor 12 'RTP push sent [1-9][0-9]* packets' $L; then echo "S2_TRAFFIC=yes"; else echo "S2_TRAFFIC=no"; fi | tee -a "$OUT/S12.notes"
-ff_s2; markt S2-join
+L=$(rl_offset "$CAP")
+if rl_wait_line "$CAP" 'RTP push sent ' 12 "$L" >/dev/null && tail -c +$((L + 1)) "$CAP" | grep -aqE 'RTP push sent [1-9][0-9]* packets'; then
+  echo "S2_TRAFFIC=yes" >> "$VARS"; else echo "S2_TRAFFIC=no" >> "$VARS"; fi
+rm -f "$OUT/S2.framemd5" "$OUT"/S2-snap*.png "$OUT/S2.ffexit"; echo "join $(date +%s.%N)" >> "$OUT/S2.events"
+rl_bg ff:S2 ff_s2; markt S2-join
 hu_shot S2-main1
-sleep 3; ph_nav "Parque+Principal+Rionegro"; echo "reroute $(date +%s.%N)" >> "$OUT/S2.events"; markt S2-r1
-sleep 8; hu_shot S2-main2
-sleep 8; hu_shot S2-main3
-sleep 4; ph_nav "Parque+Principal+Marinilla"; echo "reroute $(date +%s.%N)" >> "$OUT/S2.events"; markt S2-r2
-sleep 10; hu_shot S2-main4
-sleep 10; hu_shot S2-main5
-ff_s2_wait 50 | tee "$OUT/S2.ffmpeg"
+rl_sleep 3; ph_nav "Parque+Principal+Rionegro"; echo "reroute $(date +%s.%N)" >> "$OUT/S2.events"; markt S2-r1
+rl_sleep 8; hu_shot S2-main2
+rl_sleep 8; hu_shot S2-main3
+rl_sleep 4; ph_nav "Parque+Principal+Marinilla"; echo "reroute $(date +%s.%N)" >> "$OUT/S2.events"; markt S2-r2
+rl_sleep 10; hu_shot S2-main4
+rl_sleep 10; hu_shot S2-main5
+rl_wait_line "$OUT/S2.ffexit" 'rc=' 50 >/dev/null || echo "FF_KILLED=1" >> "$VARS"
+rl_stop "ff:S2"
 markt S2-end
-echo "maps_notes=$(maps_notes)" | tee -a "$OUT/S12.notes"
+echo "MAPS_NOTES_2=$(maps_notes)" >> "$VARS"
 run_end
-python3 -I fps30.py "$CAP" S12-up | tee "$OUT/S12.fps30"
-python3 -I s1_pair.py "$OUT/S12-hu.txt" "$OUT/S12-phone.txt" "$OUT/S12.pcmarks" "$OUT/S1.idr" S12-launch S1-gend 3.0 | tee "$OUT/S1.pair"
-python3 -I s2_grade.py "$OUT/S2.framemd5" "$OUT/S2-snap" "$OUT/S2.events" | tee "$OUT/S2.grade"
-md5sum "$OUT"/S2-snap*.png "$OUT"/S2-main*.png | tee "$OUT/S2.md5"
-push_counts S12 S12-launch S1-gend | tee "$OUT/S1.counts"
-push_counts S12 S2-join S2-end | tee "$OUT/S2.counts"
-push_counts S12 S12-up S12-end | tee "$OUT/S12.counts"
-push_counts S12 S12-launch S12-end | tee "$OUT/S12-all.counts"
-push_counts S12 S12-end S12-closed | tee "$OUT/S12-close.counts"
-phone_grades S12 S12-up S12-end | tee "$OUT/S12.phone"
-phone_grades S12 S12-launch S12-up | tee "$OUT/S12.phone-bringup"
-echo "script exit=0"
 ```
 
-The screenshots are sequential adb calls with `sleep 0.3` after each one, so house rule 8 holds.
-FFmpeg and the grader talk to D-HU over the WiFi, not over adb.
+**grade-s12.sh**
+
+```bash
+source "$VARS" 2>/dev/null
+out() { echo "S1_OUTCOME=$1" > "$OUT/S1.outcome"; rl_verdict "$2" "$1: $3"; exit 0; }
+[ "${HOT:-0}" = 1 ] && out HOT UNTESTABLE "host thermal: two waits above 75C"
+[ "${RC:-1}" = 1 ] && out RIG INCONCLUSIVE "no session with a picture after the retry"
+[ "${RC:-1}" = 2 ] && out BRINGUP FAIL "the phone logged Critical error at bring-up and no frame came"
+pre || out SETUP INCONCLUSIVE "pre native=$pre_native texture=$pre_texture h264=$pre_h264 hotspot=$pre_hotspot gh=$pre_gh; fix the keys and re-run S12 once"
+python3 -I "$SD/s1_pair.py" "$CAP" "$PCAP" "$OUT/S12.pcmarks" "$OUT/S1.idr" S12-launch S1-gend 3.0 > "$OUT/S1.pair" 2>&1
+push_counts S12 S12-launch S1-gend > "$OUT/S1.counts"
+G=$(grep -a '^GRADE ' "$OUT/S1.rx" 2>/dev/null | tail -1); echo "$G" > "$OUT/S1.gradeline"
+g() { echo "$G" | grep -ao "\b$1=[^ ]*" | head -1 | cut -d= -f2; }
+P=$OUT/S1.pair; E=$OUT/S1.counts
+sec=A1
+c eq "$(pk e_announce "$E")" 1 'A1 e_announce'; c eq "$(pk e_unavail "$E")" 0 'A1 e_unavail'
+c eq "$(pk e_open "$E")" 1 'A1 e_open'; c eq "$(pk e_outopen "$E")" 1 'A1 e_outopen'
+c eq "$(pk e_refresh_ms "$E")" 10000 'A1 e_refresh_ms'; c eq "$(yes1 "$(pk e_network "$E")" wlan0)" 1 'A1 e_network is wlan0'
+sec=A2
+c ge "$(g packets)" 500 'A2 GRADE packets'; c ge "$(x100 "$(g span_s)")" 15000 'A2 GRADE span_s x100'
+sec=A3
+asks=$(num "$(pk asks "$P")" 0); cyc=$(num "$(pk cycled "$P")" 0)
+c ge "$asks" 5 'A3 asks'; c ge "$cyc" $((asks - 1)) 'A3 cycled is asks or asks - 1'
+c eq "$(pk e_kf_early "$E")" 0 'A3 e_kf_early'; c eq "$(pk e_fail_lines "$E")" 0 'A3 e_fail_lines'
+sec=A4
+c ge "$(pk answered_pct "$P")" 80 'A4 answered_pct'; c le "$(x100 "$(g idr_gap_max_s)")" 1500 'A4 GRADE idr_gap_max_s x100'
+sec=A5
+c ge "$(pk offset_n "$P")" 3 'A5 offset_n'; c le "$(x100 "$(pk offset_spread_s "$P")")" 150 'A5 offset_spread_s x100'
+grep -a '^S1ASK ' "$P" | head -20 | sed 's/^/NOTE /'
+echo "NOTE stops=$(pk stops "$P") starts=$(pk starts "$P") lat_med_s=$(pk lat_med_s "$P") GRADE: $G"
+gapn=$(num "$(x100 "$(g idr_gap_max_s)")" 999999)
+failed A1 && out SETUP INCONCLUSIVE "fix the keys and re-run S12 once"
+[ -n "$G" ] || out RIG INCONCLUSIVE "GRADE missing"
+failed A2 && out RIG INCONCLUSIVE "the stream did not reach the grader"
+[ "$asks" -lt 5 ] && [ "$gapn" -le 1500 ] && out NOT_REACHED INCONCLUSIVE "the phone sent IDRs often enough by itself"
+failed A3 && out WIRING FAIL "the refresh or the cycle did not run as designed"
+if failed A5; then
+  hk=$(num "$(pk hu_kf_next2 "$P")" 0)
+  [ $((hk * 100)) -ge $((asks * 80)) ] && [ "$gapn" -le 1500 ] && out PASS PASS "graded on the head unit reports"
+else
+  failed A4 || out PASS PASS "A1 to A4 met"
+fi
+[ "$(pk stops "$P")" = 0 ] && out PHONE FAIL "the phone ignored the focus release"
+out PHONE FAIL "Gearhead does not answer an aux focus cycle with an aux IDR"
+```
 
 #### S1. The phone answers the refresh: THE POINT OF THE ROUND
 
-Inputs: `S1.pair` (`S1PAIR` and the `S1ASK` rows), `S1.gradeline` (`GRADE`), `S1.counts`
-(window `S12-launch..S1-gend`), `S12.preflight`, `S12.phone`.
+Inputs: `S1.pair` (`S1PAIR` and the `S1ASK` rows), `S1.rx` (`GRADE`), `S1.counts` (window
+`S12-launch..S1-gend`), `pre`, and the phone capture.
 
 Conditions:
 
-- **A1, setup.** `S12.preflight` has `mode_native`, `view_texture` and `main_sink_h264` 1 or more,
-  `hotspot_lines` 0, `phone_gh_lines` 1 or more. `S1.counts`: `e_announce` 1, `e_unavail` 0, `e_open`
-  1, `e_outopen` 1, `e_refresh_ms` 10000, `e_network` `wlan0`.
+- **A1, setup.** `pre` passes (`mode_native`, `view_texture` and `main_sink_h264` 1 or more, `hotspot_lines` 0,
+  `phone_gh_lines` 1 or more). `S1.counts`: `e_announce` 1, `e_unavail` 0, `e_open` 1, `e_outopen` 1,
+  `e_refresh_ms` 10000, `e_network` `wlan0`.
 - **A2, the stream reached the grader.** `GRADE` `packets` 500 or more and `span_s` 150 or more.
 - **A3, the refresh fired and the cycle went out.** `S1PAIR` `asks` 5 or more, and `cycled` is
   `asks` or `asks - 1`. `S1.counts`: `e_kf_early` 0, `e_fail_lines` 0.
@@ -773,35 +969,71 @@ Report, no verdict of their own: every `S1ASK` row; `lat_med_s` and `lat_max_s`;
 `e_pauses`, `e_keyframes`, `e_kf_lines`; `GRADE` `idrs`, `lost`, `first_picture_s`; and the phone
 lines that `S1ASK` counted for the first three requests, quoted from `S12-phone.txt`.
 
-**Outcomes.** Grade in this order and stop at the first that matches.
+**Outcomes.** `grade-s12.sh` grades in this order and stops at the first that matches.
 
-1. **Setup failure:** A1 is not met. Fix the keys and re-run S12 once.
-2. **INCONCLUSIVE (rig):** `S12_BRINGUP rc` is 1 after the retry, or 3, or A2 is not met, or
-   `GRADE missing`. Report the numbers.
+1. **Setup failure:** A1 is not met. INCONCLUSIVE: fix the keys and re-run S12 once.
+2. **INCONCLUSIVE (rig):** no session with a picture after the retry, or A2 is not met, or `GRADE` is missing.
 3. **INCONCLUSIVE (not reached):** `asks` is below 5 and `idr_gap_max_s` is 15.0 or less. The phone
    sent IDRs often enough by itself, so the refresh had nothing to do.
 4. **FAIL-WIRING:** `asks` is below 5 with `idr_gap_max_s` above 15.0, or `cycled` is below
-   `asks - 1`, or `e_kf_early` is 1 or more. The refresh or the cycle did not run as designed. Quote
-   the `S1ASK` rows and the first 3 lines around a missing cycle.
+   `asks - 1`, or `e_kf_early` or `e_fail_lines` is 1 or more. The refresh or the cycle did not run as
+   designed. Quote the `S1ASK` rows and the first 3 lines around a missing cycle.
 5. **Clock fallback:** A5 is not met. Then grade A4 with `hu_kf_next2` in place of `answered`:
-   `hu_kf_next2` 80% of `asks` or more, and `idr_gap_max_s` 15.0 or less. Write "graded on the head
-   unit reports" beside the verdict. Then go on to 6 or 7.
+   `hu_kf_next2` 80% of `asks` or more, and `idr_gap_max_s` 15.0 or less. The verdict says "graded on the head
+   unit reports".
 6. **PASS:** A1 to A4 are met (A4 by the fallback when 5 applied).
 7. **FAIL-PHONE:** A3 is met and A4 is not. Gearhead does not answer an aux focus cycle with an aux
    IDR. This is a real finding, not a rig fault. Quote `stops`, `starts`, the `S1ASK` rows and the
-   `GRADE` line. If `stops` is 0, write "the phone ignored the focus release".
+   `GRADE` line. If `stops` is 0, the verdict says "the phone ignored the focus release".
 
-**The outcome for INCONCLUSIVE:** re-run S12 once. If S1 is INCONCLUSIVE again, record both sets of
-numbers, grade S2 to S5 as written, and carry on. Do not invent another lever. The coding side
-decides the next step from the numbers.
+A bring-up where the phone logs `Critical error` and no frame comes is a FAIL of its own (`BRINGUP`).
+
+**The outcome for INCONCLUSIVE:** the host may re-run S12 once (delete `S12.grade.json`, `S2.grade.json` and
+rerun the session). If S1 is INCONCLUSIVE again, record both sets of numbers, grade S2 to S5 as written, and
+carry on. Do not invent another lever. The coding side decides the next step from the numbers.
 
 A PASS cannot come from a refresh that did nothing. Without an answer, the phone's IDRs come every
 60 s (round 2, and S4 here), so `idr_gap_max_s` would be near 60 and `answered_pct` near 0.
 
 #### S2. A late receiver gets a moving picture
 
-Inputs: `S2.grade` (`S2GRADE`, `S2BUCKETS`), `S2.ffmpeg` (exit and error lines), `S12.notes`
-(`S2_TRAFFIC`, `maps_notes`), `S2.counts` (window `S2-join..S2-end`), and S1's outcome.
+S2 runs no device step: `s2.sh` only marks the step, and `grade-s2.sh` grades S12's files. Inputs:
+`S2.grade` (`S2GRADE`, `S2BUCKETS`), `S2-ffmpeg.log` and `S2.ffexit`, `S12.vars` (`S2_TRAFFIC`, the
+`MAPS_NOTES`), `S2.counts` (window `S2-join..S2-end`), and S1's outcome.
+
+**s2.sh**
+
+```bash
+rl_step "S2 is graded from the files S12 left"
+```
+
+**grade-s2.sh**
+
+```bash
+source "$OUT/S12.vars" 2>/dev/null; source "$OUT/S1.outcome" 2>/dev/null
+out() { rl_verdict "$1" "$2"; exit 0; }
+[ "${HOT:-0}" = 1 ] && out UNTESTABLE "host thermal in S12"
+python3 -I "$SD/s2_grade.py" "$OUT/S2.framemd5" "$OUT/S2-snap" "$OUT/S2.events" > "$OUT/S2.grade" 2>&1
+push_counts S12 S2-join S2-end > "$OUT/S2.counts"
+q() { grep -a '^S2GRADE ' "$OUT/S2.grade" | grep -ao "\b$1=[^ ]*" | head -1 | cut -d= -f2; }
+sec=B1; c eq "$(yes1 "${S2_TRAFFIC:-}" yes)" 1 'B1 the join came after traffic'
+sec=B2; c le "$(x100 "$(q first_frame_after_join_s)")" 2000 'B2 first_frame_after_join_s x100'
+sec=B3
+c ge "$(x100 "$(q decode_span_s)")" 3000 'B3 decode_span_s x100'; c ge "$(q distinct)" 30 'B3 distinct'
+c ge "$(q snap_distinct)" 2 'B3 snap_distinct'; c ge "$(q r1_new_frames)" 1 'B3 r1_new_frames'; c ge "$(q r2_new_frames)" 1 'B3 r2_new_frames'
+m1=$(q r1_main_changed); m2=$(q r2_main_changed)
+sec=B4; c eq "$( [ "$m1" = yes ] || [ "$m2" = yes ] && echo 1 || echo 0 )" 1 'B4 the map moved (a main screenshot changed)'
+echo "NOTE $(grep -a '^S2BUCKETS ' "$OUT/S2.grade") $(cat "$OUT/S2.ffexit" 2>/dev/null) maps_notes=${MAPS_NOTES_1:-}/${MAPS_NOTES_2:-}"
+echo "NOTE S2.counts e_asks=$(pk e_asks "$OUT/S2.counts") e_keyframes=$(pk e_keyframes "$OUT/S2.counts") e_fail_lines=$(pk e_fail_lines "$OUT/S2.counts")"
+case "${S1_OUTCOME:-RIG}" in RIG|SETUP|HOT) out INCONCLUSIVE "no stream: S1 was ${S1_OUTCOME:-not graded}" ;; esac
+failed B1 && out INCONCLUSIVE "no stream: the join came before any traffic"
+[ "${S1_OUTCOME:-}" = PHONE ] && out INCONCLUSIVE "report only: S1 is FAIL-PHONE, so S2 measures the phone's 60 s GOP"
+{ [ "$(num "$(q frames)" 0)" = 0 ] || failed B2; } && out FAIL "FAIL-LATE: no picture within 20 s of the join"
+{ { [ "$m1" = yes ] && [ "$(q r1_new_frames)" = 0 ]; } || { [ "$m2" = yes ] && [ "$(q r2_new_frames)" = 0 ]; }; } && \
+  out FAIL "FAIL-FROZEN: the phone's map moved and the second display did not"
+failed B1 B2 B3 B4 || out PASS "B1 to B4 met"
+failed B3 && failed B4 && out INCONCLUSIVE "map idle: nothing proves the map moved"
+```
 
 Conditions:
 
@@ -811,67 +1043,130 @@ Conditions:
   or more, `r1_new_frames` 1 or more and `r2_new_frames` 1 or more.
 - **B4, the map moved.** `r1_main_changed=yes` or `r2_main_changed=yes`.
 
-Report: `frames`, `S2BUCKETS`, `snaps`, `main_distinct`, the `rc=` in `S2.ffmpeg` and its error lines,
-the two `maps_notes` counts, and `S2.counts` `e_asks`, `e_keyframes` and `e_fail_lines`. Put the
-first, middle and last PNG snapshot in the evidence zip.
+Report: `frames`, `S2BUCKETS`, `snaps`, `main_distinct`, the `rc=` in `S2.ffexit` and the error lines of
+`S2-ffmpeg.log`, the two `MAPS_NOTES` counts, and `S2.counts` `e_asks`, `e_keyframes` and `e_fail_lines`. Put
+the first, middle and last PNG snapshot in the evidence zip.
 
-**Outcomes.** Grade in this order and stop at the first that matches.
+**Outcomes.** In this order, stopping at the first that matches:
 
-1. **INCONCLUSIVE (no stream):** B1 is not met, or S1 was INCONCLUSIVE (rig).
-2. **Report only:** S1 is FAIL-PHONE. Without an answer, a late receiver waits for the phone's 60 s
-   GOP, so S2 measures only that. Report the numbers with no verdict.
+1. **INCONCLUSIVE (no stream):** B1 is not met, or S1 was INCONCLUSIVE (rig) or a setup failure.
+2. **Report only (INCONCLUSIVE):** S1 is FAIL-PHONE. Without an answer, a late receiver waits for the phone's
+   60 s GOP, so S2 measures only that.
 3. **FAIL-LATE:** `frames` is 0, or B2 is not met. Quote FFmpeg's error lines.
-4. **FAIL-FROZEN:** B4 is met, and the route change whose `rN_main_changed` is `yes` has
-   `rN_new_frames` 0. The phone's map moved and the second display did not. This is the reported
-   fault.
+4. **FAIL-FROZEN:** the route change whose `rN_main_changed` is `yes` has `rN_new_frames` 0. The phone's map
+   moved and the second display did not. This is the reported fault.
 5. **PASS:** B1 to B4 are met.
 6. **INCONCLUSIVE (map idle):** B3 is not met and B4 is not met. Nothing proves the map moved.
    `rN_main_changed=na` counts as not met.
-7. **FAIL:** anything else. Name each condition that is not met, with its numbers.
+7. **FAIL:** anything else. The COND lines name each condition that is not met.
 
-**The outcome for INCONCLUSIVE:** S2 is not re-run alone. If S12 is re-run for S1, S2 runs again
-inside it. Otherwise record the numbers and carry on.
+**The outcome for INCONCLUSIVE:** S2 is not re-run alone. If S12 is re-run for S1, S2 is graded again after it.
+
+### S4. The control: S3 with the refresh off (5 min)
+
+S4 and S3 share `loss_run` in `ss_lib.sh`: the push goes through the lossy proxy (bursts at 30, 60 and 90 s)
+to the strict grader. S4 runs first, with the refresh off.
+
+**s4.sh**
+
+```bash
+loss_run "$K0"
+```
+
+**grade-s4.sh**
+
+```bash
+source "$VARS" 2>/dev/null
+out() { echo "S4_OUTCOME=$1" > "$OUT/S4.outcome"; rl_verdict "$2" "$1: $3"; exit 0; }
+[ "${HOT:-0}" = 1 ] && out HOT UNTESTABLE "host thermal: two waits above 75C"
+[ "${RC:-1}" = 1 ] && out RIG INCONCLUSIVE "no session with a picture after the retry"
+[ "${RC:-1}" = 2 ] && out BRINGUP FAIL "the phone logged Critical error at bring-up and no frame came"
+pre || out SETUP INCONCLUSIVE "pre native=$pre_native texture=$pre_texture h264=$pre_h264 hotspot=$pre_hotspot gh=$pre_gh; fix the keys and re-run once"
+push_counts S4 S4-launch S4-end > "$OUT/S4.counts"; E=$OUT/S4.counts
+G=$(grep -a '^GRADE ' "$OUT/S4.rx" 2>/dev/null | tail -1); echo "$G" > "$OUT/S4.gradeline"
+g() { echo "$G" | grep -ao "\b$1=[^ ]*" | head -1 | cut -d= -f2; }
+X=$(grep -a '^PROXY seen=' "$OUT/S4.proxy" 2>/dev/null | tail -1)   # not-literal
+sec=D1
+c eq "$(pk e_open "$E")" 1 'D1 e_open'; c eq "$(pk e_refresh_ms "$E")" 0 'D1 e_refresh_ms'
+c eq "$(yes1 "$(pk e_network "$E")" wlan0)" 1 'D1 e_network is wlan0'; c eq "$(pk e_unavail "$E")" 0 'D1 e_unavail'
+sec=D2
+c eq "$(grep -ac '^PROXY burst ' "$OUT/S4.proxy" 2>/dev/null)" 3 'D2 PROXY burst lines'   # not-literal
+c ge "$(echo "$X" | grep -ao 'dropped=[0-9]*' | cut -d= -f2)" 15 'D2 PROXY dropped'
+c ge "$(g lost)" 15 'D2 GRADE lost'; c ge "$(g packets)" 500 'D2 GRADE packets'; c ge "$(x100 "$(g span_s)")" 14000 'D2 GRADE span_s x100'
+sec=D3
+c eq "$(pk e_asks "$E")" 0 'D3 e_asks'; c eq "$(pk e_cyc_push "$E")" 0 'D3 e_cyc_push'
+sec=D4
+c eq "$( [ "$(g unrecovered)" = 1 ] || [ "$(num "$(x100 "$(g broken_max_s)")" 0)" -ge 2500 ] && echo 1 || echo 0 )" 1 'D4 unrecovered=1 or broken_max_s >= 25.0'
+echo "NOTE GRADE: $G | $X"
+failed D1 && out SETUP INCONCLUSIVE "fix the keys and re-run once"
+{ [ -z "$G" ] || failed D2; } && out RIG INCONCLUSIVE "the bursts or the stream did not happen as planned"
+failed D3 && out FAIL FAIL "refresh 0 still asked for a keyframe"
+failed D4 || out REPRODUCED PASS "the rig shows the reported fault with the refresh off"
+out NOT_REPRODUCED INCONCLUSIVE "idr_gap_max_s=$(g idr_gap_max_s) broken_max_s=$(g broken_max_s); S3 becomes INCONCLUSIVE (control)"
+```
+
+Inputs: `S4.rx` (`GRADE`), `S4.proxy` (`PROXY` lines), `S4.counts` (window `S4-launch..S4-end`), `pre`.
+
+- **D1, setup.** As C1, but `e_refresh_ms` 0.
+- **D2, the bursts happened.** As C2.
+- **D3, the setting turns the refresh off.** `S4.counts` `e_asks` 0 and `e_cyc_push` 0.
+- **D4, the fault shows.** `GRADE` `unrecovered=1`, or `broken_max_s` 25.0 or more.
+
+**Outcomes.** In this order:
+
+1. **Setup failure (INCONCLUSIVE):** D1 is not met. Fix the keys and re-run once.
+2. **INCONCLUSIVE (rig):** a bring-up failed twice, or D2 is not met. Re-run once.
+3. **FAIL:** D3 is not met. Refresh 0 must mean no request.
+4. **REPRODUCED (PASS):** D3 and D4 are met. The rig shows the reported fault with the refresh off.
+5. **NOT REPRODUCED (INCONCLUSIVE):** D3 is met and D4 is not. Report `idr_gap_max_s` and `broken_max_s`. S3
+   becomes INCONCLUSIVE (control).
+
+Why D4 must happen when the code behaves as round 2 measured: the phone's IDRs come every 60 s, and
+the bursts come 30 s apart. So at least one burst lands in the first half of a GOP, and the picture
+stays broken for at least about 30 s.
 
 ### S3. Recovery from loss on the real network (5 min)
 
-S4 runs the same script with the refresh off, so S3 and S4 share one script.
+**s3.sh**
 
-**`run_loss.sh`**
 ```bash
-# run_loss.sh <RUN> <keys var> : the push through the lossy proxy (bursts at 30, 60, 90 s) to the strict grader
-cd "$(dirname "$0")"; source ~/Coding/StudioProjects/rig-toolkit/rig_devices.sh
-source ./ssr_lib.sh; source ./rtp_lib.sh; source ./r3_lib.sh; source ./env.sh
-R=$1; KEYS=${!2}; RUN=$R; : > "$OUT/$R.pcmarks"
-th_wait 75 || th_wait 75 || { echo "HOST_TOO_HOT $R"; echo "script exit=3"; exit 0; }
-proxy_start $R; grade_start $R 127.0.0.1 $GPORT 150
-bringup $R $KEYS; rc=$?
-if [ $rc = 1 ]; then run_end; keep_attempt $R; rx_kill
-  for f in $R.grade $R.idr $R.grade.json $R.proxy; do [ -f "$OUT/$f" ] && mv "$OUT/$f" "$OUT/a1-$f"; done
-  RUN=$R; proxy_start $R; grade_start $R 127.0.0.1 $GPORT 150; bringup $R $KEYS; rc=$?; fi
-echo "${R}_BRINGUP rc=$rc"
-if [ $rc != 0 ]; then rx_kill; run_end; echo "script exit=$rc"; exit 0; fi
-preflight
-ph_nav "Parque+Principal+Marinilla"; markt $R-nav
-grade_wait $R 260 | tee "$OUT/$R.gradeline"
-markt $R-gend
-run_end
-proxy_wait $R 30 | tee "$OUT/$R.proxyline"
-python3 -I fps30.py "$CAP" $R-up | tee "$OUT/$R.fps30"
-push_counts $R $R-launch $R-end | tee "$OUT/$R.counts"
-push_counts $R $R-up $R-end | tee "$OUT/$R-up.counts"
-push_counts $R $R-end $R-closed | tee "$OUT/$R-close.counts"
-phone_grades $R $R-up $R-end | tee "$OUT/$R.phone"
-phone_grades $R $R-launch $R-up | tee "$OUT/$R.phone-bringup"
-echo "script exit=0"
+loss_run "$K10"
 ```
 
-Run it as `nohup bash run_loss.sh S3 K10 > run_s3.log 2>&1 &`.
+**grade-s3.sh**
 
-Inputs: `S3.gradeline` (`GRADE`), `S3.proxyline` (`PROXY` lines), `S3.counts` (window
-`S3-launch..S3-end`), `S3.preflight`.
+```bash
+source "$VARS" 2>/dev/null; source "$OUT/S4.outcome" 2>/dev/null; source "$OUT/S1.outcome" 2>/dev/null
+out() { rl_verdict "$1" "$2"; exit 0; }
+[ "${HOT:-0}" = 1 ] && out UNTESTABLE "host thermal: two waits above 75C"
+[ "${RC:-1}" = 1 ] && out INCONCLUSIVE "rig: no session with a picture after the retry"
+[ "${RC:-1}" = 2 ] && out FAIL "the phone logged Critical error at bring-up and no frame came"
+pre || out INCONCLUSIVE "setup: pre native=$pre_native texture=$pre_texture h264=$pre_h264 hotspot=$pre_hotspot gh=$pre_gh"
+push_counts S3 S3-launch S3-end > "$OUT/S3.counts"; E=$OUT/S3.counts
+G=$(grep -a '^GRADE ' "$OUT/S3.rx" 2>/dev/null | tail -1); echo "$G" > "$OUT/S3.gradeline"
+g() { echo "$G" | grep -ao "\b$1=[^ ]*" | head -1 | cut -d= -f2; }
+X=$(grep -a '^PROXY seen=' "$OUT/S3.proxy" 2>/dev/null | tail -1)   # not-literal
+sec=C1
+c eq "$(pk e_open "$E")" 1 'C1 e_open'; c eq "$(pk e_refresh_ms "$E")" 10000 'C1 e_refresh_ms'
+c eq "$(yes1 "$(pk e_network "$E")" wlan0)" 1 'C1 e_network is wlan0'; c eq "$(pk e_unavail "$E")" 0 'C1 e_unavail'
+sec=C2
+c eq "$(grep -ac '^PROXY burst ' "$OUT/S3.proxy" 2>/dev/null)" 3 'C2 PROXY burst lines'   # not-literal
+c ge "$(echo "$X" | grep -ao 'dropped=[0-9]*' | cut -d= -f2)" 15 'C2 PROXY dropped'
+c ge "$(g lost)" 15 'C2 GRADE lost'; c ge "$(g packets)" 500 'C2 GRADE packets'; c ge "$(x100 "$(g span_s)")" 14000 'C2 GRADE span_s x100'
+sec=C3; c eq "$(g unrecovered)" 0 'C3 GRADE unrecovered'; c le "$(x100 "$(g broken_max_s)")" 1250 'C3 GRADE broken_max_s x100'
+sec=C4; c ge "$(pk e_asks "$E")" 3 'C4 e_asks'; c eq "$(pk e_fail_lines "$E")" 0 'C4 e_fail_lines'
+echo "NOTE GRADE: $G | $X | e_refreshes=$(pk e_refreshes "$E") e_pauses=$(pk e_pauses "$E")"
+failed C1 && out INCONCLUSIVE "setup failure: fix the keys and re-run once"
+{ [ -z "$G" ] || failed C2; } && out INCONCLUSIVE "rig: the bursts or the stream did not happen as planned; re-run once"
+[ "${S4_OUTCOME:-NONE}" = REPRODUCED ] || out INCONCLUSIVE "control: S4 is ${S4_OUTCOME:-not graded}, so a recovery here proves nothing"
+failed C1 C2 C3 C4 || out PASS "C1 to C4 met"
+[ "${S1_OUTCOME:-}" = PHONE ] && out FAIL "follows S1"
+```
 
-- **C1, setup.** As A1, on `S3.counts` and `S3.preflight`: `e_open` 1, `e_refresh_ms` 10000,
-  `e_network` `wlan0`, `e_unavail` 0.
+Inputs: `S3.rx` (`GRADE`), `S3.proxy` (`PROXY` lines), `S3.counts` (window `S3-launch..S3-end`), `pre`.
+
+- **C1, setup.** As A1, on `S3.counts` and `pre`: `e_open` 1, `e_refresh_ms` 10000, `e_network` `wlan0`,
+  `e_unavail` 0.
 - **C2, the bursts happened.** 3 `PROXY burst` lines, `PROXY` `dropped` 15 or more, `GRADE` `lost`
   15 or more, `packets` 500 or more, `span_s` 140 or more.
 - **C3, recovery.** `GRADE` `unrecovered=0` and `broken_max_s` 12.5 or less.
@@ -882,49 +1177,49 @@ Report: `broken_n`, `broken_total_s`, `idr_gap_max_s`, `first_picture_s`, the bu
 
 **Outcomes.** In this order:
 
-1. **Setup failure:** C1 is not met. Fix the keys and re-run once.
-2. **INCONCLUSIVE (rig):** `S3_BRINGUP rc` is 1 after the retry, or 3, or C2 is not met. Re-run once.
-3. **INCONCLUSIVE (control):** S4 is NOT REPRODUCED (below). The rig did not show the fault, so a
-   recovery here proves nothing. Grade S3 after S4.
+1. **Setup failure (INCONCLUSIVE):** C1 is not met. Fix the keys and re-run once.
+2. **INCONCLUSIVE (rig):** the bring-up failed twice, or C2 is not met. Re-run once.
+3. **INCONCLUSIVE (control):** S4 is not REPRODUCED. The rig did not show the fault, so a recovery here proves
+   nothing.
 4. **PASS:** C1 to C4 are met.
-5. **FAIL:** anything else. If S1 is FAIL-PHONE, write "follows S1" beside it.
+5. **FAIL:** anything else. If S1 is FAIL-PHONE, the verdict says "follows S1".
 
-### S4. The control: S3 with the refresh off (5 min)
+### S5. No cost to the session (graded after S3)
 
-Run `nohup bash run_loss.sh S4 K0 > run_s4.log 2>&1 &`. Inputs as S3, with `S4` in each name.
+S5 runs no device step. `grade-s5.sh` reads the captures that S12, S3 and S4 left. "up" is
+`<RUN>-up..<RUN>-end`, and "all" is `<RUN>-launch..<RUN>-end`.
 
-- **D1, setup.** As C1, but `e_refresh_ms` 0.
-- **D2, the bursts happened.** As C2.
-- **D3, the setting turns the refresh off.** `S4.counts` `e_asks` 0 and `e_cyc_push` 0.
-- **D4, the fault shows.** `GRADE` `unrecovered=1`, or `broken_max_s` 25.0 or more.
+**s5.sh**
 
-**Outcomes.** In this order:
-
-1. **Setup failure:** D1 is not met. Fix the keys and re-run once.
-2. **INCONCLUSIVE (rig):** a bring-up failed twice, or D2 is not met. Re-run once.
-3. **FAIL:** D3 is not met. Refresh 0 must mean no request.
-4. **REPRODUCED (PASS):** D3 and D4 are met. The rig shows the reported fault with the refresh off.
-5. **NOT REPRODUCED:** D3 is met and D4 is not. Report `idr_gap_max_s` and `broken_max_s`. S3 becomes
-   INCONCLUSIVE (control).
-
-Why D4 must happen when the code behaves as round 2 measured: the phone's IDRs come every 60 s, and
-the bursts come 30 s apart. So at least one burst lands in the first half of a GOP, and the picture
-stays broken for at least about 30 s.
-
-### S5. No cost to the session (graded after S4)
-
-**`s5_grade.sh`**
 ```bash
-# s5_grade.sh : S5 from the files S12, S3 and S4 left. "up" = <RUN>-up..<RUN>-end, "all" = <RUN>-launch..<RUN>-end
-cd "$(dirname "$0")"; source ./ssr_lib.sh
-python3 -I s5.py "$OUT" | tee "$OUT/S5.grade"
+rl_step "S5 is graded from the files S12, S3 and S4 left"
+```
+
+**grade-s5.sh**
+
+```bash
+for r in S12 S3 S4; do python3 -I "$SD/fps30.py" "$OUT/$r-hu.txt" "$r-up" > "$OUT/$r.fps30" 2>&1; done
+python3 -I "$SD/s5.py" "$OUT" > "$OUT/S5.grade" 2>&1
+S=$(grep -a '^S5 ' "$OUT/S5.grade")
+sec=E1; c eq "$(yes1 "$(pk fps_ok "$OUT/S5.grade")" yes)" 1 'E1 fps_ok (F10 >= F0 - 3)'; c eq "$(yes1 "$(pk rendered_ok "$OUT/S5.grade")" yes)" 1 'E1 rendered_ok'
 for r in S12 S3 S4; do
-  up=$OUT/$r-up.counts; all=$OUT/$r.counts; [ $r = S12 ] && { up=$OUT/S12.counts; all=$OUT/S12-all.counts; }
-  echo "== $r up: $(grep -a -E '^e_(main|fail|errors|stopped)' "$up" | tr '\n' ' ')"
-  echo "== $r all: $(grep -a -E '^e_fail_lines' "$all" | tr '\n' ' ')"
-  echo "== $r phone: $(grep -a -E '^(phone_markers|win\|Critical error|win\|No input)' "$OUT/$r.phone" | tr '\n' ' ')"
-done | tee -a "$OUT/S5.grade"
-echo "script exit=0"
+  push_counts "$r" "$r-launch" "$r-end" > "$OUT/$r-all.counts"; push_counts "$r" "$r-up" "$r-end" > "$OUT/$r-up.counts"
+  A=$OUT/$r-all.counts; U=$OUT/$r-up.counts
+  sec=E2; c eq "$(pk e_ssl "$A")" 1 "E2 $r e_ssl"; c eq "$(pk e_destroy "$A")" 0 "E2 $r e_destroy"
+  c eq "$(pk e_errors "$U")" 0 "E2 $r e_errors"; c eq "$(pk e_shed "$U")" 0 "E2 $r e_shed"
+  c eq "$(pk e_auxdec "$U")" 0 "E2 $r e_auxdec"; c eq "$(pk e_fail_lines "$U")" 0 "E2 $r e_fail_lines"
+  if [ "$r" != S4 ]; then sec=E3
+    c eq "$(pk e_main_stop "$U")" 0 "E3 $r e_main_stop"; c eq "$(pk e_main_vss "$U")" 0 "E3 $r e_main_vss"; c eq "$(pk e_main_retake "$U")" 0 "E3 $r e_main_retake"; fi
+  PCAP=$OUT/$r-phone.txt; phone "$r-up" "$r-end"
+  sec=E4; c eq "$ph_crit" 0 "E4 $r phone Critical error (file: $ph_crit_file)"; c eq "$ph_noinput" 0 "E4 $r phone No input for display"
+  c ge "$ph_markers" 1 "E4 $r phone markers in the window"
+  echo "NOTE $r e_main_start=$(pk e_main_start "$U") e_main_setup=$(pk e_main_setup "$U") focus_before_config=$ph_early $(grep -a '^FPS30 ' "$OUT/$r.fps30")"
+done
+echo "NOTE $S"
+grep -aq 'verdict_input=missing' "$OUT/S5.grade" && { rl_verdict INCONCLUSIVE "a run gave no FPS30 line: $(grep -a 'missing' "$OUT/S5.grade" | tr '\n' ' ')"; exit 0; }   # not-literal
+if failed E2 E3 E4; then rl_verdict FAIL "FAIL-B: the refresh breaks the session"
+elif failed E1; then rl_verdict FAIL "FAIL-COST: $S"
+fi
 ```
 
 The `e_fail_lines` line of `push_counts` also carries `e_ssl`, `e_destroy`, `e_errors` and `e_shed`,
@@ -934,12 +1229,12 @@ Conditions:
 
 - **E1, the main picture.** `S5` `fps_ok=yes` (`F10`, the mean of the S12 and S3 medians, is not
   lower than `F0 - 3`, with `F0` the S4 median) and `rendered_ok=yes`.
-- **E2, the session held.** In each run's `all` line: `e_ssl` 1 and `e_destroy` 0. In each run's
-  `up` line: `e_errors` 0, `e_shed` 0, `e_auxdec` 0, `e_fail_lines` 0.
+- **E2, the session held.** In each run's `all` window: `e_ssl` 1 and `e_destroy` 0. In each run's
+  `up` window: `e_errors` 0, `e_shed` 0, `e_auxdec` 0, `e_fail_lines` 0.
 - **E3, no main focus cycle.** In the `up` windows of S12 and S3: `e_main_stop` 0, `e_main_vss` 0,
   `e_main_retake` 0.
-- **E4, the phone.** In each run: `win|Critical error=0` and `win|No input for display=0` in
-  `<RUN>-up..<RUN>-end`, and `phone_markers_in_window` 1 or more.
+- **E4, the phone.** In each run: `Critical error` 0 and `No input for display` 0 in
+  `<RUN>-up..<RUN>-end`, and phone markers in the window 1 or more.
 
 Report: `e_main_start` and `e_main_setup` in the `up` windows. 0 means the phone did not lay out its
 main screen again on an aux cycle. Report each run's `fed` median beside its `rendered` median.
@@ -952,39 +1247,49 @@ main screen again on an aux cycle. Report each run's `fed` median beside its `re
 3. **FAIL-COST:** E1 is not met. If `fed10` fell by as much as `F10`, the phone sent fewer frames.
 4. **PASS:** E1 to E4 are met.
 
-### Cleanup (always, last)
+### End of round (cleanup, always last)
 
-**`cleanup.sh`**
+**cleanup.sh**
+
 ```bash
-# cleanup.sh : stops what the round started and restores D-HU's settings
-cd "$(dirname "$0")"; source ~/Coding/StudioProjects/rig-toolkit/rig_devices.sh; source ./ssr_lib.sh
-pgrep -af 'rtp_grade_rig.py|lossy_proxy_rig.py' ; pkill -f 'rtp_grade_rig.py'; pkill -f 'lossy_proxy_rig.py'; pkill -f '^ffmpeg -nostdin -hide_banner'; true
-adb -s $HU shell rm /data/local/tmp/udp_probe.sh; sleep 0.3
-adb -s $HU shell am force-stop $PKG; sleep 0.3
-adb -s $HU push settings-backup-HU.xml /data/local/tmp/ssr-settings.xml >/dev/null; sleep 0.3
-adb -s $HU shell cp /data/local/tmp/ssr-settings.xml /data/data/$PKG/shared_prefs/settings.xml; sleep 0.3
-adb -s $HU shell chown $(adb -s $HU shell stat -c %u:%g /data/data/$PKG | tr -d '\r') /data/data/$PKG/shared_prefs/settings.xml; sleep 0.3
-adb -s $HU shell chmod 660 /data/data/$PKG/shared_prefs/settings.xml; sleep 0.3
-adb -s $HU shell cat /data/data/$PKG/shared_prefs/settings.xml | diff - settings-backup-HU.xml && echo RESTORED
-$RIG_TOOLKIT/rig_cleanup.sh list
-echo "script exit=0"
+adb -s "$HU" shell rm -f /data/local/tmp/udp_probe.sh; sleep 0.3
+adb -s "$HU" shell am force-stop "$PKG"; sleep 0.3
+B=$OUT/settings-backup-HU.xml
+if [ -s "$B" ]; then
+  adb -s "$HU" push "$B" /data/local/tmp/ss-settings.xml >/dev/null; sleep 0.3
+  own=$(adb -s "$HU" shell stat -c %u:%g /data/data/$PKG | tr -d '\r'); sleep 0.3
+  adb -s "$HU" shell cp /data/local/tmp/ss-settings.xml /data/data/$PKG/shared_prefs/settings.xml; sleep 0.3
+  adb -s "$HU" shell chown "$own" /data/data/$PKG/shared_prefs/settings.xml; sleep 0.3
+  adb -s "$HU" shell chmod 660 /data/data/$PKG/shared_prefs/settings.xml; sleep 0.3
+  adb -s "$HU" shell cat /data/data/$PKG/shared_prefs/settings.xml > "$OUT/settings-end-HU.xml"; sleep 0.3
+  if diff -q "$OUT/settings-end-HU.xml" "$B" >/dev/null; then echo "RESTORED=1" >> "$VARS"; else echo "RESTORED=0" >> "$VARS"; fi
+else echo "RESTORED=0" >> "$VARS"; fi
+adb -s "$HU" shell rm -f /data/local/tmp/ss-settings.xml; sleep 0.3
+link_up; adb -s "$PH" shell input keyevent KEYCODE_HOME; sleep 0.3   # D-POCO may still be navigating
+"$RIG_TOOLKIT/rig_cleanup.sh" list > "$OUT/cleanup-list.txt" 2>&1
 ```
 
-The `pkill -f` patterns name the rig copies and an anchored FFmpeg command line, so they cannot match
-the host shell (round 2's cleanup slip). Ask the operator to remove the PC firewall rule for UDP 5004
-and 5005, and record the command they used. Restore D-POCO's radios with `ph_on` if a run ended with
-them off. D-POCO may still be navigating: send `adb -s 4f4027e9 shell input keyevent KEYCODE_HOME`.
+**grade-cleanup.sh**
+
+```bash
+source "$VARS" 2>/dev/null
+c eq "${RESTORED:-0}" 1 "D-HU settings.xml equals the R0 backup"
+```
+
+`rl_stop` ended every grader, proxy and FFmpeg job inside its own run, so cleanup kills nothing by name. The
+operator removes the PC firewall rule when the session prints the cleanup `OPERATOR` line; record the command
+they used. `rig_requires.py baseline` puts every radio back afterwards, D-MOTO's included.
 
 ### Stop rule
 
-- Each bring-up gets at most 2 attempts. A bring-up that returns 2 is not retried.
-- S12 is re-run at most once (S1 INCONCLUSIVE or setup failure). S3 and S4 are each re-run at most
-  once. So the round has at most 6 sessions.
-- A preflight FAIL is re-run once. A second FAIL makes that run UNTESTABLE.
-- R0 FAIL stops the round.
-- The host gate: a run that cannot start below 75C after two waits is UNTESTABLE (host thermal), and
-  so is every run after it.
-- No Gradle build runs after R0.
+- Each bring-up gets at most 2 attempts inside its run. A bring-up that returns 2 is not retried.
+- R0 FAIL stops the round (stop line).
+- A run graded UNTESTABLE (host thermal: the gate failed twice) stops the round; every run after it is skipped
+  (stop lines on S12, S4 and S3).
+- The host may re-run S12 once (S1 INCONCLUSIVE or setup failure), and S3 and S4 once each. So the round has at
+  most 6 sessions.
+- A setup INCONCLUSIVE is re-run once. A second one makes that run UNTESTABLE.
+- No Gradle build runs after the build step.
 
 ## 8. Do not re-run
 
@@ -1006,76 +1311,3 @@ them off. D-POCO may still be navigating: send `adb -s 4f4027e9 shell input keye
    `r1_new_frames`, `r2_new_frames`, `r1_main_changed`, `r2_main_changed`. S3's and S4's `GRADE`
    `broken_max_s`, `unrecovered` and `idr_gap_max_s`.
 3. **S5: the cost.** `F10`, `F0`, and `e_main_start` after `up` in S12 and S3.
-
-```decisive-strings
-AutomationReceiver: 
-AutomationMarker: 
-WifiLauncher: Initializing WiFi Mode: 
-Projection backend: viewMode=
-Media Sink Setup Request: 
-SSL handshake complete
-AapService destroying
-Throughput over 
-rendered=
-fed=
-dropped=
-HotspotManager:
-SoftApCredentials:
-Setting hotspot enabled=
-[ServiceDiscovery] Announcing an auxiliary display on 
-SecondScreen: the 
- output is not available, so one display is announced
- output is open
-SecondScreen: could not start the 
-AapTransport: the auxiliary display's video lane is open
-SecondScreen: RTP push to 
- open (network=
-, refresh=
-SecondScreen: RTP push asking for a keyframe, none sent for 
-RTP push sent 
- keyframes carried their own SPS and PPS
- refreshes asked, 
- pacing pauses
-SecondScreen: RTP push send failed (
-SecondScreen: RTP push stopped
-AapTransport: cycling the auxiliary display's video focus for a keyframe (
-the second screen asked for one
-AapTransport: no auxiliary keyframe cycle before its setup ()
-Media Sink Stop Request: 
-Auxiliary Video Sink Stopped -> Ignored (Forced Keyframe Request)
-Auxiliary Video Sink Stopped -> the main session continues
-Video Sink Stopped -> 
-retaking video focus to complete the keyframe cycle
-Media Start Request 
-The phone released the second display's video. The main session continues.
-Error processing video message
- messages behind, shedding
-Decoder stopped: 
-CommManager: doDisconnect (second screen)
-```
-
-Phone, PC and DEX strings, not in our tree, so not checkable against it:
-
-```decisive-strings-external
-GH.
-Critical error
-No input for display
-Video focus gained before configurations received
-GRADE 
-GRADER listening=
-PROXY listening=
-PROXY burst 
-PROXY seen=
-PATCH_OK 
-PATCH_FAIL 
-S1ASK 
-S1PAIR 
-S2GRADE 
-S2BUCKETS 
-S5RUN 
-FPS30 
-PROBE datagrams=
-PROBE_SENT
-secondscreen/rtp/RtpRefreshPolicy
-secondscreen/rtp/RtpPacingPolicy
-```
