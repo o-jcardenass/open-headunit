@@ -25,7 +25,7 @@ class Rig:
     """Two units. names: what each unit calls itself; shown: what P shows for H in its bonded list."""
     def __init__(self, bonded=True, shown="Navegadortz2", h_name="HU renamed", dup_rows=False, locked=False,
                  details_addr=True, code_t="123456", scan_dup=False, half=False, sdk=(19, 19), api_fail=False,
-                 dump=(True, True)):
+                 dump=(True, True), h_button="Pair"):
         self.bonds = {P: {}, H: {}}
         if bonded or half:
             self.bonds[P][HA] = shown
@@ -42,6 +42,7 @@ class Rig:
         self.api_fail, self.pairing, self.accepting, self.h_tapped = api_fail, False, False, False
         self.bonded_ev = threading.Event()
         self.taps = {P: [], H: []}
+        self.h_button = h_button   # Samsung 4.4: "OK"; a dialog with no code is not a pairing dialog
 
     def dumpsys(self, s):
         rows = "".join(f"  {a} [ BR/EDR ] {n}\n" for a, n in self.bonds[s].items())
@@ -70,7 +71,9 @@ class Rig:
             if st == "pdialog":
                 return hier(node("Pairing code 123456"), node("Pair", bounds="[500,900][600,960]", clickable="true"))
         if s == H and (st == "pdialog" or (self.pairing and self.sdk[H] < 29 and st == "list")):
-            return hier(node(f"Pairing code {self.code_t}"), node("Pair", bounds="[500,800][600,860]", clickable="true"))
+            code = node(f"Confirm passkey is {self.code_t} to pair with POCO X3 NFC.") if self.code_t else node("Allow?")
+            return hier(node("Bluetooth pairing request"), code, node("Cancel", bounds="[240,800][400,860]", clickable="true"),
+                        node(self.h_button, bounds="[500,800][600,860]", clickable="true"))
         if st == "locked":
             return hier(node("Swipe up to unlock"))
         return hier(node("Launcher"))
@@ -201,6 +204,11 @@ r = Rig(sdk=(34, 19), bonded=False); rc, msg = Pair(P, H, ev, adb=r, sleep=nosle
 case("pair with a target below API 29: the helper asks, one tap on the target's dialog", rc == 0 and not r.taps[P]
      and len(r.taps[H]) == 1 and HA in r.bonds[P] and PA in r.bonds[H])
 
+r = Rig(sdk=(35, 19), bonded=False, h_button="OK"); rc, msg = Pair(P, H, ev, adb=r, sleep=nosleep, ensure=ready).run()
+case("pair with a Samsung 4.4 target: its passkey dialog names the button OK, one tap", rc == 0 and len(r.taps[H]) == 1
+     and HA in r.bonds[P] and PA in r.bonds[H])
+r = Rig(sdk=(35, 19), bonded=False, h_button="OK", code_t=None); rc, msg = Pair(P, H, ev, adb=r, sleep=nosleep, ensure=ready).run()
+case("an OK button on a target dialog with no pairing code is never tapped", not r.taps[H] and HA not in r.bonds[P])
 r = Rig(sdk=(35, 34), bonded=False, dump=(False, True)); rc, msg = Pair(P, H, ev, adb=r, sleep=nosleep, ensure=ready).run()
 case("pair where the initiator's dumpsys lists nothing (Android 15): the helper's list verifies the bond, no tap",
      rc == 0 and not r.taps[P] and not r.taps[H] and HA in r.bonds[P] and PA in r.bonds[H] and "API" in msg)

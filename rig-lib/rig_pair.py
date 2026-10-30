@@ -30,6 +30,7 @@ from rig_forget import DUMP, Forget, bonded_entries, find_text, nodes, own_addre
 
 PAIR_NEW = ("pair new device", "+ pair new device", "vincular nuevo dispositivo", "sincronizar nuevo dispositivo")
 PAIR_BUTTON = ("pair", "emparejar", "vincular", "sincronizar")
+ACCEPT = ("ok", "aceptar")   # Samsung 4.4 names the button OK on its passkey dialog
 CODE = re.compile(r"\b(\d{6})\b")
 
 
@@ -59,6 +60,14 @@ def code_of(xml_text):
         return None
     codes = {m.group(1) for n in root.iter("node") for m in CODE.finditer(text_of(n))}
     return codes.pop() if len(codes) == 1 else None
+
+
+def accept_button(xml_text):
+    """(x, y) of the one Pair button, or of the one OK button on a dialog that shows a pairing code."""
+    xy, why = find_text(xml_text, PAIR_BUTTON, button_only=True)
+    if xy or not why.startswith("none of") or not code_of(xml_text):
+        return xy, why
+    return find_text(xml_text, ACCEPT, button_only=True)
 
 
 class Pair:
@@ -141,7 +150,7 @@ class Pair:
             for n in range(20):
                 if not near.is_alive():
                     break
-                xy, _ = find_text(self.dump(self.t, f"api-dialog-t-{n}"), PAIR_BUTTON, button_only=True)
+                xy, _ = accept_button(self.dump(self.t, f"api-dialog-t-{n}"))
                 if xy:
                     self.tap(self.t, xy, "Pair on the target (below API 29)")
                     break
@@ -201,11 +210,11 @@ class Pair:
         di, dt = "", ""
         for n in range(8):
             di, dt = self.dump(self.i, f"3-dialog-i-{n}"), self.dump(self.t, f"3-dialog-t-{n}")
-            if find_text(di, PAIR_BUTTON, button_only=True)[0] and find_text(dt, PAIR_BUTTON, button_only=True)[0]:
+            if accept_button(di)[0] and accept_button(dt)[0]:
                 break
             self.sleep(2)
-        bi, why_i = find_text(di, PAIR_BUTTON, button_only=True)
-        bt, why_t = find_text(dt, PAIR_BUTTON, button_only=True)
+        bi, why_i = accept_button(di)
+        bt, why_t = accept_button(dt)
         if not (bi and bt):
             return self.stop(f"pairing dialogs: initiator {why_i or 'ok'}, target {why_t or 'ok'}")
         ci, ct = code_of(di), code_of(dt)
