@@ -4,7 +4,8 @@
 The initiator (a phone) scans and asks; the target (a head unit) is discoverable while its own Bluetooth
 screen is open, and confirms. Each step is checked on a fresh uiautomator dump before the next:
 
-  1. both units read their own address; if each already lists the other's address, nothing is done
+  1. both units read their own address; if each already lists the other's address, nothing is done; a
+     side that alone lists the other (a half bond) is forgotten first with rig_forget.py
   2. the target opens Bluetooth settings (discoverable while it is open); the initiator opens Bluetooth
      settings and taps "Pair new device" when the ROM has one
   3. the initiator's scan list shows exactly one row with the target's CURRENT name (read from the target
@@ -22,7 +23,7 @@ import re, sys, time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from rig_forget import DUMP, bonded_entries, find_text, nodes, own_address, run_adb, text_of
+from rig_forget import DUMP, Forget, bonded_entries, find_text, nodes, own_address, run_adb, text_of
 
 PAIR_NEW = ("pair new device", "+ pair new device", "vincular nuevo dispositivo", "sincronizar nuevo dispositivo")
 PAIR_BUTTON = ("pair", "emparejar", "vincular", "sincronizar")
@@ -111,8 +112,12 @@ class Pair:
         if self.lists(self.i, at) and self.lists(self.t, ai):
             self.log("RESULT already paired")
             return 0, "already paired on both sides"
-        if self.lists(self.i, at) or self.lists(self.t, ai):
-            return self.stop("only one side lists the other: forget the half bond first (rig_forget.py)")
+        for side, other in ((self.i, self.t), (self.t, self.i)):
+            if self.lists(side, self.addr(other)):        # a half bond: the scan would never show the other
+                rc, msg = Forget(side, other, self.dir, adb=self.adb, sleep=self.sleep).run()
+                self.log(f"half bond on {side}: {msg}")
+                if rc:
+                    return self.stop(f"a half bond on {side} could not be forgotten: {msg}")
         name = own_name(self.adb(self.t, "shell", "settings", "get", "secure", "bluetooth_name"),
                         self.adb(self.t, "shell", "dumpsys", "bluetooth_manager"))
         if not name:

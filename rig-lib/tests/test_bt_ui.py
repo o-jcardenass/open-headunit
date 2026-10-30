@@ -146,6 +146,6 @@ case("pair stops when two scanned rows share the target's name", rc == 1 and HA 
 r = Rig(); rc, msg = Pair(P, H, ev, adb=r, sleep=nosleep).run()
 case("pair does nothing when both sides already list each other", rc == 0 and not r.taps[P])
 r = Rig(bonded=False, half=True); rc, msg = Pair(P, H, ev, adb=r, sleep=nosleep).run()
-case("pair stops on a half bond and asks for a forget first", rc == 1 and "half bond" in msg)
+case("pair forgets a half bond first, then pairs", rc == 0 and HA in r.bonds[P] and PA in r.bonds[H])
 
 sys.exit(1 if fails else 0)
