@@ -102,6 +102,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 6. `pr-1091-pcm-guidance-round1-brief.md` (C `dcc3c708` on `fork/test/pr-1091`, a contributor audio PR merged onto `main` `b3ef3355`; one build, four settings arms; units D-HU and D-POCO; R2 is the point)
 10. `self-mode-media-session-round3-brief.md` (C `6d4de0d0` on `fork/fix/929-self-mode-media-session`, on `main` `947b3ae9`, one build, no baseline; units D-HU and D-POCO, D-MOTO Bluetooth off; P1 and H2 are the point)
 13. `main-smoke-round1-brief.md` (one arm, `main` `6ff42d9a`, one build; trimmed on 2026-10-30 to M5, M2 and M7, because `rig-lib/main_smoke.py` runs the rest; units D-HP, D-POCO, D-MOTO and the USB dongle, D-HU and D-SAM for prep and close; M7 is the point)
+16. `dsam-surfaceview-crop-round1-brief.md` (one arm, `main` `6ff42d9a`, one build, rig-lib `0f6b5a7a1`; units D-SAM as head unit and D-POCO, D-HU Bluetooth off, D-MOTO radios off; S1 is the point)
 
 ## Threads
 
@@ -124,9 +125,10 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 | `settings-help-button` | Round 4 on `1c25716f` done: R1 PASS (point), R2-R6, S1, S2 PASS, R7 INCONCLUSIVE (D-HU no rotation). Rail rows spacing noted. | `settings-help-button-round4-results.md`, `settings-help-button-round4-brief.md` |
 | `native-bt-broker-esp32` | Round 3 on C `f1bed4ee`: K PASS after regrade (conditions 6 to 14 cannot fail; phone still never dialled), S FAIL (BrokerSettingsFragment lateinit scanner crash on D-SAM API 19), cleanup PASS | `native-bt-broker-esp32-round3-results.md`. |
 | `pr-merge-train` | Rounds 1 to 4 run on `fork/test/pr-merge-train`: R1 PASS, R2 X1 FAIL, R3 PASS; round 4 SB/SA/HB/HA all PASS, A no worse on D-SAM and better on D-HP (Headunit Server). | `pr-merge-train-round4-results.md`. Briefs need `narrow-band-profile-cap=false` for PCM on 2.4 GHz units. |
-| `pr-train-20261029` | Round 2 stage W: setup, WB, W2 PASS; W1 regraded INCONCLUSIVE by the host (Type 3 went out 3 times; D-SAM's station rejoined beside the new group). D-SAM projection cropped in a corner during W1 | `pr-train-20261029-round2-results.md`. W1 runs again in `pr-train-20261030`. Control on B for the crop is open. |
+| `pr-train-20261029` | Round 2 stage W: setup, WB, W2 PASS; W1 regraded INCONCLUSIVE by the host (Type 3 went out 3 times; D-SAM's station rejoined beside the new group). D-SAM projection cropped in a corner during W1 | `pr-train-20261029-round2-results.md`. W1 runs again in `pr-train-20261030`. The crop moved to `dsam-surfaceview-crop`. |
 | `pr-train-20261030` | Round 1 done, 7 of 7 runs PASS on T `6d038cc5`: W1 (D-SAM, station off) and D1 (D-HU, session ended 6 s after the cut) both PASS | `pr-train-20261030-round1-results.md`. Nothing open. |
 | `main-smoke` | Round 1 queued, trimmed to the wired runs M5, M2 and M7. `rig-lib/main_smoke.py` runs the wireless runs and M6 at will. | `main-smoke-round1-brief.md`; `python3 -I rig-lib/main_smoke.py`. |
+| `dsam-surfaceview-crop` | Round 1 queued: does SurfaceView crop the projection on D-SAM on `main`, against TextureView, 3 sessions per view mode | Run round 1 (`dsam-surfaceview-crop-round1-brief.md`). |
 | `bt-helper` | Round 4 (`bt-helper-round4-results.md`): setup, L, CPS and restore PASS. Forget and pair through the API on D-POCO and D-SAM, 1 tap per pair on D-SAM's OK button, 2 cycles, 0 stops. D-POCO and D-SAM left bonded. | Thread done; no further round queued. |
 | `usb-dialog` | Round 8 on `15a13bff` done: R1/R1-on FAIL (fault ends session as read failure, no desync line; recovery 13 s, 36 s with a permission ask), Q3/Q4-ptp/R2/R4 PASS, Q1/Q2/R3 INCONCLUSIVE, Q4-midi/Q5 battery; phone mode was PTP not File transfer | `usb-dialog-round8-results.md` |
 | `pico-usb-stand-in` | Round 1 done, R0-R4 PASS: firmware builds, all 5 identities enumerate; console is /dev/ttyACM1, pass --port | `pico-usb-stand-in-round1-results.md`; firmware in `tools/pico-usb-stand-in/` |
