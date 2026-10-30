@@ -117,7 +117,7 @@ out=$(python3 -I "$L/rig_requires.py" check --ev "$EV" "$B" --fix); rc=$?
 check "--fix switches a phone radio on, reads it back and passes" '[ "$rc" -eq 0 ] && [[ "$out" == *"D-POCO bt switched to on"* ]]'
 echo off > "$W/adb/HU1.wifi"
 out=$(python3 -I "$L/rig_requires.py" check --ev "$EV" "$B" --fix); rc=$?
-check "--fix never switches D-HU WiFi on; it names the operator" '[ "$rc" -eq 1 ] && [[ "$out" == *"only the operator can bring it back"* ]]'
+check "--fix never switches D-HU WiFi on; it names the operator" '[ "$rc" -eq 1 ] && [[ "$out" == *"OPERATOR turn D-HU wifi on"* ]]'
 echo on > "$W/adb/HU1.wifi"
 sed 's/role=phone/role=headunit/' "$B" > "$W/b4.md"; python3 -I "$L/rig_requires.py" yes --ev "$EV" "$W/b4.md" >/dev/null
 out=$(python3 -I "$L/rig_requires.py" check --ev "$EV" "$W/b4.md" --fix)
@@ -268,6 +268,80 @@ check "summary.md has one row per run" '[ "$(grep -c "^| R[0-9]\|^| cleanup" "$S
 check "the host sees a few lines per run, not the run" '[ "$(wc -l < "$SE/session.status")" -lt 20 ]'
 out=$(python3 -I "$L/rig_session.py" view "$S")
 check "view prints the round in one screen" '[[ "$out" == *"run R2 cap=3s"* && "$out" == *"stop after R2 on INCONCLUSIVE"* ]] && [ "$(echo "$out" | wc -l)" -lt 15 ]'
+
+# --- per-run needs: nobond, a mid-round operator step, a leftover group owner ---
+N="$G/nb-round1-brief.md"
+cat > "$N" <<EOF
+# nb, round 1
+### C2. Needs the bond
+**c2.sh**
+${F}bash
+echo c2
+$F
+### B. Needs the bond gone
+**b.sh**
+${F}bash
+echo b
+$F
+**grade-ok.sh**
+${F}bash
+rl_cond 1 eq 1 1 ran
+$F
+${F}rig-requires
+lib PINSHA
+unit D-HU role=headunit wifi=on bt=on
+unit D-POCO role=phone wifi=on bt=on
+unit D-POCO@C2 bond=D-HU
+unit D-POCO@B nobond=D-HU
+run C2 cap=30 script=c2.sh grade=grade-ok.sh
+run B cap=30 script=b.sh grade=grade-ok.sh point=yes
+$F
+EOF
+sed -i "s/PINSHA/$PIN/" "$N"
+check "scoped unit lines and nobond lint" 'python3 -I "$L/rig_requires.py" lint "$N" >/dev/null'
+sed 's/unit D-POCO@B nobond=D-HU/unit D-POCO@X nobond=D-HU/' "$N" > "$W/nb2.md"
+out=$(python3 -I "$L/rig_requires.py" lint "$W/nb2.md")
+check "a scoped line that names no run is a lint error" '[[ "$out" == *"X has no run line"* ]]'
+out=$(python3 -I "$L/rig_requires.py" order "$N")
+check "order names the mid-round forget before run B" '[[ "$out" == *"OPERATOR D-POCO forget D-HU  (before run B)"* ]]'
+for f in HU1.wifi HU1.bt PH1.wifi PH1.bt; do echo on > "$W/adb/$f"; done
+echo MT50 > "$W/adb/HU1.name"; echo 'POCO X3 NFC' > "$W/adb/PH1.name"
+echo '  AA:BB [ BR/EDR ] MT50' > "$W/adb/PH1.bonds"; echo '  CC:DD [ BR/EDR ] POCO X3 NFC' > "$W/adb/HU1.bonds"
+NE="$W/rounds/nb-round1"; mkdir -p "$NE"
+out=$(python3 -I "$L/rig_requires.py" check --ev "$NE" "$N" --run B); rc=$?
+check "check --run B fails on the bond and names the operator's forget" '[ "$rc" -eq 1 ] && [[ "$out" == *"OPERATOR on D-POCO, forget D-HU (MT50)"* ]]'
+out=$(python3 -I "$L/rig_requires.py" check --ev "$NE" "$N" --run C2); rc=$?
+check "check --run C2 passes with the bond on both sides" '[ "$rc" -eq 0 ]'
+echo true > "$W/adb/PH1.go"
+out=$(python3 -I "$L/rig_requires.py" check --ev "$NE" "$N" --run C2 --fix); rc=$?
+check "a phone left as a group owner is cleared by a WiFi cycle" '[ "$rc" -eq 0 ] && [[ "$out" == *"isGroupOwner=false"* ]] && [ ! -f "$W/adb/PH1.go" ]'
+( sleep 3; : > "$W/adb/PH1.bonds" ) &
+out=$(RL_OPERATOR_POLL_S=1 timeout 90 python3 -I "$L/rig_session.py" run --ev "$NE" "$N" 2>&1); rc=$?
+st=$(cat "$NE/session.status" 2>/dev/null)
+check "the session waits for the operator's forget before B, then goes on to DONE" '[ "$rc" -eq 0 ] && [[ "$st" == *"OPERATOR B now: on D-POCO, forget D-HU"* && "$st" == *"READ BACK B"* && "$st" == *"GRADE B PASS"* && "$st" == *"interventions=1"* ]]'
+[ "$rc" -eq 0 ] || echo "$st" | tail -8 | sed 's/^/     /'
+check "the session tells the operator which units to leave alone" '[[ "$st" == *"hands off D-HU, D-POCO until DONE"* ]]'
+cat > "$W/lint3.md" <<EOF
+# l3
+### R1
+**r1.sh**
+${F}bash
+stage() { echo "\$1"; }
+stage B
+echo "\${1:?usage: r1.sh STAGE}"
+$F
+${F}bash
+adb -s \$HU shell am force-stop x
+$F
+${F}rig-requires
+lib $PIN
+run R1 cap=30 script=r1.sh grade=r1.sh
+$F
+EOF
+out=$(python3 -I "$L/brief_check.py" lint "$W/lint3.md" --repo "$G")
+check "lint: a run script that needs an argument is an error (D11)" '[[ "$out" == *"r1.sh (line 3):7: reads a positional"* && "$out" != *":5: reads"* ]]'
+check "lint: an unnamed block that drives the rig is an error (D12)" '[[ "$out" == *"line 9: an unnamed bash block"* ]]'
+[[ "$out" == *"reads a positional"* ]] || echo "$out" | sed 's/^/     /'
 
 # --- rig_resolve.py ---
 git -C "$G" checkout -q -b transfer/t

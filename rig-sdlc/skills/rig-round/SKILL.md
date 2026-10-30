@@ -6,7 +6,8 @@ disable-model-invocation: true
 
 # /rig-round
 
-Usage: `/rig-round <thread> <N> [hand <runId> | approve]` or `/rig-round <sha> [hand <runId> | approve]`. `hand` resumes at step 4 and `approve` at step 6;
+Usage: `/rig-round <thread> <N> [hand <runId> | approve]`, `/rig-round <sha> [hand <runId> | approve]`, or
+`/rig-round queue [approve]` (every queued brief with a `rig-requires` block, one session; see "Context and the operator's time"). `hand` resumes at step 4 and `approve` at step 6;
 neither runs step 1 again. This worktree's `CLAUDE.md` is already
 loaded; this skill does not replace it or `TESTING-TEMPLATE.md`, it only says which parts to read. Rule 4 holds: **no
 background agent drives a device.** The host runs every `rig-executor` in the foreground, one at a
@@ -17,14 +18,15 @@ Shell prelude for every command: `source /home/oscar/Coding/StudioProjects/rig-t
 `EV=/home/oscar/Coding/StudioProjects/rig-data/rounds/<thread>-round<N>`.
 
 0. **Resolve a SHA.** If the first argument is 7 to 40 hex characters and no `<N>` follows, it is a commit
-   on the transfer branch, not a thread. After `git fetch fork`, run
-   `git show -s --format=%s <sha>`
-   and check `git merge-base --is-ancestor <sha> fork/transfer/rig-rounds`. Take `<thread>` and `<N>` from
-   the files the commit adds, not from the subject wording: `git show --stat --format= <sha>` lists
-   `<thread>-round<N>-<brief|results|addendum>.md` (subjects vary, e.g. `usb-reattach: publish round 3 brief`).
-   Use the subject only as a cross-check. Print the resolved `<thread> <N>` in one line and continue as if
-   they had been typed. Stop and ask only if no such file is added, several threads are added, or the SHA is
-   not on the branch. Later `hand`/`approve` calls may use the SHA too.
+   on the transfer branch, not a thread. Never resolve it by reading `git show` yourself. After
+   `git fetch fork`, run exactly:
+   `git show fork/transfer/rig-rounds:rig-lib/rig_resolve.py | python3 -I - <sha>`
+   Each `RUN <thread> <N>` line is a round to run. One line: continue as if `<thread> <N>` had been typed.
+   Several lines (a commit that queues or revises several briefs): run them as `/rig-round queue` limited
+   to those rounds. Copy its `NOTE` lines into Setup notes. Exit 1 (no `RUN` line): show the operator
+   the `NOTE` lines and ask for the thread and round; that is the only case that asks. It counts a brief
+   the commit adds or modifies, skips a round that already has results, and resolves a SHA that a re-root
+   removed from the branch by file name. Later `hand`/`approve` calls may use the SHA too.
 1. **Before launching.** Note the branch you came from. `git fetch fork`, check out
    `transfer/rig-rounds`, note `OLD=$(git rev-parse HEAD)`, and fast-forward it.
    **Sync and restart check, first:** run `python3 -I rig-sdlc/rig-env/rig_sync.py sync` (it carries edits both ways; see
@@ -56,8 +58,23 @@ Shell prelude for every command: `source /home/oscar/Coding/StudioProjects/rig-t
    BT profiles and screen state. A FAIL stops the round: tell the operator, never switch a radio on
    yourself (the HU's WiFi re-join needs an operator tap). One exception: if `rig_cleanup.sh list` shows idle
    Gradle daemons and nothing else, run `rig_cleanup.sh kill` and re-run the pre-flight without asking. Paste its
-   table into Setup notes; step 6 restores every radio to what this table shows.
-2. **Plan (host).** Read the brief once and write down the run list in the brief's order: id, title,
+   table into Setup notes.
+   **Session gate, once, before any build or install, for every brief the session will run.**
+   1. Pin the library: `RL=$EV/rig-lib; git archive <lib sha from the brief's rig-requires block> rig-lib | tar -x -C $EV`.
+   2. Order the session: `python3 -I $RL/rig_requires.py order <every queued brief this session runs>`.
+      It picks the order with the fewest operator actions and lists each transition between briefs as
+      `auto` (done by `check --fix`: radios adb can switch, role swaps with `headunit://exit`) or
+      `OPERATOR` (D-HU's WiFi re-join, a pairing). Run the briefs in that order, not the Queue's.
+   3. `python3 -I $RL/rig_requires.py plan <briefs in that order>` gives one operator list for the
+      whole session. Send the operator **one** message: that list, the `OPERATOR` transitions, and any
+      pre-flight FAIL. On their explicit "yes", run `rig_requires.py yes --ev $EV <every brief>` once.
+      This is the only question of the session unless something breaks.
+   A brief queued before 2026-10-29 has no block: write one from its pre-flight into `$EV/requires.md`, use
+   that file in these commands, and run that brief the old way (steps 2 to 4 with the executor).
+2. **Plan (host).** For a brief with a block, the plan is `python3 -I $RL/rig_session.py view <brief>`
+   (one screen); write its output to `$EV/plan.md` and skip the rest of this step. Never read such a brief
+   whole: open one run's section with `rig_session.py view <brief> <run>` only when a line in
+   `session.status` needs it. For an older brief: Read the brief once and write down the run list in the brief's order: id, title,
    whether it is the point of the round, whether it has a hand step, the stop rule, and for each run
    the exact commands, markers and greps the executor needs (copied verbatim, never paraphrased).
    Flag anything §8 says a brief must not do (a "tap", a decisive string that is not verbatim in the
@@ -74,7 +91,8 @@ Shell prelude for every command: `source /home/oscar/Coding/StudioProjects/rig-t
      `HUR_DIR=$WT MAX_WORKERS=2 $RIG_TOOLKIT/build_hur_cool.sh` with `run_in_background` and a Monitor on its
      exit. Copy the APK out of `rig-data/apks/` to `$EV/apk/<arm>.apk` at once (the next build deletes it) and
      record its md5 in `$EV/prepare.json`. Never rebuild an arm whose md5 is recorded there. Run
-     `run_unit_tests.sh` only if the brief asks; the dev host ran the suite.
+     `run_unit_tests.sh` only if the brief asks; the dev host ran the suite. After the last arm is built,
+     stop its Gradle daemon (`cd $WT && ./gradlew --stop`), or the next pre-flight fails on it.
    - **Executor, installs** (one foreground call): `adb -s <serial> install -r -d` per role, `apk_identity.sh`,
      back up `settings.xml`.
    - A failed gate is a §3a escalation: stop and report.
@@ -84,13 +102,34 @@ Shell prelude for every command: `source /home/oscar/Coding/StudioProjects/rig-t
    is `true`: write it in `settings.xml` with the app stopped (`set_hu_settings_host.py`, or
    `set_prefs_runas_host.py` when not rooted), never through the UI, and restore the baseline after
    the round. Either way, say which it was in Setup notes.
-4. **Each run, in order.** Skip a run whose `$EV/<id>.json` and `$EV/<id>.grade.json` both exist (a
+4. **A brief with a block: one session process.** Launch
+   `python3 -I $RL/rig_session.py run --ev $EV <brief>` with `run_in_background`, and arm one `Monitor` on
+   `$EV/session.status` that exits on `OPERATOR|ESCALATE|DONE` (bounded: the sum of the run caps plus 10
+   minutes). The session runs `check --fix`, then every run in order through `rig_run.sh`, grades each one
+   from its grade script, retries a timeout or a stall once and then grades it INCONCLUSIVE, and applies the
+   stop rules. Do not read run logs, status files or captures while it runs. On a notification:
+   - `OPERATOR <run>: <cue>`: send a PushNotification with the cue word for word. Wait for nothing; the run goes on.
+   - `ESCALATE <why>`: the session stopped (exit 3) on something only the host or the operator can settle.
+     Settle it, then launch `run` again; graded runs are skipped. A broken grade script is a brief defect:
+     grade that run by hand from one windowed `grep -c`, write its `.grade.json`, and note it for the coding side.
+   - `DONE`: go to step 5, using `$EV/summary.md` and the `.grade.json` files.
+   The host still owns the verdicts. Read the COND lines of a FAIL or an INCONCLUSIVE in its `.grade.json`. If
+   one looks wrong, check it with one windowed `grep -c`, or hand a grep-only pass to `rig-executor` so the
+   capture stays out of this context, and override the grade with a reason in Setup notes.
+   **An older brief: each run, in order**, as below. Skip a run whose `$EV/<id>.json` and `$EV/<id>.grade.json` both exist (a
    round may span a restart; read the grade back instead). `untestable` runs are recorded, not run.
    **On resume** (after a restart or a compaction): read `$EV/armed.txt` and `TaskStop` stale jobs, read
    `$EV/plan.md`, `$EV/setup-notes.md` and `$EV/prepare.json`, and check each lock with `flock -n`.
-   A hand step: tell the operator, wait for `/rig-round <thread> <N> hand <runId>`. Otherwise run
-   `rig-executor` in the foreground with the run's steps; no block back means stop and check the rig
-   yourself. Then **grade it yourself**:
+   A hand step: tell the operator, wait for `/rig-round <thread> <N> hand <runId>`. Otherwise launch
+   the run's script through the wrapper, never bare:
+   `EV=$EV $RL/rig_run.sh <id> <cap from the rig-requires block> $EV/scripts/<script> --source $EV/scripts/lib.sh`.
+   A run under 8 minutes goes to `rig-executor` in the foreground with that one command; a longer one
+   the host launches with `run_in_background`. Arm `Monitor` on the status path it prints, until a line
+   matches `DONE|TIMEOUT|STALL`. On `STALL`, read the line: it names the step and what the script waits
+   on. Check that, then decide; never wait it out and never kill it blind. Exit codes: 75 lock held (the
+   holder is named; `$RL/rig_run.sh reap` clears only this round's sessions); 78 the requirements gate
+   (run `rig_requires.py check --ev $EV $EV/requires.md --fix`); 124 the cap and 125 a stall: re-run once,
+   then grade INCONCLUSIVE (rig) and go on without asking the operator. Then **grade it yourself**:
    - Re-run **one** `grep -c` inside the same marker window and compare it with the block's count.
      On a mismatch, run `rig-executor` once more as a grep-only pass (no device commands) over the
      same capture; if the counts still disagree, grade from your own greps and say so in Setup notes.
@@ -105,9 +144,9 @@ Shell prelude for every command: `source /home/oscar/Coding/StudioProjects/rig-t
    its timestamp, and `## Anything the brief did not ask about`. Include runs graded before a
    restart from their `.grade.json`. Show the operator the verdicts and the draft, and wait for `approve`.
 6. **On `approve`** (host only), in this order:
-   1. **Restore:** the settings baseline; every radio to its state in the opening pre-flight table
-      (`svc wifi|bluetooth enable|disable`, read back); kill any logcat by pid; `TaskStop` every id in
-      `$EV/armed.txt` (monitors, thermal watch, background scripts).
+   1. **Restore:** the settings baseline; `$RL/rig_run.sh reap` (kills any session a run left); every radio
+      to the fixed baseline with `python3 -I $RL/rig_requires.py baseline` (it reads each one back; never to
+      the opening table, which carries an off radio forward); `TaskStop` every id in `$EV/armed.txt`.
    2. **Check:** `rig_cleanup.sh list` reads clean, then run `rig_preflight.sh` with the opening roles. Paste
       it into Setup notes as the closing pre-flight. A FAIL is reported to the operator, not left for the next round.
    3. **Remove the build worktree:** `git worktree remove --force $WT` (the APKs are already in `$EV/apk/`).
@@ -132,9 +171,12 @@ These are mechanical, and they override the looser wording above.
    pid (`wait`, `kill -0 <pid>`) or on the script log's last line (`script exit=`). An executor has no
    background wait loop at all: for a session longer than 8 minutes the host runs the session script itself
    with `run_in_background` and is notified on completion.
-3. **Liveness check inside 90 s of every launch.** The host reads the script log and `wc -c` of the capture
-   twice, 20 s apart. A missing capture, a non-growing capture or a log that already ends in `script exit=`
-   stops the run, kills the capture by pid and reports. A run that is quiet is a defect, never "still working".
+3. **Liveness is the status file, not the capture.** Logcat keeps growing while a script hangs, so capture
+   growth proved nothing in the 2026-10-29 session. `rig_run.sh` writes a `HB` line every 30 s with the step's
+   age and what the script waits on, and one `STALL` line when a step outlives 180 s (or its wait cap plus 30 s).
+   Inside 90 s of every launch, read the status file: no `START` line, or a log that already ends in
+   `script exit=`, stops and reports. A `STALL` is a defect to examine, never "still working". After any helper
+   that changes a radio or a state, read its output: a helper that printed nothing is a fault.
 4. **The session script owns the pre-checks, not the brief's prose.** It must refuse to start (exit non-zero,
    one line saying why) unless: the phone is on its launcher (HOME first); the head unit's station is in the
    state the run needs; every setting the run needs reads back correctly (including `connection-modes`
@@ -155,7 +197,34 @@ These are mechanical, and they override the looser wording above.
 9. **No `pkill -f` in the host shell** (it matches the host's own command and exits 144). Kill by pid.
 10. **Do not trust an executor's diagnosis.** It may name a root cause from a log fragment it did not
     compare against a passing run. The host greps the capture, compares it with a run that worked, and only then
-    writes the cause in Setup notes. A stale hand-back for a voided run is ignored.
+    writes the cause in Setup notes. A stale hand-back for a voided run is ignored. The same holds for the
+    host's own guess: a cause goes to the operator or the results file only with the grep that shows it.
+    "Probably" is not a cause; write "unexplained" and the observation instead.
+11. **Kill a tree, never a parent.** A run's children outlive its shell. `$RL/rig_run.sh reap` ends every
+    session a run of this round left behind; for anything else, `ps -ef --forest` first and kill every pid
+    in the tree.
+
+## Context and the operator's time (added 2026-10-29: a four-brief session reached 42% of context at half way)
+
+The host runs on a Pro allowance, and a long context is where its mistakes come from. Execution is a
+script so that nothing from a run enters this context; keep it that way.
+
+1. **What the host reads, once a session:** the trimmed template, the quirk files the briefs need, and
+   `rig_session.py view` for each brief. Never a whole brief with a block, a capture, a run log, a run's
+   status file or a `.runner` script. Per run, the host sees the few `session.status` lines its Monitor
+   delivers and, only for a FAIL or an INCONCLUSIVE, that run's COND lines.
+2. **Diagnosis stays out of this context.** Past one windowed `grep -c`, hand the question to
+   `rig-executor` as a grep-only pass; it returns counts, timestamps and line numbers.
+3. **`/rig-round queue` runs every queued brief with a block in one session**, in `rig_requires.py order`
+   order: the session gate once, then for each brief steps 3 to 5 with a 5-line `$EV/handoff.md` (verdicts,
+   open questions, next brief) written before the next starts. A compaction or `/clear` resumes from those.
+   Do not stop for `approve` between rounds: draft each results file and go on. Ask for **one** `approve`
+   at the end, covering every draft; step 6 then runs once per round.
+4. **Count every question to the operator.** Append it to `$EV/interventions.txt` (the session does this for
+   its own `OPERATOR` and `ESCALATE` lines) and put `Operator interventions: N` in the results header with the
+   list in Setup notes. The target is one per session, the opening yes, plus anything physical (a pairing, a
+   tap, a cable). Before asking, check that no command can answer it: a radio adb can switch, a state adb can
+   read and a retry are never questions.
 
 ## Keeping the round moving (the operator should never have to type "continue")
 

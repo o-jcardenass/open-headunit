@@ -18,6 +18,7 @@ Snapshot taken 2026-10-15 on the rig machine.
 | `rig-tidy-grandfathered.txt` | hook data | `rig-sdlc/rig-env/hooks/` | `~/.claude/hooks/` | sync |
 | hook wiring, default model | settings | `rig-sdlc/rig-env/settings.hooks.json` | `~/.claude/settings.json` (hooks and model keys only) | sync |
 | `rig-toolkit/` tool inventory | doc | `rig-sdlc/rig-env/TOOLS.md` | `~/Coding/StudioProjects/rig-toolkit/TOOLS.md` | sync |
+| `rig-lib/` (rig_lib.sh, rig_run.sh, rig_requires.py, rig_session.py, brief_check.py) | shared run library | `rig-lib/` | `$EV/rig-lib/`, pinned per round by `git archive <lib sha>` | tracked; no sync |
 
 ## Notes for editing
 

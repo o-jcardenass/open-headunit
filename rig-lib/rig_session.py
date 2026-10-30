@@ -10,6 +10,9 @@ The host launches `run` with run_in_background and arms one Monitor on EV/sessio
 run. The session stops (exit 3) only for what neither it nor rig_run.sh can settle: a requirement that
 needs the operator, a held lock, or a grade script that is broken. Rerun `run` after the fix.
 A run that times out or stalls is retried once and then graded INCONCLUSIVE, with no operator step.
+A run with scoped unit lines (`unit D-POCO@B nobond=D-HU`) is checked again just before it. When only the
+operator can meet a need (a pair, a forget, a radio), the session prints one OPERATOR line naming the action
+and re-checks every 15 s for up to RL_OPERATOR_WAIT_S (900) before it escalates.
 """
 import json, os, re, subprocess, sys, time
 from pathlib import Path
@@ -60,6 +63,39 @@ def grade_run(ev, rl, scripts, libs, run, exit_code, log):
     if failed:
         return "FAIL", "; ".join(c.split(" ", 3)[3] for c in failed), conds
     return "PASS", f"{len(conds)}/{len(conds)} conditions", conds
+
+
+def check(ev, rl, brief, run_id=None):
+    """rig_requires.py check --fix; returns (ok, operator actions, other failures)."""
+    cmd = [sys.executable, "-I", str(rl / "rig_requires.py"), "check", "--ev", str(ev), str(brief), "--fix"]
+    if run_id:
+        cmd += ["--run", run_id]
+    chk = subprocess.run(cmd, capture_output=True, text=True)
+    (ev / f"requirements{'-' + run_id if run_id else ''}.txt").write_text(chk.stdout)
+    fails = [l.strip()[2:] for l in chk.stdout.splitlines() if l.startswith("  - ")]
+    ops = [f[len("OPERATOR "):] for f in fails if f.startswith("OPERATOR ")]
+    return chk.returncode == 0, ops, [f for f in fails if not f.startswith("OPERATOR ")]
+
+
+def meet(ev, rl, brief, units, run_id=None):
+    """Check a run's needs; wait for the operator when only they can meet them. Returns None or an exit code."""
+    ok, ops, other = check(ev, rl, brief, run_id)
+    if ok:
+        return None
+    if other:
+        return escalate(ev, f"requirements{' for ' + run_id if run_id else ''}: " + "; ".join(other + ops))
+    say(ev, f"OPERATOR {run_id or 'session'} now: {'; '.join(ops)}. Touch nothing else. "
+            f"The session goes on by itself once it reads this back.", operator=True)
+    deadline = time.time() + int(os.environ.get("RL_OPERATOR_WAIT_S", "900"))
+    while time.time() < deadline:
+        time.sleep(int(os.environ.get("RL_OPERATOR_POLL_S", "15")))
+        ok, ops, other = check(ev, rl, brief, run_id)
+        if ok:
+            say(ev, f"READ BACK {run_id or 'session'}: the operator's step is in place")
+            return None
+        if other:
+            break
+    return escalate(ev, f"requirements{' for ' + run_id if run_id else ''} still not met: " + "; ".join(other + ops))
 
 
 def launch(ev, rl, scripts, libs, run):
@@ -116,13 +152,13 @@ def cmd_run(ev, brief):
             if r.get(k) and r[k] not in names:
                 return escalate(ev, f"run {r['id']} names {k}={r[k]}, which is not a named block of the brief")
 
-    chk = subprocess.run([sys.executable, "-I", str(rl / "rig_requires.py"), "check", "--ev", str(ev), str(brief), "--fix"],
-                         capture_output=True, text=True)
-    (ev / "requirements.txt").write_text(chk.stdout)
-    if chk.returncode:
-        fails = [l.strip("- ").strip() for l in chk.stdout.splitlines() if l.startswith("  - ")]
-        return escalate(ev, "requirements: " + "; ".join(fails))
-    say(ev, "REQUIREMENTS OK")
+    first = req["runs"][0]["id"] if req["runs"] else None
+    code = meet(ev, rl, brief, req["units"], first if first in rig_requires.scoped_runs(req) else None)
+    if code:
+        return code
+    used = sorted(set(req["units"]) | {role for _, role, _ in req["scoped"]})
+    say(ev, f"REQUIREMENTS OK. Operator: hands off {', '.join(used)} until DONE, except when an OPERATOR line asks")
+    scoped = set(rig_requires.scoped_runs(req))
 
     skipped = set()
     for run in req["runs"]:
@@ -133,8 +169,13 @@ def cmd_run(ev, brief):
             gj.write_text(json.dumps({"id": run["id"], "verdict": "NOT_RUN", "reason": "stop rule"}))
             say(ev, f"GRADE {run['id']} NOT_RUN (stop rule)")
             continue
+        if run["id"] in scoped and run["id"] != first:
+            code = meet(ev, rl, brief, req["units"], run["id"])
+            if code:
+                return code
         if run.get("hand"):
-            say(ev, f"OPERATOR {run['id']} next: {run['hand']}", operator=True)
+            say(ev, f"OPERATOR {run['id']} next: {run['hand']}. Touch nothing else until DONE or the next OPERATOR line.",
+                operator=True)
         say(ev, f"RUN {run['id']} cap={run['cap']}s{' (point of the round)' if run.get('point') == 'yes' else ''}")
         attempts, verdict, reason, conds, code, log = 0, None, "", [], 0, None
         while attempts < 2:

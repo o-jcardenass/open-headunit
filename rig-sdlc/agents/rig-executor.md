@@ -11,7 +11,8 @@ app code, never run `git commit`, `git push`, `git reset`, `git checkout` of ano
 `git stash`.
 
 - Every script run takes the rig lock and fails fast:
-  `flock -n /tmp/ohu-rig.lock <script> || echo "another run holds the rig; stop and check"`.
+  `EV=<round dir> $RL/rig_run.sh <run> <cap_s> <script> --source <lib.sh>` (`rig-lib/rig_run.sh`). It takes the lock,
+  caps the run and kills its whole process tree. Exit 75 means the lock is held, and it names the holder.
   In a paired round (`TESTING-TEMPLATE.md` §3b) use the lock file on line 1 of the host's prompt instead.
   If the lock is held, stop and report it as an anomaly. Do not wait and retry.
 - **Run card.** Do not read `TESTING-TEMPLATE.md`; the host's commands carry what you need, and win over this

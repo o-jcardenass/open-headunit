@@ -8,13 +8,15 @@ get() { cat "$D/$S.$1" 2>/dev/null || echo "$2"; }
 case "$*" in
   get-state) echo device ;;
   "shell svc wifi enable") [ -n "${FAKE_ADB_STUCK:-}" ] || echo on > "$D/$S.wifi" ;;
-  "shell svc wifi disable") [ -n "${FAKE_ADB_STUCK:-}" ] || echo off > "$D/$S.wifi" ;;
+  "shell svc wifi disable") [ -n "${FAKE_ADB_STUCK:-}" ] || { echo off > "$D/$S.wifi"; rm -f "$D/$S.go"; } ;;
   "shell svc bluetooth enable") [ -n "${FAKE_ADB_STUCK:-}" ] || echo on > "$D/$S.bt" ;;
   "shell svc bluetooth disable") [ -n "${FAKE_ADB_STUCK:-}" ] || echo off > "$D/$S.bt" ;;
   "shell dumpsys bluetooth_manager")
     if [ "$(get bt off)" = on ]; then echo "  state: ON"; echo "Bonded devices:"; cat "$D/$S.bonds" 2>/dev/null
     else echo "  state: OFF"; echo "Bonded devices:"; fi ;;
   "shell dumpsys wifi") [ "$(get wifi off)" = on ] && echo "Wi-Fi is enabled" || echo "Wi-Fi is disabled" ;;
+  "shell dumpsys wifip2p") echo "mWifiP2pInfo groupFormed: $(get go false) isGroupOwner: $(get go false)" ;;
+  "shell pidof com.andrerinas.headunitrevived") get pid "" ;;
   "shell dumpsys battery") echo "  level: $(get battery 80)" ;;
   "shell settings get secure bluetooth_name") get name null ;;
   "shell settings get secure bluetooth_address") get addr null ;;

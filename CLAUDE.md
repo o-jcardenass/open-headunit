@@ -47,7 +47,8 @@ of work, and the point is token spend and keeping the host's context small:
 | Work | Model | How it is set |
 |---|---|---|
 | External lookup: an `adb` or `gradle` error message, an Android API or `dumpsys` field, a vendor ROM or chipset fact, an Android Auto release note | **Haiku** | `Agent(model: "haiku")` (the alias; the pinned id lives in `rig-executor`'s frontmatter) |
-| **Execution:** running a brief's runs (the `send` verbs, the helper scripts in `rig-toolkit/`, captures, markers), counting landmarks in a capture with the greps a brief names, md5s and `git log` listings for the header block, installing APKs and checking their identity (builds are the host's, in the background; unit tests only if a brief asks) | **Haiku** | the `rig-executor` agent, **in the foreground**: the host waits for it, never a background agent (see below). One agent per run or per capture, carrying every command and grep the brief names for it, never one agent per grep |
+| **Execution of a brief with a `rig-requires` block (2026-10-29):** `rig-lib/rig_session.py run` runs every run, grades it from the brief's grade scripts and applies the stop rules, with no model in the loop. The host launches it in the background and reads only `$EV/session.status` | **none** | `python3 -I $EV/rig-lib/rig_session.py run --ev $EV <brief>`, one Monitor on `session.status` |
+| **Execution of an older brief, installs, and any diagnosis grep:** running a brief's runs (the `send` verbs, the helper scripts in `rig-toolkit/`, captures, markers), counting landmarks in a capture with the greps a brief names, md5s and `git log` listings for the header block, installing APKs and checking their identity (builds are the host's, in the background; unit tests only if a brief asks) | **Haiku** | the `rig-executor` agent, **in the foreground**: the host waits for it, never a background agent (see below). One agent per run or per capture, carrying every command and grep the brief names for it, never one agent per grep |
 | **Judgement:** assigning a run its verdict, reading a FAIL's extract end to end, deciding whether a log string that does not match means the brief or the build is wrong, deciding whether a code change a round needs is within scope, writing the Setup notes, the results file and the closing section, editing the README's thread row | **Sonnet** | the host session |
 | Reading the brief, choosing the run order, a change to the clean-run protocol, the commit and the push | **Sonnet** | the host session only, never delegated |
 | **Refusal fallback:** a prompt that stops on a classifier refusal is re-run once in the host session with the prompt narrowed to the step at hand; if it still refuses, hand the exact command to the operator | **Sonnet** | the host session, and say so in Setup notes |
@@ -56,7 +57,7 @@ Five rules the table implies.
 
 1. **A capture is never opened with Read or `cat` in the host.** One is about 140k tokens and is
    re-sent on every turn after. Grep it with Bash, or hand it to a Haiku agent.
-2. **Haiku returns data, never a verdict.** Every execution agent ends with one JSON block, and
+2. **Haiku returns data, never a verdict** (and a session's grade scripts return COND lines, not prose). Every execution agent ends with one JSON block, and
    nothing else counts as its result:
 
    ```json
@@ -82,7 +83,7 @@ Five rules the table implies.
    racing a second terminal:
 
    ```bash
-   flock -n /tmp/ohu-rig.lock ./partB_cycles.sh || echo "another run holds the rig; stop and check"
+   EV=<round dir> $RL/rig_run.sh <run> <cap_s> ./partB_cycles.sh --source lib.sh   # exit 75: another run holds the rig
    ```
 
    **Paired rounds (2026-10-15).** When the README Queue pairs two rounds on separate units, the
@@ -95,9 +96,11 @@ Five rules the table implies.
 
 ## Running a round with `/rig-round`
 
-`/rig-round <thread> <N>` (see `rig-sdlc/README.md`) runs a queued brief. The host runs each run
-through the Haiku `rig-executor` in the foreground under the rig lock, one at a time (rule 4 stands;
-the host itself plans, grades and drafts; there is no workflow on the rig). The host commits
+`/rig-round <thread> <N>` (see `rig-sdlc/README.md`) runs a queued brief. A brief with a `rig-requires`
+block runs as one `rig_session.py` process: it drives one run at a time under the rig lock (rule 4 stands,
+because it is a script, not an agent), and the host only launches it, answers its `ESCALATE` lines and
+writes the results from `summary.md`. That keeps the host's context to a few lines per run on a Pro
+allowance. An older brief still runs each run through the Haiku `rig-executor` in the foreground. The host commits
 and pushes after the operator's `approve`, then returns to the branch it came from.
 **The rig's setup is mirrored in `rig-sdlc/`, both ways.** Edit the live files on the rig freely (`headunit-revived/.claude/skills`
 and `agents`, the `.claude/` Claude Code loads here, `~/.claude/hooks/rig-*`, the hooks and model keys of `~/.claude/settings.json`, `rig-toolkit/TOOLS.md`). After any such edit, run `python3 -I rig-sdlc/rig-env/rig_sync.py sync`, commit the paths it lists

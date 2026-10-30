@@ -753,6 +753,39 @@ the rig's.
 
 A brief that gets a useful round back has these parts, in this order:
 
+0. **What a session needs, as a `rig-requires` block** (format in `rig-lib/rig_requires.py`):
+   ```rig-requires
+   lib <sha of rig-lib on this branch>
+   unit D-HU   role=headunit wifi=on bt=on
+   unit D-POCO role=phone wifi=on bt=on bond=D-HU aa=D-HU battery=30
+   unit D-MOTO bt=off
+   unit D-POCO@B,S nobond=D-HU
+   candidate T <sha of the candidate build>
+   candidate B <sha of the baseline build>
+   hardware <a board, a cable, a hub: anything adb cannot read>
+   confirm <anything else only the operator can say is true>
+   run R1 cap=300 script=r1.sh grade=grade-r1.sh
+   run R2 cap=900 script=r2.sh grade=grade-r2.sh point=yes
+   run cleanup cap=120 script=cleanup.sh always=yes
+   stop R1 FAIL,UNTESTABLE skip=all
+   ```
+   One `unit` line per unit, with its role, every radio its runs need on or off, every bond (read on
+   both sides, so both radios are on), every first Android Auto connect, and a battery floor where a run
+   is long. `nobond=` names a bond the unit must NOT hold: a phone bonded to D-HU dials D-HU and ignores
+   a relay board or D-SAM. A line `unit ROLE@R1,R2` holds only for those runs; the session checks it just
+   before them and, for a pair or a forget, prints one OPERATOR line and waits for it. Put the runs that
+   share a bond state next to each other, so the operator changes it once. One `candidate` line per build
+   arm: lint then checks every log string a script greps for against that arm's `app/src/main`. A line that
+   greps a phone or system log ends with `# phone` or `# system`. Take an expected count from the control
+   arm, not from reading the code: L-DES read 2 on both arms where a brief said 1.
+   One `run` line per run, in run order, naming its script and grade blocks and its hard cap in
+   seconds; `hand="<cue>"` marks a step only the operator can do. A run's script takes no arguments
+   (it gets `$RUN`), and every shell block that drives the rig is named, or the rig never extracts it.
+   `stop` lines are the stop rule as data.
+   The rig reads all of it back with `rig_requires.py check --fix`, switches what adb can switch, and asks
+   the operator once for the rest; a run cannot start until that check passes. It also orders a session
+   of several briefs with `rig_requires.py order`, so a brief never needs to know what ran before it.
+   A brief that forgot a bond cost one round 45 minutes, and a bond that stayed cost two stages.
 1. **Build and baseline** — branch, exact SHA, the `git` command that gets there, and whether history
    was rewritten since last time.
 2. **What this is and why it exists** — the defect, with the evidence that identified it. The tester
@@ -776,6 +809,27 @@ A brief that gets a useful round back has these parts, in this order:
    one condition graded from it. A head unit log alone cannot say what Android Auto did.
 8. **Do not re-run** — settled runs, so the round is not spent re-proving them.
 9. **Report back** — the two or three numbers that actually decide the shipping question.
+10. **Scripts built on `rig-lib/`**, never on helpers written for the round. `rig_session.py` runs the
+    round: each run through `rig_run.sh`, which takes the lock, loads `rig_lib.sh` and the brief's
+    `lib.sh`, kills the whole process tree at the end and at the cap, and writes a status file. Each run
+    has a **grade script** that prints one `rl_cond <n> <eq|ge|le|gt|lt> <actual> <expected> <label>` line
+    per PASS condition (`rl_cnt <capture> <from marker> <to marker> <string>` counts inside a window), and
+    `rl_verdict INCONCLUSIVE <reason>` for the brief's INCONCLUSIVE rules. So the grading logic is written
+    here, by the author who knows the code, and the rig host reads only the COND lines. Write the prose
+    PASS conditions as before; the grade script is their executable form, and the two must match.
+    A hand step stops nothing: the run prints `OPERATOR NOW: <what to do>` and the session pushes it to
+    the operator. Every hand step is an interruption, so prefer a verb. The brief's own `lib.sh` holds
+    only serials, paths, `send` verbs, greps and settings writes. Use these instead of writing your own:
+    `rl_wait_line` / `rl_wait_count` (counted from the start of the capture by default, capped in
+    wall-clock seconds), `rl_cap_start` / `rl_cap_stop`, `rl_radio` (reads back, returns 1 on a
+    mismatch), `rl_hold_off` / `rl_release`, `rl_bonds` / `rl_bonded` (refuse with Bluetooth off),
+    `rl_thermal_gate`, `rl_bg` / `rl_stop` for any other background job, `rl_step` and `rl_sleep`.
+    A script never checks a precondition the block already states: `check --fix` did that before it ran.
+    Before approval, `python3 -I rig-lib/brief_check.py check <brief>` must print `BRIEF CHECK OK`. It
+    lints the named scripts (no own helpers, no unquoted `wait`, no untracked `&`, no placeholder, no
+    `pkill -f`), then runs each one twice under a stub `adb` and fails on a hang or an orphan. The
+    commit hook refuses a brief whose exact content has not passed it. Every hang in the 2026-10-29
+    session came from a helper a brief wrote for itself.
 
 **Written for a Haiku executor (2026-09-25).** On the rig a Haiku agent runs each run and a
 Sonnet host grades it from what Haiku returns (`CLAUDE.md`, Subagent model routing). A brief works

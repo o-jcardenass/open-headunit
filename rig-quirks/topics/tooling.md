@@ -17,7 +17,7 @@ Read for every round: adb and shell traps, build and install, settings.xml, mark
 
   Keep `$EV/setup-notes.md` and the grades current after every run, so a shutdown loses one run.
 
-  `th_gate`, `th_watch` and `th_report` in `archive/rounds/projection-teardown-and-relays-round1-brief.md` (`ptr_lib.sh`) implement this, and fall back to sysfs when `rig_thermal.sh` is absent. Copy them into any new brief.
+  `rl_thermal_gate` in `rig-lib/rig_lib.sh` implements this. Do not copy `th_gate` from an old brief: its watcher was never stopped and held the rig lock in four rounds.
 - **A heard fault can be stamped into the capture.** `ACTION_LOG_MARKER --es text <label>` prints
   `AutomationMarker: <label>` at WARN, so a tester listening to a run can put the moment they heard
   something into the log beside the instruments. `-f 0x00000020` is required, as for every automation

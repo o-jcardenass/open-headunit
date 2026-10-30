@@ -17,8 +17,14 @@ Every brief carries one fenced block, for example:
     ```
 
 unit keys: role = phone|headunit (a swap gets headunit://exit first), wifi/bt = on|off|any,
-bond = units both sides must list (both radios on), aa = units this phone has projected to once (the
-operator confirms it), battery = minimum percent. hardware and confirm lines go to the operator.
+bond = units both sides must list (both radios on), nobond = units this unit's own list must NOT hold
+(a phone's Android Auto dials a bonded head unit and ignores the one under test), aa = units this phone
+has projected to once (the operator confirms it), battery = minimum percent. `unit D-POCO@B,S nobond=D-HU`
+scopes the line to runs B and S: rig_session.py checks it just before those runs and, when only the
+operator can meet it (a pair or a forget), prints one OPERATOR line and waits for it. A run's needs are
+the session's lines plus its scoped lines, scoped values winning. hardware and confirm lines go to the
+operator. candidate NAME SHA names each build arm (T, B, C...); brief_check.py checks the brief's log
+strings against them.
 run keys: cap (hard seconds), script and grade (named blocks of the brief), point=yes for the run the
 round exists for, hand="cue" for a step only the operator can do, always=yes for cleanup. Runs go in
 the order listed. stop ID VERDICTS [skip=all|R3,R4]: after ID grades one of VERDICTS, skip those runs
@@ -29,9 +35,11 @@ the order listed. stop ID VERDICTS [skip=all|R3,R4]: after ID grades one of VERD
                                            transition between briefs (who does it, and how)
   rig_requires.py plan BRIEF...            the pre-flight command and one operator list for the session
   rig_requires.py yes --ev EV BRIEF...     record the operator's one yes for every brief named
-  rig_requires.py check --ev EV BRIEF [--fix]
+  rig_requires.py check --ev EV BRIEF [--fix] [--run ID]
                                            read every need back; --fix switches what adb can switch (with
-                                           read-back) and swaps roles; on success write EV/requirements.ok
+                                           read-back) and swaps roles; on success write EV/requirements.ok.
+                                           --run checks one run's needs (scoped unit lines on top). A failure
+                                           only the operator can clear is printed as "  - OPERATOR <action>".
   rig_requires.py baseline                 put every unit's radios to rig-lib/baseline.conf, read back
 """
 import hashlib, itertools, os, re, shlex, subprocess, sys, time
@@ -49,7 +57,7 @@ BLOCK = re.compile(r"^```rig-requires[ \t]*\n(.*?)^```", re.M | re.S)
 
 def parse(text):
     """Returns (req, problems). req = {lib, units, operator, runs: [{id, cap, script, grade, ...}], stops}."""
-    req = {"lib": None, "units": {}, "operator": [], "runs": [], "stops": []}
+    req = {"lib": None, "units": {}, "scoped": [], "operator": [], "runs": [], "stops": [], "candidates": {}}
     problems = []
     blocks = BLOCK.findall(text)
     if not blocks:
@@ -72,7 +80,12 @@ def parse(text):
         if not toks:
             continue
         word, args = toks[0], toks[1:]
-        if word == "lib":
+        if word == "candidate":
+            if len(args) != 2 or not re.fullmatch(r"[0-9a-f]{7,40}", args[1]):
+                problems.append(f"line {n}: candidate needs NAME SHA, got {' '.join(args)!r}")
+            else:
+                req["candidates"][args[0]] = args[1]
+        elif word == "lib":
             sha = args[0] if args else ""
             if not re.fullmatch(r"[0-9a-f]{7,40}", sha):
                 problems.append(f"line {n}: lib needs a commit SHA of rig-lib, got {sha!r}")
@@ -81,9 +94,14 @@ def parse(text):
             if not args:
                 problems.append(f"line {n}: unit needs a name"); continue
             role, pairs = args[0], args[1:]
+            role, _, scope = role.partition("@")
             if role not in ROLES:
                 problems.append(f"line {n}: unknown unit {role!r} (one of {', '.join(ROLES)})")
-            u = req["units"].setdefault(role, {})
+            if scope:
+                u = {}
+                req["scoped"].append((scope.split(","), role, u))
+            else:
+                u = req["units"].setdefault(role, {})
             for p in pairs:
                 k, eq, v = p.partition("=")
                 if not eq:
@@ -96,7 +114,7 @@ def parse(text):
                     if v not in ("phone", "headunit"):
                         problems.append(f"line {n}: role={v} must be phone or headunit")
                     u[k] = v
-                elif k in ("bond", "aa"):
+                elif k in ("bond", "nobond", "aa"):
                     roles = [r for r in v.split(",") if r]
                     bad = [r for r in roles if r not in ROLES]
                     if bad:
@@ -107,7 +125,7 @@ def parse(text):
                         problems.append(f"line {n}: battery must be a percent")
                     u[k] = int(v) if v.isdigit() else 0
                 else:
-                    problems.append(f"line {n}: unknown unit key {k!r} (role, wifi, bt, bond, aa, battery)")
+                    problems.append(f"line {n}: unknown unit key {k!r} (role, wifi, bt, bond, nobond, aa, battery)")
         elif word == "run":
             if not args:
                 problems.append(f"line {n}: run needs an id"); continue
@@ -136,7 +154,7 @@ def parse(text):
                 problems.append(f"line {n}: stop verdicts must be from {', '.join(VERDICTS)}")
             req["stops"].append({"after": args[0], "on": vs, "skip": skip})
         else:
-            problems.append(f"line {n}: unknown line {word!r} (lib, unit, hardware, confirm, run, stop)")
+            problems.append(f"line {n}: unknown line {word!r} (lib, candidate, unit, hardware, confirm, run, stop)")
     ids = [r["id"] for r in req["runs"]]
     for s in req["stops"]:
         if s["after"] not in ids:
@@ -147,15 +165,41 @@ def parse(text):
         problems.append("no lib line: pin rig-lib with `lib <sha>` (git log -1 --format=%h -- rig-lib)")
     if not req["runs"]:
         problems.append("no run lines: every run needs `run <id> cap=<seconds> script=<block> grade=<block>`")
+    for scope, role, _ in req["scoped"]:
+        for rid in scope:
+            if rid not in ids:
+                problems.append(f"unit {role}@{','.join(scope)}: {rid} has no run line")
+    for rid in [None] + ids:
+        units = run_units(req, rid)
+        for role, u in units.items():
+            for k, needs_other in (("bond", True), ("nobond", False)):
+                for other in u.get(k, []):
+                    for who in ((role, other) if needs_other else (role,)):
+                        if units.get(who, {}).get("bt") != "on":
+                            problems.append(f"{role} {k}={other}{' in run ' + rid if rid else ''}: a bonded list "
+                                            f"reads empty with Bluetooth off, so {who} needs bt=on")
+                    if other in units.get(role, {}).get("bond" if k == "nobond" else "nobond", []):
+                        problems.append(f"{role} both bond= and nobond= {other}{' in run ' + rid if rid else ''}")
     for role, u in req["units"].items():
-        for other in u.get("bond", []):
-            for who in (role, other):
-                if req["units"].get(who, {}).get("bt") != "on":
-                    problems.append(f"{role} bond={other}: a bonded list reads empty with Bluetooth off, "
-                                    f"so {who} needs bt=on")
         for other in u.get("aa", []):
             req["operator"].append(f"aa: {role} has projected to {other} in Android Auto at least once")
+    problems = list(dict.fromkeys(problems))
     return req, problems
+
+
+def run_units(req, run_id=None):
+    """The unit needs in force for one run: the session's lines, then that run's scoped lines on top."""
+    units = {r: dict(u) for r, u in req["units"].items()}
+    for scope, role, u in req["scoped"]:
+        if run_id in scope:
+            units.setdefault(role, {}).update(u)
+    return units
+
+
+def scoped_runs(req):
+    """Run ids with needs of their own."""
+    return [rid for rid in (r["id"] for r in req["runs"])
+            if any(rid in scope for scope, _, _ in req["scoped"])]
 
 
 def load(path):
@@ -265,24 +309,48 @@ def transitions(prev, nxt, base):
                 steps.append((who, f"{role} {k} {have} -> {want}"))
         if b.get("role") and a.get("role") and a["role"] != b["role"]:
             steps.append(("auto", f"{role} role {a['role']} -> {b['role']} (headunit://exit first)"))
+        for k in sorted(x for x in b if x.startswith("b:")):
+            if a.get(k) != b[k]:
+                steps.append(("operator", f"{role} {'pair' if b[k] == 'yes' else 'forget'} {k[2:]}"))
     return steps
+
+
+def state_of(units):
+    """The part of a run's needs that carries over to the next: radios, role, and each bond as b:<unit>."""
+    out = {}
+    for r, u in units.items():
+        st = {k: v for k, v in u.items() if k in ("wifi", "bt", "role") and v != "any"}
+        st.update({f"b:{o}": "yes" for o in u.get("bond", [])})
+        st.update({f"b:{o}": "no" for o in u.get("nobond", [])})
+        out[r] = st
+    return out
+
+
+def run_states(req):
+    """[(run id, state)] in run order, the session's lines plus each run's scoped lines."""
+    return [(r["id"], state_of(run_units(req, r["id"]))) for r in req["runs"]]
+
+
+def merge(prev, units):
+    out = {r: dict(prev.get(r, {})) for r in set(prev) | set(units)}
+    for r, u in units.items():
+        out[r].update(u)
+    return out
 
 
 def order(paths):
     base = baseline()
-    reqs = [(p, load(p)[0]["units"]) for p in paths]
+    reqs = [(p, run_states(load(p)[0])) for p in paths]
     start = {r: {k: v for k, v in u.items() if k in ("wifi", "bt")} for r, u in base.items()}
 
     def cost(seq):
         prev, c, ops = start, 0, 0
-        for _, units in seq:
-            st = transitions(prev, units, base)
-            ops += sum(w == "operator" for w, _ in st)
-            c += len(st)
-            merged = {r: dict(prev.get(r, {})) for r in set(prev) | set(units)}
-            for r, u in units.items():
-                merged[r].update({k: v for k, v in u.items() if k in ("wifi", "bt", "role") and v != "any"})
-            prev = merged
+        for _, states in seq:
+            for _, units in states:
+                st = transitions(prev, units, base)
+                ops += sum(w == "operator" for w, _ in st)
+                c += len(st)
+                prev = merge(prev, units)
         return ops, c
     perms = list(itertools.permutations(reqs)) if len(reqs) <= 7 else [tuple(reqs)]
     best = min(perms, key=lambda s: (*cost(s), [reqs.index(x) for x in s]))
@@ -294,16 +362,14 @@ def cmd_order(paths):
     print("Session order (fewest operator actions, then fewest changes; ties keep the Queue order):")
     prev = start
     for i, p in enumerate(seq, 1):
-        units = load(p)[0]["units"]
-        steps = transitions(prev, units, base)
         print(f"  {i}. {Path(p).name}")
-        for who, text in steps:
-            print(f"       {'OPERATOR' if who == 'operator' else 'auto    '} {text}")
-        merged = {r: dict(prev.get(r, {})) for r in set(prev) | set(units)}
-        for r, u in units.items():
-            merged[r].update({k: v for k, v in u.items() if k in ("wifi", "bt", "role") and v != "any"})
-        prev = merged
-    print("auto steps run inside `check --fix`; OPERATOR steps go in the one message before the session.")
+        for n, (rid, units) in enumerate(run_states(load(p)[0])):
+            for who, text in transitions(prev, units, base):
+                print(f"       {'OPERATOR' if who == 'operator' else 'auto    '} {text}"
+                      + (f"  (before run {rid})" if n else ""))
+            prev = merge(prev, units)
+    print("auto steps run inside `check --fix`. OPERATOR steps go in the one message before the session;")
+    print("one marked (before run X) is a mid-round step: the session prints it as an OPERATOR line and waits.")
     return 0
 
 
@@ -339,19 +405,24 @@ def cmd_yes(ev, paths):
     return 0
 
 
-def cmd_check(ev, path, fix=False):
+def group_owner(serial):
+    return bool(re.search(r"isGroupOwner: true", adb(serial, "shell", "dumpsys", "wifip2p")))
+
+
+def cmd_check(ev, path, fix=False, run_id=None):
     req, problems = load(path)
+    units = run_units(req, run_id)
     Path(ev).mkdir(parents=True, exist_ok=True)
     ok_file = Path(ev, "requirements.ok")
     ok_file.unlink(missing_ok=True)
     fails, lines, base, ser = list(problems), [], baseline(), serials()
     roles_before = last_roles(ev)
-    for role, u in req["units"].items():
+    for role, u in units.items():
         s = ser.get(role)
         if not s:
             fails.append(f"{role}: no serial in {RIG_DEVICES}"); continue
         if adb(s, "get-state").strip() != "device":
-            fails.append(f"{role} ({s}) is not in adb devices: ask the operator to reconnect it"); continue
+            fails.append(f"OPERATOR reconnect {role} ({s}) to adb"); continue
         want_role, had = u.get("role"), roles_before.get(role)
         if fix and want_role and had and had != want_role:
             if adb(s, "shell", "pidof", PKG).strip():       # an exit on a stopped app starts the service
@@ -371,25 +442,40 @@ def cmd_check(ev, path, fix=False):
             else:
                 lines.append(f"{role} {k}={got} (needs {want})")
             if got != want:
-                fails.append(f"{role} {k} is {got}, the brief needs {want}"
-                             + (": only the operator can bring it back" if operator_only else ""))
+                fails.append(f"OPERATOR turn {role} {k} {want} (it reads {got})" if operator_only
+                             else f"{role} {k} is {got}, the brief needs {want}")
+        if u.get("role") == "phone" and u.get("wifi") != "off" and group_owner(s):
+            # a phone left as a P2P group owner by an earlier head-unit run cannot join the unit under test
+            if fix:
+                if adb(s, "shell", "pidof", PKG).strip():
+                    adb(s, "shell", "am", "start", "-a", "android.intent.action.VIEW", "-d", "headunit://exit")
+                    time.sleep(5)
+                    adb(s, "shell", "am", "force-stop", PKG)
+                else:
+                    set_radio(s, "wifi", "off"); set_radio(s, "wifi", "on")
+            owner = group_owner(s)
+            lines.append(f"{role} isGroupOwner={'true' if owner else 'false'} (a phone needs false)")
+            if owner:
+                fails.append(f"{role} is still a WiFi Direct group owner from an earlier run")
         if "battery" in u:
             m = re.search(r"level: (\d+)", adb(s, "shell", "dumpsys", "battery"))
             lvl = int(m.group(1)) if m else -1
             lines.append(f"{role} battery={lvl}% (needs {u['battery']}%)")
             if lvl < u["battery"]:
                 fails.append(f"{role} battery is {lvl}%, the brief needs {u['battery']}%")
-    for role, u in req["units"].items():
+    for role, u in units.items():
         s = ser.get(role)
-        for other in u.get("bond", []):
+        for other in u.get("bond", []) + u.get("nobond", []):
             o = ser.get(other)
             if not (s and o):
                 fails.append(f"{role} bond={other}: no serial"); continue
-            for a, b, an, bn in ((s, o, role, other), (o, s, other, role)):
+            want = other in u.get("bond", [])
+            for a, b, an, bn in ((s, o, role, other), (o, s, other, role))[:2 if want else 1]:
                 hit, nm = bonded(a, b)
-                lines.append(f"{an} lists {bn} ({nm}): {'yes' if hit else 'NO'}")
-                if not hit:
-                    fails.append(f"{an} does not list {bn} ({nm}) in Bonded devices: ask the operator to pair them")
+                lines.append(f"{an} lists {bn} ({nm}): {'yes' if hit else 'no'} (needs {'yes' if want else 'no'})")
+                if hit != want:
+                    fails.append(f"OPERATOR on {an}, pair {bn} ({nm}) in Bluetooth settings" if want else
+                                 f"OPERATOR on {an}, forget {bn} ({nm}) in Bluetooth settings")
     if req["operator"]:
         yes = Path(ev).parent / "operator-yes.txt"
         if not yes.exists() or operator_hash(req) not in yes.read_text():
@@ -403,9 +489,9 @@ def cmd_check(ev, path, fix=False):
             print("  - " + f)
         return 1
     roles = dict(roles_before)
-    roles.update({r: u["role"] for r, u in req["units"].items() if u.get("role")})
+    roles.update({r: u["role"] for r, u in units.items() if u.get("role")})
     roles_file(ev).write_text("".join(f"{r} {v}\n" for r, v in sorted(roles.items())))
-    ok_file.write_text(f"{time.strftime('%F %T')} {Path(path).name}\n" + "".join(f"  {l}\n" for l in lines))
+    ok_file.write_text(f"{time.strftime('%F %T')} {Path(path).name}{' run ' + run_id if run_id else ''}\n" + "".join(f"  {l}\n" for l in lines))
     print(f"REQUIREMENTS OK: wrote {ok_file}")
     return 0
 
@@ -434,6 +520,9 @@ def main(argv):
     rest = [r for r in rest if r != "--fix"]
     if "--ev" in rest:
         i = rest.index("--ev"); ev = rest[i + 1]; rest = rest[:i] + rest[i + 2:]
+    run_id = None
+    if "--run" in rest:
+        i = rest.index("--run"); run_id = rest[i + 1]; rest = rest[:i] + rest[i + 2:]
     if cmd == "lint":
         return cmd_lint(rest)
     if cmd == "order":
@@ -443,7 +532,7 @@ def main(argv):
     if cmd == "yes" and ev and rest:
         return cmd_yes(ev, rest)
     if cmd == "check" and ev and len(rest) == 1:
-        return cmd_check(ev, rest[0], fix)
+        return cmd_check(ev, rest[0], fix, run_id)
     if cmd == "baseline":
         return cmd_baseline()
     print(__doc__); return 64

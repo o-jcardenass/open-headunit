@@ -10,6 +10,11 @@
   brief_check.py stamped BRIEF [--repo DIR]  exit 0 if this exact content passed smoke (commit-guard asks)
   brief_check.py same-body OLD NEW           exit 0 if NEW differs from OLD only in SHAs and its header
 
+Lint also checks: a shell block that drives the rig must be named (an unnamed one is never extracted);
+a run's script takes no arguments (rig_run.sh passes none: read RUN); and every log string a script or
+grade greps for must be in app/src of at least one `candidate` named in the rig-requires block (a line
+that greps a phone or system log ends with `# phone` or `# system`; `# not-literal` skips one line).
+
 A named script is a fenced block with a **name.sh** (or **`name.sh`**) line above it, the same
 convention extract_brief_blocks.py uses on the rig. Blocks named *lib.sh or *_env.sh are sourced
 before every other script. Blocks whose first line is #!/system/bin/sh run on a device and only get
@@ -29,6 +34,74 @@ FUNC_DEF = re.compile(r"^\s*(?:function\s+)?([A-Za-z_][\w]*)\s*\(\)")
 PLACEHOLDER = re.compile(r"(?<![<\w])<[A-Z][A-Z0-9_]*(?: [^<>\n]*)?>")
 STUDIO = ("/home/oscar/Coding/StudioProjects", "~/Coding/StudioProjects", "$HOME/Coding/StudioProjects")
 SMOKE_CAP_S = 25
+
+
+def fences(text):
+    """[(lang, body, line)] for every fenced block, named or not."""
+    out, lines, i = [], text.splitlines(), 0
+    while i < len(lines):
+        if lines[i].lstrip().startswith("```"):
+            fence = lines[i].lstrip(); start = i
+            ticks = len(fence) - len(fence.lstrip("`"))
+            body, i = [], i + 1
+            while i < len(lines) and not (lines[i].lstrip().startswith("`" * ticks) and lines[i].strip("` ") == ""):
+                body.append(lines[i]); i += 1
+            out.append((fence.strip("`").strip(), "\n".join(body), start + 1))
+        i += 1
+    return out
+
+
+RIG_CODE = re.compile(r"\badb\b|\brl_\w+|\$EV\b|\$\{EV\}|\$RIG_|\bcap_(?:start|stop|on|off)\b|\bmark\b|\bsvc\s+(?:wifi|bluetooth)")
+POSITIONAL = re.compile(r"\$(?:[1-9#@*]|\{[1-9#@*])")
+GREP_CALL = re.compile(r"\b(?:rl_cnt\s+\S+\s+\S+\s+\S+|rl_wait_line\s+\S+|rl_wait_count\s+\S+\s+\S+|"
+                       r"grep\s+(?:-[A-Za-z]+\s+)*)\s*(['\"])(.+?)\1")
+
+
+def log_strings(text):
+    """[(script, line, string, tag)] for every literal a script or grade greps for."""
+    out = []
+    for name, _, body, at in blocks(text):
+        if name.endswith(".py"):
+            continue
+        for n, raw in enumerate(body.splitlines(), at + 2):
+            tag = next((t for t in ("phone", "system", "not-literal") if re.search(rf"#\s*{t}\b", raw)), "")
+            for m in GREP_CALL.finditer(raw):
+                lit = m.group(2)
+                if "$" in lit or len(lit) < 8 or "AutomationMarker" in lit:
+                    continue
+                if re.search(r"[\\^$*+?()\[\]{}|]", lit) and not re.search(r"\bgrep\b[^'\"]*-\w*F", raw):
+                    lit = re.split(r"[\\^$*+?()\[\]{}|.]", lit)[0]
+                if len(lit) >= 8:
+                    out.append((name, n, lit, tag))
+    return out
+
+
+def check_strings(text, repo):
+    req, _ = rig_requires.parse(text)
+    errs, notes = [], []
+    if not req["candidates"] or not repo:
+        return errs, notes
+    have = {}
+    for arm, sha in req["candidates"].items():
+        if subprocess.run(["git", "-C", str(repo), "cat-file", "-e", f"{sha}^{{commit}}"], capture_output=True).returncode:
+            errs.append(f"candidate {arm} {sha} is not in this clone: git fetch fork, then check again")
+        else:
+            have[arm] = sha
+    seen = set()
+    for name, n, lit, tag in log_strings(text):
+        if tag or lit in seen or not have:
+            continue
+        seen.add(lit)
+        hits = [arm for arm, sha in have.items()
+                if subprocess.run(["git", "-C", str(repo), "grep", "-q", "-F", lit, sha, "--", "app/src/main"],
+                                  capture_output=True).returncode == 0]
+        if not hits:
+            errs.append(f"{name}:{n}: '{lit}' is in no candidate's app/src/main ({', '.join(have)}); fix the string, "
+                        "or end the line with # phone or # system if another log prints it")
+        elif len(hits) < len(have):
+            notes.append(f"{name}:{n}: '{lit}' only exists on {', '.join(hits)}; it reads 0 on "
+                         f"{', '.join(a for a in have if a not in hits)}, so grade that arm on something else")
+    return errs, notes
 
 
 def blocks(text):
@@ -83,8 +156,28 @@ def lint(text, repo=None):
         for k in ("script", "grade"):
             if r.get(k) and r[k] not in named:
                 errs.append(f"rig-requires: run {r['id']} {k}={r[k]} is not a named block (**{r[k]}** above a fence)")
+    named_lines = {at for *_, at in blocks(text)}
+    for lang, body, at in fences(text):
+        if lang in ("bash", "sh", "shell") and not any(0 < at - nl <= 4 for nl in named_lines) and RIG_CODE.search(body):
+            errs.append(f"line {at}: an unnamed {lang} block that drives the rig; put **name.sh** above it so "
+                        "rig_session.py extracts it, or fence it as ```text if it is only an example")
+    scripts = {r.get("script") for r in req["runs"]}
     for name, lang, body, at in blocks(text):
         where = f"{name} (line {at})"
+        if name in scripts and not name.endswith(".py"):
+            infunc, depth, opened = False, 0, False
+            for n, raw in enumerate(body.splitlines(), at + 2):
+                code = unquote(raw)
+                if FUNC_DEF.match(code):
+                    infunc, depth, opened = True, 0, False
+                if not infunc and POSITIONAL.search(re.sub(r"(^|\s)#.*$", "", re.sub(r"'[^']*'", "''", raw))):
+                    errs.append(f"{where}:{n}: reads a positional argument, but rig_run.sh starts a run's script "
+                                "with none; use $RUN or a variable the script sets")
+                if infunc:
+                    depth += code.count("{") - code.count("}")
+                    opened = opened or "{" in code
+                    if opened and depth <= 0:
+                        infunc = False
         if name.endswith(".py"):
             r = subprocess.run([sys.executable, "-c", "import ast,sys; ast.parse(sys.stdin.read())"],
                                input=body, capture_output=True, text=True)
@@ -114,7 +207,8 @@ def lint(text, repo=None):
                             "so rig_run.sh and the EXIT trap stop it")
             if re.search(r"\bp(?:grep|kill)\b[^|;&]*\s-\w*f", code):
                 errs.append(f"{where}:{n}: pgrep/pkill -f matches its own shell; track the pid with rl_bg")
-    return errs
+    serr, _ = check_strings(text, repo)
+    return errs + serr
 
 
 def brief_cost(text):
@@ -278,6 +372,8 @@ def main(argv):
         print(f"lint ok: {path.name}")
         for line in brief_cost(text):
             print(line)
+        for nt in check_strings(text, repo)[1]:
+            print(f"note: {nt}")
         if cmd == "lint":
             return 0
     if cmd in ("smoke", "check"):
