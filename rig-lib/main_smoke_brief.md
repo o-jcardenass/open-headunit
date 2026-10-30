@@ -4,23 +4,31 @@ Not a queued round. `rig-lib/main_smoke.py` runs it on demand: it fetches `origi
 this brief, builds it, runs the session with no model and no hand step, and prints one line per run. Evidence goes
 to `rig-data/rounds/main-smoke-auto-<date>-<sha8>/`. Results are not committed; the runner's summary is the report.
 
-The runs are the four wireless runs of `main-smoke-round1-brief.md`, unchanged except that the D-HU runs wake
-D-MOTO, so D-POCO keeps its D-SAM bond and no run needs a pair or a forget. The USB and dongle runs need cable moves,
-so they stay in the full round.
+M4, M8, M1 and M3 are the wireless runs of `main-smoke-round1-brief.md`, unchanged except that the D-HU runs wake
+D-MOTO, so D-POCO keeps its D-SAM bond and no run needs a pair or a forget. H1 (Headunit Server), S1 (Self Mode) and
+AU (audio output) are new. Audio is graded only on D-POCO and D-SAM: D-HU has no speakers. USB needs a cable on a
+host's OTG port, so it waits for the rig's USB switch; the full round still carries it.
 
 ```rig-requires
 lib ca8a86a90
 candidate M c2c0e95aa514ae00c8e3ce5047701b83ca5f1264
 unit D-HU role=headunit wifi=on bt=on
+unit D-HU@AU bt=off
 unit D-SAM role=headunit wifi=on bt=on battery=50
-unit D-POCO@prep,M4,M8 role=phone wifi=on bt=on
+unit D-POCO@prep,M4,M8,H1 role=phone wifi=on bt=on
 unit D-POCO@M4,M8 bond=D-SAM nobond=D-HU
+unit D-POCO@S1,AU role=headunit wifi=on bt=on
 unit D-POCO@M1,M3 wifi=off bt=off
-unit D-MOTO@M4,M8 wifi=off bt=off
+unit D-MOTO@M4,M8,H1,S1 wifi=off bt=off
+unit D-MOTO@AU role=phone wifi=on bt=on bond=D-POCO
 unit D-MOTO@M1,M3 role=phone wifi=on bt=on bond=D-HU
+confirm on D-POCO, Android Auto's developer setting "Start head unit server" is on (S1 and H1 need :5277)
 run prep cap=1800 script=prep.sh grade=grade-prep.sh
 run M4 cap=1200 script=m4.sh grade=grade-m4.sh
 run M8 cap=1800 script=m8.sh grade=grade-m8.sh
+run H1 cap=600 script=h1.sh grade=grade-h1.sh
+run S1 cap=600 script=s1.sh grade=grade-s1.sh
+run AU cap=1800 script=au.sh grade=grade-au.sh point=yes
 run M1 cap=1200 script=m1.sh grade=grade-m1.sh point=yes
 run M3 cap=1200 script=m3.sh grade=grade-m3.sh point=yes
 run close cap=1200 script=close.sh always=yes
@@ -29,12 +37,15 @@ stop prep FAIL,UNTESTABLE skip=all
 
 | Run | Unit | What it checks |
 |---|---|---|
-| prep | D-HU, D-SAM | backups, the prior APK, install, identity (md5, DEX, `ACTION_QUERY_STATE` commit) |
+| prep | D-HU, D-SAM, D-POCO | backups, the prior APK, install, identity (md5, DEX, `ACTION_QUERY_STATE` commit) |
 | M4 | D-SAM with D-POCO | a Native session on API 19 with PCM music, then the settings screen |
 | M8 | D-SAM with D-POCO | the station after three force-stops (expected FAIL on `main` until the stand-down race is fixed) |
+| H1 | D-HU with D-POCO | Headunit Server mode: discovery finds D-POCO's server on :5277 over the home WiFi, and a session renders |
+| S1 | D-POCO | Self Mode: the 17.4+ path to its own head unit server, a session that renders, the audio sinks skipped, a clean end |
+| AU | D-POCO with D-MOTO | audio output on a unit with speakers: PCM on AudioTrack, PCM on AAudio, and AAC, 2 minutes of VLC music each |
 | M1 | D-HU with D-MOTO | a Native session, a fast Exit and Start, the log export name, the settings screen |
 | M3 | D-HU with D-MOTO | the bundled FFmpeg H.264 decoder on `armeabi-v7a` |
-| close | D-HU, D-SAM | the prior APK and `settings.xml` back, D-MOTO `stayon false` |
+| close | D-HU, D-SAM, D-POCO | the prior APK and `settings.xml` back, D-MOTO `stayon false` |
 
 The deciding lines, the settings keys and each run's PASS rule are those of `main-smoke-round1-brief.md`
 sections 5, 7 and 8. `main_smoke.py` lints this brief against the commit under test before it builds, so a line
@@ -110,7 +121,10 @@ shot() { adb -s "$HU" shell screencap -p /sdcard/s.png; sleep 0.3; adb -s "$HU" 
 # settings
 COMMON="scalar:int:log-level:2 scalar:int:onboarding-version:2 scalar:boolean:allow-external-configuration:true scalar:boolean:kill-on-disconnect:false scalar:boolean:enable-floating-button:false del:video-profile-starvation-cap scalar:boolean:narrow-band-profile-cap:false scalar:boolean:force-software-decoding:false"
 NATIVE="$COMMON scalar:int:wifi-connection-mode:3 set:connection-modes:wifi scalar:boolean:enable-audio-sink:true scalar:boolean:use-aac-audio:false scalar:int:audio-latency-multiplier:2 scalar:int:audio-queue-capacity:20 scalar:boolean:use-aaudio-output:false scalar:int:native-ap-transport:0 scalar:boolean:external-bt-zbt-transport:false scalar:int:native-driver-selection-mode:0 scalar:boolean:native-poke-all-paired:false set:native-poke-bt-macs:$POCO_BT scalar:string:native-preferred-device-mac:$POCO_BT scalar:string:last-connected-native-mac:$POCO_BT del:native-mac"
-NATIVE_HU=${NATIVE//$POCO_BT/$MOTO_BT}   # the D-HU runs wake D-MOTO, so D-POCO keeps its D-SAM bond
+NATIVE_HU=${NATIVE//$POCO_BT/$MOTO_BT}   # a head unit that wakes D-MOTO, so D-POCO keeps its D-SAM bond
+SELFK="$COMMON scalar:int:wifi-connection-mode:3 set:connection-modes:wifi scalar:boolean:native-poke-all-paired:false del:native-poke-bt-macs scalar:boolean:auto-start-self-mode:false"
+HUSRV="$COMMON scalar:int:wifi-connection-mode:1 set:connection-modes:wifi scalar:boolean:enable-audio-sink:true"
+server5277() { adb -s "$1" shell cat /proc/net/tcp6 /proc/net/tcp | grep -aci ':149D'; }   # Android Auto's head unit server listens
 USBK="scalar:int:wifi-connection-mode:0 set:connection-modes:usb scalar:boolean:auto-start-on-usb:false scalar:boolean:auto-connect-last-session:true scalar:boolean:reopen-on-reconnection:true scalar:boolean:use-libusb:false"
 USBPH="$COMMON $USBK scalar:boolean:enable-audio-sink:true scalar:boolean:use-aac-audio:false scalar:int:audio-latency-multiplier:2 scalar:int:audio-queue-capacity:20 scalar:boolean:use-aaudio-output:false"
 DONGLE="$COMMON $USBK scalar:boolean:enable-audio-sink:false scalar:string:video-codec:H.264 scalar:int:resolutionId:2 scalar:int:native-driver-selection-mode:0 scalar:boolean:native-poke-all-paired:false"
@@ -237,7 +251,7 @@ print(f"{run}\tcrit_total={len(hits)}\tcrit_graded={len(left)}")
 for h in left[:5]: print(h[1])
 ```
 
-### prep. Backups, installs and identity on D-HU and D-SAM
+### prep. Backups, installs and identity on D-HU, D-SAM and D-POCO
 
 **prep.sh**
 
@@ -251,7 +265,7 @@ for u in poco moto; do
   case "$a" in ??:??:??:??:??:??) echo "$a" > "$EV/$u.btaddr" ;;
     *) echo "$d" > "$EV/$u.btaddr"; echo "$u address unread ($a); the brief's value used" >> "$EV/notes.txt" ;; esac
 done
-for s in "$DHU" "$SAM"; do
+for s in "$DHU" "$SAM" "$POCO"; do
   u=$(unit_of "$s"); HU=$s
   slow_step 900 "prep $u: backup, prior APK, install, identity"
   adb -s "$s" shell am force-stop $PKG
@@ -264,12 +278,15 @@ for s in "$DHU" "$SAM"; do
 done
 adb -s "$DHU" shell getprop ro.product.cpu.abilist | tr -d '\r' > "$EV/abilist.txt"
 adb -s "$MOTO" shell svc power stayon true
+vlc=$(adb -s "$MOTO" shell pm list packages | grep -acF 'org.videolan.vlc')   # not-literal: a package name
+mp3=$(adb -s "$MOTO" shell ls -l /sdcard/Music/ohu-stutter-long.mp3 | grep -acF 'ohu-stutter-long')   # not-literal
+echo "vlc=$vlc mp3=$mp3" > "$EV/moto-media.txt"
 ```
 
 **grade-prep.sh**
 
 ```bash
-for u in hu sam; do c "I.$u" eq "$(grep -acF "IDENT_OK $u" "$EV/ident.log")" 1 "$u runs main ${MAIN_SHA:0:8} (md5, DEX, query)"; done   # not-literal
+for u in hu sam poco; do c "I.$u" eq "$(grep -acF "IDENT_OK $u" "$EV/ident.log")" 1 "$u runs main ${MAIN_SHA:0:8} (md5, DEX, query)"; done   # not-literal
 c A1 eq "$(sed -n 's/^armv7_libavcodec=//p' "$EV/prep-apk.txt")" 1 "the APK carries lib/armeabi-v7a/libavcodec.so"
 early
 ```
@@ -359,6 +376,125 @@ if [ ! -f "$EV/M8-untestable.txt" ]; then
   [ "$gave" -ge 1 ] || inc "no cycle gave the network back, so the trigger never fired"
   fin
 fi
+early
+```
+
+### H1. Headunit Server mode on D-HU with D-POCO's server
+
+**h1.sh**
+
+```bash
+HU=$DHU; PH=$POCO; F="$EV/H1-hu.txt"
+thermal || untestable "host thermal"
+[ "$(server5277 "$PH")" -ge 1 ] || untestable "no :5277 listener on D-POCO (Android Auto's Start head unit server is off)"
+hip=$(waddr "$HU"); pip=$(waddr "$PH"); echo "hu=$hip poco=$pip" > "$EV/H1-net.txt"
+[ -n "$hip" ] && [ -n "$pip" ] || untestable "D-HU or D-POCO is not on a WiFi network (hu=$hip poco=$pip)"
+adb -s "$PH" shell am force-stop $PKG
+setkeys "$HU" $HUSRV; keys_read "$HU" H1-pre
+caps H1; O=$(rl_offset "$F"); mark H1-start; launch
+if rl_wait_line "$F" 'SSL handshake complete' 150 "$O"; then
+  rl_wait_line "$F" 'Throughput over' 30 "$O"; rl_sleep 60
+  mark H1-exit; send ACTION_DISCONNECT >/dev/null; rl_sleep 8
+else echo "H1 NO_SESSION" >> "$EV/notes.txt"; mark H1-exit; fi
+mark H1-end; appexit; rl_cap_stop
+```
+
+**grade-h1.sh**
+
+```bash
+F=$(merged H1-hu); P=$(merged H1-ph)
+if [ ! -f "$EV/H1-untestable.txt" ]; then
+  pip=$(sed -n 's/.*poco=//p' "$EV/H1-net.txt")
+  found=$(rl_win "$F" H1-start H1-end | grep -aF 'NetworkDiscovery: Found Headunit Server on ' | grep -acF "$pip:5277")   # not-literal: the address
+  c H1.1 ge "$found" 1 "discovery found D-POCO's server at $pip:5277"
+  c H1.2 ge "$(rl_cnt "$F" H1-start H1-end 'SSL handshake complete')" 1 "a Headunit Server session formed"
+  c H1.3 gt "$(lastrend "$F" H1-start H1-exit)" 0 "the last Throughput line before the exit rendered frames"
+  c H1.4 eq "$(faillines "$F" H1-start H1-end)" 0 "no FATAL EXCEPTION, UnsatisfiedLinkError or ANR"
+  c H1.5 eq "$(pcrit "$P" H1)" 0 "phone Critical error lines, the 2 s after an Exit excluded"
+  [ "$(rl_cnt "$F" H1-start H1-end 'connections in a row')" -eq 0 ] || inc "Android Auto's head unit server on D-POCO stopped answering; stop and start it in its developer settings"
+  fin
+fi
+early
+```
+
+### S1. Self Mode on D-POCO
+
+**s1.sh**
+
+```bash
+HU=$POCO; PH=$POCO; F="$EV/S1-hu.txt"
+thermal || untestable "host thermal"
+[ "$(server5277 "$HU")" -ge 1 ] || untestable "no :5277 listener on D-POCO (Android Auto's Start head unit server is off)"
+setkeys "$HU" $SELFK; keys_read "$HU" S1-pre
+logclear "$HU"; rl_cap_start S1-hu "$HU"
+launch; rl_sleep 10; O=$(rl_offset "$F"); mark S1-start
+send ACTION_START_SELF_MODE >/dev/null
+if rl_wait_line "$F" 'SSL handshake complete' 90 "$O"; then
+  rl_wait_line "$F" 'Throughput over' 30 "$O"; rl_sleep 60
+  mark S1-exit; send ACTION_DISCONNECT >/dev/null; rl_sleep 8
+else echo "S1 NO_SESSION" >> "$EV/notes.txt"; mark S1-exit; fi
+mark S1-end; appexit; rl_cap_stop
+```
+
+**grade-s1.sh**
+
+```bash
+F=$(merged S1-hu)
+if [ ! -f "$EV/S1-untestable.txt" ]; then
+  c S1.1 ge "$(rl_cnt "$F" S1-start S1-end 'SelfMode: AA 17.4+ detected. Connecting directly to Headunit Server on 127.0.0.1:5277')" 1 "the 17.4+ Self Mode path was chosen"
+  c S1.2 ge "$(rl_cnt "$F" S1-start S1-end 'SSL handshake complete')" 1 "a Self Mode session formed"
+  c S1.3 gt "$(lastrend "$F" S1-start S1-exit)" 0 "the last Throughput line before the exit rendered frames"
+  c S1.4 ge "$(rl_cnt "$F" S1-start S1-end 'Self Mode is projecting this device to itself, so the media and speech ')" 1 "the audio sinks were skipped, as designed"
+  c S1.5 ge "$(rl_cnt "$F" S1-exit S1-end 'AapService: Self Mode disconnected. Not restarting')" 1 "the exit ended Self Mode"
+  c S1.6 eq "$(rl_cnt "$F" S1-start S1-end 'SelfMode: All launchers failed')" 0 "no launcher failure"
+  c S1.7 eq "$(faillines "$F" S1-start S1-end)" 0 "no FATAL EXCEPTION, UnsatisfiedLinkError or ANR"
+  [ "$(rl_cnt "$F" S1-start S1-end 'connections in a row')" -eq 0 ] || inc "Android Auto's head unit server on D-POCO stopped answering; stop and start it in its developer settings"
+  fin
+fi
+early
+```
+
+### AU. Audio output on D-POCO: AudioTrack, AAudio and AAC
+
+**au.sh**
+
+```bash
+HU=$POCO; PH=$MOTO; VLC=org.videolan.vlc; MEDIA=/sdcard/Music/ohu-stutter-long.mp3
+thermal || untestable "host thermal"
+grep -qE 'vlc=0|mp3=0' "$EV/moto-media.txt" 2>/dev/null && untestable "VLC or $MEDIA is missing on D-MOTO"
+: > "$EV/AU-attempts.txt"
+for A in AT AA AC; do
+  case $A in AT) AA_=false; AAC_=false ;; AA) AA_=true; AAC_=false ;; AC) AA_=false; AAC_=true ;; esac
+  K=${NATIVE_HU/use-aac-audio:false/use-aac-audio:$AAC_}; K=${K/use-aaudio-output:false/use-aaudio-output:$AA_}
+  setkeys "$HU" $K; keys_read "$HU" "$A-pre"
+  adb -s "$PH" shell am start -a android.intent.action.VIEW -d "file://$MEDIA" -t audio/mpeg -n $VLC/.StartActivity >/dev/null
+  n_start "$A" 150; rc=$?; echo "$A $rc" >> "$EV/AU-attempts.txt"
+  if [ "$rc" -eq 0 ]; then rl_sleep 20; mark "$A-music"; hold "$A" 120; fi
+  n_end "$A"; adb -s "$PH" shell am force-stop $VLC
+done
+```
+
+**grade-au.sh**
+
+```bash
+: > "$EV/AU-record.txt"
+for A in AT AA AC; do
+  rc=$(awk -v a="$A" '$1==a{print $2}' "$EV/AU-attempts.txt" 2>/dev/null | tail -n 1)
+  F=$(merged "$A-hu")
+  { echo "$A exit=${rc:-none}"; damage "$F" "$A-music" "$A-end"; slow "$F" "$A-music" "$A-end"; } >> "$EV/AU-record.txt"
+  if [ "${rc:-9}" != 0 ]; then inc "$A: no session in two attempts"; continue; fi
+  case $A in AT) dev=' AudioTrack effective='; codec=PCM ;; AA) dev=' AAudio callback effective='; codec=PCM ;; AC) dev=''; codec=AAC ;; esac
+  c "$A.1" ge "$(rl_cnt "$F" "$A-start" "$A-end" 'Media Start Request AUDIO:')" 1 "$A music started"   # not-literal
+  c "$A.2" ge "$(pcm_media "$F" "$A-start" "$A-end" "$codec")" 1 "$A the media channel decodes $codec"
+  if [ -n "$dev" ]; then
+    c "$A.3" ge "$(rl_win "$F" "$A-music" "$A-end" | grep -aF 'AudioMixer: id=' | grep -acF "$dev")" 10 "$A 10 or more device lines from the expected output"   # not-literal
+  else
+    c "$A.3" ge "$(rl_cnt "$F" "$A-start" "$A-end" 'AAC Decoder started for ')" 1 "$A the AAC decoder started"
+  fi
+  c "$A.4" eq "$(rl_cnt "$F" "$A-start" "$A-end" 'AAudio could not open; using AudioTrack')" 0 "$A no AAudio fallback"
+  c "$A.5" eq "$(faillines "$F" "$A-start" "$A-end")" 0 "$A no FATAL EXCEPTION, UnsatisfiedLinkError or ANR"
+done
+fin
 early
 ```
 
@@ -478,6 +614,7 @@ early
 rc=0
 restore_unit "$DHU" hu || rc=1
 restore_unit "$SAM" sam || rc=1
+restore_unit "$POCO" poco || rc=1
 adb -s "$MOTO" shell svc power stayon false
 exit "$rc"
 ```

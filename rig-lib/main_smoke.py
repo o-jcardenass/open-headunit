@@ -120,6 +120,10 @@ def run(ref, apk):
     if tar.returncode:
         print(f"cannot unpack rig-lib {pin}: {tar.stderr.strip()}")
         return 5
+    # Starting the smoke is the operator's yes to the brief's confirm lines; print them so it is an informed one.
+    for line in re.findall(r"(?m)^(?:confirm|hardware) .*$", brief.read_text()):
+        print(f"assumed true: {line}")
+    sh([sys.executable, "-I", str(ev / "rig-lib" / "rig_requires.py"), "yes", "--ev", str(ev), str(brief)])
     if apk:
         (ev / "apk").mkdir(exist_ok=True)
         shutil.copy2(apk, ev / "apk" / "M.apk")
