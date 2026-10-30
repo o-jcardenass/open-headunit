@@ -27,6 +27,9 @@ from brief_check import blocks, LIB_NAME, is_device  # noqa: E402
 
 
 def say(ev, line, operator=False):
+    # PROGRESS.log format: one entry per line, each ending with a line break. adb output carries \r, and a
+    # copied reason can carry \n, so both become spaces here.
+    line = " ".join(str(line).replace("\r", " ").split("\n")).strip()
     stamp = time.strftime("%T")
     with open(Path(ev, "session.status"), "a") as f:
         f.write(f"{stamp} {line}\n")

@@ -11,7 +11,7 @@ RL_PROGRESS="${RL_PROGRESS:-${RL_EV:+$(dirname "$RL_EV")/PROGRESS.log}}"
 export LC_ALL=C
 
 rl_log() {   # rl_log MESSAGE: one line to the run's status file and the shared PROGRESS.log
-  local line; line="$(date +%T) ${RUN:-?} $*"
+  local line; line="$(date +%T) ${RUN:-?} $(printf '%s' "$*" | tr '\r\n' '  ')"   # one entry per line in PROGRESS.log
   [ -n "${RL_STATUS:-}" ] && echo "$line" >> "$RL_STATUS"
   [ -n "$RL_PROGRESS" ] && echo "$line" >> "$RL_PROGRESS"
   return 0

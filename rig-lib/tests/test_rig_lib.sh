@@ -396,6 +396,11 @@ check "the session summary reports the sweep" 'grep -q "^Device files:" "$NE/sum
 out=$(python3 -I "$L/rig_requires.py" plan "$B")
 check "plan separates the progress command, actions and yes-or-no facts" '[[ "$out" == *"A. Watch progress live"*"rig_watch.sh"* && "$out" == *"C. Are these true?"*"C1."* && "$out" == *"adb switch between USB and wireless"* ]]'
 
+PE="$W/rounds/fmt-round1"; mkdir -p "$PE"; : > "$W/rounds/PROGRESS.log"
+python3 -I -c "import sys; sys.path.insert(0, '$L'); import rig_session; rig_session.say('$PE', 'OPERATOR R1 now: a\r\nb')"
+lib "export RL_EV='$PE'; RL_PROGRESS='$W/rounds/PROGRESS.log'; rl_log \"x$(printf '\r')y\"" >/dev/null
+check "PROGRESS.log: one entry per line, no carriage return, every line ends with a line break" '[ "$(wc -l < "$W/rounds/PROGRESS.log")" -eq 2 ] && ! grep -q $'"'"'\r'"'"' "$W/rounds/PROGRESS.log" && [ "$(tail -c1 "$W/rounds/PROGRESS.log" | od -An -c | tr -d " ")" = "\\n" ]'
+
 # --- rig_resolve.py ---
 git -C "$G" checkout -q -b transfer/t
 cp "$G/good-round1-brief.md" "$G/aa-round1-brief.md"; cp "$G/good-round1-brief.md" "$G/bb-round2-brief.md"

@@ -75,6 +75,8 @@ Shell prelude for every command: `source /home/oscar/Coding/StudioProjects/rig-t
    4. **Build every APK of every brief in the session now, in one batch, before the first run** (§3,
       Prepare). Never build between briefs or between stages: a build heats the host and stops the rig
       for minutes. A brief whose arm shares a SHA with another brief's arm reuses that APK.
+   **`PROGRESS.log` format:** one entry per line, and every line ends with a line break. Only `rl_log`,
+   `rig_run.sh` and `rig_session.py` write it; never append to it by hand.
    **What the operator does, and what you do.** The operator does only what needs hands: a cable, a
    board, a charger, a screen only a person can unlock. You run every command yourself, including the adb
    switch between USB and wireless (`adb tcpip`, `adb connect`, `adb usb`). Never ask the operator to run

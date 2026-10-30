@@ -10,9 +10,9 @@ dir=${1:-${RIG_DATA:+$RIG_DATA/rounds}}; dir=${dir:-$HOME/Coding/StudioProjects/
 log="$dir/PROGRESS.log"
 mkdir -p "$dir"; touch "$log"
 echo "== rig progress: $log (stops at the session's DONE$([ "$keep" = 1 ] && echo '; --keep: never'))"
-tail -n 20 "$log"
+tail -n 20 "$log" | tr -d '\r'; echo
 start=$(stat -c %s "$log")
-tail -c +$((start + 1)) -F "$log" 2>/dev/null &
+tail -c +$((start + 1)) -F "$log" 2>/dev/null | tr -d '\r' &
 TP=$!
 trap 'kill "$TP" 2>/dev/null' EXIT INT TERM
 # Watch the bytes written after the start; the first session line names the session we follow.
