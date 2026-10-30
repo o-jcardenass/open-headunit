@@ -1,10 +1,8 @@
 package ohu.rig.bthelper;
 
 import android.app.Instrumentation;
-import android.app.UiAutomation;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -16,13 +14,14 @@ import java.lang.reflect.Method;
 import java.util.Set;
 
 /**
- * Pairs and unpairs Bluetooth devices through the API, under the shell's permissions.
+ * Lists, pairs and unpairs Bluetooth devices through the API: under the shell's permissions from API 29, and
+ * under its own BLUETOOTH and BLUETOOTH_ADMIN below that, where a pairing confirmation is refused.
  *
- *   am instrument -w --no-hidden-api-checks -e cmd list|unpair|pair|accept [-e addr AA:BB:..] [-e timeout S]
+ *   am instrument -w [--no-hidden-api-checks] -e cmd list|unpair|pair|accept [-e addr AA:BB:..] [-e timeout S]
  *       ohu.rig.bthelper/.BtInstrumentation
  *
  * The answer is one INSTRUMENTATION_RESULT line, "result=<WORD> <detail>", WORD one of LIST, UNPAIR_OK, PAIR_OK,
- * ACCEPT_OK or FAIL. removeBond() and createBond(transport) are hidden, hence --no-hidden-api-checks.
+ * ACCEPT_OK or FAIL. removeBond() and createBond(transport) are hidden, hence --no-hidden-api-checks from API 28.
  */
 public class BtInstrumentation extends Instrumentation {
     private Bundle args;
@@ -37,14 +36,14 @@ public class BtInstrumentation extends Instrumentation {
     @Override
     public void onStart() {
         String line;
-        UiAutomation ua = getUiAutomation();
-        ua.adoptShellPermissionIdentity();
+        boolean shell = android.os.Build.VERSION.SDK_INT >= 29;
+        if (shell) Shell.adopt(this);
         try {
             line = run();
         } catch (Throwable t) {
             line = "FAIL " + t.getClass().getSimpleName() + ": " + t.getMessage();
         } finally {
-            ua.dropShellPermissionIdentity();
+            if (shell) Shell.drop(this);
         }
         Bundle out = new Bundle();
         out.putString("result", line.replace('\n', ' '));
@@ -53,7 +52,7 @@ public class BtInstrumentation extends Instrumentation {
 
     private String run() throws Exception {
         Context ctx = getContext();
-        BluetoothAdapter adapter = ((BluetoothManager) ctx.getSystemService(Context.BLUETOOTH_SERVICE)).getAdapter();
+        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
         if (adapter == null || !adapter.isEnabled()) return "FAIL Bluetooth is off";
         String cmd = args.getString("cmd", "");
         long timeoutMs = Long.parseLong(args.getString("timeout", "30")) * 1000L;
@@ -131,7 +130,7 @@ public class BtInstrumentation extends Instrumentation {
             public void onReceive(Context c, Intent i) {
                 BluetoothDevice from = i.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 if (from != null && from.getAddress().equalsIgnoreCase(dev.getAddress())) {
-                    from.setPairingConfirmation(true);
+                    try { from.setPairingConfirmation(true); } catch (RuntimeException ignored) { }   // refused below API 29
                 }
             }
         };
@@ -149,5 +148,11 @@ public class BtInstrumentation extends Instrumentation {
             SystemClock.sleep(250);
         }
         return dev.getBondState() == want;
+    }
+
+    /** UiAutomation's shell identity exists from API 29; kept apart so older units never load it. */
+    private static final class Shell {
+        static void adopt(Instrumentation in) { in.getUiAutomation().adoptShellPermissionIdentity(); }
+        static void drop(Instrumentation in) { in.getUiAutomation().dropShellPermissionIdentity(); }
     }
 }

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """rig_forget.py and rig_pair.py against a simulated phone and head unit: screens, taps and bonded lists.
 Run: python3 -I rig-lib/tests/test_bt_ui.py. Prints one ok/FAIL line per case and exits 1 on a failure."""
-import sys, tempfile, threading, time
+import subprocess, sys, tempfile, threading, time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -24,7 +24,8 @@ def hier(*kids):
 class Rig:
     """Two units. names: what each unit calls itself; shown: what P shows for H in its bonded list."""
     def __init__(self, bonded=True, shown="Navegadortz2", h_name="HU renamed", dup_rows=False, locked=False,
-                 details_addr=True, code_t="123456", scan_dup=False, half=False, sdk=(19, 19), api_fail=False):
+                 details_addr=True, code_t="123456", scan_dup=False, half=False, sdk=(19, 19), api_fail=False,
+                 dump=(True, True)):
         self.bonds = {P: {}, H: {}}
         if bonded or half:
             self.bonds[P][HA] = shown
@@ -37,13 +38,15 @@ class Rig:
         self.code_t, self.scan_dup = code_t, scan_dup
         self.screen = {P: "home", H: "home"}
         self.sdk = {P: sdk[0], H: sdk[1]}
+        self.dump = {P: dump[0], H: dump[1]}   # False: dumpsys prints no Bonded devices section (Android 15, 4.4)
         self.api_fail, self.pairing, self.accepting, self.h_tapped = api_fail, False, False, False
         self.bonded_ev = threading.Event()
         self.taps = {P: [], H: []}
 
     def dumpsys(self, s):
         rows = "".join(f"  {a} [ BR/EDR ] {n}\n" for a, n in self.bonds[s].items())
-        return f"  state: ON\n  address: {self.addr[s]}\n  name: {self.name[s]}\nBonded devices:\n{rows}"
+        head = f"  state: ON\n  address: {self.addr[s]}\n  name: {self.name[s]}\n"
+        return head + f"Bonded devices:\n{rows}" if self.dump[s] else head
 
     def view(self, s):
         st = self.screen[s]
@@ -95,6 +98,9 @@ class Rig:
         addr = a[a.index("addr") + 1] if "addr" in a else None
         if self.api_fail:
             return "INSTRUMENTATION_RESULT: result=FAIL removeBond returned false\n"
+        if cmd == "list":
+            rows = "".join(f" | {a} {n}" for a, n in self.bonds[s].items())
+            return f"INSTRUMENTATION_RESULT: result=LIST {self.addr[s]} {len(self.bonds[s])}{rows}\n"
         if cmd == "unpair":
             self.bonds[s].pop(addr, None)
             return "INSTRUMENTATION_RESULT: result=UNPAIR_OK removed\n"
@@ -148,37 +154,38 @@ def case(label, ok):
 ev = tempfile.mkdtemp()
 nosleep = lambda _s: None
 ready = lambda _s, _adb: True
+noapi = lambda _s, _adb: False   # the helper is not installed: dumpsys and the Settings screens only
 
 case("bonded_entries reads address and name", bonded_entries(Rig().dumpsys(P)) == [(HA, "Navegadortz2"), (XA, "Watch")])
 case("own_address takes the dump's line when the setting is masked", own_address("02:00:00:00:00:00", Rig().dumpsys(H)) == HA)
 
-r = Rig(); rc, msg = Forget(P, H, ev, adb=r, sleep=nosleep, ensure=ready).run()
+r = Rig(); rc, msg = Forget(P, H, ev, adb=r, sleep=nosleep, ensure=noapi).run()
 case("forget: the row is the name the phone shows, not the unit's new name; 3 taps; the bond is gone",
      rc == 0 and len(r.taps[P]) == 3 and HA not in r.bonds[P] and XA in r.bonds[P])
-r = Rig(); rc, msg = Forget(P, H, ev, adb=r, sleep=nosleep, ensure=ready).run(dry=True)
+r = Rig(); rc, msg = Forget(P, H, ev, adb=r, sleep=nosleep, ensure=noapi).run(dry=True)
 case("forget --dry-run taps only the gear and keeps the bond", rc == 0 and len(r.taps[P]) == 1 and HA in r.bonds[P])
-r = Rig(dup_rows=True); rc, msg = Forget(P, H, ev, adb=r, sleep=nosleep, ensure=ready).run()
+r = Rig(dup_rows=True); rc, msg = Forget(P, H, ev, adb=r, sleep=nosleep, ensure=noapi).run()
 case("forget stops on two rows with that name, with no tap", rc == 1 and not r.taps[P] and "2 rows" in msg)
-r = Rig(locked=True); rc, msg = Forget(P, H, ev, adb=r, sleep=nosleep, ensure=ready).run()
+r = Rig(locked=True); rc, msg = Forget(P, H, ev, adb=r, sleep=nosleep, ensure=noapi).run()
 case("forget stops on a locked screen, with no tap", rc == 1 and not r.taps[P] and HA in r.bonds[P])
-r = Rig(details_addr=False); rc, msg = Forget(P, H, ev, adb=r, sleep=nosleep, ensure=ready).run()
+r = Rig(details_addr=False); rc, msg = Forget(P, H, ev, adb=r, sleep=nosleep, ensure=noapi).run()
 case("forget accepts a details page that titles the name when the ROM prints no address",
      rc == 0 and HA not in r.bonds[P])
-r = Rig(bonded=False); rc, msg = Forget(P, H, ev, adb=r, sleep=nosleep, ensure=ready).run()
+r = Rig(bonded=False); rc, msg = Forget(P, H, ev, adb=r, sleep=nosleep, ensure=noapi).run()
 case("forget does nothing when the unit is not bonded", rc == 0 and not r.taps[P])
-r = Rig(shown="Watch"); rc, msg = Forget(P, H, ev, adb=r, sleep=nosleep, ensure=ready).run()
+r = Rig(shown="Watch"); rc, msg = Forget(P, H, ev, adb=r, sleep=nosleep, ensure=noapi).run()
 case("forget stops when two bonds share the shown name", rc == 1 and not r.taps[P])
 
-r = Rig(bonded=False); rc, msg = Pair(P, H, ev, adb=r, sleep=nosleep, ensure=ready).run()
+r = Rig(bonded=False); rc, msg = Pair(P, H, ev, adb=r, sleep=nosleep, ensure=noapi).run()
 case("pair: found by the target's current name, codes equal, 4 taps, both lists hold the other",
      rc == 0 and len(r.taps[P]) + len(r.taps[H]) == 4 and HA in r.bonds[P] and PA in r.bonds[H])
-r = Rig(bonded=False, code_t="654321"); rc, msg = Pair(P, H, ev, adb=r, sleep=nosleep, ensure=ready).run()
+r = Rig(bonded=False, code_t="654321"); rc, msg = Pair(P, H, ev, adb=r, sleep=nosleep, ensure=noapi).run()
 case("pair stops when the two codes differ, before any Pair tap", rc == 1 and "differ" in msg and not r.taps[H])
-r = Rig(bonded=False, scan_dup=True); rc, msg = Pair(P, H, ev, adb=r, sleep=nosleep, ensure=ready).run()
+r = Rig(bonded=False, scan_dup=True); rc, msg = Pair(P, H, ev, adb=r, sleep=nosleep, ensure=noapi).run()
 case("pair stops when two scanned rows share the target's name", rc == 1 and HA not in r.bonds[P])
-r = Rig(); rc, msg = Pair(P, H, ev, adb=r, sleep=nosleep, ensure=ready).run()
+r = Rig(); rc, msg = Pair(P, H, ev, adb=r, sleep=nosleep, ensure=noapi).run()
 case("pair does nothing when both sides already list each other", rc == 0 and not r.taps[P])
-r = Rig(bonded=False, half=True); rc, msg = Pair(P, H, ev, adb=r, sleep=nosleep, ensure=ready).run()
+r = Rig(bonded=False, half=True); rc, msg = Pair(P, H, ev, adb=r, sleep=nosleep, ensure=noapi).run()
 case("pair forgets a half bond first, then pairs", rc == 0 and HA in r.bonds[P] and PA in r.bonds[H])
 
 r = Rig(sdk=(34, 34)); rc, msg = Forget(P, H, ev, adb=r, sleep=nosleep, ensure=ready).run()
@@ -191,5 +198,27 @@ case("pair on API 29+ both sides: the helper asks and accepts, no tap", rc == 0 
 r = Rig(sdk=(34, 19), bonded=False); rc, msg = Pair(P, H, ev, adb=r, sleep=nosleep, ensure=ready).run()
 case("pair with a target below API 29: the helper asks, one tap on the target's dialog", rc == 0 and not r.taps[P]
      and len(r.taps[H]) == 1 and HA in r.bonds[P] and PA in r.bonds[H])
+
+r = Rig(sdk=(35, 34), bonded=False, dump=(False, True)); rc, msg = Pair(P, H, ev, adb=r, sleep=nosleep, ensure=ready).run()
+case("pair where the initiator's dumpsys lists nothing (Android 15): the helper's list verifies the bond, no tap",
+     rc == 0 and not r.taps[P] and not r.taps[H] and HA in r.bonds[P] and PA in r.bonds[H] and "API" in msg)
+r = Rig(sdk=(19, 34), dump=(False, True)); rc, msg = Forget(P, H, ev, adb=r, sleep=nosleep, ensure=ready).run()
+case("forget on API 19 with no dumpsys list: the helper lists and removes the bond, no tap",
+     rc == 0 and not r.taps[P] and HA not in r.bonds[P] and "API" in msg)
+r = Rig(dump=(False, True)); rc, msg = Forget(P, H, ev, adb=r, sleep=nosleep, ensure=noapi).run()
+case("forget stops with no tap when this unit's bonded list is unreadable", rc == 1 and not r.taps[P]
+     and "unreadable" in msg and HA in r.bonds[P])
+r = Rig(dump=(True, False)); why = Pair(P, H, ev, adb=r, sleep=nosleep, ensure=noapi).clear_half()
+case("a bond is not called half when the other side's list is unreadable, so nothing is forgotten",
+     why is None and HA in r.bonds[P] and not r.taps[P])
+lib = Path(__file__).resolve().parents[1]
+bin_dir = Path(tempfile.mkdtemp()); (bin_dir / "adb").write_text("#!/bin/sh\nexit 0\n"); (bin_dir / "adb").chmod(0o755)
+env = {"PATH": f"{bin_dir}:/usr/bin:/bin", "HOME": tempfile.gettempdir()}
+for tool, args, word in (("rig_forget.py", ["forget", "--ev", ev, "S1", "S2"], "FORGET_"),
+                         ("rig_pair.py", ["pair", "--ev", ev, "S1", "S2"], "PAIR_"), ("rig_bt.py", ["bonds", "S1"], "FAIL")):
+    out = subprocess.run([sys.executable, "-I", str(lib / tool), *args], capture_output=True, text=True,
+                         cwd=tempfile.gettempdir(), env=env, timeout=60)
+    case(f"python3 -I {tool} {args[0]} from another folder, against a silent adb: a result word, no traceback",
+         out.stdout.startswith(word) and "Traceback" not in out.stderr)
 
 sys.exit(1 if fails else 0)

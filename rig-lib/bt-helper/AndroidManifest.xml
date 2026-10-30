@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- rig-bt-helper: pairs and unpairs Bluetooth devices through the API, under the shell's permissions. -->
+<!-- rig-bt-helper: lists, pairs and unpairs Bluetooth devices through the API (API 17 and up). -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ohu.rig.bthelper"
     android:versionCode="1"
     android:versionName="1">
 
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:maxSdkVersion="30" />
 
     <application android:label="rig-bt-helper" android:hasCode="true" />
 

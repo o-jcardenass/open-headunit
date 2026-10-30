@@ -25,6 +25,7 @@ import re, sys, time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import rig_bt  # noqa: E402
 from rig_forget import DUMP, Forget, bonded_entries, find_text, nodes, own_address, run_adb, text_of
 
 PAIR_NEW = ("pair new device", "+ pair new device", "vincular nuevo dispositivo", "sincronizar nuevo dispositivo")
@@ -62,7 +63,6 @@ def code_of(xml_text):
 
 class Pair:
     def __init__(self, initiator, target, ev, adb=run_adb, sleep=time.sleep, ensure=None):
-        import rig_bt
         self.i, self.t, self.adb, self.sleep = initiator, target, adb, sleep
         self.ensure = ensure or rig_bt.ensure
         base = Path(ev) / "pair"
@@ -107,16 +107,18 @@ class Pair:
                            self.adb(s, "shell", "dumpsys", "bluetooth_manager"))
 
     def lists(self, s, a):
-        return any(x == a for x, _ in bonded_entries(self.adb(s, "shell", "dumpsys", "bluetooth_manager")))
+        """True or False when S's bonded list reads, None when it does not."""
+        b = rig_bt.bonds(s, self.adb, self.ensure)
+        return None if b is None else any(x == a for x, _ in b)
 
     def api(self, s):
-        import rig_bt
-        return rig_bt.usable(s, self.adb) and self.ensure(s, self.adb)
+        """The helper pairs and confirms on S with no tap (API 29 and up)."""
+        return rig_bt.confirms(s, self.adb) and self.ensure(s, self.adb)
 
     def clear_half(self):
         """Forget a side that alone lists the other (the scan never shows a device still bonded). A reason on failure."""
         for side, other in ((self.i, self.t), (self.t, self.i)):
-            if self.lists(side, self.addr(other)) and not self.lists(other, self.addr(side)):
+            if self.lists(side, self.addr(other)) and self.lists(other, self.addr(side)) is False:
                 rc, msg = Forget(side, other, self.dir, adb=self.adb, sleep=self.sleep, ensure=self.ensure).run()
                 self.log(f"half bond on {side}: {msg}")
                 if rc:
@@ -126,7 +128,6 @@ class Pair:
     def api_pair(self, ai, at):
         """API 29 and up on the initiator: the helper asks and accepts its side. The target accepts through the helper
         too, or, below API 29, with one tap on its own dialog. False sends the caller to the Settings flow."""
-        import rig_bt
         if not self.api(self.i):
             return False
         far = rig_bt.call_async(self.t, "accept", ai, 60, self.adb) if self.api(self.t) else None

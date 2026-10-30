@@ -14,8 +14,8 @@ checked on a fresh uiautomator dump before the next:
      is gone
 
 Anything that does not match exactly once stops the flow with a reason and taps nothing more; the caller
-then falls back to an OPERATOR line. On API 29 and up rig_bt.py removes the bond through the API first, and
-this screen flow runs only when that fails. Dumps and a step log go to EV/forget/<unit>-<other>-<n>/.
+then falls back to an OPERATOR line. On API 17 and up rig_bt.py removes the bond through the API first, and
+this screen flow runs only when that fails. Bonded lists come from rig_bt.bonds() (the helper, else dumpsys). Dumps and a step log go to EV/forget/<unit>-<other>-<n>/.
 
   rig_forget.py names SERIAL                       this unit's bonded list: address and name
   rig_forget.py forget --ev EV SERIAL OTHER_SERIAL [--dry-run]
@@ -26,6 +26,10 @@ this screen flow runs only when that fails. Dumps and a step log go to EV/forget
 import re, subprocess, sys, time
 import xml.etree.ElementTree as ET
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))   # -I leaves the script's folder off sys.path
+import rig_bt  # noqa: E402
+from rig_bt import bonded_entries  # noqa: E402,F401  (callers import it from here)
 
 MAC = re.compile(r"([0-9A-Fa-f]{2}(?::[0-9A-Fa-f]{2}){5})")
 FORGET = ("forget", "unpair", "olvidar", "desvincular")
@@ -43,22 +47,6 @@ def run_adb(serial, *args, timeout=20):
 
 
 # ---------------- pure parts (tested without a device) ----------------
-
-def bonded_entries(dump):
-    """[(ADDRESS, name)] from `dumpsys bluetooth_manager`'s Bonded devices section."""
-    i = dump.find("Bonded devices")
-    out = []
-    if i < 0:
-        return out
-    for line in dump[i:].splitlines()[1:]:
-        m = re.match(r"^\s+([0-9A-Fa-f]{2}(?::[0-9A-Fa-f]{2}){5})\s*((?:\[[^\]]*\]\s*)*)(.*)$", line)
-        if not m:
-            if line.strip() and not line.startswith(" "):
-                break
-            continue
-        out.append((m.group(1).upper(), m.group(3).strip()))
-    return out
-
 
 def own_address(settings_value, dump):
     """This unit's address: the secure setting, else the first address line above the bonded list."""
@@ -141,7 +129,6 @@ def page_is_for(xml_text, addr, name):
 
 class Forget:
     def __init__(self, serial, other, ev, adb=run_adb, sleep=time.sleep, ensure=None):
-        import rig_bt
         self.s, self.o, self.adb, self.sleep = serial, other, adb, sleep
         self.ensure = ensure or rig_bt.ensure
         base = Path(ev) / "forget"
@@ -178,16 +165,20 @@ class Forget:
         return 1, reason
 
     def bonds(self):
-        return bonded_entries(self.adb(self.s, "shell", "dumpsys", "bluetooth_manager"))
+        return rig_bt.bonds(self.s, self.adb, self.ensure)
+
+    def gone(self, addr):
+        """True only when the list reads and lacks ADDR: an unreadable list never counts as forgotten."""
+        b = self.bonds()
+        return b is not None and all(a != addr for a, _ in b)
 
     def api_unpair(self, addr):
-        """API 29 and up: the helper removes the bond with no screen. False sends the caller to the Settings flow."""
-        import rig_bt
+        """API 17 and up: the helper removes the bond with no screen. False sends the caller to the Settings flow."""
         if not (rig_bt.usable(self.s, self.adb) and self.ensure(self.s, self.adb)):
             return False
         word, detail = rig_bt.call(self.s, "unpair", addr, 20, self.adb)
         self.log(f"api unpair: {word} {detail}")
-        if word == "UNPAIR_OK" and not any(a == addr for a, _ in self.bonds()):
+        if word == "UNPAIR_OK" and self.gone(addr):
             self.log("RESULT forgotten verified_by=api taps=0")
             return True
         self.log("the API did not remove the bond; trying the Settings screen")
@@ -199,6 +190,8 @@ class Forget:
         if not addr:
             return self.stop("the other unit's Bluetooth address is unreadable")
         entries = self.bonds()
+        if entries is None:
+            return self.stop("this unit's bonded list is unreadable")
         self.log(f"target {addr}; this unit lists {len(entries)} bonds")
         mine = [nm for a, nm in entries if a == addr]
         if not mine:
@@ -249,7 +242,7 @@ class Forget:
         self.adb(self.s, "shell", "input", "keyevent", "KEYCODE_HOME")
         self.adb(self.s, "shell", "rm", "-f", DUMP)
         for _ in range(10):
-            if not any(a == addr for a, _ in self.bonds()):
+            if self.gone(addr):
                 self.log(f"RESULT forgotten verified_by={by} taps={self.taps}")
                 return 0, f"forgot {name!r} ({addr}) in {self.taps} taps"
             self.sleep(1)
@@ -259,7 +252,10 @@ class Forget:
 
 def main(argv):
     if len(argv) >= 2 and argv[0] == "names":
-        for a, n in bonded_entries(run_adb(argv[1], "shell", "dumpsys", "bluetooth_manager")):
+        b = rig_bt.bonds(argv[1])
+        if b is None:
+            print("UNREADABLE the bonded list"); return 1
+        for a, n in b:
             print(f"{a} {n}")
         return 0
     if len(argv) >= 5 and argv[0] == "forget" and argv[1] == "--ev":

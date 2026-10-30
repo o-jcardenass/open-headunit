@@ -298,10 +298,13 @@ def set_radio(serial, radio, want):
 
 
 def bonded(serial, other_serial):
-    """(bonded?, label). By the other unit's address; by its exact name only when no address reads, because
-    units are renamed and a phone keeps the name it saw at pairing."""
-    from rig_forget import bonded_entries, own_address
-    entries = bonded_entries(adb(serial, "shell", "dumpsys", "bluetooth_manager"))
+    """(bonded?, label), bonded? None when the list is unreadable. By the other unit's address; by its exact name
+    only when no address reads, because units are renamed and a phone keeps the name it saw at pairing."""
+    import rig_bt
+    from rig_forget import own_address
+    entries = rig_bt.bonds(serial, adb)
+    if entries is None:
+        return None, "bonded list unreadable"
     addr = own_address(adb(other_serial, "shell", "settings", "get", "secure", "bluetooth_address"),
                        adb(other_serial, "shell", "dumpsys", "bluetooth_manager"))
     if addr:
@@ -400,7 +403,7 @@ def live_bonds(reqs):
             for role, st in units.items():
                 for k in st:
                     if k.startswith("b:") and k not in out.get(role, {}) and ser.get(role) and ser.get(k[2:]):
-                        out.setdefault(role, {})[k] = "yes" if bonded(ser[role], ser[k[2:]])[0] else "no"
+                        out.setdefault(role, {})[k] = {True: "yes", False: "no"}.get(bonded(ser[role], ser[k[2:]])[0], "unknown")
     return out
 
 
@@ -572,7 +575,10 @@ def cmd_check(ev, path, fix=False, run_id=None):
                     rc, msg = Forget(a, b, ev, adb=adb).run()
                     lines.append(f"{an} forget {bn}: {msg}")
                     hit, nm = bonded(a, b)
-                lines.append(f"{an} lists {bn} ({nm}): {'yes' if hit else 'no'} (needs {'yes' if want else 'no'})")
+                lines.append(f"{an} lists {bn} ({nm}): {'unknown' if hit is None else 'yes' if hit else 'no'}"
+                             f" (needs {'yes' if want else 'no'})")
+                if hit is None:
+                    fails.append(f"{an}: the bonded list is unreadable, so {bn} cannot be checked"); continue
                 if hit != want:
                     fails.append(f"OPERATOR on {an}, pair {bn} ({nm}) in Bluetooth settings" if want else
                                  f"OPERATOR on {an}, forget {bn} ({nm}) in Bluetooth settings")
