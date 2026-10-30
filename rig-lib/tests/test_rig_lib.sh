@@ -394,7 +394,7 @@ check "with no snapshot, sweep deletes nothing" '[ "$rc" -eq 1 ] && [[ "$out" ==
 check "the session summary reports the sweep" 'grep -q "^Device files:" "$NE/summary.md"'
 
 out=$(python3 -I "$L/rig_requires.py" plan "$B")
-check "plan separates the progress command, actions and yes-or-no facts" '[[ "$out" == *"A. Watch progress"*"PROGRESS.log"* && "$out" == *"C. Are these true?"*"C1."* && "$out" == *"adb switch between USB and wireless"* ]]'
+check "plan separates the progress command, actions and yes-or-no facts" '[[ "$out" == *"A. Watch progress live"*"rig_watch.sh"* && "$out" == *"C. Are these true?"*"C1."* && "$out" == *"adb switch between USB and wireless"* ]]'
 
 # --- rig_resolve.py ---
 git -C "$G" checkout -q -b transfer/t

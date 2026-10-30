@@ -434,8 +434,9 @@ def cmd_plan(paths):
     acts = [o for o in ops if ": hardware: " in o]
     facts = [o for o in ops if ": hardware: " not in o]
     print("Send the operator ONE message with these parts, in this order and with these headings:")
-    print("  A. Watch progress (paste in this Claude Code, any time):")
-    print("     ! tail -20 ~/Coding/StudioProjects/rig-data/rounds/PROGRESS.log")
+    print("  A. Watch progress live: open a separate terminal on the testing PC and run this line. It updates")
+    print("     by itself and stops when the session ends:")
+    print(f"     bash {HERE / 'rig_watch.sh'}")
     if acts:
         print("  B. Do these by hand before the first run, then answer 'done':")
         for i, o in enumerate(acts, 1):
