@@ -26,7 +26,7 @@ unit D-MOTO@AU role=phone wifi=on bt=on bond=D-POCO
 unit D-MOTO@M1,M3 role=phone wifi=on bt=on bond=D-HU
 unit D-MOTO@M6 role=phone wifi=on bt=on
 unit D-HP@prep,M6,close role=headunit
-hardware the USB dongle on D-HP's powered OTG Y-cable, D-HP on wireless adb (main_smoke.py usb-setup after any D-HP reboot)
+hardware the USB dongle on D-HP's powered OTG Y-cable, D-HP on wireless adb (main_smoke.py finds or sets it up)
 confirm on D-POCO, Android Auto's developer setting "Start head unit server" is on (S1 and H1 need :5277)
 run prep cap=2700 script=prep.sh grade=grade-prep.sh
 run M4 cap=1200 script=m4.sh grade=grade-m4.sh
@@ -273,8 +273,10 @@ for u in poco moto; do
     *) echo "$d" > "$EV/$u.btaddr"; echo "$u address unread ($a); the brief's value used" >> "$EV/notes.txt" ;; esac
 done
 grep '^D-HP ' "$(dirname "$EV")/unit-serials.txt" 2>/dev/null | tail -n 1 | cut -d' ' -f2 > "$EV/hp.addr"   # not-literal: written by main_smoke.py usb-setup
-HP_W=$(cat "$EV/hp.addr"); HP_W=${HP_W:-$HPU}; adb connect "$HP_W" >/dev/null 2>&1
-for s in "$DHU" "$SAM" "$POCO" "$HP_W"; do
+HP_W=$(cat "$EV/hp.addr"); HP_W=${HP_W:-$HPU}
+UNITS="$DHU $SAM $POCO"   # hp.skip: main_smoke.py could not reach D-HP and left M6 out
+[ -f "$EV/hp.skip" ] || { adb connect "$HP_W" >/dev/null 2>&1; UNITS="$UNITS $HP_W"; }
+for s in $UNITS; do
   u=$(unit_of "$s"); HU=$s
   slow_step 900 "prep $u: backup, prior APK, install, identity"
   adb -s "$s" shell am force-stop $PKG
@@ -298,7 +300,8 @@ echo "vlc=$vlc mp3=$mp3" > "$EV/moto-media.txt"
 **grade-prep.sh**
 
 ```bash
-for u in hu sam poco hp; do c "I.$u" eq "$(grep -acF "IDENT_OK $u" "$EV/ident.log")" 1 "$u runs main ${MAIN_SHA:0:8} (md5, DEX, query)"; done   # not-literal
+U="hu sam poco"; [ -f "$EV/hp.skip" ] || U="$U hp"
+for u in $U; do c "I.$u" eq "$(grep -acF "IDENT_OK $u" "$EV/ident.log")" 1 "$u runs main ${MAIN_SHA:0:8} (md5, DEX, query)"; done   # not-literal
 c A1 eq "$(sed -n 's/^armv7_libavcodec=//p' "$EV/prep-apk.txt")" 1 "the APK carries lib/armeabi-v7a/libavcodec.so"
 early
 ```
@@ -702,7 +705,7 @@ b=$(bat); echo "M6 start bat=$b" >> "$EV/M6-notes.txt"
 if [ -n "$b" ] && [ "$b" -lt 40 ]; then untestable "D-HP battery $b% is below 40%; is the Y-cable powered?"; fi
 usbwatch M6
 rl_wait_line "$EV/M6-usbwatch.txt" 'USB_DEVICE_PRESENT' 180 ||   # not-literal: usbwatch's own line
-  untestable "D-HP does not see the dongle; check the Y-cable and its power, then main_smoke.py usb-setup"
+  untestable "D-HP does not see the dongle; check the Y-cable, its power and the dongle"
 rl_stop "usb:"
 drun M6 3
 ```
@@ -729,7 +732,7 @@ rc=0
 restore_unit "$DHU" hu || rc=1
 restore_unit "$SAM" sam || rc=1
 restore_unit "$POCO" poco || rc=1
-HU=$HP_W; appexit; restore_prefs "$HP_W" hp || rc=1
+if [ ! -f "$EV/hp.skip" ]; then HU=$HP_W; appexit; restore_prefs "$HP_W" hp || rc=1; fi
 adb -s "$MOTO" shell svc power stayon false
 exit "$rc"
 ```

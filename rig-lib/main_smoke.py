@@ -4,15 +4,17 @@
   main_smoke.py [run] [--ref origin/main] [--apk APK]   fetch, pin, lint, build, run the session, summarise
   main_smoke.py render --sha SHA --out FILE             write main_smoke_brief.md pinned to SHA (no device)
   main_smoke.py summary --ev EV                         print the summary of a finished session again
-  main_smoke.py usb-setup                               once, and after any D-HP reboot: D-HP to wireless adb for the
-                                                        standing USB dongle on its powered OTG Y-cable
+
+D-HP (the USB host, with the dongle on its powered OTG Y-cable) is reached over wireless adb. `run` finds it at its
+recorded address or by a sweep of the PC's subnet, and moves it to wireless adb itself when it is on its PC cable.
+When it cannot reach D-HP, the smoke leaves M6 out and the summary says what to do.
 
 `run` writes the pinned brief and every capture to rig-data/rounds/main-smoke-auto-round<yyyymmddHHMM>/, then
 prints one line per run and writes summary.txt there. No model and no hand step: rig_session.py runs the brief.
 Exit: 0 every run PASS (or a known FAIL), 1 a run FAILED, 2 a run was INCONCLUSIVE, UNTESTABLE or not run,
 3 the session stopped for the operator, 4 the brief greps a line the commit no longer prints, 5 the build failed.
 """
-import json, os, re, shutil, subprocess, sys, threading, time
+import json, os, re, shutil, socket, subprocess, sys, threading, time
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -29,8 +31,10 @@ def sh(cmd, **kw):
     return subprocess.run(cmd, shell=isinstance(cmd, str), text=True, capture_output=True, **kw)
 
 
-def render(sha, out):
+def render(sha, out, skip_hp=False):
     text = BRIEF.read_text()
+    if skip_hp:   # no D-HP this time: the session must not wait for it, so its lines and M6 go
+        text = re.sub(r"(?m)^(?:run M6 .*|unit D-HP[@ ].*|unit \S+@M6 .*|hardware the USB dongle .*)\n", "", text)
     text, n1 = re.subn(r"(?m)^candidate M [0-9a-f]{7,40}$", f"candidate M {sha}", text)
     text, n2 = re.subn(r"(?m)^MAIN_SHA=\S+", f"MAIN_SHA={sha[:9]}", text)
     if n1 != 1 or n2 != 1:
@@ -45,25 +49,69 @@ def set_serial(path, unit, addr):
     path.write_text("\n".join(keep + [f"{unit} {addr}"]) + "\n")
 
 
-def usb_setup():
-    serial = sh(f"bash -c 'source \"{TOOLKIT}/rig_devices.sh\"; echo $D_HP'").stdout.strip()
+def hp_serial():
+    return sh(f"bash -c 'source \"{TOOLKIT}/rig_devices.sh\"; echo $D_HP'").stdout.strip()
+
+
+def answers(addr):
+    sh(["adb", "connect", addr])
+    return sh(["adb", "-s", addr, "shell", "getprop", "ro.serialno"], timeout=15).stdout.strip()
+
+
+def to_wireless(serial):
+    """D-HP on its PC cable: switch its adb to TCP and return ip:5555, or None."""
     out = sh(["adb", "-s", serial, "shell", "ip", "-f", "inet", "addr", "show", "wlan0"]).stdout
     ip = (re.findall(r"inet (\d+\.\d+\.\d+\.\d+)", out) or [""])[0]
-    if not serial or not ip:
-        print(f"D-HP must be on its PC cable and on WiFi first (serial={serial or '?'}, wlan0={ip or '?'})")
-        return 1
-    sh(["adb", "-s", serial, "tcpip", "5555"]); time.sleep(6); sh(["adb", "connect", f"{ip}:5555"]); time.sleep(2)
-    if not sh(["adb", "-s", f"{ip}:5555", "shell", "getprop", "ro.product.model"]).stdout.strip():
-        print(f"D-HP did not answer on {ip}:5555")
-        return 1
-    set_serial(RIG_DATA / "rounds" / "unit-serials.txt", "D-HP", f"{ip}:5555")
-    print(f"D-HP answers on {ip}:5555 and is recorded in {RIG_DATA / 'rounds' / 'unit-serials.txt'}. Now:")
-    print("  1. Unplug D-HP from the PC.")
-    print("  2. Plug the powered OTG Y-cable into D-HP, and its power leg into a charger.")
-    print("  3. Plug the USB dongle into the Y-cable.")
-    print("  4. On D-HP, answer the USB dialog for the dongle: tick 'Use by default', then OK.")
-    print("Leave it so. Run this again after D-HP reboots, because wireless adb does not survive a reboot.")
-    return 0
+    if not ip:
+        return None
+    sh(["adb", "-s", serial, "tcpip", "5555"]); time.sleep(6)
+    return f"{ip}:5555" if answers(f"{ip}:5555") else None
+
+
+def sweep(serial):
+    """D-HP got a new DHCP address: find it on the PC's own /24 by port 5555 and its serial number."""
+    ips = re.findall(r"\b(\d+\.\d+\.\d+)\.\d+\b", sh("hostname -I").stdout)
+    for net in dict.fromkeys(ips):
+        for host in range(1, 255):
+            ip = f"{net}.{host}"
+            with socket.socket() as c:
+                c.settimeout(0.15)
+                if c.connect_ex((ip, 5555)):
+                    continue
+            if answers(f"{ip}:5555") == serial:
+                return f"{ip}:5555"
+    return None
+
+
+def ensure_hp():
+    """Return (address, None) when D-HP answers over wireless adb, else (None, the reason M6 does not run)."""
+    serials = RIG_DATA / "rounds" / "unit-serials.txt"
+    serial = hp_serial()
+    old = next((l.split()[1] for l in (serials.read_text().splitlines() if serials.exists() else [])
+                if l.split()[:1] == ["D-HP"] and len(l.split()) > 1), None)
+    if old and serial and answers(old) == serial:
+        return old, None
+    if serial and serial in sh(["adb", "devices"]).stdout:
+        addr = to_wireless(serial)
+        if addr:
+            set_serial(serials, "D-HP", addr)
+            print(f"D-HP was on its PC cable; it now answers on {addr}. After this smoke:")
+            for step in CABLING:
+                print(f"  {step}")
+            return None, "D-HP was on its PC cable, so the dongle is not on it; it is set up for the next smoke"
+        return None, "D-HP is on its PC cable but has no WiFi address"
+    addr = sweep(serial) if serial else None
+    if addr:
+        set_serial(serials, "D-HP", addr)
+        print(f"D-HP moved to {addr}; recorded")
+        return addr, None
+    return None, "D-HP is not on wireless adb (it rebooted?): plug it into the PC once and the next smoke sets it up"
+
+
+CABLING = ["1. Unplug D-HP from the PC.",
+           "2. Plug the powered OTG Y-cable into D-HP, and its power leg into a charger.",
+           "3. Plug the USB dongle into the Y-cable.",
+           "4. On D-HP, answer the USB dialog for the dongle: tick 'Use by default', then OK."]
 
 
 def summary(ev):
@@ -81,6 +129,10 @@ def summary(ev):
             code = 2
         worst = code if worst == 0 or code == 1 else worst
         rows.append(f"{rid:<6} {v:<13} {why}".rstrip())
+    skip = Path(ev) / "hp.skip"
+    if skip.exists():
+        rows.append(f"{'M6':<6} {'NOT_RUN':<13} {skip.read_text().strip()}")
+        worst = worst or 2
     if not rows:
         rows, worst = ["no run was graded"], 2
     word = {0: "no regression", 1: "REGRESSION", 2: "incomplete"}[worst]
@@ -137,7 +189,11 @@ def run(ref, apk):
     ev.mkdir(parents=True)
     (ev / "candidate.txt").write_text(sha + "\n")
     brief = ev / "main-smoke-auto-brief.md"
-    render(sha, brief)
+    hp, why = ensure_hp()
+    if why:
+        (ev / "hp.skip").write_text(why + "\n")
+        print(f"M6 is left out: {why}")
+    render(sha, brief, skip_hp=bool(why))
     print(f"main smoke on {sha[:9]}; evidence in {ev}", flush=True)
     lint = sh([sys.executable, "-I", str(HERE / "brief_check.py"), "lint", str(brief), "--repo", str(TRANSFER)])
     (ev / "lint.txt").write_text(lint.stdout + lint.stderr)
@@ -175,12 +231,10 @@ def run(ref, apk):
 
 def main(argv):
     args = argv[1:]
-    cmd = args.pop(0) if args and args[0] in ("run", "render", "summary", "usb-setup", "set-serial") else "run"
+    cmd = args.pop(0) if args and args[0] in ("run", "render", "summary", "set-serial") else "run"
     opt = {k: v for k, v in zip(args[::2], args[1::2])}
     if cmd == "render":
-        render(opt["--sha"], opt["--out"]); return 0
-    if cmd == "usb-setup":
-        return usb_setup()
+        render(opt["--sha"], opt["--out"], skip_hp="--no-hp" in args); return 0
     if cmd == "set-serial":
         set_serial(opt["--file"], opt["--unit"], opt["--addr"]); return 0
     if cmd == "summary":
