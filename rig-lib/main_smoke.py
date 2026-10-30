@@ -4,6 +4,8 @@
   main_smoke.py [run] [--ref origin/main] [--apk APK]   fetch, pin, lint, build, run the session, summarise
   main_smoke.py render --sha SHA --out FILE             write main_smoke_brief.md pinned to SHA (no device)
   main_smoke.py summary --ev EV                         print the summary of a finished session again
+  main_smoke.py usb-setup                               once, and after any D-HP reboot: D-HP to wireless adb for the
+                                                        standing USB dongle on its powered OTG Y-cable
 
 `run` writes the pinned brief and every capture to rig-data/rounds/main-smoke-auto-round<yyyymmddHHMM>/, then
 prints one line per run and writes summary.txt there. No model and no hand step: rig_session.py runs the brief.
@@ -34,6 +36,34 @@ def render(sha, out):
     if n1 != 1 or n2 != 1:
         raise SystemExit(f"main_smoke_brief.md: expected one candidate line and one MAIN_SHA line, found {n1} and {n2}")
     Path(out).write_text(text)
+
+
+def set_serial(path, unit, addr):
+    """Replace UNIT's line in unit-serials.txt (rig_requires.py reads a moved unit there) with ADDR."""
+    path = Path(path)
+    keep = [l for l in (path.read_text().splitlines() if path.exists() else []) if l.split()[:1] != [unit]]
+    path.write_text("\n".join(keep + [f"{unit} {addr}"]) + "\n")
+
+
+def usb_setup():
+    serial = sh(f"bash -c 'source \"{TOOLKIT}/rig_devices.sh\"; echo $D_HP'").stdout.strip()
+    out = sh(["adb", "-s", serial, "shell", "ip", "-f", "inet", "addr", "show", "wlan0"]).stdout
+    ip = (re.findall(r"inet (\d+\.\d+\.\d+\.\d+)", out) or [""])[0]
+    if not serial or not ip:
+        print(f"D-HP must be on its PC cable and on WiFi first (serial={serial or '?'}, wlan0={ip or '?'})")
+        return 1
+    sh(["adb", "-s", serial, "tcpip", "5555"]); time.sleep(6); sh(["adb", "connect", f"{ip}:5555"]); time.sleep(2)
+    if not sh(["adb", "-s", f"{ip}:5555", "shell", "getprop", "ro.product.model"]).stdout.strip():
+        print(f"D-HP did not answer on {ip}:5555")
+        return 1
+    set_serial(RIG_DATA / "rounds" / "unit-serials.txt", "D-HP", f"{ip}:5555")
+    print(f"D-HP answers on {ip}:5555 and is recorded in {RIG_DATA / 'rounds' / 'unit-serials.txt'}. Now:")
+    print("  1. Unplug D-HP from the PC.")
+    print("  2. Plug the powered OTG Y-cable into D-HP, and its power leg into a charger.")
+    print("  3. Plug the USB dongle into the Y-cable.")
+    print("  4. On D-HP, answer the USB dialog for the dongle: tick 'Use by default', then OK.")
+    print("Leave it so. Run this again after D-HP reboots, because wireless adb does not survive a reboot.")
+    return 0
 
 
 def summary(ev):
@@ -145,10 +175,14 @@ def run(ref, apk):
 
 def main(argv):
     args = argv[1:]
-    cmd = args.pop(0) if args and args[0] in ("run", "render", "summary") else "run"
+    cmd = args.pop(0) if args and args[0] in ("run", "render", "summary", "usb-setup", "set-serial") else "run"
     opt = {k: v for k, v in zip(args[::2], args[1::2])}
     if cmd == "render":
         render(opt["--sha"], opt["--out"]); return 0
+    if cmd == "usb-setup":
+        return usb_setup()
+    if cmd == "set-serial":
+        set_serial(opt["--file"], opt["--unit"], opt["--addr"]); return 0
     if cmd == "summary":
         return summary(opt["--ev"])
     return run(opt.get("--ref", "origin/main"), opt.get("--apk"))

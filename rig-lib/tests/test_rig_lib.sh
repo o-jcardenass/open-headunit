@@ -465,5 +465,9 @@ check "an INCONCLUSIVE run makes the smoke incomplete (2)" '[ "$rc" -eq 2 ]'
 g M1 FAIL; python3 -I "$L/main_smoke.py" summary --ev "$MS" >/dev/null; rc=$?
 check "a FAIL outranks an INCONCLUSIVE (1)" '[ "$rc" -eq 1 ] && grep -q "REGRESSION" "$MS/summary.txt"'
 
+printf 'D-MOTO 10.0.0.2:5555\nD-HP 10.0.0.1:5555\n' > "$MS/serials.txt"
+python3 -I "$L/main_smoke.py" set-serial --file "$MS/serials.txt" --unit D-HP --addr 10.0.0.9:5555
+check "set-serial replaces only that unit's line" '[ "$(grep -c "^D-HP " "$MS/serials.txt")" -eq 1 ] && grep -q "^D-HP 10.0.0.9:5555$" "$MS/serials.txt" && grep -q "^D-MOTO 10.0.0.2:5555$" "$MS/serials.txt"'
+
 echo "$pass passed, $fail failed"
 [ "$fail" -eq 0 ]

@@ -6,8 +6,10 @@ to `rig-data/rounds/main-smoke-auto-<date>-<sha8>/`. Results are not committed; 
 
 M4, M8, M1 and M3 are the wireless runs of `main-smoke-round1-brief.md`, unchanged except that the D-HU runs wake
 D-MOTO, so D-POCO keeps its D-SAM bond and no run needs a pair or a forget. H1 (Headunit Server), S1 (Self Mode) and
-AU (audio output) are new. Audio is graded only on D-POCO and D-SAM: D-HU has no speakers. USB needs a cable on a
-host's OTG port, so it waits for the rig's USB switch; the full round still carries it.
+AU (audio output) are new. Audio is graded only on D-POCO and D-SAM: D-HU has no speakers. USB runs through the dongle,
+which stays on D-HP's powered OTG Y-cable, so D-MOTO keeps its PC cable for the phone runs. The wired-phone USB run
+(M5) needs a cable move and stays in the full round. D-HP keeps the candidate after the smoke (a pull over wireless
+adb takes minutes); only its settings go back.
 
 ```rig-requires
 lib ca8a86a90
@@ -22,8 +24,11 @@ unit D-POCO@M1,M3 wifi=off bt=off
 unit D-MOTO@M4,M8,H1,S1 wifi=off bt=off
 unit D-MOTO@AU role=phone wifi=on bt=on bond=D-POCO
 unit D-MOTO@M1,M3 role=phone wifi=on bt=on bond=D-HU
+unit D-MOTO@M6 role=phone wifi=on bt=on
+unit D-HP@prep,M6,close role=headunit
+hardware the USB dongle on D-HP's powered OTG Y-cable, D-HP on wireless adb (main_smoke.py usb-setup after any D-HP reboot)
 confirm on D-POCO, Android Auto's developer setting "Start head unit server" is on (S1 and H1 need :5277)
-run prep cap=1800 script=prep.sh grade=grade-prep.sh
+run prep cap=2700 script=prep.sh grade=grade-prep.sh
 run M4 cap=1200 script=m4.sh grade=grade-m4.sh
 run M8 cap=1800 script=m8.sh grade=grade-m8.sh
 run H1 cap=600 script=h1.sh grade=grade-h1.sh
@@ -31,13 +36,14 @@ run S1 cap=600 script=s1.sh grade=grade-s1.sh
 run AU cap=1800 script=au.sh grade=grade-au.sh point=yes
 run M1 cap=1200 script=m1.sh grade=grade-m1.sh point=yes
 run M3 cap=1200 script=m3.sh grade=grade-m3.sh point=yes
+run M6 cap=1500 script=m6.sh grade=grade-m6.sh point=yes
 run close cap=1200 script=close.sh always=yes
 stop prep FAIL,UNTESTABLE skip=all
 ```
 
 | Run | Unit | What it checks |
 |---|---|---|
-| prep | D-HU, D-SAM, D-POCO | backups, the prior APK, install, identity (md5, DEX, `ACTION_QUERY_STATE` commit) |
+| prep | D-HU, D-SAM, D-POCO, D-HP | backups, the prior APK, install, identity (md5, DEX, `ACTION_QUERY_STATE` commit) |
 | M4 | D-SAM with D-POCO | a Native session on API 19 with PCM music, then the settings screen |
 | M8 | D-SAM with D-POCO | the station after three force-stops (expected FAIL on `main` until the stand-down race is fixed) |
 | H1 | D-HU with D-POCO | Headunit Server mode: discovery finds D-POCO's server on :5277 over the home WiFi, and a session renders |
@@ -45,7 +51,8 @@ stop prep FAIL,UNTESTABLE skip=all
 | AU | D-POCO with D-MOTO | audio output on a unit with speakers: PCM on AudioTrack, PCM on AAudio, and AAC, 2 minutes of VLC music each |
 | M1 | D-HU with D-MOTO | a Native session, a fast Exit and Start, the log export name, the settings screen |
 | M3 | D-HU with D-MOTO | the bundled FFmpeg H.264 decoder on `armeabi-v7a` |
-| close | D-HU, D-SAM, D-POCO | the prior APK and `settings.xml` back, D-MOTO `stayon false` |
+| M6 | D-HP with the dongle, D-MOTO behind it | USB: 3 dongle cycles to a picture on an API 17 host (the AOA switch, accessory mode, a session) |
+| close | D-HU, D-SAM, D-POCO, D-HP | the prior APK and `settings.xml` back, D-MOTO `stayon false` |
 
 The deciding lines, the settings keys and each run's PASS rule are those of `main-smoke-round1-brief.md`
 sections 5, 7 and 8. `main_smoke.py` lints this brief against the commit under test before it builds, so a line
@@ -251,7 +258,7 @@ print(f"{run}\tcrit_total={len(hits)}\tcrit_graded={len(left)}")
 for h in left[:5]: print(h[1])
 ```
 
-### prep. Backups, installs and identity on D-HU, D-SAM and D-POCO
+### prep. Backups, installs and identity on D-HU, D-SAM, D-POCO and D-HP
 
 **prep.sh**
 
@@ -265,13 +272,18 @@ for u in poco moto; do
   case "$a" in ??:??:??:??:??:??) echo "$a" > "$EV/$u.btaddr" ;;
     *) echo "$d" > "$EV/$u.btaddr"; echo "$u address unread ($a); the brief's value used" >> "$EV/notes.txt" ;; esac
 done
-for s in "$DHU" "$SAM" "$POCO"; do
+grep '^D-HP ' "$(dirname "$EV")/unit-serials.txt" 2>/dev/null | tail -n 1 | cut -d' ' -f2 > "$EV/hp.addr"   # not-literal: written by main_smoke.py usb-setup
+HP_W=$(cat "$EV/hp.addr"); HP_W=${HP_W:-$HPU}; adb connect "$HP_W" >/dev/null 2>&1
+for s in "$DHU" "$SAM" "$POCO" "$HP_W"; do
   u=$(unit_of "$s"); HU=$s
   slow_step 900 "prep $u: backup, prior APK, install, identity"
   adb -s "$s" shell am force-stop $PKG
   adb -s "$s" shell run-as $PKG cat shared_prefs/settings.xml | tr -d '\r' > "$EV/backup-$u.xml"
-  adb -s "$s" pull "$(adb -s "$s" shell pm path $PKG | head -n 1 | cut -d: -f2 | tr -d '\r')" "$EV/prior-$u.apk" >/dev/null 2>&1
-  md5sum "$EV/prior-$u.apk" >> "$EV/prior-md5.txt" 2>&1
+  # D-HP is on wireless adb, where a pull takes minutes; it keeps the candidate and gets its settings back
+  if [ "$u" != hp ]; then
+    adb -s "$s" pull "$(adb -s "$s" shell pm path $PKG | head -n 1 | cut -d: -f2 | tr -d '\r')" "$EV/prior-$u.apk" >/dev/null 2>&1
+    md5sum "$EV/prior-$u.apk" >> "$EV/prior-md5.txt" 2>&1
+  fi
   adb -s "$s" install -r -d "$APK" > "$EV/install-$u.txt" 2>&1
   identity "$s" "$u"
   keys_read "$s" "after-install-$u"; diff "$EV/backup-$u.xml" "$EV/settings-after-install-$u.xml" > "$EV/install-delta-$u.txt"
@@ -286,7 +298,7 @@ echo "vlc=$vlc mp3=$mp3" > "$EV/moto-media.txt"
 **grade-prep.sh**
 
 ```bash
-for u in hu sam poco; do c "I.$u" eq "$(grep -acF "IDENT_OK $u" "$EV/ident.log")" 1 "$u runs main ${MAIN_SHA:0:8} (md5, DEX, query)"; done   # not-literal
+for u in hu sam poco hp; do c "I.$u" eq "$(grep -acF "IDENT_OK $u" "$EV/ident.log")" 1 "$u runs main ${MAIN_SHA:0:8} (md5, DEX, query)"; done   # not-literal
 c A1 eq "$(sed -n 's/^armv7_libavcodec=//p' "$EV/prep-apk.txt")" 1 "the APK carries lib/armeabi-v7a/libavcodec.so"
 early
 ```
@@ -606,6 +618,108 @@ fi
 early
 ```
 
+### M6. USB: 3 dongle cycles on D-HP
+
+**dongle_lib.sh**
+
+```bash
+dcycle() { local R=$1 k=$2 F O row
+  adb -s "$HU" shell am force-stop $PKG; sleep 1
+  setkeys "$HU" $DONGLE; keys_read "$HU" "$R-$k"
+  F=$(curfile "$R-hu"); O=$(rl_offset "$F"); mark "$R-$k-go"; launch
+  if rl_wait_line "$F" 'SSL handshake complete' 60 "$O"; then rl_sleep 45; fi
+  mark "$R-$k-end"; send ACTION_DISCONNECT >/dev/null; rl_sleep 8; alive "$R"
+  row=$(python3 -I "$EV/scripts/dongle_cycle.py" "$(merged "$R-hu")" "$R-$k-go" "$R-$k-end" 2>&1 | head -n 1)
+  printf '%s\tbat=%s\n' "$row" "$(bat)" >> "$EV/$R.tsv"; }
+# drun R N: N cycles; a VOID row is run once more as the next k; 30% battery or less ends the cycles
+drun() { local R=$1 N=$2 k=0 good=0 rerun=0 b
+  : > "$EV/$R.tsv"; caps "$R"; mark "$R-start"
+  while [ "$good" -lt "$N" ] && [ "$k" -lt $((2 * N)) ]; do
+    k=$((k + 1)); b=$(bat)
+    if [ -n "$b" ] && [ "$b" -le 30 ]; then echo "$R STOP battery $b" >> "$EV/$R-notes.txt"; break; fi
+    dcycle "$R" "$k"
+    if tail -n 1 "$EV/$R.tsv" | grep -q VOID && [ "$rerun" -eq 0 ]; then rerun=1; else good=$((good + 1)); rerun=0; fi
+  done
+  mark "$R-end"; appexit; rl_cap_stop; }
+# dongle_grade R N NEED: rows, projected rows, FAIL lines; prints the COND lines
+dongle_grade() { local R=$1 N=$2 rows proj F
+  rows=$(grep -av VOID "$EV/$R.tsv" 2>/dev/null | grep -ac 'projected=')   # not-literal: dongle_cycle.py's column
+  proj=$(grep -av VOID "$EV/$R.tsv" 2>/dev/null | grep -ac 'projected=1')   # not-literal
+  F=$(merged "$R-hu")
+  { cat "$EV/$R.tsv" 2>/dev/null; python3 -I "$EV/scripts/pcrit.py" "$(merged "$R-ph")" "$R" 2>/dev/null; } > "$EV/$R-record.txt"
+  echo "$rows $proj $(faillines "$F" "$R-start" "$R-end")"; }
+```
+
+**dongle_cycle.py**
+
+```python
+import re, sys
+from datetime import datetime
+cap, go, end = sys.argv[1], sys.argv[2], sys.argv[3]
+L = open(cap, errors="replace").read().splitlines()
+def at(lbl):
+    for i, l in enumerate(L):
+        if l.rstrip().endswith("AutomationMarker: " + lbl): return i
+    return None
+i0, i1 = at(go), at(end)
+if i0 is None or i1 is None: print(f"{go}\tVOID markers_missing"); sys.exit(0)
+W = L[i0:i1]
+def ts(l):
+    m = re.match(r"(\d\d-\d\d) (\d\d:\d\d:\d\d\.\d+)", l)
+    return datetime.strptime("2026-" + m.group(1) + " " + m.group(2), "%Y-%m-%d %H:%M:%S.%f") if m else None
+st = [i for i, l in enumerate(W) if "Start Aap transport handshake" in l]
+ssl = sdr = reply = silent = projected = 0; thr_max = 0; sel = set()
+for k, i in enumerate(st):
+    seg = W[i:(st[k + 1] if k + 1 < len(st) else len(W))]
+    has = lambda s: any(s in l for l in seg)
+    first = lambda s: next((l for l in seg if s in l), None)
+    for l in seg:
+        m = re.search(r"the phone selected (\d+\.\d+)", l)
+        if m: sel.add(m.group(1))
+    if has("SSL handshake complete"): ssl += 1
+    if not has("Service Discovery Request"): continue
+    sdr += 1
+    rep = has("Audio Focus Request") or has("Sensor Start Request") or has("Media Sink Setup Request")
+    n = sum("Throughput over" in l for l in seg); thr_max = max(thr_max, n)
+    if rep: reply += 1
+    if rep and n >= 3: projected = 1
+    if not rep:
+        s, d = first("Service Discovery Request"), first("USB_DEVICE_DETACHED")
+        if d and ts(s) and ts(d) and (ts(d) - ts(s)).total_seconds() <= 5: silent += 1
+stale = sum("stale USB bytes before version request" in l for l in W)
+late = sum("discarded a late VERSION_RESPONSE" in l for l in W)
+print(f"{go}\thandshakes={len(st)}\tssl={ssl}\tsdr={sdr}\treply={reply}\tsilent_detach={silent}"
+      f"\tthr_max={thr_max}\tprojected={projected}\tstale={stale}\tlate_discard={late}\tselected={','.join(sorted(sel)) or '-'}")
+```
+
+**m6.sh**
+
+```bash
+HU=$HP_W; PH=$MOTO
+thermal || untestable "host thermal"
+adb connect "$HU" >/dev/null 2>&1
+b=$(bat); echo "M6 start bat=$b" >> "$EV/M6-notes.txt"
+if [ -n "$b" ] && [ "$b" -lt 40 ]; then untestable "D-HP battery $b% is below 40%; is the Y-cable powered?"; fi
+usbwatch M6
+rl_wait_line "$EV/M6-usbwatch.txt" 'USB_DEVICE_PRESENT' 180 ||   # not-literal: usbwatch's own line
+  untestable "D-HP does not see the dongle; check the Y-cable and its power, then main_smoke.py usb-setup"
+rl_stop "usb:"
+drun M6 3
+```
+
+**grade-m6.sh**
+
+```bash
+read -r rows proj fl < <(dongle_grade M6 3)
+if [ "${rows:-0}" -lt 3 ] && [ "${proj:-0}" -lt 2 ] && grep -q 'STOP battery' "$EV/M6-notes.txt" 2>/dev/null; then   # not-literal: drun's own note
+  rl_verdict UNTESTABLE "battery: D-HP reached 30% after $rows cycles"
+else
+  c M6.1 ge "${proj:-0}" 2 "cycles that projected, of 3"
+  c M6.2 eq "${fl:-0}" 0 "no FATAL EXCEPTION, UnsatisfiedLinkError or ANR"
+fi
+early
+```
+
 ### close. The prior APK and settings back
 
 **close.sh**
@@ -615,6 +729,7 @@ rc=0
 restore_unit "$DHU" hu || rc=1
 restore_unit "$SAM" sam || rc=1
 restore_unit "$POCO" poco || rc=1
+HU=$HP_W; appexit; restore_prefs "$HP_W" hp || rc=1
 adb -s "$MOTO" shell svc power stayon false
 exit "$rc"
 ```
