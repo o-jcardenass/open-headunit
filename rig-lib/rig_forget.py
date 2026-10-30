@@ -14,7 +14,8 @@ checked on a fresh uiautomator dump before the next:
      is gone
 
 Anything that does not match exactly once stops the flow with a reason and taps nothing more; the caller
-then falls back to an OPERATOR line. Dumps and a step log go to EV/forget/<unit>-<other>-<n>/.
+then falls back to an OPERATOR line. On API 29 and up rig_bt.py removes the bond through the API first, and
+this screen flow runs only when that fails. Dumps and a step log go to EV/forget/<unit>-<other>-<n>/.
 
   rig_forget.py names SERIAL                       this unit's bonded list: address and name
   rig_forget.py forget --ev EV SERIAL OTHER_SERIAL [--dry-run]
@@ -139,8 +140,10 @@ def page_is_for(xml_text, addr, name):
 # ---------------- device flow ----------------
 
 class Forget:
-    def __init__(self, serial, other, ev, adb=run_adb, sleep=time.sleep):
+    def __init__(self, serial, other, ev, adb=run_adb, sleep=time.sleep, ensure=None):
+        import rig_bt
         self.s, self.o, self.adb, self.sleep = serial, other, adb, sleep
+        self.ensure = ensure or rig_bt.ensure
         base = Path(ev) / "forget"
         base.mkdir(parents=True, exist_ok=True)
         n = len(list(base.glob(f"{serial}-{other}-*".replace(":", "_")))) + 1
@@ -177,6 +180,19 @@ class Forget:
     def bonds(self):
         return bonded_entries(self.adb(self.s, "shell", "dumpsys", "bluetooth_manager"))
 
+    def api_unpair(self, addr):
+        """API 29 and up: the helper removes the bond with no screen. False sends the caller to the Settings flow."""
+        import rig_bt
+        if not (rig_bt.usable(self.s, self.adb) and self.ensure(self.s, self.adb)):
+            return False
+        word, detail = rig_bt.call(self.s, "unpair", addr, 20, self.adb)
+        self.log(f"api unpair: {word} {detail}")
+        if word == "UNPAIR_OK" and not any(a == addr for a, _ in self.bonds()):
+            self.log("RESULT forgotten verified_by=api taps=0")
+            return True
+        self.log("the API did not remove the bond; trying the Settings screen")
+        return False
+
     def run(self, dry=False):
         dump_o = self.adb(self.o, "shell", "dumpsys", "bluetooth_manager")
         addr = own_address(self.adb(self.o, "shell", "settings", "get", "secure", "bluetooth_address"), dump_o)
@@ -188,6 +204,8 @@ class Forget:
         if not mine:
             self.log("RESULT not bonded")
             return 0, f"{addr} is not bonded here"
+        if not dry and self.api_unpair(addr):
+            return 0, f"forgot {mine[0]!r} ({addr}) through the API"
         name = mine[0]
         if not name or sum(nm.casefold() == name.casefold() for _, nm in entries) != 1:
             return self.stop(f"the name this unit shows for {addr} ({name!r}) is empty or not unique")

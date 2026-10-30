@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Tests for rig_lib.sh, rig_run.sh, rig_requires.py, brief_check.py, rig_session.py, rig_forget.py and rig_pair.py.
+# Tests for rig_lib.sh, rig_run.sh, rig_requires.py, brief_check.py, rig_session.py, rig_forget.py, rig_pair.py and rig_bt.py.
 # Run: bash rig-lib/tests/test_rig_lib.sh. Needs bash, python3, git, procps and util-linux (setsid, flock).
 # No device: adb is tests/fake_adb.sh.
 set -u

@@ -15,7 +15,9 @@ screen is open, and confirms. Each step is checked on a fresh uiautomator dump b
   5. both bonded lists are read until each holds the other's address
 
 Anything that does not match exactly once stops the flow with a reason; the caller then falls back to an
-OPERATOR line. Dumps and a step log go to EV/pair/<initiator>-<target>-<n>/.
+OPERATOR line. When the initiator is API 29 or up, rig_bt.py pairs through the API first: the helper asks on the
+initiator and accepts on a target that is also API 29 or up, or a target below that gets one tap on its own
+dialog. The screen flow above runs only when that fails. Dumps and a step log go to EV/pair/<initiator>-<target>-<n>/.
 
   rig_pair.py pair --ev EV INITIATOR_SERIAL TARGET_SERIAL   exit 0 paired (or already), 1 stopped, 2 bad use
 """
@@ -59,8 +61,10 @@ def code_of(xml_text):
 
 
 class Pair:
-    def __init__(self, initiator, target, ev, adb=run_adb, sleep=time.sleep):
+    def __init__(self, initiator, target, ev, adb=run_adb, sleep=time.sleep, ensure=None):
+        import rig_bt
         self.i, self.t, self.adb, self.sleep = initiator, target, adb, sleep
+        self.ensure = ensure or rig_bt.ensure
         base = Path(ev) / "pair"
         base.mkdir(parents=True, exist_ok=True)
         stem = f"{initiator}-{target}".replace(":", "_")
@@ -105,6 +109,54 @@ class Pair:
     def lists(self, s, a):
         return any(x == a for x, _ in bonded_entries(self.adb(s, "shell", "dumpsys", "bluetooth_manager")))
 
+    def api(self, s):
+        import rig_bt
+        return rig_bt.usable(s, self.adb) and self.ensure(s, self.adb)
+
+    def clear_half(self):
+        """Forget a side that alone lists the other (the scan never shows a device still bonded). A reason on failure."""
+        for side, other in ((self.i, self.t), (self.t, self.i)):
+            if self.lists(side, self.addr(other)) and not self.lists(other, self.addr(side)):
+                rc, msg = Forget(side, other, self.dir, adb=self.adb, sleep=self.sleep, ensure=self.ensure).run()
+                self.log(f"half bond on {side}: {msg}")
+                if rc:
+                    return f"a half bond on {side} could not be forgotten: {msg}"
+        return None
+
+    def api_pair(self, ai, at):
+        """API 29 and up on the initiator: the helper asks and accepts its side. The target accepts through the helper
+        too, or, below API 29, with one tap on its own dialog. False sends the caller to the Settings flow."""
+        import rig_bt
+        if not self.api(self.i):
+            return False
+        far = rig_bt.call_async(self.t, "accept", ai, 60, self.adb) if self.api(self.t) else None
+        if far:
+            self.sleep(1)
+        else:
+            self.adb(self.t, "shell", "input", "keyevent", "KEYCODE_WAKEUP")
+            self.adb(self.t, "shell", "am", "start", "-S", "-a", "android.settings.BLUETOOTH_SETTINGS")
+        near = rig_bt.call_async(self.i, "pair", at, 45, self.adb)
+        if not far:
+            for n in range(20):
+                if not near.is_alive():
+                    break
+                xy, _ = find_text(self.dump(self.t, f"api-dialog-t-{n}"), PAIR_BUTTON, button_only=True)
+                if xy:
+                    self.tap(self.t, xy, "Pair on the target (below API 29)")
+                    break
+                self.sleep(2)
+        near.join(60)
+        if far:
+            far.join(70)
+        self.log(f"api pair: initiator {' '.join(near.result)}; target {' '.join(far.result) if far else 'screen'}")
+        for _ in range(10):
+            if self.lists(self.i, at) and self.lists(self.t, ai):
+                self.log(f"RESULT paired verified_by=api taps={self.taps}")
+                return True
+            self.sleep(1)
+        self.log("the API did not pair; trying the Settings screens")
+        return False
+
     def run(self):
         ai, at = self.addr(self.i), self.addr(self.t)
         if not (ai and at):
@@ -112,12 +164,15 @@ class Pair:
         if self.lists(self.i, at) and self.lists(self.t, ai):
             self.log("RESULT already paired")
             return 0, "already paired on both sides"
-        for side, other in ((self.i, self.t), (self.t, self.i)):
-            if self.lists(side, self.addr(other)):        # a half bond: the scan would never show the other
-                rc, msg = Forget(side, other, self.dir, adb=self.adb, sleep=self.sleep).run()
-                self.log(f"half bond on {side}: {msg}")
-                if rc:
-                    return self.stop(f"a half bond on {side} could not be forgotten: {msg}")
+        why = self.clear_half()
+        if why:
+            return self.stop(why)
+        if self.api_pair(ai, at):
+            self.home()
+            return 0, f"paired through the API in {self.taps} taps"
+        why = self.clear_half()
+        if why:
+            return self.stop(why)
         name = own_name(self.adb(self.t, "shell", "settings", "get", "secure", "bluetooth_name"),
                         self.adb(self.t, "shell", "dumpsys", "bluetooth_manager"))
         if not name:

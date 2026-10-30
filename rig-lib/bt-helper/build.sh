@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Build rig-bt-helper.apk with the SDK's own tools (javac, d8, aapt2, zipalign, apksigner); no Gradle.
+# Usage: bash rig-lib/bt-helper/build.sh   ->  prints the APK path. SDK: ANDROID_HOME, ANDROID_SDK_ROOT or ~/Android/Sdk.
+set -euo pipefail
+HERE=$(cd "$(dirname "$0")" && pwd)
+OUT=$HERE/build
+SDK=${ANDROID_HOME:-${ANDROID_SDK_ROOT:-$HOME/Android/Sdk}}
+BT=$(ls -d "$SDK"/build-tools/* 2>/dev/null | sort -V | tail -1)
+PLAT=$(ls -d "$SDK"/platforms/android-* 2>/dev/null | sort -V | tail -1)
+[ -n "$BT" ] && [ -n "$PLAT" ] || { echo "build.sh: no build-tools or platform under $SDK" >&2; exit 1; }
+JAR=$PLAT/android.jar
+rm -rf "$OUT/classes" "$OUT/dex"; mkdir -p "$OUT/classes" "$OUT/dex"
+javac -nowarn -source 11 -target 11 -cp "$JAR" -d "$OUT/classes" $(find "$HERE/src" -name '*.java') 1>&2 || true   # notes and errors to stderr; the check below catches a failure
+[ -n "$(find "$OUT/classes" -name '*.class')" ] || { echo "build.sh: javac produced nothing" >&2; exit 1; }
+"$BT/d8" --min-api 29 --lib "$JAR" --output "$OUT/dex" $(find "$OUT/classes" -name '*.class')
+"$BT/aapt2" link -o "$OUT/unsigned.apk" --manifest "$HERE/AndroidManifest.xml" -I "$JAR" \
+  --min-sdk-version 29 --target-sdk-version 34
+(cd "$OUT/dex" && zip -q -j "$OUT/unsigned.apk" classes.dex)
+"$BT/zipalign" -f 4 "$OUT/unsigned.apk" "$OUT/aligned.apk"
+KS=$OUT/debug.keystore
+[ -f "$KS" ] || keytool -genkeypair -keystore "$KS" -storepass android -keypass android -alias rig \
+  -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=rig-bt-helper" >/dev/null 2>&1
+"$BT/apksigner" sign --ks "$KS" --ks-pass pass:android --key-pass pass:android --ks-key-alias rig \
+  --out "$OUT/rig-bt-helper.apk" "$OUT/aligned.apk"
+rm -f "$OUT/unsigned.apk" "$OUT/aligned.apk" "$OUT/rig-bt-helper.apk.idsig"
+echo "$OUT/rig-bt-helper.apk"
