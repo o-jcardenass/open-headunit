@@ -46,6 +46,8 @@ class Rig:
     def dumpsys(self, s):
         rows = "".join(f"  {a} [ BR/EDR ] {n}\n" for a, n in self.bonds[s].items())
         head = f"  state: ON\n  address: {self.addr[s]}\n  name: {self.name[s]}\n"
+        if self.dump[s] == "empty":   # Android 15: the section prints, the rows do not parse
+            return head + "Bonded devices:\n"
         return head + f"Bonded devices:\n{rows}" if self.dump[s] else head
 
     def view(self, s):
@@ -211,8 +213,42 @@ case("forget stops with no tap when this unit's bonded list is unreadable", rc =
 r = Rig(dump=(True, False)); why = Pair(P, H, ev, adb=r, sleep=nosleep, ensure=noapi).clear_half()
 case("a bond is not called half when the other side's list is unreadable, so nothing is forgotten",
      why is None and HA in r.bonds[P] and not r.taps[P])
+r = Rig(sdk=(35, 34), dump=("empty", True)); listed = __import__("rig_bt").bonds(P, r, noapi)
+case("an empty dumpsys section with no helper reads as unknown, not as no bonds", listed is None)
+
+import rig_bt
+
+
+class Store:
+    """adb install, uninstall and pull for one unit that holds a helper signed by KEY."""
+    def __init__(self, held, key):
+        self.held, self.key, self.calls = held, key, []
+
+    def __call__(self, s, *a, timeout=20):
+        self.calls.append(a[0] if a[0] != "shell" else a[1])
+        if a[:3] == ("shell", "pm", "path"):
+            return "package:/data/app/h/base.apk\n" if self.held is not None else ""
+        if a[0] == "pull" and self.held is not None:
+            Path(a[2]).write_bytes(self.held)
+        if a[0] == "install":
+            if "-r" in a and self.held is not None and self.key != "new":
+                return "Failure [INSTALL_FAILED_UPDATE_INCOMPATIBLE]\n"
+            self.held, self.key = Path(a[-1]).read_bytes(), "new"
+            return "Success\n"
+        if a[0] == "uninstall":
+            self.held = None
+        return ""
+
+
+apk = Path(tempfile.mkdtemp()) / "rig-bt-helper.apk"; apk.write_bytes(b"new build"); rig_bt.APK = apk
+st = Store(b"round 1 build", "old"); ok = rig_bt.ensure("S", st)
+case("ensure replaces a helper signed by another key: uninstall, then install", ok and st.held == b"new build"
+     and "uninstall" in st.calls)
+st = Store(b"new build", "new"); ok = rig_bt.ensure("S", st)
+case("ensure installs nothing when the unit holds this build", ok and "install" not in st.calls)
+
 lib = Path(__file__).resolve().parents[1]
-bin_dir = Path(tempfile.mkdtemp()); (bin_dir / "adb").write_text("#!/bin/sh\nexit 0\n"); (bin_dir / "adb").chmod(0o755)
+bin_dir = Path(tempfile.mkdtemp()); (bin_dir / "adb").write_text("#!/bin/sh\ncat >/dev/null\nexit 0\n"); (bin_dir / "adb").chmod(0o755)
 env = {"PATH": f"{bin_dir}:/usr/bin:/bin", "HOME": tempfile.gettempdir()}
 for tool, args, word in (("rig_forget.py", ["forget", "--ev", ev, "S1", "S2"], "FORGET_"),
                          ("rig_pair.py", ["pair", "--ev", ev, "S1", "S2"], "PAIR_"), ("rig_bt.py", ["bonds", "S1"], "FAIL")):
@@ -220,5 +256,9 @@ for tool, args, word in (("rig_forget.py", ["forget", "--ev", ev, "S1", "S2"], "
                          cwd=tempfile.gettempdir(), env=env, timeout=60)
     case(f"python3 -I {tool} {args[0]} from another folder, against a silent adb: a result word, no traceback",
          out.stdout.startswith(word) and "Traceback" not in out.stderr)
+loop = subprocess.run(["bash", "-c", f'printf "a\\nb\\nc\\n" | while read -r x; do '
+                       f'"{sys.executable}" -I "{lib}/rig_forget.py" forget --ev "{ev}" S1 S2 >/dev/null; echo "$x"; done'],
+                      capture_output=True, text=True, env=env, timeout=120)
+case("a while-read loop around rig_forget.py keeps all its lines (adb gets no stdin)", loop.stdout.split() == ["a", "b", "c"])
 
 sys.exit(1 if fails else 0)

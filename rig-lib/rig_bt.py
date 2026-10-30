@@ -28,7 +28,8 @@ MAC = re.compile(r"([0-9A-Fa-f]{2}(?::[0-9A-Fa-f]{2}){5})")
 
 def run_adb(serial, *args, timeout=20):
     try:
-        r = subprocess.run(["adb", "-s", serial, *args], capture_output=True, text=True, timeout=timeout)
+        r = subprocess.run(["adb", "-s", serial, *args], capture_output=True, text=True, timeout=timeout,
+                           stdin=subprocess.DEVNULL)   # adb shell reads stdin: a caller's while-read loop loses lines
         return r.stdout.replace("\r", "")
     except Exception:
         return ""
@@ -72,8 +73,12 @@ def ensure(serial, adb=run_adb):
         return False
     want = hashlib.md5(APK.read_bytes()).hexdigest()
     if installed_md5(serial, adb) != want:
-        adb(serial, "install", "-r", "-t", str(APK), timeout=120)
+        out = adb(serial, "install", "-r", "-t", str(APK), timeout=120)
+        if installed_md5(serial, adb) != want:   # a helper signed by another key: no state to keep, so replace it
+            adb(serial, "uninstall", PKG)
+            out = adb(serial, "install", "-t", str(APK), timeout=120)
         if installed_md5(serial, adb) != want:
+            print(f"rig_bt: the helper did not install on {serial}: {' '.join(out.split())[-200:]}", file=sys.stderr)
             return False
     adb(serial, "shell", "pm", "grant", PKG, "android.permission.BLUETOOTH_CONNECT")
     return True
@@ -127,13 +132,17 @@ def parse_list(detail):
 
 
 def bonds(serial, adb=run_adb, ensure=ensure):
-    """This unit's bonded list as [(ADDRESS, name)], or None when it cannot be read. Never [] for unreadable."""
+    """This unit's bonded list as [(ADDRESS, name)], or None when it cannot be read. Never [] for unreadable:
+    only the helper can report an empty list."""
     if usable(serial, adb) and ensure(serial, adb):
         word, detail = call(serial, "list", None, 20, adb)
         if word == "LIST":
             return parse_list(detail)
     dump = adb(serial, "shell", "dumpsys", "bluetooth_manager")
-    return bonded_entries(dump) if "Bonded devices" in dump else None
+    if "Bonded devices" not in dump:
+        return None
+    rows = bonded_entries(dump)
+    return rows if rows or sdk(serial, adb) < 35 else None   # Android 15 prints the section empty (D-POCO)
 
 
 def call_async(serial, cmd, addr=None, timeout=60, adb=run_adb):

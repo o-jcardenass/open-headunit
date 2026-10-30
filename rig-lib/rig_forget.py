@@ -40,7 +40,8 @@ DUMP = "/sdcard/ohu-forget-ui.xml"
 
 def run_adb(serial, *args, timeout=20):
     try:
-        r = subprocess.run(["adb", "-s", serial, *args], capture_output=True, text=True, timeout=timeout)
+        r = subprocess.run(["adb", "-s", serial, *args], capture_output=True, text=True, timeout=timeout,
+                           stdin=subprocess.DEVNULL)   # adb shell reads stdin: a caller's while-read loop loses lines
         return r.stdout.replace("\r", "")
     except Exception:
         return ""

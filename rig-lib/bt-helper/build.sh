@@ -21,7 +21,8 @@ rm -rf "$OUT/classes" "$OUT/dex"; mkdir -p "$OUT/classes" "$OUT/dex"
   --min-sdk-version 17 --target-sdk-version 34
 (cd "$OUT/dex" && zip -q -j "$OUT/unsigned.apk" classes.dex)
 "$BT/zipalign" -f 4 "$OUT/unsigned.apk" "$OUT/aligned.apk"
-KS=$OUT/debug.keystore
+KS=${XDG_CACHE_HOME:-$HOME/.cache}/rig-bt-helper/debug.keystore   # outside build/: a round's fresh copy keeps the key
+mkdir -p "$(dirname "$KS")"
 [ -f "$KS" ] || keytool -genkeypair -keystore "$KS" -storepass android -keypass android -alias rig \
   -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=rig-bt-helper" >/dev/null 2>&1
 "$BT/apksigner" sign --ks "$KS" --ks-pass pass:android --key-pass pass:android --ks-key-alias rig \
