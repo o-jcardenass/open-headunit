@@ -321,6 +321,9 @@ st=$(cat "$NE/session.status" 2>/dev/null)
 check "the session waits for the operator's forget before B, then goes on to DONE" '[ "$rc" -eq 0 ] && [[ "$st" == *"OPERATOR B now: on D-POCO, forget D-HU"* && "$st" == *"READ BACK B"* && "$st" == *"GRADE B PASS"* && "$st" == *"interventions=1"* ]]'
 [ "$rc" -eq 0 ] || echo "$st" | tail -8 | sed 's/^/     /'
 check "the session tells the operator which units to leave alone" '[[ "$st" == *"hands off D-HU, D-POCO until DONE"* ]]'
+out=$(python3 -I "$L/rig_session.py" regrade --ev "$NE" "$N" B 2>&1); rc=$?
+check "regrade grades a finished run again from its evidence and keeps the old grade" '[ "$rc" -eq 0 ] && [ -s "$NE/B.grade.was.json" ] && grep -q "REGRADE B PASS -> PASS" "$NE/session.status" && grep -q "\"regraded\": true" "$NE/B.grade.json"'
+[ "$rc" -eq 0 ] || echo "$out" | sed 's/^/     /'
 cat > "$W/lint3.md" <<EOF
 # l3
 ### R1
@@ -342,6 +345,33 @@ out=$(python3 -I "$L/brief_check.py" lint "$W/lint3.md" --repo "$G")
 check "lint: a run script that needs an argument is an error (D11)" '[[ "$out" == *"r1.sh (line 3):7: reads a positional"* && "$out" != *":5: reads"* ]]'
 check "lint: an unnamed block that drives the rig is an error (D12)" '[[ "$out" == *"line 9: an unnamed bash block"* ]]'
 [[ "$out" == *"reads a positional"* ]] || echo "$out" | sed 's/^/     /'
+cat > "$W/lint4.md" <<EOF
+# l4
+### R1
+**r1.sh**
+${F}bash
+SD=\$EV/scripts
+python3 -I "\$SD/probe.py" 1
+sh "\$EV/scripts/named.sh"
+$F
+
+**probe.py** (runs on the host)
+${F}python
+print(1)
+$F
+
+**named.sh**
+${F}bash
+echo ok
+$F
+${F}rig-requires
+lib $PIN
+run R1 cap=30 script=r1.sh grade=r1.sh
+$F
+EOF
+out=$(python3 -I "$L/brief_check.py" lint "$W/lint4.md" --repo "$G")
+check "lint: text after a script name is an error" '[[ "$out" == *"line 10: text after a script name"* ]]'
+check "lint: a script called from the scripts folder must be a named block" '[[ "$out" == *"calls probe.py from the scripts folder"* && "$out" != *"calls named.sh"* ]]'
 
 echo '  AA:BB [ BR/EDR ] MT50' > "$W/adb/PH1.bonds"
 out=$(python3 -I "$L/rig_requires.py" order --live "$N")

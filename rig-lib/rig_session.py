@@ -4,6 +4,8 @@
   rig_session.py run --ev EV BRIEF       run the round; resumable (a run with a grade is skipped)
   rig_session.py view BRIEF [RUN]        the round in one screen, or one run's section of the brief
   rig_session.py status --ev EV          one line per run
+  rig_session.py regrade --ev EV BRIEF RUN   grade a finished run again with the brief's current grade
+                                         script, from its saved evidence; keeps the old grade as RUN.grade.was.json
 
 The host launches `run` with run_in_background and arms one Monitor on EV/session.status for
 `OPERATOR|ESCALATE|DONE`. Everything else stays in files, so the host's context grows by a few lines a
@@ -283,6 +285,28 @@ def cmd_status(ev):
     return 0
 
 
+def cmd_regrade(ev, brief, run_id):
+    """Grade one finished run again from its saved evidence with the brief's current grade. Touches no unit."""
+    ev = Path(ev); text = Path(brief).read_text()
+    req, problems = rig_requires.parse(text)
+    run = next((r for r in req["runs"] if r["id"] == run_id), None)
+    gj = ev / f"{run_id}.grade.json"
+    if problems or not run or not run.get("grade") or not gj.exists() or not (ev / "rig-lib" / "rig_lib.sh").exists():
+        print(f"REGRADE {run_id}: needs a graded run of this brief in {ev} and a grade= on its run line"); return 64
+    old = json.loads(gj.read_text())
+    scripts = ev / "scripts"
+    for name, _, body, _ in blocks(text):
+        (scripts / name).write_text(body)
+    libs = [n for n, _, b, _ in blocks(text) if LIB_NAME.search(n) and not is_device(b)]
+    verdict, reason, conds = grade_run(ev, ev / "rig-lib", scripts, libs, run, old.get("exit", 0), old.get("log"))
+    if verdict is None:
+        print(f"REGRADE {run_id}: {reason}"); return 3
+    gj.with_suffix(".was.json").write_text(json.dumps(old, indent=1))
+    gj.write_text(json.dumps(dict(old, verdict=verdict, reason=reason, conds=conds, regraded=True), indent=1))
+    say(ev, f"REGRADE {run_id} {old['verdict']} -> {verdict} {reason[:140]}")
+    return 0
+
+
 def main(argv):
     if len(argv) < 3:
         print(__doc__); return 64
@@ -296,6 +320,8 @@ def main(argv):
         return cmd_view(rest[0], rest[1] if len(rest) > 1 else None)
     if cmd == "status" and ev:
         return cmd_status(ev)
+    if cmd == "regrade" and ev and len(rest) == 2:
+        return cmd_regrade(ev, rest[0], rest[1])
     print(__doc__); return 64
 
 

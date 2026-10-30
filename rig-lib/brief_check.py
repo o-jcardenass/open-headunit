@@ -28,6 +28,7 @@ sys.path.insert(0, str(HERE))
 import rig_requires  # noqa: E402
 
 NAME = re.compile(r"^\*\*`?([\w.+-]+\.(?:sh|py|bash))`?\*\*\s*$")
+NAME_NOTE = re.compile(r"^\*\*`?[\w.+-]+\.(?:sh|py|bash)`?\*\*\s*\S")
 LIB_NAME = re.compile(r"(?:^|[_-])(?:lib|env)\.sh$|^lib[\w-]*\.sh$")
 LIB_HELPERS = re.compile(r"^(wait\w*|cap_\w+|th_\w+|ph_(?:on|off|radios?)|radio\w*|bonds?|bonded|kill_?tree|rl_\w+)$")
 FUNC_DEF = re.compile(r"^\s*(?:function\s+)?([A-Za-z_][\w]*)\s*\(\)")
@@ -161,6 +162,17 @@ def lint(text, repo=None):
         if lang in ("bash", "sh", "shell") and not any(0 < at - nl <= 4 for nl in named_lines) and RIG_CODE.search(body):
             errs.append(f"line {at}: an unnamed {lang} block that drives the rig; put **name.sh** above it so "
                         "rig_session.py extracts it, or fence it as ```text if it is only an example")
+    for n, line in enumerate(text.splitlines(), 1):
+        if NAME_NOTE.match(line.strip()):
+            errs.append(f"line {n}: text after a script name; the name must be alone on its line or the block "
+                        "is never extracted. Put the note on the line below the fence")
+    # Scripts are extracted to $EV/scripts; a script called from there must be a named block too.
+    sdirs = ["EV}?/scripts"] + re.findall(r"\b([A-Za-z_]\w*)=[\"']?\$\{?EV\}?/scripts\b", text)
+    ref = re.compile(r"\$\{?(?:" + "|".join(sdirs) + r")\}?/([\w.+-]+\.(?:sh|py|bash))\b")
+    for name, lang, body, at in blocks(text):
+        for m in sorted(set(ref.findall(body)) - named):
+            errs.append(f"{name} (line {at}): calls {m} from the scripts folder, but no block is named **{m}**, "
+                        "so the rig never writes it")
     scripts = {r.get("script") for r in req["runs"]}
     for name, lang, body, at in blocks(text):
         where = f"{name} (line {at})"
