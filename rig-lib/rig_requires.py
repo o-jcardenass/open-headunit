@@ -267,16 +267,29 @@ def radio_state(serial, radio):
     if radio == "bt":
         m = re.search(r"^\s*(state|enabled):\s*(\S+)", adb(serial, "shell", "dumpsys", "bluetooth_manager"), re.M)
         v = m.group(2) if m else ""
-        return "on" if v in ("ON", "true") else "off" if v in ("OFF", "false") or "BLE" in v else "unknown"
-    m = re.search(r"Wi-Fi is (\w+)", adb(serial, "shell", "dumpsys", "wifi"))
-    return {"enabled": "on", "disabled": "off"}.get(m.group(1) if m else "", "unknown")
+        st = "on" if v in ("ON", "true") else "off" if v in ("OFF", "false") or "BLE" in v else "unknown"
+    else:
+        m = re.search(r"Wi-Fi is (\w+)", adb(serial, "shell", "dumpsys", "wifi"))
+        st = {"enabled": "on", "disabled": "off"}.get(m.group(1) if m else "", "unknown")
+    if st == "unknown":   # API 17/19 dumps print no state line; the global setting is there from 4.2
+        v = adb(serial, "shell", "settings", "get", "global", "bluetooth_on" if radio == "bt" else "wifi_on").strip()
+        st = {"1": "on", "2": "on", "0": "off", "3": "off"}.get(v, "unknown")
+    return st
+
+
+def app_running(serial):
+    """pidof first (API 24 and up); below that it is missing and its "not found" must not read as a pid."""
+    out = adb(serial, "shell", "pidof", PKG).strip()
+    if out and out.split()[0].isdigit():
+        return True
+    return any(l.split()[-1:] == [PKG] for l in adb(serial, "shell", "ps").splitlines())
 
 
 def set_radio(serial, radio, want):
     svc = "bluetooth" if radio == "bt" else "wifi"
     adb(serial, "shell", "svc", svc, "enable" if want == "on" else "disable")
     got = "unknown"
-    for _ in range(30):
+    for _ in range(int(os.environ.get("RL_RADIO_WAIT_S", "35")) * 2):   # D-HP takes up to 30 s
         got = radio_state(serial, radio)
         if got == want:
             break
@@ -503,7 +516,7 @@ def cmd_check(ev, path, fix=False, run_id=None):
             continue
         want_role, had = u.get("role"), roles_before.get(role)
         if fix and want_role and had and had != want_role:
-            if adb(s, "shell", "pidof", PKG).strip():       # an exit on a stopped app starts the service
+            if app_running(s):       # an exit on a stopped app starts the service
                 adb(s, "shell", "am", "start", "-a", "android.intent.action.VIEW", "-d", "headunit://exit")
                 time.sleep(5)
             adb(s, "shell", "am", "force-stop", PKG)
@@ -525,7 +538,7 @@ def cmd_check(ev, path, fix=False, run_id=None):
         if u.get("role") == "phone" and u.get("wifi") != "off" and group_owner(s):
             # a phone left as a P2P group owner by an earlier head-unit run cannot join the unit under test
             if fix:
-                if adb(s, "shell", "pidof", PKG).strip():
+                if app_running(s):
                     adb(s, "shell", "am", "start", "-a", "android.intent.action.VIEW", "-d", "headunit://exit")
                     time.sleep(5)
                     adb(s, "shell", "am", "force-stop", PKG)
@@ -605,7 +618,7 @@ def dev_listing(serial, dirs=DEV_DIRS):
             r = subprocess.run(["adb", "-s", serial, "shell", "ls", "-a", d], capture_output=True, text=True, timeout=20)
         except Exception:
             out[d] = None; continue
-        text = r.stdout.replace("\r", "")
+        text = (r.stdout + r.stderr).replace("\r", "")   # a missing folder answers on stderr
         if r.returncode != 0 and not text.strip():
             out[d] = None; continue
         if "No such file" in text:
@@ -651,7 +664,7 @@ def clock_offset_ms(serial):
     t0 = time.time()
     adb(serial, "shell", "log", "-t", "RIGCLOCK", tag)
     t1 = time.time()
-    out = adb(serial, "logcat", "-d", "-s", "RIGCLOCK:I")
+    out = adb(serial, "logcat", "-d", "-v", "time", "-s", "RIGCLOCK:I")   # old units default to a format with no time
     lines = [l for l in out.splitlines() if tag in l]
     m = re.match(r"(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d)\.(\d{3})", lines[-1]) if lines else None
     if not m:

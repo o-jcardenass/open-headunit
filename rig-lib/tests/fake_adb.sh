@@ -12,11 +12,14 @@ case "$*" in
   "shell svc bluetooth enable") [ -n "${FAKE_ADB_STUCK:-}" ] || echo on > "$D/$S.bt" ;;
   "shell svc bluetooth disable") [ -n "${FAKE_ADB_STUCK:-}" ] || echo off > "$D/$S.bt" ;;
   "shell dumpsys bluetooth_manager")
+    [ -f "$D/$S.olddump" ] && { echo "Bonded devices:"; exit 0; }   # an API 19 dump: no state line
     if [ "$(get bt off)" = on ]; then echo "  state: ON"; echo "Bonded devices:"; cat "$D/$S.bonds" 2>/dev/null
     else echo "  state: OFF"; echo "Bonded devices:"; fi ;;
+  "shell settings get global bluetooth_on") [ "$(get bt off)" = on ] && echo 1 || echo 0 ;;
   "shell dumpsys wifi") [ "$(get wifi off)" = on ] && echo "Wi-Fi is enabled" || echo "Wi-Fi is disabled" ;;
   "shell dumpsys wifip2p") echo "mWifiP2pInfo groupFormed: $(get go false) isGroupOwner: $(get go false)" ;;
   "shell pidof com.andrerinas.headunitrevived") get pid "" ;;
+  "shell ps") cat "$D/$S.ps" 2>/dev/null ;;
   "shell dumpsys battery") echo "  level: $(get battery 80)" ;;
   "shell settings get secure bluetooth_name") get name null ;;
   "shell settings get secure bluetooth_address") get addr null ;;
@@ -25,7 +28,7 @@ case "$*" in
   "shell rm -rf "*) rm -rf "$D/$S.fs${4}" ;;
   pull*) cp -r "$D/$S.fs${2}" "$3" ;;
   "shell log -t RIGCLOCK "*) echo "$5" > "$D/$S.clocktag" ;;
-  "logcat -d -s RIGCLOCK:I") off=$(get clockoff 0)
+  "logcat -d -v time -s RIGCLOCK:I") off=$(get clockoff 0)
     echo "$(date -d "@$(( $(date +%s) + off ))" '+%m-%d %H:%M:%S').000  1  1 I RIGCLOCK: $(get clocktag x)" ;;
   "shell id -u") get uid 2000 ;;
   "shell date @"*) [ "$(get uid 2000)" = 0 ] && echo 0 > "$D/$S.clockoff" ;;

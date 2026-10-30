@@ -86,23 +86,28 @@ rl_wait_line() { rl_wait_count "$1" 1 "$2" "$3" "${4:-0}"; }   # rl_wait_line FI
 rl_sleep() { rl_step "WAIT cap=${1}s SLEEP"; [ -n "${RL_SMOKE:-}" ] || sleep "$1"; }   # a timed wait; rig_run.sh allows it plus 30 s
 
 rl_radio_state() {  # rl_radio_state SERIAL wifi|bt: prints on, off or unknown
-  local out
+  local out st
   if [ "$2" = bt ]; then
     out=$(adb -s "$1" shell dumpsys bluetooth_manager 2>/dev/null | grep -a -m1 -E '^ *(state|enabled):' | tr -d '\r')
-    case "$out" in *state:*BLE*) echo off ;; *ON*|*true*) echo on ;; *OFF*|*false*) echo off ;; *) echo unknown ;; esac
+    case "$out" in *state:*BLE*) st=off ;; *ON*|*true*) st=on ;; *OFF*|*false*) st=off ;; *) st=unknown ;; esac
   else
     out=$(adb -s "$1" shell dumpsys wifi 2>/dev/null | grep -a -m1 'Wi-Fi is' | tr -d '\r')
-    case "$out" in *enabled*) echo on ;; *disabled*) echo off ;; *) echo unknown ;; esac
+    case "$out" in *enabled*) st=on ;; *disabled*) st=off ;; *) st=unknown ;; esac
   fi
+  if [ "$st" = unknown ]; then   # API 17/19 dumps print no state line; the global setting is there from 4.2
+    out=$(adb -s "$1" shell settings get global "$([ "$2" = bt ] && echo bluetooth_on || echo wifi_on)" 2>/dev/null | tr -d '\r ')
+    case "$out" in 1|2) st=on ;; 0|3) st=off ;; esac
+  fi
+  echo "$st"
 }
 
-rl_radio() {  # rl_radio SERIAL wifi|bt on|off: switch, then read back for up to 15 s. Returns 1 on a mismatch.
+rl_radio() {  # rl_radio SERIAL wifi|bt on|off: switch, then read back for RL_RADIO_WAIT_S (35; D-HP takes 30). 1 on a mismatch.
   local serial=$1 r=$2 want=$3 got i svcname=$2
   [ "$r" = bt ] && svcname=bluetooth
   rl_step "RADIO $serial $r=$want"
   [ -n "${RL_SMOKE:-}" ] && { echo "RADIO $serial $r=$want (smoke)"; return 0; }
   adb -s "$serial" shell svc "$svcname" "$([ "$want" = on ] && echo enable || echo disable)"
-  for i in $(seq 1 30); do
+  for i in $(seq 1 $(( ${RL_RADIO_WAIT_S:-35} * 2 ))); do
     got=$(rl_radio_state "$serial" "$r"); [ "$got" = "$want" ] && break; sleep 0.5
   done
   if [ "$got" = "$want" ]; then echo "RADIO $serial $r=$got"; return 0; fi

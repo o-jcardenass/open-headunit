@@ -7,7 +7,7 @@ T=$(cd "$(dirname "$0")" && pwd); L=$(dirname "$T")
 W=$(mktemp -d); trap 'rm -rf "$W"' EXIT
 mkdir -p "$W/bin" "$W/adb" "$W/rounds/t-round1"
 ln -s "$T/fake_adb.sh" "$W/bin/adb"
-export PATH="$W/bin:$PATH" FAKE_ADB_DIR="$W/adb" EV="$W/rounds/t-round1" RUN=T RIG_LOCK="$W/lock"
+export PATH="$W/bin:$PATH" FAKE_ADB_DIR="$W/adb" EV="$W/rounds/t-round1" RUN=T RIG_LOCK="$W/lock" RL_RADIO_WAIT_S=3
 cat > "$W/devices.sh" <<'EOF'
 D_HU=HU1; D_POCO=PH1; D_MOTO=MO1; D_HP=HP1; D_SAM=SA1; D_T230=SA1
 EOF
@@ -479,6 +479,21 @@ check "set-serial replaces only that unit's line" '[ "$(grep -c "^D-HP " "$MS/se
 out=$(python3 -I "$T/test_bt_ui.py" 2>&1); rc=$?
 check "rig_forget.py and rig_pair.py pass their simulated-device cases (tests/test_bt_ui.py)" '[ "$rc" -eq 0 ]'
 [ "$rc" -eq 0 ] || echo "$out" | grep -v "^ok" | sed 's/^/     /'
+
+# --- adb reliability fixes (2026-10-30 audit) ---
+echo on > "$W/adb/SA1.bt"; touch "$W/adb/SA1.olddump"
+out=$(lib "rl_radio_state SA1 bt")
+check "an API 19 dump with no state line reads the radio from settings global (rl_radio_state)" '[ "$out" = on ]'
+out=$(python3 -I -c "import sys; sys.path.insert(0, '$L'); import rig_requires as r; print(r.radio_state('SA1', 'bt'))")
+check "the same fallback in rig_requires.radio_state" '[ "$out" = on ]'
+rm -f "$W/adb/SA1.olddump"
+echo "/system/bin/sh: pidof: not found" > "$W/adb/SA1.pid"
+out=$(python3 -I -c "import sys; sys.path.insert(0, '$L'); import rig_requires as r; print(r.app_running('SA1'))")
+check "a missing pidof does not read as a running app" '[ "$out" = False ]'
+printf 'u0_a52 1234 1 123 456 ffffffff 00000000 S com.andrerinas.headunitrevived\n' > "$W/adb/SA1.ps"
+out=$(python3 -I -c "import sys; sys.path.insert(0, '$L'); import rig_requires as r; print(r.app_running('SA1'))")
+check "below API 24 the app is found in ps" '[ "$out" = True ]'
+rm -f "$W/adb/SA1.pid" "$W/adb/SA1.ps"
 
 echo "$pass passed, $fail failed"
 [ "$fail" -eq 0 ]
