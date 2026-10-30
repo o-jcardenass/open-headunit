@@ -176,7 +176,10 @@ Shell prelude for every command: `source /home/oscar/Coding/StudioProjects/rig-t
    3. **Remove the build worktree:** `git worktree remove --force $WT` (the APKs are already in `$EV/apk/`).
    4. **Publish:** zip the evidence as `<thread>-round<N>-captures.zip` and upload it as an asset of the
       thread's one release `rig-evidence-<thread>` (`gh release create` on the thread's first round,
-      `gh release upload` after; see §7) with the sha256 in the results file. Copy the results file next to
+      `gh release upload` after; see §7) with the sha256 in the results file. **A batch changes nothing here:**
+      each round's zip still goes to its own thread's release, and a release is never named after a round
+      (`rig-evidence-<thread>-round<N>`) or after a batch. Check with `gh release view rig-evidence-<thread>` first;
+      create it only when that fails. Copy the results file next to
       its brief. In `README.md`, update the thread's row (router style, name the results file) and delete the
       round's Queue line. Run `python3 -I rig-sdlc/rig-env/rig_sync.py sync` and add any `IN` or `MERGED` paths
       it lists. `git add` the results file and `README.md` by name, commit
