@@ -42,6 +42,7 @@ Every entry has the same fields, so a human can skim it and an agent can match a
 - **Usage:** `source rig_devices.sh`.
 - **Provides:** roles `D_HU`, `D_POCO`, `D_MOTO`, `D_HP`, `D_SAM` (`D_T230` is an alias of `D_SAM`); `HUR_PKG`, `RIG_LOCK` (`/tmp/ohu-rig.lock`), `RIG_TOOLKIT`, `RIG_DATA`; functions:
   - `rig_check_devices D_HU D_POCO ...` returns 1 and prints `MISSING <role>=<serial>` for any role not in `adb devices`.
+  - Accepts D-HU or D_HU.
   - `rig_evidence_dir <thread> <N>` creates and prints `rig-data/rounds/<thread>-round<N>`.
   - `rig_marker <serial> <tag>` writes an `AutomationMarker:` line to that device's log (tag without spaces).
 - **Needs:** `adb`. **Writes:** only what `rig_evidence_dir` creates.
@@ -51,6 +52,7 @@ Every entry has the same fields, so a human can skim it and an agent can match a
 - **Does:** read-only pre-round check; prints one table (adb state, wifi, bluetooth, HFP/A2DP, screen) to paste into Setup notes.
 - **Use when:** before every round, and again after any restart.
 - **Usage:** `rig_preflight.sh ROLE[:need,need] ...`, e.g. `rig_preflight.sh D_HU:wifi,bt D_MOTO:wifi,bt D_POCO`.
+- Accepts D-HU or D_HU.
 - **Notes:** prints `PREFLIGHT OK` or `PREFLIGHT FAILED: stop, tell the operator, do not start the round`. A needed radio that is off is a FAIL (exit 1). It never turns anything on (the head unit's WiFi re-join needs an operator tap). It also fails on strays from `rig_cleanup.sh list` (stray logcat, held rig lock). Paired round: `RIG_KEEP_PIDS="<pids>"` and `RIG_KEEP_LOCKS="<lock paths>"` name the other round's logcat and lock; they are printed as `kept (paired round)` and do not fail.
 
 ### rig_cleanup.sh
