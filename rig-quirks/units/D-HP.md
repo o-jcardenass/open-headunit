@@ -46,3 +46,8 @@ The HP Slate 7 Plus (API 17). Moved verbatim from `TESTING-TEMPLATE.md` §7a on 
   Server discovery, for instance) will otherwise read as a connectivity failure that is really just
   impatience. `projection-raise` round 4.
 - **Install (`adb install -r -d`) and any APK pull on this unit go over USB, never wireless adb.** A 26 MB install plus the identity pull took about 6 minutes over wireless adb in usb-dialog round 6 while the unit sat on its cable. Wireless adb is for the stage runs only, when the USB port holds the OTG adapter. Do the install and `ident` before the cable moves.
+- **The dongle stands on a powered OTG Y-cable here, from 2026-10-30.** D-HP stays on wireless adb with the dongle in the
+  Y-cable's host port and the Y-cable on its own power supply, so a USB run needs no cable move and does not drain the
+  battery. `rig-lib/main_smoke.py` finds D-HP on the LAN by `ro.serialno`. After a reboot, put D-HP on its PC cable once
+  so the script can switch it to wireless adb again. A brief that needs D-MOTO wired to D-HP plugs it into the Y-cable in
+  the dongle's place.

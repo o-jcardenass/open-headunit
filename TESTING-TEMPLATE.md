@@ -644,7 +644,8 @@ A round's own `Unit:` header is the authority for what that round ran on, not th
 |---|---|---|---|
 | `E-1`, `E-2` | classic ESP32 (ESP32-D0WD-V3), CP2102 bridge, 4 MB flash | Bluetooth Classic and BLE stand-ins; cannot present USB identities | `native-bt-broker-esp32-hardware-findings.md` |
 | `P-1` | RP2040 "Pico" clone, USB-C, 8 MB flash; BOOTSEL, NRST and KEY buttons | USB device stand-in: stock Carlinkit CCPA, AOA accessory, nameless vendor device | `tools/pico-usb-stand-in/README.md` |
-| `D-DONGLE` | wireless Android Auto USB dongle, enumerates as "Google Pixel 4" (`18d1:4ee1`, then `18d1:2d00`), bonded to D-MOTO | real AOA device for USB rounds on D-HP or D-POCO; not the `smartBox` model users report | `rig-quirks/units/D-DONGLE.md` |
+| `D-DONGLE` | wireless Android Auto USB dongle, enumerates as "Google Pixel 4" (`18d1:4ee1`, then `18d1:2d00`), bonded to D-MOTO | real AOA device for USB rounds on D-HP or D-POCO; not the `smartBox` model users report; stands on D-HP's Y-cable | `rig-quirks/units/D-DONGLE.md` |
+| `Y-OTG` | powered OTG Y-cable on D-HP | keeps the dongle plugged into D-HP and powers D-HP, with D-HP on wireless adb | `rig-quirks/units/D-HP.md` |
 
 **Five units against four USB ports on the test PC, and wireless adb does not cover the gap.**
 Projection takes the head unit onto a P2P group or a shared LAN, so the unit under test is always

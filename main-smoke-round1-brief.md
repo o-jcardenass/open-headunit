@@ -3,16 +3,22 @@
 Published name: `main-smoke-round1-brief.md`. Results go in `main-smoke-round1-results.md`.
 Evidence: create the release `rig-evidence-main-smoke` with the asset `main-smoke-round1-captures.zip`.
 
-Units: D-HU, D-SAM, D-HP and D-POCO as head units; D-POCO and D-MOTO as phones; the USB dongle (`D-DONGLE`, below).
+Units: D-HP and D-POCO as USB hosts; D-MOTO as the wired phone; the USB dongle (`D-DONGLE`, below). D-HU and D-SAM
+only take the install in `prep` and the restore in `close`.
 
-Queue line: `main-smoke-round1-brief.md` (one arm, `main` `6ff42d9a`; one build; units D-HU, D-SAM, D-HP, D-POCO, D-MOTO
-and the dongle; M3, M6 and M7 are the point).
+Queue line: `main-smoke-round1-brief.md` (one arm, `main` `6ff42d9a`; one build; runs M5, M2 and M7 only; units D-HP,
+D-POCO, D-MOTO and the dongle, D-HU and D-SAM for prep and close; M7 is the point).
 
-Pairing: none, because the round uses every unit (§3b). Hand steps: one Bluetooth re-pair, eight cable moves, one
-dongle reseat per run at most, USB system dialogs, a D-MOTO unlock (§4). Injected taps: none.
+Pairing: none (§3b). Hand steps: six cable moves, one dongle reseat per run at most, USB system dialogs, a D-MOTO unlock
+(§4). Injected taps: none.
 
-**Time budget.** Build 25 min, prep 15 min, stage S 25 min (M4 and M8), stage U 30 min, stage H 30 min, stage P 25 min, cable
-moves 15 min, closing 20 min, thermal waits about 10 min. **About 3 h 15 min.**
+**Time budget.** Build 25 min, prep 15 min, M5 15 min, stage P 25 min, cable moves 10 min, closing 20 min, thermal waits
+about 5 min. **About 2 h.**
+
+> **Revised 2026-10-30: trimmed to the wired runs.** `rig-lib/main_smoke.py` now runs M4, M8, M1, M3 and M6 at will,
+> with the dongle standing on D-HP's powered OTG Y-cable. So this round keeps only what the script does not run: M5
+> (D-MOTO wired to D-HP), M2 (D-MOTO wired to D-POCO) and M7 (the dongle on D-POCO). The sections for M4, M8, M1, M3
+> and M6 stay below for reference; the block does not run them. Where the text says "M6 first", read M5 first.
 
 > **Revised 2026-10-29: moved onto `rig-lib`.** The round runs as one `rig_session.py` process from the block below.
 > Same runs, build and gates. Prepare is now two runs (`prep`, `moto`), D-POCO's move to wireless adb is `pnet`, and
@@ -24,28 +30,17 @@ candidate M 6ff42d9a06a3a0a00d2f50c67bc7d9b73c885572
 unit D-HU   role=headunit wifi=on bt=on
 unit D-SAM  role=headunit wifi=on bt=on
 unit D-HP@prep role=headunit battery=60
-unit D-POCO@prep,M4,M8,M1,M3 role=phone wifi=on bt=on
-unit D-POCO@M4,M8 bond=D-SAM nobond=D-HU
-unit D-POCO@M1,M3 bond=D-HU nobond=D-SAM
-unit D-SAM@M4,M8 battery=50
+unit D-POCO@prep role=phone wifi=on bt=on
 unit D-MOTO@moto wifi=on bt=on
-unit D-MOTO@M4,M8,M1,M3 wifi=off bt=off
-unit D-MOTO@M6,M7 wifi=on bt=on
+unit D-MOTO@M5,M7 wifi=on bt=on
 unit D-POCO@pnet role=headunit battery=60
 unit D-HP@close-hp
-hardware the wireless Android Auto dongle (D-DONGLE, bonded to D-MOTO as carplay_box_F96B), and one OTG adapter each for D-HP and D-POCO
-confirm D-POCO has projected to D-HU and to D-SAM in Android Auto at least once
-confirm D-POCO's Spotify has a playlist of 6 or more tracks
+hardware the wireless Android Auto dongle (D-DONGLE, bonded to D-MOTO as carplay_box_F96B), D-HP's powered OTG Y-cable, and one OTG adapter for D-POCO
 confirm D-SAM is on its own charger, and D-HP is charged as full as it goes
 confirm D-MOTO unlocks without a PIN, or you unlock it when a cue asks (H0)
 run prep cap=2400 script=prep.sh grade=grade-prep.sh
 run moto cap=420 script=moto.sh grade=grade-moto.sh
-run M4 cap=1200 script=m4.sh grade=grade-m4.sh
-run M8 cap=1800 script=m8.sh grade=grade-m8.sh
-run M1 cap=1200 script=m1.sh grade=grade-m1.sh
-run M3 cap=1200 script=m3.sh grade=grade-m3.sh point=yes
-run M6 cap=1500 script=m6.sh grade=grade-m6.sh point=yes hand="H3: plug the dongle into D-HP's OTG port. Answer a USB dialog with OK (Always is allowed for the dongle)"
-run M5 cap=1500 script=m5.sh grade=grade-m5.sh hand="H4: move the dongle off D-HP. Unplug D-MOTO from the PC and plug it into D-HP's OTG port. Answer a USB dialog with OK, never Always. Unlock D-MOTO if it shows a PIN"
+run M5 cap=1500 script=m5.sh grade=grade-m5.sh hand="H4: unplug the dongle from D-HP's Y-cable. Unplug D-MOTO from the PC and plug it into the Y-cable in its place, with the Y-cable's power on. Answer a USB dialog with OK, never Always. Unlock D-MOTO if it shows a PIN"
 run pnet cap=420 script=pnet.sh grade=grade-pnet.sh
 run M2 cap=1080 script=m2.sh grade=grade-m2.sh hand="H5: unplug D-MOTO from D-HP. Unplug D-POCO from the PC and plug D-MOTO into D-POCO's OTG port. Answer a USB dialog with OK, never Always"
 run M7 cap=1800 script=m7.sh grade=grade-m7.sh point=yes hand="H6: D-MOTO stays on its PC cable. Plug the dongle into D-POCO's OTG port. Answer a USB dialog with OK (Always is allowed for the dongle)"
@@ -158,7 +153,7 @@ The PC has four USB ports for six devices. Each stage names what is plugged in.
 | H1 | Unplug D-HP from the PC (it is on wireless adb). Plug D-MOTO into that port | end of `prep` (OPERATOR line); `moto` waits for D-MOTO |
 | H2 | On D-POCO, pair D-HU's Bluetooth (`Navegadortz2`) | before M1 (the session's bond check) |
 | H3 | Plug the dongle into D-HP's OTG port | M6's `hand=` |
-| H4 | Move the dongle off D-HP. Unplug D-MOTO from the PC and plug it into D-HP's OTG port | M5's `hand=` |
+| H4 | Unplug the dongle from D-HP's Y-cable. Unplug D-MOTO from the PC and plug it into the Y-cable in its place | M5's `hand=` |
 | H5 | Unplug D-MOTO from D-HP. Unplug D-POCO from the PC and plug D-MOTO into D-POCO's OTG port | M2's `hand=` |
 | H6 | Unplug D-MOTO from D-POCO and put it on the free PC port. Plug the dongle into D-POCO's OTG port | before M7 (D-MOTO's adb check, then M7's `hand=`) |
 | H7 | Unplug the dongle; D-POCO back on its PC cable. Then unplug D-MOTO from the PC and plug D-HP into that port | end of `close` (OPERATOR line); `close-hp` waits for D-HP |
@@ -1112,10 +1107,8 @@ are not this round.
 
 ## 10. Report back
 
-1. M6 and M7: projected rows of 3 and of 5, with `stale`, `late_discard` and `selected` per row.
-2. M3: L-FF3 present on `armeabi-v7a`, t(L-SSL) to L-FF3, and the last `rendered=`. Or why it could not run.
-3. M8: `M8-record.txt` (one line per cycle) and the verdict.
-4. Every other run's verdict, plus M4's and M5's damage and slow windows, and any FAIL line with its first five lines.
+1. M7: projected rows of 5, with `stale`, `late_discard` and `selected` per row.
+2. Every other run's verdict, plus M5's damage and slow windows, and any FAIL line with its first five lines.
 
 Put every capture, `.tsv`, record file, `notes.txt`, thermal log, screenshot and `M1-exports.txt` in
 `main-smoke-round1-captures.zip` on the new release `rig-evidence-main-smoke`, with its sha256 in the results file.

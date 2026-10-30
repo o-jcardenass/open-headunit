@@ -101,7 +101,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 5. `fps-cap-round1-brief.md` (candidate `main` `947b3ae9`, fetched from origin, PR #1139 merged; conditional `v.3.4.0` `013b05bc`; units D-POCO as head unit and D-MOTO, D-HU idle; R1 and R3 are the point)
 6. `pr-1091-pcm-guidance-round1-brief.md` (C `dcc3c708` on `fork/test/pr-1091`, a contributor audio PR merged onto `main` `b3ef3355`; one build, four settings arms; units D-HU and D-POCO; R2 is the point)
 10. `self-mode-media-session-round3-brief.md` (C `6d4de0d0` on `fork/fix/929-self-mode-media-session`, on `main` `947b3ae9`, one build, no baseline; units D-HU and D-POCO, D-MOTO Bluetooth off; P1 and H2 are the point)
-13. `main-smoke-round1-brief.md` (one arm, `main` `6ff42d9a`, one build; units D-HU, D-SAM, D-HP, D-POCO, D-MOTO and the USB dongle; M3, M6, M7 and M8 (D-SAM's station after a force-stop) are the point)
+13. `main-smoke-round1-brief.md` (one arm, `main` `6ff42d9a`, one build; trimmed on 2026-10-30 to M5, M2 and M7, because `rig-lib/main_smoke.py` runs the rest; units D-HP, D-POCO, D-MOTO and the USB dongle, D-HU and D-SAM for prep and close; M7 is the point)
 14. `pr-train-20261030-round1-brief.md` (T `6d038cc5` on `fork/test/pr-train-20261030` = `main` `6ff42d9a` + #1209 + #1222, B `6ff42d9a`; units D-SAM and D-POCO, then D-HU and D-MOTO; W1 and D1 are the point)
 
 ## Threads
@@ -127,7 +127,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 | `pr-merge-train` | Rounds 1 to 4 run on `fork/test/pr-merge-train`: R1 PASS, R2 X1 FAIL, R3 PASS; round 4 SB/SA/HB/HA all PASS, A no worse on D-SAM and better on D-HP (Headunit Server). | `pr-merge-train-round4-results.md`. Briefs need `narrow-band-profile-cap=false` for PCM on 2.4 GHz units. |
 | `pr-train-20261029` | Round 2 stage W: setup, WB, W2 PASS; W1 regraded INCONCLUSIVE by the host (Type 3 went out 3 times; D-SAM's station rejoined beside the new group). D-SAM projection cropped in a corner during W1 | `pr-train-20261029-round2-results.md`. W1 runs again in `pr-train-20261030`. Control on B for the crop is open. |
 | `pr-train-20261030` | Round 1 queued: #1209 W1 with D-SAM's station held off, #1222 on D-HU. | `pr-train-20261030-round1-brief.md`. |
-| `main-smoke` | Round 1 queued: current `main` (`6ff42d9a`) on every unit and route, the dongle included, plus M8 (D-SAM's station after a force-stop). | `main-smoke-round1-brief.md`. |
+| `main-smoke` | Round 1 queued, trimmed to the wired runs M5, M2 and M7. `rig-lib/main_smoke.py` runs the wireless runs and M6 at will. | `main-smoke-round1-brief.md`; `python3 -I rig-lib/main_smoke.py`. |
 | `usb-dialog` | Round 8 on `15a13bff` done: R1/R1-on FAIL (fault ends session as read failure, no desync line; recovery 13 s, 36 s with a permission ask), Q3/Q4-ptp/R2/R4 PASS, Q1/Q2/R3 INCONCLUSIVE, Q4-midi/Q5 battery; phone mode was PTP not File transfer | `usb-dialog-round8-results.md` |
 | `pico-usb-stand-in` | Round 1 done, R0-R4 PASS: firmware builds, all 5 identities enumerate; console is /dev/ttyACM1, pass --port | `pico-usb-stand-in-round1-results.md`; firmware in `tools/pico-usb-stand-in/` |
 
