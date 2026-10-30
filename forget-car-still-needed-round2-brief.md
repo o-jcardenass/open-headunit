@@ -42,7 +42,7 @@ round 1 left at FAIL on one rep.
 ## 0. What the session needs
 
 ```rig-requires
-lib 0602b3d87
+lib 2c7a270e0
 candidate F 6c23c264931712d51bff48c4d38bd99c090162aa
 candidate C 947b3ae9fae9834aa8e4145ee91751ed743c2ae0
 unit D-HU role=headunit wifi=on bt=on

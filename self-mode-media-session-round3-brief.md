@@ -32,7 +32,7 @@ P2 5 min, cleanup 3 min, 6 min thermal waits. About 55 min, of which 36 min are 
 This round runs only what the changes since round 2 put at risk, and two runs that round 2 could not reach.
 
 ```rig-requires
-lib 0602b3d87
+lib 2c7a270e0
 candidate C 6d4de0d0bb1ddb5f057616115ce72ccf72bb427b
 unit D-HU   role=headunit wifi=on bt=on
 unit D-POCO role=phone wifi=on bt=on

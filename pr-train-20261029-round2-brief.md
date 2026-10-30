@@ -11,7 +11,7 @@ Units: D-SAM (head unit, API 19, Native wireless) with D-POCO (phone). D-HU Blue
 Time: setup 5 min, WB 8, W1 9, W2 8, cleanup 6, plus thermal waits. **About 40 min.**
 
 ```rig-requires
-lib 0602b3d87
+lib 2c7a270e0
 unit D-SAM role=headunit wifi=on bt=any battery=50
 unit D-POCO role=phone wifi=on bt=on nobond=D-HU aa=D-SAM battery=30
 unit D-HU bt=off

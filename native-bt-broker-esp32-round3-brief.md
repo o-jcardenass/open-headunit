@@ -12,7 +12,7 @@ Units: D-HU (head unit), D-POCO (phone), board E-1 on the host's serial port, D-
 Time: K 6 min, S 4 min, cleanup 4 min, plus thermal waits. **About 15 min.**
 
 ```rig-requires
-lib 0602b3d87
+lib 2c7a270e0
 unit D-HU role=headunit wifi=on bt=on
 unit D-POCO role=phone wifi=on bt=on aa=D-HU battery=30
 unit D-SAM role=headunit

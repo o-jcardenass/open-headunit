@@ -21,7 +21,7 @@
 ## 0. What the session needs
 
 ```rig-requires
-lib 0602b3d87
+lib 2c7a270e0
 candidate C 947b3ae9fae9834aa8e4145ee91751ed743c2ae0
 candidate V 013b05bc0e7f5a881ea1d4363b9275df69bd5f5a
 unit D-POCO role=headunit wifi=on bt=on

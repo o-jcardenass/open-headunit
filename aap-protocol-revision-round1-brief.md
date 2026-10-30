@@ -33,7 +33,7 @@ at most 4 dumped-target taps on the app per R6 run.
 order below. The runs are the sessions of the old layout: R1 to R5 are graded inside them (section 7).
 
 ```rig-requires
-lib 0602b3d87
+lib 2c7a270e0
 candidate B 947b3ae9fae9834aa8e4145ee91751ed743c2ae0
 candidate A 947b3ae9fae9834aa8e4145ee91751ed743c2ae0
 candidate T a9988ed85aaeb47cf7bca97e93df82a61c0c8b75

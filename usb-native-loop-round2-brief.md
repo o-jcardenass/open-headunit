@@ -27,7 +27,7 @@ baseline for two later fixes. It covers two reports:
    adapter reboots.
 
 ```rig-requires
-lib 0602b3d87
+lib 2c7a270e0
 candidate v340 013b05bc0e7f5a881ea1d4363b9275df69bd5f5a
 candidate main f9a72d480d51105870f62df6f0a40a1276e98a34
 unit D-POCO role=headunit wifi=on bt=on battery=90
