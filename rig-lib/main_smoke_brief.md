@@ -12,7 +12,7 @@ which stays on D-HP's powered OTG Y-cable, so D-MOTO keeps its PC cable for the 
 adb takes minutes); only its settings go back.
 
 ```rig-requires
-lib ca8a86a90
+lib 1870c258e
 candidate M c2c0e95aa514ae00c8e3ce5047701b83ca5f1264
 unit D-HU role=headunit wifi=on bt=on
 unit D-HU@AU bt=off
