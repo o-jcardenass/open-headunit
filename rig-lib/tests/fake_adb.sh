@@ -20,6 +20,9 @@ case "$*" in
   "shell dumpsys wifip2p") echo "mWifiP2pInfo groupFormed: $(get go false) isGroupOwner: $(get go false)" ;;
   "shell pidof com.andrerinas.headunitrevived") get pid "" ;;
   "shell ps") cat "$D/$S.ps" 2>/dev/null ;;
+  "shell am broadcast "*) cat "$D/$S.bcast" 2>/dev/null ;;
+  "shell echo rl-ok") n=$(( $(get asks 0) + 1 )); echo "$n" > "$D/$S.asks"   # $S.connectlate: answers from the 3rd ask
+    [ -f "$D/$S.connectlate" ] && [ "$n" -lt 3 ] && exit 1; echo rl-ok ;;
   "shell dumpsys battery") echo "  level: $(get battery 80)" ;;
   "shell settings get secure bluetooth_name") get name null ;;
   "shell settings get secure bluetooth_address") get addr null ;;
@@ -32,6 +35,9 @@ case "$*" in
     echo "$(date -d "@$(( $(date +%s) + off ))" '+%m-%d %H:%M:%S').000  1  1 I RIGCLOCK: $(get clocktag x)" ;;
   "shell id -u") get uid 2000 ;;
   "shell date @"*) [ "$(get uid 2000)" = 0 ] && echo 0 > "$D/$S.clockoff" ;;
-  logcat*) i=0; while :; do echo "10-29 12:00:00.000 1 1 I fake: line $i"; i=$((i+1)); sleep 0.2; done ;;
+  logcat*) i=0; while :; do   # $S.logdie: the capture dies after 3 lines, once
+      printf '10-29 12:%02d:%02d.000 1 1 I fake: line %d\n' $((i / 60 % 60)) $((i % 60)) "$i"; i=$((i+1))
+      [ -f "$D/$S.logdie" ] && [ "$i" -ge 3 ] && { rm -f "$D/$S.logdie"; exit 0; }
+      sleep 0.2; done ;;
   *) : ;;
 esac

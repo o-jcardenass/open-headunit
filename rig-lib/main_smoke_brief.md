@@ -99,8 +99,8 @@ waddr() {   # waddr SERIAL: the unit's wlan0 IPv4 address
 to_wireless() {   # to_wireless SERIAL FILE: tcpip 5555, connect, and write ip:5555 to FILE when the model answers
   local ip; ip=$(waddr "$1"); echo "$1 wlan0=$ip" >> "$EV/wireless.log"
   [ -n "$ip" ] || return 1
-  adb -s "$1" tcpip 5555 >> "$EV/wireless.log" 2>&1; rl_sleep 6
-  adb connect "$ip:5555" >> "$EV/wireless.log" 2>&1; rl_sleep 2
+  adb -s "$1" tcpip 5555 >> "$EV/wireless.log" 2>&1
+  rl_connect "$ip:5555" 30 >> "$EV/wireless.log" 2>&1 || return 1
   [ -n "$(adb -s "$ip:5555" shell getprop ro.product.model | tr -d '\r')" ] || return 1
   echo "$ip:5555" > "$2"
   local role; case "$1" in "$D_HP") role=D-HP ;; "$D_MOTO") role=D-MOTO ;; "$D_POCO") role=D-POCO ;; esac

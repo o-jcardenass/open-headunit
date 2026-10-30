@@ -495,5 +495,25 @@ out=$(python3 -I -c "import sys; sys.path.insert(0, '$L'); import rig_requires a
 check "below API 24 the app is found in ps" '[ "$out" = True ]'
 rm -f "$W/adb/SA1.pid" "$W/adb/SA1.ps"
 
+rm -f "$W/rounds/t-round1/capdie".*; touch "$W/adb/PH1.logdie"
+lib "rl_cap_start capdie PH1; sleep 7; rl_cap_stop capdie" >/dev/null
+C="$W/rounds/t-round1/capdie"
+check "a capture that dies is restarted on the same file, once, with no line twice" '[ "$(grep -c . "$C.restarts" 2>/dev/null)" -eq 1 ] && [ "$(grep -c "fake: line 1\$" "$C.txt")" -eq 1 ] && grep -q "fake: line 5\$" "$C.txt" && ! grep -q "RL_RESTART" "$C.txt"'
+touch "$W/adb/10.0.0.7:5555.connectlate"; rm -f "$W/adb/10.0.0.7:5555.asks"
+out=$(lib "rl_connect 10.0.0.7:5555 10; echo rc=\$?")
+check "rl_connect keeps asking until the unit answers (offline and authorizing pass)" '[[ "$out" == *"CONNECTED 10.0.0.7:5555 after"*"rc=0"* ]]'
+rm -f "$W/adb/10.0.0.7:5555.asks"; echo 1 > "$W/adb/10.0.0.7:5555.asks"; rm -f "$W/adb/10.0.0.7:5555.connectlate"; touch "$W/adb/10.0.0.8:5555.absent"
+out=$(lib "rl_connect 10.0.0.8:5555 2; echo rc=\$?")
+check "rl_connect gives up at its cap" '[[ "$out" == *"CONNECT_TIMEOUT"*"rc=1"* ]]'
+
+echo 'Broadcast completed: result=0, data="{"action":"x","ok":true}"' > "$W/adb/PH1.bcast"
+lib "rl_broadcast PH1 ACTION_QUERY_STATE >/dev/null"; r1=$?
+echo 'Broadcast completed: result=1, data="{"action":"x","error":"no","ok":false}"' > "$W/adb/PH1.bcast"
+lib "rl_broadcast PH1 ACTION_QUERY_STATE >/dev/null"; r2=$?
+echo 'Broadcast completed: result=0' > "$W/adb/PH1.bcast"
+lib "rl_broadcast PH1 ACTION_QUERY_STATE >/dev/null"; r3=$?
+check "rl_broadcast returns 0 on ok:true, 1 on ok:false, 2 when nothing answered" '[ "$r1$r2$r3" = 012 ]'
+rm -f "$W/adb/PH1.bcast"
+
 echo "$pass passed, $fail failed"
 [ "$fail" -eq 0 ]

@@ -5,6 +5,7 @@
 # brief_check.py smoke run: device reads short-circuit and waits return at once.
 
 RL_VERSION=1
+RL_LIB_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 RL_EV="${RL_EV:-${EV:-}}"
 RL_PIDS="${RL_EV:+$RL_EV/pids-${RUN:-run}.txt}"
 RL_PROGRESS="${RL_PROGRESS:-${RL_EV:+$(dirname "$RL_EV")/PROGRESS.log}}"
@@ -55,13 +56,54 @@ rl_stop() {  # rl_stop TAG: stop every tracked job with that tag (a prefix match
 
 rl_stop_all() { rl_stop ""; }
 
-rl_cap_start() {  # rl_cap_start TAG SERIAL [logcat args]: capture to $EV/TAG.txt (threadtime)
+rl_cap_start() {  # rl_cap_start TAG SERIAL [logcat args]: capture to $EV/TAG.txt (threadtime), restarted if it dies
   local tag=$1 serial=$2; shift 2
-  rl_bg "cap:$tag" stdbuf -oL adb -s "$serial" logcat -v threadtime "$@" > "$RL_EV/$tag.txt" 2>&1
+  if [ -f "$RL_LIB_DIR/rl_capture.sh" ]; then
+    rl_bg "cap:$tag" bash "$RL_LIB_DIR/rl_capture.sh" "$serial" "$RL_EV/$tag" "$@"
+  else   # the brief_check smoke copies rig_lib.sh alone
+    rl_bg "cap:$tag" stdbuf -oL adb -s "$serial" logcat -v threadtime "$@" > "$RL_EV/$tag.txt" 2>&1
+  fi
   sleep 2
 }
 
-rl_cap_stop() { sleep 2; rl_stop "cap:$1"; }   # rl_cap_stop TAG (no TAG stops every capture)
+rl_cap_stop() {   # rl_cap_stop TAG (no TAG stops every capture); a restarted capture is named in the status log
+  sleep 2; rl_stop "cap:$1"
+  [ -n "$1" ] && [ -s "$RL_EV/$1.restarts" ] && rl_log "CAPTURE $1 restarted $(grep -c . "$RL_EV/$1.restarts") times"
+  return 0
+}
+
+rl_connect() {  # rl_connect ADDR [CAP_S]: adb connect until the unit answers a shell command (default 30 s)
+  local addr=$1 cap=${2:-30} start
+  rl_step "CONNECT $addr cap=${cap}s"
+  [ -n "${RL_SMOKE:-}" ] && { echo "CONNECTED $addr (smoke)"; return 0; }
+  start=$(date +%s)
+  while :; do   # "offline" and "authorizing" read as not yet: keep asking until the cap
+    adb connect "$addr" >/dev/null 2>&1
+    if [ "$(adb -s "$addr" get-state 2>/dev/null | tr -d '\r')" = device ] &&
+       [ "$(adb -s "$addr" shell echo rl-ok 2>/dev/null | tr -d '\r')" = rl-ok ]; then
+      echo "CONNECTED $addr after $(( $(date +%s) - start ))s"; return 0
+    fi
+    [ $(( $(date +%s) - start )) -ge "$cap" ] && break
+    sleep 1
+  done
+  echo "CONNECT_TIMEOUT $addr ${cap}s"; rl_log "CONNECT_TIMEOUT $addr"; return 1
+}
+
+rl_broadcast() {  # rl_broadcast SERIAL ACTION [am extras]: an ordered broadcast to the app's AutomationReceiver
+  # Returns 0 when the app answered "ok":true, 1 when it answered false (the data says why), 2 when nothing
+  # answered (a build older than the reply, or a broadcast that was never delivered). Prints am's output.
+  local s=$1 a=$2 out; shift 2
+  [ -n "${RL_SMOKE:-}" ] && { echo "BROADCAST $a (smoke)"; return 0; }
+  out=$(adb -s "$s" shell am broadcast -f 0x00000020 \
+    -n com.andrerinas.headunitrevived/com.andrerinas.openheadunit.automation.AutomationReceiver \
+    -a "com.andrerinas.openheadunit.$a" "$@" 2>&1 | tr -d '\r')
+  echo "$out"
+  case "$out" in
+    *'"ok":true'*) return 0 ;;
+    *'"ok":false'*) rl_log "BROADCAST_REFUSED $s $a"; return 1 ;;
+    *) rl_log "BROADCAST_UNANSWERED $s $a"; return 2 ;;
+  esac
+}
 
 rl_offset() { stat -c %s "$1" 2>/dev/null || echo 0; }   # rl_offset FILE: its size in bytes now
 

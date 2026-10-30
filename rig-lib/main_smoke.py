@@ -53,9 +53,16 @@ def hp_serial():
     return sh(f"bash -c 'source \"{TOOLKIT}/rig_devices.sh\"; echo $D_HP'").stdout.strip()
 
 
-def answers(addr):
-    sh(["adb", "connect", addr])
-    return sh(["adb", "-s", addr, "shell", "getprop", "ro.serialno"], timeout=15).stdout.strip()
+def answers(addr, cap_s=0):
+    """The unit's serial over wireless adb, asking again for up to CAP_S seconds ("offline" and "authorizing"
+    pass on their own); "" when it never answers."""
+    end = time.time() + cap_s
+    while True:
+        sh(["adb", "connect", addr])
+        got = sh(["adb", "-s", addr, "shell", "getprop", "ro.serialno"], timeout=15).stdout.strip()
+        if got or time.time() >= end:
+            return got
+        time.sleep(1)
 
 
 def to_wireless(serial):
@@ -64,8 +71,8 @@ def to_wireless(serial):
     ip = (re.findall(r"inet (\d+\.\d+\.\d+\.\d+)", out) or [""])[0]
     if not ip:
         return None
-    sh(["adb", "-s", serial, "tcpip", "5555"]); time.sleep(6)
-    return f"{ip}:5555" if answers(f"{ip}:5555") else None
+    sh(["adb", "-s", serial, "tcpip", "5555"])
+    return f"{ip}:5555" if answers(f"{ip}:5555", cap_s=30) else None
 
 
 def sweep(serial):
