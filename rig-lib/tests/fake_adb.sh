@@ -6,7 +6,7 @@ D=${FAKE_ADB_DIR:?}
 S=$2; shift 2
 get() { cat "$D/$S.$1" 2>/dev/null || echo "$2"; }
 case "$*" in
-  get-state) echo device ;;
+  get-state) [ -f "$D/$S.absent" ] && exit 1; echo device ;;
   "shell svc wifi enable") [ -n "${FAKE_ADB_STUCK:-}" ] || echo on > "$D/$S.wifi" ;;
   "shell svc wifi disable") [ -n "${FAKE_ADB_STUCK:-}" ] || { echo off > "$D/$S.wifi"; rm -f "$D/$S.go"; } ;;
   "shell svc bluetooth enable") [ -n "${FAKE_ADB_STUCK:-}" ] || echo on > "$D/$S.bt" ;;

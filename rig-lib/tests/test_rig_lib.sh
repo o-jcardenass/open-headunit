@@ -349,6 +349,20 @@ check "order --live counts a bond the rig already holds as done" '[[ "$out" != *
 out=$(lib "export RL_STATUS='$W/sl.status'; rl_sleep 1; cat '$W/sl.status'")
 check "rl_sleep marks a wait with its own cap, so a long sleep is not a stall" '[[ "$out" == *"WAIT cap=1s SLEEP"* ]]'
 
+A="$G/ab-round1-brief.md"
+sed -e 's/^unit D-POCO@B nobond=D-HU$/unit D-POCO@B nobond=D-HU\nunit D-MOTO bt=off/' "$N" > "$A"
+AE="$W/rounds/ab-round1"; mkdir -p "$AE"; : > "$W/adb/PH1.bonds"; touch "$W/adb/MO1.absent"
+out=$(python3 -I "$L/rig_requires.py" check --ev "$AE" "$A" --run B); rc=$?
+check "an absent unit that needs only radios off is a note, not a failure" '[ "$rc" -eq 0 ] && [[ "$out" == *"D-MOTO is not on adb: skipped"* ]]'
+rm -f "$W/adb/MO1.absent"
+for k in wifi bt name bonds; do cp "$W/adb/PH1.$k" "$W/adb/10.0.0.2:5555.$k" 2>/dev/null; done; touch "$W/adb/PH1.absent"
+out=$(python3 -I "$L/rig_requires.py" check --ev "$AE" "$A" --run B); rc=$?
+check "a phone off its cable fails without a recorded wireless serial" '[ "$rc" -eq 1 ] && [[ "$out" == *"OPERATOR reconnect D-POCO"* ]]'
+echo "D-POCO 10.0.0.2:5555" >> "$W/rounds/unit-serials.txt"
+out=$(python3 -I "$L/rig_requires.py" check --ev "$AE" "$A" --run B); rc=$?
+check "a phone on wireless adb is read at the serial a brief recorded" '[ "$rc" -eq 0 ] && [[ "$out" == *"D-POCO read over wireless adb at 10.0.0.2:5555"* ]]'
+rm -f "$W/adb/PH1.absent" "$W/rounds/unit-serials.txt"
+
 # --- rig_resolve.py ---
 git -C "$G" checkout -q -b transfer/t
 cp "$G/good-round1-brief.md" "$G/aa-round1-brief.md"; cp "$G/good-round1-brief.md" "$G/bb-round2-brief.md"

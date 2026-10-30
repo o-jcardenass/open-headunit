@@ -23,7 +23,10 @@ has projected to once (the operator confirms it), battery = minimum percent. `un
 scopes the line to runs B and S: rig_session.py checks it just before those runs and, when only the
 operator can meet it (a pair or a forget), prints one OPERATOR line and waits for it. A run's needs are
 the session's lines plus its scoped lines, scoped values winning. hardware and confirm lines go to the
-operator. candidate NAME SHA names each build arm (T, B, C...); brief_check.py checks the brief's log
+operator. A unit that is not on adb is skipped with a note when it needs nothing but radios off.
+A unit a brief moved to wireless adb is read by the address a script appended to the rounds dir's
+unit-serials.txt (`D-POCO 192.168.1.20:5555`) when its cable serial does not answer.
+candidate NAME SHA names each build arm (T, B, C...); brief_check.py checks the brief's log
 strings against them.
 run keys: cap (hard seconds), script and grade (named blocks of the brief), point=yes for the run the
 round exists for, hand="cue" for a step only the operator can do, always=yes for cleanup. Runs go in
@@ -276,6 +279,21 @@ def bonded(serial, other_serial):
     return bool(hits), name or addr or "?"
 
 
+def wireless_serials(ev, ser):
+    """Replace a cable serial that does not answer by the wireless one a brief recorded for that unit."""
+    notes = []
+    try:
+        rows = [l.split() for l in (Path(ev).parent / "unit-serials.txt").read_text().splitlines()]
+    except OSError:
+        return notes
+    for row in rows:
+        if len(row) >= 2 and row[0] in ROLES and adb(ser.get(row[0], ""), "get-state").strip() != "device" \
+                and adb(row[1], "get-state").strip() == "device":
+            ser[row[0]] = row[1]
+            notes.append(f"{row[0]} read over wireless adb at {row[1]}")
+    return notes
+
+
 def roles_file(ev):
     return Path(ev).parent / "unit-roles.txt"
 
@@ -434,13 +452,19 @@ def cmd_check(ev, path, fix=False, run_id=None):
     ok_file = Path(ev, "requirements.ok")
     ok_file.unlink(missing_ok=True)
     fails, lines, base, ser = list(problems), [], baseline(), serials()
+    lines += wireless_serials(ev, ser)
     roles_before = last_roles(ev)
     for role, u in units.items():
         s = ser.get(role)
         if not s:
             fails.append(f"{role}: no serial in {RIG_DEVICES}"); continue
         if adb(s, "get-state").strip() != "device":
-            fails.append(f"OPERATOR reconnect {role} ({s}) to adb"); continue
+            if all(u.get(k) in (None, "off", "any") for k in ("wifi", "bt")) and not any(
+                    u.get(k) for k in ("role", "bond", "nobond", "aa", "battery")):
+                lines.append(f"{role} is not on adb: skipped (it needs only radios off; a unit left powered on can still dial)")
+            else:
+                fails.append(f"OPERATOR reconnect {role} ({s}) to adb")
+            continue
         want_role, had = u.get("role"), roles_before.get(role)
         if fix and want_role and had and had != want_role:
             if adb(s, "shell", "pidof", PKG).strip():       # an exit on a stopped app starts the service
