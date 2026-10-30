@@ -452,5 +452,18 @@ check "clocks sets a root unit's clock and leaves a phone's with the offset to s
 [ "$rc" -eq 0 ] || echo "$out" | sed 's/^/     /'
 rm -f "$W/adb/HU1.clockoff" "$W/adb/HU1.uid" "$W/adb/PH1.clockoff"
 
+# --- main_smoke.py ---
+MS="$W/ms"; mkdir -p "$MS"
+python3 -I "$L/main_smoke.py" render --sha 0123456789abcdef0123456789abcdef01234567 --out "$MS/b.md"
+check "render pins the candidate and MAIN_SHA" 'grep -q "^candidate M 0123456789abcdef0123456789abcdef01234567$" "$MS/b.md" && grep -q "^MAIN_SHA=012345678 " "$MS/b.md"'
+g() { echo "{\"id\": \"$1\", \"verdict\": \"$2\", \"reason\": \"r\"}" > "$MS/$1.grade.json"; }
+g prep PASS; g M1 PASS; g M8 FAIL
+python3 -I "$L/main_smoke.py" summary --ev "$MS" >/dev/null; rc=$?
+check "a known FAIL (M8) does not fail the smoke" '[ "$rc" -eq 0 ] && grep -q "FAIL (known)" "$MS/summary.txt"'
+g M3 INCONCLUSIVE; python3 -I "$L/main_smoke.py" summary --ev "$MS" >/dev/null; rc=$?
+check "an INCONCLUSIVE run makes the smoke incomplete (2)" '[ "$rc" -eq 2 ]'
+g M1 FAIL; python3 -I "$L/main_smoke.py" summary --ev "$MS" >/dev/null; rc=$?
+check "a FAIL outranks an INCONCLUSIVE (1)" '[ "$rc" -eq 1 ] && grep -q "REGRESSION" "$MS/summary.txt"'
+
 echo "$pass passed, $fail failed"
 [ "$fail" -eq 0 ]
