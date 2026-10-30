@@ -12,7 +12,7 @@ Units: D-HU (head unit), D-POCO (phone), board E-1 on the host's serial port, D-
 Time: K 6 min, S 4 min, cleanup 4 min, plus thermal waits. **About 15 min.**
 
 ```rig-requires
-lib 871881d26
+lib f2d7a951f
 unit D-HU role=headunit wifi=on bt=on
 unit D-POCO role=phone wifi=on bt=on aa=D-HU battery=30
 unit D-SAM role=headunit
@@ -20,7 +20,6 @@ unit D-MOTO wifi=off bt=off
 unit D-POCO@K bond=D-HU
 candidate C f1bed4ee
 hardware board E-1 (ESP32, MAC 78:1c:3c:2b:ac:ec) is on the host's serial port with release firmware v1.0.0; board E-2 is not touched
-confirm round 2's folder rig-data/rounds/native-bt-broker-esp32-round2 is still on the rig, with ids.env, venv/ and settings-backup-hu.xml
 run K cap=600 script=k.sh grade=grade-k.sh point=yes
 run S cap=420 script=s.sh grade=grade-s.sh
 run cleanup cap=420 script=cleanup.sh always=yes

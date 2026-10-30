@@ -30,7 +30,7 @@ session, and ends it. R1 and R2 differ in one key only, so R1 is the control for
 `rig_session.py` runs the round from this block, in this order.
 
 ```rig-requires
-lib 871881d26
+lib f2d7a951f
 candidate C dcc3c7085d7be1aa520c802a825685c539f41ce4
 unit D-HU   role=headunit wifi=on bt=on
 unit D-POCO role=phone wifi=on bt=on bond=D-HU aa=D-HU

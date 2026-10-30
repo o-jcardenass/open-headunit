@@ -33,7 +33,7 @@ at most 4 dumped-target taps on the app per R6 run.
 order below. The runs are the sessions of the old layout: R1 to R5 are graded inside them (section 7).
 
 ```rig-requires
-lib 871881d26
+lib f2d7a951f
 candidate B 947b3ae9fae9834aa8e4145ee91751ed743c2ae0
 candidate A 947b3ae9fae9834aa8e4145ee91751ed743c2ae0
 candidate T a9988ed85aaeb47cf7bca97e93df82a61c0c8b75
@@ -43,7 +43,7 @@ unit D-POCO role=phone wifi=on bt=on bond=D-HU aa=D-HU
 unit D-MOTO bt=off
 unit D-SAM@R6-SAM role=headunit wifi=on
 confirm D-HU's WiFi station is joined to a network with internet access (R6-HU asks api.github.com)
-confirm D-SAM is on USB adb, not wireless adb, and its WiFi reaches the internet (R6-SAM)
+confirm D-SAM's WiFi reaches the internet (R6-SAM)
 run pre     cap=180  script=pre.sh     grade=grade-pre.sh
 run S-B     cap=900  script=s-b.sh     grade=grade-sb.sh
 run S-T     cap=840  script=s-t.sh     grade=grade-st.sh point=yes

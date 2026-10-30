@@ -19,7 +19,7 @@ moves 15 min, closing 20 min, thermal waits about 10 min. **About 3 h.**
 > Closing is `close` and `close-hp`. Several strings and one bond rule were wrong; section 7 and section 3 say which.
 
 ```rig-requires
-lib 871881d26
+lib f2d7a951f
 candidate M 947b3ae9fae9834aa8e4145ee91751ed743c2ae0
 unit D-HU   role=headunit wifi=on bt=on
 unit D-SAM  role=headunit wifi=on bt=on
