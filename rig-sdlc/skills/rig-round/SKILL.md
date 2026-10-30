@@ -208,6 +208,24 @@ These are mechanical, and they override the looser wording above.
     session a run of this round left behind; for anything else, `ps -ef --forest` first and kill every pid
     in the tree.
 
+## Red flags: stop when you think one of these (from the 2026-10-29 session, `rig-feedback-20261029.md`)
+
+Each thought below cost that session a run or more. When you catch yourself thinking it, do the
+right-hand column instead.
+
+| The thought | What to do instead |
+|---|---|
+| "The run is quiet, so it is still working." | Read the run's status file. A step older than its cap is a STALL: look at what it waits on. |
+| "It is slow; I will give it a few more minutes." | A run past twice its brief time is a liveness failure (discipline 3). Find out why, then decide. |
+| "Android Auto probably has no record of the unit." | Write "unexplained" and the observation, or grep for the line that shows the cause. |
+| "Try the pairing again." | Read the screen dump first. The first failure usually says why in its text. |
+| "I will start the stage; the script is surely there." | `ls $EV/scripts/<name>` first. A block without a name is never extracted. |
+| "The script header has the usage; I know how to call it." | Use `rig_session.py`, which takes the arguments from the run line. Never launch a stage by hand. |
+| "The operator can do the bond change while K runs." | Tell the operator which units to leave alone until DONE. A unit changed mid-run voids the run. |
+| "I will pipe it to `cut` to see it here." | Send the output to a file and read the file. A pipe a background job holds never closes. |
+| "I will build everything now and read the briefs later." | Read every brief's `rig-requires` block and `order` output first. |
+| "I will kill that process; it looks stale." | `ps -ef --forest` first, or `rig_run.sh reap`. Kill the tree, never only the parent. |
+
 ## Context and the operator's time (added 2026-10-29: a four-brief session reached 42% of context at half way)
 
 The host runs on a Pro allowance, and a long context is where its mistakes come from. Execution is a
