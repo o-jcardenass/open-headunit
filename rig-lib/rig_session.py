@@ -166,6 +166,12 @@ def cmd_run(ev, brief):
         return code
     subprocess.run([sys.executable, "-I", str(rl / "rig_requires.py"), "devfiles", "snapshot", "--ev", str(ev), str(brief)],
                    capture_output=True, text=True)
+    # Captures from different units are read side by side, so every unit's clock is put to the PC's first.
+    # HERE, not the pinned rl: the step needs no brief change.
+    clk = subprocess.run([sys.executable, "-I", str(HERE / "rig_requires.py"), "clocks", "--ev", str(ev), str(brief)],
+                         capture_output=True, text=True)
+    if clk.stdout.strip():
+        say(ev, clk.stdout.strip().splitlines()[-1])
     used = sorted(set(req["units"]) | {role for _, role, _ in req["scoped"]})
     say(ev, f"REQUIREMENTS OK. Operator: hands off {', '.join(used)} until DONE, except when an OPERATOR line asks")
     scoped = set(rig_requires.scoped_runs(req))

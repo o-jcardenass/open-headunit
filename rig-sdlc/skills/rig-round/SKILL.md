@@ -160,6 +160,10 @@ Shell prelude for every command: `source /home/oscar/Coding/StudioProjects/rig-t
    run with the bold verdict alone on its line, measurements as numbers, a quoted decisive line with
    its timestamp, and `## Anything the brief did not ask about`. Include runs graded before a
    restart from their `.grade.json`. Show the operator the verdicts and the draft, and wait for `approve`.
+   **Clocks:** the session sets each unit's clock to the PC's where adb's shell is root and measures the rest
+   (`CLOCKS` line, `$EV/clock-offsets.txt`). Copy that file into Setup notes. Before you compare timestamps
+   across units, subtract each `LEFT` unit's offset from its timestamps. A count you add beyond the grade
+   needs its string checked with `git grep -F` at the candidate first: a string no build prints reads 0.
 6. **On `approve`** (host only), in this order:
    1. **Restore:** the settings baseline; `$RL/rig_run.sh reap` (kills any session a run left); every radio
       to the fixed baseline with `python3 -I $RL/rig_requires.py baseline` (it reads each one back; never to

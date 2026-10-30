@@ -24,6 +24,11 @@ case "$*" in
   "shell ls -d "*) [ -e "$D/$S.fs${4}" ] && echo "${4}" ;;
   "shell rm -rf "*) rm -rf "$D/$S.fs${4}" ;;
   pull*) cp -r "$D/$S.fs${2}" "$3" ;;
+  "shell log -t RIGCLOCK "*) echo "$5" > "$D/$S.clocktag" ;;
+  "logcat -d -s RIGCLOCK:I") off=$(get clockoff 0)
+    echo "$(date -d "@$(( $(date +%s) + off ))" '+%m-%d %H:%M:%S').000  1  1 I RIGCLOCK: $(get clocktag x)" ;;
+  "shell id -u") get uid 2000 ;;
+  "shell date @"*) [ "$(get uid 2000)" = 0 ] && echo 0 > "$D/$S.clockoff" ;;
   logcat*) i=0; while :; do echo "10-29 12:00:00.000 1 1 I fake: line $i"; i=$((i+1)); sleep 0.2; done ;;
   *) : ;;
 esac

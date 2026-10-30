@@ -445,5 +445,12 @@ git -C "$G" checkout -q --orphan rerooted; git -C "$G" -c user.name=t -c user.em
 out=$(cd "$G" && python3 -I "$L/rig_resolve.py" "$Q" --branch rerooted); rc=$?
 check "a SHA a re-root removed resolves by file name, with a note" '[ "$rc" -eq 0 ] && [[ "$out" == *"RUN aa 1"* && "$out" == *"not an ancestor"* ]]'
 
+CE="$W/rounds/clk-round1"; mkdir -p "$CE"
+echo 26 > "$W/adb/HU1.clockoff"; echo 0 > "$W/adb/HU1.uid"; echo -26 > "$W/adb/PH1.clockoff"; rm -f "$W/adb/PH1.uid"
+out=$(python3 -I "$L/rig_requires.py" clocks --ev "$CE"); rc=$?
+check "clocks sets a root unit's clock and leaves a phone's with the offset to subtract" '[ "$rc" -eq 0 ] && grep -q "^D-HU HU1 offset_ms=[-+][0-9]* action=set(date @epoch) was_ms=+2[56]" "$CE/clock-offsets.txt" && grep -q "^D-POCO PH1 offset_ms=-2[67][0-9]* action=left(no root shell)" "$CE/clock-offsets.txt" && [[ "$out" == *"D-POCO -2"*"LEFT"* ]]'
+[ "$rc" -eq 0 ] || echo "$out" | sed 's/^/     /'
+rm -f "$W/adb/HU1.clockoff" "$W/adb/HU1.uid" "$W/adb/PH1.clockoff"
+
 echo "$pass passed, $fail failed"
 [ "$fail" -eq 0 ]

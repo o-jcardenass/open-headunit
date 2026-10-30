@@ -56,6 +56,9 @@ the order listed. stop ID VERDICTS [skip=all|R3,R4]: after ID grades one of VERD
                                            named by a path in the brief's scripts, after copying it to
                                            EV/device-files/<unit>/; any other new entry is listed, never deleted
   rig_requires.py devfiles list            print what the test folders of every connected unit hold now
+  rig_requires.py clocks [--ev EV] [BRIEF...]  each unit's log clock against the PC's (a marker's own logcat
+                                           stamp); sets it where adb's shell is root, and writes
+                                           EV/clock-offsets.txt with the offset left on every other unit
 """
 import hashlib, itertools, os, re, shlex, subprocess, sys, time
 from pathlib import Path
@@ -620,6 +623,81 @@ def connected():
     return {r: s for r, s in serials().items() if adb(s, "get-state").strip() == "device"}
 
 
+CLOCK_TOLERANCE_MS = 1000
+
+
+def clock_offset_ms(serial):
+    """The unit's log clock minus the PC's local clock, in the units every capture uses: a marker's own
+    logcat timestamp against the PC time it was written. Works on every API level; None when unreadable."""
+    import datetime
+    tag = f"rigclock-{os.getpid()}-{time.time_ns()}"
+    t0 = time.time()
+    adb(serial, "shell", "log", "-t", "RIGCLOCK", tag)
+    t1 = time.time()
+    out = adb(serial, "logcat", "-d", "-s", "RIGCLOCK:I")
+    lines = [l for l in out.splitlines() if tag in l]
+    m = re.match(r"(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d)\.(\d{3})", lines[-1]) if lines else None
+    if not m:
+        return None
+    host = datetime.datetime.fromtimestamp((t0 + t1) / 2)
+    mo, d, h, mi, s, ms = map(int, m.groups())
+    best = None
+    for y in (host.year - 1, host.year, host.year + 1):   # a log line has no year
+        try:
+            dev = datetime.datetime(y, mo, d, h, mi, s, ms * 1000)
+        except ValueError:
+            continue
+        off = round((dev - host).total_seconds() * 1000)
+        best = off if best is None or abs(off) < abs(best) else best
+    return best
+
+
+def set_clock(serial):
+    """Set a unit's clock to the PC's, only where adb's shell is already root. Never su: on a phone it can
+    raise a prompt nobody answers. Returns the method that ran, or None."""
+    if adb(serial, "shell", "id", "-u").strip() != "0":
+        return None
+    adb(serial, "shell", "date", f"@{int(time.time()) + 1}")   # toybox
+    off = clock_offset_ms(serial)
+    if off is not None and abs(off) <= CLOCK_TOLERANCE_MS:
+        return "date @epoch"
+    adb(serial, "shell", "date", "-s", time.strftime("%Y%m%d.%H%M%S", time.localtime(time.time() + 1)))   # toolbox
+    return "date -s"
+
+
+def cmd_clocks(ev, briefs):
+    """Measure every connected unit the briefs use against the PC clock, set it where root allows, and
+    write EV/clock-offsets.txt. A unit left off is reported with the offset to subtract from its captures."""
+    roles = set()
+    for b in briefs:
+        req, _ = parse(Path(b).read_text())
+        roles |= set(req["units"]) | {role for _, role, _ in req["scoped"]}
+    rows, short = [], []
+    for role, s in sorted(connected().items()):
+        if roles and role not in roles:
+            continue
+        before = clock_offset_ms(s)
+        if before is None:
+            rows.append(f"{role} {s} offset=unreadable"); short.append(f"{role} unreadable"); continue
+        if abs(before) <= CLOCK_TOLERANCE_MS:
+            rows.append(f"{role} {s} offset_ms={before:+d} action=none")
+            short.append(f"{role} {before / 1000:+.1f}s"); continue
+        how = set_clock(s)
+        after = clock_offset_ms(s) if how else None
+        if how and after is not None and abs(after) <= CLOCK_TOLERANCE_MS:
+            rows.append(f"{role} {s} offset_ms={after:+d} action=set({how}) was_ms={before:+d}")
+            short.append(f"{role} {after / 1000:+.1f}s (set from {before / 1000:+.1f}s)")
+        else:
+            left = after if after is not None else before
+            why = "no root shell" if not how else f"{how} did not hold (time zone or auto time)"
+            rows.append(f"{role} {s} offset_ms={left:+d} action=left({why}) was_ms={before:+d}")
+            short.append(f"{role} {left / 1000:+.1f}s LEFT ({why}): subtract it from {role}'s timestamps")
+    if ev:
+        Path(ev, "clock-offsets.txt").write_text("\n".join(rows) + "\n")
+    print("CLOCKS " + ("; ".join(short) or "no connected unit"))
+    return 0
+
+
 def cmd_devfiles(sub, ev, briefs=()):
     import json
     if sub == "list":
@@ -717,6 +795,8 @@ def main(argv):
         return cmd_check(ev, rest[0], fix, run_id)
     if cmd == "baseline":
         return cmd_baseline()
+    if cmd == "clocks":
+        return cmd_clocks(ev, rest)
     if cmd == "devfiles" and rest and (rest[0] == "list" or ev):
         return cmd_devfiles(rest[0], ev, rest[1:])
     print(__doc__); return 64
