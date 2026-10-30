@@ -5,31 +5,31 @@ Evidence: create the release `rig-evidence-main-smoke` with the asset `main-smok
 
 Units: D-HU, D-SAM, D-HP and D-POCO as head units; D-POCO and D-MOTO as phones; the USB dongle (`D-DONGLE`, below).
 
-Queue line: `main-smoke-round1-brief.md` (one arm, `main` `947b3ae9`; one build; units D-HU, D-SAM, D-HP, D-POCO, D-MOTO
+Queue line: `main-smoke-round1-brief.md` (one arm, `main` `6ff42d9a`; one build; units D-HU, D-SAM, D-HP, D-POCO, D-MOTO
 and the dongle; M3, M6 and M7 are the point).
 
 Pairing: none, because the round uses every unit (§3b). Hand steps: one Bluetooth re-pair, eight cable moves, one
 dongle reseat per run at most, USB system dialogs, a D-MOTO unlock (§4). Injected taps: none.
 
-**Time budget.** Build 25 min, prep 15 min, stage S 12 min, stage U 30 min, stage H 30 min, stage P 25 min, cable
-moves 15 min, closing 20 min, thermal waits about 10 min. **About 3 h.**
+**Time budget.** Build 25 min, prep 15 min, stage S 25 min (M4 and M8), stage U 30 min, stage H 30 min, stage P 25 min, cable
+moves 15 min, closing 20 min, thermal waits about 10 min. **About 3 h 15 min.**
 
 > **Revised 2026-10-29: moved onto `rig-lib`.** The round runs as one `rig_session.py` process from the block below.
 > Same runs, build and gates. Prepare is now two runs (`prep`, `moto`), D-POCO's move to wireless adb is `pnet`, and
 > Closing is `close` and `close-hp`. Several strings and one bond rule were wrong; section 7 and section 3 say which.
 
 ```rig-requires
-lib 2c7a270e0
-candidate M 947b3ae9fae9834aa8e4145ee91751ed743c2ae0
+lib ca8a86a90
+candidate M 6ff42d9a06a3a0a00d2f50c67bc7d9b73c885572
 unit D-HU   role=headunit wifi=on bt=on
 unit D-SAM  role=headunit wifi=on bt=on
 unit D-HP@prep role=headunit battery=60
-unit D-POCO@prep,M4,M1,M3 role=phone wifi=on bt=on
-unit D-POCO@M4 bond=D-SAM nobond=D-HU
+unit D-POCO@prep,M4,M8,M1,M3 role=phone wifi=on bt=on
+unit D-POCO@M4,M8 bond=D-SAM nobond=D-HU
 unit D-POCO@M1,M3 bond=D-HU nobond=D-SAM
-unit D-SAM@M4 battery=50
+unit D-SAM@M4,M8 battery=50
 unit D-MOTO@moto wifi=on bt=on
-unit D-MOTO@M4,M1,M3 wifi=off bt=off
+unit D-MOTO@M4,M8,M1,M3 wifi=off bt=off
 unit D-MOTO@M6,M7 wifi=on bt=on
 unit D-POCO@pnet role=headunit battery=60
 unit D-HP@close-hp
@@ -41,6 +41,7 @@ confirm D-MOTO unlocks without a PIN, or you unlock it when a cue asks (H0)
 run prep cap=2400 script=prep.sh grade=grade-prep.sh
 run moto cap=420 script=moto.sh grade=grade-moto.sh
 run M4 cap=1200 script=m4.sh grade=grade-m4.sh
+run M8 cap=1800 script=m8.sh grade=grade-m8.sh
 run M1 cap=1200 script=m1.sh grade=grade-m1.sh
 run M3 cap=1200 script=m3.sh grade=grade-m3.sh point=yes
 run M6 cap=1500 script=m6.sh grade=grade-m6.sh point=yes hand="H3: plug the dongle into D-HP's OTG port. Answer a USB dialog with OK (Always is allowed for the dongle)"
@@ -61,35 +62,37 @@ port given to an OTG adapter, and `check` reads a unit by its USB serial. A scop
 
 ## 1. Build and baseline
 
-One arm, no control. `main` is `v.4.0.0-alpha` plus nine merges: the Material 3 settings screen, the bundled H.264
-decoder (now on 32-bit ARM too), the audio renderer and its time-correction engines, cleanup tied to its arm after an
-Exit, the ZBT link state before a reconnect, WPP decisions in one snapshot, and the `OHU_Log_` file name. Every one of
-those ran on the rig inside `test/pr-merge-train` (rounds 1 to 4). This exact tree has not.
+One arm, no control. `main` is `v.4.0.0-beta1` plus eleven merges, on top of the alpha work this round was first
+written for (the Material 3 settings screen, the bundled H.264 decoder on 32-bit ARM too, the audio renderer, the
+`OHU_Log_` file name). The newer merges: the XYAuto media policy, home widgets and opacity, the automatic DPI panel size,
+the channel gain range, the video output path, the wide home layout, HCT-owned WPP (#1163), the Fake Speed removal,
+the ZJ Bluetooth socket route (#1168), the legacy ADB charset, the Android 16 GPS resend and the ILL+ calibration. Each
+ran on the rig inside a merge train or its own round. This exact tree has not.
 
 | Ref | Commit | Tree |
 |---|---|---|
-| `origin/main` | `947b3ae9fae9834aa8e4145ee91751ed743c2ae0` | `e7112fbfdd820cf4834a8a9a5a47f5b62e3ea165` |
+| `origin/main` | `6ff42d9a06a3a0a00d2f50c67bc7d9b73c885572` | `6b65d9c694802fdc1fb984a2267a5a1d22f72722` |
 
-The dev host ran the JVM suite at this commit: 4245 tests, 0 failures, 0 skipped. Do not run the unit tests on the rig.
+The dev host ran the JVM suite at this commit: 4380 tests, 0 failures. Do not run the unit tests on the rig.
 
 The host builds the arm (rig-round skill, Prepare) and puts the APK at `$EV/apk/M.apk`. `prep` checks that it carries
 `lib/armeabi-v7a/libavcodec.so`.
 
 ```text
-WT=$($RIG_TOOLKIT/wt-new.sh main-smoke candidate 947b3ae9fae9834aa8e4145ee91751ed743c2ae0 | tail -1)
-git -C $WT rev-parse 'HEAD^{tree}'          # MUST print e7112fbfdd820cf4834a8a9a5a47f5b62e3ea165
+WT=$($RIG_TOOLKIT/wt-new.sh main-smoke candidate 6ff42d9a06a3a0a00d2f50c67bc7d9b73c885572 | tail -1)
+git -C $WT rev-parse 'HEAD^{tree}'          # MUST print 6b65d9c694802fdc1fb984a2267a5a1d22f72722
 $RIG_TOOLKIT/rig_thermal.sh wait 70
 HUR_DIR=$WT MAX_WORKERS=2 $RIG_TOOLKIT/build_hur_cool.sh    # copy the APK from rig-data/apks/ to $EV/apk/M.apk at once
 ```
 
 **Identity after every install, on every head unit** (`identity` in section 6): `ACTION_QUERY_STATE`'s `data=` line
-carries `947b3ae9`; the md5 of the pulled live APK matches; `unzip -p live.apk 'classes*.dex' | strings | grep -acE
+carries `6ff42d9a`; the md5 of the pulled live APK matches; `unzip -p live.apk 'classes*.dex' | strings | grep -acE
 'FfmpegVideoDecoder|NativeTimeStretchEngine'` is 2 or more.
 
 ## 2. What this is and why
 
-Seven PRs landed on `main` in one day, each tested inside a merge train but never as this tree. This round runs `main`
-once on every unit and every route the rig has, with absolute gates and no A/B. It also closes three gaps:
+Many PRs landed on `main` since the alpha, each tested inside a merge train but never as this tree. This round runs `main`
+once on every unit and every route the rig has, with absolute gates and no A/B. It also closes four gaps:
 
 - **The bundled H.264 decoder on 32-bit ARM** never ran: rounds 1 to 4 used `arm64-v8a`, and the decoder refuses to
   load below Android 5 (`FfmpegVideoDecoder`: `SDK_INT < LOLLIPOP` returns false), so D-SAM and D-HP cannot run it.
@@ -98,6 +101,11 @@ once on every unit and every route the rig has, with absolute gates and no A/B. 
   `usb-dongle-regression` round 1 found the rig's dongle projecting 8 of 8 cycles on v.3.5.0 (H-B 3/3, P-B 5/5). Since
   then the video decoder, the audio renderer and the session lifecycle all changed. M6 and M7 repeat that round's
   cycle on `main`, with its settings, so the two can be compared.
+- **D-SAM's station comes back beside the group after a force-stop** (M8). In `pr-train-20261029` round 2 W1,
+  `AapService.onCreate` gave D-SAM's home network back (`WiFi network is enabled again and should rejoin`), and 0.5 s
+  later the bring-up's stand-down read `this unit is not joined to another WiFi network` while the station was still
+  associating. The station then joined on 2437 MHz beside a group on 2412 MHz, and the phone never found the group
+  (`NETWORK_NOT_FOUND`, then `-11`). M8 force-stops a live session three times on `main` to see how often that fires.
 - **The USB route on D-HP with PCM music** was asked for in `pr-merge-train` round 4 and ran over Headunit Server
   instead. M5 runs it.
 
@@ -121,7 +129,7 @@ once on every unit and every route the rig has, with absolute gates and no A/B. 
   group.
 - **Installs and APK pulls on D-HP go over USB only** (`units/D-HP.md`). So `prep` installs on D-HP before it moves to
   wireless adb, and `close-hp` puts the prior APK back after the operator returns its cable.
-- **`ACTION_EXPORT_LOG` is a configuring verb at `947b3ae9`** (`AutomationCommandPolicy.CONFIGURING`), so
+- **`ACTION_EXPORT_LOG` is a configuring verb at `6ff42d9a`** (`AutomationCommandPolicy.CONFIGURING`), so
   `allow-external-configuration` is `true` in every key set. `ACTION_LOG_MARKER` is not gated.
 - **Expected INCONCLUSIVE:** M2's video (a phone host holds the projection for milliseconds only, so `rendered` may
   be 0; M2 grades on the log); M3 if `ro.product.cpu.abilist` on D-HU has no `armeabi-v7a`. M3 is UNTESTABLE if the
@@ -290,7 +298,7 @@ identity() { local s=$1 u=$2 f="$EV/live-$2.apk" m w d q
   m=$(md5sum "$f" 2>/dev/null | cut -d' ' -f1); w=$(md5sum "$APK" 2>/dev/null | cut -d' ' -f1)
   d=$(unzip -p "$f" 'classes*.dex' 2>/dev/null | strings | grep -acE 'FfmpegVideoDecoder|NativeTimeStretchEngine')
   HU=$s; launch; sleep 3; send ACTION_QUERY_STATE > "$EV/query-$u.txt"; appexit
-  q=$(grep -ac '947b3ae9' "$EV/query-$u.txt")   # not-literal: the am reply
+  q=$(grep -ac '6ff42d9a' "$EV/query-$u.txt")   # not-literal: the am reply
   echo "$u live=$m want=$w dex=$d query=$q" >> "$EV/ident.log"
   if [ -n "$m" ] && [ "$m" = "$w" ] && [ "${d:-0}" -ge 2 ] && [ "${q:-0}" -ge 1 ]; then echo "IDENT_OK $u" >> "$EV/ident.log"
   else echo "IDENT_BAD $u" >> "$EV/ident.log"; fi; }
@@ -484,7 +492,7 @@ dongle_grade() { local R=$1 N=$2 rows proj F
 
 ## 7. The deciding lines
 
-All verified with `git grep -F` in `app/src/main` at `947b3ae9`, unless a line names another source. All print at
+All verified with `git grep -F` in `app/src/main` at `6ff42d9a`, unless a line names another source. All print at
 INFO. Grep with `-a`, in `<run>-hu.txt` between `<run>-start` and `<run>-end` unless noted. The grades read a capture
 `alive` restarted through `merged`, which drops duplicate lines. **Corrected on 2026-10-29:** five lines here are
 formatted at run time, so the old table's form of them is in no source file; the scripts grep a literal fragment of
@@ -504,7 +512,7 @@ each, or mark the line `# not-literal`.
 | L-EXIT | `AapService: Native AA user exit. Stopping active launcher.` | M1: the old Exit's cleanup |
 | L-GRP | `AapService: CommManager teardown complete. Stopping WiFi Direct group.` | M1: the old Exit's group removal |
 | L-ZBT | `[ZBT]` | M1: must be 0 (the module route is off) |
-| L-XY | `XYAuto projection media policy` (not on `main`) | M1: must be 0 (1 or more means the wrong APK) |
+| L-XY | `XYAuto projection media policy` | M1: report only (on `main` since #1155) |
 | L-FF1 | `Configuring bundled FFmpeg H.264/AVC decoder for` (source `Configuring bundled FFmpeg ${type.displayName}`) | M3 |
 | L-FF2 | `Bundled FFmpeg H.264/AVC decoder initialized` | M3 |
 | L-FF3 | `First bundled software H.264/AVC frame rendered` | M3 |
@@ -573,7 +581,7 @@ echo "OPERATOR NOW: H1 - unplug D-HP from the PC (it is on wireless adb now) and
 **grade-prep.sh**
 
 ```bash
-for u in hu sam hp poco; do c "I.$u" eq "$(grep -acF "IDENT_OK $u" "$EV/ident.log")" 1 "$u runs main 947b3ae9 (md5, DEX, query)"; done   # not-literal
+for u in hu sam hp poco; do c "I.$u" eq "$(grep -acF "IDENT_OK $u" "$EV/ident.log")" 1 "$u runs main 6ff42d9a (md5, DEX, query)"; done   # not-literal
 c A1 eq "$(sed -n 's/^armv7_libavcodec=//p' "$EV/prep-apk.txt")" 1 "the APK carries lib/armeabi-v7a/libavcodec.so"
 c W1 eq "$(grep -ac ':5555' "$EV/hp.addr" 2>/dev/null)" 1 "D-HP answers on wireless adb"   # not-literal
 early
@@ -655,6 +663,75 @@ early
 - Record (`M4-record.txt`): damage and its three parts, slow windows, the largest `loopGapMax`, against round 4 SA
   (29665, 0, 56 ms).
 
+### M8. D-SAM's station after a force-stop (the D-SAM finding)
+
+`HU=$SAM; PH=$POCO`, straight after M4, with the same bonds. D-SAM must be joined to its home network at the start,
+because the trigger is the stand-down giving that network back. The station stand-down stays at its default (AUTO).
+One session, then three cycles of: hold 30 s, `am force-stop`, relaunch at once, wait up to 150 s for SSL, hold 20 s.
+The force-stop and relaunch markers are written with `log -t AutomationMarker` on both units, because the marker verb
+would start the stopped app.
+
+**This run is expected to FAIL on `main`.** A FAIL is the finding: the stand-down gave the network back, read the
+station as not joined while it was still associating, and the station then joined beside the group.
+
+**m8.sh**
+
+```bash
+HU=$SAM; PH=$POCO
+thermal || untestable "host thermal"
+setkeys "$HU" $NATIVE scalar:int:screen-orientation:2 del:stand-down-station-mode; keys_read "$HU" M8-pre
+adb -s "$HU" shell dumpsys wifi | tr -d '\r' | grep -a -m1 'mNetworkInfo' > "$EV/M8-station.txt"
+grep -aqF 'CONNECTED/CONNECTED' "$EV/M8-station.txt" || untestable "D-SAM is not joined to its home network, so nothing can be given back"   # not-literal: a dumpsys line
+smark() { adb -s "$HU" shell log -t AutomationMarker "$1"; adb -s "$PH" shell log -t AutomationMarker "$1"; }
+: > "$EV/M8-attempts.txt"
+n_start M8 150; rc=$?; echo "M8 $rc" >> "$EV/M8-attempts.txt"
+if [ "$rc" -ne 0 ]; then n_end M8; untestable "no first session in 150 s"; fi
+F="$EV/M8-hu.txt"
+for k in 1 2 3; do
+  rl_sleep 30
+  smark "M8-k$k"; adb -s "$HU" shell am force-stop $PKG
+  O=$(rl_offset "$F"); smark "M8-r$k"; launch
+  rl_wait_line "$F" 'SSL handshake complete' 150 "$O" > "$EV/M8-r$k-ssl.txt"
+  rl_sleep 20
+  smark "M8-e$k"
+done
+n_end M8
+```
+
+**grade-m8.sh**
+
+```bash
+F=$(merged M8-hu); P=$(merged M8-ph); gave=0; raced=0
+if [ ! -f "$EV/M8-untestable.txt" ]; then
+  for k in 1 2 3; do
+    g=$(rl_cnt "$F" "M8-r$k" "M8-e$k" 'WiFi network is enabled again and should rejoin')
+    sk=$(rl_cnt "$F" "M8-r$k" "M8-e$k" 'this unit is not joined to another WiFi network, so ')
+    dn=$(rl_cnt "$F" "M8-r$k" "M8-e$k" 'asked this unit to leave its WiFi network')
+    co=$(rl_cnt "$F" "M8-r$k" "M8-e$k" 'This unit is connected to another WiFi network while hosting')
+    ssl=$(rl_cnt "$F" "M8-r$k" "M8-e$k" 'SSL handshake complete')
+    nf=$(rl_cnt "$P" "M8-r$k" "M8-e$k" 'NETWORK_NOT_FOUND')   # phone
+    gap=$(gapms "$F" "M8-r$k" "M8-e$k" 'WiFi network is enabled again and should rejoin' 'this unit is not joined to another WiFi network, so ')
+    r=0; [ "${g:-0}" -ge 1 ] && [ "${sk:-0}" -ge 1 ] && [ -n "$gap" ] && [ "$gap" -le 3000 ] && [ "${co:-0}" -ge 1 ] && r=1
+    [ "${g:-0}" -ge 1 ] && gave=$((gave + 1)); raced=$((raced + r))
+    echo "cycle=$k give=$g skip=$sk standdown=$dn coex=$co give_to_skip_ms=${gap:-none} ssl=$ssl phone_not_found=$nf raced=$r" >> "$EV/M8-record.txt"
+  done
+  c M8.0 ge "$(rl_cnt "$F" M8-start M8-k1 'SSL handshake complete')" 1 "the first session formed"
+  c M8.F eq "$(faillines "$F" M8-start M8-end)" 0 "no FATAL EXCEPTION, UnsatisfiedLinkError or ANR"
+  c M8.1 ge "$gave" 1 "report: cycles where the stand-down gave the network back"
+  c M8.2 eq "$raced" 0 "cycles where the station joined beside the group after a give-back (the race)"
+  c M8.3 ge "$(rl_cnt "$F" "M8-r3" "M8-e3" 'SSL handshake complete')" 0 "report: SSL after the third relaunch"
+  [ "$gave" -ge 1 ] || inc "no cycle gave the network back, so the trigger never fired"
+  fin
+fi
+early
+```
+
+- **FAIL** when one or more cycles race (M8.2): the finding, expected on `main`. The record names each cycle's
+  give-back, skip, coexistence, the ms between the give-back and the skip, SSL, and the phone's `NETWORK_NOT_FOUND`.
+- **PASS** when the network was given back in one or more cycles and the station never joined beside the group.
+- **INCONCLUSIVE** when no cycle gave the network back (the first session did not stand down).
+- Record (`M8-record.txt`): one line per cycle, as above.
+
 ### Stage U: D-HU with D-POCO
 
 Before M1 the session checks that D-POCO is bonded to D-HU, and asks the operator to pair them (H2) if it is not.
@@ -711,7 +788,7 @@ if [ "$RC" -ne 0 ]; then rl_verdict UNTESTABLE "no session in two attempts (L-WA
   c M1.7 ge "$(grep -acF 'SettingsActivity' "$EV/$T-set-focus.txt" 2>/dev/null)" 1 "the settings screen has the focus"   # not-literal: a dumpsys line
   c M1.8 ge "$(stat -c %s "$EV/$T-settings.png" 2>/dev/null)" 30000 "the settings screenshot is not blank (bytes)"
   c M1.9 eq "$(grep -acF '[ZBT]' "$F")" 0 "no module route line"
-  c M1.10 eq "$(grep -acF 'XYAuto projection media policy' "$F")" 0 "no line from the XYAuto branch"   # not-literal: not on main by design
+  c M1.10 ge "$(grep -acF 'XYAuto projection media policy' "$F")" 0 "report: XYAuto media policy lines (on main since #1155; D-HU is no XYAuto unit)"
   m=$(rl_cnt "$F" "$T-start" "$T-end" 'MATCH! Starting AapService'); [ "${m:-0}" -eq 0 ] || DISCARD="M1 printed MATCH! Starting AapService $m times; rerun once"
 fi
 early
@@ -720,7 +797,7 @@ early
 - PASS: the session gate on both sessions; between `M1-c1-go` and `M1-c1-end`, the first L-ARM within 5 s of
   `M1-c1-go`, no L-EXIT or L-GRP after that L-ARM, L-SSL within 120 s of `M1-c1-go`; `M1-exports.txt` lists a file
   whose name starts `OHU_Log_` and none that starts `HUR_Log_`; the `M1-set` focus line names `SettingsActivity` and the
-  screenshot is not blank; L-ZBT 0 and L-XY 0 over the whole capture.
+  screenshot is not blank; L-ZBT 0 over the whole capture (L-XY is a report).
 - Record (`M1-record.txt`): t(`M1-c1-go`) to L-ARM and to L-SSL; the L-ARM, L-EXIT and L-GRP lines of the fast cycle
   with their times.
 
@@ -1030,14 +1107,15 @@ restore_unit "$HPU" hp || exit 1
 ## 9. Do not re-run
 
 `pr-merge-train` rounds 1 to 4 (each PR on its own tree), and `usb-dongle-regression` round 1's arms C, A and E.
-Two-finger gestures, the night overlay and the ILL+ calibration are not on `main`. The four optional audio engines
+Two-finger gestures and the night overlay are not on `main`. The ILL+ calibration is, but needs a car signal. The four optional audio engines
 are not this round.
 
 ## 10. Report back
 
 1. M6 and M7: projected rows of 3 and of 5, with `stale`, `late_discard` and `selected` per row.
 2. M3: L-FF3 present on `armeabi-v7a`, t(L-SSL) to L-FF3, and the last `rendered=`. Or why it could not run.
-3. Every other run's verdict, plus M4's and M5's damage and slow windows, and any FAIL line with its first five lines.
+3. M8: `M8-record.txt` (one line per cycle) and the verdict.
+4. Every other run's verdict, plus M4's and M5's damage and slow windows, and any FAIL line with its first five lines.
 
 Put every capture, `.tsv`, record file, `notes.txt`, thermal log, screenshot and `M1-exports.txt` in
 `main-smoke-round1-captures.zip` on the new release `rig-evidence-main-smoke`, with its sha256 in the results file.
