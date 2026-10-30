@@ -415,7 +415,9 @@ R4_CONDS=("ens ge 1" "drain eq 0" "busy eq 0" "succ_ms le 30000" "ssl_ms le 1200
 r4_meets() { local v; v=$(rv "$1" "$2"); [[ "$v" =~ ^-?[0-9]+$ ]] && [ "$v" "-$3" "$4" ]; }
 ```
 
-**fc_switch.sh** (runs on D-HU; `doswitch` passes the rep ID)
+Runs on D-HU; `doswitch` passes the rep ID:
+
+**fc_switch.sh**
 
 ```bash
 #!/system/bin/sh

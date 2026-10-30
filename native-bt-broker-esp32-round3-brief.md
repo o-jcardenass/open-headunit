@@ -52,9 +52,10 @@ No history was rewritten. The dev host ran the JVM suite; no rig unit tests.
 PR #1187 moves the Bluetooth half of Native AA onto an ESP32 board. With the relay switch on (`enabled` in
 `NativeBTBroker.xml`), the head unit opens no RFCOMM listener of its own and sends no wake poke; the board does both.
 The change request asks what the user sees when the board is gone. K answers it: the board is held in reset, the
-switch is on, and D-POCO is bonded to D-HU, so D-POCO's Android Auto dials D-HU's own address. If the app falls back,
-its listeners open (`ACTIVELY LISTENING on Android Auto UUID`) and a session forms. If it waits, the `Broker:` lines
-must say why (`Broker: link lost, retrying for `, `Broker: still down after `).
+switch is on, and D-POCO is bonded to D-HU. If the app falls back, its listeners open (`ACTIVELY LISTENING on Android
+Auto UUID`), its wake reaches D-POCO, D-POCO dials D-HU and a session forms. If it waits, nothing wakes the phone (the
+board is in reset), so D-POCO does not dial, and the `Broker:` lines must say why (`Broker: link lost, retrying for `,
+`Broker: still down after `). A phone dial is part of the answer, never a precondition: round 3 gated K on it.
 
 S checks fix 3: below API 23 the relay screen leaves at once (`BrokerSettingsFragment.onViewCreated` calls `leave()`
 when `NativeBTBrokerSession.isSupported()` is false), where round 1 crashed at Scan with `NoSuchMethodError`.
@@ -174,7 +175,7 @@ rl_cond 2 ge "$(grep -c "$C_SHA" "$EV/K-query.txt")" 1 "commit $C_SHA"
 rl_cond 3 ge "$(grep -c 'enabled=true' "$EV/K-broker.txt")" 1 'relay file enabled read back'   # not-literal
 rl_cond 4 ge "$relay" 1 'the relay route was chosen'
 rl_cond 5 eq "$boots" 0 'no board boot inside K (the hold kept it in reset)'
-rl_cond 6 ge "$dials" 1 'phone: D-POCO dialled D-HU (the bond is in force)'
+rl_cond 6 ge "$dials" 0 'report: D-POCO dialled D-HU (only a fallback wakes it)'
 rl_cond 7 ge "$fallback" 0 'answer: fell back to the stock route (1 = SSL and listeners)'
 rl_cond 8 ge "$explained" 0 'answer: Broker link-lost and still-down lines'
 rl_cond 9 ge "$listening" 0 'report: ACTIVELY LISTENING'
@@ -186,17 +187,15 @@ rl_cond 14 ge "$(grep -c '^ok' "$EV/K-back.txt")" 0 'report: board advertising a
 if [ "${held:-0}" -lt 1 ]; then rl_verdict INCONCLUSIVE "the hold never opened the serial port"
 elif [ "${boots:-0}" -gt 0 ]; then rl_verdict INCONCLUSIVE "the board booted during K: the hold did not keep it in reset"
 elif [ "${relay:-0}" -lt 1 ]; then rl_verdict INCONCLUSIVE "the relay route was not chosen, so K did not ask its question"
-elif [ "${dials:-0}" -lt 1 ]; then rl_verdict INCONCLUSIVE "D-POCO never dialled D-HU, so the bond did not take effect"
 fi
 ```
 
 - **K is a report run.** Its verdict says whether K asked its question, not whether the PR is right. The answer is
   conditions 7 and 8: `fallback` 1 means Native mode fell back to the stock route; `explained` 1 or more means the app
   said why it waits. Both 0 means the user sees nothing: that goes into the change request.
-- **PASS** when conditions 1 to 6 hold (C installed, the relay file on, the relay route chosen, the board held, D-POCO
-  dialling D-HU). Conditions 7 to 14 are numbers for the report and always pass.
-- **INCONCLUSIVE** when the hold failed or never opened the port, the relay route was not chosen, or D-POCO never
-  dialled D-HU. **UNTESTABLE** on host thermal or missing round 2 files; the stop rule then skips S.
+- **PASS** when conditions 1 to 5 hold (C installed, the relay file on, the relay route chosen, the board held).
+  Conditions 6 to 14 are numbers for the report and always pass.
+- **INCONCLUSIVE** when the hold failed or never opened the port, or the relay route was not chosen. **UNTESTABLE** on host thermal or missing round 2 files; the stop rule then skips S.
 - **Report:** every line in `$EV/K-broker-lines.txt` with its timestamp, and the two answer numbers.
 
 ### S. D-SAM (API 19): the relay screen with the API 23 guard
