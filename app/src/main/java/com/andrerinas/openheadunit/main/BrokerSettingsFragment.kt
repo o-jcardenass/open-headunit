@@ -69,7 +69,8 @@ class BrokerSettingsFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        scanner.stopScan()
+        // Below API 23 onViewCreated leaves before the scanner exists.
+        if (::scanner.isInitialized) scanner.stopScan()
         NativeBTBrokerSession.setListener(null)
         super.onDestroyView()
     }
