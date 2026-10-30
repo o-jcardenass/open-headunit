@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Tests for rig_lib.sh, rig_run.sh, rig_requires.py, brief_check.py and rig_session.py.
+# Tests for rig_lib.sh, rig_run.sh, rig_requires.py, brief_check.py, rig_session.py, rig_forget.py and rig_pair.py.
 # Run: bash rig-lib/tests/test_rig_lib.sh. Needs bash, python3, git, procps and util-linux (setsid, flock).
 # No device: adb is tests/fake_adb.sh.
 set -u
@@ -37,7 +37,7 @@ echo off > "$W/adb/MO1.bt"
 out=$(lib "rl_bonds MO1; echo rc=\$?")
 check "rl_bonds refuses with Bluetooth off (B5)" '[[ "$out" == *BONDS_RADIO_OFF*"rc=2"* ]]'
 echo on > "$W/adb/PH1.bt"; echo on > "$W/adb/HU1.bt"; echo 'Navegadortz3' > "$W/adb/HU1.name"
-echo '  AA:BB [ BR/EDR ] Navegadortz3' > "$W/adb/PH1.bonds"
+echo '  AA:BB:00:00:00:01 [ BR/EDR ] Navegadortz3' > "$W/adb/PH1.bonds"
 out=$(lib "rl_bonded PH1 HU1")
 check "rl_bonded finds the unit by name" '[[ "$out" == BONDED* ]]'
 
@@ -103,7 +103,7 @@ sed 's/unit D-HU role=headunit wifi=on bt=on/unit D-HU wifi=on bt=off/' "$B" > "
 out=$(python3 -I "$L/rig_requires.py" lint "$W/b2.md")
 check "a bond with Bluetooth off is a lint error (B5)" '[[ "$out" == *"needs bt=on"* ]]'
 for f in HU1.wifi HU1.bt PH1.wifi PH1.bt; do echo on > "$W/adb/$f"; done
-echo 'POCO X3 NFC' > "$W/adb/PH1.name"; echo '  CC:DD [ BR/EDR ] POCO X3 NFC' > "$W/adb/HU1.bonds"
+echo 'POCO X3 NFC' > "$W/adb/PH1.name"; echo '  CC:DD:00:00:00:02 [ BR/EDR ] POCO X3 NFC' > "$W/adb/HU1.bonds"
 rm -f "$EV/requirements.ok"
 out=$(python3 -I "$L/rig_requires.py" check --ev "$EV" "$B"); rc=$?
 check "check fails until the operator says yes (B10)" '[ "$rc" -eq 1 ] && [[ "$out" == *"has not said yes"* ]]'
@@ -305,17 +305,17 @@ check "a scoped line that names no run is a lint error" '[[ "$out" == *"X has no
 out=$(python3 -I "$L/rig_requires.py" order "$N")
 check "order names the mid-round forget before run B" '[[ "$out" == *"OPERATOR D-POCO forget D-HU  (before run B)"* ]]'
 for f in HU1.wifi HU1.bt PH1.wifi PH1.bt; do echo on > "$W/adb/$f"; done
-echo MT50 > "$W/adb/HU1.name"; echo 'POCO X3 NFC' > "$W/adb/PH1.name"
-echo '  AA:BB [ BR/EDR ] MT50' > "$W/adb/PH1.bonds"; echo '  CC:DD [ BR/EDR ] POCO X3 NFC' > "$W/adb/HU1.bonds"
+echo MT50 > "$W/adb/HU1.name"; echo 'POCO X3 NFC' > "$W/adb/PH1.name" ; echo AA:BB:00:00:00:01 > "$W/adb/HU1.addr"; echo CC:DD:00:00:00:02 > "$W/adb/PH1.addr"
+echo '  AA:BB:00:00:00:01 [ BR/EDR ] MT50' > "$W/adb/PH1.bonds"; echo '  CC:DD:00:00:00:02 [ BR/EDR ] POCO X3 NFC' > "$W/adb/HU1.bonds"
 NE="$W/rounds/nb-round1"; mkdir -p "$NE"
 out=$(python3 -I "$L/rig_requires.py" check --ev "$NE" "$N" --run B); rc=$?
-check "check --run B fails on the bond and names the operator's forget" '[ "$rc" -eq 1 ] && [[ "$out" == *"OPERATOR on D-POCO, forget D-HU (MT50)"* ]]'
+check "check --run B fails on the bond and names the operator's forget" '[ "$rc" -eq 1 ] && [[ "$out" == *"OPERATOR on D-POCO, forget D-HU (MT50, AA:BB:00:00:00:01)"* ]]'
 out=$(python3 -I "$L/rig_requires.py" check --ev "$NE" "$N" --run C2); rc=$?
 check "check --run C2 passes with the bond on both sides" '[ "$rc" -eq 0 ]'
 echo true > "$W/adb/PH1.go"
 out=$(python3 -I "$L/rig_requires.py" check --ev "$NE" "$N" --run C2 --fix); rc=$?
 check "a phone left as a group owner is cleared by a WiFi cycle" '[ "$rc" -eq 0 ] && [[ "$out" == *"isGroupOwner=false"* ]] && [ ! -f "$W/adb/PH1.go" ]'
-( sleep 3; : > "$W/adb/PH1.bonds" ) &
+( sleep 12; : > "$W/adb/PH1.bonds" ) &
 out=$(RL_OPERATOR_POLL_S=1 timeout 90 python3 -I "$L/rig_session.py" run --ev "$NE" "$N" 2>&1); rc=$?
 st=$(cat "$NE/session.status" 2>/dev/null)
 check "the session waits for the operator's forget before B, then goes on to DONE" '[ "$rc" -eq 0 ] && [[ "$st" == *"OPERATOR B now: on D-POCO, forget D-HU"* && "$st" == *"READ BACK B"* && "$st" == *"GRADE B PASS"* && "$st" == *"interventions=1"* ]]'
@@ -373,7 +373,7 @@ out=$(python3 -I "$L/brief_check.py" lint "$W/lint4.md" --repo "$G")
 check "lint: text after a script name is an error" '[[ "$out" == *"line 10: text after a script name"* ]]'
 check "lint: a script called from the scripts folder must be a named block" '[[ "$out" == *"calls probe.py from the scripts folder"* && "$out" != *"calls named.sh"* ]]'
 
-echo '  AA:BB [ BR/EDR ] MT50' > "$W/adb/PH1.bonds"
+echo '  AA:BB:00:00:00:01 [ BR/EDR ] MT50' > "$W/adb/PH1.bonds"
 out=$(python3 -I "$L/rig_requires.py" order --live "$N")
 check "order --live counts a bond the rig already holds as done" '[[ "$out" != *"pair D-HU"* && "$out" == *"forget D-HU  (before run B)"* ]]'
 out=$(lib "export RL_STATUS='$W/sl.status'; rl_sleep 1; cat '$W/sl.status'")
@@ -474,6 +474,11 @@ rm -f "$MS/hp.skip"
 printf 'D-MOTO 10.0.0.2:5555\nD-HP 10.0.0.1:5555\n' > "$MS/serials.txt"
 python3 -I "$L/main_smoke.py" set-serial --file "$MS/serials.txt" --unit D-HP --addr 10.0.0.9:5555
 check "set-serial replaces only that unit's line" '[ "$(grep -c "^D-HP " "$MS/serials.txt")" -eq 1 ] && grep -q "^D-HP 10.0.0.9:5555$" "$MS/serials.txt" && grep -q "^D-MOTO 10.0.0.2:5555$" "$MS/serials.txt"'
+
+# --- rig_forget.py and rig_pair.py ---
+out=$(python3 -I "$T/test_bt_ui.py" 2>&1); rc=$?
+check "rig_forget.py and rig_pair.py pass their simulated-device cases (tests/test_bt_ui.py)" '[ "$rc" -eq 0 ]'
+[ "$rc" -eq 0 ] || echo "$out" | grep -v "^ok" | sed 's/^/     /'
 
 echo "$pass passed, $fail failed"
 [ "$fail" -eq 0 ]

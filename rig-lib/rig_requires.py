@@ -44,7 +44,9 @@ the order listed. stop ID VERDICTS [skip=all|R3,R4]: after ID grades one of VERD
   rig_requires.py yes --ev EV BRIEF...     record the operator's one yes for every brief named
   rig_requires.py check --ev EV BRIEF [--fix] [--run ID]
                                            read every need back; --fix switches what adb can switch (with
-                                           read-back) and swaps roles; on success write EV/requirements.ok.
+                                           read-back), swaps roles, and runs a nobond forget (rig_forget.py)
+                                           or a bond pair (rig_pair.py) through Settings, with read-back;
+                                           on success write EV/requirements.ok.
                                            --run checks one run's needs (scoped unit lines on top). A failure
                                            only the operator can clear is printed as "  - OPERATOR <action>".
   rig_requires.py baseline                 put every unit's radios to rig-lib/baseline.conf, read back
@@ -64,6 +66,7 @@ import hashlib, itertools, os, re, shlex, subprocess, sys, time
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))   # -I leaves the script's folder off sys.path
 ROLES = ("D-HU", "D-POCO", "D-MOTO", "D-HP", "D-SAM", "D-T230")
 RADIO_VALUES = ("on", "off", "any")
 VERDICTS = ("PASS", "FAIL", "INCONCLUSIVE", "UNTESTABLE")
@@ -282,13 +285,18 @@ def set_radio(serial, radio, want):
 
 
 def bonded(serial, other_serial):
-    dump = adb(serial, "shell", "dumpsys", "bluetooth_manager")
-    i = dump.find("Bonded devices")
-    listing = dump[i:i + 3000] if i >= 0 else ""
+    """(bonded?, label). By the other unit's address; by its exact name only when no address reads, because
+    units are renamed and a phone keeps the name it saw at pairing."""
+    from rig_forget import bonded_entries, own_address
+    entries = bonded_entries(adb(serial, "shell", "dumpsys", "bluetooth_manager"))
+    addr = own_address(adb(other_serial, "shell", "settings", "get", "secure", "bluetooth_address"),
+                       adb(other_serial, "shell", "dumpsys", "bluetooth_manager"))
+    if addr:
+        shown = [n for a, n in entries if a == addr]
+        return bool(shown), f"{shown[0] if shown else 'not listed'}, {addr}"
     name = adb(other_serial, "shell", "settings", "get", "secure", "bluetooth_name").strip()
-    addr = adb(other_serial, "shell", "settings", "get", "secure", "bluetooth_address").strip()
-    hits = [x for x in (name, addr) if x and x != "null" and x.lower() in listing.lower()]
-    return bool(hits), name or addr or "?"
+    hit = bool(name) and name != "null" and any(n.casefold() == name.casefold() for _, n in entries)
+    return hit, f"{name or '?'}, address unreadable"
 
 
 def wireless_serials(ev, ser):
@@ -540,8 +548,17 @@ def cmd_check(ev, path, fix=False, run_id=None):
             if not (s and o):
                 fails.append(f"{role} bond={other}: no serial"); continue
             want = other in u.get("bond", [])
+            if want and fix and not (bonded(s, o)[0] and bonded(o, s)[0]):
+                from rig_pair import Pair
+                rc, msg = Pair(s, o, ev, adb=adb).run()
+                lines.append(f"{role} pair {other}: {msg}")
             for a, b, an, bn in ((s, o, role, other), (o, s, other, role))[:2 if want else 1]:
                 hit, nm = bonded(a, b)
+                if hit and not want and fix:
+                    from rig_forget import Forget
+                    rc, msg = Forget(a, b, ev, adb=adb).run()
+                    lines.append(f"{an} forget {bn}: {msg}")
+                    hit, nm = bonded(a, b)
                 lines.append(f"{an} lists {bn} ({nm}): {'yes' if hit else 'no'} (needs {'yes' if want else 'no'})")
                 if hit != want:
                     fails.append(f"OPERATOR on {an}, pair {bn} ({nm}) in Bluetooth settings" if want else

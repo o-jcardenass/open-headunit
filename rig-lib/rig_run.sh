@@ -2,6 +2,7 @@
 # rig_run.sh: run one brief script under the rig lock, with a hard time cap, in its own session.
 # Usage: rig_run.sh RUN CAP_S SCRIPT [--source LIB.sh]...    (EV must be set)
 #        rig_run.sh reap                                     kill every session a run in $EV left behind
+# A script calls a rig-lib tool as python3 -I "$RL_HOME/rig_forget.py" (or rig_pair.py).
 # The script runs with rig_lib.sh and each --source file loaded, stdin closed, and the lock fd closed,
 # so no child can hold the lock. On exit, timeout or a signal, the whole session is killed before the
 # lock is freed. Writes $EV/RUN-HHMMSS.log (last line "script exit=N") and $EV/RUN-HHMMSS.status
@@ -79,7 +80,7 @@ echo "$(date +%T) $RUN START cap=${CAP}s attempt=$n script=$SCRIPT" > "$STATUS"
 echo "$(date +%T) $RUN START cap=${CAP}s attempt=$n" >> "$(dirname "$EV")/PROGRESS.log"
 echo "RUN $RUN log=$LOG status=$STATUS"
 
-export EV RUN RL_EV="$EV" RL_STATUS="$STATUS"
+export EV RUN RL_EV="$EV" RL_STATUS="$STATUS" RL_HOME="$HERE"   # RL_HOME: this rig-lib, for its .py tools
 setsid bash "$RUNNER" 9>&- </dev/null >"$LOG" 2>&1 &
 CPID=$!
 sleep 0.2
