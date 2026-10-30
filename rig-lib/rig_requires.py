@@ -22,8 +22,9 @@ bond = units both sides must list (both radios on), nobond = units this unit's o
 has projected to once (the operator confirms it), battery = minimum percent. `unit D-POCO@B,S nobond=D-HU`
 scopes the line to runs B and S: rig_session.py checks it just before those runs and, when only the
 operator can meet it (a pair or a forget), prints one OPERATOR line and waits for it. A run's needs are
-the session's lines plus its scoped lines, scoped values winning. hardware and confirm lines go to the
-operator. A unit that is not on adb is skipped with a note when it needs nothing but radios off.
+the session's lines plus its scoped lines, scoped values winning. hardware lines are physical
+actions only the operator can do (a cable, a board, a charger); confirm lines are facts the operator
+answers yes or no to, never tasks. Anything a command can do is not an operator line. A unit that is not on adb is skipped with a note when it needs nothing but radios off.
 A unit a brief moved to wireless adb is read by the address a script appended to the rounds dir's
 unit-serials.txt (`D-POCO 192.168.1.20:5555`) when its cable serial does not answer.
 candidate NAME SHA names each build arm (T, B, C...); brief_check.py checks the brief's log
@@ -430,9 +431,24 @@ def cmd_plan(paths):
         ops += [f"{name}: {o}" for o in req["operator"]]
     print("Pre-flight for the first brief:")
     print("  rig_preflight.sh " + " ".join(r.replace("-", "_") + (":" + ",".join(n) if n else "") for r, n in pre.items()))
-    print("Operator, answer yes to all of these before the first run:" if ops else "No operator confirmations.")
-    for i, o in enumerate(ops, 1):
-        print(f"  {i}. {o}")
+    acts = [o for o in ops if ": hardware: " in o]
+    facts = [o for o in ops if ": hardware: " not in o]
+    print("Send the operator ONE message with these parts, in this order and with these headings:")
+    print("  A. Watch progress (paste in this Claude Code, any time):")
+    print("     ! tail -20 ~/Coding/StudioProjects/rig-data/rounds/PROGRESS.log")
+    if acts:
+        print("  B. Do these by hand before the first run, then answer 'done':")
+        for i, o in enumerate(acts, 1):
+            print(f"     B{i}. {o.replace(': hardware: ', ': ', 1)}")
+    if facts:
+        print("  C. Are these true? Answer yes or no for each. They are questions, not tasks:")
+        for i, o in enumerate(facts, 1):
+            print(f"     C{i}. {o.replace(': confirm: ', ': ', 1).replace(': aa: ', ': ', 1)}")
+    print("  D. The testing PC does everything else itself: radios, roles, bond reads, installs, settings,")
+    print("     the adb switch between USB and wireless, and every command. Do not touch a unit until DONE")
+    print("     unless an OPERATOR line asks.")
+    if not ops:
+        print("  (No B or C items: send A and D only.)")
     return 0
 
 

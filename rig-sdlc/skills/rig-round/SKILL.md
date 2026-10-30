@@ -65,10 +65,20 @@ Shell prelude for every command: `source /home/oscar/Coding/StudioProjects/rig-t
       It picks the order with the fewest operator actions and lists each transition between briefs as
       `auto` (done by `check --fix`: radios adb can switch, role swaps with `headunit://exit`) or
       `OPERATOR` (D-HU's WiFi re-join, a pairing). Run the briefs in that order, not the Queue's.
-   3. `python3 -I $RL/rig_requires.py plan <briefs in that order>` gives one operator list for the
-      whole session. Send the operator **one** message: that list, the `OPERATOR` transitions, and any
-      pre-flight FAIL. On their explicit "yes", run `rig_requires.py yes --ev $EV <every brief>` once.
-      This is the only question of the session unless something breaks.
+   3. `python3 -I $RL/rig_requires.py plan <briefs in that order>` prints the one operator message, with
+      headings A to D. Send it as printed, plus the `OPERATOR` transitions and any pre-flight FAIL. **A (the
+      progress command) is mandatory in this message**, so the operator can watch without your terminal.
+      B lists physical actions only; C lists yes-or-no questions only, never tasks. On their answers, run
+      `rig_requires.py yes --ev $EV <every brief>` once. This is the only question of the session unless
+      something breaks.
+   4. **Build every APK of every brief in the session now, in one batch, before the first run** (§3,
+      Prepare). Never build between briefs or between stages: a build heats the host and stops the rig
+      for minutes. A brief whose arm shares a SHA with another brief's arm reuses that APK.
+   **What the operator does, and what you do.** The operator does only what needs hands: a cable, a
+   board, a charger, a screen only a person can unlock. You run every command yourself, including the adb
+   switch between USB and wireless (`adb tcpip`, `adb connect`, `adb usb`). Never ask the operator to run
+   code. If a step truly needs the operator's terminal (an interactive login), give the exact line to
+   paste with a `!` in front.
    A brief queued before 2026-10-29 has no block: write one from its pre-flight into `$EV/requires.md`, use
    that file in these commands, and run that brief the old way (steps 2 to 4 with the executor).
 2. **Plan (host).** For a brief with a block, the plan is `python3 -I $RL/rig_session.py view <brief>`

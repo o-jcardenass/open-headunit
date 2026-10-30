@@ -781,7 +781,9 @@ A brief that gets a useful round back has these parts, in this order:
    One `run` line per run, in run order, naming its script and grade blocks and its hard cap in
    seconds; `hand="<cue>"` marks a step only the operator can do. A run's script takes no arguments
    (it gets `$RUN`), and every shell block that drives the rig is named, or the rig never extracts it.
-   `stop` lines are the stop rule as data.
+   `stop` lines are the stop rule as data. A `hardware` line is a physical action only the operator can do
+   (a cable, a board, a charger); a `confirm` line is a fact the operator answers yes or no to, never a
+   task. Everything a command can do, the adb switch between USB and wireless included, is the rig's job.
    Write device files only to paths the scripts spell out (`/data/local/tmp/<name>`, `/sdcard/ohu-shots/$RUN.png`):
    the session deletes a new device file only when a brief path names it, so a file at a computed path stays
    on the unit and the operator must remove it by hand. No test file may stay on a device.
