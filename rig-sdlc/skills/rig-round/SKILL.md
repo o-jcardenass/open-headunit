@@ -61,7 +61,7 @@ Shell prelude for every command: `source /home/oscar/Coding/StudioProjects/rig-t
    table into Setup notes.
    **Session gate, once, before any build or install, for every brief the session will run.**
    1. Pin the library: `RL=$EV/rig-lib; git archive <lib sha from the brief's rig-requires block> rig-lib | tar -x -C $EV`.
-   2. Order the session: `python3 -I $RL/rig_requires.py order <every queued brief this session runs>`.
+   2. Order the session: `python3 -I $RL/rig_requires.py order --live <every queued brief this session runs>` (`--live` reads the bonds the rig holds now).
       It picks the order with the fewest operator actions and lists each transition between briefs as
       `auto` (done by `check --fix`: radios adb can switch, role swaps with `headunit://exit`) or
       `OPERATOR` (D-HU's WiFi re-join, a pairing). Run the briefs in that order, not the Queue's.
@@ -109,6 +109,10 @@ Shell prelude for every command: `source /home/oscar/Coding/StudioProjects/rig-t
    from its grade script, retries a timeout or a stall once and then grades it INCONCLUSIVE, and applies the
    stop rules. Do not read run logs, status files or captures while it runs. On a notification:
    - `OPERATOR <run>: <cue>`: send a PushNotification with the cue word for word. Wait for nothing; the run goes on.
+   - `OPERATOR <run> now: <action>`: a run's own needs (a pair, a forget, a radio only the operator can turn
+     on). Send it word for word. The session re-reads the state every 15 s and goes on by itself; do nothing else.
+   The session's one operator message also says: "Touch no unit the session uses (`order` lists them) until
+   DONE, except when an OPERATOR line asks." A bond changed mid-run cost round 2 of esp32 its stage K.
    - `ESCALATE <why>`: the session stopped (exit 3) on something only the host or the operator can settle.
      Settle it, then launch `run` again; graded runs are skipped. A broken grade script is a brief defect:
      grade that run by hand from one windowed `grep -c`, write its `.grade.json`, and note it for the coding side.

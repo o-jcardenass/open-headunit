@@ -31,8 +31,11 @@ the order listed. stop ID VERDICTS [skip=all|R3,R4]: after ID grades one of VERD
 (always=yes runs still go).
 
   rig_requires.py lint BRIEF...            exit 1 on a malformed block (brief_check.py calls this)
-  rig_requires.py order BRIEF...           the session order with the fewest operator actions, and every
-                                           transition between briefs (who does it, and how)
+  rig_requires.py order [--live] BRIEF...  the session order with the fewest operator actions, and every
+                                           transition between briefs (who does it, and how). --live reads
+                                           each bond the briefs name from the rig first, so a pair or a
+                                           forget that is already true costs nothing; without it every
+                                           bond starts unknown and its first need is listed.
   rig_requires.py plan BRIEF...            the pre-flight command and one operator list for the session
   rig_requires.py yes --ev EV BRIEF...     record the operator's one yes for every brief named
   rig_requires.py check --ev EV BRIEF [--fix] [--run ID]
@@ -338,10 +341,25 @@ def merge(prev, units):
     return out
 
 
-def order(paths):
+def live_bonds(reqs):
+    """{role: {b:<other>: yes|no}} read from the rig for every bond the briefs name (one side, as nobond is)."""
+    ser, out = serials(), {}
+    for _, states in reqs:
+        for _, units in states:
+            for role, st in units.items():
+                for k in st:
+                    if k.startswith("b:") and k not in out.get(role, {}) and ser.get(role) and ser.get(k[2:]):
+                        out.setdefault(role, {})[k] = "yes" if bonded(ser[role], ser[k[2:]])[0] else "no"
+    return out
+
+
+def order(paths, live=False):
     base = baseline()
     reqs = [(p, run_states(load(p)[0])) for p in paths]
     start = {r: {k: v for k, v in u.items() if k in ("wifi", "bt")} for r, u in base.items()}
+    if live:
+        for role, bonds in live_bonds(reqs).items():
+            start.setdefault(role, {}).update(bonds)
 
     def cost(seq):
         prev, c, ops = start, 0, 0
@@ -357,8 +375,8 @@ def order(paths):
     return [p for p, _ in best], base, start
 
 
-def cmd_order(paths):
-    seq, base, start = order(paths)
+def cmd_order(paths, live=False):
+    seq, base, start = order(paths, live)
     print("Session order (fewest operator actions, then fewest changes; ties keep the Queue order):")
     prev = start
     for i, p in enumerate(seq, 1):
@@ -526,7 +544,7 @@ def main(argv):
     if cmd == "lint":
         return cmd_lint(rest)
     if cmd == "order":
-        return cmd_order(rest)
+        return cmd_order([r for r in rest if r != "--live"], "--live" in rest)
     if cmd == "plan":
         return cmd_plan(rest)
     if cmd == "yes" and ev and rest:

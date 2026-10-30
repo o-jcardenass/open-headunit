@@ -83,7 +83,7 @@ rl_wait_count() {  # rl_wait_count FILE N STRING CAP_S [FROM_BYTE]: wait until S
 
 rl_wait_line() { rl_wait_count "$1" 1 "$2" "$3" "${4:-0}"; }   # rl_wait_line FILE STRING CAP_S [FROM_BYTE]
 
-rl_sleep() { rl_step "SLEEP ${1}s"; [ -n "${RL_SMOKE:-}" ] || sleep "$1"; }   # a timed wait the run measures
+rl_sleep() { rl_step "WAIT cap=${1}s SLEEP"; [ -n "${RL_SMOKE:-}" ] || sleep "$1"; }   # a timed wait; rig_run.sh allows it plus 30 s
 
 rl_radio_state() {  # rl_radio_state SERIAL wifi|bt: prints on, off or unknown
   local out
@@ -140,6 +140,7 @@ rl_bonded() {  # rl_bonded SERIAL OTHER_SERIAL: is OTHER in SERIAL's bonded list
 
 rl_thermal_gate() {  # rl_thermal_gate [LIMIT_C]: wait for the host to cool, then log it for the run (limits: rig-quirks/topics/tooling.md)
   local lim=${1:-75}
+  rl_step "WAIT cap=${RL_THERMAL_CAP_S:-1800}s thermal gate ${lim}C"   # a long cool-down is a wait, not a stall
   "$RIG_TOOLKIT/rig_thermal.sh" wait "$lim" || "$RIG_TOOLKIT/rig_thermal.sh" wait "$lim" || { echo HOST_HOT; return 1; }
   rl_bg thermal "$RIG_TOOLKIT/rig_thermal.sh" watch "$RL_EV/thermal-${RUN:-run}.log"
 }

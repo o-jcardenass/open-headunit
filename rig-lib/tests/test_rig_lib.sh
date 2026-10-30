@@ -343,6 +343,12 @@ check "lint: a run script that needs an argument is an error (D11)" '[[ "$out" =
 check "lint: an unnamed block that drives the rig is an error (D12)" '[[ "$out" == *"line 9: an unnamed bash block"* ]]'
 [[ "$out" == *"reads a positional"* ]] || echo "$out" | sed 's/^/     /'
 
+echo '  AA:BB [ BR/EDR ] MT50' > "$W/adb/PH1.bonds"
+out=$(python3 -I "$L/rig_requires.py" order --live "$N")
+check "order --live counts a bond the rig already holds as done" '[[ "$out" != *"pair D-HU"* && "$out" == *"forget D-HU  (before run B)"* ]]'
+out=$(lib "export RL_STATUS='$W/sl.status'; rl_sleep 1; cat '$W/sl.status'")
+check "rl_sleep marks a wait with its own cap, so a long sleep is not a stall" '[[ "$out" == *"WAIT cap=1s SLEEP"* ]]'
+
 # --- rig_resolve.py ---
 git -C "$G" checkout -q -b transfer/t
 cp "$G/good-round1-brief.md" "$G/aa-round1-brief.md"; cp "$G/good-round1-brief.md" "$G/bb-round2-brief.md"
