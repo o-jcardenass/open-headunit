@@ -27,11 +27,11 @@ baseline for two later fixes. It covers two reports:
    adapter reboots.
 
 ```rig-requires
-lib 19f862828
+lib 871881d26
 candidate v340 013b05bc0e7f5a881ea1d4363b9275df69bd5f5a
 candidate main f9a72d480d51105870f62df6f0a40a1276e98a34
 unit D-POCO role=headunit wifi=on bt=on battery=90
-unit D-MOTO role=phone wifi=on bt=on bond=D-POCO aa=D-POCO battery=90
+unit D-MOTO role=phone wifi=on bt=on bond=D-POCO nobond=D-HU aa=D-POCO battery=90
 unit D-HU bt=off
 unit D-SAM role=headunit
 hardware the cable or OTG adapter that plugs D-MOTO into the USB-C port of D-POCO, at hand
@@ -40,12 +40,12 @@ confirm D-MOTO unlocks with a swipe, or you will unlock it when run P asks
 confirm if P3 picks HAND, you will pull and replug the D-MOTO cable 9 times, each when an OPERATOR line says PULL-PLUG
 run P cap=1800 script=p.sh grade=grade-p.sh hand="when the OPERATOR line comes: unplug D-POCO and D-MOTO from the PC, plug D-MOTO into the USB-C port of D-POCO, on D-MOTO set USB controlled by to This device, unlock D-MOTO if it shows a PIN"
 run P3 cap=1200 script=p3.sh grade=grade-p3.sh
-run R1 cap=3900 script=r1.sh grade=grade-r1.sh hand="only if P3 chose HAND: at each OPERATOR line PULL-PLUG, pull the D-MOTO cable out of D-POCO, count to 8, plug it back"
-run R2 cap=1800 script=r2.sh grade=grade-r2.sh hand="only if P3 chose HAND: at each OPERATOR line PULL-PLUG, pull the D-MOTO cable out of D-POCO, count to 8, plug it back"
-run R3 cap=1200 script=r3.sh grade=grade-r3.sh hand="only if P3 chose HAND: at the OPERATOR line PULL-PLUG, pull the D-MOTO cable out of D-POCO, count to 8, plug it back"
-run R5 cap=3900 script=r5.sh grade=grade-r5.sh hand="only if P3 chose HAND: at each OPERATOR line PULL-PLUG, pull the D-MOTO cable out of D-POCO, count to 8, plug it back"
+run R1 cap=3900 script=r1.sh grade=grade-r1.sh
+run R2 cap=1800 script=r2.sh grade=grade-r2.sh
+run R3 cap=1200 script=r3.sh grade=grade-r3.sh
+run R5 cap=3900 script=r5.sh grade=grade-r5.sh
 run R4-G cap=1200 script=r4g.sh grade=grade-r4g.sh point=yes
-run R4-H cap=1800 script=r4h.sh grade=grade-r4h.sh hand="only if P3 chose HAND: at each OPERATOR line PULL-PLUG, pull the D-MOTO cable out of D-POCO, count to 8, plug it back"
+run R4-H cap=1800 script=r4h.sh grade=grade-r4h.sh
 run K1 cap=900 script=k1.sh grade=grade-k1.sh point=yes
 run K1c cap=360 script=k1c.sh grade=grade-k1c.sh
 run K2 cap=900 script=k2.sh grade=grade-k2.sh
@@ -192,10 +192,9 @@ evidence only.
   D-MOTO is the phone, plugged into that port, also on wireless adb. D-HU cannot host USB
   (`rig-quirks/topics/tooling.md`, "No USB accessory path"). D-SAM stays on its PC cable and takes part
   only in K2.
-- **Wireless adb and the requirements check.** The session reads the block once, before P, while both
-  phones are still on their PC cables. After P they answer only on `IP:5555`, which `rig_requires.py`
-  does not know. So if the session must be relaunched after P, put both phones back on their PC cables
-  first, or the check asks for them.
+- **Wireless adb and the requirements check.** After P both phones answer only on `IP:5555`. P appends
+  both addresses to the rounds dir's `unit-serials.txt`, so a relaunch after P reads them there and
+  needs no cable.
 - **D-HU's Bluetooth is held off for every run** (`rl_hold_off`). D-MOTO is bonded to D-HU's radio, and
   Gearhead can dial a cached head unit instead of the one under test (`rig-quirks/units/D-POCO.md`). It
   self-reverts, so a single switch does not hold. X turns it back on.
@@ -764,6 +763,7 @@ setf moto_bt_set "$( [ -n "$MOTO_BT" ] && [ "$MOTO_BT" != null ] && echo 1 || ec
 setf ips_set "$( [ -n "$POCO_IP" ] && [ -n "$MOTO_IP" ] && echo 1 || echo 0)"
 adb -s "$D_POCO" tcpip 5555; sleep 3; adb -s "$D_MOTO" tcpip 5555; sleep 3
 HU=$POCO_IP:5555; PH=$MOTO_IP:5555
+printf 'D-POCO %s\nD-MOTO %s\n' "$HU" "$PH" >> "$(dirname "$EV")/unit-serials.txt"   # rig_requires.py reads it
 reconn "$HU"; reconn "$PH"
 cue "P-OTG: unplug D-POCO and D-MOTO from the PC, plug D-MOTO into the USB-C port of D-POCO, on D-MOTO set USB controlled by to This device, unlock D-MOTO if it shows a PIN"
 ok=0

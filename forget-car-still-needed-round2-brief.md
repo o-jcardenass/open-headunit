@@ -42,13 +42,13 @@ round 1 left at FAIL on one rep.
 ## 0. What the session needs
 
 ```rig-requires
-lib 19f862828
+lib 871881d26
 candidate F 6c23c264931712d51bff48c4d38bd99c090162aa
 candidate C 947b3ae9fae9834aa8e4145ee91751ed743c2ae0
 unit D-HU role=headunit wifi=on bt=on
 unit D-POCO role=phone wifi=on aa=D-HU
 unit D-POCO@R1C,R1F bt=off
-unit D-POCO@P,R4C,R4F bt=on bond=D-HU
+unit D-POCO@P,R4C,R4F bt=on bond=D-HU nobond=D-SAM
 unit D-MOTO bt=off
 confirm the host built both arms with get_apks.sh: $EV/apk/F.apk and $EV/apk/C.apk exist
 run P cap=300 script=prep.sh grade=grade-prep.sh

@@ -30,7 +30,7 @@ session, and ends it. R1 and R2 differ in one key only, so R1 is the control for
 `rig_session.py` runs the round from this block, in this order.
 
 ```rig-requires
-lib 19f862828
+lib 871881d26
 candidate C dcc3c7085d7be1aa520c802a825685c539f41ce4
 unit D-HU   role=headunit wifi=on bt=on
 unit D-POCO role=phone wifi=on bt=on bond=D-HU aa=D-HU
@@ -203,9 +203,10 @@ link_on()  { rl_release "$PH" wifi; rl_radio "$PH" wifi on; rl_radio "$PH" bt on
 # settings on D-HU, app stopped (adbd is root on D-HU, so no su)
 hu_keys() { python3 -I "$RIG_TOOLKIT/set_hu_settings_host.py" "$HU" "$@" >> "$EV/keys.log" 2>&1; }
 hu_cat()  { adb -s "$HU" shell cat "/data/data/$PKG/shared_prefs/settings.xml"; }
-# the four arms: use-aac-audio use-pcm-guidance prefer-48k-guidance
+# the four arms: use-aac-audio use-pcm-guidance prefer-48k-guidance narrow-band-profile-cap
+# R3 turns the 2.4 GHz cap off, so its music is PCM on any band; every other arm writes the default (true)
 arm_keys() { case "$RUN" in
-  R2) echo "true true true" ;; R3) echo "false true true" ;; R4) echo "true false true" ;; *) echo "true true false" ;; esac; }
+  R2) echo "true true true true" ;; R3) echo "false true true false" ;; R4) echo "true false true true" ;; *) echo "true true false true" ;; esac; }
 
 # nav N LABEL: a route to line N of $EV/dest.txt; a new route speaks its first instruction
 nav() { local d; d=$(sed -n "${1}p" "$EV/dest.txt" 2>/dev/null); [ -n "$d" ] || d=Parque+Principal+Marinilla
@@ -218,13 +219,14 @@ music() { adb -s "$PH" shell input keyevent 126
   echo NO_MUSIC >> "$EV/$RUN-music.txt"; }
 
 # one bring-up: phone off, keys, captures, launch, phone on. 0 when the SSL handshake completed
-arm_try() { local aac pcm p48
-  read -r aac pcm p48 <<< "$(arm_keys)"
+arm_try() { local aac pcm p48 nbc
+  read -r aac pcm p48 nbc <<< "$(arm_keys)"
   link_off; hustop
   hu_keys scalar:int:wifi-connection-mode:3 scalar:int:native-ap-transport:0 scalar:int:log-level:2 \
     scalar:int:onboarding-version:2 scalar:boolean:allow-external-configuration:true scalar:boolean:enable-audio-sink:true \
     scalar:boolean:external-bt-zbt-transport:false scalar:boolean:external-bt-blink-transport:false \
-    "scalar:boolean:use-aac-audio:$aac" "scalar:boolean:use-pcm-guidance:$pcm" "scalar:boolean:prefer-48k-guidance:$p48"
+    "scalar:boolean:use-aac-audio:$aac" "scalar:boolean:use-pcm-guidance:$pcm" "scalar:boolean:prefer-48k-guidance:$p48" \
+    "scalar:boolean:narrow-band-profile-cap:$nbc"
   hu_cat > "$EV/settings-$RUN-keys.xml"
   adb -s "$HU" logcat -G 16M; adb -s "$HU" logcat -c
   adb -s "$PH" logcat -G 16M; adb -s "$PH" logcat -c
@@ -289,7 +291,7 @@ Phone capture, between the run's markers (`log -t RIG`): `Critical error` and `B
 |---|---|---|---|---|
 | R1 | AAC_LC | PCM | PCM | 0 |
 | R2 | AAC_LC | PCM | PCM | 1 |
-| R3 | PCM (AAC_LC if L-CAP) | PCM | PCM | 1 |
+| R3 | PCM (`narrow-band-profile-cap` false, so no L-CAP) | PCM | PCM | 1 |
 | R4 | AAC_LC | AAC_LC | AAC_LC | 0 |
 
 L-IDX needs L-VER of 1.6 or more in R2 and R3. If L-VER reads below 1.6, L-IDX 0 is correct there; the grade
@@ -385,11 +387,12 @@ H="$EV/$RUN-hu.txt"; P="$EV/$RUN-phone.txt"; W="$EV/$RUN-win.txt"
 [ "$(cat "$EV/$RUN-session.txt" 2>/dev/null)" = session=ok ] ||
   { rl_verdict UNTESTABLE "no SSL handshake within 120 s, on two bring-ups"; exit 0; }
 rl_win "$H" "$RUN-start" "$RUN-end" > "$W"
-read -r AAC PCM P48 <<< "$(arm_keys)"
+read -r AAC PCM P48 NBC <<< "$(arm_keys)"
 S4=PCM; [ "$PCM" = false ] && S4=AAC_LC
 M6=AAC_LC; [ "$AAC" = false ] && M6=PCM
 CAP=$(grep -acF '[ServiceDiscovery] AAC music announced by the 2.4 GHz cap' "$W")
 [ "${CAP:-0}" -ge 1 ] && { M6=AAC_LC; echo "INFO L-CAP printed: music is AAC by the 2.4 GHz cap"; }
+[ "$NBC" = false ] && cnd C0 eq "${CAP:-0}" 0 "L-CAP absent with narrow-band-profile-cap false"
 
 # session bullets
 cnd S1 ge "$(grep -acF 'SSL handshake complete' "$W")" 1 "L-SSL the session formed"
@@ -503,7 +506,7 @@ Run-specific:
 - **R2 (the point):** record whether the phone picked 1. If every `config_index=` is 0, the 48 kHz bullets are
   INCONCLUSIVE (this phone keeps 16 kHz), and the rest still grade. If any is 1, the rate bullets above MUST hold
   for it.
-- **R3:** as R2. Record L-CAP.
+- **R3:** as R2, with `narrow-band-profile-cap` false so music is PCM on a 2.4 GHz link too. L-CAP MUST be absent.
 - **R4 (option off):** every `config_index=` is 0 (G8), L-IDX is 0 although `prefer-48k-guidance` is true, and
   channel 4 is `AAC_LC` in L-SD and L-DEC.
 

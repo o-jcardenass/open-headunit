@@ -21,12 +21,14 @@
 ## 0. What the session needs
 
 ```rig-requires
-lib 19f862828
+lib 871881d26
 candidate C 947b3ae9fae9834aa8e4145ee91751ed743c2ae0
 candidate V 013b05bc0e7f5a881ea1d4363b9275df69bd5f5a
 unit D-POCO role=headunit wifi=on bt=on
 unit D-MOTO role=phone wifi=on aa=D-POCO
 unit D-MOTO@P,R1,R2,R5 bt=on bond=D-POCO
+unit D-MOTO@R1,R2 nobond=D-HU
+unit D-MOTO@R3,R4 bt=off
 unit D-HU bt=off
 unit D-HU@R1,R2,R3,R4,R5 bt=off
 confirm D-MOTO's screen lock is a swipe, not a PIN, so the round can drive it unattended

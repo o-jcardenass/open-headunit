@@ -22,7 +22,7 @@ Android Auto send a new keyframe on the second display when we cycle that displa
 ## 0. What a session needs
 
 ```rig-requires
-lib 19f862828
+lib 871881d26
 unit D-HU   role=headunit wifi=on bt=on
 unit D-POCO role=phone wifi=on bt=on bond=D-HU aa=D-HU battery=30
 unit D-MOTO wifi=off bt=off

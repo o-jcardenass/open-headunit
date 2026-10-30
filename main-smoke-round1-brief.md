@@ -19,14 +19,14 @@ moves 15 min, closing 20 min, thermal waits about 10 min. **About 3 h.**
 > Closing is `close` and `close-hp`. Several strings and one bond rule were wrong; section 7 and section 3 say which.
 
 ```rig-requires
-lib 19f862828
+lib 871881d26
 candidate M 947b3ae9fae9834aa8e4145ee91751ed743c2ae0
 unit D-HU   role=headunit wifi=on bt=on
 unit D-SAM  role=headunit wifi=on bt=on
 unit D-HP@prep role=headunit battery=60
 unit D-POCO@prep,M4,M1,M3 role=phone wifi=on bt=on
 unit D-POCO@M4 bond=D-SAM nobond=D-HU
-unit D-POCO@M1,M3 bond=D-HU
+unit D-POCO@M1,M3 bond=D-HU nobond=D-SAM
 unit D-SAM@M4 battery=50
 unit D-MOTO@moto wifi=on bt=on
 unit D-MOTO@M4,M1,M3 wifi=off bt=off
@@ -250,7 +250,9 @@ to_wireless() {   # to_wireless SERIAL FILE: tcpip 5555, connect, and write ip:5
   adb -s "$1" tcpip 5555 >> "$EV/wireless.log" 2>&1; rl_sleep 6
   adb connect "$ip:5555" >> "$EV/wireless.log" 2>&1; rl_sleep 2
   [ -n "$(adb -s "$ip:5555" shell getprop ro.product.model | tr -d '\r')" ] || return 1
-  echo "$ip:5555" > "$2"; }
+  echo "$ip:5555" > "$2"
+  local role; case "$1" in "$D_HP") role=D-HP ;; "$D_MOTO") role=D-MOTO ;; "$D_POCO") role=D-POCO ;; esac
+  [ -n "$role" ] && echo "$role $ip:5555" >> "$(dirname "$EV")/unit-serials.txt"; }   # rig_requires.py reads it
 
 # captures: $EV/<T>-hu.txt and $EV/<T>-ph.txt; alive restarts a capture that died as <tag>-pN
 logclear() { adb -s "$1" logcat -G 16M >/dev/null 2>&1; adb -s "$1" logcat -c; }
