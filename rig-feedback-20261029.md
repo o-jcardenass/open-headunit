@@ -78,3 +78,49 @@ The operator's verdict was "a lot of novice errors". The list below is complete 
   `rig_cleanup.sh` report lock holders with their command line.
 - Tell the host that a run which exceeds twice its brief time is a liveness failure (discipline 3) and must be
   examined, not waited out or killed blind.
+
+## D. Addendum after the stage B stop (same session)
+
+More mistakes by the testing session:
+
+11. **I launched stage B without its argument** (`bash stageB.sh` instead of `stageB.sh B`). `RUN` was empty, so
+    `cycle.sh` took the cycle number as `RUN` and wrote `1-c-*` and `.tsv` files. Five cycles (about 12 min) were
+    lost. I had the usage line in the script header and did not read it. A launcher should refuse to start a stage
+    script that needs an argument and got none.
+12. **I started stage K before its script existed.** The brief gives K as a code block under a heading, not a named
+    block, so `extract_brief_blocks.py` did not save it. The launcher exited 127 and I only saw it afterwards. Briefs
+    should name every runnable block (`**stageK.sh**`).
+13. **I let stage K run while the operator was changing a bond.** The D-HU bond was forgotten at the start of K, so K
+    cannot answer its question. I should have said "do not touch D-POCO until K ends" in the ask.
+14. **I spent attempts on pairing before reading what the screen said.** The first `Pair phone` failure was readable
+    from the dump text; I only read it after a second attempt.
+15. **A pipe held by a backgrounded logcat hung a foreground call** (`cap_start` inside a script piped to `cut`). I
+    should have redirected the script to a file, as the launchers already do.
+
+More brief and helper defects:
+
+- **native-bt-broker-esp32 round 2, P:** no `Pair phone` button exists on this build (the app opens the pairing
+  window itself after `BLE bond ok`), and D-POCO's dialog button is `PAIR` in capitals. Both text matches in
+  `pair2.sh` fail. `pair2.sh` should not tap `Pair phone`, and should match `PAIR`.
+- **Stale bond on D-POCO:** with D-HU bonded, Android Auto on D-POCO dials D-HU's address only (27 times per cycle),
+  never the board, so B forms no session. The same bond blocks pr-train stage W (D-SAM) and costs the stage. Both
+  briefs need a pre-flight line: D-POCO's bonded list MUST NOT hold the head unit's own radio for a relay or D-SAM
+  run, and MUST hold it for a D-HU stock run (C1, C2, zj R1). The two conditions conflict inside one round (C2 needs
+  the bond, B needs it gone), so the brief should order the stages or say which runs first.
+- **grade_cycle.py `crit`** counts the Critical error lines in the 2 s after the Exit; the brief says to exclude
+  them. The script's raw value 4 reads as a B-f fail every cycle. Exclude them in the script.
+- **board advertising:** after the app was force-stopped, the board did not advertise again until its serial port was
+  opened with a reset. A brief that relies on a second scan should reset the board first, or say so.
+- **pr-train brief:** the expected L-DES is 1; it is 2 on both arms. The L-ANC string `HeadUnitScreenConfig: anchor `
+  does not exist; the line is `Honest Init | Mode: ... | Anchor: WxH (from WINDOW) | Seeded Insets: ...`. The P1
+  INCONCLUSIVE rule (PB anchor equals `mAppBounds`) is contradicted by seeded insets of T77 R91 B66 on that unit. D-POCO
+  as head unit carries video.
+
+Suggestions for the skill, continued:
+
+- **A launcher wrapper for every stage script** that checks the arguments, runs under the lock, kills the whole child
+  tree on exit (`setsid` plus a process-group kill) and writes `script exit=`; I wrote four of these by hand.
+- **A pre-run bond table**: print each unit's bonded list for the units a run uses, and compare it with the run's
+  required and forbidden bonds, before the first cycle.
+- **Tell the operator when a unit is busy.** The skill's hand-step cue says what to do; it should also say which
+  units the operator must not touch until the next cue.
