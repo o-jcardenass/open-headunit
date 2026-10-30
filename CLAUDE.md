@@ -108,6 +108,7 @@ and `agents`, the `.claude/` Claude Code loads here, `~/.claude/hooks/rig-*`, th
 command carries that to the rig. `/rig-round` runs it at start and at `approve`. A session keeps what it loaded at
 start, so restart Claude Code when the sync prints `RESTART`. Never put a `CLAUDE.md` from outside this
 worktree on the branch: the fork is public. A rule from one that rounds need goes in this file.
+**No test file stays on a device.** Scripts, captures, screenshots and exports are copied to the testing PC (the round's `$EV`) or published on this branch; nothing a round wrote is left on a unit. `rig_session.py` records the test folders of every connected unit before the first run and, at DONE, deletes only an entry that is new since then AND named by a path in the brief's scripts, after copying it to `$EV/device-files/<unit>/`. Any other new entry is listed for the operator and never deleted, because the folders are shared with other apps. Never delete a device file the round did not write; `rig_requires.py devfiles list` shows what a unit holds.
 
 ## Modifying app code
 

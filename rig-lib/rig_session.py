@@ -10,6 +10,9 @@ The host launches `run` with run_in_background and arms one Monitor on EV/sessio
 run. The session stops (exit 3) only for what neither it nor rig_run.sh can settle: a requirement that
 needs the operator, a held lock, or a grade script that is broken. Rerun `run` after the fix.
 A run that times out or stalls is retried once and then graded INCONCLUSIVE, with no operator step.
+No test file stays on a device: before the first run the session records the test folders of every
+connected unit. At DONE it deletes only an entry that is new AND named by a path in the brief's scripts, after
+copying it to EV/device-files/<unit>/; any other new entry is listed for the operator and left in place.
 A run with scoped unit lines (`unit D-POCO@B nobond=D-HU`) is checked again just before it. When only the
 operator can meet a need (a pair, a forget, a radio), the session prints one OPERATOR line naming the action
 and re-checks every 15 s for up to RL_OPERATOR_WAIT_S (900) before it escalates.
@@ -156,6 +159,8 @@ def cmd_run(ev, brief):
     code = meet(ev, rl, brief, req["units"], first if first in rig_requires.scoped_runs(req) else None)
     if code:
         return code
+    subprocess.run([sys.executable, "-I", str(rl / "rig_requires.py"), "devfiles", "snapshot", "--ev", str(ev), str(brief)],
+                   capture_output=True, text=True)
     used = sorted(set(req["units"]) | {role for _, role, _ in req["scoped"]})
     say(ev, f"REQUIREMENTS OK. Operator: hands off {', '.join(used)} until DONE, except when an OPERATOR line asks")
     scoped = set(rig_requires.scoped_runs(req))
@@ -207,10 +212,10 @@ def cmd_run(ev, brief):
                 after = ids[ids.index(run["id"]) + 1:]
                 skipped |= set(after if s["skip"] == "all" else s["skip"].split(","))
                 say(ev, f"STOP RULE after {run['id']} {verdict}: skip {', '.join(sorted(skipped)) or 'nothing'}")
-    return finish(ev, req)
+    return finish(ev, req, rl, brief)
 
 
-def finish(ev, req):
+def finish(ev, req, rl=None, brief=None):
     rows, counts = [], {}
     for run in req["runs"]:
         try:
@@ -224,8 +229,16 @@ def finish(ev, req):
         n_ops = len(Path(ev, "interventions.txt").read_text().splitlines())
     except OSError:
         n_ops = 0
+    sweep = ""
+    if rl is not None:
+        sw = subprocess.run([sys.executable, "-I", str(rl / "rig_requires.py"), "devfiles", "sweep", "--ev", str(ev), str(brief)],
+                            capture_output=True, text=True)
+        sweep = (sw.stdout.strip() or sw.stderr.strip()).splitlines()[0] if (sw.stdout.strip() or sw.stderr.strip()) else ""
+        if sw.returncode:
+            say(ev, f"OPERATOR check the device files the session did not delete: {sweep}; list in {ev}/device-files.txt", operator=True)
     Path(ev, "summary.md").write_text("| Run | Verdict | Reason or condition | Attempts |\n|---|---|---|---|\n"
-                                      + "\n".join(rows) + f"\n\nOperator interventions: {n_ops}\n")
+                                      + "\n".join(rows) + f"\n\nOperator interventions: {n_ops}\n"
+                                      + (f"Device files: {sweep}\n" if sweep else ""))
     say(ev, "DONE " + " ".join(f"{k.lower()}={v}" for k, v in sorted(counts.items())) + f" interventions={n_ops}")
     return 0
 

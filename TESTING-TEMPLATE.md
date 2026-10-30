@@ -782,6 +782,9 @@ A brief that gets a useful round back has these parts, in this order:
    seconds; `hand="<cue>"` marks a step only the operator can do. A run's script takes no arguments
    (it gets `$RUN`), and every shell block that drives the rig is named, or the rig never extracts it.
    `stop` lines are the stop rule as data.
+   Write device files only to paths the scripts spell out (`/data/local/tmp/<name>`, `/sdcard/ohu-shots/$RUN.png`):
+   the session deletes a new device file only when a brief path names it, so a file at a computed path stays
+   on the unit and the operator must remove it by hand. No test file may stay on a device.
    The rig reads all of it back with `rig_requires.py check --fix`, switches what adb can switch, and asks
    the operator once for the rest; a run cannot start until that check passes. It also orders a session
    of several briefs with `rig_requires.py order`, so a brief never needs to know what ran before it.

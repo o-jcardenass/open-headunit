@@ -47,6 +47,14 @@ the order listed. stop ID VERDICTS [skip=all|R3,R4]: after ID grades one of VERD
                                            --run checks one run's needs (scoped unit lines on top). A failure
                                            only the operator can clear is printed as "  - OPERATOR <action>".
   rig_requires.py baseline                 put every unit's radios to rig-lib/baseline.conf, read back
+  rig_requires.py devfiles snapshot --ev EV BRIEF...
+                                           record the test folders, and the folder of every device path the
+                                           brief names, on every connected unit (once per EV)
+  rig_requires.py devfiles sweep --ev EV BRIEF...
+                                           delete from a unit only an entry that is new since the snapshot AND
+                                           named by a path in the brief's scripts, after copying it to
+                                           EV/device-files/<unit>/; any other new entry is listed, never deleted
+  rig_requires.py devfiles list            print what the test folders of every connected unit hold now
 """
 import hashlib, itertools, os, re, shlex, subprocess, sys, time
 from pathlib import Path
@@ -538,6 +546,121 @@ def cmd_check(ev, path, fix=False, run_id=None):
     return 0
 
 
+# Folders a round writes to on a unit: adb push targets, screenshots, exports. Listed one level deep, with
+# ls -a, because API 19 units have no find.
+DEV_DIRS = ("/data/local/tmp", "/sdcard", "/sdcard/Download", "/sdcard/Pictures", "/sdcard/Pictures/Screenshots",
+            "/sdcard/DCIM", "/sdcard/DCIM/Screenshots", "/sdcard/Movies", "/sdcard/Documents")
+DEV_PATH = re.compile(r"(?:/data/local/tmp|/sdcard)/[\w.${}/*-]+")
+MAX_NEW_PER_DIR = 30   # more new entries than this in one folder is not a round's doing: delete nothing there
+
+
+def watched_dirs(briefs):
+    """DEV_DIRS plus the folder of every path a brief names (a literal folder, never one with a variable)."""
+    extra = {g.rsplit("/", 1)[0] for g in declared_paths(briefs)}
+    return list(DEV_DIRS) + sorted(d for d in extra if d not in DEV_DIRS and not any(c in d for c in "*[?"))
+
+
+def dev_listing(serial, dirs=DEV_DIRS):
+    """{dir: [entry names] or None}. None means the listing failed, so nothing in that folder may be deleted."""
+    out = {}
+    for d in dirs:
+        try:
+            r = subprocess.run(["adb", "-s", serial, "shell", "ls", "-a", d], capture_output=True, text=True, timeout=20)
+        except Exception:
+            out[d] = None; continue
+        text = r.stdout.replace("\r", "")
+        if r.returncode != 0 and not text.strip():
+            out[d] = None; continue
+        if "No such file" in text:
+            out[d] = []; continue                    # the folder does not exist on this unit
+        if "Permission denied" in text or text.lstrip().startswith(("ls:", "opendir")):
+            out[d] = None; continue
+        out[d] = sorted(n.strip() for n in text.splitlines() if n.strip() and n.strip() not in (".", ".."))
+    return out
+
+
+def declared_paths(briefs):
+    """Glob patterns for every device path a brief's scripts name. A variable matches one path segment."""
+    sys.path.insert(0, str(HERE))
+    from brief_check import blocks
+    pats = set()
+    for b in briefs:
+        for _, _, body, _ in blocks(Path(b).read_text(errors="replace")):
+            for m in DEV_PATH.findall(body):
+                pats.add(re.sub(r"\$\{?\w+\}?", "[!/]*", m.rstrip("/")))
+    return sorted(pats)
+
+
+def deletable(path, pats):
+    """A new entry may go when a brief named it, or named a file inside it."""
+    import fnmatch
+    return any(fnmatch.fnmatchcase(path, g) or fnmatch.fnmatchcase(path, g.split("/*")[0])
+               or any(fnmatch.fnmatchcase(path, "/".join(g.split("/")[:k])) for k in range(len(path.split("/")), len(g.split("/"))))
+               for g in pats)
+
+
+def connected():
+    return {r: s for r, s in serials().items() if adb(s, "get-state").strip() == "device"}
+
+
+def cmd_devfiles(sub, ev, briefs=()):
+    import json
+    if sub == "list":
+        for role, s in sorted(connected().items()):
+            for d, names in dev_listing(s).items():
+                print(f"{role} {d}: {'LISTING FAILED' if names is None else ' '.join(names)}")
+        return 0
+    snap = Path(ev, "device-files-before.json")
+    if sub == "snapshot":
+        if snap.exists():
+            print(f"snapshot kept: {snap}"); return 0
+        Path(ev).mkdir(parents=True, exist_ok=True)
+        dirs = watched_dirs(briefs)
+        data = {role: dev_listing(s, dirs) for role, s in connected().items()}
+        snap.write_text(json.dumps(data, indent=1))
+        print(f"snapshot: {len(data)} units")
+        return 0
+    if sub == "sweep":
+        if not snap.exists():
+            print("device files: no snapshot, so nothing was deleted; run devfiles list and tell the operator"); return 1
+        before, pats = json.loads(snap.read_text()), declared_paths(briefs)
+        moved, kept, failed = [], [], []
+        for role, s in sorted(connected().items()):
+            if role not in before:
+                continue
+            dirs = list(before[role])
+            now = dev_listing(s, dirs)
+            for d in dirs:
+                old, cur = before[role].get(d), now.get(d)
+                if old is None or cur is None:          # a listing failed: compare nothing, delete nothing
+                    if cur is None or old is None:
+                        kept.append(f"{role} {d}/ (listing failed, not checked)")
+                    continue
+                new = [f"{d}/{n}" for n in cur if n not in old and f"{d}/{n}" not in dirs]
+                if len(new) > MAX_NEW_PER_DIR:
+                    kept += [f"{role} {d}/ ({len(new)} new entries, more than {MAX_NEW_PER_DIR}: nothing deleted)"]
+                    continue
+                for path in new:
+                    if not deletable(path, pats):
+                        kept.append(f"{role} {path} (not named by the brief: left in place)"); continue
+                    dest = Path(ev, "device-files", role)
+                    dest.mkdir(parents=True, exist_ok=True)
+                    pr = subprocess.run(["adb", "-s", s, "pull", path, str(dest)], capture_output=True, timeout=300)
+                    if pr.returncode != 0 or not (dest / Path(path).name).exists():
+                        failed.append(f"{role} {path} (copy to the PC failed, so it was not deleted)"); continue
+                    adb(s, "shell", "rm", "-rf", path)
+                    (failed if adb(s, "shell", "ls", "-d", path).strip() == path else moved).append(f"{role} {path}")
+        Path(ev, "device-files.txt").write_text("".join(f"removed {m}\n" for m in moved)
+                                                + "".join(f"STILL THERE {f}\n" for f in failed)
+                                                + "".join(f"LEFT {k}\n" for k in kept))
+        print(f"device files: {len(moved)} copied to {Path(ev, 'device-files')} and removed, "
+              f"{len(failed)} could not be removed, {len(kept)} left for the operator to check")
+        for f in failed + kept:
+            print(f"  {f}")
+        return 1 if failed or kept else 0
+    print(__doc__); return 64
+
+
 def cmd_baseline():
     ser, fails = serials(), 0
     for role, pairs in baseline().items():
@@ -577,6 +700,8 @@ def main(argv):
         return cmd_check(ev, rest[0], fix, run_id)
     if cmd == "baseline":
         return cmd_baseline()
+    if cmd == "devfiles" and rest and (rest[0] == "list" or ev):
+        return cmd_devfiles(rest[0], ev, rest[1:])
     print(__doc__); return 64
 
 

@@ -151,6 +151,9 @@ Shell prelude for every command: `source /home/oscar/Coding/StudioProjects/rig-t
    1. **Restore:** the settings baseline; `$RL/rig_run.sh reap` (kills any session a run left); every radio
       to the fixed baseline with `python3 -I $RL/rig_requires.py baseline` (it reads each one back; never to
       the opening table, which carries an off radio forward); `TaskStop` every id in `$EV/armed.txt`.
+      **Device files:** a block brief's session already swept them; read `$EV/device-files.txt` and show the
+      operator every `LEFT` or `STILL THERE` line. An older brief: delete only the device paths its scripts name,
+      after `adb pull` to `$EV/device-files/`. Never delete a file the round did not write.
    2. **Check:** `rig_cleanup.sh list` reads clean, then run `rig_preflight.sh` with the opening roles. Paste
       it into Setup notes as the closing pre-flight. A FAIL is reported to the operator, not left for the next round.
    3. **Remove the build worktree:** `git worktree remove --force $WT` (the APKs are already in `$EV/apk/`).

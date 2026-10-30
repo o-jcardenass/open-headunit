@@ -363,6 +363,36 @@ out=$(python3 -I "$L/rig_requires.py" check --ev "$AE" "$A" --run B); rc=$?
 check "a phone on wireless adb is read at the serial a brief recorded" '[ "$rc" -eq 0 ] && [[ "$out" == *"D-POCO read over wireless adb at 10.0.0.2:5555"* ]]'
 rm -f "$W/adb/PH1.absent" "$W/rounds/unit-serials.txt"
 
+# --- no test file stays on a device, and nothing else is deleted ---
+DE="$W/rounds/df-round1"; mkdir -p "$DE" "$W/adb/HU1.fs/data/local/tmp/old" "$W/adb/HU1.fs/sdcard/Download"
+DB="$W/df-brief.md"
+cat > "$DB" <<EOF
+**r1.sh**
+${F}bash
+adb -s \$HU push r1.sh /data/local/tmp/r1.sh
+adb -s \$HU shell screencap -p /sdcard/ohu-shots/\$RUN.png
+adb -s \$HU push song.mp3 /sdcard/Music/ohu-long.mp3
+$F
+EOF
+python3 -I "$L/rig_requires.py" devfiles snapshot --ev "$DE" "$DB" >/dev/null
+echo x > "$W/adb/HU1.fs/data/local/tmp/r1.sh"; mkdir -p "$W/adb/HU1.fs/sdcard/ohu-shots"; echo p > "$W/adb/HU1.fs/sdcard/ohu-shots/R1.png"
+echo song > "$W/adb/HU1.fs/sdcard/Download/user-song.mp3"
+mkdir -p "$W/adb/HU1.fs/sdcard/Music"; echo m > "$W/adb/HU1.fs/sdcard/Music/ohu-long.mp3"
+out=$(python3 -I "$L/rig_requires.py" devfiles sweep --ev "$DE" "$DB"); rc=$?
+check "sweep copies brief-named new files to the PC, then deletes them from the unit" '[ -f "$DE/device-files/D-HU/r1.sh" ] && [ -f "$DE/device-files/D-HU/ohu-shots/R1.png" ] && [ ! -e "$W/adb/HU1.fs/data/local/tmp/r1.sh" ] && [ ! -e "$W/adb/HU1.fs/sdcard/ohu-shots" ]'
+check "a new file the brief never named is left in place and listed" '[ "$rc" -eq 1 ] && [ -f "$W/adb/HU1.fs/sdcard/Download/user-song.mp3" ] && [[ "$out" == *"user-song.mp3 (not named by the brief"* ]]'
+check "a brief path outside the fixed folders is watched and swept too" '[ ! -e "$W/adb/HU1.fs/sdcard/Music/ohu-long.mp3" ] && [ -f "$DE/device-files/D-HU/ohu-long.mp3" ]'
+check "files that were there before the session stay" '[ -d "$W/adb/HU1.fs/data/local/tmp/old" ]'
+DE2="$W/rounds/df-round2"; mkdir -p "$DE2"; mv "$W/adb/HU1.fs/data/local/tmp" "$W/adb/HU1.fs/data/local/tmp.hidden"
+python3 -I "$L/rig_requires.py" devfiles snapshot --ev "$DE2" "$DB" >/dev/null
+mv "$W/adb/HU1.fs/data/local/tmp.hidden" "$W/adb/HU1.fs/data/local/tmp"; echo x > "$W/adb/HU1.fs/data/local/tmp/r1.sh"
+out=$(python3 -I "$L/rig_requires.py" devfiles sweep --ev "$DE2" "$DB")
+check "a folder missing from the snapshot is compared, and only the named file goes" '[ ! -e "$W/adb/HU1.fs/data/local/tmp/r1.sh" ] && [ -d "$W/adb/HU1.fs/data/local/tmp/old" ]'
+rm -rf "$DE/device-files-before.json"
+out=$(python3 -I "$L/rig_requires.py" devfiles sweep --ev "$DE" "$DB"); rc=$?
+check "with no snapshot, sweep deletes nothing" '[ "$rc" -eq 1 ] && [[ "$out" == *"no snapshot"* ]] && [ -f "$W/adb/HU1.fs/sdcard/Download/user-song.mp3" ]'
+check "the session summary reports the sweep" 'grep -q "^Device files:" "$NE/summary.md"'
+
 # --- rig_resolve.py ---
 git -C "$G" checkout -q -b transfer/t
 cp "$G/good-round1-brief.md" "$G/aa-round1-brief.md"; cp "$G/good-round1-brief.md" "$G/bb-round2-brief.md"

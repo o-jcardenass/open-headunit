@@ -20,6 +20,10 @@ case "$*" in
   "shell dumpsys battery") echo "  level: $(get battery 80)" ;;
   "shell settings get secure bluetooth_name") get name null ;;
   "shell settings get secure bluetooth_address") get addr null ;;
+  "shell ls -a "*) d="$D/$S.fs${4}"; [ -d "$d" ] && ls -a "$d" || echo "ls: ${4}: No such file or directory" ;;
+  "shell ls -d "*) [ -e "$D/$S.fs${4}" ] && echo "${4}" ;;
+  "shell rm -rf "*) rm -rf "$D/$S.fs${4}" ;;
+  pull*) cp -r "$D/$S.fs${2}" "$3" ;;
   logcat*) i=0; while :; do echo "10-29 12:00:00.000 1 1 I fake: line $i"; i=$((i+1)); sleep 0.2; done ;;
   *) : ;;
 esac
