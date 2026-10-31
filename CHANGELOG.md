@@ -1,6 +1,7 @@
 # Changelog
 ### 4.0.0-beta1
 - Service: satisfy foreground starts during shutdown with base types while preserving Stop and refusing microphone reclaim
+- Display: publish projection size and insets from one completed layout, and keep service discovery geometry consistent through window changes
 - New Homescreen, thanks to @andrecuellar
 - AAP: send one version request over TCP, so a slow head unit server is not left deaf
 - AAP: Keep media and navigation display updates off the receive path
