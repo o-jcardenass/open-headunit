@@ -106,6 +106,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
    OPERATOR D-POCO forget D-SAM
 6. `pr-1091-pcm-guidance-round1-brief.md` (C `dcc3c708` on `fork/test/pr-1091`, a contributor audio PR merged onto `main` `b3ef3355`; one build, four settings arms; units D-HU and D-POCO; R2 is the point)
 7. `self-mode-media-session-round3-brief.md` (C `6d4de0d0` on `fork/fix/929-self-mode-media-session`, on `main` `947b3ae9`, one build, no baseline; units D-HU and D-POCO, D-MOTO Bluetooth off; P1 and H2 are the point)
+8. `video-smoke-round1-brief.md` (`rig-lib/video_smoke.py` at T `ff21d2716` on `fork/fix/surfaceview-crop`, one build; units D-SAM with D-POCO, D-HU with D-MOTO, D-HP with D-MOTO and the USB dongle; SurfaceView, TextureView and GLES on each; no run is the single point)
 
 ## Threads
 
@@ -133,6 +134,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 | `main-smoke` | Round 1 queued, trimmed to the wired runs M5, M2 and M7. `rig-lib/main_smoke.py` runs the wireless runs and M6 at will. | `main-smoke-round1-brief.md`; `python3 -I rig-lib/main_smoke.py`. |
 | `dsam-surfaceview-crop` | Round 1 done: S1 FAIL, SurfaceView lights 396 permille vs TextureView 957 on D-SAM `main` `6ff42d9a`, all 3 sessions incl. fresh launch; cause unexplained (`dsam-surfaceview-crop-round1-results.md`) | Coding side: investigate the SurfaceView crop on API 19. |
 | `surfaceview-crop` | Round 2 done on T `ff21d2716`: setup, S2 (14/14, margins taken out) and cleanup PASS; round 1's S2 FAIL was a comparison fault, not the code. | `surfaceview-crop-round2-results.md`. |
+| `video-smoke` | Round 1 queued: each projection backend (SurfaceView, TextureView, GLES) on API 17, 19 and 34, graded against TextureView on the same unit. | `video-smoke-round1-brief.md`; at will: `python3 -I rig-lib/video_smoke.py --ref <ref>`. |
 | `bt-helper` | Round 4 (`bt-helper-round4-results.md`): setup, L, CPS and restore PASS. Forget and pair through the API on D-POCO and D-SAM, 1 tap per pair on D-SAM's OK button, 2 cycles, 0 stops. D-POCO and D-SAM left bonded. | Thread done; no further round queued. |
 | `usb-dialog` | Round 8 on `15a13bff` done: R1/R1-on FAIL (fault ends session as read failure, no desync line; recovery 13 s, 36 s with a permission ask), Q3/Q4-ptp/R2/R4 PASS, Q1/Q2/R3 INCONCLUSIVE, Q4-midi/Q5 battery; phone mode was PTP not File transfer | `usb-dialog-round8-results.md` |
 | `pico-usb-stand-in` | Round 1 done, R0-R4 PASS: firmware builds, all 5 identities enumerate; console is /dev/ttyACM1, pass --port | `pico-usb-stand-in-round1-results.md`; firmware in `tools/pico-usb-stand-in/` |

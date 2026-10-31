@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Tests for rig_lib.sh, rig_run.sh, rig_requires.py, brief_check.py, rig_session.py, rig_forget.py, rig_pair.py and rig_bt.py.
+# Tests for rig_lib.sh, rig_run.sh, rig_requires.py, brief_check.py, rig_session.py, rig_forget.py, rig_pair.py, rig_bt.py, main_smoke.py and video_smoke.py.
 # Run: bash rig-lib/tests/test_rig_lib.sh. Needs bash, python3, git, procps and util-linux (setsid, flock).
 # No device: adb is tests/fake_adb.sh.
 set -u
@@ -474,6 +474,27 @@ rm -f "$MS/hp.skip"
 printf 'D-MOTO 10.0.0.2:5555\nD-HP 10.0.0.1:5555\n' > "$MS/serials.txt"
 python3 -I "$L/main_smoke.py" set-serial --file "$MS/serials.txt" --unit D-HP --addr 10.0.0.9:5555
 check "set-serial replaces only that unit's line" '[ "$(grep -c "^D-HP " "$MS/serials.txt")" -eq 1 ] && grep -q "^D-HP 10.0.0.9:5555$" "$MS/serials.txt" && grep -q "^D-MOTO 10.0.0.2:5555$" "$MS/serials.txt"'
+
+# --- video_smoke.py ---
+VS="$W/vs"; mkdir -p "$VS"
+python3 -I "$L/video_smoke.py" render --sha 0123456789abcdef0123456789abcdef01234567 --out "$VS/b.md"
+check "video render pins the candidate and CAND_SHA" 'grep -q "^candidate V 0123456789abcdef0123456789abcdef01234567$" "$VS/b.md" && grep -q "^CAND_SHA=012345678 " "$VS/b.md"'
+check "the rendered video brief has a well-formed rig-requires block" 'python3 -I "$L/rig_requires.py" lint "$VS/b.md" >/dev/null'
+vg() { echo "{\"id\": \"$1\", \"verdict\": \"$2\", \"reason\": \"r\"}" > "$VS/$1.grade.json"; }
+vg prep PASS; vg ST PASS; vg SS PASS
+python3 -I "$L/video_smoke.py" summary --ev "$VS" >/dev/null; rc=$?
+check "every video run PASS is exit 0" '[ "$rc" -eq 0 ] && grep -q "^video smoke on .*: no regression" "$VS/summary.txt"'
+vg SG INCONCLUSIVE; python3 -I "$L/video_smoke.py" summary --ev "$VS" >/dev/null; rc=$?
+check "an INCONCLUSIVE video run makes the smoke incomplete (2)" '[ "$rc" -eq 2 ]'
+vg SS FAIL; python3 -I "$L/video_smoke.py" summary --ev "$VS" >/dev/null; rc=$?
+check "a video FAIL outranks an INCONCLUSIVE (1)" '[ "$rc" -eq 1 ] && grep -q "REGRESSION" "$VS/summary.txt"'
+python3 -I "$L/video_smoke.py" render --sha 0123456789abcdef0123456789abcdef01234567 --out "$VS/nohp.md" --no-hp
+check "video render without D-HP drops PT, PS, PG, their stop and unit lines and the dongle line" '! grep -qE "^(run P[TSG] |stop P[TSG] |unit D-HP|unit [^ ]*@P[TSG]|hardware the USB dongle)" "$VS/nohp.md" && grep -q "^run MS " "$VS/nohp.md" && grep -q "^unit D-MOTO@MT,MS,MG " "$VS/nohp.md" && python3 -I "$L/rig_requires.py" lint "$VS/nohp.md" >/dev/null'
+rm -f "$VS"/*.grade.json; vg prep PASS; echo "D-HP is not on wireless adb" > "$VS/hp.skip"
+python3 -I "$L/video_smoke.py" summary --ev "$VS" >/dev/null; rc=$?
+check "a skipped D-HP shows PT, PS and PG as NOT_RUN, and the video smoke is incomplete" '[ "$rc" -eq 2 ] && [ "$(grep -c "^P[TSG] *NOT_RUN *D-HP is not on wireless adb" "$VS/summary.txt")" -eq 3 ]'
+out=$(python3 -I -c "import sys; sys.path.insert(0, '$L'); import video_smoke as v; print('|'.join(' '.join(v.fetch_args(r, ['origin', 'fork']) or ['none']) for r in ('fork/fix/surfaceview-crop', 'origin/main', 'ff21d2716', 'v.3.4.0')))")
+check "the video smoke fetches from the remote its ref names, and nothing for a SHA or a tag" '[ "$out" = "fetch fork fix/surfaceview-crop|fetch origin main|none|none" ]'
 
 # --- rig_forget.py and rig_pair.py ---
 out=$(python3 -I "$T/test_bt_ui.py" 2>&1); rc=$?

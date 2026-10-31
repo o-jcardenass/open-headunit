@@ -121,15 +121,17 @@ CABLING = ["1. Unplug D-HP from the PC.",
            "4. On D-HP, answer the USB dialog for the dongle: tick 'Use by default', then OK."]
 
 
-def summary(ev):
+def summary(ev, known=None, skipped=("M6",), title="main smoke"):
+    """One line per graded run and the worst exit code. video_smoke.py passes its own KNOWN_FAIL, D-HP runs and title."""
+    known = KNOWN_FAIL if known is None else known
     rows, worst = [], 0
     for g in sorted(Path(ev).glob("*.grade.json")):
         d = json.loads(g.read_text())
         rid, v, why = d["id"], d["verdict"], d.get("reason", "")
         if v == "PASS":
             code = 0
-        elif v == "FAIL" and rid in KNOWN_FAIL:
-            v, why, code = "FAIL (known)", KNOWN_FAIL[rid], 0
+        elif v == "FAIL" and rid in known:
+            v, why, code = "FAIL (known)", known[rid], 0
         elif v == "FAIL":
             code = 1
         else:
@@ -138,12 +140,12 @@ def summary(ev):
         rows.append(f"{rid:<6} {v:<13} {why}".rstrip())
     skip = Path(ev) / "hp.skip"
     if skip.exists():
-        rows.append(f"{'M6':<6} {'NOT_RUN':<13} {skip.read_text().strip()}")
+        rows += [f"{rid:<6} {'NOT_RUN':<13} {skip.read_text().strip()}" for rid in skipped]
         worst = worst or 2
     if not rows:
         rows, worst = ["no run was graded"], 2
     word = {0: "no regression", 1: "REGRESSION", 2: "incomplete"}[worst]
-    head = f"main smoke on {(Path(ev) / 'candidate.txt').read_text().strip() if (Path(ev) / 'candidate.txt').exists() else '?'}: {word}"
+    head = f"{title} on {(Path(ev) / 'candidate.txt').read_text().strip() if (Path(ev) / 'candidate.txt').exists() else '?'}: {word}"
     text = "\n".join([head] + rows) + "\n"
     (Path(ev) / "summary.txt").write_text(text)
     print(text, end="")
@@ -161,9 +163,9 @@ def follow(status, stop):
         time.sleep(2)
 
 
-def build(sha, ev):
+def build(sha, ev, name="main-smoke-auto", arm="M"):
     t0 = time.time()
-    wt = sh([str(TOOLKIT / "wt-new.sh"), "main-smoke-auto", "candidate", sha]).stdout.strip().splitlines()
+    wt = sh([str(TOOLKIT / "wt-new.sh"), name, "candidate", sha]).stdout.strip().splitlines()
     if not wt:
         return None
     wt = wt[-1]
@@ -176,7 +178,7 @@ def build(sha, ev):
         if r.returncode or not apks:
             return None
         (ev / "apk").mkdir(exist_ok=True)
-        dst = ev / "apk" / "M.apk"
+        dst = ev / "apk" / f"{arm}.apk"
         shutil.copy2(max(apks, key=lambda p: p.stat().st_mtime), dst)
         return dst
     finally:
