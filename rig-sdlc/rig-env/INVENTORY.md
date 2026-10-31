@@ -13,6 +13,7 @@ Snapshot taken 2026-10-15 on the rig machine.
 | `rig-executor` | agent (Haiku) | `rig-sdlc/agents/rig-executor.md` | `headunit-revived/.claude/agents/rig-executor.md` | sync |
 | `rig-round` | skill | `rig-sdlc/skills/rig-round/SKILL.md` | `headunit-revived/.claude/skills/rig-round/` | sync |
 | `rig-diagnose` | skill | `rig-sdlc/skills/rig-diagnose/SKILL.md` | `headunit-revived/.claude/skills/rig-diagnose/` | sync |
+| `rig-smoke` | skill | `rig-sdlc/skills/rig-smoke/SKILL.md` | `headunit-revived/.claude/skills/rig-smoke/` | sync |
 | rig `CLAUDE.md` | instructions | `CLAUDE.md` | worktree root | tracked |
 | `rig-tidy-guard.py` | PreToolUse hook (Bash, Write, Edit, NotebookEdit) | `rig-sdlc/rig-env/hooks/rig-tidy-guard.py` | `~/.claude/hooks/` | sync |
 | `rig-tidy-grandfathered.txt` | hook data | `rig-sdlc/rig-env/hooks/` | `~/.claude/hooks/` | sync |

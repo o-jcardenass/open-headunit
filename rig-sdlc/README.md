@@ -14,6 +14,7 @@ unchanged. Adopted 2026-09-30; the operator's rules in `CLAUDE.md` win wherever 
 | `agents/rig-executor.md` | runs one run's commands (or the prepare step) under the rig lock, returns the JSON block `CLAUDE.md` defines | Haiku |
 | `skills/rig-round/SKILL.md` | `/rig-round <thread> <N>`: the host plans, runs executors in the foreground, grades, drafts, and commits after `approve` | host (Sonnet) |
 | `skills/rig-diagnose/SKILL.md` | what to do when a run surprises you mid-round | host |
+| `skills/rig-smoke/SKILL.md` | `/rig-smoke video [<ref>]` or `/rig-smoke main [<ref>]`: runs `video_smoke.py` or `main_smoke.py` on a branch, a SHA or `origin/main`, and reports the summary; `approve` commits it to `smoke-results/` | host |
 
 **Rule 4 is unchanged:** no background agent drives a device. Every `rig-executor` run is a
 foreground call from the host, one at a time, under `flock -n /tmp/ohu-rig.lock`.
