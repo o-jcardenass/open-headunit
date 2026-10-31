@@ -107,6 +107,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 6. `pr-1091-pcm-guidance-round1-brief.md` (C `dcc3c708` on `fork/test/pr-1091`, a contributor audio PR merged onto `main` `b3ef3355`; one build, four settings arms; units D-HU and D-POCO; R2 is the point)
 7. `self-mode-media-session-round3-brief.md` (C `6d4de0d0` on `fork/fix/929-self-mode-media-session`, on `main` `947b3ae9`, one build, no baseline; units D-HU and D-POCO, D-MOTO Bluetooth off; P1 and H2 are the point)
 8. `video-smoke-round1-brief.md` (`rig-lib/video_smoke.py` at T `ff21d2716` on `fork/fix/surfaceview-crop`, one build; units D-SAM with D-POCO, D-HU with D-MOTO, D-HP with D-MOTO and the USB dongle; SurfaceView, TextureView and GLES on each; no run is the single point)
+9. `pr-train-20261031-round2-brief.md` (T `8e0452dd` on `fork/test/pr-train-20261031`, same build as round 1; units D-HU, D-POCO, D-SAM and the ESP32 board E-1; E3 is the point; no hand steps)
 
 ## Threads
 
@@ -131,7 +132,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 | `pr-merge-train` | Rounds 1 to 4 run on `fork/test/pr-merge-train`: R1 PASS, R2 X1 FAIL, R3 PASS; round 4 SB/SA/HB/HA all PASS, A no worse on D-SAM and better on D-HP (Headunit Server). | `pr-merge-train-round4-results.md`. Briefs need `narrow-band-profile-cap=false` for PCM on 2.4 GHz units. |
 | `pr-train-20261029` | Round 2 stage W: setup, WB, W2 PASS; W1 regraded INCONCLUSIVE by the host (Type 3 went out 3 times; D-SAM's station rejoined beside the new group). D-SAM projection cropped in a corner during W1 | `pr-train-20261029-round2-results.md`. W1 runs again in `pr-train-20261030`. The crop moved to `dsam-surfaceview-crop`. |
 | `pr-train-20261030` | Round 1 done, 7 of 7 runs PASS on T `6d038cc5`: W1 (D-SAM, station off) and D1 (D-HU, session ended 6 s after the cut) both PASS | `pr-train-20261030-round1-results.md`. Nothing open. |
-| `pr-train-20261031` | Round 1 done: 8 PASS, 2 FAIL (PB baseline P-CRIT 1; E4 no RFCOMM dial after relaunch, session still came up), 2 INCONCLUSIVE (X1 race not produced, E5 dump was recents), E3 UNTESTABLE | `pr-train-20261031-round1-results.md`. Repeat X1, E3, E4 (string) and E5; script E1 pairing and the head unit server step. |
+| `pr-train-20261031` | Round 1 done; host regrade: E4 PASS (full handshake over the relay after the force-stop, no new dial needed), PB is on `main`, X1 shows no crash, P1 and R1 PASS. Round 2 queued: E3 and E5 only | `pr-train-20261031-round1-results.md`, `pr-train-20261031-round2-brief.md`. |
 | `main-smoke` | Round 1 queued, trimmed to the wired runs M5, M2 and M7. `rig-lib/main_smoke.py` runs the wireless runs and M6 at will. | `main-smoke-round1-brief.md`; `/rig-smoke main`. |
 | `dsam-surfaceview-crop` | Round 1 done: S1 FAIL, SurfaceView lights 396 permille vs TextureView 957 on D-SAM `main` `6ff42d9a`, all 3 sessions incl. fresh launch; cause unexplained (`dsam-surfaceview-crop-round1-results.md`) | Coding side: investigate the SurfaceView crop on API 19. |
 | `surfaceview-crop` | Round 2 done on T `ff21d2716`: setup, S2 (14/14, margins taken out) and cleanup PASS; round 1's S2 FAIL was a comparison fault, not the code. | `surfaceview-crop-round2-results.md`. |
