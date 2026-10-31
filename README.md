@@ -96,12 +96,18 @@ worktree, batch builds) and §8. `rig-sdlc/` changed with them. Before the next 
 restart Claude Code. It copies the new skills into `.claude/`.
 After that, `/rig-round` re-copies them itself when a pull changes them, and asks for the restart.
 
-3. `forget-car-still-needed-round2-brief.md` (F `6c23c264` on `fork/fix/forget-car-still-needed`, C `947b3ae9` = `main`, both rebuilt; units D-HU and D-POCO; R1 is the point)
-4. `usb-native-loop-round2-brief.md` (`main` `f9a72d480` and tag `v.3.4.0` `013b05bc`; units D-POCO as USB host and D-MOTO, D-SAM optional for K2, D-HU Bluetooth only; replaces round 1, which is not run; R4-G and K1 are the point)
-5. `fps-cap-round1-brief.md` (candidate `main` `947b3ae9`, fetched from origin, PR #1139 merged; conditional `v.3.4.0` `013b05bc`; units D-POCO as head unit and D-MOTO, D-HU idle; R1 and R3 are the point)
+1. `main-smoke-round1-brief.md` (one arm, `main` `6ff42d9a`, one build; trimmed on 2026-10-30 to M5, M2 and M7, because `rig-lib/main_smoke.py` runs the rest; units D-HP, D-POCO, D-MOTO and the USB dongle, D-HU and D-SAM for prep and close; M7 is the point)
+2. `fps-cap-round1-brief.md` (candidate `main` `947b3ae9`, fetched from origin, PR #1139 merged; conditional `v.3.4.0` `013b05bc`; units D-POCO as head unit and D-MOTO, D-HU idle; R1 and R3 are the point)
+   OPERATOR D-MOTO pair D-POCO
+   OPERATOR D-MOTO forget D-HU  (before run R1)
+3. `usb-native-loop-round2-brief.md` (`main` `f9a72d480` and tag `v.3.4.0` `013b05bc`; units D-POCO as USB host and D-MOTO, D-SAM optional for K2, D-HU Bluetooth only; replaces round 1, which is not run; R4-G and K1 are the point)
+4. `surfaceview-crop-round1-brief.md` (T `ff21d2716` on `fork/fix/surfaceview-crop`, on `main` `c2c0e95aa`, one build; units D-SAM and D-POCO, D-HU and D-MOTO off; S1 is the point)
+   OPERATOR D-POCO forget D-HU
+5. `forget-car-still-needed-round2-brief.md` (F `6c23c264` on `fork/fix/forget-car-still-needed`, C `947b3ae9` = `main`, both rebuilt; units D-HU and D-POCO; R1 is the point)
+   OPERATOR D-POCO pair D-HU
+   OPERATOR D-POCO forget D-SAM
 6. `pr-1091-pcm-guidance-round1-brief.md` (C `dcc3c708` on `fork/test/pr-1091`, a contributor audio PR merged onto `main` `b3ef3355`; one build, four settings arms; units D-HU and D-POCO; R2 is the point)
-10. `self-mode-media-session-round3-brief.md` (C `6d4de0d0` on `fork/fix/929-self-mode-media-session`, on `main` `947b3ae9`, one build, no baseline; units D-HU and D-POCO, D-MOTO Bluetooth off; P1 and H2 are the point)
-13. `main-smoke-round1-brief.md` (one arm, `main` `6ff42d9a`, one build; trimmed on 2026-10-30 to M5, M2 and M7, because `rig-lib/main_smoke.py` runs the rest; units D-HP, D-POCO, D-MOTO and the USB dongle, D-HU and D-SAM for prep and close; M7 is the point)
+7. `self-mode-media-session-round3-brief.md` (C `6d4de0d0` on `fork/fix/929-self-mode-media-session`, on `main` `947b3ae9`, one build, no baseline; units D-HU and D-POCO, D-MOTO Bluetooth off; P1 and H2 are the point)
 
 ## Threads
 
@@ -128,6 +134,7 @@ After that, `/rig-round` re-copies them itself when a pull changes them, and ask
 | `pr-train-20261030` | Round 1 done, 7 of 7 runs PASS on T `6d038cc5`: W1 (D-SAM, station off) and D1 (D-HU, session ended 6 s after the cut) both PASS | `pr-train-20261030-round1-results.md`. Nothing open. |
 | `main-smoke` | Round 1 queued, trimmed to the wired runs M5, M2 and M7. `rig-lib/main_smoke.py` runs the wireless runs and M6 at will. | `main-smoke-round1-brief.md`; `python3 -I rig-lib/main_smoke.py`. |
 | `dsam-surfaceview-crop` | Round 1 done: S1 FAIL, SurfaceView lights 396 permille vs TextureView 957 on D-SAM `main` `6ff42d9a`, all 3 sessions incl. fresh launch; cause unexplained (`dsam-surfaceview-crop-round1-results.md`) | Coding side: investigate the SurfaceView crop on API 19. |
+| `surfaceview-crop` | Round 1 queued on T `ff21d2716`: does a SurfaceView sized by view scale light what TextureView lights on D-SAM (API 19). Follows `dsam-surfaceview-crop`. | `surfaceview-crop-round1-brief.md`. |
 | `bt-helper` | Round 4 (`bt-helper-round4-results.md`): setup, L, CPS and restore PASS. Forget and pair through the API on D-POCO and D-SAM, 1 tap per pair on D-SAM's OK button, 2 cycles, 0 stops. D-POCO and D-SAM left bonded. | Thread done; no further round queued. |
 | `usb-dialog` | Round 8 on `15a13bff` done: R1/R1-on FAIL (fault ends session as read failure, no desync line; recovery 13 s, 36 s with a permission ask), Q3/Q4-ptp/R2/R4 PASS, Q1/Q2/R3 INCONCLUSIVE, Q4-midi/Q5 battery; phone mode was PTP not File transfer | `usb-dialog-round8-results.md` |
 | `pico-usb-stand-in` | Round 1 done, R0-R4 PASS: firmware builds, all 5 identities enumerate; console is /dev/ttyACM1, pass --port | `pico-usb-stand-in-round1-results.md`; firmware in `tools/pico-usb-stand-in/` |
