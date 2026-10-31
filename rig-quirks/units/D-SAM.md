@@ -12,10 +12,7 @@ Every one of these was measured across `t230-native-aa-bringup` rounds 1 to 4.
   with `python3` on the host, push the whole file, then
   `run-as $PKG cp <pushed file> shared_prefs/settings.xml`. A `sed`-free variant of `set_pref.sh`
   was asked for in round 1 and has not been written.
-- **The USB port is data-only and does not charge it.** `dumpsys battery` reads `USB powered: true,
-  AC powered: false`, and the battery sat at 9% through all four rounds, so every conclusion from
-  them carries that as an uncontrolled variable. Charge it from a separate supply before any round
-  that measures the radio.
+- **Power: on 2026-10-30 the PC port charged it.** Cabled to the PC, `dumpsys battery` read AC powered true, USB powered false, level 100, status FULL (5), 4324 mV, 30.0 C, identical on two reads 20 s apart (`current now` is 0 on this kernel, so a charge current cannot be shown). This replaces the earlier reading (USB powered true, AC false, 9% through `t230-native-aa-bringup` rounds 1 to 4, when the port was data-only). Read `dumpsys battery` at the start of a round instead of assuming either; a brief that asks for a separate supply is no longer needed while it reads AC. Measured in `surfaceview-crop` round 1.
 - **Mount or hold it in its native portrait position**, with `screen-orientation=2` (`LANDSCAPE`).
   Neither of the app's two fixed-landscape settings gives a correct display on a landscape mount;
   `3` (`LANDSCAPE_REVERSE`) is visibly worse, tested live and reverted. This is an installation
@@ -38,6 +35,7 @@ Every one of these was measured across `t230-native-aa-bringup` rounds 1 to 4.
   was still in force through `round7`, so **every result file up to and including round 7 carries
   offset D-SAM timestamps**: add 12h when reading one of those against a phone log. The old note that
   `date -s` silently no-ops no longer describes this unit; the method that did work is unrecorded.
+- **Clock 2026-10-30: 26.8 s behind the PC**, unfixable without a root shell (`clock-offsets.txt`: `left(no root shell)`). "Matches the host" above holds to the minute only; subtract 26824 ms before comparing D-SAM timestamps with another unit's. Measured in `surfaceview-crop` round 1.
 - **`SettingsActivity` is not exported on this build.** `am start -n ... SettingsActivity` from a
   plain `adb shell` fails with a `SecurityException`. The substitute on an unrooted unit is
   `adb shell run-as $PKG am start --user 0 -n ...`, which launches from the app's own UID.
