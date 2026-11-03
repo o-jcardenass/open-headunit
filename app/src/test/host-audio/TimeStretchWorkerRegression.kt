@@ -42,8 +42,10 @@ internal fun timeStretchWorkerRegression() {
             check(expected.contentEquals(actual))
         }
     }
+    // Fill the bank to its real capacity, so the backpressure checks track CAPACITY_MS.
+    val fullSamples = AdaptivePcmBuffer.capacityFramesFor(48000) * 2
     val blockedBank = AdaptivePcmBuffer(nativeTimeCorrection = true)
-    blockedBank.write(ShortArray(144_000) { 7 }, 144_000, 0)
+    blockedBank.write(ShortArray(fullSamples) { 7 }, fullSamples, 0)
     repeat(960) { directBlock[it] = (it * 31).toShort() }
     check(!blockedBank.writeIfFits(directBlock, 960, 1))
     repeat(960) { check(directBlock[it] == (it * 31).toShort()) }
@@ -151,7 +153,7 @@ internal fun timeStretchWorkerRegression() {
 
     // Finalization may return more PCM than a ready bank can accept in one burst.
     val full = AdaptivePcmBuffer(nativeTimeCorrection = true)
-    val initial = ShortArray(144_000) { 100 }
+    val initial = ShortArray(fullSamples) { 100 }
     full.write(initial, initial.size, 0)
     val waiting = TimeStretchWorker(AudioTimeCorrectionMode.PHASE_VOCODER, full, { 0L }, {}, {}, ::delayedEngine)
     try {
