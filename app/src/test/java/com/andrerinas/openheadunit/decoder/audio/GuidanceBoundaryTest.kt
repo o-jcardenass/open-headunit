@@ -4,6 +4,8 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class GuidanceBoundaryTest {
+    private val CAP = AdaptivePcmBuffer.capacityFramesFor(48000)
+
     private val out = ShortArray(960)
     private fun feed(bank: AdaptivePcmBuffer, frames: Int, now: Long, value: Short) {
         bank.noteArrival(now, frames)
@@ -103,12 +105,12 @@ class GuidanceBoundaryTest {
         feed(bank, 3072, 10, -10000)
         // A decoder catch-up batch can overflow physical storage. Once A is gone, its
         // boundary must not limit or index into B's replacement samples.
-        bank.write(ShortArray(72000 * 2) { 20000 }, 72000 * 2, 20)
+        bank.write(ShortArray(CAP * 2) { 20000 }, CAP * 2, 20)
         assertEquals(3552L, bank.droppedFrames)
         assertTrue(bank.render(out, 20))
         assertEquals(20000, out.last().toInt())
         bank.finish()
-        repeat(151) { bank.render(out, 30 + it * 10L) }
+        repeat(CAP / 480 + 1) { bank.render(out, 30 + it * 10L) }
         assertTrue(bank.isIdle())
         assertEquals(0L, bank.concealedFrames)
     }

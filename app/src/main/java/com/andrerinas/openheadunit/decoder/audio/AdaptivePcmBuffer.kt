@@ -12,10 +12,9 @@ internal class AdaptivePcmBuffer(
     private val mediaPrerollDeadlineMs = 1500L
     private val cycleFrames = sampleRate / 100
     private val cycleSamples = cycleFrames * channels
-    // Guidance can receive catch-up bursts too, even while its consumer is running.
-    // Every sink needs room for a 1s burst plus its <=400ms reserve. Capacity is not
-    // preroll: the playback target/deadline stay independent of this storage bound.
-    private val capacityFrames = sampleRate * 3 / 2
+    // Every sink, guidance included, can take a catch-up burst. Capacity is storage, not
+    // preroll: it fills only when such a burst lands on the reserve.
+    private val capacityFrames = capacityFramesFor(sampleRate)
     private val ring = ShortArray(capacityFrames * channels)
     private val lastGood = ShortArray(cycleSamples)
     private val previousOutput = ShortArray(cycleSamples)
@@ -496,5 +495,12 @@ internal class AdaptivePcmBuffer(
         lastGood.fill(0); previousOutput.fill(0)
         policy.resetArrival(retainReserve = false)
         recovery.reset()
+    }
+
+    internal companion object {
+        // A station scan stalls a single-radio link ~1.5 s, and the reserve grows to cover it,
+        // so the burst after it needs that much again on top, with margin for a longer stall.
+        const val CAPACITY_MS = 3000
+        fun capacityFramesFor(sampleRate: Int): Int = sampleRate * CAPACITY_MS / 1000
     }
 }
