@@ -4,6 +4,8 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class AdaptiveAudioTest {
+    private val CAP = AdaptivePcmBuffer.capacityFramesFor(48000)
+
     private fun bankWithResumedBacklog(): AdaptivePcmBuffer {
         val buffer = AdaptivePcmBuffer(latencyMultiplier = 2, isMediaSink = true)
         buffer.noteArrival(0, 8192)
@@ -33,7 +35,7 @@ class AdaptiveAudioTest {
     }
 
     @Test fun `backlog is preserved until physical capacity requires overflow`() {
-        for (packets in listOf(8, 40)) {
+        for (packets in listOf(8, CAP / 2048 + 10)) {
             val buffer = bankWithResumedBacklog()
             val out = ShortArray(960)
             buffer.render(out, 10040)
@@ -43,7 +45,7 @@ class AdaptiveAudioTest {
                 buffer.write(ShortArray(4096) { 12000 }, 4096, 10050)
             }
             val beforeRender = buffer.droppedFrames
-            if (packets == 40) assertTrue(beforeRender > 0) else assertEquals(0L, beforeRender)
+            if (packets > 8) assertTrue(beforeRender > 0) else assertEquals(0L, beforeRender)
             val depth = buffer.depthFrames()
             buffer.render(out, 10050)
             assertEquals(beforeRender, buffer.droppedFrames)
@@ -173,21 +175,21 @@ class AdaptiveAudioTest {
         val out = ShortArray(960)
         buffer.render(out, 0)
         buffer.noteArrival(10, 480)
-        buffer.write(ShortArray(144000) { if (it % 2 == 0) -10000 else -5000 }, 144000, 10)
+        buffer.write(ShortArray(CAP * 2) { if (it % 2 == 0) -10000 else -5000 }, CAP * 2, 10)
         buffer.render(out, 10)
         assertTrue(buffer.droppedFrames > 0)
         assertTrue(out[0] > 9000) // starts near the previous tail
         assertEquals(-10000, out[478].toInt())
         assertEquals(-5000, out[479].toInt())
-        assertEquals(72000 - 480, buffer.depthFrames())
+        assertEquals(CAP - 480, buffer.depthFrames())
     }
 
     @Test fun `oversized ingress remains bounded and retains newest complete frames`() {
         val buffer = AdaptivePcmBuffer(latencyMultiplier = 2)
         buffer.noteArrival(0, 2048)
-        val data = ShortArray(168000) { if (it % 2 == 0) 1234 else -2345 }
+        val data = ShortArray((CAP + 12000) * 2) { if (it % 2 == 0) 1234 else -2345 }
         buffer.write(data, data.size, 0)
-        assertEquals(72000, buffer.depthFrames())
+        assertEquals(CAP, buffer.depthFrames())
         val out = ShortArray(960)
         buffer.render(out, 0)
         assertEquals(1234, out[958].toInt())
@@ -202,7 +204,7 @@ class AdaptiveAudioTest {
         val out = ShortArray(960)
         buffer.render(out, 0)
         val previous = out.last().toInt()
-        buffer.write(ShortArray(144000) { -10000 }, 144000, 10)
+        buffer.write(ShortArray(CAP * 2) { -10000 }, CAP * 2, 10)
         buffer.render(out, 10)
         assertTrue(kotlin.math.abs(out[0].toInt() - previous) < 100)
     }

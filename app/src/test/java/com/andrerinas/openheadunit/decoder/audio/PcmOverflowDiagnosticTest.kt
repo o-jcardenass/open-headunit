@@ -4,9 +4,11 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class PcmOverflowDiagnosticTest {
+    private val CAP = AdaptivePcmBuffer.capacityFramesFor(48000)
+
     @Test fun `overflow records loss time and consumption before the delayed report`() {
         val buffer = AdaptivePcmBuffer(latencyMultiplier = 2)
-        val full = ShortArray(72000 * 2) { 12000 }
+        val full = ShortArray(CAP * 2) { 12000 }
         buffer.write(full, full.size, 0)
         val out = ShortArray(960)
         buffer.render(out, 100)
@@ -16,7 +18,7 @@ class PcmOverflowDiagnosticTest {
         val loss = requireNotNull(buffer.takeOverflow())
         assertEquals(150L, loss.atMs)
         assertEquals(100L, loss.lastReadMs)
-        assertEquals(71520, loss.depthBeforeFrames)
+        assertEquals(CAP - 480, loss.depthBeforeFrames)
         assertEquals(960, loss.incomingFrames)
         assertEquals(480, loss.oldFramesDropped)
         assertEquals(0, loss.incomingFramesDropped)
@@ -30,10 +32,10 @@ class PcmOverflowDiagnosticTest {
         val buffer = AdaptivePcmBuffer(latencyMultiplier = 2)
         buffer.write(ShortArray(960), 960, 0)
         buffer.finish()
-        val oversized = ShortArray(2 * 73000)
+        val oversized = ShortArray(2 * (CAP + 1000))
         buffer.write(oversized, oversized.size, 10)
         val loss = requireNotNull(buffer.takeOverflow())
-        assertEquals(72000, loss.capacityFrames)
+        assertEquals(CAP, loss.capacityFrames)
         assertEquals(480, loss.oldFramesDropped)
         assertEquals(1000, loss.incomingFramesDropped)
         assertEquals(-1L, loss.lastReadMs)
@@ -41,22 +43,22 @@ class PcmOverflowDiagnosticTest {
         assertTrue(loss.ended)
         assertBalance(loss)
         assertEquals(1480L, buffer.droppedFrames)
-        assertEquals(72000, buffer.depthFrames())
+        assertEquals(CAP, buffer.depthFrames())
     }
 
     @Test fun `frame accounting includes reset loss without counting oversized input twice`() {
         val buffer = AdaptivePcmBuffer(latencyMultiplier = 2)
-        val oversized = ShortArray(2 * 73000)
+        val oversized = ShortArray(2 * (CAP + 1000))
         buffer.write(oversized, oversized.size, 0)
         buffer.render(ShortArray(960), 100)
         buffer.reset()
         buffer.takeOverflow()
         buffer.write(oversized, oversized.size, 200)
         val loss = requireNotNull(buffer.takeOverflow())
-        assertEquals(73000L, loss.offeredBeforeFrames)
+        assertEquals(CAP + 1000L, loss.offeredBeforeFrames)
         assertEquals(480L, loss.consumedFrames)
         assertEquals(1000L, loss.overflowBeforeFrames)
-        assertEquals(71520L, loss.resetDiscardedFrames)
+        assertEquals(CAP - 480L, loss.resetDiscardedFrames)
         assertEquals(-1L, loss.lastReadMs)
         assertBalance(loss)
     }

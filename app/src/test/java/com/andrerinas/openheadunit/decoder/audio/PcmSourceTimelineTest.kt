@@ -153,7 +153,8 @@ class PcmSourceTimelineTest {
     @Test fun `physical overflow follows retained suffix and fades concealment reset stay unknown`() {
         val bank = AdaptivePcmBuffer(latencyMultiplier = 2).also { it.sourceMappingEnabled = true }
         val out = ShortArray(960)
-        val oversized = ShortArray(160_000)
+        // One bank of capacity plus 8000 frames, so exactly 8000 frames overflow.
+        val oversized = ShortArray(2 * (AdaptivePcmBuffer.capacityFramesFor(48000) + 8_000))
         bank.write(oversized, oversized.size, 0, 1_000_000, 7)
         assertEquals(8_000L, bank.droppedFrames)
         assertEquals(1_166_666L, bank.firstSourceUs())
