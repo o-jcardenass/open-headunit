@@ -4,6 +4,8 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class ConstrainedPlaybackTest {
+    private val CAP = AdaptivePcmBuffer.capacityFramesFor(48000)
+
     @Test fun `decoded PCM delay raises the reserve even when encoded packets arrive on time`() {
         val buffer = AdaptivePcmBuffer(latencyMultiplier = 2, isMediaSink = true)
         val packet = ShortArray(2048) { 12000 }
@@ -82,10 +84,10 @@ class ConstrainedPlaybackTest {
 
     @Test fun `over capacity input stays bounded and resumes with stereo aligned PCM`() {
         val buffer = AdaptivePcmBuffer(latencyMultiplier = 16, isMediaSink = true)
-        val twoSeconds = ShortArray(2000 * 48 * 2) { if (it % 2 == 0) 12000 else -12000 }
+        val overCapacity = ShortArray((CAP + 500 * 48) * 2) { if (it % 2 == 0) 12000 else -12000 }
         buffer.noteArrival(0, 2048)
-        buffer.write(twoSeconds, twoSeconds.size, 0)
-        assertEquals(1500 * 48, buffer.depthFrames())
+        buffer.write(overCapacity, overCapacity.size, 0)
+        assertEquals(CAP, buffer.depthFrames())
         assertEquals(500L * 48, buffer.droppedFrames)
         val out = ShortArray(960)
         assertTrue(buffer.render(out, 0))
@@ -108,7 +110,7 @@ class ConstrainedPlaybackTest {
                 }
             }
             if (now % 10 == 0L) buffer.render(out, now)
-            assertTrue(buffer.depthFrames() <= 1500 * 48)
+            assertTrue(buffer.depthFrames() <= CAP)
             if (now == 25_000L) recoveredRebanks = buffer.rebanks
         }
         assertTrue("An outage longer than the reserve cannot be hidden", buffer.concealedFrames > 0)
