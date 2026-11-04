@@ -95,6 +95,7 @@ private class ConnectionFixture(val settings: Settings = Settings()) {
             // PRODUCTION PUBLICATION
         }
     }
+    fun reachSsl() { _connectionState.value = ConnectionState.HandshakeComplete }
     fun lateHandshake() = _transport?.let { source ->
         withLiveTransport(source, ConnectionState.StartingTransport) {
             _connectionState.value = ConnectionState.HandshakeComplete
@@ -364,7 +365,7 @@ internal fun audioLifecycleBoundaryRegression() {
         com.andrerinas.openheadunit.aap.AapService.killProcessOnDestroy = false
         val closing = ConnectionFixture(Settings().apply { killOnDisconnect = true })
         try {
-            closing.publish(); val oldQuit = closing.quitCallback()
+            closing.publish(); closing.reachSsl(); val oldQuit = closing.quitCallback()
             closing.disconnect(isUserExit = false, honorKillOnDisconnect = honor)
             check(closing.lateHandshake() == false)
             oldQuit(false); oldQuit(false)
@@ -380,9 +381,14 @@ internal fun audioLifecycleBoundaryRegression() {
     }
     val natural = ConnectionFixture(Settings().apply { killOnDisconnect = true })
     try {
-        natural.publish(); val quit = natural.quitCallback(); quit(false); quit(false)
+        natural.publish(); natural.reachSsl(); val quit = natural.quitCallback(); quit(false); quit(false)
         check(natural.disconnected && natural.context.broadcasts.size == 1 && Handler.delayed.size == 1)
     } finally { natural.close(); Handler.reset() }
+    val preSsl = ConnectionFixture(Settings().apply { killOnDisconnect = true })
+    try {
+        preSsl.publish(); val quit = preSsl.quitCallback(); quit(false)
+        check(preSsl.disconnected && preSsl.context.broadcasts.isEmpty() && Handler.delayed.isEmpty())
+    } finally { preSsl.close(); Handler.reset() }
     com.andrerinas.openheadunit.aap.AapService.killProcessOnDestroy = false
     println("PASS first disconnect owns app-exit policy; duplicate and retired quit callbacks cannot override it")
 }

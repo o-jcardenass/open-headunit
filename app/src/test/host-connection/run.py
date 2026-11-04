@@ -116,7 +116,7 @@ class CommManager {
 old_state=manager_head[manager_head.index(' class Disconnected('):manager_head.index(' object Connecting:')]
 manager_head=manager_head.replace(old_state, extract(comm, 'class Disconnected(')+'\n')
 manager_head=manager_head.replace('\nsealed class ConnectionState', '\n'+extract(comm, 'enum class EndCause')+'\nsealed class ConnectionState', 1)
-for name in ['SettingsRestartRecovery.kt', 'SameEndpointConnectPolicy.kt', 'ConnectionAdmission.kt', 'UsbRecoveryAdmission.kt']:
+for name in ['SettingsRestartRecovery.kt', 'SameEndpointConnectPolicy.kt', 'ConnectionAdmission.kt', 'UsbRecoveryAdmission.kt', 'KillOnDisconnectPolicy.kt']:
     source=(base/'connection'/name).read_text().replace('package com.andrerinas.openheadunit.connection', 'package lifecycle')
     (OUT/name).write_text(source)
 (OUT/'UsbRecoveryDevice.kt').write_text((base/'connection/usb/UsbRecoveryDevice.kt').read_text().replace('package com.andrerinas.openheadunit.connection.usb', 'package lifecycle'))
