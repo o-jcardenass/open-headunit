@@ -1289,7 +1289,7 @@ class CommManager(
         source.retirePresentation()
         _connectionState.value = ConnectionState.Disconnected(isClean, isUserExit = wasUserExit, wasLoopbackSession = isLoopbackSession, hadPhysicalConnection = physicalConnectionReached, settingsRetryOwner = save, endedAttempt = connectionAttempt,
             reachedSsl = endedSsl, endedBy = EndCausePolicy.ofTransportQuit(isClean, wasUserExit), transport = endedType)
-        if (settings.killOnDisconnect) {
+        if (KillOnDisconnectPolicy.closesApp(settings.killOnDisconnect, endedSsl, wasUserExit)) {
             context.sendBroadcast(android.content.Intent("com.andrerinas.openheadunit.ACTION_FINISH_ACTIVITIES").apply {
                 setPackage(context.packageName)
             })
@@ -1646,7 +1646,7 @@ class CommManager(
             endedAttempt = connectionAttempt,
             reachedSsl = endedSsl, endedBy = EndCausePolicy.ofDisconnect(isUserExit, endedBy), transport = endedType,
         )
-        if (settings.killOnDisconnect && honorKillOnDisconnect) {
+        if (KillOnDisconnectPolicy.closesApp(settings.killOnDisconnect && honorKillOnDisconnect, endedSsl, isUserExit)) {
             context.sendBroadcast(android.content.Intent("com.andrerinas.openheadunit.ACTION_FINISH_ACTIVITIES").apply {
                 setPackage(context.packageName)
             })

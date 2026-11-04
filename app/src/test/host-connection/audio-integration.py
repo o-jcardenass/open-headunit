@@ -96,6 +96,10 @@ end_cause_policy.write_text((repo / "app/src/main/java/com/andrerinas/openheadun
                             .replace("package com.andrerinas.openheadunit.connection", "package com.andrerinas.openheadunit.decoder.audio")
                             .replace("import com.andrerinas.openheadunit.connection.CommManager.EndCause\n", ""))
 sources.append(end_cause_policy)
+kill_policy = output / "KillOnDisconnectPolicy.kt"
+kill_policy.write_text((repo / "app/src/main/java/com/andrerinas/openheadunit/connection/KillOnDisconnectPolicy.kt").read_text()
+                       .replace("package com.andrerinas.openheadunit.connection", "package com.andrerinas.openheadunit.decoder.audio"))
+sources.append(kill_policy)
 raise_policy = output / "ProjectionRaiseDeadlinePolicy.kt"
 raise_policy.write_text((repo / "app/src/main/java/com/andrerinas/openheadunit/aap/ProjectionRaiseDeadlinePolicy.kt").read_text()
                         .replace("package com.andrerinas.openheadunit.aap", "package com.andrerinas.openheadunit.decoder.audio"))
