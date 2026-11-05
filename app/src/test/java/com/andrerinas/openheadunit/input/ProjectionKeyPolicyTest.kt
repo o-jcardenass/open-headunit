@@ -54,4 +54,52 @@ class ProjectionKeyPolicyTest {
         assertFalse(ProjectionKeyPolicy.isHomeKey(KeyEvent.KEYCODE_VOLUME_UP))
         assertFalse(ProjectionKeyPolicy.isHomeKey(KeyEvent.KEYCODE_DPAD_CENTER))
     }
+
+    @Test
+    fun `unmapped volume keys are local`() {
+        for (code in listOf(KeyEvent.KEYCODE_VOLUME_UP, KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_MUTE)) {
+            assertTrue(ProjectionKeyPolicy.isLocalKey(code, emptyMap(), "carkey"))
+        }
+    }
+
+    @Test
+    fun `a mapped volume key is not local`() {
+        val keyMap = mapOf(KeyEvent.KEYCODE_DPAD_CENTER to KeyEvent.KEYCODE_VOLUME_UP)
+        assertFalse(ProjectionKeyPolicy.isLocalKey(KeyEvent.KEYCODE_VOLUME_UP, keyMap, "carkey"))
+        assertTrue(ProjectionKeyPolicy.isLocalKey(KeyEvent.KEYCODE_VOLUME_DOWN, keyMap, "carkey"))
+    }
+
+    @Test
+    fun `the mute command source is never local`() {
+        assertFalse(ProjectionKeyPolicy.isLocalKey(KeyEvent.KEYCODE_VOLUME_MUTE, emptyMap(), "remote-mute"))
+        assertTrue(ProjectionKeyPolicy.isLocalKey(KeyEvent.KEYCODE_VOLUME_MUTE, emptyMap(), "remote-keycode"))
+    }
+
+    @Test
+    fun `mute key 91 back and media keys are not volume keys`() {
+        for (code in listOf(KeyEvent.KEYCODE_MUTE, KeyEvent.KEYCODE_BACK, KeyEvent.KEYCODE_MEDIA_NEXT)) {
+            assertFalse(ProjectionKeyPolicy.isVolumeKey(code))
+            assertFalse(ProjectionKeyPolicy.isLocalKey(code, emptyMap(), "carkey"))
+        }
+    }
+
+    @Test
+    fun `an unmapped volume key stays with the firmware`() {
+        for (code in listOf(KeyEvent.KEYCODE_VOLUME_UP, KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_MUTE)) {
+            assertTrue(ProjectionKeyPolicy.firmwareKeepsKey(code, emptyMap()))
+        }
+    }
+
+    @Test
+    fun `a mapped volume key is not left to the firmware`() {
+        val keyMap = mapOf(KeyEvent.KEYCODE_DPAD_CENTER to KeyEvent.KEYCODE_VOLUME_UP)
+        assertFalse(ProjectionKeyPolicy.firmwareKeepsKey(KeyEvent.KEYCODE_VOLUME_UP, keyMap))
+    }
+
+    @Test
+    fun `other keys and no key are not left to the firmware`() {
+        assertFalse(ProjectionKeyPolicy.firmwareKeepsKey(KeyEvent.KEYCODE_MEDIA_NEXT, emptyMap()))
+        assertFalse(ProjectionKeyPolicy.firmwareKeepsKey(KeyEvent.KEYCODE_MUTE, emptyMap()))
+        assertFalse(ProjectionKeyPolicy.firmwareKeepsKey(null, emptyMap()))
+    }
 }
