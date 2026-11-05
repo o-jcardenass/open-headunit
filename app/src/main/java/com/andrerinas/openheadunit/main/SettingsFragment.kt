@@ -2738,14 +2738,6 @@ class SettingsFragment : Fragment() {
                     return@SettingEntry
                 }
 
-                if (settings.logSource == Settings.LogSource.APPLOG_FILE) {
-                    if (AppLog.isCapturing) {
-                        settings.exporterCaptureEnabled = false
-                        AppLog.init(settings, context.applicationContext)
-                    }
-                } else if (LogExporter.isCapturing) {
-                    LogExporter.stopCapture()
-                }
                 // The export reads the logcat ring buffer, which on some ROMs waits on a consent
                 // dialog. Off the main thread so that wait cannot take the UI down with it.
                 viewLifecycleOwner.lifecycleScope.launch {
