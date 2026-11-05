@@ -14,8 +14,9 @@ object ProjectionKeyPolicy {
     }
 
     /** The head unit's firmware must act on this key, so the receiver leaves the broadcast alive. */
-    fun firmwareKeepsKey(keyCode: Int?, keyMap: Map<Int, Int>): Boolean {
-        return keyCode != null && isLocalKey(keyCode, keyMap, "carkey")
+    fun firmwareKeepsKey(keyCode: Int?, keyMap: Map<Int, Int>, ignored: Set<Int>): Boolean {
+        return keyCode != null && !isIgnored(ignored, keyCode, "carkey") &&
+                isLocalKey(keyCode, keyMap, "carkey")
     }
 
     fun isVolumeKey(keyCode: Int): Boolean {
@@ -30,5 +31,12 @@ object ProjectionKeyPolicy {
      */
     fun isLocalKey(keyCode: Int, keyMap: Map<Int, Int>, source: String): Boolean {
         return isVolumeKey(keyCode) && !keyMap.containsValue(keyCode) && source != "remote-mute"
+    }
+
+    // Routes where a user pressed a physical key. A notification button or a command is not one.
+    private val physicalSources = setOf("projection", "mediasession", "carkey", "key-broadcast", "remote-keycode")
+
+    fun isIgnored(ignored: Set<Int>, keyCode: Int, source: String): Boolean {
+        return keyCode in ignored && source in physicalSources
     }
 }

@@ -38,6 +38,7 @@ class KeymapFragment : Fragment(), MainActivity.KeyListener {
     private lateinit var adapter: KeymapAdapter
     private lateinit var settings: Settings
     private val RESET_ITEM_ID = 1003
+    private val DO_NOTHING_ROW = -1
 
     private var assignTargetCode = KeyEvent.KEYCODE_UNKNOWN
     private var assignDialog: androidx.appcompat.app.AlertDialog? = null
@@ -68,7 +69,8 @@ class KeymapFragment : Fragment(), MainActivity.KeyListener {
         KeymapItem(R.string.key_home, KeyEvent.KEYCODE_HOME),
         KeymapItem(R.string.key_app_switch, KeyEvent.KEYCODE_APP_SWITCH),
         KeymapItem(R.string.key_button_a, KeyEvent.KEYCODE_BUTTON_A),
-        KeymapItem(R.string.key_button_b, KeyEvent.KEYCODE_BUTTON_B)
+        KeymapItem(R.string.key_button_b, KeyEvent.KEYCODE_BUTTON_B),
+        KeymapItem(R.string.key_do_nothing, DO_NOTHING_ROW)
     )
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -85,7 +87,7 @@ class KeymapFragment : Fragment(), MainActivity.KeyListener {
         recyclerView = view.findViewById(R.id.recycler_view)
         
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapter = KeymapAdapter(keyList, settings.keyCodes) { item ->
+        adapter = KeymapAdapter(keyList, settings.keyCodes, settings.ignoredKeyCodes) { item ->
             showAssignDialog(item)
         }
         recyclerView.adapter = adapter
@@ -113,7 +115,8 @@ class KeymapFragment : Fragment(), MainActivity.KeyListener {
         val resetButton = resetItem.actionView?.findViewById<MaterialButton>(R.id.reset_button_widget)
         resetButton?.setOnClickListener {
             settings.keyCodes = mutableMapOf()
-            adapter.updateCodes(settings.keyCodes)
+            settings.ignoredKeyCodes = emptySet()
+            adapter.updateCodes(settings.keyCodes, settings.ignoredKeyCodes)
             ToastUtils.showToast(requireContext(), getString(R.string.key_mappings_reset), Toast.LENGTH_SHORT, force = true)
         }
     }
@@ -125,7 +128,10 @@ class KeymapFragment : Fragment(), MainActivity.KeyListener {
         // Using MaterialAlertDialogBuilder with DarkAlertDialog style for consistency and compatibility
         assignDialog = MaterialAlertDialogBuilder(requireContext(), R.style.DarkAlertDialog)
             .setTitle(name)
-            .setMessage(getString(R.string.press_key_to_assign, name))
+            .setMessage(
+                if (item.keyCode == DO_NOTHING_ROW) getString(R.string.press_key_to_ignore)
+                else getString(R.string.press_key_to_assign, name)
+            )
             .setNegativeButton(R.string.cancel) { dialog, _ ->
                 assignTargetCode = KeyEvent.KEYCODE_UNKNOWN
                 dialog.dismiss()
@@ -211,8 +217,8 @@ class KeymapFragment : Fragment(), MainActivity.KeyListener {
         if (event == null) return false
 
         val keyCode = event.keyCode
-        // Only ignore BACK if we are NOT in assignment mode
-        if (keyCode == KeyEvent.KEYCODE_BACK && assignTargetCode == KeyEvent.KEYCODE_UNKNOWN) return false
+        val rowOpen = assignTargetCode != KeyEvent.KEYCODE_UNKNOWN
+        if (KeymapAssignPolicy.passesBack(keyCode, rowOpen, assignTargetCode == DO_NOTHING_ROW)) return false
 
         val keyName = physicalKeyName(keyCode)
         val actionName = if (event.action == KeyEvent.ACTION_DOWN) "DOWN" else "UP"
@@ -225,17 +231,26 @@ class KeymapFragment : Fragment(), MainActivity.KeyListener {
         if (assignTargetCode != KeyEvent.KEYCODE_UNKNOWN) {
             // Only finalize assignment on ACTION_UP to avoid accidental multiple mappings
             if (event.action == KeyEvent.ACTION_UP) {
-                val codesMap = settings.keyCodes
-                
-                // Map: Logical (AA) -> Physical (HW)
-                codesMap[assignTargetCode] = keyCode
-                
-                settings.keyCodes = codesMap
-                adapter.updateCodes(codesMap)
-                
+                val wasIgnored = keyCode in settings.ignoredKeyCodes
+                val result = if (assignTargetCode == DO_NOTHING_ROW) {
+                    KeymapAssignPolicy.assignToIgnored(settings.keyCodes, settings.ignoredKeyCodes, keyCode)
+                } else {
+                    // Map: Logical (AA) -> Physical (HW)
+                    KeymapAssignPolicy.assignToRow(settings.keyCodes, settings.ignoredKeyCodes, assignTargetCode, keyCode)
+                }
+
+                settings.keyCodes = result.keyMap.toMutableMap()
+                settings.ignoredKeyCodes = result.ignored
+                adapter.updateCodes(result.keyMap, result.ignored)
+
                 val targetName = getString(keyList.find { it.keyCode == assignTargetCode }?.nameResId ?: R.string.keymap)
-                ToastUtils.showToast(requireContext(), getString(R.string.key_assigned, keyName, targetName), Toast.LENGTH_SHORT, force = true)
-                
+                val message = if (assignTargetCode == DO_NOTHING_ROW && wasIgnored) {
+                    getString(R.string.key_no_longer_ignored, keyName)
+                } else {
+                    getString(R.string.key_assigned, keyName, targetName)
+                }
+                ToastUtils.showToast(requireContext(), message, Toast.LENGTH_SHORT, force = true)
+
                 assignDialog?.dismiss()
             }
             return true
@@ -261,6 +276,7 @@ class KeymapFragment : Fragment(), MainActivity.KeyListener {
     inner class KeymapAdapter(
         private val items: List<KeymapItem>,
         private var codesMap: Map<Int, Int>,
+        private var ignored: Set<Int>,
         private val onClick: (KeymapItem) -> Unit
     ) : RecyclerView.Adapter<KeymapAdapter.ViewHolder>() {
 
@@ -280,8 +296,11 @@ class KeymapFragment : Fragment(), MainActivity.KeyListener {
             
             // Map: Logical -> Physical
             val physicalKey = codesMap[item.keyCode]
-            
-            if (physicalKey != null) {
+
+            if (item.keyCode == DO_NOTHING_ROW) {
+                holder.valueText.text = if (ignored.isEmpty()) getString(R.string.not_set)
+                else ignored.sorted().joinToString { physicalKeyName(it) }
+            } else if (physicalKey != null) {
                 holder.valueText.text = physicalKeyName(physicalKey)
             } else {
                 holder.valueText.text = getString(R.string.not_set)
@@ -292,8 +311,9 @@ class KeymapFragment : Fragment(), MainActivity.KeyListener {
 
         override fun getItemCount() = items.size
         
-        fun updateCodes(newMap: Map<Int, Int>) {
+        fun updateCodes(newMap: Map<Int, Int>, newIgnored: Set<Int>) {
             codesMap = newMap
+            ignored = newIgnored
             notifyDataSetChanged()
         }
     }

@@ -83,6 +83,7 @@ object SettingsBackupManager {
         "night-mode-threshold-lux" to ValueType.INT,
         "night-mode-threshold-brightness" to ValueType.INT,
         "key-codes" to ValueType.STRING_SET,
+        "ignored-key-codes" to ValueType.STRING_SET,
         Settings.KEY_LOG_LEVEL to ValueType.INT,
         // Where the log comes from and where it lands. A round that asks for a particular capture
         // has to be able to seed these the same way it seeds the level.

@@ -86,20 +86,47 @@ class ProjectionKeyPolicyTest {
     @Test
     fun `an unmapped volume key stays with the firmware`() {
         for (code in listOf(KeyEvent.KEYCODE_VOLUME_UP, KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_MUTE)) {
-            assertTrue(ProjectionKeyPolicy.firmwareKeepsKey(code, emptyMap()))
+            assertTrue(ProjectionKeyPolicy.firmwareKeepsKey(code, emptyMap(), emptySet()))
         }
     }
 
     @Test
     fun `a mapped volume key is not left to the firmware`() {
         val keyMap = mapOf(KeyEvent.KEYCODE_DPAD_CENTER to KeyEvent.KEYCODE_VOLUME_UP)
-        assertFalse(ProjectionKeyPolicy.firmwareKeepsKey(KeyEvent.KEYCODE_VOLUME_UP, keyMap))
+        assertFalse(ProjectionKeyPolicy.firmwareKeepsKey(KeyEvent.KEYCODE_VOLUME_UP, keyMap, emptySet()))
+    }
+
+    @Test
+    fun `an ignored volume key is not left to the firmware`() {
+        assertFalse(
+            ProjectionKeyPolicy.firmwareKeepsKey(KeyEvent.KEYCODE_VOLUME_UP, emptyMap(), setOf(KeyEvent.KEYCODE_VOLUME_UP))
+        )
     }
 
     @Test
     fun `other keys and no key are not left to the firmware`() {
-        assertFalse(ProjectionKeyPolicy.firmwareKeepsKey(KeyEvent.KEYCODE_MEDIA_NEXT, emptyMap()))
-        assertFalse(ProjectionKeyPolicy.firmwareKeepsKey(KeyEvent.KEYCODE_MUTE, emptyMap()))
-        assertFalse(ProjectionKeyPolicy.firmwareKeepsKey(null, emptyMap()))
+        assertFalse(ProjectionKeyPolicy.firmwareKeepsKey(KeyEvent.KEYCODE_MEDIA_NEXT, emptyMap(), emptySet()))
+        assertFalse(ProjectionKeyPolicy.firmwareKeepsKey(KeyEvent.KEYCODE_MUTE, emptyMap(), emptySet()))
+        assertFalse(ProjectionKeyPolicy.firmwareKeepsKey(null, emptyMap(), emptySet()))
+    }
+
+    @Test
+    fun `physical key routes drop an ignored key`() {
+        for (src in listOf("projection", "mediasession", "carkey", "key-broadcast", "remote-keycode")) {
+            assertTrue(src, ProjectionKeyPolicy.isIgnored(setOf(87), 87, src))
+        }
+    }
+
+    @Test
+    fun `routes with no wheel press keep an ignored key`() {
+        for (src in listOf("media-key-intent", "transport-control", "remote-command", "remote-mute",
+            "auto-resume", "assistant", "unknown")) {
+            assertFalse(src, ProjectionKeyPolicy.isIgnored(setOf(87), 87, src))
+        }
+    }
+
+    @Test
+    fun `a key outside the set is not ignored`() {
+        assertFalse(ProjectionKeyPolicy.isIgnored(setOf(88), 87, "carkey"))
     }
 }
