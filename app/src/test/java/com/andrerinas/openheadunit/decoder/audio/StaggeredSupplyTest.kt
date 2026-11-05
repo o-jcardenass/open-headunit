@@ -19,7 +19,7 @@ class StaggeredSupplyTest {
                     return group / 2 * 80 + (group % 2) * 20 +
                         if (split) (index % 2) * spacing else 0
                 }
-                for (now in 0L..90_000L) {
+                for (now in 0L..400_000L) {
                     if (now !in 10_000L..10_249L) {
                         while (at(arrival, splitIngress) <= now) {
                             bank.noteArrival(now, if (splitIngress) 960 else 1920)

@@ -4,7 +4,8 @@ package com.andrerinas.openheadunit.decoder.audio
  * packet cannot hide a codec that supplies PCM in late batches. */
 internal class AdaptiveJitterPolicy(
     private val sampleRate: Int,
-    latencyMultiplier: Int = AudioJitterBufferPolicy.DEFAULT_MULTIPLIER
+    latencyMultiplier: Int = AudioJitterBufferPolicy.DEFAULT_MULTIPLIER,
+    private val mediaReserve: MediaReservePolicy? = null
 ) {
     // Only guide quiet-period decay. A request cannot discard PCM or override supply evidence.
     var requestedLimitMs: Long? = null
@@ -44,7 +45,8 @@ internal class AdaptiveJitterPolicy(
     val targetFrames: Int
         get() {
             val invariant = maxOf(largestChunkFrames, carriedChunkFrames) + frames(10)
-            return maxOf(invariant, minOf(frames(ceilingMs), maxOf(frames(floorMs), invariant + frames(marginMs))))
+            return maxOf(mediaReserve?.heldFrames ?: 0, invariant,
+                minOf(frames(ceilingMs), maxOf(frames(floorMs), invariant + frames(marginMs))))
         }
 
     /** Conserved supply decides gaps; a separately aged envelope learns reserve.
@@ -129,6 +131,7 @@ internal class AdaptiveJitterPolicy(
     fun onArrival(nowMs: Long, chunkFrames: Int) {
         if (chunkFrames <= 0) return
         resumeRecovery(nowMs)
+        mediaReserve?.onArrival(nowMs)
         arrivals.observe(nowMs, chunkFrames)
         largestArrivalGapMs = maxOf(largestArrivalGapMs, arrivals.gapMs)
         observeSupply(nowMs, arrivals, chunkFrames)
@@ -157,7 +160,9 @@ internal class AdaptiveJitterPolicy(
     private fun observeSupply(nowMs: Long, clock: SupplyClock, ingressFrames: Int) {
         // Learn completed envelope peaks and newly bridged gaps, never the raw lifetime
         // credit. Existing ten-second buckets age both kinds of reserve evidence.
-        val completed = maxOf(clock.completedFrames, clock.coveredGapFrames).coerceAtMost(frames(maximumMs - 10).toLong()).toInt()
+        val supplyPeak = maxOf(clock.completedFrames, clock.coveredGapFrames)
+        mediaReserve?.onSupplyPeak(nowMs, supplyPeak.coerceAtMost(Int.MAX_VALUE.toLong()).toInt())
+        val completed = supplyPeak.coerceAtMost(frames(maximumMs - 10).toLong()).toInt()
         recordSupplySize(nowMs, maxOf(ingressFrames, completed))
         if (clock.gapMs > 0) {
             val excess = clock.excessMs.coerceAtMost(maximumMs)
@@ -192,6 +197,7 @@ internal class AdaptiveJitterPolicy(
     }
 
     fun onUnderrun(nowMs: Long) {
+        mediaReserve?.onStarved(nowMs, targetFrames)
         resetQuietPlayback()
         if (targetFrames >= frames(ceilingMs)) ceilingMs = (ceilingMs + 20).coerceAtMost(maximumMs)
         marginMs = (marginMs + 20).coerceAtMost(maxMarginMs())
@@ -222,6 +228,7 @@ internal class AdaptiveJitterPolicy(
         val idleMs = (nowMs - recoveryPausedAtMs).coerceAtLeast(0)
         if (lastAdjustmentMs >= 0) lastAdjustmentMs += idleMs
         if (lastDisturbanceMs >= 0) lastDisturbanceMs += idleMs
+        mediaReserve?.onIdle(idleMs)
         recoveryPausedAtMs = -1
     }
 
@@ -233,7 +240,7 @@ internal class AdaptiveJitterPolicy(
         carriedChunkFrames = if (retainReserve)
             maxOf(carriedChunkFrames, largestChunkFrames).coerceAtMost(frames(maximumMs - 10))
         else 0
-        if (!retainReserve) resetQuietPlayback()
+        if (!retainReserve) { resetQuietPlayback(); mediaReserve?.reset() }
         arrivals.reset(); pcm.reset()
         largestArrivalGapMs = 0L; largestPcmGapMs = 0L
         chunkEpochs.fill(-1L); chunkMaxima.fill(0); largestChunkFrames = 0
