@@ -129,6 +129,8 @@ class KeymapFragment : Fragment(), MainActivity.KeyListener {
         val name = getString(item.nameResId)
         
         // Using MaterialAlertDialogBuilder with DarkAlertDialog style for consistency and compatibility
+        // Dialog.dismiss() posts its listener, which can run after the detach: no requireContext() there.
+        val carKeys = App.provide(requireContext()).carKeysManager
         assignDialog = MaterialAlertDialogBuilder(requireContext(), R.style.DarkAlertDialog)
             .setTitle(name)
             .setMessage(
@@ -142,6 +144,7 @@ class KeymapFragment : Fragment(), MainActivity.KeyListener {
             .setOnDismissListener {
                 assignTargetCode = KeyEvent.KEYCODE_UNKNOWN
                 assignDialog = null
+                carKeys.setAssignDialogOpen(false)
             }
             .create()
 
@@ -151,6 +154,7 @@ class KeymapFragment : Fragment(), MainActivity.KeyListener {
         }
 
         assignDialog?.show()
+        carKeys.setAssignDialogOpen(true)
     }
 
     private val keyCodeReceiver = object : BroadcastReceiver() {
@@ -198,6 +202,13 @@ class KeymapFragment : Fragment(), MainActivity.KeyListener {
         super.onPause()
         context?.let { App.provide(it).carKeysManager.stopLearning() }
         context?.unregisterReceiver(keyCodeReceiver)
+    }
+
+    override fun onDestroyView() {
+        // A recreation fires no dismiss listener for the leaked window, so clear the flag here.
+        context?.let { App.provide(it).carKeysManager.setAssignDialogOpen(false) }
+        assignDialog?.dismiss()
+        super.onDestroyView()
     }
 
     override fun onAttach(context: Context) {

@@ -13,6 +13,12 @@ class CarKeysManager {
 
     val isLearning: Boolean get() = isLearningActive
 
+    @Volatile private var assignDialogOpen = false
+    val isAssignDialogOpen: Boolean get() = assignDialogOpen
+
+    /** Tells the service to reach, or release, the media button route. */
+    var onLearnStateChanged: (() -> Unit)? = null
+
     /**
      * Registers baseline (non-session-scoped) receivers like CarKeyBroadcastReceiver and CarBydReceiver.
      * Safe to run throughout AapService lifecycle because they do not hijack system focus.
@@ -60,6 +66,7 @@ class CarKeysManager {
         isLearningActive = true
         registerIdleReceivers(context)
         registerSessionReceivers(context)
+        onLearnStateChanged?.invoke()
     }
 
     /**
@@ -70,6 +77,12 @@ class CarKeysManager {
         if (!isSessionActive) {
             unregisterSessionReceivers()
         }
+        onLearnStateChanged?.invoke()
+    }
+
+    fun setAssignDialogOpen(open: Boolean) {
+        assignDialogOpen = open
+        onLearnStateChanged?.invoke()
     }
 
     private fun registerSessionReceivers(context: Context) {
@@ -107,7 +120,6 @@ class CarKeysManager {
      */
     fun unregisterAll() {
         isSessionActive = false
-        isLearningActive = false
         try {
             for (r in registered) {
                 try {

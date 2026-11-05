@@ -74,6 +74,7 @@ import com.andrerinas.openheadunit.aap.protocol.proto.MediaPlayback
 import com.andrerinas.openheadunit.decoder.audio.MicRecorder
 import com.andrerinas.openheadunit.contract.KeyIntent
 import com.andrerinas.openheadunit.input.KeyLearnPolicy
+import com.andrerinas.openheadunit.input.KeyLearnSilentTrack
 import com.andrerinas.openheadunit.input.ProjectionKeyPolicy
 import com.andrerinas.openheadunit.connection.AutoConnectHoldPolicy
 import com.andrerinas.openheadunit.connection.CommManager
@@ -450,6 +451,40 @@ class AapService : Service() {
         return MediaSessionActivationPolicy.shouldActivate(
             isLoopbackSession = commManager.isLoopbackSession
         )
+    }
+
+    private var keyLearnWasLearning = false
+    private var keyLearnTrack: KeyLearnSilentTrack? = null
+
+    /** Reaches the media button route while the keymap screen learns, and lets go after. */
+    private fun applyKeyLearnState() {
+        val learning = carKeysManager.isLearning
+        val plan = KeyLearnSessionPolicy.decide(
+            sdkInt = Build.VERSION.SDK_INT,
+            learning = learning,
+            wasLearning = keyLearnWasLearning,
+            dialogOpen = carKeysManager.isAssignDialogOpen,
+            selfMode = commManager.isLoopbackSession || selfLauncherManager.isActive,
+            phoneConnected = commManager.isConnected,
+        )
+        keyLearnWasLearning = learning
+        if (plan.activate) safeMediaSessionCall { it.isActive = true }
+        if (plan.deactivate) {
+            AppLog.i("AapService: key learning: session inactive, no phone connected")
+            safeMediaSessionCall { it.isActive = false }
+        }
+        if (Build.VERSION.SDK_INT < 26) return
+        if (plan.silentTrack && keyLearnTrack == null) {
+            val track = KeyLearnSilentTrack()
+            if (track.start()) {
+                AppLog.d("AapService: key learning: silent track on")
+                keyLearnTrack = track
+            }
+        } else if (!plan.silentTrack && keyLearnTrack != null) {
+            AppLog.d("AapService: key learning: silent track off")
+            keyLearnTrack?.stop()
+            keyLearnTrack = null
+        }
     }
 
     private fun shouldSyncAaMediaMetadata(): Boolean {
@@ -1265,9 +1300,9 @@ class AapService : Service() {
         // Handle immediate WiFi auto-start check (e.g. if already connected on boot/wake)
         WifiAutoStartReceiver.checkAndStart(this)
 
-        // Initialize MediaSession early and set it active immediately if allowed by policy.
-        // This ensures media button routing works even BEFORE an AA connection in remote mode,
-        // which is critical for keymap configuration and early button presses.
+        // Create the session early so it exists for the keymap and for early button presses.
+        // From API 26 the platform sends media keys to the app that played last, so an early
+        // setActive routes nothing there.
         if (mediaSession == null) {
             setupMediaSession()
         }
@@ -1276,6 +1311,9 @@ class AapService : Service() {
         if (shouldActivate) {
             updateMediaSessionState(false) // Set initial PlaybackState so system knows our actions
         }
+        carKeysManager.onLearnStateChanged = { applyKeyLearnState() }
+        selfLauncherManager.onActiveChanged = { applyKeyLearnState() }
+        applyKeyLearnState()
 
         commManager.onAaMediaMetadata = { meta, session -> onAaMediaMetadataFromPhone(meta, session) }
         commManager.onAaPlaybackStatus = { status, session -> onAaPlaybackStatusFromPhone(status, session) }
@@ -1997,6 +2035,7 @@ class AapService : Service() {
         // the next connection. OpenHU keeps its session alive the entire service lifetime.
         safeMediaSessionCall { it.isActive = false }
         updateMediaSessionState(false)
+        applyKeyLearnState()
         if (superseded) {
             serviceScope.launch {
                 try {
@@ -3502,6 +3541,10 @@ class AapService : Service() {
 
     @SuppressLint("WrongConstant")
     override fun onDestroy() {
+        carKeysManager.onLearnStateChanged = null
+        selfLauncherManager.onActiveChanged = null
+        if (Build.VERSION.SDK_INT >= 26) keyLearnTrack?.stop()
+        keyLearnTrack = null
         closeRetainedHct()
         AppLog.i("AapService destroying... (wakeLock held=${bootWakeLock?.isHeld == true})")
         FloatingButtonManager.removeOverlay(this)
@@ -3818,6 +3861,7 @@ class AapService : Service() {
                     it.setMetadata(null)
                 }
                 updateMediaSessionState(false)
+                applyKeyLearnState()
             }
             ACTION_STOP_SELF_MODE        -> {
                 selfLauncherManager.stop(wasConnected = commManager.isConnected)
