@@ -342,6 +342,7 @@
                 <action android:name="com.andrerinas.openheadunit.ACTION_STOP_LOG_CAPTURE" />
                 <action android:name="com.andrerinas.openheadunit.ACTION_EXPORT_LOG" />
                 <action android:name="com.andrerinas.openheadunit.ACTION_LOG_MARKER" />
+                <action android:name="com.andrerinas.openheadunit.ACTION_PROBE_UI_CONFIG" />
                 <action android:name="com.andrerinas.openheadunit.ACTION_SCREEN_OFF" />
                 <action android:name="com.andrerinas.openheadunit.ACTION_SCREEN_ON" />
             </intent-filter>

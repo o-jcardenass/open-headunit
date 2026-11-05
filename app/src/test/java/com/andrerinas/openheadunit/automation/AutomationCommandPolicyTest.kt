@@ -405,6 +405,29 @@ class AutomationCommandPolicyTest {
         assertTrue(single("com.example.NOPE") is AutomationCommandPolicy.Effect.Refuse)
     }
 
+    private fun uiConfigExtras(kind: String?) = listOfNotNull(
+        kind?.let { HeadUnitCommand.EXTRA_KIND to it },
+        HeadUnitCommand.EXTRA_LEFT to "0", HeadUnitCommand.EXTRA_TOP to "0",
+        HeadUnitCommand.EXTRA_RIGHT to "0", HeadUnitCommand.EXTRA_BOTTOM to "130"
+    ).toMap()
+
+    @Test
+    fun `the ui config probe sends the kind and four ints`() {
+        assertEquals(
+            AutomationCommandPolicy.Effect.SendUiConfig("insets", 0, 0, 0, 130),
+            single(HeadUnitCommand.ACTION_PROBE_UI_CONFIG, uiConfigExtras("insets"), open)
+        )
+    }
+
+    @Test
+    fun `the ui config probe refuses a bad kind, a missing int or a closed gate`() {
+        val a = HeadUnitCommand.ACTION_PROBE_UI_CONFIG
+        assertTrue(single(a, uiConfigExtras("theme"), open) is AutomationCommandPolicy.Effect.Refuse)
+        assertTrue(single(a, uiConfigExtras(null), open) is AutomationCommandPolicy.Effect.Refuse)
+        assertTrue(single(a, uiConfigExtras("margins") - HeadUnitCommand.EXTRA_TOP, open) is AutomationCommandPolicy.Effect.Refuse)
+        assertTrue(single(a, uiConfigExtras("margins"), closed) is AutomationCommandPolicy.Effect.Refuse)
+    }
+
     @Test
     fun `a log marker needs no configuration switch`() {
         val e = effects(HeadUnitCommand.ACTION_LOG_MARKER, mapOf(HeadUnitCommand.EXTRA_TEXT to "x"), closed)
@@ -481,7 +504,7 @@ class AutomationCommandPolicyTest {
         HeadUnitCommand.ACTION_GET_SETTINGS, HeadUnitCommand.ACTION_RESET_SETTINGS,
         HeadUnitCommand.ACTION_SET_LOG_LEVEL, HeadUnitCommand.ACTION_START_LOG_CAPTURE,
         HeadUnitCommand.ACTION_STOP_LOG_CAPTURE, HeadUnitCommand.ACTION_EXPORT_LOG,
-        HeadUnitCommand.ACTION_LOG_MARKER
+        HeadUnitCommand.ACTION_LOG_MARKER, HeadUnitCommand.ACTION_PROBE_UI_CONFIG
     )
 
     /** A relay to an action the service has no branch for is dropped silently, which is how three verbs died once. */

@@ -64,6 +64,16 @@ object AutomationEffectRunner {
                     // told apart. WARN so it survives an INFO-filtered export.
                     AppLog.w("AutomationMarker: ${effect.text}")
                 AutomationCommandPolicy.Effect.QueryState -> putState(component, reply)
+                is AutomationCommandPolicy.Effect.SendUiConfig -> {
+                    val sent = component.commManager.sendProbeUiConfig(
+                        effect.kind, effect.left, effect.top, effect.right, effect.bottom
+                    )
+                    reply.put("sent", sent)
+                    if (!sent) {
+                        ok = false
+                        reply.put("error", "no session is up")
+                    }
+                }
                 AutomationCommandPolicy.Effect.TurnScreenOff -> {
                     val done = ScreenPower.turnOff(context)
                     reply.put("screenOff", done)

@@ -13,6 +13,7 @@ object AutomationCommandPolicy {
     interface Extras {
         fun string(key: String): String?
         fun flag(key: String): Boolean
+        fun int(key: String): Int? = string(key)?.trim()?.toIntOrNull()
     }
 
     /** The parts of the app's state that change what a command does. */
@@ -49,6 +50,9 @@ object AutomationCommandPolicy {
 
         object QueryState : Effect
 
+        /** Probe only: send an `UpdateUiConfigRequest` carrying [kind] (insets or margins) alone. */
+        data class SendUiConfig(val kind: String, val left: Int, val top: Int, val right: Int, val bottom: Int) : Effect
+
         /** Nothing was done, and [reason] says why. Reported back on the ordered-broadcast result. */
         data class Refuse(val reason: String) : Effect
     }
@@ -73,7 +77,8 @@ object AutomationCommandPolicy {
         HeadUnitCommand.ACTION_START_LOG_CAPTURE,
         HeadUnitCommand.ACTION_STOP_LOG_CAPTURE,
         HeadUnitCommand.ACTION_EXPORT_LOG,
-        HeadUnitCommand.ACTION_SCREEN_OFF
+        HeadUnitCommand.ACTION_SCREEN_OFF,
+        HeadUnitCommand.ACTION_PROBE_UI_CONFIG
     )
 
     /** Commands that need no extras and map straight onto a service action. */
@@ -139,6 +144,7 @@ object AutomationCommandPolicy {
                 )
             }
             HeadUnitCommand.ACTION_QUERY_STATE -> listOf(Effect.QueryState)
+            HeadUnitCommand.ACTION_PROBE_UI_CONFIG -> uiConfig(extras)
             HeadUnitCommand.ACTION_SCREEN_OFF ->
                 if (state.screenOffGranted) listOf(Effect.TurnScreenOff)
                 else listOf(Effect.Refuse("no device admin grant; allow it under Settings > Auto-start"))
@@ -191,6 +197,21 @@ object AutomationCommandPolicy {
             return listOf(Effect.Refuse("state must be one of ${NIGHT_MODES.joinToString("/")}"))
         }
         return listOf(Effect.SetNightMode(mode!!))
+    }
+
+    private fun uiConfig(extras: Extras): List<Effect> {
+        val kind = extras.string(HeadUnitCommand.EXTRA_KIND)?.trim()?.lowercase()
+        if (kind != "insets" && kind != "margins") {
+            return listOf(Effect.Refuse("kind must be insets or margins"))
+        }
+        val l = extras.int(HeadUnitCommand.EXTRA_LEFT)
+        val t = extras.int(HeadUnitCommand.EXTRA_TOP)
+        val r = extras.int(HeadUnitCommand.EXTRA_RIGHT)
+        val b = extras.int(HeadUnitCommand.EXTRA_BOTTOM)
+        if (l == null || t == null || r == null || b == null) {
+            return listOf(Effect.Refuse("left, top, right and bottom are required ints"))
+        }
+        return listOf(Effect.SendUiConfig(kind, l, t, r, b))
     }
 
     private fun logLevel(extras: Extras): List<Effect> {

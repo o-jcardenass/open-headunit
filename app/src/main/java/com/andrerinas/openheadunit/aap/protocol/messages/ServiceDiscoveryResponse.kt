@@ -305,6 +305,14 @@ internal class ServiceDiscoveryResponse(context: Context, audioConfig: AudioSess
             }.build()
             services.add(navigationStatus)
 
+            if (settings.probePhoneStatus) {
+                AppLog.i("[ServiceDiscovery] Announcing PHONE_STATUS service (probe)")
+                services.add(Control.Service.newBuilder().also { service ->
+                    service.id = Channel.ID_PHONE
+                    service.phoneStatusService = Control.Service.PhoneStatusService.newBuilder().build()
+                }.build())
+            }
+
             val sessionConfig = (if (settings.hideClock) 0x01 else 0) or
                 (if (settings.hidePhoneSignal) 0x02 else 0) or
                 (if (settings.hideBatteryLevel) 0x04 else 0)

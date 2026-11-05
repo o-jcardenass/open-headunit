@@ -247,6 +247,14 @@ object HeadUnitCommand {
     const val ACTION_EXPORT_LOG = "$PREFIX.ACTION_EXPORT_LOG"
     const val ACTION_LOG_MARKER = "$PREFIX.ACTION_LOG_MARKER"
 
+    /** Probe only: `kind` insets or margins, plus `left`, `top`, `right`, `bottom` ints. */
+    const val ACTION_PROBE_UI_CONFIG = "$PREFIX.ACTION_PROBE_UI_CONFIG"
+    const val EXTRA_KIND = "kind"
+    const val EXTRA_LEFT = "left"
+    const val EXTRA_TOP = "top"
+    const val EXTRA_RIGHT = "right"
+    const val EXTRA_BOTTOM = "bottom"
+
     /** Target address for [ACTION_CONNECT]; without it the USB path is checked instead. */
     const val EXTRA_IP = "ip"
 

@@ -80,6 +80,7 @@ internal class AapControlMedia(
             }
             Media.MsgType.MEDIA_MESSAGE_UPDATE_UI_CONFIG_REPLY_VALUE -> {
                 AppLog.i("RX: Update UI Config Reply received. Acknowledging UI Config change.")
+                AppLog.i("AapControl: %s", PhoneStatusProbe.describeUiConfigReply(message.data, message.dataOffset, message.size - message.dataOffset))
                 aapTransport.onUpdateUiConfigReplyReceived?.invoke()
                 return 0
             }
@@ -471,12 +472,22 @@ internal class AapControlService(
     }
 }
 
+/** Probe only: logs inbound PhoneStatus messages without the caller's number or name. */
+internal class AapControlPhoneStatus : AapControl {
+    override fun execute(message: AapMessage): Int {
+        PhoneStatusProbe.lines(message.type, message.data, message.dataOffset, message.size - message.dataOffset)
+            .forEach { AppLog.i("AapControl: %s", it) }
+        return 0
+    }
+}
+
 internal class AapControlGateway(
         private val aapTransport: AapTransport,
         private val serviceControl: AapControl,
         private val mediaControl: AapControl,
         private val touchControl: AapControl,
-        private val sensorControl: AapControl): AapControl {
+        private val sensorControl: AapControl,
+        private val phoneStatusControl: AapControl = AapControlPhoneStatus()): AapControl {
 
     constructor(aapTransport: AapTransport,
                 micRecorder: MicRecorder,
@@ -505,6 +516,7 @@ internal class AapControlGateway(
             Channel.ID_CTR -> return serviceControl.execute(message)
             Channel.ID_INP -> return touchControl.execute(message)
             Channel.ID_SEN -> return sensorControl.execute(message)
+            Channel.ID_PHONE -> return phoneStatusControl.execute(message)
             Channel.ID_VID, Channel.ID_AUD, Channel.ID_AU1, Channel.ID_AU2, Channel.ID_MIC -> return mediaControl.execute(message)
         }
         return 0

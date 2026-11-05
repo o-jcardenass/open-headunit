@@ -286,6 +286,13 @@ class Settings(private val context: Context) {
             prefs.edit().putBoolean("raise-projection-during-call", value).apply()
         }
 
+    /** Probe only: announce the PhoneStatus service in ServiceDiscovery. Off keeps a stock session. */
+    var probePhoneStatus: Boolean
+        get() = prefs.getBoolean("probe-phone-status", false)
+        set(value) {
+            prefs.edit().putBoolean("probe-phone-status", value).apply()
+        }
+
     var nightMode: NightMode
         get() {
             val value = prefs.getInt("night-mode", 0)

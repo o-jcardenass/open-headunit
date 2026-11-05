@@ -1494,6 +1494,18 @@ class CommManager(
         }
     }
 
+    /** Probe only: one UiConfig update, no focus message and no change to OHU's own crop. */
+    fun sendProbeUiConfig(kind: String, left: Int, top: Int, right: Int, bottom: Int): Boolean {
+        val line = "kind=$kind l=$left t=$top r=$right b=$bottom"
+        if (_connectionState.value !is ConnectionState.TransportStarted) {
+            AppLog.i("CommManager: [DEBUG-uiconfig] refused no session $line")
+            return false
+        }
+        send(com.andrerinas.openheadunit.aap.protocol.messages.UpdateUiConfigProbeRequest(kind, left, top, right, bottom))
+        AppLog.i("CommManager: [DEBUG-uiconfig] sent $line")
+        return true
+    }
+
     private fun setProjectionVideoFocusSuppressed(suppressed: Boolean) {
         synchronized(transportLifecycleLock) {
             projectionVideoFocusSuppressed = suppressed

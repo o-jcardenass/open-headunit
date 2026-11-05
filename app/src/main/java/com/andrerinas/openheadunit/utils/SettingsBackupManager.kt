@@ -77,6 +77,7 @@ object SettingsBackupManager {
         "ui-scale-settings-percent" to ValueType.INT,
         "mic-sample-rate" to ValueType.INT,
         "gps-navigation" to ValueType.BOOLEAN,
+        "probe-phone-status" to ValueType.BOOLEAN,
         "show-navigation-notifications" to ValueType.BOOLEAN,
         Settings.KEY_SYNC_MEDIA_SESSION_AA_METADATA to ValueType.BOOLEAN,
         "night-mode" to ValueType.INT,
