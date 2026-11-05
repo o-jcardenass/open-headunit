@@ -18,6 +18,8 @@ internal interface PcmOutput {
     val underrunsSupported: Boolean get() = true
     val stagingBufferFrames: Int get() = 0
     val producerUnderruns: Int get() = 0
+    /** Name of the routed output device when known; a plain read, safe on the mixer thread. */
+    val routedOutputName: String? get() = null
     /** Output-local counters; -1 means unavailable (AAudio callback silence uses another clock). */
     val writtenFrames: Long get() = -1L
     fun playedFrames(): Long = -1L
@@ -49,6 +51,10 @@ internal class AudioTrackPcmOutput(stream: Int, attachHwDsp: Boolean) : PcmOutpu
     private val byteBuffer = if (Build.VERSION.SDK_INT in 21..22)
         ByteBuffer.allocateDirect(1920).order(ByteOrder.nativeOrder()) else null
     private val shortBuffer = byteBuffer?.asShortBuffer()
+    // Typed Any? so this class loads below API 24, where the watch type does not exist.
+    private var routeWatch: Any? = null
+    override val routedOutputName: String? get() =
+        if (Build.VERSION.SDK_INT >= 24) (routeWatch as? AudioTrackRouteWatch)?.label else null
     override val minimumBufferFrames: Int
     override val name = "AudioTrack"
     override val burstFrames = 480 // tuning step, not a measured HAL burst
@@ -66,6 +72,7 @@ internal class AudioTrackPcmOutput(stream: Int, attachHwDsp: Boolean) : PcmOutpu
         if (attachHwDsp) {
             try { equalizer = Equalizer(0, track.audioSessionId).also { it.enabled = true } } catch (_: Exception) { }
         }
+        if (Build.VERSION.SDK_INT >= 24) routeWatch = AudioTrackRouteWatch(track).also { it.attach() }
     }
 
     private fun createTrack(stream: Int, attachHwDsp: Boolean): AudioTrack {
@@ -110,6 +117,8 @@ internal class AudioTrackPcmOutput(stream: Int, attachHwDsp: Boolean) : PcmOutpu
         retryPacer.reset()
         if (Build.VERSION.SDK_INT >= 31) track.setStartThresholdInFrames(bufferFrames)
         track.play()
+        // The listener may give no first event, so one read follows the start.
+        if (Build.VERSION.SDK_INT >= 24) (routeWatch as? AudioTrackRouteWatch)?.refresh()
     }
     override val writtenFrames: Long get() =
         if (Build.VERSION.SDK_INT < 21 || position.isValid) position.writtenFrames else -1L
@@ -179,6 +188,7 @@ internal class AudioTrackPcmOutput(stream: Int, attachHwDsp: Boolean) : PcmOutpu
         return when { written == -2 -> -6; written < 0 -> written; else -> written / 2 }
     }
     override fun close() {
+        if (Build.VERSION.SDK_INT >= 24) (routeWatch as? AudioTrackRouteWatch)?.detach()
         try { track.pause(); track.flush() } finally { equalizer?.release(); track.release() }
     }
 }

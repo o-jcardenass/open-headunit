@@ -372,6 +372,7 @@ class AudioMixer(
             "burst=${device.burstFrames}, minimum=$tuningMinimum, maximum=${policy.maximumFrames}, cycle=${MIX_INTERVAL_MS}ms")
         val lifecycle = MixerOutputLifecycle(keepOutputActive)
         var nextReportMs = SystemClock.elapsedRealtime() + 10_000L
+        val routeReport = AudioRouteReport()
         var nextTuneMs = 0L
         var nextPcmDiagnosticMs = 0L
         var lastCycleMs = -1L
@@ -593,6 +594,7 @@ class AudioMixer(
                 nextTuneMs = now + 100
             }
             if (now >= nextReportMs) {
+                routeReport.changed(device.routedOutputName)?.let { recordDiagnostic(now, "output route=$it") }
                 AudioDiagnostics.report(now, "AudioMixer: id=$diagnosticId ${device.name} effective=${device.bufferFrames} frames, " +
                     "staging=${device.stagingBufferFrames}, xruns=${if (device.underrunsSupported) device.underruns.toString() else "N/A"}, " +
                     "producerUnderruns=${device.producerUnderruns}, burst=${device.burstFrames}, " +

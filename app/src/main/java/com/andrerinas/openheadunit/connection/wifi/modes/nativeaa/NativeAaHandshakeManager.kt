@@ -2157,18 +2157,21 @@ class NativeAaHandshakeManager(
                 currentCoroutineContext().ensureActive()
                 val profile = BluetoothWakePolicy.profileName(uuid)
                 var socket: BluetoothSocket? = null
+                var connectStartMs = -1L
                 try {
                     socket = device.createRfcommSocketToServiceRecord(uuid)
                     AppLog.i("NativeAA: Calling socket.connect() for ${device.name} via $profile ($uuid)...")
                     pokeConnectingTo = device.address
+                    connectStartMs = SystemClock.elapsedRealtime()
                     socket.connect()
+                    val connectMs = SystemClock.elapsedRealtime() - connectStartMs
                     // Cleared before the hold, not in the finally below: the marker means "inside
                     // connect()", and a hold that keeps it set would stall the next poke for
                     // nothing - the phone is already awake by then.
                     pokeConnectingTo = null
                     // Named, not just the UUID: which record we ended up on is the first thing to
                     // check when a reporter's calls come out of the phone instead of the car.
-                    AppLog.i("NativeAA: Successfully poked ${device.name} via $profile. Holding ${holdMs}ms...")
+                    AppLog.i("NativeAA: Successfully poked ${device.name} via $profile. Holding ${holdMs}ms... connect=${connectMs}ms")
                     // Counted before the hold, so a poke that is cancelled mid-hold still counts:
                     // the phone answered, which is the whole point of the count.
                     pokesSinceLastAccept++
@@ -2184,7 +2187,8 @@ class NativeAaHandshakeManager(
                     // Info, not debug: the success above is info, so a reporter at the default level
                     // saw the attempt and never its outcome. Address as well as name, because
                     // getName() is null for an unbonded device.
-                    AppLog.i("NativeAA: Poke via $profile to ${device.name ?: "unnamed"} (${device.address}) failed: ${e.message}")
+                    AppLog.i("NativeAA: Poke via $profile to ${device.name ?: "unnamed"} (${device.address}) failed: ${e.message}" +
+                        (if (connectStartMs >= 0) " connect=${SystemClock.elapsedRealtime() - connectStartMs}ms" else ""))
                 } finally {
                     pokeConnectingTo = null
                     socket?.let { closePhoneSocket(it) }

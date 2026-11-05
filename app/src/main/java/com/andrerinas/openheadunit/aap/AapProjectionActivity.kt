@@ -2713,7 +2713,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         // route it through CommManager so it can be remapped and sent to Android Auto.
         if (commManager.connectionState.value is CommManager.ConnectionState.TransportStarted &&
             ProjectionKeyPolicy.shouldRouteBackKeyToProjection(cachedKeyCodes, event.keyCode)) {
-            commManager.sendKey(event.keyCode, action == KeyEvent.ACTION_DOWN, event.downTime, "projection")
+            commManager.sendKey(event.keyCode, action == KeyEvent.ACTION_DOWN, event.downTime, "projection", event.device?.name)
             return true
         }
 
@@ -2734,7 +2734,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         }
 
         // 2. Funnel all other keys to CommManager
-        commManager.sendKey(event.keyCode, event.action == KeyEvent.ACTION_DOWN, event.downTime, "projection")
+        commManager.sendKey(event.keyCode, event.action == KeyEvent.ACTION_DOWN, event.downTime, "projection", event.device?.name)
         return true
     }
 
