@@ -119,7 +119,8 @@ class CarKeyBroadcastReceiver : BroadcastReceiver(), CarKeyReceiver {
             val app = App.provide(context)
             if (app.commManager.isConnected &&
                 !ProjectionKeyPolicy.firmwareKeepsKey(
-                    keyCodeIn(action, intent), app.settings.keyCodes, app.settings.ignoredKeyCodes)) {
+                    keyCodeIn(action, intent), app.settings.keyCodes, app.settings.ignoredKeyCodes,
+                    app.commManager.keyLearning?.invoke() == true)) {
                 abortBroadcast()
             }
         }

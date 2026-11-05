@@ -25,7 +25,7 @@ class CommManagerKeyRouteTest {
     private val volumeUp = KeyEvent.KEYCODE_VOLUME_UP
     private val volumeMute = KeyEvent.KEYCODE_VOLUME_MUTE
 
-    private class Rig(keyCodes: Map<Int, Int>, ignored: Set<Int> = emptySet()) {
+    private class Rig(keyCodes: Map<Int, Int>, ignored: Set<Int> = emptySet(), learning: Boolean = false) {
         val transport: AapTransport = mock(AapTransport::class.java)
         val comm: CommManager = mock(CommManager::class.java, CALLS_REAL_METHODS)
         val keyStates = mutableMapOf<Int, KeyDebouncePolicy.KeyState>()
@@ -39,6 +39,7 @@ class CommManagerKeyRouteTest {
             set("_connectionState", MutableStateFlow<CommManager.ConnectionState>(CommManager.ConnectionState.TransportStarted))
             set("_transport", transport)
             set("keyStates", keyStates)
+            set("keyLearning", { learning })
         }
 
         private fun set(name: String, value: Any?) = CommManager::class.java.getDeclaredField(name)
@@ -87,5 +88,20 @@ class CommManagerKeyRouteTest {
         val r = Rig(emptyMap(), setOf(KeyEvent.KEYCODE_DPAD_CENTER))
         r.comm.sendKey(KeyEvent.KEYCODE_DPAD_CENTER, true, null, "remote-command")
         verify(r.transport).send(KeyEvent.KEYCODE_DPAD_CENTER, true)
+    }
+
+    @Test fun learningHoldsKeysFromTheWire() {
+        for (src in listOf("carkey", "key-broadcast", "mediasession")) {
+            val r = Rig(emptyMap(), learning = true)
+            r.comm.sendKey(KeyEvent.KEYCODE_MEDIA_NEXT, true, 10L, src)
+            verify(r.transport, never()).send(anyInt(), anyBoolean())
+            assertTrue(r.keyStates.isEmpty())
+        }
+    }
+
+    @Test fun learningStillLetsAutoResumeOut() {
+        val r = Rig(emptyMap(), learning = true)
+        r.comm.sendKey(KeyEvent.KEYCODE_MEDIA_NEXT, true, null, "auto-resume")
+        verify(r.transport).send(KeyEvent.KEYCODE_MEDIA_NEXT, true)
     }
 }

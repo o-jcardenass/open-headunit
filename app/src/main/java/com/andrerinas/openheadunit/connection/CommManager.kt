@@ -9,6 +9,7 @@ import com.andrerinas.openheadunit.aap.DimState
 import com.andrerinas.openheadunit.aap.AaPresentationSession
 import com.andrerinas.openheadunit.aap.AapTransport
 import com.andrerinas.openheadunit.aap.NarrowBandProfilePolicy
+import com.andrerinas.openheadunit.input.KeyLearnPolicy
 import com.andrerinas.openheadunit.input.MediaKeyRoutingPolicy
 import com.andrerinas.openheadunit.input.ProjectionKeyPolicy
 import com.andrerinas.openheadunit.decoder.audio.PlaybackFocusPolicy
@@ -226,6 +227,8 @@ class CommManager(
     private val _connectionState = MutableStateFlow<ConnectionState>(ConnectionState.Disconnected())
 
     /** Callback for audio focus state changes (isPlaying). Set by AapService. */
+    // Null in tests that build a CommManager without an AppComponent.
+    var keyLearning: (() -> Boolean)? = null
     var onAudioFocusStateChanged: ((Boolean) -> Unit)? = null
 
     /** Latest now-playing metadata, delivered on Main with its owning session. Set by AapService. */
@@ -1331,6 +1334,11 @@ class CommManager(
      */
     fun sendKey(keyCode: Int, isPress: Boolean, downTime: Long? = null, source: String = "unknown") {
         if (_connectionState.value !is ConnectionState.TransportStarted) {
+            return
+        }
+
+        if (KeyLearnPolicy.holdsFromWire(keyLearning?.invoke() == true, source)) {
+            AppLog.d("CommManager: Holding key $keyCode for the keymap screen (src=$source)")
             return
         }
 

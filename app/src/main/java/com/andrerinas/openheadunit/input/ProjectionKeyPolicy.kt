@@ -14,8 +14,8 @@ object ProjectionKeyPolicy {
     }
 
     /** The head unit's firmware must act on this key, so the receiver leaves the broadcast alive. */
-    fun firmwareKeepsKey(keyCode: Int?, keyMap: Map<Int, Int>, ignored: Set<Int>): Boolean {
-        return keyCode != null && !isIgnored(ignored, keyCode, "carkey") &&
+    fun firmwareKeepsKey(keyCode: Int?, keyMap: Map<Int, Int>, ignored: Set<Int>, learning: Boolean): Boolean {
+        return keyCode != null && !learning && !isIgnored(ignored, keyCode, "carkey") &&
                 isLocalKey(keyCode, keyMap, "carkey")
     }
 
