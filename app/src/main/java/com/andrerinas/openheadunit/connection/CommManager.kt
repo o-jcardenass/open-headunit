@@ -1339,7 +1339,7 @@ class CommManager(
      *                 sources is the normal case on these head units, and naming them is what makes
      *                 a user's log readable.
      */
-    fun sendKey(keyCode: Int, isPress: Boolean, downTime: Long? = null, source: String = "unknown") {
+    fun sendKey(keyCode: Int, isPress: Boolean, downTime: Long? = null, source: String = "unknown", deviceName: String? = null) {
         if (_connectionState.value !is ConnectionState.TransportStarted) {
             return
         }
@@ -1363,14 +1363,14 @@ class CommManager(
                 keyCode
             }
         }
-        sendLogicalKey(logicalCode, isPress, downTime, source)
+        sendLogicalKey(logicalCode, isPress, downTime, source, deviceName)
     }
 
     /**
      * Sends an Android Auto key as is, without looking at key bindings. For gestures bound to an
      * Android Auto key, and for [sendKey] once a binding was resolved.
      */
-    fun sendLogicalKey(code: Int, isPress: Boolean, downTime: Long? = null, source: String = "unknown") {
+    fun sendLogicalKey(code: Int, isPress: Boolean, downTime: Long? = null, source: String = "unknown", deviceName: String? = null) {
         if (_connectionState.value !is ConnectionState.TransportStarted) {
             return
         }
@@ -1417,7 +1417,8 @@ class CommManager(
             _transport?.send(logicalCode, false)
         }
 
-        AppLog.i("CommManager: TX Key -> AA=$logicalCode (isPress=$isPress) src=$source")
+        AppLog.i("CommManager: TX Key -> AA=$logicalCode (isPress=$isPress) src=$source" +
+            (deviceName?.let { " device=$it" } ?: ""))
         _transport?.send(logicalCode, isPress)
     }
 

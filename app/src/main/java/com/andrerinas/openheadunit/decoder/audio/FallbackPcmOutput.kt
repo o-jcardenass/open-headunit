@@ -30,6 +30,7 @@ internal class FallbackPcmOutput(
     override val writtenFrames get() = delegate?.writtenFrames ?: -1L
     override fun playedFrames(): Long = delegate?.playedFrames() ?: -1L
     override val producerUnderruns get() = delegate?.producerUnderruns ?: metadata.producerUnderruns
+    override val routedOutputName: String? get() = delegate?.routedOutputName
 
     override fun setBufferFrames(frames: Int): Int {
         requestedFrames = frames

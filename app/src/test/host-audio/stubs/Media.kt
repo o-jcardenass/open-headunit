@@ -60,6 +60,8 @@ class AudioAttributes(val legacyStream: Int = AudioManager.STREAM_MUSIC) {
     }
 }
 class AudioFormat {class Builder{fun setSampleRate(x:Int)=this;fun setChannelMask(x:Int)=this;fun setEncoding(x:Int)=this;fun build()=AudioFormat()};companion object{const val CHANNEL_OUT_STEREO=12;const val CHANNEL_OUT_MONO=4;const val ENCODING_PCM_16BIT=2;const val ENCODING_PCM_8BIT=3}}
+interface AudioRouting { interface OnRoutingChangedListener { fun onRoutingChanged(router: AudioRouting) } }
+class AudioDeviceInfo(val productName: CharSequence, val type: Int)
 open class AudioTrack(val stream:Int,rate:Int,channels:Int,encoding:Int,bytes:Int,mode:Int) {
  companion object {const val STATE_INITIALIZED=1;const val MODE_STREAM=1;const val PERFORMANCE_MODE_LOW_LATENCY=1;const val WRITE_NON_BLOCKING=1;const val PLAYSTATE_PLAYING=3;@Volatile var failMinimum=false;@Volatile var minimumBytes=3840;@Volatile var minimumQueries=0;@Volatile var initialGrantFrames=0;@Volatile var blockWrites=false;val created=CopyOnWriteArrayList<AudioTrack>();@Volatile var nextReplies:List<Int> = emptyList();fun getMinBufferSize(rate:Int,ch:Int,fmt:Int):Int {minimumQueries++;return if(failMinimum)-2 else minimumBytes}}
  val state=STATE_INITIALIZED;val audioSessionId=1;var playState=0;var playbackHeadPosition=0;var advancePlayback=true;var writeCalls=0;protected val nativeFrameCount get()=bufferCapacityInFrames;@Volatile var bufferCapacityInFrames=maxOf(bytes/4,initialGrantFrames);@Volatile var bufferSizeInFrames=bufferCapacityInFrames;@Volatile var underrunCount=0;var closed=false
@@ -85,6 +87,7 @@ open class AudioTrack(val stream:Int,rate:Int,channels:Int,encoding:Int,bytes:In
   fun setPerformanceMode(x:Int)=this
   fun build()=AudioTrack(attributes.legacyStream,48000,12,2,bytes,1)
  }
+ fun addOnRoutingChangedListener(l:AudioRouting.OnRoutingChangedListener,h:android.os.Handler?){};fun removeOnRoutingChangedListener(l:AudioRouting.OnRoutingChangedListener){};fun getRoutedDevice():AudioDeviceInfo?=null
  fun setVolume(x:Float){};fun setStereoVolume(l:Float,r:Float){};fun setBufferSizeInFrames(x:Int):Int {check(android.os.Build.VERSION.SDK_INT>=24);bufferRequests.add(x);bufferHook?.invoke(x);bufferSizeInFrames=if(bufferCapacityInFrames<16)bufferCapacityInFrames else x.coerceIn(16,bufferCapacityInFrames);return bufferSizeInFrames};fun setStartThresholdInFrames(x:Int):Int {check(android.os.Build.VERSION.SDK_INT>=31);startThreshold=x;return x};fun play(){playState=3};fun pause(){playState=2};fun flush(){flushCalls++;if(!deferFlush){playbackHeadPosition=0;acceptedFrames=0}};fun stop(){playState=1};fun release(){closed=true}
  fun write(a:ShortArray,offset:Int,count:Int,mode:Int=0):Int {writeCalls++;lastWriteMode=mode;val n=writeHook?.invoke(a,offset,count) ?: if(blockWrites)0 else replies.poll()?:count;if(n>0){samples.addAll(a.slice(offset until offset+n));acceptedFrames+=n/2;if(advancePlayback)playbackHeadPosition+=n/2;Thread.sleep(1)};return n}
  fun write(a:ByteBuffer,count:Int,mode:Int):Int {
