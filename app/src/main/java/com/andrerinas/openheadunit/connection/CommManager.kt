@@ -1334,6 +1334,11 @@ class CommManager(
             return
         }
 
+        if (ProjectionKeyPolicy.isIgnored(settings.ignoredKeyCodes, keyCode, source)) {
+            AppLog.d("CommManager: Dropping ignored key $keyCode (src=$source)")
+            return
+        }
+
         // 1. Remapping (Physical -> Logical)
         // Check if the physical keyCode is mapped to a logical action in settings.
         // If not mapped, we use the original keyCode as the logical code.

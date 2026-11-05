@@ -339,6 +339,14 @@ class Settings(private val context: Context) {
             prefs.edit().putStringSet("key-codes", list.toSet()).apply()
         }
 
+    // Physical keys the user chose to drop on every physical route.
+    var ignoredKeyCodes: Set<Int>
+        get() = prefs.getStringSet("ignored-key-codes", null)
+            ?.mapNotNull { it.toIntOrNull() }?.toSet() ?: emptySet()
+        set(value) {
+            prefs.edit().putStringSet("ignored-key-codes", value.map { it.toString() }.toSet()).apply()
+        }
+
     var exporterLogLevel: LogExporter.LogLevel
         get() = LogExporter.LogLevel.entries.getOrElse(prefs.getInt(KEY_LOG_LEVEL, LogExporter.LogLevel.INFO.ordinal)) { LogExporter.LogLevel.INFO }
         set(value) { prefs.edit().putInt(KEY_LOG_LEVEL, value.ordinal).apply() }

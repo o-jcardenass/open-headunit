@@ -2707,6 +2707,10 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             return super.dispatchKeyEvent(event)
         }
 
+        if (ProjectionKeyPolicy.isIgnored(settings.ignoredKeyCodes, event.keyCode, "projection")) {
+            return true
+        }
+
         // 1. Let the system handle unmapped back keys and local volume keys.
         // If Back was explicitly learned in Keymap and transport is running,
         // route it through CommManager so it can be remapped and sent to Android Auto.
@@ -2739,6 +2743,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
 
     private fun onKeyEvent(keyCode: Int, isPress: Boolean) {
         // Broadcasts (e.g. from CarKeyReceiver) still use this path.
+        if (ProjectionKeyPolicy.isIgnored(settings.ignoredKeyCodes, keyCode, "key-broadcast")) return
         if (ProjectionKeyPolicy.isHomeKey(keyCode)) {
             if (isPress) {
                 AppLog.i("AapProjectionActivity: KEYCODE_HOME broadcast received -> returning to App Home")

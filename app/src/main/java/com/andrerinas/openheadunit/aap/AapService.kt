@@ -72,6 +72,7 @@ import com.andrerinas.openheadunit.utils.ToastUtils
 import com.andrerinas.openheadunit.aap.protocol.messages.NightModeEvent
 import com.andrerinas.openheadunit.aap.protocol.proto.MediaPlayback
 import com.andrerinas.openheadunit.decoder.audio.MicRecorder
+import com.andrerinas.openheadunit.input.ProjectionKeyPolicy
 import com.andrerinas.openheadunit.connection.AutoConnectHoldPolicy
 import com.andrerinas.openheadunit.connection.CommManager
 import com.andrerinas.openheadunit.connection.ConnectionArbiter
@@ -1751,6 +1752,14 @@ class AapService : Service() {
                     if (keyEvent != null) {
                         val actionStr = if (keyEvent.action == android.view.KeyEvent.ACTION_DOWN) "DOWN" else "UP"
                         AppLog.d("MediaButtonEvent: Received key ${keyEvent.keyCode} ($actionStr)")
+
+                        // Every edge and repeat stops here; a repeat DOWN would reach onSkipToNext otherwise.
+                        if (ProjectionKeyPolicy.isIgnored(settings.ignoredKeyCodes, keyEvent.keyCode, "mediasession")) {
+                            if (keyEvent.action == android.view.KeyEvent.ACTION_DOWN && keyEvent.repeatCount == 0) {
+                                AppLog.d("MediaButtonEvent: Dropping ignored key ${keyEvent.keyCode}")
+                            }
+                            return true
+                        }
 
                         // Only handle ACTION_DOWN to prevent double triggers from standard Android behavior.
                         // Physical double triggers are handled by CommManager.sendKey deduplication.

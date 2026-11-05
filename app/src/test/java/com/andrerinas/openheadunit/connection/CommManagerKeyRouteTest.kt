@@ -25,7 +25,7 @@ class CommManagerKeyRouteTest {
     private val volumeUp = KeyEvent.KEYCODE_VOLUME_UP
     private val volumeMute = KeyEvent.KEYCODE_VOLUME_MUTE
 
-    private class Rig(keyCodes: Map<Int, Int>) {
+    private class Rig(keyCodes: Map<Int, Int>, ignored: Set<Int> = emptySet()) {
         val transport: AapTransport = mock(AapTransport::class.java)
         val comm: CommManager = mock(CommManager::class.java, CALLS_REAL_METHODS)
         val keyStates = mutableMapOf<Int, KeyDebouncePolicy.KeyState>()
@@ -33,6 +33,7 @@ class CommManagerKeyRouteTest {
         init {
             val settings = mock(Settings::class.java)
             `when`(settings.keyCodes).thenReturn(keyCodes.toMutableMap())
+            `when`(settings.ignoredKeyCodes).thenReturn(ignored)
             `when`(settings.mediaKeyRouting).thenReturn(MediaKeyRoutingPolicy.Mode.ALWAYS)
             set("settings", settings)
             set("_connectionState", MutableStateFlow<CommManager.ConnectionState>(CommManager.ConnectionState.TransportStarted))
@@ -74,5 +75,17 @@ class CommManagerKeyRouteTest {
         val r = Rig(emptyMap())
         r.comm.sendKey(volumeUp, true, 10L, "carkey")
         assertTrue(r.keyStates.isEmpty())
+    }
+
+    @Test fun anIgnoredMappedKeySendsNothingFromCarkey() {
+        val r = Rig(mapOf(KeyEvent.KEYCODE_DPAD_CENTER to volumeUp), setOf(volumeUp))
+        r.comm.sendKey(volumeUp, true, null, "carkey")
+        verify(r.transport, never()).send(anyInt(), anyBoolean())
+    }
+
+    @Test fun anIgnoredKeyStillGoesOutFromAnAppCommand() {
+        val r = Rig(emptyMap(), setOf(KeyEvent.KEYCODE_DPAD_CENTER))
+        r.comm.sendKey(KeyEvent.KEYCODE_DPAD_CENTER, true, null, "remote-command")
+        verify(r.transport).send(KeyEvent.KEYCODE_DPAD_CENTER, true)
     }
 }
