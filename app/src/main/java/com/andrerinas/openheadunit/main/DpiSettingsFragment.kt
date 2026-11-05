@@ -18,7 +18,10 @@ import com.andrerinas.openheadunit.App
 import com.andrerinas.openheadunit.R
 import com.andrerinas.openheadunit.main.settings.SettingHelpDialog
 import com.andrerinas.openheadunit.utils.AnnouncedDensityPolicy
+import com.andrerinas.openheadunit.utils.AppLog
 import com.andrerinas.openheadunit.utils.OnboardingDisplayPolicy
+import com.andrerinas.openheadunit.utils.PanelDensityPolicy
+import com.andrerinas.openheadunit.utils.PanelKeyReader
 import com.andrerinas.openheadunit.utils.Settings
 import com.andrerinas.openheadunit.utils.SystemOptimizer
 import com.andrerinas.openheadunit.utils.ToastUtils
@@ -50,6 +53,9 @@ class DpiSettingsFragment : Fragment() {
     private var initialValue = 0
     private var initialOverride = false
     private var pendingOverride = false
+    private var panelKey: String? = null
+    private var panelMap: Map<String, PanelDensityPolicy.Entry> = emptyMap()
+    private var panelActive = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_dpi_settings, container, false)
@@ -72,6 +78,10 @@ class DpiSettingsFragment : Fragment() {
             updateClampedNote()
         }
 
+        panelKey = PanelKeyReader.read(requireActivity(), settings)
+        panelMap = PanelDensityPolicy.parse(settings.dpiPanelValues)
+        panelActive = settings.dpiPanelsActive
+        if (panelActive && panelKey != null) toolbar.title = getString(R.string.dpi_for_this_screen, panelKey)
         setupToolbar()
 
         // Show which DPI "Automatic" actually sends, and the dp canvas it gives.
@@ -96,8 +106,11 @@ class DpiSettingsFragment : Fragment() {
         // the device will actually project, so flag it (issue #767).
         updateOverPanelWarning()
 
-        initialValue = settings.dpiPixelDensity
-        initialOverride = settings.dpiFloorOverride
+        val entry = PanelDensityPolicy.resolve(
+            panelMap, panelKey, panelActive, PanelDensityPolicy.Entry(settings.dpiPixelDensity, settings.dpiFloorOverride)
+        )
+        initialValue = entry.dpi
+        initialOverride = entry.floorOverride
         pendingOverride = initialOverride
         val auto = initialValue == 0
         autoSwitch.isChecked = auto
@@ -160,8 +173,18 @@ class DpiSettingsFragment : Fragment() {
         // sitting in the text field at this point.
         picker.commitPendingInput()
         val value = currentValue()
-        settings.dpiPixelDensity = value
-        if (pendingOverride != initialOverride) settings.dpiFloorOverride = pendingOverride
+        val global = PanelDensityPolicy.Entry(settings.dpiPixelDensity, settings.dpiFloorOverride)
+        val stored = PanelDensityPolicy.save(
+            panelMap, panelKey, panelActive, PanelDensityPolicy.Entry(value, pendingOverride), global
+        )
+        if (stored == null) {
+            settings.dpiPixelDensity = value
+            if (pendingOverride != initialOverride) settings.dpiFloorOverride = pendingOverride
+        } else if (stored != panelMap) {
+            settings.dpiPanelValues = PanelDensityPolicy.format(stored)
+            panelMap = stored
+        }
+        AppLog.i("DpiSettingsFragment: saved DPI $value to=${if (stored == null) "global" else "panel"} for panel ${panelKey ?: "none"}")
         settings.commit()
         initialValue = value
         initialOverride = pendingOverride

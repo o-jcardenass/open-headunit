@@ -231,6 +231,8 @@
     <string name="dpi_clamped_note_portrait">In portrait, Google Maps on Android Auto ignores touch on a canvas narrower than 730 dp, so %1$d DPI is sent as %2$d.</string>
     <string name="dpi_portrait_override_note">%1$d DPI is sent as you picked it. In portrait, Google Maps on Android Auto can ignore touch above %2$d DPI.</string>
     <string name="dpi_floor_override_note">%1$d DPI is sent as you picked it. Above %2$d DPI the canvas is smaller than the 748x450 dp Android Auto needs, and it can show a reduced layout.</string>
+    <!-- %1$s is a panel size such as 2376x968. -->
+    <string name="dpi_for_this_screen">DPI for this screen (%1$s)</string>
     <string name="dpi_value_format">%1$d DPI</string>
     <string name="dpi_input_hint">DPI</string>
 
