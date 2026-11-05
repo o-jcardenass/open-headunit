@@ -43,15 +43,15 @@ object LogExporter {
         SILENT("", Int.MAX_VALUE)
     }
 
-    private var captureProcess: Process? = null
+    @Volatile private var captureProcess: Process? = null
     private var captureThread: Thread? = null
-    private var captureFile: File? = null
+    @Volatile private var captureFile: File? = null
 
     /**
      * The segment written before [captureFile], once a capture has rolled. Kept so an export is the
      * whole retained tail and not just whatever landed after the most recent roll.
      */
-    private var capturePreviousFile: File? = null
+    @Volatile private var capturePreviousFile: File? = null
     private var captureVerbosity: LogLevel = LogLevel.DEBUG
     private var captureRestarts = 0
     private const val MAX_RESTARTS = 5
@@ -350,8 +350,8 @@ object LogExporter {
 
     /**
      * Writes logs to a timestamped file and returns it.
-     * - If a capture file is available (capture was started, active or already stopped):
-     *   copies its content into a fresh export file so the original capture file is preserved.
+     * - If a capture is running or has rolled: copies its segments into a fresh export file.
+     * - If a capture stopped without a roll: returns its file, which nothing writes or deletes now.
      * - Otherwise: dumps the current logcat ring buffer.
      */
     suspend fun saveLogToPublicFile(context: Context, verbosity: LogLevel): File? = withContext(Dispatchers.IO) {
@@ -379,29 +379,40 @@ object LogExporter {
         val source = captureFile
         if (source != null && source.exists() && source.length() > 0) {
             val earlier = capturePreviousFile?.takeIf { it.exists() && it.length() > 0 }
-            if (earlier == null) {
+            if (!exportNeedsCopy(isCapturing, earlier != null)) {
                 appendBanner(source, context)
                 return@withContext source
             }
-            // The capture rolled, so neither segment is the whole retained log and a reporter
-            // attaches one file. Join them into a fresh export and leave both segments in place,
-            // so an export cannot cost the capture that is still running.
+            // A live segment is deleted two rolls from now, and after a roll neither segment is the
+            // whole retained log. Export a fresh file and leave the running capture alone.
             return@withContext try {
-                val joined = LogFilesHelper.createTimestampedLogFile(logDir)
-                FileOutputStream(joined).use { out ->
-                    earlier.inputStream().use { it.copyTo(out) }
-                    source.inputStream().use { it.copyTo(out) }
-                }
-                appendBanner(joined, context)
-                joined
+                copySegments(logDir, earlier, source).also { appendBanner(it, context) }
             } catch (e: Exception) {
-                AppLog.e("LogExporter: could not join the capture segments; exporting the newest one", e)
+                AppLog.e("LogExporter: could not copy the capture segments; exporting the newest one", e)
                 appendBanner(source, context)
                 source
             }
         }
 
         dumpRingBuffer(logDir, verbosity)?.also { appendBanner(it, context) }
+    }
+
+    /** Only a stopped capture that never rolled has a file that stays put and holds the whole log. */
+    internal fun exportNeedsCopy(capturing: Boolean, rolled: Boolean): Boolean = capturing || rolled
+
+    /** Writes [earlier], then [source], into a fresh file. A failed copy leaves no partial file. */
+    internal fun copySegments(logDir: File, earlier: File?, source: File): File {
+        val copy = LogFilesHelper.createTimestampedLogFile(logDir)
+        try {
+            FileOutputStream(copy).use { out ->
+                earlier?.inputStream()?.use { it.copyTo(out) }
+                source.inputStream().use { it.copyTo(out) }
+            }
+        } catch (e: IOException) {
+            copy.delete()
+            throw e
+        }
+        return copy
     }
 
     /**

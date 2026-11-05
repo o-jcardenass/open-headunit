@@ -491,15 +491,6 @@ class QuickSettingsFragment : DialogFragment() {
             return
         }
 
-        if (settings.logSource == Settings.LogSource.APPLOG_FILE) {
-            if (AppLog.isCapturing) {
-                settings.exporterCaptureEnabled = false
-                AppLog.init(settings, context.applicationContext)
-            }
-        } else if (LogExporter.isCapturing) {
-            LogExporter.stopCapture()
-        }
-
         viewLifecycleOwner.lifecycleScope.launch {
             val logFile = LogExporter.saveLogToPublicFile(context, exporterLevel)
             updateSettingsList()
