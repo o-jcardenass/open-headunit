@@ -539,12 +539,17 @@ private fun focusPostingRegression() {
         audio.preparePlayback(5)
         handler.runAll()
         check(manager.focus.size == 1)
+        // Mixer threads left by earlier cases also post here, for a route read; skip those.
+        val testThread = Thread.currentThread()
         handler.beforePost = {
-            handler.beforePost = null
-            // Insert a new activity exactly between clear() and the old release's post().
-            audio.preparePlayback(5)
+            if (Thread.currentThread() === testThread) {
+                handler.beforePost = null
+                // Insert a new activity exactly between clear() and the old release's post().
+                audio.preparePlayback(5)
+            }
         }
         audio.pauseAllAudio()
+        check(handler.beforePost == null) { "the release never posted from the test thread" }
         handler.runAll()
         check(manager.focus.size == 1 && decoder.playbackCallbacks.canRender())
         audio.releaseAllFocus(); handler.runAll(); check(manager.focus.isEmpty())
