@@ -13,7 +13,7 @@ class BankSupplyRegressionTest {
         val half = ShortArray(2048) { 1000 }
         val full = ShortArray(4096) { 1000 }
         var packet = 0
-        for (now in 0L..70_000L) {
+        for (now in 0L..400_000L) {
             if (!bump || now !in 10_000L..10_249L) {
                 while (now >= packet * 2048L * 1000 / 48000) {
                     if (mode == Mode.INGRESS_SPLIT || mode == Mode.BOTH_SPLIT) {

@@ -20,8 +20,9 @@ internal class AdaptivePcmBuffer(
     private val previousOutput = ShortArray(cycleSamples)
     private val endingSample = ShortArray(channels)
     private var endingFrames = 0
-    private val policy = AdaptiveJitterPolicy(sampleRate, latencyMultiplier)
-    private val recovery = LatencyRecoveryPolicy(sampleRate)
+    private val policy = AdaptiveJitterPolicy(sampleRate, latencyMultiplier,
+        if (isMediaSink) MediaReservePolicy(sampleRate) else null)
+    private val recovery = LatencyRecoveryPolicy(sampleRate, if (isMediaSink) capacityFrames else sampleRate)
     private val overlap = PcmOverlap(optimized = true)
     private var recoveryDeferrals = 0
     private val prerollDeadlineMs = maxOf(100L, AudioJitterBufferPolicy.targetMsFor(latencyMultiplier) + 50)

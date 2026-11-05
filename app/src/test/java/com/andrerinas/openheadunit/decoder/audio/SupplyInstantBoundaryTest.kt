@@ -14,7 +14,7 @@ class SupplyInstantBoundaryTest {
         val fragments = parts.map { ShortArray(it * 2) { 1000 } }
         val out = ShortArray(960)
         var packet = 0
-        for (now in 0L..90_000L) {
+        for (now in 0L..400_000L) {
             // Delay once, then deliver all pending frames. No source or bank drops are induced.
             if (now !in 10_000L..10_249L) {
                 while (true) {
