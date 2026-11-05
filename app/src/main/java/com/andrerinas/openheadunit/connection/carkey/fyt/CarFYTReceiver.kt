@@ -137,7 +137,8 @@ class CarFYTReceiver : CarKeyReceiver {
                 module.register(
                     callback,
                     code,
-                    1, /* 1 = register, 0 = unregister */
+                    // Matches the firmware's own client; its meaning is undocumented.
+                    1,
                 )
             }
 
@@ -174,7 +175,11 @@ class CarFYTReceiver : CarKeyReceiver {
                                 return
                             }
 
-                            receiver.handleClick(context, key)
+                            val settings = App.provide(context).settings
+                            receiver.handleClick(
+                                context, key,
+                                FytKeyTranslationPolicy.sendCode(key, settings.keyCodes, settings.ignoredKeyCodes),
+                            )
                         }
                     }
                 }
