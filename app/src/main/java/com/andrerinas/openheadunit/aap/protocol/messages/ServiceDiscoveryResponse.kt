@@ -100,7 +100,7 @@ internal class ServiceDiscoveryResponse(context: Context, audioConfig: AudioSess
                         geometry.width - phoneWidthMargin,
                         geometry.height - phoneHeightMargin,
                         geometry.pixelAspectRatioE4
-                    ))
+                    ) + (geometry.panelKey?.let { " for panel $it" } ?: ""))
                     AppLog.i("[ServiceDiscovery] PixelAspectRatioE4 is: ${geometry.pixelAspectRatioE4} (10000 = square)")
 
                     val announcedFrameRateType = when (announcedFps) {
