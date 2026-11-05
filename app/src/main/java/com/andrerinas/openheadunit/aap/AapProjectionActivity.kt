@@ -96,7 +96,6 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
     private lateinit var projectionView: IProjectionView
     private val videoDecoder: VideoDecoder by lazy { App.provide(this).videoDecoder }
     private val settings: Settings by lazy { Settings(this) }
-    private val cachedKeyCodes: Map<Int, Int> by lazy { settings.keyCodes }
     private var isSurfaceSet = false
     private var ownedSurface: android.view.Surface? = null
     private var overlayState = OverlayState.STARTING
@@ -2708,11 +2707,12 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             return super.dispatchKeyEvent(event)
         }
 
-        // 1. Let the system handle volume keys and unmapped back keys.
+        // 1. Let the system handle unmapped back keys and local volume keys.
         // If Back was explicitly learned in Keymap and transport is running,
         // route it through CommManager so it can be remapped and sent to Android Auto.
-        if (commManager.connectionState.value is CommManager.ConnectionState.TransportStarted &&
-            ProjectionKeyPolicy.shouldRouteBackKeyToProjection(cachedKeyCodes, event.keyCode)) {
+        val keyMap = settings.keyCodes
+        val transportStarted = commManager.connectionState.value is CommManager.ConnectionState.TransportStarted
+        if (transportStarted && ProjectionKeyPolicy.shouldRouteBackKeyToProjection(keyMap, event.keyCode)) {
             commManager.sendKey(event.keyCode, action == KeyEvent.ACTION_DOWN, event.downTime, "projection")
             return true
         }
@@ -2727,9 +2727,8 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         }
 
         if (event.keyCode == KeyEvent.KEYCODE_BACK ||
-            event.keyCode == KeyEvent.KEYCODE_VOLUME_UP ||
-            event.keyCode == KeyEvent.KEYCODE_VOLUME_DOWN ||
-            event.keyCode == KeyEvent.KEYCODE_VOLUME_MUTE) {
+            ProjectionKeyPolicy.isLocalKey(event.keyCode, keyMap, "projection") ||
+            (ProjectionKeyPolicy.isVolumeKey(event.keyCode) && !transportStarted)) {
             return super.dispatchKeyEvent(event)
         }
 

@@ -10,6 +10,7 @@ import com.andrerinas.openheadunit.aap.AaPresentationSession
 import com.andrerinas.openheadunit.aap.AapTransport
 import com.andrerinas.openheadunit.aap.NarrowBandProfilePolicy
 import com.andrerinas.openheadunit.input.MediaKeyRoutingPolicy
+import com.andrerinas.openheadunit.input.ProjectionKeyPolicy
 import com.andrerinas.openheadunit.decoder.audio.PlaybackFocusPolicy
 import com.andrerinas.openheadunit.utils.AppLog
 import com.andrerinas.openheadunit.utils.BluetoothHelper
@@ -1336,7 +1337,14 @@ class CommManager(
         // 1. Remapping (Physical -> Logical)
         // Check if the physical keyCode is mapped to a logical action in settings.
         // If not mapped, we use the original keyCode as the logical code.
-        var logicalCode = settings.keyCodes.entries.find { it.value == keyCode }?.key ?: keyCode
+        val keyMap = settings.keyCodes
+        var logicalCode = keyMap.entries.find { it.value == keyCode }?.key ?: keyCode
+
+        // A volume key nobody mapped stays on the head unit; sending it moves Android Auto's focus.
+        if (ProjectionKeyPolicy.isLocalKey(keyCode, keyMap, source)) {
+            AppLog.d("CommManager: Keeping key $keyCode local (src=$source)")
+            return
+        }
 
         // 2. Proprietary Key Filtering
         // If the key is proprietary (internal ID > 1000) and NOT mapped, we drop it.
