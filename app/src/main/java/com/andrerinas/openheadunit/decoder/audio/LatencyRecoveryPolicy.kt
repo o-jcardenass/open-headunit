@@ -2,7 +2,7 @@ package com.andrerinas.openheadunit.decoder.audio
 
 /** Repay lower targets and sustained backlog with small overlaps. A transient peak is not
  * stale PCM: only a full input/render window can authorize extra consumption. */
-internal class LatencyRecoveryPolicy(private val sampleRate: Int) {
+internal class LatencyRecoveryPolicy(private val sampleRate: Int, private val maxBudgetFrames: Int = sampleRate) {
     private var previousTarget = 0
     private var previousPacket = 0
     private var budget = 0
@@ -23,7 +23,7 @@ internal class LatencyRecoveryPolicy(private val sampleRate: Int) {
 
     fun observe(nowMs: Long, target: Int, packetFrames: Int, slack: Int, depth: Int,
                 inputFrames: Long, canRecover: Boolean = true) {
-        val newBudget = (target.toLong() + slack).coerceIn(0, sampleRate.toLong()).toInt()
+        val newBudget = (target.toLong() + slack).coerceIn(0, maxBudgetFrames.toLong()).toInt()
         if (target > previousTarget) debt = 0
         else debt = (debt + previousTarget - target).coerceAtMost(sampleRate)
         if (target != previousTarget || packetFrames != previousPacket || newBudget != budget ||
