@@ -72,6 +72,8 @@ import com.andrerinas.openheadunit.utils.ToastUtils
 import com.andrerinas.openheadunit.aap.protocol.messages.NightModeEvent
 import com.andrerinas.openheadunit.aap.protocol.proto.MediaPlayback
 import com.andrerinas.openheadunit.decoder.audio.MicRecorder
+import com.andrerinas.openheadunit.contract.KeyIntent
+import com.andrerinas.openheadunit.input.KeyLearnPolicy
 import com.andrerinas.openheadunit.input.ProjectionKeyPolicy
 import com.andrerinas.openheadunit.connection.AutoConnectHoldPolicy
 import com.andrerinas.openheadunit.connection.CommManager
@@ -1752,6 +1754,18 @@ class AapService : Service() {
                     if (keyEvent != null) {
                         val actionStr = if (keyEvent.action == android.view.KeyEvent.ACTION_DOWN) "DOWN" else "UP"
                         AppLog.d("MediaButtonEvent: Received key ${keyEvent.keyCode} ($actionStr)")
+
+                        // While the keymap screen learns, the key goes to it and nowhere else.
+                        if (carKeysManager.isLearning) {
+                            if (KeyLearnPolicy.feedsLearnScreen(true, keyEvent.action, keyEvent.repeatCount)) {
+                                sendBroadcast(Intent(KeyIntent.action).apply {
+                                    setPackage(packageName)
+                                    putExtra(KeyLearnPolicy.EXTRA_ROUTE, "session")
+                                    putExtra(KeyIntent.extraEvent, keyEvent)
+                                })
+                            }
+                            return true
+                        }
 
                         // Every edge and repeat stops here; a repeat DOWN would reach onSkipToNext otherwise.
                         if (ProjectionKeyPolicy.isIgnored(settings.ignoredKeyCodes, keyEvent.keyCode, "mediasession")) {

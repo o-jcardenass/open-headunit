@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,7 @@ import com.andrerinas.openheadunit.main.settings.SettingHelpDialog
 import com.andrerinas.openheadunit.contract.KeyIntent
 import com.andrerinas.openheadunit.input.BydPanelKey
 import com.andrerinas.openheadunit.input.KeyCode
+import com.andrerinas.openheadunit.input.KeyLearnPolicy
 import com.andrerinas.openheadunit.utils.AppLog
 import com.andrerinas.openheadunit.utils.IntentFilters
 import com.andrerinas.openheadunit.utils.Settings
@@ -41,6 +43,7 @@ class KeymapFragment : Fragment(), MainActivity.KeyListener {
     private val DO_NOTHING_ROW = -1
 
     private var assignTargetCode = KeyEvent.KEYCODE_UNKNOWN
+    private val seenKeys = HashMap<Pair<Int, Int>, Long>()
     private var assignDialog: androidx.appcompat.app.AlertDialog? = null
 
     data class KeymapItem(val nameResId: Int, val keyCode: Int)
@@ -98,7 +101,7 @@ class KeymapFragment : Fragment(), MainActivity.KeyListener {
         view.isFocusableInTouchMode = true
         view.requestFocus()
         view.setOnKeyListener { _, _, event ->
-            onKeyEvent(event)
+            onKeyEvent(event, "window")
         }
     }
 
@@ -144,7 +147,7 @@ class KeymapFragment : Fragment(), MainActivity.KeyListener {
 
         // Important: We need to set the listener on the dialog to catch keys like ENTER
         assignDialog?.setOnKeyListener { _, _, event ->
-            onKeyEvent(event)
+            onKeyEvent(event, "dialog")
         }
 
         assignDialog?.show()
@@ -179,7 +182,7 @@ class KeymapFragment : Fragment(), MainActivity.KeyListener {
                 @Suppress("DEPRECATION")
                 intent.getParcelableExtra(KeyIntent.extraEvent)
             }
-            onKeyEvent(event)
+            onKeyEvent(event, intent.getStringExtra(KeyLearnPolicy.EXTRA_ROUTE) ?: "broadcast")
         }
     }
 
@@ -213,7 +216,9 @@ class KeymapFragment : Fragment(), MainActivity.KeyListener {
         super.onDetach()
     }
 
-    override fun onKeyEvent(event: KeyEvent?): Boolean {
+    override fun onKeyEvent(event: KeyEvent?): Boolean = onKeyEvent(event, "window")
+
+    private fun onKeyEvent(event: KeyEvent?, route: String): Boolean {
         if (event == null) return false
 
         val keyCode = event.keyCode
@@ -222,10 +227,17 @@ class KeymapFragment : Fragment(), MainActivity.KeyListener {
 
         val keyName = physicalKeyName(keyCode)
         val actionName = if (event.action == KeyEvent.ACTION_DOWN) "DOWN" else "UP"
-        
-        AppLog.i("KeymapFragment: Captured $keyName ($keyCode) $actionName")
-        
-        keypressDebuggerTextView.text = "Key: $keyName ($keyCode) - $actionName"
+
+        // The same press can arrive on several routes; the first one counts.
+        val now = SystemClock.elapsedRealtime()
+        if (KeyLearnPolicy.isCopy(seenKeys, keyCode, event.action, now)) {
+            return assignTargetCode != KeyEvent.KEYCODE_UNKNOWN
+        }
+        seenKeys[keyCode to event.action] = now
+
+        AppLog.i("KeymapFragment: Captured $keyName ($keyCode) $actionName route=$route")
+
+        keypressDebuggerTextView.text = "Key: $keyName ($keyCode) - $actionName - route=$route"
         keypressDebuggerTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.brand_primary))
 
         if (assignTargetCode != KeyEvent.KEYCODE_UNKNOWN) {

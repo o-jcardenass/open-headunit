@@ -9,7 +9,9 @@ class CarKeysManager {
     private val registered: MutableSet<CarKeyReceiver> = mutableSetOf()
 
     private var isSessionActive = false
-    private var isLearningActive = false
+    @Volatile private var isLearningActive = false
+
+    val isLearning: Boolean get() = isLearningActive
 
     /**
      * Registers baseline (non-session-scoped) receivers like CarKeyBroadcastReceiver and CarBydReceiver.

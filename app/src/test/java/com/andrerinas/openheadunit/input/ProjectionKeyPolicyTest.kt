@@ -86,28 +86,33 @@ class ProjectionKeyPolicyTest {
     @Test
     fun `an unmapped volume key stays with the firmware`() {
         for (code in listOf(KeyEvent.KEYCODE_VOLUME_UP, KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_MUTE)) {
-            assertTrue(ProjectionKeyPolicy.firmwareKeepsKey(code, emptyMap(), emptySet()))
+            assertTrue(ProjectionKeyPolicy.firmwareKeepsKey(code, emptyMap(), emptySet(), false))
         }
     }
 
     @Test
     fun `a mapped volume key is not left to the firmware`() {
         val keyMap = mapOf(KeyEvent.KEYCODE_DPAD_CENTER to KeyEvent.KEYCODE_VOLUME_UP)
-        assertFalse(ProjectionKeyPolicy.firmwareKeepsKey(KeyEvent.KEYCODE_VOLUME_UP, keyMap, emptySet()))
+        assertFalse(ProjectionKeyPolicy.firmwareKeepsKey(KeyEvent.KEYCODE_VOLUME_UP, keyMap, emptySet(), false))
     }
 
     @Test
     fun `an ignored volume key is not left to the firmware`() {
         assertFalse(
-            ProjectionKeyPolicy.firmwareKeepsKey(KeyEvent.KEYCODE_VOLUME_UP, emptyMap(), setOf(KeyEvent.KEYCODE_VOLUME_UP))
+            ProjectionKeyPolicy.firmwareKeepsKey(KeyEvent.KEYCODE_VOLUME_UP, emptyMap(), setOf(KeyEvent.KEYCODE_VOLUME_UP), false)
         )
     }
 
     @Test
+    fun `an unmapped volume key while learning is not left to the firmware`() {
+        assertFalse(ProjectionKeyPolicy.firmwareKeepsKey(KeyEvent.KEYCODE_VOLUME_UP, emptyMap(), emptySet(), true))
+    }
+
+    @Test
     fun `other keys and no key are not left to the firmware`() {
-        assertFalse(ProjectionKeyPolicy.firmwareKeepsKey(KeyEvent.KEYCODE_MEDIA_NEXT, emptyMap(), emptySet()))
-        assertFalse(ProjectionKeyPolicy.firmwareKeepsKey(KeyEvent.KEYCODE_MUTE, emptyMap(), emptySet()))
-        assertFalse(ProjectionKeyPolicy.firmwareKeepsKey(null, emptyMap(), emptySet()))
+        assertFalse(ProjectionKeyPolicy.firmwareKeepsKey(KeyEvent.KEYCODE_MEDIA_NEXT, emptyMap(), emptySet(), false))
+        assertFalse(ProjectionKeyPolicy.firmwareKeepsKey(KeyEvent.KEYCODE_MUTE, emptyMap(), emptySet(), false))
+        assertFalse(ProjectionKeyPolicy.firmwareKeepsKey(null, emptyMap(), emptySet(), false))
     }
 
     @Test
