@@ -291,6 +291,38 @@ class UsbDeviceIdentityPolicyTest {
     }
 
     @Test
+    fun `the idle gadget identity is accepted whatever interface it shows`() {
+        val unlisted = UsbDeviceIdentityPolicy.evaluate(UsbDeviceFixtures.idleGadgetUnlisted)
+        assertTrue(unlisted.accepted)
+        assertEquals("idle Android gadget", unlisted.reason)
+        assertTrue(UsbDeviceIdentityPolicy.evaluate(Device(0x18D1, 0x4EE1, 0x00, emptyList())).accepted)
+    }
+
+    @Test
+    fun `a listed interface keeps its own verdict on the idle gadget identity`() {
+        val mtp = Device(
+            0x18D1, 0x4EE1, 0x00,
+            listOf(Interface(0x06, 0x01, 0x01, "MTP", hasBulkIn = true, hasBulkOut = true)),
+        )
+        assertEquals("PTP", UsbDeviceIdentityPolicy.evaluate(mtp).reason)
+    }
+
+    @Test
+    fun `the idle gadget rule stops at that one vendor and product`() {
+        val interfaces = UsbDeviceFixtures.idleGadgetUnlisted.interfaces
+        assertFalse(UsbDeviceIdentityPolicy.evaluate(Device(0x18D1, 0x4EE2, 0x00, interfaces)).accepted)
+        assertFalse(UsbDeviceIdentityPolicy.evaluate(Device(0x1234, 0x4EE1, 0x00, interfaces)).accepted)
+    }
+
+    @Test
+    fun `the idle gadget identity does not outrank a device that has declared what it is`() {
+        val interfaces = UsbDeviceFixtures.idleGadgetUnlisted.interfaces
+        assertFalse(UsbDeviceIdentityPolicy.evaluate(Device(0x18D1, 0x4EE1, 0x09, interfaces)).accepted)
+        val adapter = UsbDeviceFixtures.asixComposite.copy(vendorId = 0x18D1, productId = 0x4EE1)
+        assertFalse(UsbDeviceIdentityPolicy.evaluate(adapter).accepted)
+    }
+
+    @Test
     fun `an empty bus entry is rejected rather than throwing`() {
         assertFalse(evaluate(Device(0x1234, 0x5678, 0x00, emptyList())).accepted)
     }

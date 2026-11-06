@@ -37,6 +37,7 @@ class UsbManifestFilterTest {
         val fixtures = listOf(
             UsbDeviceFixtures.phoneMtp, UsbDeviceFixtures.phoneAdb, UsbDeviceFixtures.phoneAccessory,
             UsbDeviceFixtures.phoneAccessoryPlain, UsbDeviceFixtures.samsungFileTransfer,
+            UsbDeviceFixtures.idleGadgetUnlisted,
         )
         for (device in fixtures) {
             assertTrue(UsbDeviceIdentityPolicy.evaluate(device).accepted)
@@ -80,6 +81,13 @@ class UsbManifestFilterTest {
     fun `the Carlinkit CCPM still matches, because no filter entry can exclude a vendor`() {
         // Android keeps offering the app for this box; the identity policy rejects it after launch.
         assertTrue(matches(UsbDeviceFixtures.carlinkitCcpm))
+    }
+
+    @Test
+    fun `no other Google product with an unlisted interface matches`() {
+        val interfaces = UsbDeviceFixtures.idleGadgetUnlisted.interfaces
+        assertFalse(matches(Device(0x18D1, 0x4EE2, 0x00, interfaces)))
+        assertFalse(matches(Device(0x18D1, 0x2D04, 0x00, interfaces)))
     }
 
     @Test
