@@ -33,6 +33,8 @@ class SocketProjectionConnection(
     // Socket#isConnected might return true, even if server has closed the connection
     // Only way to capture it is to check for exceptions, E.g. "SocketException: Broken pipe"
     private var transportBroken: Boolean = false
+    // Last timeout set on this socket; each set is a system call, so equal values are skipped.
+    private var appliedReadTimeout = -1
     // Only true for genuine Nearby tunnels, where the handshake's AA-16.4+ settle delay
     // and stale-byte drain must be skipped because every byte from the start matters.
     // Regular WirelessServer-accepted sockets (Hotspot/WiFi Direct/Headunit Server) and
@@ -194,6 +196,7 @@ class SocketProjectionConnection(
             // power-save wakes, and bufferbloat. 1s was causing readFully to timeout
             // mid-header, desynchronizing the stream ("Failed to read full header").
             transport.soTimeout = 10000
+            appliedReadTimeout = 10000
             applyLowLatencySocketOptions(beforeConnect = false)
             // Raw DataInputStream — no BufferedInputStream wrapper.
             // BufferedInputStream + readFully + timeout = internal buffer state corruption.
@@ -240,7 +243,9 @@ class SocketProjectionConnection(
         return try {
             // Dynamically apply the caller's timeout so handshake (short timeouts)
             // and streaming (long timeouts) both work correctly on the same socket.
-            try { transport.soTimeout = timeout } catch (_: Exception) {}
+            if (timeout != appliedReadTimeout) {
+                try { transport.soTimeout = timeout; appliedReadTimeout = timeout } catch (_: Exception) {}
+            }
             if (readFully) {
                 inp.readFully(buf, 0, length)
                 length
