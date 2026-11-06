@@ -28,6 +28,15 @@ internal object UsbDeviceFixtures {
     )
 
     /**
+     * A dongle idling on the AOSP default MTP identity with an interface no rule knows. The triple
+     * is a stand-in, because no capture of a real one exists.
+     */
+    val idleGadgetUnlisted = Device(
+        vendorId = 0x18D1, productId = 0x4EE1, deviceClass = 0x00,
+        interfaces = listOf(Interface(0xFF, 0x00, 0x00, hasBulkIn = true, hasBulkOut = true)),
+    )
+
+    /**
      * The same adapter's other form, seconds apart in the same capture: one vendor configuration,
      * one unnamed interface, no CDC anywhere. Only the device class is left to judge it on.
      */

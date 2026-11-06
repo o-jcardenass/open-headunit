@@ -47,6 +47,8 @@ object UsbDeviceIdentityPolicy {
     private const val CARLINKIT_VID = 0x1314
     private const val CARLINKIT_OWN_PROTOCOL_PID = 0x1520
     private const val GOOGLE_VID = 0x18D1
+    /** The AOSP default MTP identity, which wireless dongles idle on before the AOA switch. */
+    private const val IDLE_GADGET_PID = 0x4EE1
 
     /**
      * The four accessory PIDs that carry an accessory interface, matching AOSP's own
@@ -118,6 +120,12 @@ object UsbDeviceIdentityPolicy {
             if (isVendorClass(iface) && iface.hasBulkIn && iface.hasBulkOut) {
                 return accessoryVerdict(device, iface)
             }
+        }
+
+        // Only an Android gadget carries this identity, so the AOA probe decides, not the interface.
+        // A rule above still wins, so a listed interface keeps its verdict and an adapter stays vetoed.
+        if (device.vendorId == GOOGLE_VID && device.productId == IDLE_GADGET_PID) {
+            return Verdict(true, "idle Android gadget")
         }
 
         // A device whose interfaces are only a CDC-ACM pair is a serial port: a vendor dongle's own
