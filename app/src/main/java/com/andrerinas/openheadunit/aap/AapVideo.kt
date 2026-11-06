@@ -44,7 +44,6 @@ internal class AapVideo(private val videoDecoder: VideoDecoder, private val sett
      * - so start small and let a frame that does not fit be the thing that asks for more.
      */
     private var messageBuffer = ByteBuffer.allocate(INITIAL_BUFFER_BYTES)
-    private var legacyAssembledBuffer: ByteArray? = null
     private var lastKeyframeRequestMs = 0L
     private var lastAnomalyReportMs = 0L
 
@@ -353,15 +352,7 @@ internal class AapVideo(private val videoDecoder: VideoDecoder, private val sett
                     return true
                 }
 
-                if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    if (legacyAssembledBuffer == null || legacyAssembledBuffer!!.size < assembledSize) {
-                        legacyAssembledBuffer = ByteArray(assembledSize + 1024)
-                    }
-                    messageBuffer.get(legacyAssembledBuffer!!, 0, assembledSize)
-                    videoDecoder.decode(legacyAssembledBuffer!!, 0, assembledSize, settings.forceSoftwareDecoding, announcedCodec)
-                } else {
-                    videoDecoder.decode(messageBuffer.array(), 0, assembledSize, settings.forceSoftwareDecoding, announcedCodec)
-                }
+                videoDecoder.decode(messageBuffer.array(), 0, assembledSize, settings.forceSoftwareDecoding, announcedCodec)
 
                 messageBuffer.clear()
                 true
