@@ -23,6 +23,9 @@
     <usb-device vendor-id="6353" product-id="11520" />  <!-- 0x18D1:0x2D00 accessory -->
     <usb-device vendor-id="6353" product-id="11521" />  <!-- 0x18D1:0x2D01 accessory + ADB -->
 
+    <!-- Idle wireless dongle, before the AOA switch. Its interface need not match a triple below. -->
+    <usb-device vendor-id="6353" product-id="20193" />  <!-- 0x18D1:0x4EE1 Android gadget default -->
+
     <!--
         Vendor class. This is the accessory interface, and also how modern Android presents MTP,
         so it is what catches a phone in charging-only or file-transfer mode. It is the loosest
