@@ -242,6 +242,7 @@ object SettingsBackupManager {
         "media-volume-offset" to ValueType.INT,
         "assistant-volume-offset" to ValueType.INT,
         "navigation-volume-offset" to ValueType.INT,
+        "speed-volume" to ValueType.BOOLEAN,
         "night-mode-manual-start" to ValueType.INT,
         "night-mode-manual-end" to ValueType.INT,
         "app-theme-threshold-lux" to ValueType.INT,

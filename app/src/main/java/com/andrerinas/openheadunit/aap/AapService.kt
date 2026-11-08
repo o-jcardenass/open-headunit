@@ -71,7 +71,13 @@ import com.andrerinas.openheadunit.utils.DummyVpnPolicy
 import com.andrerinas.openheadunit.utils.ToastUtils
 import com.andrerinas.openheadunit.aap.protocol.messages.NightModeEvent
 import com.andrerinas.openheadunit.aap.protocol.proto.MediaPlayback
+import com.andrerinas.openheadunit.decoder.audio.AudioManagerVolumePort
+import com.andrerinas.openheadunit.decoder.audio.AudioStreamCatalog
 import com.andrerinas.openheadunit.decoder.audio.MicRecorder
+import com.andrerinas.openheadunit.decoder.audio.PrefsLevelStore
+import com.andrerinas.openheadunit.decoder.audio.SessionSnapshot
+import com.andrerinas.openheadunit.decoder.audio.SpeedSource
+import com.andrerinas.openheadunit.decoder.audio.SpeedVolumeController
 import com.andrerinas.openheadunit.connection.AutoConnectHoldPolicy
 import com.andrerinas.openheadunit.connection.CommManager
 import com.andrerinas.openheadunit.connection.ConnectionArbiter
@@ -88,6 +94,7 @@ import com.andrerinas.openheadunit.connection.usb.UsbDeviceCompat
 import com.andrerinas.openheadunit.connection.usb.UsbLinkLossRecheckPolicy
 import com.andrerinas.openheadunit.connection.usb.UsbReceiver
 import com.andrerinas.openheadunit.location.GpsLocationService
+import com.andrerinas.openheadunit.location.LocationHolder
 import com.andrerinas.openheadunit.utils.LocaleHelper
 import com.andrerinas.openheadunit.utils.LogExporter
 import com.andrerinas.openheadunit.utils.NightModeManager
@@ -242,6 +249,12 @@ class AapService : Service() {
         )
     }
     private val settings: Settings by lazy { App.provide(this).settings }
+    private val speedAudioManager by lazy { getSystemService(Context.AUDIO_SERVICE) as android.media.AudioManager }
+    private val speedVolume by lazy {
+        SpeedVolumeController(AudioManagerVolumePort(speedAudioManager), SpeedSource {
+            LocationHolder.currentGpsFix(this, 5_000)?.takeIf { it.hasSpeed() }?.let { it.speed * 3.6f }
+        }, PrefsLevelStore(this))
+    }
     private val mediaNotification by lazy { BackgroundNotification(this) }
 
     /** Last `NetworkCallback.onAvailable` we acted on, for the debounce in [registerNetworkMonitor]. */
@@ -1605,6 +1618,16 @@ class AapService : Service() {
         AppLog.i("AapService: Starting GpsLocationService and NightModeManager since connection is established")
         startService(GpsLocationService.intent(this))
         nightModeManager?.start()
+        // The stream and sink flag are read once, as AapAudio reads them, and hold for the session.
+        val audioConfig = AudioSessionConfig.from(settings)
+        speedVolume.start(
+            SessionSnapshot(
+                AudioStreamCatalog.sanitize(speedAudioManager, audioConfig.mediaStream),
+                audioConfig.enabled,
+                settings.speedVolumeEnabled
+            ),
+            serviceScope
+        )
 
         serviceScope.launch { commManager.startHandshake() }
     }
@@ -1948,6 +1971,7 @@ class AapService : Service() {
         // Stop GpsLocationService and NightModeManager sensor tracking
         AppLog.i("AapService: Stopping GpsLocationService and NightModeManager since connection is disconnected")
         stopService(GpsLocationService.intent(this))
+        speedVolume.stop()
         nightModeManager?.stop()
 
         carKeysManager.onSessionEnded()
@@ -3553,6 +3577,7 @@ class AapService : Service() {
         commManager.destroy()
         nightModeManager?.stop()
         stopService(GpsLocationService.intent(this))
+        speedVolume.stop()
         try {
             unregisterReceiver(nightModeUpdateReceiver)
             unregisterReceiver(sensorRefreshReceiver)

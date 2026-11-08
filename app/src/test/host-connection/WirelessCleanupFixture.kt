@@ -113,7 +113,7 @@ class Service {
     fun launchWiredSessionRearm() {}
     var isDestroying=false; var userExitedAA=false; var userExitCooldownUntil=0L
     val USER_EXIT_COOLDOWN_MS=5000L
-    val usbLauncherManager=UnitManager(); val nightModeManager: UnitManager?=UnitManager(); val carKeysManager=UnitManager()
+    val usbLauncherManager=UnitManager(); val nightModeManager: UnitManager?=UnitManager(); val carKeysManager=UnitManager(); val speedVolume=UnitManager()
     var autoResumePlaybackJob: Job?=null; var mediaMetadataDecodeJob: Job?=null
     var lastAaMediaMetadata: Any?=null; var lastAaPlaybackPositionMs=0L; var lastAaPlaybackIsPlaying: Boolean?=null
     var cachedAaAlbumArtBitmap: Any?=null

@@ -1956,4 +1956,6 @@
     <string name="pairing_done">Paired. The phone now shows in the device lists. If Home hides it, use \"Show all Bluetooth devices\". Then open Android Auto on the phone and tap this unit.</string>
     <string name="pairing_offer_no_phone">No paired phone was found. Pair one now?</string>
     <string name="pairing_offer_bluetooth_off">Bluetooth is off. Pair a phone now?</string>
+    <string name="speed_volume_label">Raise volume with speed</string>
+    <string name="speed_volume_summary">Needs GPS and Location. Works with a phone connected. Applies next connection.</string>
 </resources>

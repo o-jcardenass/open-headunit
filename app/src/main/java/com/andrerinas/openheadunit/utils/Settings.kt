@@ -1782,6 +1782,11 @@ class Settings(private val context: Context) {
         get() = prefs.getBoolean("show-home-speed", false)
         set(value) { prefs.edit().putBoolean("show-home-speed", value).apply() }
 
+    /** Raises the media volume with speed during a session. Read once when the session starts. */
+    var speedVolumeEnabled: Boolean
+        get() = prefs.getBoolean("speed-volume", false)
+        set(value) { prefs.edit().putBoolean("speed-volume", value).apply() }
+
     /** The widgets shown under the main button, in order. See [HomeWidgetsPolicy]. */
     var homeWidgets: List<Int>
         get() = HomeWidgetsPolicy.decode(prefs.getString("home-widgets", "") ?: "")

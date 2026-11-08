@@ -1,12 +1,19 @@
 package com.andrerinas.openheadunit.main
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.media.AudioManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +28,7 @@ import com.andrerinas.openheadunit.utils.ToastUtils
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 
 /**
  * Which system stream each Android Auto audio channel plays on.
@@ -42,9 +50,55 @@ class AudioStreamSettingsFragment : Fragment() {
     private var pendingMediaAudioStream: Int? = null
     private var pendingGuidanceAudioStream: Int? = null
     private var pendingSystemAudioStream: Int? = null
+    private var pendingSpeedVolume: Boolean? = null
 
     private var hasChanges = false
     private val SAVE_ITEM_ID = 1001
+
+    /** The switch reads this unit's GPS speed, so turning it on waits for precise location. */
+    private val locationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { result ->
+        val granted = result[Manifest.permission.ACCESS_FINE_LOCATION] == true
+        val canAskAgain = !granted && (
+            result[Manifest.permission.ACCESS_COARSE_LOCATION] == true ||
+                shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)
+            )
+        when (SpeedPermissionPolicy.afterRequest(granted, canAskAgain)) {
+            SpeedPermissionPolicy.Outcome.SHOW_SPEED -> Unit
+            SpeedPermissionPolicy.Outcome.EXPLAIN -> {
+                pendingSpeedVolume = false
+                ToastUtils.showToast(requireContext(), R.string.home_speed_needs_location, Toast.LENGTH_LONG, force = true)
+            }
+            SpeedPermissionPolicy.Outcome.OPEN_APP_SETTINGS -> {
+                pendingSpeedVolume = false
+                showLocationBlockedNotice()
+            }
+        }
+        checkChanges()
+        updateSettingsList()
+    }
+
+    private fun showLocationBlockedNotice() {
+        val root = view ?: return
+        Snackbar.make(root, R.string.home_speed_location_blocked, Snackbar.LENGTH_LONG)
+            .setAction(R.string.open_settings) {
+                try {
+                    startActivity(Intent(
+                        android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                        Uri.parse("package:${requireContext().packageName}")
+                    ))
+                } catch (e: Exception) {
+                    ToastUtils.showToast(context, R.string.cannot_open_settings, Toast.LENGTH_SHORT, force = true)
+                }
+            }
+            .show()
+    }
+
+    private fun fineLocationGranted(): Boolean =
+        Build.VERSION.SDK_INT < Build.VERSION_CODES.M ||
+            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) ==
+            PackageManager.PERMISSION_GRANTED
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_audio_stream_settings, container, false)
@@ -59,6 +113,7 @@ class AudioStreamSettingsFragment : Fragment() {
         pendingMediaAudioStream = settings.mediaAudioStream
         pendingGuidanceAudioStream = settings.guidanceAudioStream
         pendingSystemAudioStream = settings.systemAudioStream
+        pendingSpeedVolume = settings.speedVolumeEnabled
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -120,6 +175,7 @@ class AudioStreamSettingsFragment : Fragment() {
         pendingMediaAudioStream?.let { if (it != settings.mediaAudioStream) settings.mediaAudioStream = it }
         pendingGuidanceAudioStream?.let { if (it != settings.guidanceAudioStream) settings.guidanceAudioStream = it }
         pendingSystemAudioStream?.let { if (it != settings.systemAudioStream) settings.systemAudioStream = it }
+        pendingSpeedVolume?.let { if (it != settings.speedVolumeEnabled) settings.speedVolumeEnabled = it }
 
         settings.commit()
         val manager = App.provide(requireContext()).commManager
@@ -138,7 +194,8 @@ class AudioStreamSettingsFragment : Fragment() {
         hasChanges = pendingSeparateAudioStreams != settings.separateAudioStreams ||
                 pendingMediaAudioStream != settings.mediaAudioStream ||
                 pendingGuidanceAudioStream != settings.guidanceAudioStream ||
-                pendingSystemAudioStream != settings.systemAudioStream
+                pendingSystemAudioStream != settings.systemAudioStream ||
+                pendingSpeedVolume != settings.speedVolumeEnabled
 
         updateSaveButtonState()
     }
@@ -185,6 +242,22 @@ class AudioStreamSettingsFragment : Fragment() {
                 if (separate) R.string.audio_channel_media else R.string.audio_channel_all_short),
             current = { pendingMediaAudioStream ?: AudioManager.STREAM_MUSIC },
             onPicked = { pendingMediaAudioStream = it }
+        ))
+
+        items.add(SettingItem.ToggleSettingEntry(
+            stableId = "speedVolume",
+            nameResId = R.string.speed_volume_label,
+            descriptionResId = R.string.speed_volume_summary,
+            isChecked = pendingSpeedVolume ?: false,
+            onCheckedChanged = { isChecked ->
+                pendingSpeedVolume = isChecked
+                checkChanges()
+                if (isChecked && !fineLocationGranted()) {
+                    locationPermissionLauncher.launch(
+                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+                    )
+                }
+            }
         ))
 
         // With separate streams off every channel plays on the media stream, so offering the other
