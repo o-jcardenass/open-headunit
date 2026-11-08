@@ -365,6 +365,11 @@ class WifiLauncherNative : WifiLauncher {
         if (strategy == NativeStrategy.HOTSPOT) null
         else manager.sharedServices.wifiDirectManager?.isCreatingGroup
 
+    /** SSL is done on a wireless session: the handshake's phone is learned. */
+    fun onSessionSecured() {
+        handshakeManager?.onSessionSecured()
+    }
+
     /**
      * A projection session has landed. The wake poke has nothing left to do, and a P2P group
      * that carried a wireless session is proven joinable. A wired session proves nothing about
