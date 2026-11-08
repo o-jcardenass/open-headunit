@@ -103,4 +103,11 @@ object WakePlanPolicy {
     /** Whether a handshake link closing means [awaiting] failed before any session formed. */
     fun failedBeforeSession(awaiting: String?, linkPeer: String?, abortedLocally: Boolean, sessionUp: Boolean): Boolean =
         awaiting != null && awaiting.equals(linkPeer, ignoreCase = true) && !abortedLocally && !sessionUp
+
+    /** The list after the picker: kept phones keep their order, added phones go to the end. */
+    fun edited(current: List<String>, chosen: Set<String>): List<String> {
+        val kept = current.filter { mac -> chosen.any { it.equals(mac, ignoreCase = true) } }
+        val added = chosen.filter { mac -> kept.none { it.equals(mac, ignoreCase = true) } }
+        return (kept + added).distinctBy { it.uppercase() }
+    }
 }
