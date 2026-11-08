@@ -418,6 +418,16 @@ class AutoStartFragment : Fragment() {
             ))
         }
 
+        if (PairingFragment.entryAvailable(requireContext())) {
+            items.add(SettingItem.SettingEntry(
+                stableId = "pairNewPhone",
+                nameResId = R.string.pairing_entry_label,
+                descriptionResId = R.string.pairing_entry_summary,
+                value = "",
+                onClick = { _ -> findNavController().navigate(R.id.pairingFragment) }
+            ))
+        }
+
         items.add(SettingItem.SettingEntry(
             stableId = "autoStartBt",
             nameResId = R.string.auto_start_bt_label,
