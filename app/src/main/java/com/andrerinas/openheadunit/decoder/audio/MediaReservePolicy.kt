@@ -14,6 +14,9 @@ internal class MediaReservePolicy(private val sampleRate: Int) {
     private var lastStallMs = -1L
     private var lastReleaseMs = -1L
 
+    /** True while repeating stalls keep the reserve, before its release starts. */
+    fun isHolding(nowMs: Long) = heldFrames > 0 && nowMs - lastStallMs < HOLD_MS
+
     fun onStarved(nowMs: Long, targetFrames: Int) {
         learnUntilMs = nowMs + LEARN_MS
         lastStallMs = nowMs

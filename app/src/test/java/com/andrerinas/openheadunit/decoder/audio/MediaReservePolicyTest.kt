@@ -105,4 +105,13 @@ class MediaReservePolicyTest {
         p.onArrival(1500)
         assertEquals(0, p.heldFrames)
     }
+
+    @Test fun `a learned reserve is holding until no stall comes for the hold`() {
+        val p = MediaReservePolicy(48000)
+        assertEquals(false, p.isHolding(1000))
+        p.onStarved(1000, ms(400))
+        p.onArrival(1500)
+        assertEquals(true, p.isHolding(1000 + MediaReservePolicy.HOLD_MS - 1))
+        assertEquals(false, p.isHolding(1000 + MediaReservePolicy.HOLD_MS))
+    }
 }
