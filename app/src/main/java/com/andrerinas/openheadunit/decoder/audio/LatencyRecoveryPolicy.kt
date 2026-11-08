@@ -23,7 +23,8 @@ internal class LatencyRecoveryPolicy(private val sampleRate: Int) {
 
     fun observe(nowMs: Long, target: Int, packetFrames: Int, slack: Int, depth: Int,
                 inputFrames: Long, canRecover: Boolean = true) {
-        val newBudget = (target.toLong() + slack).coerceIn(0, sampleRate.toLong()).toInt()
+        // A stall reserve can hold the target near 2 s. A 1 s cap would trim that reserve as backlog.
+        val newBudget = (target.toLong() + slack).coerceIn(0, sampleRate.toLong() * AdaptivePcmBuffer.CAPACITY_MS / 1000).toInt()
         if (target > previousTarget) debt = 0
         else debt = (debt + previousTarget - target).coerceAtMost(sampleRate)
         if (target != previousTarget || packetFrames != previousPacket || newBudget != budget ||

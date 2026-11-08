@@ -22,6 +22,8 @@ internal class AdaptivePcmBuffer(
     private var endingFrames = 0
     private val policy = AdaptiveJitterPolicy(sampleRate, latencyMultiplier)
     private val recovery = LatencyRecoveryPolicy(sampleRate)
+    // Kept across reset: a scanning radio is a property of the unit, not of one stream.
+    private val stalls = StallReservePolicy()
     private val overlap = PcmOverlap(optimized = true)
     private var recoveryDeferrals = 0
     private val prerollDeadlineMs = maxOf(100L, AudioJitterBufferPolicy.targetMsFor(latencyMultiplier) + 50)
@@ -206,6 +208,7 @@ internal class AdaptivePcmBuffer(
     // All sources share the same delivery, overflow and segment accounting.
     private inline fun writeFrom(aligned: Int, nowMs: Long, copy: (Int, Int, Int) -> Unit) {
         if (aligned == 0) return
+        if (isMediaSink && !ended && lastPcmMs >= 0) stalls.onSupplyGap(nowMs, nowMs - lastPcmMs)
         lastPcmMs = nowMs
         if (closedPrefixSamples >= 0 && nextSegmentFirstDataMs < 0) nextSegmentFirstDataMs = nowMs
         if (!ended) policy.onPcmDelivery(nowMs, aligned / channels)
@@ -257,7 +260,10 @@ internal class AdaptivePcmBuffer(
         lastRenderRealFrames = 0
         require(out.size >= cycleSamples)
         java.util.Arrays.fill(out, 0, cycleSamples, 0.toShort())
-        val target = playbackTargetFrames()
+        stalls.release(nowMs)
+        // The catch-up after a stall can take seconds. A preroll that waits for the stall
+        // reserve stacks that catch-up on top of it, so only recovery honours the reserve.
+        val target = playbackTargetFrames(withStallReserve = false)
         val waitMs = prerollWaitMs(target)
         if (closedPrefixSamples >= 0 &&
             ((count - closedPrefixSamples) / channels >= target ||
@@ -293,7 +299,7 @@ internal class AdaptivePcmBuffer(
         val outputSlack = (outputBurstFrames - cycleFrames).coerceAtLeast(0)
         val slack = maxOf(sampleRate * 30 / 1000, policy.largestChunkFrames - cycleFrames + outputSlack)
         val canRecover = !nativeTimeCorrection && !ended && !drainingPrefix && gapFrames == 0 && !needsFade
-        recovery.observe(nowMs, target, policy.largestChunkFrames, slack, count / channels,
+        recovery.observe(nowMs, playbackTargetFrames(), policy.largestChunkFrames, slack, count / channels,
             inputFrames, canRecover)
         // A late decoder batch is still playable PCM, even at a fixed latency setting.
         // Only write-side physical overflow may discard whole frames. Sustained excess
@@ -451,13 +457,14 @@ internal class AdaptivePcmBuffer(
         return frames
     }
 
-    private fun playbackTargetFrames(): Int {
+    private fun playbackTargetFrames(withStallReserve: Boolean = true): Int {
         // Hold 120ms for the first ten seconds of music, then release 5ms per played second.
         // LatencyRecoveryPolicy repays each small reduction with its existing 1ms overlaps;
         // removing the whole reserve at once would trigger a stale-PCM trim and an audible skip.
         val releaseSteps = (startupFramesPlayed / sampleRate - 10).coerceAtLeast(0)
         val startupMs = if (isMediaSink) (120L - releaseSteps * 5).coerceAtLeast(0) else 0L
-        return maxOf(policy.targetFrames, (startupMs * sampleRate / 1000).toInt())
+        val holdMs = if (withStallReserve) maxOf(startupMs, stalls.reserveMs) else startupMs
+        return maxOf(policy.targetFrames, (holdMs * sampleRate / 1000).toInt())
     }
 
     private fun discard(samples: Int) {
