@@ -306,4 +306,9 @@
         android:id="@+id/wifiScanSettingsFragment"
         android:name="com.andrerinas.openheadunit.connection.wifi.scan.WifiScanSettingsFragment"
         android:label="@string/wifi_scan_title" />
+
+    <fragment
+        android:id="@+id/pairingFragment"
+        android:name="com.andrerinas.openheadunit.main.PairingFragment"
+        android:label="@string/pairing_title" />
 </navigation>

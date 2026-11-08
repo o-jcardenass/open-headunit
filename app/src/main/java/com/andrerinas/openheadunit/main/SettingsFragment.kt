@@ -150,7 +150,7 @@ class SettingsFragment : Fragment() {
         // "What is my head unit's WiFi password" is an everyday question, not an Advanced one.
         "wifiDirectLastNetwork", "wifiDirectGroupIdentity",
         // Which phone Native AA wakes: the first thing to set when two phones share the car.
-        "nativePokeBt", "nativePokeAllPaired",
+        "pairNewPhone", "nativePokeBt", "nativePokeAllPaired",
         // Which Bluetooth the phone pairs with, and the ESP32 relay page it leads to once chosen.
         "bluetoothLink", "Esp32Relay",
         "hotspotInterfaceOverride",
@@ -4422,6 +4422,16 @@ class SettingsFragment : Fragment() {
                             preferredDevicePermissionLauncher.launch(android.Manifest.permission.BLUETOOTH_CONNECT)
                         }
                     }
+                ))
+            }
+
+            if (PairingFragment.entryAvailable(requireContext())) {
+                items.add(SettingItem.SettingEntry(
+                    stableId = "pairNewPhone",
+                    nameResId = R.string.pairing_entry_label,
+                    descriptionResId = R.string.pairing_entry_summary,
+                    value = "",
+                    onClick = { _ -> findNavController().navigate(R.id.pairingFragment) }
                 ))
             }
 

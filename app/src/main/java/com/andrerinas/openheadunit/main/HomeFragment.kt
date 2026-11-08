@@ -2595,6 +2595,10 @@ class HomeFragment : Fragment() {
 
         if (adapter == null || !adapter.isEnabled) {
             if (adapter == null && BluetoothDevicePicker.showManufacturerDevices(requireContext())) return
+            if (PairingFragment.entryAvailable(requireContext())) {
+                showPairingOffer(R.string.pairing_offer_bluetooth_off)
+                return
+            }
             ToastUtils.showToast(requireContext(), getString(R.string.bt_not_enabled), Toast.LENGTH_SHORT, force = true)
             return
         }
@@ -2606,6 +2610,10 @@ class HomeFragment : Fragment() {
         val bondedDevices = cands.all.map { it.device }
         if (bondedDevices.isEmpty()) {
             if (BluetoothDevicePicker.showManufacturerDevices(requireContext(), cands.inventory)) return
+            if (PairingFragment.entryAvailable(requireContext())) {
+                showPairingOffer(R.string.pairing_offer_no_phone)
+                return
+            }
             ToastUtils.showToast(requireContext(), "No paired Bluetooth devices found", Toast.LENGTH_SHORT, force = true)
             return
         }
@@ -2761,14 +2769,21 @@ class HomeFragment : Fragment() {
             ContextCompat.startForegroundService(requireContext(), cancelIntent)
         }
 
-        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.DarkAlertDialog)
+        val dialogBuilder = MaterialAlertDialogBuilder(requireContext(), R.style.DarkAlertDialog)
             .setTitle(R.string.driver_selection_dialog_title)
             .setView(dialogView)
             .setNegativeButton(R.string.cancel) { d, _ ->
                 cancelDriverSelection()
                 d.dismiss()
             }
-            .create()
+        if (PairingFragment.entryAvailable(requireContext())) {
+            dialogBuilder.setNeutralButton(R.string.pairing_entry_label) { d, _ ->
+                cancelDriverSelection()
+                d.dismiss()
+                if (isAdded) PairingFragment.open(requireContext())
+            }
+        }
+        val dialog = dialogBuilder.create()
 
         dialog.setOnCancelListener {
             cancelDriverSelection()
@@ -2859,6 +2874,22 @@ class HomeFragment : Fragment() {
             }
         }
 
+        activeDialog = dialog
+        dialog.show()
+    }
+
+    /** Offers the pairing screen where Home would otherwise only toast. */
+    private fun showPairingOffer(@androidx.annotation.StringRes message: Int) {
+        if (!isAdded) return
+        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.DarkAlertDialog)
+            .setTitle(R.string.pairing_title)
+            .setMessage(message)
+            .setPositiveButton(R.string.pairing_entry_label) { _, _ ->
+                if (isAdded) PairingFragment.open(requireContext())
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .create()
+        dialog.setOnDismissListener { if (activeDialog === dialog) activeDialog = null }
         activeDialog = dialog
         dialog.show()
     }
