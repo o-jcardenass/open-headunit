@@ -332,8 +332,8 @@ class NativeAaHandshakeManager(
     // Whether any poke pass this arming was stood down over a hands-free link. Only those armings
     // count towards re-measuring a DESTRUCTIVE verdict; one the phone never reached says nothing.
     @Volatile private var standDownReachedThisArming = false
-    // The chosen wake targets last reported as not phones, so the line prints on a change only.
-    @Volatile private var droppedPokeTargetsLogged: Set<String>? = null
+    // The wake plan last stated, so the INFO line prints on a change only.
+    @Volatile private var wakePlanLogged: String? = null
     // When this manager last closed a socket to each phone, so a Bluetooth loss that follows one
     // can be told apart from the phone leaving. See BtAutoDisconnectPolicy.
     private val ownSocketCloseAt = ConcurrentHashMap<String, Long>()
@@ -466,6 +466,8 @@ class NativeAaHandshakeManager(
     @Volatile private var selectionTargetSetAt = 0L
     /** Whether the user picked that phone, and what its wake rounds have shown since. */
     @Volatile private var chosenExplicit = false
+    /** Whether that pick came from outside the selector (the WiFi button, a task), not the driver. */
+    @Volatile private var chosenFromPlan = false
     @Volatile private var chosenWakeAnswered = false
     @Volatile private var chosenWakeUnanswered = false
     /** The phone a driver switch moved away from, refused until somebody is chosen. */
@@ -482,6 +484,7 @@ class NativeAaHandshakeManager(
         pendingSelectionTargetMac = null
         selectionTargetSetAt = 0L
         chosenExplicit = false
+        chosenFromPlan = false
         chosenWakeAnswered = false
         chosenWakeUnanswered = false
     }
@@ -489,11 +492,11 @@ class NativeAaHandshakeManager(
     /**
      * Targets a specific driver device, ending the prompt window and waking only that device.
      */
-    fun selectDriver(mac: String, explicit: Boolean) {
+    fun selectDriver(mac: String, explicit: Boolean, fromPlan: Boolean = false) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             (moduleCarrier as? HctWppOwner.Client)?.let { carrier ->
                 val accepted = carrier.requestWakeFor(mac, allowReplacePending = explicit) {
-                    commitDriverSelection(mac, explicit)
+                    commitDriverSelection(mac, explicit, fromPlan)
                     wakeStoodDown = false
                     sessionEndedAt = 0L
                     resetHandshakeBackoff()
@@ -510,11 +513,11 @@ class NativeAaHandshakeManager(
                 return
             }
         }
-        commitDriverSelection(mac, explicit)
+        commitDriverSelection(mac, explicit, fromPlan)
         manualPoke(mac)
     }
 
-    private fun commitDriverSelection(mac: String, explicit: Boolean) {
+    private fun commitDriverSelection(mac: String, explicit: Boolean, fromPlan: Boolean) {
         AppLog.i("NativeAA: Driver selected: $mac (${if (explicit) "explicit" else "automatic"} pick)")
         clearSelectionPrompt()
         isSelectionCanceled = false
@@ -522,8 +525,19 @@ class NativeAaHandshakeManager(
         pendingSelectionTargetMac = mac
         selectionTargetSetAt = SystemClock.elapsedRealtime()
         chosenExplicit = explicit
+        chosenFromPlan = fromPlan
         chosenWakeAnswered = false
         chosenWakeUnanswered = false
+        // Heads the learned phones on this unit's own radio, so the next loop pass starts with it.
+        if (explicit && moduleCarrier == null) {
+            if (WakePlanPolicy.learnsExplicitPick(unpinnedVerdict(mac), fromPlan)) {
+                settings.nativeLearnedPhones = WakePlanPolicy.movedToFront(settings.nativeLearnedPhones, mac)
+            } else if (fromPlan) {
+                AppLog.i("NativeAA: ${deviceLabel(mac)} is not learned before a session: the driver did not pick it in the selector.")
+            } else {
+                AppLog.i("NativeAA: ${deviceLabel(mac)} is not learned: its records do not say phone.")
+            }
+        }
         // The switch-away stamps survive the pick: choosing a driver does not authorize
         // the phone just left to reconnect immediately.
         clearGateRefusals()
@@ -1699,10 +1713,14 @@ class NativeAaHandshakeManager(
     fun msSinceOwnSocketClose(mac: String): Long? =
         ownSocketCloseAt[mac.uppercase()]?.let { SystemClock.elapsedRealtime() - it }
 
-    private fun classifyChosen(device: BluetoothDevice): DriverCandidatePolicy.Verdict =
-        BluetoothHelper.classifyDevice(
-            device, BluetoothHelper.pinFor(device, settings.nativePreferredDeviceMac, settings.lastConnectedNativeMac)
-        ).verdict
+    /** The verdict on [mac] from its own records, with no stored MAC vouching for it. */
+    private fun unpinnedVerdict(mac: String): DriverCandidatePolicy.Verdict = try {
+        BluetoothHelper.getBluetoothAdapter(context)?.getRemoteDevice(mac)
+            ?.let { BluetoothHelper.classifyDevice(it, DriverCandidatePolicy.Pin.NONE).verdict }
+            ?: DriverCandidatePolicy.Verdict.UNKNOWN
+    } catch (_: Exception) {
+        DriverCandidatePolicy.Verdict.UNKNOWN
+    }
 
     /** "name (mac)" for a log line; the name is blank when the adapter does not know the address. */
     private fun deviceLabel(mac: String): String {
@@ -1710,26 +1728,44 @@ class NativeAaHandshakeManager(
         return "${name ?: "unnamed"} ($mac)"
     }
 
-    /** The chosen addresses that are not phones, read the way the poke loop reads them. */
-    private fun notPhonesAmong(macs: Set<String>): Set<String> {
-        val adapter = try { BluetoothHelper.getBluetoothAdapter(context) } catch (_: Exception) { null } ?: return emptySet()
-        return macs.filterTo(mutableSetOf()) { mac ->
-            try { classifyChosen(adapter.getRemoteDevice(mac)) == DriverCandidatePolicy.Verdict.NOT_A_PHONE }
-            catch (_: Exception) { false }
+    /** The wake plan for this moment; an explicit pick heads it while it stands. */
+    private fun currentWakePlan(candidates: BluetoothHelper.DriverCandidates): WakePlanPolicy.WakePlan =
+        WakePlanPolicy.plan(
+            phonesList = settings.nativePhonesList,
+            onlyListed = settings.nativeOnlyListedPhones,
+            learned = settings.nativeLearnedPhones,
+            explicitPick = if (chosenExplicit) pendingSelectionTargetMac else null,
+            linked = candidates.connectedOffered.map { it.address }.toSet(),
+            phones = candidates.offered.map { it.address },
+            backedOffUntil = WakeBackoffs.snapshot(),
+            now = SystemClock.elapsedRealtime()
+        )
+
+    /** State the plan once per composition, then at debug: the loop asks again every pass. */
+    private fun noteWakePlan(plan: WakePlanPolicy.WakePlan, candidates: BluetoothHelper.DriverCandidates) {
+        val backedOff = WakeBackoffs.snapshot()
+        val now = SystemClock.elapsedRealtime()
+        val names = plan.order.joinToString { mac ->
+            "${candidates.deviceFor(mac)?.name ?: "unnamed"} ($mac)"
+        }
+        val line = "NativeAA: wake plan: $names; listed ${settings.nativePhonesList.size}, " +
+            "only listed ${settings.nativeOnlyListedPhones}, learned ${settings.nativeLearnedPhones.size}, " +
+            "linked ${candidates.connectedOffered.size}, " +
+            "backed off ${plan.order.count { WakePlanPolicy.isBackedOff(it, backedOff, now) }}"
+        if (line != wakePlanLogged) {
+            wakePlanLogged = line
+            AppLog.i(line)
+        } else {
+            AppLog.d(line)
         }
     }
 
-    /** Say which chosen targets are skipped as not phones, once per composition, then at debug. */
-    private fun noteDroppedPokeTargets(dropped: Set<String>, chosen: Map<String, BluetoothDevice>) {
-        if (dropped.isEmpty()) return
-        val named = dropped.joinToString { mac -> "${chosen[mac]?.name ?: "unnamed"} ($mac)" }
-        val message = "NativeAA: not poking $named: chosen for Auto Start but not a phone, and a car " +
-            "or headset cannot start Android Auto. Every paired phone is poked instead when that is on."
-        if (dropped != droppedPokeTargetsLogged) {
-            droppedPokeTargetsLogged = dropped
-            AppLog.i(message)
-        } else {
-            AppLog.d(message)
+    /** A round the phone did not answer backs it off; an answer clears it. A stand-down says nothing. */
+    private fun noteWakeOutcome(mac: String, outcome: BluetoothWakePolicy.WakeOutcome) {
+        when (outcome) {
+            BluetoothWakePolicy.WakeOutcome.DIALLED -> WakeBackoffs.noteUnanswered(mac, SystemClock.elapsedRealtime())
+            BluetoothWakePolicy.WakeOutcome.ANSWERED -> WakeBackoffs.clear(mac)
+            else -> {}
         }
     }
 
@@ -2482,72 +2518,34 @@ class NativeAaHandshakeManager(
                 // Two questions, two answers. Skipping a poke is retried seconds later; forgetting
                 // a MAC is permanent, so it needs evidence the device is really gone rather than an
                 // adapter that happened to be off. Both are in the policy.
-                val selectedMacs = settings.nativePokeBtMacs
-                val learnedMacs = settings.nativeLearnedPhones
                 val manufacturerPairing = BluetoothPeerDiscovery.manufacturerInventory(context)
-                val chosen = LinkedHashMap<String, BluetoothDevice>()
-                val notPhones = mutableSetOf<String>()
-                val staleMacs = mutableSetOf<String>()
-                val staleLearned = mutableSetOf<String>()
-                (selectedMacs + learnedMacs).forEach { mac ->
-                    val reading = bondReadingFor(adapter, mac)
-                    if (BluetoothWakePolicy.mayPoke(reading)) {
-                        try {
-                            val device = adapter.getRemoteDevice(mac)
-                            chosen[mac] = device
-                            if (classifyChosen(device) == DriverCandidatePolicy.Verdict.NOT_A_PHONE) notPhones.add(mac)
-                        } catch (e: Exception) {}
-                    }
-                    // Android's missing bond is not an unpair event from an external module.
-                    // Keep the user's preference, but do not make it eligible for Android poke.
-                    if (BluetoothWakePolicy.shouldForget(
-                            reading, manufacturerPairing.manufacturerPairing(mac)
-                        )) {
-                        if (mac in selectedMacs) staleMacs.add(mac)
-                        if (mac in learnedMacs) staleLearned.add(mac)
-                    }
-                }
-                if (staleMacs.isNotEmpty()) {
-                    AppLog.w("NativeAA: Dropping wake poke MAC(s) no longer paired: $staleMacs")
-                    settings.nativePokeBtMacs = selectedMacs - staleMacs
+                val learnedMacs = settings.nativeLearnedPhones
+                // Android's missing bond is not an unpair event from an external module, so the
+                // manufacturer history is asked too before a learned phone is forgotten.
+                val staleLearned = learnedMacs.filter { mac ->
+                    BluetoothWakePolicy.shouldForget(
+                        bondReadingFor(adapter, mac), manufacturerPairing.manufacturerPairing(mac)
+                    )
                 }
                 if (staleLearned.isNotEmpty()) {
                     AppLog.w("NativeAA: Dropping learned phone(s) no longer paired: $staleLearned")
-                    settings.nativeLearnedPhones = learnedMacs - staleLearned
+                    settings.nativeLearnedPhones = learnedMacs - staleLearned.toSet()
                 }
-                val devicesToPoke = when (val target = PokeTargetPolicy.targets(
-                    selectedMacs - staleMacs, settings.nativePokeAllPairedDevices, notPhones,
-                    learnedMacs - staleLearned
-                )) {
-                    is PokeTargets.Selected -> {
-                        noteDroppedPokeTargets(target.dropped, chosen)
-                        target.macs.mapNotNull { chosen[it] }
-                    }
-                    PokeTargets.AllPaired -> {
-                        noteDroppedPokeTargets(notPhones, chosen)
-                        AppLog.w("NativeAA: No wake poke phone selected, and poking all paired devices is on. Poking every paired phone...")
-                        // Only a phone answers Native AA: the one advertising the Audio Gateway
-                        // record this poke dials. A dongle, a radio or a watch holds the hands-free
-                        // slot for nothing, so a device ruled out is never poked here; a MAC chosen
-                        // in Auto Start settings is poked without this question.
-                        val candidates = BluetoothHelper.driverCandidates(
-                            context, settings.nativePreferredDeviceMac, settings.lastConnectedNativeMac
-                        )
-                        if (candidates.offered.isEmpty()) {
-                            AppLog.w(
-                                "NativeAA: no paired device advertises the Audio Gateway record, so nothing " +
-                                    "is poked. Choose the phone in Auto Start settings if this is wrong."
-                            )
-                        } else if (candidates.hidden.isNotEmpty()) {
-                            AppLog.i("NativeAA: ${candidates.hidden.size} paired device(s) are not phones and are not poked.")
-                        }
-                        candidates.offered
-                    }
-                    PokeTargets.None -> {
-                        noteDroppedPokeTargets(notPhones, chosen)
-                        AppLog.w("NativeAA: No wake poke phone selected, so nothing is poked. Choose one in Auto Start settings.")
-                        emptyList()
-                    }
+                val candidates = BluetoothHelper.driverCandidates(
+                    context, settings.nativePhonesList, settings.nativeProvenPhones
+                )
+                val plan = currentWakePlan(candidates)
+                noteWakePlan(plan, candidates)
+                val devicesToPoke = plan.order.mapNotNull { mac ->
+                    candidates.offered.firstOrNull { it.address.equals(mac, ignoreCase = true) }
+                }
+                if (candidates.offered.isEmpty()) {
+                    AppLog.w(
+                        "NativeAA: no paired device advertises the Audio Gateway record, so nothing " +
+                            "is poked. Choose the phone in Auto Start settings if this is wrong."
+                    )
+                } else if (candidates.hidden.isNotEmpty()) {
+                    AppLog.i("NativeAA: ${candidates.hidden.size} paired device(s) are not phones and are not poked.")
                 }
 
                 if (devicesToPoke.isEmpty()) {
@@ -2637,7 +2635,7 @@ class NativeAaHandshakeManager(
                     if (!wakesPhone()) break
                     AppLog.i("NativeAA: Attempting active poke to device: ${device.name} (${device.address})...")
                     ConnectionStageTracker.report(ConnectionStage.WAKING_PHONE)
-                    pokeDevice(device, holdMs = 15000)
+                    noteWakeOutcome(device.address, pokeDevice(device, holdMs = 15000))
                 }
 
                 // [BUG_FIX] Say out loud that the phone answers but never calls back. Untold, that
@@ -2743,6 +2741,9 @@ class NativeAaHandshakeManager(
             lastPokeTriggerCredentials = null
             manualPokeInFlight = true
             pokeJob = scope.launch(Dispatchers.IO + CoroutineName("NativeAa-ManualWakeup")) {
+                var handsOverToWakePlan = false
+                var explicitWake = false
+                var heldHandsFree = false
                 try {
                     // Pre-flight: Ensure WiFi credentials (SSID/IP) are ready before connecting RFCOMM to phone.
                     if (credentials == null) {
@@ -2766,10 +2767,13 @@ class NativeAaHandshakeManager(
                     // reopened, so the phone the driver had just left won the race back in.
                     val wakeStartedAt = SystemClock.elapsedRealtime()
                     var roundsDialled = 0
-                    var outcome = BluetoothWakePolicy.WakeOutcome.STOOD_DOWN
+                    // Null until a real pokeDevice round returns: a skipped pass is not a stand-down.
+                    var outcome: BluetoothWakePolicy.WakeOutcome? = null
                     val pickStamp = selectionTargetSetAt
+                    val explicitPick = chosenExplicit
+                    val fromPlan = chosenFromPlan
                     fun keepWaking() = NativeDriverSelectionPolicy.chosenWakeContinues(
-                        outcome, roundsDialled, SystemClock.elapsedRealtime() - wakeStartedAt
+                        outcome, roundsDialled, SystemClock.elapsedRealtime() - wakeStartedAt, explicitPick, fromPlan
                     )
                     while (keepWaking()) {
                         if (!isActive() || !isActive || isHandshakeInFlight() || isHandoffSettling()) break
@@ -2794,15 +2798,19 @@ class NativeAaHandshakeManager(
                         ConnectionStageTracker.report(ConnectionStage.WAKING_PHONE)
                         outcome = pokeDevice(device, holdMs = 20000)
                         AppLog.i("NativeAA: Manual poke to ${device.name} finished.")
+                        noteWakeOutcome(device.address, outcome)
                         // A cancelled job's blocking connect can return after a newer pick.
                         if (selectionTargetSetAt == pickStamp &&
                             pendingSelectionTargetMac.equals(device.address, ignoreCase = true)) {
                             val lapsed = NativeDriverSelectionPolicy.pickLapsedAfterRound(
-                                outcome, chosenWakeAnswered, chosenWakeUnanswered)
+                                outcome, chosenWakeAnswered, chosenWakeUnanswered, fromPlan)
                             if (outcome == BluetoothWakePolicy.WakeOutcome.ANSWERED) chosenWakeAnswered = true
                             if (chosenExplicit && lapsed != chosenWakeUnanswered) {
                                 chosenWakeUnanswered = lapsed
-                                if (lapsed) {
+                                if (lapsed && outcome == BluetoothWakePolicy.WakeOutcome.STOOD_DOWN) {
+                                    AppLog.i("NativeAA: ${device.name ?: "unnamed"} (${device.address}) " +
+                                        "holds a hands-free link and was not woken, so other phones are let in once the first 30s pass.")
+                                } else if (lapsed) {
                                     AppLog.i("NativeAA: ${device.name ?: "unnamed"} (${device.address}) did not answer a whole " +
                                         "wake round, so other phones are let in once the first 30s pass.")
                                 } else {
@@ -2817,8 +2825,24 @@ class NativeAaHandshakeManager(
                         if (NativeDriverSelectionPolicy.wakeRoundSpent(outcome)) roundsDialled++
                         if (keepWaking()) delay(POKE_RETRY_GAP_MS)
                     }
+                    explicitWake = explicitPick
+                    heldHandsFree = outcome == BluetoothWakePolicy.WakeOutcome.STOOD_DOWN
+                    handsOverToWakePlan = NativeDriverSelectionPolicy.handsOverToWakePlan(outcome, explicitPick, fromPlan) &&
+                        selectionTargetSetAt == pickStamp && isActive() && isActive &&
+                        !commManager.isConnected && !isHandshakeInFlight() && !isHandoffSettling()
                 } finally {
                     manualPokeInFlight = false
+                    // Edge triggered: without this the loop waits for the next credential delivery.
+                    if (handsOverToWakePlan) {
+                        if (heldHandsFree) {
+                            AppLog.i("NativeAA: ${deviceLabel(device.address)} " +
+                                "held its hands-free link through the requested wake, so the wake plan takes over.")
+                        } else {
+                            AppLog.i("NativeAA: ${deviceLabel(device.address)} did not answer the " +
+                                "${if (explicitWake) "requested" else "automatic pick's"} wake, so the wake plan takes over.")
+                        }
+                        triggerPoke()
+                    }
                 }
             }
         } catch (e: Exception) {
@@ -3376,6 +3400,7 @@ class NativeAaHandshakeManager(
             // Learned at SSL, not here: a handshake that dies earlier proves nothing. A phone behind
             // an external module is never learned, since nothing in android.bluetooth can dial it.
             if (link.persistPeerForAutoStart && peerAddress != null) phoneAwaitingSession = peerAddress
+            if (peerAddress != null) WakeBackoffs.clear(peerAddress)
 
             val output = link.output
 
@@ -3955,10 +3980,12 @@ class NativeAaHandshakeManager(
                 handshakeStartedAt = 0L
                 handoffSettlingSince = 0L
                 // Held through Connecting: SSL comes after the link closes on the held-channel path.
-                if (!(commManager.isConnected ||
-                        commManager.connectionState.value is CommManager.ConnectionState.Connecting)) {
-                    phoneAwaitingSession = null
+                val sessionUp = commManager.isConnected ||
+                    commManager.connectionState.value is CommManager.ConnectionState.Connecting
+                if (WakePlanPolicy.failedBeforeSession(phoneAwaitingSession, link.peerAddress, abortedLocally, sessionUp)) {
+                    WakeBackoffs.noteUnanswered(link.peerAddress!!, SystemClock.elapsedRealtime())
                 }
+                if (!sessionUp) phoneAwaitingSession = null
                 // [BUG_FIX] Every silent ending counts, not just the timeout that used to
                 // increment inline: a socket error, a swallowed write and a cancellation are one
                 // failure from the outside, and each strands an unreclaimable IO thread.
@@ -4295,6 +4322,7 @@ class NativeAaHandshakeManager(
     fun onSessionSecured() {
         val mac = WakePlanPolicy.phoneToLearn(phoneAwaitingSession, commManager.isWirelessSession) ?: return
         phoneAwaitingSession = null
+        WakeBackoffs.clear(mac)
         settings.nativeLearnedPhones = WakePlanPolicy.movedToFront(settings.nativeLearnedPhones, mac)
         AppLog.i("NativeAA: learned ${deviceLabel(mac)}: it formed a session.")
     }
