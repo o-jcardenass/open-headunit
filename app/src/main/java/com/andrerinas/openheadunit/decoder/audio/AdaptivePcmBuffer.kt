@@ -59,6 +59,11 @@ internal class AdaptivePcmBuffer(
         val atMs: Long, val availableFrames: Int, val targetFrames: Int,
         val lastArrivalAgeMs: Long?, val lastPcmAgeMs: Long?, val outputBudgetFrames: Int
     )
+    private var pendingSupplyGap: SupplyGap? = null
+    internal data class SupplyGap(
+        val atMs: Long, val gapMs: Long, val more: Int, val mediaHeld: Boolean,
+        val mediaReserveMs: Long, val stallBeforeMs: Long, val stallAfterMs: Long
+    )
     private var pendingOverflow: Overflow? = null
     // Capture the first loss under the bank lock; format/report it on the mixer thread.
     // Normal writes allocate nothing, and repeated overflow cannot grow a diagnostic queue.
@@ -175,6 +180,7 @@ internal class AdaptivePcmBuffer(
     @Synchronized fun depthFrames(): Int = count / channels
     @Synchronized fun takeOverflow(): Overflow? = pendingOverflow.also { pendingOverflow = null }
     @Synchronized fun takeStarvation(): Starvation? = pendingStarvation.also { pendingStarvation = null }
+    @Synchronized fun takeSupplyGap(): SupplyGap? = pendingSupplyGap.also { pendingSupplyGap = null }
     // An empty network rebank is still a live stream. Parking the device here adds a
     // pause/flush/play cycle to every late packet burst.
     @Synchronized fun isIdle(): Boolean =
@@ -209,7 +215,12 @@ internal class AdaptivePcmBuffer(
     // All sources share the same delivery, overflow and segment accounting.
     private inline fun writeFrom(aligned: Int, nowMs: Long, copy: (Int, Int, Int) -> Unit) {
         if (aligned == 0) return
-        if (isMediaSink && !ended && lastPcmMs >= 0) stalls.onSupplyGap(nowMs, nowMs - lastPcmMs)
+        if (isMediaSink && !ended && lastPcmMs >= 0) {
+            val gapMs = nowMs - lastPcmMs
+            val before = stalls.reserveMs
+            stalls.onSupplyGap(nowMs, gapMs)
+            if (gapMs >= MediaReservePolicy.STALL_MS) noteSupplyGap(nowMs, gapMs, before)
+        }
         lastPcmMs = nowMs
         if (closedPrefixSamples >= 0 && nextSegmentFirstDataMs < 0) nextSegmentFirstDataMs = nowMs
         if (!ended) policy.onPcmDelivery(nowMs, aligned / channels)
@@ -486,11 +497,21 @@ internal class AdaptivePcmBuffer(
         recovery.reset()
     }
 
+    // Size each stall for the log, because the link monitor counts only gaps over 1.2 s in pairs.
+    private fun noteSupplyGap(nowMs: Long, gapMs: Long, stallBeforeMs: Long) {
+        val held = mediaReserve?.isHolding(nowMs) == true
+        val reserveMs = (mediaReserve?.heldFrames ?: 0) * 1000L / sampleRate
+        val old = pendingSupplyGap
+        pendingSupplyGap = if (old == null) SupplyGap(nowMs, gapMs, 0, held, reserveMs, stallBeforeMs, stalls.reserveMs)
+        else if (gapMs > old.gapMs) SupplyGap(nowMs, gapMs, old.more + 1, held, reserveMs, stallBeforeMs, stalls.reserveMs)
+        else old.copy(more = old.more + 1)
+    }
+
     @Synchronized fun reset() {
         clearReserveWindow()
         pendingStoppedReserve = null
         skippedReserveWindows = 0
-        pendingStarvation = null
+        pendingStarvation = null; pendingSupplyGap = null
         lastArrivalMs = -1L; lastPcmMs = -1L
         resetDiscardedFrames += count / channels
         head = 0; count = 0; started = false; firstDataMs = -1L; gapFrames = 0

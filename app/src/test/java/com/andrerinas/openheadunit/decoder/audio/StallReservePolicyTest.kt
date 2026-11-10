@@ -56,4 +56,27 @@ class StallReservePolicyTest {
         for (now in 2_000L..MediaReservePolicy.HOLD_MS + 20_000 step 1_000) policy.release(now, mediaHeld = true)
         assertEquals(1_160L, policy.reserveMs)
     }
+
+    private fun hold(from: Long, to: Long) {
+        for (now in from..to step 1_000) policy.release(now, mediaHeld = true)
+    }
+
+    @Test fun `a held media reserve releases the depth above the latest stall`() {
+        policy.onSupplyGap(1_000, 1_606)
+        hold(2_000, 161_000)
+        policy.onSupplyGap(161_000, 700)
+        hold(162_000, 170_000)
+        assertEquals(1_906L, policy.reserveMs)
+        hold(171_000, 271_000)
+        assertEquals(1_406L, policy.reserveMs)
+        hold(272_000, 360_000)
+        assertEquals(1_000L, policy.reserveMs)
+    }
+
+    @Test fun `a held media reserve still rises for a longer stall`() {
+        policy.onSupplyGap(1_000, 700)
+        hold(2_000, 161_000)
+        policy.onSupplyGap(161_000, 1_200)
+        assertEquals(1_500L, policy.reserveMs)
+    }
 }

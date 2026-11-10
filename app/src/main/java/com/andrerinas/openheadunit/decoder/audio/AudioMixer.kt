@@ -395,6 +395,11 @@ class AudioMixer(
                             "lastPcmAgeMs=${event.lastPcmAgeMs ?: "unknown"} " +
                             "outputBudget=${event.outputBudgetFrames} frames", warning = true)
                     }
+                    state.buffer.takeSupplyGap()?.let { gap ->
+                        recordDiagnostic(now, "PCM supply gap channel=$id at=${gap.atMs}ms gap=${gap.gapMs}ms " +
+                            "more=${gap.more} mediaHeld=${gap.mediaHeld} mediaReserve=${gap.mediaReserveMs}ms " +
+                            "stallReserve=${gap.stallBeforeMs}->${gap.stallAfterMs}ms", remember = false)
+                    }
                     state.buffer.takeOverflow()?.let { loss ->
                         recordDiagnostic(now, "PCM overflow channel=$id negotiatedSource=${state.rate}Hz/${state.channels}ch " +
                             "at=${loss.atMs}ms reportDelay=${now - loss.atMs}ms " +
