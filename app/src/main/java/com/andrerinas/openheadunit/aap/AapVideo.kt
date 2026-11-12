@@ -60,6 +60,9 @@ internal class AapVideo(
     /** Ordering rules for the fragment run. Pure and unit-tested; see [VideoFragmentAssembler]. */
     private val assembler = VideoFragmentAssembler()
 
+    /** Fed before the fault injector, so an injected drop cannot hide a restart. */
+    private val timestampTrace = MediaTimestampTrace()
+
     /** Every line the injector prints. Declared first: [faultInjector]'s initializer announces on it. */
     private val reporter = VideoFaultReporter("AapVideo")
 
@@ -272,6 +275,11 @@ internal class AapVideo(
         val buf = message.data
         val len = message.size
         val flags = message.flags.toInt()
+
+        if (onAccessUnit != null) {
+            timestampTrace.onMessage(message.type, flags, buf, len, android.os.SystemClock.elapsedRealtime())
+                ?.let { AppLog.i(it) }
+        }
 
         val injector = faultInjector
         val fault = injector?.effectFor(flags) ?: VideoFaultInjector.Effect.NONE
