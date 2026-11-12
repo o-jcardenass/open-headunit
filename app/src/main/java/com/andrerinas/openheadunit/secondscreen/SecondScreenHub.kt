@@ -9,6 +9,7 @@ import com.andrerinas.openheadunit.secondscreen.ms912x.Ms912xOutput
 import com.andrerinas.openheadunit.secondscreen.SecondScreenOutputPolicy.Output
 import com.andrerinas.openheadunit.secondscreen.SecondScreenOutputPolicy.Target
 import com.andrerinas.openheadunit.secondscreen.network.NetworkStreamOutput
+import com.andrerinas.openheadunit.secondscreen.rtp.AndroidRtpSenderProbe
 import com.andrerinas.openheadunit.secondscreen.rtp.RtpDestinationPolicy
 import com.andrerinas.openheadunit.secondscreen.rtp.RtpStreamOutput
 import com.andrerinas.openheadunit.secondscreen.rtp.UdpRtpSocket
@@ -114,7 +115,8 @@ object SecondScreenHub {
             Output.RTP_PUSH -> {
                 val octets = RtpDestinationPolicy.parse(settings.auxRtpDestination) ?: return null
                 RtpStreamOutput(UdpRtpSocket(context, octets, settings.auxRtpPort), System::nanoTime, java.util.Random(),
-                    settings.auxRtpRefreshSeconds * 1000L)
+                    settings.auxRtpRefreshSeconds * 1000L,
+                    probe = AndroidRtpSenderProbe(context, octets, settings.auxRtpPort))
             }
             Output.ANDROID_DISPLAY -> return null
         }

@@ -1,5 +1,6 @@
 package com.andrerinas.openheadunit.secondscreen.rtp
 
+import com.andrerinas.openheadunit.decoder.video.ParameterSetInspector
 import com.andrerinas.openheadunit.secondscreen.EncodedOutput
 import com.andrerinas.openheadunit.secondscreen.H264Units
 import com.andrerinas.openheadunit.secondscreen.SecondScreenOutputPolicy
@@ -17,6 +18,23 @@ interface RtpSocket {
     fun close()
 }
 
+/** Looks for other senders on the push's destination; a fault in it never reaches the push. */
+interface RtpSenderProbe {
+    fun start()
+
+    /** The current socket summary, or null when there is nothing to say. Throws when the tables cannot be read. */
+    fun sockets(): String?
+    fun stop()
+
+    companion object {
+        val NONE = object : RtpSenderProbe {
+            override fun start() {}
+            override fun sockets(): String? = null
+            override fun stop() {}
+        }
+    }
+}
+
 /**
  * Pushes the second stream as RTP over UDP to a typed address, for a receiver that connects to
  * nothing. A send failure is logged once per kind and never reaches the aux lane. Every
@@ -28,6 +46,7 @@ class RtpStreamOutput(
     random: Random,
     private val refreshIntervalMs: Long = 0,
     private val pause: (Long) -> Unit = ::sleepKeepingInterrupt,
+    private val probe: RtpSenderProbe = RtpSenderProbe.NONE,
 ) : EncodedOutput {
 
     override val output = SecondScreenOutputPolicy.Output.RTP_PUSH
@@ -47,7 +66,17 @@ class RtpStreamOutput(
     private var sentInUnit = 0
     private var pauses = 0
     private var lastReportNanos = 0L
+    private var largestGapMs = 0L
+    private var lastSocketLine: String? = null
     @Volatile private var running = false
+
+    init {
+        packetizer.onParameterSets = { sps, pps -> logParameterSets(sps) }
+    }
+
+    init {
+        packetizer.onParameterSets = { sps, _ -> logParameterSets(sps) }
+    }
 
     override fun start() {
         val network = socket.open()
@@ -56,6 +85,29 @@ class RtpStreamOutput(
         lastKeyframeNanos = lastReportNanos
         lastRequestNanos = lastReportNanos
         AppLog.i("SecondScreen: RTP push to ${socket.target} open (network=$network, refresh=${refreshIntervalMs}ms)")
+        try {
+            probe.start()
+            senderLineIfChanged()?.let { AppLog.i("SecondScreen: $it") }
+        } catch (e: Exception) {
+            AppLog.w("SecondScreen: RTP push sender probe failed (${e.javaClass.simpleName}): ${e.message}")
+        }
+    }
+
+    private fun logParameterSets(sps: ByteArray) {
+        val parsed = ParameterSetInspector.parseH264Sps(sps, 0, sps.size)
+        AppLog.i("SecondScreen: RTP push stream SPS " + (parsed?.toString() ?: "unreadable (${sps.size} bytes)"))
+    }
+
+    /** The socket line when it differs from the last one logged; a failed read keeps its own grep text. */
+    internal fun senderLineIfChanged(): String? {
+        val line = try {
+            probe.sockets()?.let { "RTP push UDP sockets: $it" }
+        } catch (e: Exception) {
+            "RTP push UDP sockets not readable (${e.javaClass.simpleName}: ${e.message})"
+        } ?: return null
+        if (line == lastSocketLine) return null
+        lastSocketLine = line
+        return line
     }
 
     override fun onAccessUnit(buf: ByteArray, offset: Int, length: Int) {
@@ -68,6 +120,7 @@ class RtpStreamOutput(
             if (!keyframeDecided) decideKeyframe(buf, offset, length)
             val gapMs = if (lastUnitNanos < 0) null else (now - lastUnitNanos) / 1_000_000
             lastUnitNanos = now
+            if (gapMs != null && gapMs > largestGapMs) largestGapMs = gapMs
             packetsPerPause = RtpPacingPolicy.packetsPerPause(RtpPacingPolicy.estimatePackets(length), gapMs)
             sentInUnit = 0
             if (packetizer.packetize(buf, offset, length, timestamp)) lastKeyframeNanos = now
@@ -75,7 +128,10 @@ class RtpStreamOutput(
         } catch (e: Exception) {
             noteFailure(e)
         }
-        reportIfDue()?.let { AppLog.i("SecondScreen: $it") }
+        reportIfDue()?.let {
+            AppLog.i("SecondScreen: $it")
+            senderLineIfChanged()?.let { line -> AppLog.i("SecondScreen: $line") }
+        }
     }
 
     // The lane exists only now, so the one request cannot come from start(). A config-only unit
@@ -124,10 +180,12 @@ class RtpStreamOutput(
         val line = "RTP push sent ${packetizer.packets} packets, ${packetizer.bytes} bytes, " +
             "${packetizer.keyframes} keyframes in ${(now - lastReportNanos) / 1_000_000}ms, " +
             "${packetizer.keyframesWithOwnParameterSets} keyframes carried their own SPS and PPS, " +
-            "$refreshes refreshes asked, $pauses pacing pauses"
+            "$refreshes refreshes asked, $pauses pacing pauses, largest gap ${largestGapMs}ms, " +
+            "${packetizer.configUnitsHeld} config units held"
         packetizer.resetCounters()
         refreshes = 0
         pauses = 0
+        largestGapMs = 0
         lastReportNanos = now
         return line
     }
@@ -135,6 +193,7 @@ class RtpStreamOutput(
     override fun stop() {
         if (!running) return
         running = false
+        try { probe.stop() } catch (_: Exception) {}
         try { socket.close() } catch (_: Exception) {}
         AppLog.i("SecondScreen: RTP push stopped")
     }

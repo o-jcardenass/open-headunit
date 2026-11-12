@@ -23,6 +23,11 @@ class RtpH264Packetizer(
     private var sps: ByteArray? = null
     private var pps: ByteArray? = null
     private var pendingParameterSets = false
+    private var reportedSps: ByteArray? = null
+    private var reportedPps: ByteArray? = null
+
+    /** Called with the cached SPS and PPS when either differs from the pair last reported. */
+    var onParameterSets: ((sps: ByteArray, pps: ByteArray) -> Unit)? = null
 
     fun resetCounters() {
         packets = 0; bytes = 0; keyframes = 0; keyframesWithOwnParameterSets = 0; configUnitsHeld = 0
@@ -44,6 +49,7 @@ class RtpH264Packetizer(
             }
         }
         if (count == 0) return false
+        reportParameterSets()
         if (configNals == count) {
             pendingParameterSets = true
             configUnitsHeld++
@@ -64,6 +70,15 @@ class RtpH264Packetizer(
             emit(buf, start, end, timestamp, index == count)
         }
         return hasIdr
+    }
+
+    private fun reportParameterSets() {
+        val s = sps ?: return
+        val p = pps ?: return
+        if (s.contentEquals(reportedSps) && p.contentEquals(reportedPps)) return
+        reportedSps = s
+        reportedPps = p
+        onParameterSets?.invoke(s, p)
     }
 
     private fun emit(src: ByteArray, start: Int, end: Int, timestamp: Int, lastNal: Boolean) {

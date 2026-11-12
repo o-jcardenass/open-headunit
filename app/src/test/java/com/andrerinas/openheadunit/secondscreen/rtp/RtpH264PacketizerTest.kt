@@ -225,4 +225,27 @@ class RtpH264PacketizerTest {
         p.resetCounters()
         assertEquals(0, p.configUnitsHeld)
     }
+
+    @Test
+    fun `new parameter sets are reported once`() {
+        val p = packetizer()
+        val seen = ArrayList<Pair<ByteArray, ByteArray>>()
+        p.onParameterSets = { a, b -> seen.add(a to b) }
+        p.put(unit(sps, pps, idr))
+        p.put(unit(sps, pps, idr))
+        assertEquals(1, seen.size)
+        val spsB = byteArrayOf(0x67, 0x64, 0x00, 0x28)
+        p.put(unit(spsB, pps, idr))
+        assertEquals(2, seen.size)
+        assertArrayEquals(spsB, seen[1].first)
+    }
+
+    @Test
+    fun `a PPS with no SPS cached reports nothing`() {
+        val p = packetizer()
+        var calls = 0
+        p.onParameterSets = { _, _ -> calls++ }
+        p.put(unit(pps, idr))
+        assertEquals(0, calls)
+    }
 }

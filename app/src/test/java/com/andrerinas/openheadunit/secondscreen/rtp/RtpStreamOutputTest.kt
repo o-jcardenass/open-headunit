@@ -27,6 +27,17 @@ class RtpStreamOutputTest {
         override fun close() { closes++ }
     }
 
+    private class FakeProbe(vararg lines: String?) : RtpSenderProbe {
+        private val queue = ArrayDeque(lines.toList())
+        var starts = 0
+        var stops = 0
+        var failStart = false
+        var failRead: Exception? = null
+        override fun start() { starts++; if (failStart) throw IllegalStateException("probe") }
+        override fun sockets(): String? { failRead?.let { throw it }; return queue.removeFirstOrNull() }
+        override fun stop() { stops++ }
+    }
+
     private var now = 0L
     private val socket = FakeSocket()
     private fun output(seed: Long = 1) = RtpStreamOutput(socket, { now }, Random(seed))
@@ -140,7 +151,7 @@ class RtpStreamOutputTest {
         val line = o.reportIfDue()
         assertNotNull(line)
         assertTrue(line!!, line.startsWith("RTP push sent 3 packets,"))
-        assertTrue(line, line.endsWith("in 10000ms, 1 keyframes carried their own SPS and PPS, 0 refreshes asked, 0 pacing pauses"))
+        assertTrue(line, line.endsWith("in 10000ms, 1 keyframes carried their own SPS and PPS, 0 refreshes asked, 0 pacing pauses, largest gap 0ms, 0 config units held"))
         assertNull(o.reportIfDue())
     }
 
@@ -234,5 +245,67 @@ class RtpStreamOutputTest {
         o.put(delta)
         assertEquals(1, socket.closes)
         assertEquals(0, socket.sent.size)
+    }
+
+    @Test
+    fun `the report adds the largest gap and the held config units`() {
+        val o = output().also { it.start() }
+        o.put(delta)
+        now = 33_000_000
+        o.put(delta)
+        now = 433_000_000
+        o.put(sps + pps)
+        now = 10_000_000_000
+        val line = o.reportIfDue()!!
+        assertTrue(line, line.endsWith("0 pacing pauses, largest gap 400ms, 1 config units held"))
+    }
+
+    @Test
+    fun `the largest gap resets with the report`() {
+        val o = output().also { it.start() }
+        o.put(delta)
+        now = 500_000_000
+        o.put(delta)
+        now = 10_000_000_000
+        o.put(delta)
+        now = 10_010_000_000
+        o.put(delta)
+        now = 20_000_000_000
+        assertTrue(o.reportIfDue()!!.contains("largest gap 10ms"))
+    }
+
+    @Test
+    fun `the socket line is logged at start and only when it changes`() {
+        // start() takes the first line "A", so the next "A" is a repeat.
+        val probe = FakeProbe("A", "A", "B")
+        val o = RtpStreamOutput(socket, { now }, Random(1), probe = probe).also { it.start() }
+        assertNull(o.senderLineIfChanged())
+        assertEquals("RTP push UDP sockets: B", o.senderLineIfChanged())
+    }
+
+    @Test
+    fun `a failed socket read logs the not readable line once`() {
+        val probe = FakeProbe().also { it.failRead = IOException("EACCES (Permission denied)") }
+        val o = RtpStreamOutput(socket, { now }, Random(1), probe = probe)
+        assertEquals("RTP push UDP sockets not readable (IOException: EACCES (Permission denied))",
+            o.senderLineIfChanged())
+        assertNull(o.senderLineIfChanged())
+    }
+
+    @Test
+    fun `a probe that throws on start leaves the push open`() {
+        val probe = FakeProbe().also { it.failStart = true }
+        val o = RtpStreamOutput(socket, { now }, Random(1), probe = probe).also { it.start() }
+        o.put(delta)
+        assertEquals(1, socket.sent.size)
+    }
+
+    @Test
+    fun `stop stops the probe once`() {
+        val probe = FakeProbe()
+        val o = RtpStreamOutput(socket, { now }, Random(1), probe = probe).also { it.start() }
+        o.stop()
+        o.stop()
+        assertEquals(1, probe.stops)
     }
 }
