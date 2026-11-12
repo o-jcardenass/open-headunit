@@ -208,6 +208,7 @@
     <string name="aux_rtp_refresh">Aggiorna l\'immagine ogni</string>
     <string name="aux_rtp_refresh_seconds">%1$d s</string>
     <string name="aux_rtp_hint">Salva questo come stream.sdp sul computer ricevente, poi esegui %2$s\n\n%1$s</string>
+    <string name="aux_rtp_hint_stream">Connettiti una volta, poi riapri questa schermata: la descrizione conterrà gli SPS e PPS dello stream, per i ricevitori che ne hanno bisogno.</string>
     <string name="aux_network_size">Dimensione dello stream</string>
     <string name="aux_network_port">Porta dello stream</string>
     <string name="aux_network_hint">Su un computer nella stessa rete esegui: %1$s\nCon il debug USB esegui invece adb forward tcp:%2$d tcp:%2$d e usa 127.0.0.1. Anche VLC può aprire http://indirizzo di questa unità:%2$d/</string>

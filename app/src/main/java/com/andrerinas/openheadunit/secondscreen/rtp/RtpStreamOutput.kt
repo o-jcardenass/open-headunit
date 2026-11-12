@@ -47,6 +47,7 @@ class RtpStreamOutput(
     private val refreshIntervalMs: Long = 0,
     private val pause: (Long) -> Unit = ::sleepKeepingInterrupt,
     private val probe: RtpSenderProbe = RtpSenderProbe.NONE,
+    private val onStreamParameters: (String) -> Unit = {},
 ) : EncodedOutput {
 
     override val output = SecondScreenOutputPolicy.Output.RTP_PUSH
@@ -71,11 +72,7 @@ class RtpStreamOutput(
     @Volatile private var running = false
 
     init {
-        packetizer.onParameterSets = { sps, pps -> logParameterSets(sps) }
-    }
-
-    init {
-        packetizer.onParameterSets = { sps, _ -> logParameterSets(sps) }
+        packetizer.onParameterSets = { sps, pps -> logParameterSets(sps, pps) }
     }
 
     override fun start() {
@@ -93,9 +90,12 @@ class RtpStreamOutput(
         }
     }
 
-    private fun logParameterSets(sps: ByteArray) {
+    private fun logParameterSets(sps: ByteArray, pps: ByteArray) {
         val parsed = ParameterSetInspector.parseH264Sps(sps, 0, sps.size)
-        AppLog.i("SecondScreen: RTP push stream SPS " + (parsed?.toString() ?: "unreadable (${sps.size} bytes)"))
+        val fmtp = RtpDestinationPolicy.streamParameters(sps, pps)
+        AppLog.i("SecondScreen: RTP push stream SPS " + (parsed?.toString() ?: "unreadable (${sps.size} bytes)") +
+            (fmtp?.let { ", fmtp $it" } ?: ""))
+        fmtp?.let(onStreamParameters)
     }
 
     /** The socket line when it differs from the last one logged; a failed read keeps its own grep text. */

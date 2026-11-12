@@ -308,4 +308,16 @@ class RtpStreamOutputTest {
         o.stop()
         assertEquals(1, probe.stops)
     }
+
+    @Test
+    fun `stream parameters are handed on once per new set`() {
+        val got = ArrayList<String>()
+        val o = RtpStreamOutput(socket, { now }, Random(1), onStreamParameters = { got.add(it) }).also { it.start() }
+        o.put(sps + pps + idr)
+        o.put(sps + pps + idr)
+        assertEquals(listOf("profile-level-id=42001f;sprop-parameter-sets=Z0IAHw==,aM48"), got)
+        o.put(byteArrayOf(0, 0, 0, 1, 0x67, 0x64, 0x00, 0x28) + pps + idr)
+        assertEquals(2, got.size)
+        assertEquals("profile-level-id=640028;sprop-parameter-sets=Z2QAKA==,aM48", got[1])
+    }
 }

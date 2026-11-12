@@ -4873,10 +4873,17 @@ class SettingsFragment : Fragment() {
             textResId = R.string.aux_rtp_hint,
             text = getString(
                 R.string.aux_rtp_hint,
-                RtpDestinationPolicy.sdp(settings.auxRtpDestination, settings.auxRtpPort),
+                RtpDestinationPolicy.sdp(settings.auxRtpDestination, settings.auxRtpPort, settings.auxRtpStreamParameters),
                 RtpDestinationPolicy.FFPLAY_COMMAND,
             ),
         ))
+        if (settings.auxRtpStreamParameters.isEmpty()) {
+            items.add(SettingItem.InfoBanner(
+                stableId = "auxRtpHintStream",
+                textResId = R.string.aux_rtp_hint_stream,
+                text = getString(R.string.aux_rtp_hint_stream),
+            ))
+        }
     }
 
     /** The MacroSilicon adapter's mode and pixel format, and whether one is plugged in. */

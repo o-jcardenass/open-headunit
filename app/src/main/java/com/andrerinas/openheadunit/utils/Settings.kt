@@ -1268,6 +1268,11 @@ class Settings(private val context: Context) {
         get() = RtpRefreshPolicy.intervalOrDefault(prefs.getInt("aux-rtp-refresh-seconds", RtpRefreshPolicy.DEFAULT_INTERVAL_S))
         set(value) { prefs.edit().putInt("aux-rtp-refresh-seconds", value).apply() }
 
+    /** The stream's own profile and parameter sets for the settings SDP; empty until a session ran. */
+    var auxRtpStreamParameters: String
+        get() = prefs.getString("aux-rtp-stream-parameters", "") ?: ""
+        set(value) { prefs.edit().putString("aux-rtp-stream-parameters", value).apply() }
+
     /** The MacroSilicon adapter's HDMI mode; the chip does not scale, so this is the panel's size. */
     var ms912xMode: Ms912xMode
         get() = Ms912xModes.modeOf(prefs.getString("ms912x-mode", null))

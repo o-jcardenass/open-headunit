@@ -56,4 +56,39 @@ class RtpDestinationPolicyTest {
         assertEquals("o=- 0 0 IN IP4 0.0.0.0", sdp.lines()[1])
         assertEquals("c=IN IP4 0.0.0.0", sdp.lines()[3])
     }
+
+    private val sps = byteArrayOf(0x67, 0x42, 0x00, 0x1F)
+    private val pps = byteArrayOf(0x68, 0xCE.toByte(), 0x3C)
+
+    @Test
+    fun `stream parameters are profile-level-id and padded base64 sets`() {
+        assertEquals("profile-level-id=42001f;sprop-parameter-sets=Z0IAHw==,aM48",
+            RtpDestinationPolicy.streamParameters(sps, pps))
+    }
+
+    @Test
+    fun `base64 pads one and two trailing bytes`() {
+        assertEquals("AQ==", RtpDestinationPolicy.base64(byteArrayOf(1)))
+        assertEquals("AQI=", RtpDestinationPolicy.base64(byteArrayOf(1, 2)))
+        assertEquals("AQID", RtpDestinationPolicy.base64(byteArrayOf(1, 2, 3)))
+        assertEquals("AQIDBA==", RtpDestinationPolicy.base64(byteArrayOf(1, 2, 3, 4)))
+    }
+
+    @Test
+    fun `a short SPS or an empty PPS gives no parameters`() {
+        assertNull(RtpDestinationPolicy.streamParameters(byteArrayOf(0x67, 0x42, 0x00), pps))
+        assertNull(RtpDestinationPolicy.streamParameters(sps, ByteArray(0)))
+    }
+
+    @Test
+    fun `the sdp adds stream parameters to the fmtp line`() {
+        val sdp = RtpDestinationPolicy.sdp("192.168.1.50", 25000, "profile-level-id=42001f;sprop-parameter-sets=a,b")
+        assertEquals("a=fmtp:96 packetization-mode=1;profile-level-id=42001f;sprop-parameter-sets=a,b", sdp.lines().last())
+    }
+
+    @Test
+    fun `the sdp without stream parameters is unchanged`() {
+        assertEquals("a=fmtp:96 packetization-mode=1", RtpDestinationPolicy.sdp("192.168.1.50", 25000, "").lines().last())
+        assertEquals(8, RtpDestinationPolicy.sdp("192.168.1.50", 25000).lines().size)
+    }
 }
