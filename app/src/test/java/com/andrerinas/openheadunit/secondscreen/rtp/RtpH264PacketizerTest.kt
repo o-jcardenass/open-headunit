@@ -154,4 +154,75 @@ class RtpH264PacketizerTest {
         p.put(byteArrayOf(1, 2, 3, 4, 5))
         assertFalse(sent.isNotEmpty())
     }
+
+    private fun types() = sent.map { nalType(it) }
+
+    @Test
+    fun `a config-only unit sends nothing and is counted`() {
+        val p = packetizer()
+        assertFalse(p.put(unit(sps, pps)))
+        assertTrue(sent.isEmpty())
+        assertEquals(1, p.configUnitsHeld)
+    }
+
+    @Test
+    fun `a config-only unit then an IDR is one access unit with one SPS and one PPS`() {
+        val p = packetizer()
+        p.put(unit(sps, pps), ts = 1000)
+        p.put(unit(idr), ts = 2000)
+        assertEquals(listOf(7, 8, 5), types())
+        assertTrue(sent.all { ts(it) == 2000 })
+        assertEquals(listOf(2), sent.indices.filter { marker(sent[it]) })
+    }
+
+    @Test
+    fun `a config-only unit then a delta puts the sets in front of the delta`() {
+        val p = packetizer()
+        p.put(unit(sps, pps), ts = 1000)
+        p.put(unit(delta), ts = 2000)
+        assertEquals(listOf(7, 8, 1), types())
+        assertEquals(1, sent.map { ts(it) }.toSet().size)
+        assertEquals(listOf(2), sent.indices.filter { marker(sent[it]) })
+    }
+
+    @Test
+    fun `a held SPS replaces the cached one`() {
+        val p = packetizer()
+        p.put(unit(sps, pps, idr))
+        sent.clear()
+        val spsB = byteArrayOf(0x67, 0x64, 0x00, 0x28)
+        p.put(unit(spsB, pps))
+        p.put(unit(idr))
+        assertArrayEquals(spsB, payload(sent[0]))
+    }
+
+    @Test
+    fun `two config-only units in a row send one set`() {
+        val p = packetizer()
+        p.put(unit(sps, pps))
+        p.put(unit(sps, pps))
+        p.put(unit(idr))
+        assertEquals(listOf(7, 8, 5), types())
+    }
+
+    @Test
+    fun `a unit with its own sets after a config-only unit sends only its own`() {
+        val p = packetizer()
+        p.put(unit(sps, pps))
+        val ownSps = byteArrayOf(0x67, 0x4D, 0x00, 0x1E)
+        p.put(unit(ownSps, pps, idr))
+        assertEquals(listOf(7, 8, 5), types())
+        assertArrayEquals(ownSps, payload(sent[0]))
+        sent.clear()
+        p.put(unit(delta))
+        assertEquals(listOf(1), types())
+    }
+
+    @Test
+    fun `the held count resets with the counters`() {
+        val p = packetizer()
+        p.put(unit(sps, pps))
+        p.resetCounters()
+        assertEquals(0, p.configUnitsHeld)
+    }
 }

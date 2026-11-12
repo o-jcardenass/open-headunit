@@ -5,6 +5,7 @@ import com.andrerinas.openheadunit.secondscreen.H264Units
 /**
  * Splits Annex-B access units into RFC 6184 packets: single NAL, or FU-A when a NAL exceeds one
  * datagram. A keyframe without its own SPS and PPS gets the last ones in front, so a late receiver starts.
+ * A config-only unit is held and its sets go in front of the next picture, never as an access unit alone.
  */
 class RtpH264Packetizer(
     private val send: (buf: ByteArray, off: Int, len: Int) -> Unit,
@@ -15,14 +16,16 @@ class RtpH264Packetizer(
     var bytes = 0L; private set
     var keyframes = 0; private set
     var keyframesWithOwnParameterSets = 0; private set
+    var configUnitsHeld = 0; private set
 
     private var sequence = initialSequence and 0xFFFF
     private val datagram = ByteArray(MAX_DATAGRAM)
     private var sps: ByteArray? = null
     private var pps: ByteArray? = null
+    private var pendingParameterSets = false
 
     fun resetCounters() {
-        packets = 0; bytes = 0; keyframes = 0; keyframesWithOwnParameterSets = 0
+        packets = 0; bytes = 0; keyframes = 0; keyframesWithOwnParameterSets = 0; configUnitsHeld = 0
     }
 
     /** Sends one access unit and returns whether it held an IDR. */
@@ -31,23 +34,30 @@ class RtpH264Packetizer(
         var hasSps = false
         var hasPps = false
         var hasIdr = false
+        var configNals = 0
         H264Units.forEachNal(buf, off, len) { type, start, end ->
             count++
             when (type) {
-                H264Units.NAL_SPS -> { hasSps = true; sps = buf.copyOfRange(start, end) }
-                H264Units.NAL_PPS -> { hasPps = true; pps = buf.copyOfRange(start, end) }
+                H264Units.NAL_SPS -> { hasSps = true; configNals++; sps = buf.copyOfRange(start, end) }
+                H264Units.NAL_PPS -> { hasPps = true; configNals++; pps = buf.copyOfRange(start, end) }
                 NAL_IDR -> hasIdr = true
             }
         }
         if (count == 0) return false
+        if (configNals == count) {
+            pendingParameterSets = true
+            configUnitsHeld++
+            return false
+        }
         if (hasIdr) {
             keyframes++
             if (hasSps && hasPps) keyframesWithOwnParameterSets++
-            if (!hasSps && !hasPps) {
-                sps?.let { emit(it, 0, it.size, timestamp, false) }
-                pps?.let { emit(it, 0, it.size, timestamp, false) }
-            }
         }
+        if ((hasIdr || pendingParameterSets) && !hasSps && !hasPps) {
+            sps?.let { emit(it, 0, it.size, timestamp, false) }
+            pps?.let { emit(it, 0, it.size, timestamp, false) }
+        }
+        pendingParameterSets = false
         var index = 0
         H264Units.forEachNal(buf, off, len) { _, start, end ->
             index++
