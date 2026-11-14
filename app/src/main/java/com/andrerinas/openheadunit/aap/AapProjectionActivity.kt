@@ -120,9 +120,11 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
     /** The open call-raise episode, or null when the projection is not covered by a call. */
     private var callRaiseEpisode: SelfModeCallRaisePolicy.Episode? = null
 
-    /** What the last episode spent, so a call screen that relaunches cannot keep buying more. */
-    private var lastCallRaiseAttempts = 0
-    private var lastCallRaiseAtMs = 0L
+    /** What the current call has spent across episodes, so a returning cover cannot buy more. */
+    private var callLedger = SelfModeCallRaisePolicy.CallLedger()
+
+    /** When the projection was covered, or 0 while in front. */
+    private var coveredSinceMs = 0L
 
     private val callRaiseTick = Runnable { tickCallRaise() }
 
@@ -1383,6 +1385,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             LocalBroadcastManager.getInstance(this).unregisterReceiver(settingsReceiver)
             isSettingsReceiverRegistered = false
         }
+        coveredSinceMs = SystemClock.elapsedRealtime()
         // After the removeCallbacks above, never before: the tick posts on the same handler.
         maybeOpenCallRaiseEpisode()
     }
@@ -1421,7 +1424,9 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         super.onResume()
         isForeground = true
         userLeftDeliberately = false
+        coveredSinceMs = 0L
         closeCallRaiseEpisode("the projection is back in front")
+        recordCallReading(audioModeOrNormal(), fromModeChange = false)
         AppLog.i("AapProjectionActivity: onResume")
         // Show the one-time rename notice even here, on top of an active projection.
         RenameNotice.maybeShow(this, App.provide(this).settings)
@@ -2042,21 +2047,21 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
     }
 
     /**
-     * Opens a call-raise episode when something covered the projection, in Self Mode.
-     *
-     * Self Mode is the only place this can happen: everywhere else the call screen lands on the
-     * phone and the projection is on the head unit. The audio mode is the episode's first
-     * observation rather than a condition for opening one, because the call screen covers us before
-     * the call registers. An episode that never sees a call closes itself.
+     * Opens a call-raise episode on a cover. The call screen covers us before the call registers,
+     * so the audio mode is observed by the episode, not required to open it.
      */
     private fun maybeOpenCallRaiseEpisode(fromModeChange: Boolean = false) {
         if (!fromModeChange) closeCallRaiseEpisode("covered again")
 
+        val audioMode = audioModeOrNormal()
+        if (!fromModeChange) recordCallReading(audioMode, fromModeChange = false)
+        val selfMode = AapService.instance?.isSelfModeActive() == true
         val verdict = SelfModeCallRaisePolicy.coverVerdict(
             userLeft = userLeftDeliberately,
-            selfMode = AapService.instance?.isSelfModeActive() == true,
+            selfMode = selfMode,
             pipActive = App.isPiPActive,
             enabled = settings.raiseProjectionDuringCall,
+            headUnitEnabled = settings.raiseProjectionDuringHeadUnitCall,
             episodeOpen = callRaiseEpisode != null,
         )
         if (verdict != SelfModeCallRaisePolicy.CoverVerdict.OPEN) {
@@ -2068,17 +2073,19 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             return
         }
 
-        val audioMode = audioModeOrNormal()
         val callActive = CallState.isCallActive(audioMode, MicRecorder.holdsCommunicationMode)
         val nowMs = SystemClock.elapsedRealtime()
-        val carried = SelfModeCallRaisePolicy.carriedAttempts(lastCallRaiseAttempts, lastCallRaiseAtMs, nowMs)
+        val scope = if (selfMode) SelfModeCallRaisePolicy.Scope.SELF_MODE else SelfModeCallRaisePolicy.Scope.HEAD_UNIT
+        val spent = callLedger.attempts
         val what = if (callActive) "covered during a call" else "covered, watching for a call"
-        AppLog.i("AapProjectionActivity: $what (audioMode=$audioMode, $carried attempts already spent)")
+        AppLog.i("AapProjectionActivity: $what (${scope.label}, audioMode=$audioMode, $spent attempts already spent this call)")
         callRaiseEpisode = SelfModeCallRaisePolicy.Episode(
             startedAtMs = nowMs,
+            coveredSinceMs = coveredSinceMs,
+            scope = scope,
             sawCallActive = callActive,
-            attempts = carried,
-            lastAttemptAtMs = if (carried > 0) lastCallRaiseAtMs else 0L,
+            attempts = spent,
+            lastAttemptAtMs = callLedger.lastRaiseAtMs,
         )
         watchdogHandler.postDelayed(callRaiseTick, SelfModeCallRaisePolicy.TICK_MS)
     }
@@ -2098,16 +2105,34 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
     private fun tickCallRaise() {
         val episode = callRaiseEpisode ?: return
         val nowMs = SystemClock.elapsedRealtime()
-        val callActive = CallState.isCallActive(audioModeOrNormal(), MicRecorder.holdsCommunicationMode)
+        val audioMode = audioModeOrNormal()
+        recordCallReading(audioMode, fromModeChange = false)
+        val callActive = CallState.isCallActive(audioMode, MicRecorder.holdsCommunicationMode)
+        val callStarting = CallState.isCallStarting(audioMode)
+        val reverseGear = commManager.deviceVideoControl.suppressed.value
         val observed = SelfModeCallRaisePolicy.observe(episode, nowMs, callActive)
         val action = SelfModeCallRaisePolicy.decide(
             nowMs = nowMs,
             episode = observed,
             callActive = callActive,
+            callStarting = callStarting,
             isForeground = isForeground,
             pipActive = App.isPiPActive,
+            scope = episode.scope,
+            ledger = callLedger,
+            reverseGear = reverseGear,
         )
-        val reason = SelfModeCallRaisePolicy.describe(action, observed, callActive, isForeground)
+        val reason = SelfModeCallRaisePolicy.describe(
+            nowMs = nowMs,
+            episode = observed,
+            callActive = callActive,
+            callStarting = callStarting,
+            isForeground = isForeground,
+            pipActive = App.isPiPActive,
+            scope = episode.scope,
+            ledger = callLedger,
+            reverseGear = reverseGear,
+        )
 
         val next = when (action) {
             SelfModeCallRaisePolicy.Action.DONE -> {
@@ -2118,10 +2143,8 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             SelfModeCallRaisePolicy.Action.RAISE -> {
                 AppLog.i("AapProjectionActivity: raising the projection - $reason")
                 requestProjectionRaise()
-                SelfModeCallRaisePolicy.onRaised(observed, nowMs, callActive).also {
-                    lastCallRaiseAttempts = it.attempts
-                    lastCallRaiseAtMs = nowMs
-                }
+                callLedger = SelfModeCallRaisePolicy.recordRaise(callLedger, nowMs, callActive)
+                SelfModeCallRaisePolicy.onRaised(observed, nowMs, callActive)
             }
             SelfModeCallRaisePolicy.Action.WAIT -> observed
         }
@@ -2132,6 +2155,17 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
     /** The service owns the overlay trampoline, and a paused activity cannot start itself. */
     private fun requestProjectionRaise() {
         sendBroadcast(Intent(AapService.ACTION_RAISE_PROJECTION).apply { setPackage(packageName) })
+    }
+
+    /** Folds one audio mode reading into the ledger of the current call. */
+    private fun recordCallReading(mode: Int, fromModeChange: Boolean) {
+        callLedger = SelfModeCallRaisePolicy.recordCall(
+            ledger = callLedger,
+            nowMs = SystemClock.elapsedRealtime(),
+            callActive = CallState.isCallActive(mode, MicRecorder.holdsCommunicationMode),
+            ringing = CallState.isCallStarting(mode),
+            fromModeChange = fromModeChange,
+        )
     }
 
     private fun audioModeOrNormal(): Int = try {
@@ -2153,6 +2187,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
 
     private fun registerAudioModeListener() {
         audioModeWatcher = AudioModeWatcher.start(this) { mode ->
+            recordCallReading(mode, fromModeChange = true)
             val callish = CallState.isCallActive(mode, MicRecorder.holdsCommunicationMode) ||
                 CallState.isCallStarting(mode)
             if (!isForeground && callish) maybeOpenCallRaiseEpisode(fromModeChange = true)
