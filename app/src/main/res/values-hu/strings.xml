@@ -1300,6 +1300,9 @@
     <string name="raise_projection_during_call">Maradás az Android Autóban hívások alatt</string>
     <string name="raise_projection_during_call_description">Csak önálló módban. Visszahozza a vetítést a telefon hívásképernyője fölé, így a hívások az Android Auto felületén fogadhatók és fejezhetők be.</string>
     <string name="raise_projection_during_call_summary">Csak Önálló módban. A kivetítést a telefon hívóképernyője fölött jeleníti meg.</string>
+    <string name="raise_projection_during_head_unit_call">Android Auto előtérbe hozása a fejegység hívásaira</string>
+    <string name="raise_projection_during_head_unit_call_description">A fejegység saját hívási képernyője eltakarhatja az Android Autót. Ez a beállítás egyszer hozza vissza az Android Autót, csak a hívás első 10 másodpercében. A hívás előtt legfeljebb 5 másodperccel vagy az első 10 másodpercében megnyíló tolatókamerát is eltakarhatja. Csak akkor működik, ha a fejegység jelzi a hívásokat az Androidnak.</string>
+    <string name="raise_projection_during_head_unit_call_summary">Egyszer megjeleníti a vetítést a fejegység saját hívási képernyője felett.</string>
     <string name="audio_stream_settings">Hangfolyamok</string>
     <string name="audio_stream_settings_description">Válassza ki, melyik rendszerfolyamon szóljon az egyes Android Auto-csatornák hangja.</string>
     <string name="audio_stream_settings_info">Az Android Auto három csatornán küldi a hangot: Média, Útmutatás és Rendszerhangok. Mindegyik egy rendszerfolyamon jut el a fejegységhez, és a választott folyam dönti el, melyik hangerőgombra reagál, illetve sok fejegységnél azt is, hogy az erősítő egyáltalán bekapcsol-e hozzá. A hangszóró gombbal mentés előtt meghallgathat egy tesztjelet az adott folyamon.</string>

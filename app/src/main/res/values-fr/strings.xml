@@ -1356,6 +1356,9 @@
     <string name="raise_projection_during_call">Rester dans Android Auto pendant les appels</string>
     <string name="raise_projection_during_call_description">Mode Self uniquement. Ramène la projection par-dessus l\'écran d\'appel du téléphone pour répondre et raccrocher depuis l\'interface Android Auto.</string>
     <string name="raise_projection_during_call_summary">Mode autonome uniquement. Affiche la projection par-dessus l\'écran d\'appel du téléphone.</string>
+    <string name="raise_projection_during_head_unit_call">Ramener Android Auto sur les appels de l\'autoradio</string>
+    <string name="raise_projection_during_head_unit_call_description">L\'écran d\'appel propre à l\'autoradio peut masquer Android Auto. Cette option ramène Android Auto une seule fois, uniquement dans les 10 premières secondes d\'un appel. Une caméra de recul qui s\'ouvre jusqu\'à 5 s avant l\'appel, ou dans ses 10 premières secondes, peut aussi être masquée. Cela ne fonctionne que si l\'autoradio signale les appels à Android.</string>
+    <string name="raise_projection_during_head_unit_call_summary">Affiche la projection une fois par-dessus l\'écran d\'appel propre à l\'autoradio.</string>
     <string name="audio_stream_settings">Flux audio</string>
     <string name="audio_stream_settings_description">Choisissez le flux système sur lequel joue chaque canal Android Auto.</string>
     <string name="audio_stream_settings_info">Android Auto envoie l\'audio sur trois canaux : Multimédia, Guidage et Sons système. Chacun parvient à l\'autoradio sur un flux système. Le flux choisi détermine la touche de volume utilisée et, sur de nombreux autoradios, si l\'amplificateur sort du mode muet pour ce canal. Utilisez le bouton haut-parleur pour écouter une tonalité de test sur le flux avant d\'enregistrer.</string>

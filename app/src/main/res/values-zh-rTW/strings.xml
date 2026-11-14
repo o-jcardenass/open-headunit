@@ -1296,6 +1296,9 @@
     <string name="raise_projection_during_call">通話期間停留在 Android Auto</string>
     <string name="raise_projection_during_call_description">僅限本機模式。將投影畫面帶回手機通話畫面上方，讓你在 Android Auto 介面中接聽及結束通話。</string>
     <string name="raise_projection_during_call_summary">僅限本機模式。在手機的通話畫面上方顯示投影。</string>
+    <string name="raise_projection_during_head_unit_call">在主機來電上方顯示 Android Auto</string>
+    <string name="raise_projection_during_head_unit_call_description">主機內建的通話畫面可能會蓋住 Android Auto。此選項只在通話的前 10 秒內把 Android Auto 帶回前景一次。在通話前最多 5 秒或通話前 10 秒內開啟的倒車鏡頭也可能被蓋住。僅當主機向 Android 回報來電時才有效。</string>
+    <string name="raise_projection_during_head_unit_call_summary">在主機內建的通話畫面上方顯示一次投影。</string>
     <string name="audio_stream_settings">音訊串流</string>
     <string name="audio_stream_settings_description">選擇每個 Android Auto 頻道要在哪個系統串流上播放。</string>
     <string name="audio_stream_settings_info">Android Auto 以三個頻道傳送音訊：媒體、語音導引和系統音效。每個頻道都會以某個系統串流交給車機，您選擇的串流會決定它跟隨哪個音量鍵，在許多車機上，也決定擴大機是否會為它解除靜音。儲存前，請用喇叭按鈕在該串流上播放測試音。</string>

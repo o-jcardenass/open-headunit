@@ -1301,6 +1301,9 @@
     <string name="raise_projection_during_call">Залишатися в Android Auto під час дзвінків</string>
     <string name="raise_projection_during_call_description">Лише Самостійний режим. Повертає проєкцію поверх екрана виклику телефону, щоб відповідати на дзвінки та завершувати їх в інтерфейсі Android Auto.</string>
     <string name="raise_projection_during_call_summary">Лише в автономному режимі. Показує проєкцію поверх екрана дзвінка на телефоні.</string>
+    <string name="raise_projection_during_head_unit_call">Показувати Android Auto поверх дзвінків магнітоли</string>
+    <string name="raise_projection_during_head_unit_call_description">Власний екран дзвінка магнітоли може закрити Android Auto. Цей параметр повертає Android Auto один раз, лише в перші 10 с дзвінка. Камера заднього виду, яка відкривається за 5 с до дзвінка або в його перші 10 с, теж може бути закрита. Працює, лише якщо магнітола повідомляє про дзвінки в Android.</string>
+    <string name="raise_projection_during_head_unit_call_summary">Один раз показує проєкцію поверх власного екрана дзвінка магнітоли.</string>
     <string name="audio_stream_settings">Аудіопотоки</string>
     <string name="audio_stream_settings_description">Виберіть системний потік, через який відтворюється кожен канал Android Auto.</string>
     <string name="audio_stream_settings_info">Android Auto передає звук трьома каналами: «Мультимедіа», «Підказки» та «Системні звуки». Кожен потрапляє до магнітоли через системний потік, і вибраний потік визначає, якій кнопці гучності він підпорядковується та, на багатьох магнітолах, чи ввімкнеться для нього підсилювач узагалі. Натисніть кнопку динаміка, щоб почути тестовий сигнал на потоці перед збереженням.</string>

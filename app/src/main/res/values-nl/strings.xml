@@ -1304,6 +1304,9 @@
     <string name="raise_projection_during_call">In Android Auto blijven tijdens gesprekken</string>
     <string name="raise_projection_during_call_description">Alleen Self Mode. Haalt de projectie terug over het belscherm van de telefoon, zodat gesprekken in de Android Auto-interface worden aangenomen en beëindigd.</string>
     <string name="raise_projection_during_call_summary">Alleen in de zelfstandige modus. Toont de projectie over het gespreksscherm van de telefoon.</string>
+    <string name="raise_projection_during_head_unit_call">Android Auto boven gesprekken van de autoradio halen</string>
+    <string name="raise_projection_during_head_unit_call_description">Het eigen gespreksscherm van de autoradio kan Android Auto bedekken. Deze optie haalt Android Auto één keer terug, alleen in de eerste 10 s van een gesprek. Een achteruitrijcamera die tot 5 s voor het gesprek of in de eerste 10 s opent, kan ook bedekt worden. Het werkt alleen als de autoradio gesprekken meldt aan Android.</string>
+    <string name="raise_projection_during_head_unit_call_summary">Toont de projectie één keer boven het eigen gespreksscherm van de autoradio.</string>
     <string name="audio_stream_settings">Audiostreams</string>
     <string name="audio_stream_settings_description">Kies via welke systeemstream elk Android Auto-kanaal wordt afgespeeld.</string>
     <string name="audio_stream_settings_info">Android Auto verstuurt audio via drie kanalen: Media, Navigatiestem en Systeemgeluiden. Elk kanaal bereikt de headunit via een systeemstream. De gekozen stream bepaalt welke volumetoets erbij hoort en, op veel headunits, of de versterker er wel voor wordt aangezet. Gebruik de luidsprekerknop om vóór het opslaan een testtoon op de stream te horen.</string>

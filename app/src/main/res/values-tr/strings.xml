@@ -1293,6 +1293,9 @@
     <string name="raise_projection_during_call">Aramalar sırasında Android Auto\'da kal</string>
     <string name="raise_projection_during_call_description">Yalnızca Dahili Mod. Yansıtmayı telefonun arama ekranının üzerine geri getirir, böylece aramalar Android Auto arayüzünden yanıtlanır ve sonlandırılır.</string>
     <string name="raise_projection_during_call_summary">Yalnızca Bağımsız Mod. Yansıtmayı telefonun arama ekranının üzerinde gösterir.</string>
+    <string name="raise_projection_during_head_unit_call">Android Auto\'yu teypin aramalarının üstüne getir</string>
+    <string name="raise_projection_during_head_unit_call_description">Teypin kendi arama ekranı Android Auto\'yu kapatabilir. Bu seçenek Android Auto\'yu yalnızca bir kez, aramanın ilk 10 saniyesinde geri getirir. Aramadan en çok 5 saniye önce veya aramanın ilk 10 saniyesinde açılan geri vites kamerası da kapanabilir. Yalnızca teypin aramaları Android\'e bildirmesi durumunda çalışır.</string>
+    <string name="raise_projection_during_head_unit_call_summary">Yansıtmayı teypin kendi arama ekranının üstünde bir kez gösterir.</string>
     <string name="audio_stream_settings">Ses akışları</string>
     <string name="audio_stream_settings_description">Her Android Auto kanalının hangi sistem akışında çalacağını seçin.</string>
     <string name="audio_stream_settings_info">Android Auto sesi üç kanaldan gönderir: Medya, Yönlendirme ve Sistem sesleri. Her biri ana üniteye bir sistem akışı üzerinden iletilir. Seçtiğiniz akış, hangi ses tuşunu izleyeceğini ve birçok ana ünitede amplifikatörün onun için hiç açılıp açılmayacağını belirler. Kaydetmeden önce akışta test tonu dinlemek için hoparlör düğmesini kullanın.</string>

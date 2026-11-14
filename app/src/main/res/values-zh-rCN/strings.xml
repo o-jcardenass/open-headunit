@@ -1296,6 +1296,9 @@
     <string name="raise_projection_during_call">通话期间停留在 Android Auto</string>
     <string name="raise_projection_during_call_description">仅限本机模式。将投屏画面重新显示在手机的通话界面之上，这样就能在 Android Auto 界面中接听和结束通话。</string>
     <string name="raise_projection_during_call_summary">仅限独立模式。在手机的通话界面上方显示投屏。</string>
+    <string name="raise_projection_during_head_unit_call">在主机来电上方显示 Android Auto</string>
+    <string name="raise_projection_during_head_unit_call_description">主机自带的通话界面可能会盖住 Android Auto。此选项只在通话的前 10 秒内把 Android Auto 带回前台一次。在通话前最多 5 秒或通话前 10 秒内打开的倒车摄像头也可能被盖住。仅当主机向 Android 报告来电时才有效。</string>
+    <string name="raise_projection_during_head_unit_call_summary">在主机自带的通话界面上方显示一次投屏。</string>
     <string name="audio_stream_settings">音频流</string>
     <string name="audio_stream_settings_description">选择每个 Android Auto 通道使用哪个系统流播放。</string>
     <string name="audio_stream_settings_info">Android Auto 通过媒体、导航语音和系统提示音三个通道传送音频。每个通道都会以某个系统流交给车机，所选的流决定它跟随哪个音量键，在许多车机上还决定功放是否会为它取消静音。保存前，可点按喇叭按钮在该流上播放测试音。</string>

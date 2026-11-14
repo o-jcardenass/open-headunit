@@ -286,6 +286,16 @@ class Settings(private val context: Context) {
             prefs.edit().putBoolean("raise-projection-during-call", value).apply()
         }
 
+    /**
+     * Outside Self Mode, put the projection back once over the head unit's own call screen.
+     * It can also raise once over a camera that opens up to 5 s before a call or in its first 10 s.
+     */
+    var raiseProjectionDuringHeadUnitCall: Boolean
+        get() = prefs.getBoolean("raise-projection-during-head-unit-call", false)
+        set(value) {
+            prefs.edit().putBoolean("raise-projection-during-head-unit-call", value).apply()
+        }
+
     var nightMode: NightMode
         get() {
             val value = prefs.getInt("night-mode", 0)

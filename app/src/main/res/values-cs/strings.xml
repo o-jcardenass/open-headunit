@@ -1300,6 +1300,9 @@
     <string name="raise_projection_during_call">Zůstat v Android Auto během hovorů</string>
     <string name="raise_projection_during_call_description">Pouze samostatný režim. Vrátí projekci nad obrazovku hovoru telefonu, takže se hovory přijímají a ukončují v rozhraní Android Auto.</string>
     <string name="raise_projection_during_call_summary">Jen samostatný režim. Zobrazí projekci nad obrazovkou hovoru v telefonu.</string>
+    <string name="raise_projection_during_head_unit_call">Vrátit Android Auto nad hovory autorádia</string>
+    <string name="raise_projection_during_head_unit_call_description">Vlastní obrazovka hovoru autorádia může zakrýt Android Auto. Toto nastavení vrátí Android Auto jednou, a to jen v prvních 10 s hovoru. Může být zakryta i couvací kamera, která se otevře až 5 s před hovorem nebo v jeho prvních 10 s. Funguje jen tehdy, když autorádio hlásí hovory systému Android.</string>
+    <string name="raise_projection_during_head_unit_call_summary">Jednou zobrazí projekci nad vlastní obrazovkou hovoru autorádia.</string>
     <string name="audio_stream_settings">Zvukové streamy</string>
     <string name="audio_stream_settings_description">Vyberte systémový stream, na kterém hraje každý kanál Android Auto.</string>
     <string name="audio_stream_settings_info">Android Auto posílá zvuk třemi kanály: Média, Navigace a Systémové zvuky. Každý se do autorádia dostane určitým systémovým streamem a zvolený stream určuje, kterým tlačítkem hlasitosti se řídí a u řady autorádií i to, zda se pro něj vůbec zapne zesilovač. Tlačítkem reproduktoru si před uložením přehrajte na streamu zkušební tón.</string>

@@ -95,6 +95,7 @@ class SettingsPendingCopy {
     var killOnDisconnect: Boolean? = null
     var autoKillOemApps: Boolean? = null
     var raiseProjectionDuringCall: Boolean? = null
+    var raiseProjectionDuringHeadUnitCall: Boolean? = null
     var insetLeft: Int? = null
     var insetTop: Int? = null
     var insetRight: Int? = null
@@ -187,6 +188,7 @@ class SettingsPendingCopy {
         killOnDisconnect = settings.rawKillOnDisconnect
         autoKillOemApps = settings.autoKillOemApps
         raiseProjectionDuringCall = settings.raiseProjectionDuringCall
+        raiseProjectionDuringHeadUnitCall = settings.raiseProjectionDuringHeadUnitCall
         insetLeft = settings.insetLeft
         insetTop = settings.insetTop
         insetRight = settings.insetRight
@@ -280,6 +282,7 @@ class SettingsPendingCopy {
         killOnDisconnect != settings.rawKillOnDisconnect ||
         autoKillOemApps != settings.autoKillOemApps ||
         raiseProjectionDuringCall != settings.raiseProjectionDuringCall ||
+        raiseProjectionDuringHeadUnitCall != settings.raiseProjectionDuringHeadUnitCall ||
         insetLeft != settings.insetLeft ||
         insetTop != settings.insetTop ||
         insetRight != settings.insetRight ||

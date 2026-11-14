@@ -1285,6 +1285,9 @@
     <string name="raise_projection_during_call">ზარების დროს Android Auto-ში დარჩენა</string>
     <string name="raise_projection_during_call_description">მხოლოდ ავტონომიური რეჟიმი. აბრუნებს პროექციას ტელეფონის ზარის ეკრანის ზემოთ, ასე რომ ზარებზე პასუხი და დასრულება Android Auto-ს ინტერფეისში ხდება.</string>
     <string name="raise_projection_during_call_summary">მხოლოდ ავტონომიური რეჟიმისთვის. აჩვენებს პროექციას ტელეფონის ზარის ეკრანის ზემოდან.</string>
+    <string name="raise_projection_during_head_unit_call">Android Auto-ს გამოტანა ჰედ იუნიტის ზარებზე</string>
+    <string name="raise_projection_during_head_unit_call_description">ჰედ იუნიტის საკუთარმა ზარის ეკრანმა შეიძლება დაფაროს Android Auto. ეს პარამეტრი Android Auto-ს აბრუნებს მხოლოდ ერთხელ, ზარის პირველ 10 წამში. შეიძლება დაიფაროს უკანა სვლის კამერაც, თუ ის ზარამდე 5 წამით ადრე ან ზარის პირველ 10 წამში იხსნება. მუშაობს მხოლოდ მაშინ, თუ ჰედ იუნიტი ზარებს Android-ს აცნობებს.</string>
+    <string name="raise_projection_during_head_unit_call_summary">აჩვენებს პროექციას ერთხელ ჰედ იუნიტის საკუთარი ზარის ეკრანის ზემოთ.</string>
     <string name="audio_stream_settings">აუდიონაკადები</string>
     <string name="audio_stream_settings_description">აირჩიეთ სისტემური ნაკადი, რომელზეც უკრავს Android Auto-ს თითოეული არხი.</string>
     <string name="audio_stream_settings_info">Android Auto ხმას სამ არხზე აგზავნის: მედია, სავიგაციო მითითებები და სისტემური ხმები. თითოეული სისტემური ნაკადით აღწევს მაგნიტოლამდე და არჩეული ნაკადი განსაზღვრავს, ხმის რომელ ღილაკს დაემორჩილება და, ბევრ მაგნიტოლაზე, ჩაირთვება თუ არა მისთვის გამაძლიერებელი. დინამიკის ღილაკით შენახვამდე მოისმინეთ სატესტო სიგნალი ამ ნაკადზე.</string>

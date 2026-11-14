@@ -1308,6 +1308,9 @@
     <string name="raise_projection_during_call">Permanecer en Android Auto durante las llamadas</string>
     <string name="raise_projection_during_call_description">Solo en modo autónomo. Devuelve la proyección sobre la pantalla de llamada del teléfono para contestar y colgar las llamadas desde la interfaz de Android Auto.</string>
     <string name="raise_projection_during_call_summary">Solo en el modo autónomo. Muestra la proyección sobre la pantalla de llamada del teléfono.</string>
+    <string name="raise_projection_during_head_unit_call">Mostrar Android Auto sobre las llamadas de la unidad</string>
+    <string name="raise_projection_during_head_unit_call_description">La pantalla de llamada propia de la unidad puede cubrir Android Auto. Esta opción devuelve Android Auto una vez, solo en los primeros 10 s de una llamada. También puede cubrirse una cámara de reversa que se abra hasta 5 s antes de la llamada o en sus primeros 10 s. Solo funciona si la unidad informa de las llamadas a Android.</string>
+    <string name="raise_projection_during_head_unit_call_summary">Muestra la proyección una vez sobre la pantalla de llamada propia de la unidad.</string>
     <string name="audio_stream_settings">Flujos de audio</string>
     <string name="audio_stream_settings_description">Elige el flujo del sistema en el que suena cada canal de Android Auto.</string>
     <string name="audio_stream_settings_info">Android Auto envía el audio por tres canales: Multimedia, Guía y Sonidos del sistema. Cada uno llega a la unidad central en un flujo del sistema. El flujo que elijas determina qué tecla de volumen lo controla y, en muchas unidades, si el amplificador se activa para él. Usa el botón del altavoz para oír un tono de prueba en el flujo antes de guardar.</string>

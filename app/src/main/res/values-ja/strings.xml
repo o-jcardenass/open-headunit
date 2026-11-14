@@ -1302,6 +1302,9 @@
     <string name="raise_projection_during_call">通話中もAndroid Autoを表示したままにする</string>
     <string name="raise_projection_during_call_description">セルフモード専用。スマートフォンの通話画面の上にAndroid Autoの画面を再び表示し、通話の応答と終了をAndroid Autoの画面で行えるようにします。</string>
     <string name="raise_projection_during_call_summary">セルフモード専用。スマートフォンの通話画面の上に投影を表示します。</string>
+    <string name="raise_projection_during_head_unit_call">ヘッドユニットの通話中もAndroid Autoを前面に出す</string>
+    <string name="raise_projection_during_head_unit_call_description">ヘッドユニット独自の通話画面がAndroid Autoを隠すことがあります。この設定は、通話開始から最初の10秒間だけ、Android Autoを1回前面に戻します。通話の5秒前まで、または通話の最初の10秒間に開くバックカメラの映像も隠れることがあります。ヘッドユニットが通話をAndroidに通知する場合のみ動作します。</string>
+    <string name="raise_projection_during_head_unit_call_summary">ヘッドユニット独自の通話画面の上に、投影を1回だけ表示します。</string>
     <string name="audio_stream_settings">オーディオストリーム</string>
     <string name="audio_stream_settings_description">Android Auto の各チャンネルを再生するシステムストリームを選択します。</string>
     <string name="audio_stream_settings_info">Android Auto は音声を「メディア」「音声案内」「システム音」の 3 チャンネルで送信します。各チャンネルはシステムストリーム経由でヘッドユニットに届き、選んだストリームによって連動する音量キーが決まります。多くのヘッドユニットでは、そもそもアンプが作動するかどうかも左右します。保存する前にスピーカーボタンでテスト音を鳴らして確認してください。</string>

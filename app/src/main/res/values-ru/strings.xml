@@ -1297,6 +1297,9 @@ Open Headunit предоставляется «как есть» без каки
     <string name="raise_projection_during_call">Оставаться в Android Auto во время звонков</string>
     <string name="raise_projection_during_call_description">Только в автономном режиме. Возвращает проекцию поверх экрана вызова на телефоне, чтобы отвечать на звонки и завершать их в интерфейсе Android Auto.</string>
     <string name="raise_projection_during_call_summary">Только в автономном режиме. Показывает проекцию поверх экрана звонка на телефоне.</string>
+    <string name="raise_projection_during_head_unit_call">Показывать Android Auto поверх звонков магнитолы</string>
+    <string name="raise_projection_during_head_unit_call_description">Собственный экран звонка магнитолы может закрыть Android Auto. Этот параметр возвращает Android Auto один раз, только в первые 10 с звонка. Камера заднего вида, которая открывается за 5 с до звонка или в его первые 10 с, тоже может быть закрыта. Работает, только если магнитола сообщает о звонках в Android.</string>
+    <string name="raise_projection_during_head_unit_call_summary">Один раз показывает проекцию поверх собственного экрана звонка магнитолы.</string>
     <string name="audio_stream_settings">Аудиопотоки</string>
     <string name="audio_stream_settings_description">Выберите системный поток, через который воспроизводится каждый канал Android Auto.</string>
     <string name="audio_stream_settings_info">Android Auto передаёт звук по трём каналам: «Мультимедиа», «Подсказки» и «Системные звуки». Каждый канал поступает на головное устройство через системный поток. Выбранный поток определяет, какой кнопке громкости подчиняется канал и, на многих устройствах, включается ли для него усилитель вообще. Нажмите кнопку динамика, чтобы услышать тестовый сигнал на потоке до сохранения.</string>

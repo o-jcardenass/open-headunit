@@ -1300,6 +1300,9 @@
     <string name="raise_projection_during_call">البقاء في Android Auto أثناء المكالمات</string>
     <string name="raise_projection_during_call_description">الوضع الذاتي فقط. يُعيد العرض فوق شاشة اتصال الهاتف بحيث يتم الرد على المكالمات وإنهاؤها من واجهة Android Auto.</string>
     <string name="raise_projection_during_call_summary">للوضع الذاتي فقط. يعرض الإسقاط فوق شاشة المكالمة في الهاتف.</string>
+    <string name="raise_projection_during_head_unit_call">إظهار Android Auto فوق مكالمات الوحدة الرئيسية</string>
+    <string name="raise_projection_during_head_unit_call_description">قد تغطي شاشة المكالمة الخاصة بالوحدة الرئيسية واجهة Android Auto. يعيد هذا الخيار Android Auto مرة واحدة فقط، وفي أول 10 ثوانٍ من المكالمة. قد تتم تغطية كاميرا الرجوع التي تفتح قبل المكالمة بـ5 ثوانٍ كحد أقصى، أو في أول 10 ثوانٍ منها. يعمل الخيار فقط إذا أبلغت الوحدة الرئيسية نظام Android عن المكالمات.</string>
+    <string name="raise_projection_during_head_unit_call_summary">عرض الإسقاط مرة واحدة فوق شاشة المكالمة الخاصة بالوحدة الرئيسية.</string>
     <string name="audio_stream_settings">تدفقات الصوت</string>
     <string name="audio_stream_settings_description">اختر تدفق النظام الذي تُشغَّل عليه كل قناة من قنوات Android Auto.</string>
     <string name="audio_stream_settings_info">يرسل Android Auto الصوت عبر ثلاث قنوات: الوسائط، والإرشادات، وأصوات النظام. تصل كل قناة إلى وحدة الرأس عبر تدفق نظام، والتدفق الذي تختاره يحدد مفتاح مستوى الصوت الذي تتبعه، وفي كثير من الوحدات ما إذا كان مكبر الصوت سيعمل لها أصلًا. استخدم زر السماعة لسماع نغمة اختبار على التدفق قبل الحفظ.</string>

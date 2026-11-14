@@ -270,6 +270,7 @@ class SettingsFragment : Fragment() {
     private var pendingKillOnDisconnect by pending::killOnDisconnect
     private var pendingAutoKillOemApps by pending::autoKillOemApps
     private var pendingRaiseProjectionDuringCall by pending::raiseProjectionDuringCall
+    private var pendingRaiseProjectionDuringHeadUnitCall by pending::raiseProjectionDuringHeadUnitCall
 
     // Custom Insets
     private var pendingInsetLeft by pending::insetLeft
@@ -694,6 +695,7 @@ class SettingsFragment : Fragment() {
         pendingKillOnDisconnect?.let { if (it != settings.rawKillOnDisconnect) settings.rawKillOnDisconnect = it }
         pendingAutoKillOemApps?.let { if (it != settings.autoKillOemApps) settings.autoKillOemApps = it }
         pendingRaiseProjectionDuringCall?.let { if (it != settings.raiseProjectionDuringCall) settings.raiseProjectionDuringCall = it }
+        pendingRaiseProjectionDuringHeadUnitCall?.let { if (it != settings.raiseProjectionDuringHeadUnitCall) settings.raiseProjectionDuringHeadUnitCall = it }
         pendingAutoEnableHotspot?.let { if (it != settings.autoEnableHotspot) settings.autoEnableHotspot = it }
         pendingAutoRestartWifi?.let { if (it != settings.autoRestartWifiWhenP2pStuck) settings.autoRestartWifiWhenP2pStuck = it }
         pendingUseLibusb?.let { if (it != settings.useLibusb) settings.useLibusb = it }
@@ -2092,8 +2094,7 @@ class SettingsFragment : Fragment() {
             ))
         }
 
-        // Self Mode is the only mode where the phone's call screen and the projection share a
-        // screen, so it is the only mode this can do anything in.
+        // This row acts in Self Mode only. The head unit row below acts in every other mode.
         if (settings.showsSelf()) {
             items.add(SettingItem.ToggleSettingEntry(
                 stableId = "raiseProjectionDuringCall",
@@ -2108,6 +2109,19 @@ class SettingsFragment : Fragment() {
                 }
             ))
         }
+
+        items.add(SettingItem.ToggleSettingEntry(
+            stableId = "raiseProjectionDuringHeadUnitCall",
+            nameResId = R.string.raise_projection_during_head_unit_call,
+            descriptionResId = R.string.raise_projection_during_head_unit_call_summary,
+            helpResId = R.string.raise_projection_during_head_unit_call_description,
+            isChecked = pendingRaiseProjectionDuringHeadUnitCall ?: settings.raiseProjectionDuringHeadUnitCall,
+            onCheckedChanged = { isChecked ->
+                pendingRaiseProjectionDuringHeadUnitCall = isChecked
+                checkChanges()
+                updateSettingsList()
+            }
+        ))
 
         if (!isCarLauncherActive) {
             val exitActions = arrayOf(
