@@ -1328,6 +1328,9 @@
     <string name="night_overlay_while_locked">잠금 중 야간 오버레이</string>
     <string name="night_overlay_while_locked_summary">지도 대신 시계, 다음 회전, 곡을 표시.</string>
     <string name="night_overlay_while_locked_help">이 기기가 잠겨 있는 동안 Android Auto 화면 대신 야간 오버레이를 표시합니다. 어두운 배경에 시계, 다음 회전, 재생 중인 곡이 나타납니다. 지도, 저장한 장소, 발신자 이름 같은 Android Auto 팝업은 가려집니다. 잠금을 해제하면 화면이 다시 표시됩니다. 이 기기가 표시하는 내용만 바꾸고 휴대전화로는 아무것도 보내지 않습니다. 글자 크기, 배경, 표시할 줄은 “제스처”의 야간 오버레이 설정에서 정합니다.</string>
+    <string name="raise_projection_during_head_unit_call">헤드유닛 통화 위에 Android Auto 표시</string>
+    <string name="raise_projection_during_head_unit_call_description">헤드유닛 자체 통화 화면이 Android Auto를 가릴 수 있습니다. 이 설정은 통화 처음 10초 안에만 Android Auto를 한 번 다시 가져옵니다. 통화 5초 전까지 또는 통화 처음 10초 안에 열리는 후진 카메라도 가려질 수 있습니다. 헤드유닛이 통화를 Android에 알릴 때만 작동합니다.</string>
+    <string name="raise_projection_during_head_unit_call_summary">헤드유닛 자체 통화 화면 위에 투사 화면을 한 번 표시합니다.</string>
     <string name="audio_stream_settings">오디오 스트림</string>
     <string name="audio_stream_settings_description">각 Android Auto 오디오 채널에 사용할 시스템 스트림을 선택하세요.</string>
     <string name="audio_stream_settings_info">Android Auto는 미디어, 안내 음성, 시스템 소리의 세 채널로 오디오를 보냅니다. 각 채널의 오디오는 시스템 스트림으로 헤드유닛에 전달됩니다. 선택한 스트림에 따라 볼륨 키로 조절하는 음량 항목이 달라집니다. 많은 헤드유닛에서는 앰프의 음소거가 해제되는지도 스트림에 따라 달라집니다. 저장하기 전에 스피커 버튼으로 해당 스트림의 테스트음을 들어 보세요.</string>

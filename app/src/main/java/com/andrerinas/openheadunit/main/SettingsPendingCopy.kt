@@ -106,6 +106,7 @@ class SettingsPendingCopy {
     var raiseProjectionDuringCall: Boolean? = null
     var showOverLockScreen: Boolean? = null
     var nightOverlayWhileLocked: Boolean? = null
+    var raiseProjectionDuringHeadUnitCall: Boolean? = null
     var insetLeft: Int? = null
     var insetTop: Int? = null
     var insetRight: Int? = null
@@ -207,6 +208,7 @@ class SettingsPendingCopy {
         raiseProjectionDuringCall = settings.raiseProjectionDuringCall
         showOverLockScreen = settings.showOverLockScreen
         nightOverlayWhileLocked = settings.nightOverlayWhileLocked
+        raiseProjectionDuringHeadUnitCall = settings.raiseProjectionDuringHeadUnitCall
         insetLeft = settings.insetLeft
         insetTop = settings.insetTop
         insetRight = settings.insetRight
@@ -309,6 +311,7 @@ class SettingsPendingCopy {
         raiseProjectionDuringCall != settings.raiseProjectionDuringCall ||
         showOverLockScreen != settings.showOverLockScreen ||
         nightOverlayWhileLocked != settings.nightOverlayWhileLocked ||
+        raiseProjectionDuringHeadUnitCall != settings.raiseProjectionDuringHeadUnitCall ||
         insetLeft != settings.insetLeft ||
         insetTop != settings.insetTop ||
         insetRight != settings.insetRight ||

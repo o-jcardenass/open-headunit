@@ -1328,6 +1328,9 @@
     <string name="night_overlay_while_locked">Kilitliyken gece katmanı</string>
     <string name="night_overlay_while_locked_summary">Harita yerine saat, sonraki dönüş ve parça.</string>
     <string name="night_overlay_while_locked_help">Bu cihaz kilitliyken Android Auto görüntüsü yerine gece katmanını gösterir: koyu arka planda saat, sonraki dönüş ve çalan parça. Harita, kayıtlı yerler ve arayanın adı gibi Android Auto açılır pencereleri örtülür. Kilit açıldığında görüntü yeniden gösterilir. Bu yalnızca bu cihazın gösterdiğini değiştirir ve telefona hiçbir şey göndermez. Metin boyutu, arka plan ve gösterilen satırlar “Hareketler” menüsündeki gece katmanı ayarlarıdır.</string>
+    <string name="raise_projection_during_head_unit_call">Android Auto\'yu teypin aramalarının üstüne getir</string>
+    <string name="raise_projection_during_head_unit_call_description">Teypin kendi arama ekranı Android Auto\'yu kapatabilir. Bu seçenek Android Auto\'yu yalnızca bir kez, aramanın ilk 10 saniyesinde geri getirir. Aramadan en çok 5 saniye önce veya aramanın ilk 10 saniyesinde açılan geri vites kamerası da kapanabilir. Yalnızca teypin aramaları Android\'e bildirmesi durumunda çalışır.</string>
+    <string name="raise_projection_during_head_unit_call_summary">Yansıtmayı teypin kendi arama ekranının üstünde bir kez gösterir.</string>
     <string name="audio_stream_settings">Ses akışları</string>
     <string name="audio_stream_settings_description">Her Android Auto kanalının hangi sistem akışında çalacağını seçin.</string>
     <string name="audio_stream_settings_info">Android Auto sesi üç kanaldan gönderir: Medya, Yönlendirme ve Sistem sesleri. Her biri ana üniteye bir sistem akışı üzerinden iletilir. Seçtiğiniz akış, hangi ses tuşunu izleyeceğini ve birçok ana ünitede amplifikatörün onun için hiç açılıp açılmayacağını belirler. Kaydetmeden önce akışta test tonu dinlemek için hoparlör düğmesini kullanın.</string>

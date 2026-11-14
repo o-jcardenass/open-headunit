@@ -286,6 +286,7 @@ class SettingsFragment : Fragment() {
     private var pendingRaiseProjectionDuringCall by pending::raiseProjectionDuringCall
     private var pendingShowOverLockScreen by pending::showOverLockScreen
     private var pendingNightOverlayWhileLocked by pending::nightOverlayWhileLocked
+    private var pendingRaiseProjectionDuringHeadUnitCall by pending::raiseProjectionDuringHeadUnitCall
 
     // Custom Insets
     private var pendingInsetLeft by pending::insetLeft
@@ -715,6 +716,7 @@ class SettingsFragment : Fragment() {
         pendingRaiseProjectionDuringCall?.let { if (it != settings.raiseProjectionDuringCall) settings.raiseProjectionDuringCall = it }
         pendingShowOverLockScreen?.let { if (it != settings.showOverLockScreen) settings.showOverLockScreen = it }
         pendingNightOverlayWhileLocked?.let { if (it != settings.nightOverlayWhileLocked) settings.nightOverlayWhileLocked = it }
+        pendingRaiseProjectionDuringHeadUnitCall?.let { if (it != settings.raiseProjectionDuringHeadUnitCall) settings.raiseProjectionDuringHeadUnitCall = it }
         pendingAutoEnableHotspot?.let { if (it != settings.autoEnableHotspot) settings.autoEnableHotspot = it }
         // Read by every discovery sweep and by the home, so neither needs a restart. Written even
         // when unchanged: a unit that never chose reads its choice off "Auto-Enable Hotspot", and
@@ -2209,7 +2211,7 @@ class SettingsFragment : Fragment() {
         }
 
         // A call screen shares the display with the projection in Self Mode, and on an FYT unit,
-        // whose own call bar draws over every mode.
+        // whose own call bar draws over every mode. The head unit row below acts outside Self Mode.
         if (FytCallScreenPolicy.showsSetting(settings.showsSelf(), FytCallScreen.isFytUnit(requireContext()))) {
             items.add(SettingItem.ToggleSettingEntry(
                 stableId = "raiseProjectionDuringCall",
@@ -2254,6 +2256,19 @@ class SettingsFragment : Fragment() {
                 }
             ))
         }
+
+        items.add(SettingItem.ToggleSettingEntry(
+            stableId = "raiseProjectionDuringHeadUnitCall",
+            nameResId = R.string.raise_projection_during_head_unit_call,
+            descriptionResId = R.string.raise_projection_during_head_unit_call_summary,
+            helpResId = R.string.raise_projection_during_head_unit_call_description,
+            isChecked = pendingRaiseProjectionDuringHeadUnitCall ?: settings.raiseProjectionDuringHeadUnitCall,
+            onCheckedChanged = { isChecked ->
+                pendingRaiseProjectionDuringHeadUnitCall = isChecked
+                checkChanges()
+                updateSettingsList()
+            }
+        ))
 
         if (!isCarLauncherActive) {
             val exitActions = arrayOf(

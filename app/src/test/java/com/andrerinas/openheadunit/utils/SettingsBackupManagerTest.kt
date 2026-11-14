@@ -81,6 +81,7 @@ class SettingsBackupManagerTest {
             "show-home-speed" to true,
             "auto-resume-playback-on-reconnect" to true,
             "raise-projection-during-call" to false,
+            "raise-projection-during-head-unit-call" to true,
             "car-signal-invert" to true,
             "dpi-floor-override" to true,
             "dpi-auto-layout" to "ONE_APP",
