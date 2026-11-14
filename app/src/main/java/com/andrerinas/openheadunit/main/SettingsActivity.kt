@@ -180,7 +180,7 @@ class SettingsActivity : BaseActivity() {
             // After the flag: launchAapProjectionActivity() reads it before raising projection.
             AapService.instance?.onSettingsScreenChanged(inForeground = false)
             if (App.provide(this).commManager.isConnected) {
-                sendBroadcast(Intent(AapService.ACTION_RAISE_PROJECTION).apply { setPackage(packageName) })
+                sendBroadcast(Intent(AapService.ACTION_RAISE_PROJECTION_IN_APP).apply { setPackage(packageName) })
             }
         }
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? android.view.inputmethod.InputMethodManager

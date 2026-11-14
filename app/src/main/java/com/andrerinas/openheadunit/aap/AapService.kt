@@ -717,12 +717,11 @@ class AapService : Service() {
         launchAapProjectionActivity(allowNotificationFallback = false)
     }
 
-    // Receives ACTION_RAISE_PROJECTION, sent by the projection activity when a call screen has
-    // covered it in Self Mode. The activity is paused at that point, so the launch has to come from
-    // here, where the overlay trampoline lives.
+    // Receives ACTION_RAISE_PROJECTION_IN_APP, sent when a call screen has covered the projection or
+    // the settings screen closes. A paused activity cannot start itself; the overlay trampoline is here.
     private val raiseProjectionReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            if (intent.action != ACTION_RAISE_PROJECTION) return
+            if (intent.action != ACTION_RAISE_PROJECTION_IN_APP) return
             raiseProjection()
         }
     }
@@ -2415,7 +2414,7 @@ class AapService : Service() {
         )
         ContextCompat.registerReceiver(
             this, raiseProjectionReceiver,
-            IntentFilter(ACTION_RAISE_PROJECTION),
+            IntentFilter(ACTION_RAISE_PROJECTION_IN_APP),
             ContextCompat.RECEIVER_NOT_EXPORTED
         )
         // Runtime-registered MEDIA_BUTTON receiver.
@@ -4568,6 +4567,9 @@ class AapService : Service() {
         const val ACTION_REFRESH_SENSORS         = "com.andrerinas.openheadunit.aap.action.REFRESH_SENSORS"
         const val ACTION_RESTART_AUDIO           = "com.andrerinas.openheadunit.aap.action.RESTART_AUDIO"
         const val ACTION_RAISE_PROJECTION        = "com.andrerinas.openheadunit.aap.action.RAISE_PROJECTION"
+        // The app's own raise. The exported automation receiver relays ACTION_RAISE_PROJECTION too,
+        // so sending that one from inside the app would launch the projection twice.
+        const val ACTION_RAISE_PROJECTION_IN_APP = "com.andrerinas.openheadunit.aap.action.RAISE_PROJECTION_IN_APP"
         const val ACTION_TURN_SCREEN_ON          = "com.andrerinas.openheadunit.aap.action.TURN_SCREEN_ON"
         private const val EXTERNAL_POWER_STAND_DOWN = "external-power disconnect"
         private const val EXTERNAL_POWER_HOLD_MARGIN_MS = 30_000L

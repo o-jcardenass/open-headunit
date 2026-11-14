@@ -463,6 +463,21 @@ class AutomationCommandPolicyTest {
         }
     }
 
+    /** The exported receiver relays a raise too, so the app's own raise must not reach it, or one raise launches twice. */
+    @Test
+    fun `the in-app raise is neither advertised nor relayed`() {
+        val manifest = java.io.File("src/main/AndroidManifest.xml").readText()
+        val inApp = AapService.ACTION_RAISE_PROJECTION_IN_APP
+        assertTrue("$inApp is advertised in the manifest", !manifest.contains("\"$inApp\""))
+        assertTrue(
+            "$inApp is answered by the automation policy",
+            effects(inApp, emptyMap(), open).any {
+                it is AutomationCommandPolicy.Effect.Refuse && it.reason.startsWith("unknown action")
+            }
+        )
+        assertTrue("$inApp must differ from every relay", inApp !in AutomationCommandPolicy.relayTargets)
+    }
+
     private val ALL_COMMANDS = listOf(
         HeadUnitCommand.ACTION_SCREEN_OFF, HeadUnitCommand.ACTION_SCREEN_ON,
         HeadUnitCommand.ACTION_CONNECT, HeadUnitCommand.ACTION_DISCONNECT,
