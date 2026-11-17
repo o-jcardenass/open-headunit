@@ -34,7 +34,7 @@ class SettingsAdapterEnabledTest {
 
     @Test fun `disabled picker cannot select and recycled row becomes usable again`() {
         val view = LayoutInflater.from(context).inflate(R.layout.layout_setting_item, null)
-        val holder = SettingsAdapter.SettingViewHolder(view)
+        val holder = SettingsAdapter.SettingViewHolder(view, SettingsPalette.from(context))
         var selections = 0
         val row = SettingItem.SettingEntry("lab", R.string.lab_av_sync, "Auto", isEnabled = false) { selections++ }
         holder.bind(row)
