@@ -1326,6 +1326,7 @@ class CommManager(
     // -----------------------------------------------------------------------------------------
 
     private val keyStates = mutableMapOf<Int, KeyDebouncePolicy.KeyState>()
+    private val boundKeyStates = mutableMapOf<Int, KeyDebouncePolicy.KeyState>()
 
     /**
      * Sends a key press or release event to the phone with remapping and de-duplication.
@@ -1347,9 +1348,13 @@ class CommManager(
         // 1. Bindings (physical key -> action). An unbound key goes on as itself.
         val logicalCode = when (val resolution = KeyBindingPolicy.resolve(settings.keyBindings, keyCode, isPress)) {
             is KeyBindingPolicy.Resolution.SendToAa -> resolution.logicalCode
-            is KeyBindingPolicy.Resolution.Swallow -> return
+            is KeyBindingPolicy.Resolution.Swallow -> {
+                admitsBoundPress(keyCode, isPress, downTime)
+                return
+            }
             is KeyBindingPolicy.Resolution.Run -> {
-                runBoundAction(resolution.action, keyCode)
+                // One press arrives by several routes: only the click that got through runs the action.
+                if (admitsBoundPress(keyCode, isPress, downTime)) runBoundAction(resolution.action, keyCode)
                 return
             }
             KeyBindingPolicy.Resolution.Unbound -> {
@@ -1389,7 +1394,7 @@ class CommManager(
         // Only media keys can be held back, so nothing else pays for the Bluetooth probe.
         if (isMedia) {
             val routing = settings.mediaKeyRouting
-            if (source != "auto-resume" && !MediaKeyRoutingPolicy.shouldForward(routing, true, btMediaLinkForKeys())) {
+            if (source != "auto-resume" && source != "gesture" && !MediaKeyRoutingPolicy.shouldForward(routing, true, btMediaLinkForKeys())) {
                 AppLog.v("CommManager: Not sending media key $logicalCode to Android Auto " +
                         "(routing=$routing, src=$source)")
                 return
@@ -1419,6 +1424,19 @@ class CommManager(
 
         AppLog.i("CommManager: TX Key -> AA=$logicalCode (isPress=$isPress) src=$source")
         _transport?.send(logicalCode, isPress)
+    }
+
+    /** Debounces a key bound to a one-shot action by its own identity, apart from the keys sent on. */
+    private fun admitsBoundPress(keyCode: Int, isPress: Boolean, downTime: Long?): Boolean {
+        val decision = KeyDebouncePolicy.decide(
+            state = boundKeyStates[keyCode] ?: KeyDebouncePolicy.KeyState(),
+            isPress = isPress,
+            downTime = downTime,
+            isMediaKey = isMediaKey(keyCode),
+            now = SystemClock.elapsedRealtime()
+        )
+        boundKeyStates[keyCode] = decision.state
+        return decision.forward
     }
 
     private fun runBoundAction(action: InputAction, keyCode: Int) {
@@ -1764,6 +1782,7 @@ class CommManager(
         }
         settleSessionClaim(formed = false)
         keyStates.clear()
+        boundKeyStates.clear()
         btMediaLinkCached = null
         btMediaLinkCheckedAt = null
         // Counts frames over the whole session rather than reading lastFrameRenderedMs, which the
