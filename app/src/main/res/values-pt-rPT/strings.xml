@@ -1189,6 +1189,9 @@
     <string name="kill_on_disconnect">Fechar aplicação ao desligar</string>
     <string name="kill_on_disconnect_description">Fechar a aplicação automaticamente quando o Android Auto se desliga.</string>
     <string name="kill_on_disconnect_help">Fecha a app quando o Android Auto se desliga, para o dispositivo voltar aos seus próprios ecrãs. Ative se o dispositivo tiver de mostrar o seu próprio launcher depois de cada viagem. Não faz nada enquanto esta app for o launcher do automóvel. Se Reabrir ao religar, Iniciar no arranque ou Iniciar ao ligar o ecrã estiver ativado, a app avisa primeiro, porque essas opções precisam da app aberta.</string>
+    <string name="auto_audio_only_when_moving">Bloquear vídeo em movimento</string>
+    <string name="auto_audio_only_when_moving_summary">Apenas áudio enquanto o carro se move, pela velocidade do GPS</string>
+    <string name="auto_audio_only_when_moving_description">Usa a velocidade do GPS para indicar ao Android Auto que o vídeo não é permitido. O vídeo para quando a velocidade se mantém em 7.2 km/h ou mais durante 3 leituras. Volta quando a velocidade se mantém abaixo de 1.8 km/h durante 5 segundos, ou quando o GPS não fornece velocidade durante 10 segundos. Desativada, a opção mantém o vídeo sempre permitido.</string>
     <string name="raise_projection_during_call">Manter no Android Auto durante chamadas</string>
     <string name="raise_projection_during_call_description">No Modo Próprio, traz a projeção de volta sobre o ecrã de chamada do telemóvel, para atender e terminar as chamadas na interface do Android Auto. Em unidades FYT, pede à unidade que não mostre a sua própria barra ou ecrã de chamada enquanto o Android Auto estiver em primeiro plano. Pode não funcionar em todas as unidades ou versões de firmware.</string>
     <string name="raise_projection_during_call_summary">Modo Próprio e unidades FYT. Oculta o ecrã de chamada. Pode não funcionar.</string>

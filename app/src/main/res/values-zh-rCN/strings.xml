@@ -619,6 +619,9 @@
     <string name="kill_on_disconnect">断开连接时关闭应用</string>
     <string name="kill_on_disconnect_description">Android Auto 断开连接时自动关闭应用。</string>
     <string name="kill_on_disconnect_help">Android Auto 断开连接时关闭应用，让设备回到自己的界面。如果设备在每次行程后都要显示自己的启动器，请开启。当本应用是车机启动器时，此项不起作用。如果开启了“重新连接时重新打开”“开机时启动”或“亮屏时启动”，应用会先发出警告，因为这些选项需要应用保持打开。</string>
+    <string name="auto_audio_only_when_moving">行驶时禁用视频</string>
+    <string name="auto_audio_only_when_moving_summary">车辆行驶时仅播放音频（根据 GPS 速度）</string>
+    <string name="auto_audio_only_when_moving_description">使用 GPS 速度告知 Android Auto 不允许播放视频。速度连续 3 次定位保持在 7.2 km/h 或以上时，视频会停止。速度低于 1.8 km/h 并持续 5 秒，或 GPS 持续 10 秒未提供速度时，视频会恢复。关闭后，始终允许播放视频。</string>
     <string name="kill_on_disconnect_warning_title">警告</string>
     <string name="kill_on_disconnect_warning">以下重新连接设置与“断开连接时关闭应用”冲突：\n\n%1$s\n\n车机开机时，初始连接设置（自动连接、自动启动）仍然有效。但首次断开连接后，应用会立即关闭，而不会尝试重新连接。\n\n注意：部分后装车机不会完全关机，而是进入休眠，就像手机锁屏后并未真正关机一样。启用此选项后，应用会在首次断开连接后关闭，下次点火时可能不会自动重新打开。\n\n要停用上面列出的重新连接设置吗？</string>
     <string name="kill_on_disconnect_disable_and_enable">停用并启用</string>

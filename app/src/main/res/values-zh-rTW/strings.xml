@@ -619,6 +619,9 @@
     <string name="kill_on_disconnect">中斷連線時關閉應用程式</string>
     <string name="kill_on_disconnect_description">Android Auto 中斷連線時自動關閉應用程式。</string>
     <string name="kill_on_disconnect_help">Android Auto 中斷連線時關閉應用程式，讓裝置回到自己的畫面。如果裝置每次行車後都要顯示自己的啟動器，請開啟。當此應用程式是車用啟動器時，這個選項不會有作用。如果開啟了「重新連線時重新開啟」、「開機時啟動」或「螢幕亮起時啟動」，應用程式會先發出警告，因為這些選項需要應用程式保持開啟。</string>
+    <string name="auto_audio_only_when_moving">行駛時封鎖影片</string>
+    <string name="auto_audio_only_when_moving_summary">車輛行駛時僅播放音訊（依 GPS 速度）</string>
+    <string name="auto_audio_only_when_moving_description">使用 GPS 速度告知 Android Auto 不允許播放影片。速度連續 3 次定位維持在 7.2 km/h 或以上時，影片會停止。速度低於 1.8 km/h 並持續 5 秒，或 GPS 持續 10 秒未提供速度時，影片會恢復。關閉後，一律允許播放影片。</string>
     <string name="kill_on_disconnect_warning_title">警告</string>
     <string name="kill_on_disconnect_warning">以下重新連線設定會與「中斷連線時關閉應用程式」衝突：\n\n%1$s\n\n車機開機時，你的初始連線設定（自動連線、自動啟動）仍然有效。但第一次中斷連線後，應用程式會立即關閉，而不會嘗試重新連線。\n\n注意：部分副廠車機不會完全關機，而是進入休眠，就像手機鎖定螢幕但沒有真正關機。啟用此選項後，應用程式會在第一次中斷連線後關閉，下次點火時可能不會自動重新開啟。\n\n要停用上述重新連線設定嗎？</string>
     <string name="kill_on_disconnect_disable_and_enable">停用並啟用</string>

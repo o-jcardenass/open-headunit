@@ -12,10 +12,12 @@ import android.os.Process
 import android.os.SystemClock
 import android.view.KeyEvent
 import com.andrerinas.openheadunit.aap.protocol.Channel
+import com.andrerinas.openheadunit.aap.protocol.messages.DrivingStatusEvent
 import com.andrerinas.openheadunit.aap.protocol.messages.KeyCodeEvent
 import com.andrerinas.openheadunit.aap.protocol.messages.MediaAck
 import com.andrerinas.openheadunit.aap.protocol.messages.MicrophoneResponse
 import com.andrerinas.openheadunit.aap.protocol.proto.Common
+import com.andrerinas.openheadunit.aap.protocol.proto.Sensors
 import com.andrerinas.openheadunit.aap.protocol.messages.Messages
 import com.andrerinas.openheadunit.aap.protocol.messages.ScrollWheelEvent
 import com.andrerinas.openheadunit.aap.protocol.messages.SensorEvent
@@ -48,6 +50,7 @@ import com.andrerinas.openheadunit.aap.protocol.proto.Control
 import com.andrerinas.openheadunit.aap.protocol.proto.Media
 import com.andrerinas.openheadunit.aap.protocol.proto.MediaPlayback
 import com.andrerinas.openheadunit.utils.Utils
+import java.util.Locale
 
 /**
  * Core AAP message pump.
@@ -842,6 +845,47 @@ class AapTransport(
         }
     }
 
+
+    /** One per transport, so a session never inherits the last session's NO_VIDEO. */
+    internal val drivingStatus = DrivingStatusPolicy()
+
+    @Synchronized
+    private fun isDrivingStatusStarted() = Sensors.SensorType.DRIVING_STATUS_VALUE in sensorSubscriptions.activeTypes()
+
+    /** Sends a changed driving status once the phone has started that sensor. */
+    internal fun onGpsFix(speedMps: Float?, elapsedMs: Long) {
+        val status = drivingStatus.onFix(speedMps, elapsedMs) ?: return
+        sendDrivingStatus(status, speedMps?.let { "speed %.1f m/s".format(Locale.US, it) } ?: "")
+    }
+
+    /** Called on the GPS resend timer: ends NO_VIDEO when no fix with speed came for 10 s. */
+    internal fun onGpsTick(nowMs: Long) {
+        val status = drivingStatus.onTick(nowMs) ?: return
+        sendDrivingStatus(status, "no GPS speed for ${DrivingStatusPolicy.STALE_FIX_MS / 1000} s")
+    }
+
+    /** Ends a NO_VIDEO that is already on the phone, when the setting is off. Sends at most once. */
+    internal fun releaseDrivingStatus() {
+        val status = drivingStatus.reset() ?: return
+        sendDrivingStatus(status, "setting off")
+    }
+
+    /** The phone started DRIVING_STATUS: send the current status, which also covers any change held before. */
+    internal fun onDrivingStatusSensorStarted() {
+        val status = drivingStatus.current()
+        AppLog.i("AapTransport: driving status $status sent (sensor start)")
+        send(DrivingStatusEvent(status))
+    }
+
+    private fun sendDrivingStatus(status: Sensors.SensorBatch.DrivingStatusData.Status, reason: String) {
+        val why = if (reason.isEmpty()) "" else " ($reason)"
+        if (isDrivingStatusStarted()) {
+            AppLog.i("AapTransport: driving status $status sent$why")
+            send(DrivingStatusEvent(status))
+        } else {
+            AppLog.i("AapTransport: driving status $status held until sensor start$why")
+        }
+    }
 
     /**
      * Send one already-built, unfragmented message: preserve channel/flags in the cleartext

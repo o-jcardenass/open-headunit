@@ -642,6 +642,9 @@
     <string name="kill_on_disconnect">Đóng ứng dụng khi ngắt kết nối</string>
     <string name="kill_on_disconnect_description">Tự động đóng ứng dụng khi Android Auto ngắt kết nối.</string>
     <string name="kill_on_disconnect_help">Đóng ứng dụng khi Android Auto ngắt kết nối, để thiết bị quay về các màn hình riêng. Bật nếu thiết bị phải hiển thị trình khởi chạy riêng sau mỗi chuyến đi. Không có tác dụng khi ứng dụng này là trình khởi chạy của xe. Nếu Mở lại khi kết nối lại, Khởi động khi mở máy hoặc Khởi động khi bật màn hình đang bật, ứng dụng sẽ cảnh báo bạn trước, vì các tùy chọn đó cần ứng dụng luôn mở.</string>
+    <string name="auto_audio_only_when_moving">Chặn video khi di chuyển</string>
+    <string name="auto_audio_only_when_moving_summary">Chỉ phát âm thanh khi xe di chuyển, theo tốc độ GPS</string>
+    <string name="auto_audio_only_when_moving_description">Dùng tốc độ GPS để báo cho Android Auto rằng không được phát video. Video dừng khi tốc độ giữ ở mức 7.2 km/h trở lên trong 3 lần định vị. Video trở lại khi tốc độ giữ dưới 1.8 km/h trong 5 giây, hoặc khi GPS không cung cấp tốc độ trong 10 giây. Khi tắt, video luôn được phép.</string>
     <string name="kill_on_disconnect_warning_title">Cảnh báo</string>
     <string name="kill_on_disconnect_warning">Các cài đặt kết nối lại sau sẽ xung đột với việc đóng ứng dụng khi ngắt kết nối:\n\n%1$s\n\nCài đặt kết nối ban đầu (tự kết nối, tự khởi động) vẫn hoạt động khi đầu máy bật. Tuy nhiên, sau lần ngắt kết nối đầu tiên, ứng dụng sẽ đóng ngay thay vì cố kết nối lại.\n\nLưu ý: một số đầu máy lắp thêm không bao giờ tắt hẳn mà chuyển sang chế độ ngủ đông, giống điện thoại khóa màn hình nhưng không tắt nguồn. Khi bật tùy chọn này, ứng dụng sẽ đóng sau lần ngắt kết nối đầu tiên và có thể không tự mở lại ở lần khởi động xe tiếp theo.\n\nBạn có muốn tắt các cài đặt kết nối lại nêu trên không?</string>
     <string name="kill_on_disconnect_disable_and_enable">Tắt chúng và bật</string>

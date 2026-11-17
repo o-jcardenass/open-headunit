@@ -50,6 +50,8 @@ class GpsLocation constructor(private val context: Context): LocationListener {
     // phone. A wrong position while moving is worse than the stall this resend exists to prevent.
     private val periodicResend = object : Runnable {
         override fun run() {
+            // Every beat, fix or not: a lost fix or a setting turned off must still end NO_VIDEO.
+            App.provide(context).commManager.onDrivingTick(SystemClock.elapsedRealtime())
             val fix = lastGpsFix
             if (fix != null && settings.useGpsForNavigation) {
                 val ageMs = SystemClock.elapsedRealtime() - lastGpsFixAtMs
@@ -137,6 +139,8 @@ class GpsLocation constructor(private val context: Context): LocationListener {
         context.sendBroadcast(LocationUpdateIntent(location).setPackage(context.packageName))
         // Real fixes only: a resend repeats an old speed, and the volume should follow the car.
         speedVolume.onFix(location)
+        App.provide(context).commManager.onDrivingFix(
+            if (location.hasSpeed()) location.speed else null, SystemClock.elapsedRealtime())
     }
 
     override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {

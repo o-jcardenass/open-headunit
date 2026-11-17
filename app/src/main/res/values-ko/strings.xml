@@ -700,6 +700,9 @@
     <string name="kill_on_disconnect">연결이 끊기면 앱 닫기</string>
     <string name="kill_on_disconnect_description">Android Auto 연결이 끊기면 앱을 자동으로 닫습니다.</string>
     <string name="kill_on_disconnect_help">Android Auto 연결이 해제되면 앱을 닫아 기기가 자체 화면으로 돌아가게 합니다. 운행할 때마다 기기가 자체 런처를 표시해야 하면 사용 설정하세요. 이 앱이 차량 런처인 동안에는 아무 동작도 하지 않습니다. 재연결 시 앱 다시 열기, 부팅 시 자동 시작 또는 화면 켜짐 시 자동 시작이 사용 설정되어 있으면 앱이 먼저 경고합니다. 이 옵션들은 앱이 열려 있어야 하기 때문입니다.</string>
+    <string name="auto_audio_only_when_moving">주행 중 영상 차단</string>
+    <string name="auto_audio_only_when_moving_summary">차량이 움직이는 동안 GPS 속도에 따라 오디오만 재생</string>
+    <string name="auto_audio_only_when_moving_description">GPS 속도를 사용해 영상이 허용되지 않음을 Android Auto에 알립니다. 속도가 3번 연속 측정에서 7.2 km/h 이상이면 영상이 중지됩니다. 속도가 5초 동안 1.8 km/h 미만으로 유지되거나 GPS에서 10초 동안 속도를 받지 못하면 영상이 다시 재생됩니다. 사용 중지하면 영상이 항상 허용됩니다.</string>
     <string name="kill_on_disconnect_warning_title">경고</string>
     <string name="kill_on_disconnect_warning">다음 재연결 설정은 \'연결이 끊기면 앱 닫기\'와 함께 사용할 수 없습니다.\n\n%1$s\n\n헤드유닛이 켜질 때의 초기 연결 설정(자동 연결, 자동 시작)은 그대로 동작합니다. 하지만 처음 연결이 끊기면 재연결을 시도하지 않고 앱이 바로 닫힙니다.\n\n참고: 일부 애프터마켓 헤드유닛은 완전히 종료되지 않고 절전 상태로 전환됩니다. 화면만 잠기고 전원은 꺼지지 않는 휴대전화와 비슷합니다. 이 옵션을 켜면 처음 연결이 끊긴 뒤 앱이 닫히며, 다음 시동 때 자동으로 다시 열리지 않을 수 있습니다.\n\n위에 나열된 재연결 설정을 끄시겠습니까?</string>
     <string name="kill_on_disconnect_disable_and_enable">충돌 설정 끄고 사용</string>

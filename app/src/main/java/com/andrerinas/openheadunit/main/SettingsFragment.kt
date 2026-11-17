@@ -168,7 +168,7 @@ class SettingsFragment : Fragment() {
         // Navigation
         "gpsNavigation",
         // Graphic
-        "resolution", "dpiPixelDensity", "viewMode", "screenOrientation", "startInFullscreenMode",
+        "autoAudioOnlyWhenMoving", "resolution", "dpiPixelDensity", "viewMode", "screenOrientation", "startInFullscreenMode",
         // Theming
         "loadingScreen", "customization",
         // Video
@@ -286,6 +286,7 @@ class SettingsFragment : Fragment() {
     private var pendingRaiseProjectionDuringCall by pending::raiseProjectionDuringCall
     private var pendingShowOverLockScreen by pending::showOverLockScreen
     private var pendingNightOverlayWhileLocked by pending::nightOverlayWhileLocked
+    private var pendingAutoAudioOnlyWhenMoving by pending::autoAudioOnlyWhenMoving
 
     // Custom Insets
     private var pendingInsetLeft by pending::insetLeft
@@ -715,6 +716,13 @@ class SettingsFragment : Fragment() {
         pendingRaiseProjectionDuringCall?.let { if (it != settings.raiseProjectionDuringCall) settings.raiseProjectionDuringCall = it }
         pendingShowOverLockScreen?.let { if (it != settings.showOverLockScreen) settings.showOverLockScreen = it }
         pendingNightOverlayWhileLocked?.let { if (it != settings.nightOverlayWhileLocked) settings.nightOverlayWhileLocked = it }
+        pendingAutoAudioOnlyWhenMoving?.let {
+            if (it != settings.autoAudioOnlyWhenMoving) {
+                settings.autoAudioOnlyWhenMoving = it
+                // Off ends a NO_VIDEO that is already on the phone.
+                if (!it) App.provide(requireContext()).commManager.onDrivingStatusDisabled()
+            }
+        }
         pendingAutoEnableHotspot?.let { if (it != settings.autoEnableHotspot) settings.autoEnableHotspot = it }
         // Read by every discovery sweep and by the home, so neither needs a restart. Written even
         // when unchanged: a unit that never chose reads its choice off "Auto-Enable Hotspot", and
@@ -1524,6 +1532,20 @@ class SettingsFragment : Fragment() {
 
         // --- Graphic Settings ---
         items.add(SettingItem.CategoryHeader("graphic", R.string.category_graphic))
+
+        items.add(SettingItem.ToggleSettingEntry(
+            stableId = "autoAudioOnlyWhenMoving",
+            nameResId = R.string.auto_audio_only_when_moving,
+            descriptionResId = R.string.auto_audio_only_when_moving_summary,
+            helpResId = R.string.auto_audio_only_when_moving_description,
+            isChecked = pendingAutoAudioOnlyWhenMoving ?: settings.autoAudioOnlyWhenMoving,
+            searchKeywords = "video moving driving speed gps audio only parked restriction",
+            onCheckedChanged = { isChecked ->
+                pendingAutoAudioOnlyWhenMoving = isChecked
+                checkChanges()
+                updateSettingsList()
+            }
+        ))
 
         items.add(SettingItem.SettingEntry(
             stableId = "resolution",

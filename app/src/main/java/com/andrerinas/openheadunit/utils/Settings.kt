@@ -313,6 +313,11 @@ class Settings(private val context: Context) {
             prefs.edit().putBoolean("night-overlay-while-locked", value).apply()
         }
 
+    /** Sends NO_VIDEO to the phone while GPS speed says the car moves. Off keeps the phone unrestricted. */
+    var autoAudioOnlyWhenMoving: Boolean
+        get() = prefs.getBoolean("auto-audio-only-when-moving", false)
+        set(value) { prefs.edit().putBoolean("auto-audio-only-when-moving", value).apply() }
+
     var nightMode: NightMode
         get() {
             val value = prefs.getInt("night-mode", 0)

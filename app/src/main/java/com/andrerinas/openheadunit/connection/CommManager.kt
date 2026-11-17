@@ -1485,6 +1485,23 @@ class CommManager(
         }
     }
 
+    /** Feeds one real GPS fix to the session's driving status. Setting off ends any NO_VIDEO, whatever wrote it. */
+    fun onDrivingFix(speedMps: Float?, elapsedMs: Long) {
+        if (!settings.autoAudioOnlyWhenMoving) return onDrivingStatusDisabled()
+        if (_connectionState.value is ConnectionState.TransportStarted) _transport?.onGpsFix(speedMps, elapsedMs)
+    }
+
+    /** GPS resend timer, which runs with or without fixes: ends NO_VIDEO on a lost fix or a setting turned off. */
+    fun onDrivingTick(nowMs: Long) {
+        if (!settings.autoAudioOnlyWhenMoving) return onDrivingStatusDisabled()
+        if (_connectionState.value is ConnectionState.TransportStarted) _transport?.onGpsTick(nowMs)
+    }
+
+    /** The setting went off: ends a NO_VIDEO the phone still holds. Idempotent. */
+    fun onDrivingStatusDisabled() {
+        _transport?.releaseDrivingStatus()
+    }
+
     /** Sends a raw [AapMessage] (e.g. touch event, video focus request) to the phone. */
     fun send(message: AapMessage) {
         if (_connectionState.value is ConnectionState.TransportStarted) {

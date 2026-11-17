@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
 import com.andrerinas.openheadunit.aap.protocol.Channel
-import com.andrerinas.openheadunit.aap.protocol.messages.DrivingStatusEvent
 import com.andrerinas.openheadunit.aap.protocol.messages.LocationUpdateEvent
 import com.andrerinas.openheadunit.aap.protocol.messages.ServiceDiscoveryResponse
 import com.andrerinas.openheadunit.aap.protocol.proto.Common
@@ -350,9 +349,7 @@ internal class AapControlSensor(
             aapTransport.sendSensorResponse(msg)
         }
         if (!accepted || request.minUpdatePeriod == -1L) return 0
-        if (request.type == Sensors.SensorType.DRIVING_STATUS) {
-            aapTransport.send(DrivingStatusEvent(Sensors.SensorBatch.DrivingStatusData.Status.UNRESTRICTED))
-        }
+        if (request.type == Sensors.SensorType.DRIVING_STATUS) aapTransport.onDrivingStatusSensorStarted()
 
         if (request.type == Sensors.SensorType.NIGHT) {
             AppLog.i("Night sensor requested. Triggering immediate update.")

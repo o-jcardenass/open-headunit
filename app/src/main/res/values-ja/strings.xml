@@ -627,6 +627,9 @@
     <string name="kill_on_disconnect">接続解除時にアプリを閉じる</string>
     <string name="kill_on_disconnect_description">Android Autoが切断されたときにアプリを自動的に閉じます。</string>
     <string name="kill_on_disconnect_help">Android Autoが切断されたときにアプリを閉じ、ユニットを本来の画面に戻します。運転のたびにユニット自身のランチャーを表示したい場合にオンにしてください。このアプリが車のランチャーである間は何も起こりません。「再接続時にアプリを開く」「起動時に開始」「画面ON時に開始」のいずれかがオンの場合、これらはアプリを開いたままにしたいため、アプリが先に警告します。</string>
+    <string name="auto_audio_only_when_moving">走行中は動画をブロック</string>
+    <string name="auto_audio_only_when_moving_summary">車の走行中は音声のみ（GPS速度で判定）</string>
+    <string name="auto_audio_only_when_moving_description">GPS速度を使って、動画が許可されていないことを Android Auto に伝えます。速度が 7.2 km/h 以上の状態が 3 回連続して測位されると、動画が停止します。速度が 1.8 km/h 未満の状態が 5 秒続いた場合、または GPS から速度が 10 秒間得られない場合は、動画が再開されます。オフにすると、動画は常に許可されます。</string>
     <string name="kill_on_disconnect_warning_title">警告</string>
     <string name="kill_on_disconnect_warning">以下の再接続設定は、切断時にアプリを閉じる設定と競合します。\n\n%1$s\n\nヘッドユニットの電源を入れたときの初期接続設定（自動接続、自動起動）は、引き続き機能します。ただし、最初の切断後、アプリは再接続を試みずにすぐに閉じます。\n\n注: 一部の社外品ヘッドユニットは完全にはシャットダウンせず、休止状態になります。これは、画面をロックしても電源は切れないスマートフォンと同じです。このオプションを有効にすると、アプリは最初の切断後に閉じ、次回のエンジン始動時に自動で再開しない場合があります。\n\n上記の再接続設定を無効にしますか？</string>
     <string name="kill_on_disconnect_disable_and_enable">無効にして有効にする</string>
