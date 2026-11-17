@@ -1684,6 +1684,8 @@
     <string name="app_drawer_tab_shortcuts">Snelkoppelingen</string>
     <string name="home_show_favorite_apps">Favoriete apps op het startscherm</string>
     <string name="home_show_favorite_apps_description">Je favoriete apps onder de hoofdknop, als Open Headunit je launcher is</string>
+    <string name="home_flat_tiles">Vlakke tegels op het startscherm</string>
+    <string name="home_flat_tiles_description">Dunne omlijningen en één hoekgrootte voor de panelen en knoppen op het startscherm</string>
     <string name="home_show_widgets">Widgets op het startscherm</string>
     <string name="home_show_widgets_description">Je widgets, hun pagina\'s en de tegel Een widget toevoegen, als Open Headunit je launcher is</string>
     <string name="home_surface_opacity">Dekking van panelen</string>

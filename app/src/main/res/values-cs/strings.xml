@@ -1683,6 +1683,8 @@
     <string name="app_drawer_tab_shortcuts">Zkratky</string>
     <string name="home_show_favorite_apps">Oblíbené aplikace na domovské obrazovce</string>
     <string name="home_show_favorite_apps_description">Vaše oblíbené aplikace pod hlavním tlačítkem, když je Open Headunit váš spouštěč</string>
+    <string name="home_flat_tiles">Ploché dlaždice na domovské obrazovce</string>
+    <string name="home_flat_tiles_description">Tenké obrysy a jednotná velikost rohů u panelů a tlačítek na domovské obrazovce</string>
     <string name="home_show_widgets">Widgety na domovské obrazovce</string>
     <string name="home_show_widgets_description">Vaše widgety, jejich stránky a dlaždice Přidat widget, když je Open Headunit váš spouštěč</string>
     <string name="home_surface_opacity">Neprůhlednost panelů</string>

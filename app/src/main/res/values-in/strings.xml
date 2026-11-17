@@ -1731,6 +1731,8 @@
     <string name="app_drawer_tab_shortcuts">Pintasan</string>
     <string name="home_show_favorite_apps">Aplikasi favorit di layar beranda</string>
     <string name="home_show_favorite_apps_description">Aplikasi favorit Anda di bawah tombol utama, saat Open Headunit menjadi peluncur Anda</string>
+    <string name="home_flat_tiles">Ubin beranda datar</string>
+    <string name="home_flat_tiles_description">Garis tepi tipis dan satu ukuran sudut pada panel dan tombol layar beranda</string>
     <string name="home_show_widgets">Widget di layar beranda</string>
     <string name="home_show_widgets_description">Widget Anda, halamannya, dan kartu Tambah widget, saat Open Headunit menjadi peluncur Anda</string>
     <string name="home_surface_opacity">Opasitas panel</string>

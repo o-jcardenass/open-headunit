@@ -1686,6 +1686,8 @@
     <string name="app_drawer_tab_shortcuts">Scorciatoie</string>
     <string name="home_show_favorite_apps">App preferite nella schermata iniziale</string>
     <string name="home_show_favorite_apps_description">Le tue app preferite sotto il pulsante principale, quando Open Headunit è il tuo launcher</string>
+    <string name="home_flat_tiles">Riquadri piatti nella schermata Home</string>
+    <string name="home_flat_tiles_description">Contorni sottili e un\'unica dimensione degli angoli per pannelli e pulsanti della schermata Home</string>
     <string name="home_show_widgets">Widget nella schermata iniziale</string>
     <string name="home_show_widgets_description">I tuoi widget, le loro pagine e il riquadro Aggiungi un widget, quando Open Headunit è il tuo launcher</string>
     <string name="home_surface_opacity">Opacità dei pannelli</string>

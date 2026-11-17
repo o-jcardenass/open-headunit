@@ -1680,6 +1680,8 @@
     <string name="app_drawer_tab_shortcuts">快捷方式</string>
     <string name="home_show_favorite_apps">主屏幕上的收藏应用</string>
     <string name="home_show_favorite_apps_description">当 Open Headunit 是你的启动器时，在主按钮下方显示你收藏的应用</string>
+    <string name="home_flat_tiles">扁平主屏幕图块</string>
+    <string name="home_flat_tiles_description">主屏幕的面板和按钮使用细轮廓和统一的圆角大小</string>
     <string name="home_show_widgets">主屏幕上的小部件</string>
     <string name="home_show_widgets_description">当 Open Headunit 是你的启动器时，显示你的小部件、它们的页面和“添加小部件”图块</string>
     <string name="home_surface_opacity">面板不透明度</string>

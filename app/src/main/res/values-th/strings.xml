@@ -1731,6 +1731,8 @@
     <string name="app_drawer_tab_shortcuts">ทางลัด</string>
     <string name="home_show_favorite_apps">แอปโปรดบนหน้าจอหลัก</string>
     <string name="home_show_favorite_apps_description">แอปโปรดของคุณใต้ปุ่มหลัก เมื่อ Open Headunit เป็นตัวเปิดแอปของคุณ</string>
+    <string name="home_flat_tiles">ไทล์แบบเรียบบนหน้าจอหลัก</string>
+    <string name="home_flat_tiles_description">เส้นขอบบางและมุมขนาดเดียวกันบนแผงและปุ่มของหน้าจอหลัก</string>
     <string name="home_show_widgets">วิดเจ็ตบนหน้าจอหลัก</string>
     <string name="home_show_widgets_description">วิดเจ็ตของคุณ หน้าของวิดเจ็ต และไทล์เพิ่มวิดเจ็ต เมื่อ Open Headunit เป็นตัวเปิดแอปของคุณ</string>
     <string name="home_surface_opacity">ความทึบของแผง</string>

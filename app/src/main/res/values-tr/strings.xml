@@ -1677,6 +1677,8 @@
     <string name="app_drawer_tab_shortcuts">Kısayollar</string>
     <string name="home_show_favorite_apps">Ana ekranda favori uygulamalar</string>
     <string name="home_show_favorite_apps_description">Open Headunit başlatıcınız olduğunda, ana düğmenin altında favori uygulamalarınız</string>
+    <string name="home_flat_tiles">Düz ana ekran karoları</string>
+    <string name="home_flat_tiles_description">Ana ekrandaki panellerde ve düğmelerde ince çerçeveler ve tek köşe boyutu</string>
     <string name="home_show_widgets">Ana ekranda widget\'lar</string>
     <string name="home_show_widgets_description">Open Headunit başlatıcınız olduğunda, widget\'larınız, sayfaları ve Widget ekle kutucuğu</string>
     <string name="home_surface_opacity">Panel opaklığı</string>

@@ -1690,6 +1690,8 @@
     <string name="app_drawer_tab_shortcuts">Atajos</string>
     <string name="home_show_favorite_apps">Apps favoritas en la pantalla de inicio</string>
     <string name="home_show_favorite_apps_description">Tus apps favoritas bajo el botón principal, cuando Open Headunit es tu aplicación de inicio</string>
+    <string name="home_flat_tiles">Mosaicos planos en la pantalla de inicio</string>
+    <string name="home_flat_tiles_description">Contornos finos y un solo tamaño de esquinas en los paneles y botones de la pantalla de inicio</string>
     <string name="home_show_widgets">Widgets en la pantalla de inicio</string>
     <string name="home_show_widgets_description">Tus widgets, sus páginas y el mosaico Agregar un widget, cuando Open Headunit es tu aplicación de inicio</string>
     <string name="home_surface_opacity">Opacidad de los paneles</string>

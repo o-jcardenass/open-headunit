@@ -1680,6 +1680,8 @@
     <string name="app_drawer_tab_shortcuts">捷徑</string>
     <string name="home_show_favorite_apps">主畫面上的最愛應用程式</string>
     <string name="home_show_favorite_apps_description">當 Open Headunit 是你的啟動器時，在主按鈕下方顯示你的最愛應用程式</string>
+    <string name="home_flat_tiles">扁平主畫面圖塊</string>
+    <string name="home_flat_tiles_description">主畫面的面板和按鈕採用細邊框與統一的圓角大小</string>
     <string name="home_show_widgets">主畫面上的小工具</string>
     <string name="home_show_widgets_description">當 Open Headunit 是你的啟動器時，顯示你的小工具、小工具的頁面和「新增小工具」圖塊</string>
     <string name="home_surface_opacity">面板不透明度</string>

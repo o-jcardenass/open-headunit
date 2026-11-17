@@ -1684,6 +1684,8 @@
     <string name="app_drawer_tab_shortcuts">Atalhos</string>
     <string name="home_show_favorite_apps">Apps favoritos na tela inicial</string>
     <string name="home_show_favorite_apps_description">Seus apps favoritos abaixo do botão principal, quando o Open Headunit é seu launcher</string>
+    <string name="home_flat_tiles">Blocos planos na tela inicial</string>
+    <string name="home_flat_tiles_description">Contornos finos e um único tamanho de canto nos painéis e botões da tela inicial</string>
     <string name="home_show_widgets">Widgets na tela inicial</string>
     <string name="home_show_widgets_description">Seus widgets, as páginas deles e o bloco Adicionar um widget, quando o Open Headunit é seu launcher</string>
     <string name="home_surface_opacity">Opacidade dos painéis</string>

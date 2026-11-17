@@ -1685,6 +1685,8 @@
     <string name="app_drawer_tab_shortcuts">Ярлики</string>
     <string name="home_show_favorite_apps">Улюблені програми на головному екрані</string>
     <string name="home_show_favorite_apps_description">Ваші улюблені програми під головною кнопкою, коли Open Headunit є вашим лаунчером</string>
+    <string name="home_flat_tiles">Пласкі плитки на головному екрані</string>
+    <string name="home_flat_tiles_description">Тонкі контури й єдиний розмір кутів у панелей і кнопок на головному екрані</string>
     <string name="home_show_widgets">Віджети на головному екрані</string>
     <string name="home_show_widgets_description">Ваші віджети, їхні сторінки та плитка «Додати віджет», коли Open Headunit є вашим лаунчером</string>
     <string name="home_surface_opacity">Прозорість панелей</string>

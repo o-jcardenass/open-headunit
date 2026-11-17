@@ -33,6 +33,9 @@
     <color name="home_tile_pressed">#262C37</color>
     <color name="home_tile_stroke">#232933</color>
     <color name="home_slot_stroke">#2F3540</color>
+    <color name="home_panel_stroke_flat">#1E232C</color>
+    <color name="home_tile_stroke_flat">#232933</color>
+    <color name="home_slot_stroke_flat">#2F3540</color>
     <color name="home_text">#E6E8EB</color>
     <color name="home_text_muted">#9AA1AB</color>
     <color name="home_apps_tile">#1C212A</color>

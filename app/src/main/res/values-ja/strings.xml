@@ -1686,6 +1686,8 @@
     <string name="app_drawer_tab_shortcuts">ショートカット</string>
     <string name="home_show_favorite_apps">ホーム画面のお気に入りアプリ</string>
     <string name="home_show_favorite_apps_description">Open Headunit をランチャーにしているとき、お気に入りのアプリをメインボタンの下に表示します</string>
+    <string name="home_flat_tiles">フラットなホームタイル</string>
+    <string name="home_flat_tiles_description">ホーム画面のパネルとボタンに細い枠線と統一した角の大きさを適用します</string>
     <string name="home_show_widgets">ホーム画面のウィジェット</string>
     <string name="home_show_widgets_description">Open Headunit をランチャーにしているとき、ウィジェット、そのページ、「ウィジェットを追加」タイルを表示します</string>
     <string name="home_surface_opacity">パネルの不透明度</string>

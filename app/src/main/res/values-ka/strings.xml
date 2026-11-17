@@ -1665,6 +1665,8 @@
     <string name="app_drawer_tab_shortcuts">მალსახმობები</string>
     <string name="home_show_favorite_apps">რჩეული აპები მთავარ ეკრანზე</string>
     <string name="home_show_favorite_apps_description">შენი რჩეული აპები მთავარი ღილაკის ქვემოთ, როცა Open Headunit შენი ლაუნჩერია</string>
+    <string name="home_flat_tiles">ბრტყელი მთავარი ფილები</string>
+    <string name="home_flat_tiles_description">თხელი კონტურები და კუთხეების ერთი ზომა მთავარ ეკრანზე პანელებისა და ღილაკებისთვის</string>
     <string name="home_show_widgets">ვიჯეტები მთავარ ეკრანზე</string>
     <string name="home_show_widgets_description">შენი ვიჯეტები, მათი გვერდები და „ვიჯეტის დამატება“ ფილა, როცა Open Headunit შენი ლაუნჩერია</string>
     <string name="home_surface_opacity">პანელების გამჭვირვალობა</string>

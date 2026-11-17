@@ -1691,6 +1691,8 @@
     <string name="app_drawer_tab_shortcuts">Verknüpfungen</string>
     <string name="home_show_favorite_apps">Lieblings-Apps auf dem Startbildschirm</string>
     <string name="home_show_favorite_apps_description">Deine Lieblings-Apps unter dem Hauptbutton, wenn Open Headunit dein Launcher ist</string>
+    <string name="home_flat_tiles">Flache Kacheln auf dem Startbildschirm</string>
+    <string name="home_flat_tiles_description">Dünne Umrandungen und eine einheitliche Eckengröße für Panels und Schaltflächen auf dem Startbildschirm</string>
     <string name="home_show_widgets">Widgets auf dem Startbildschirm</string>
     <string name="home_show_widgets_description">Deine Widgets, ihre Seiten und die Kachel „Widget hinzufügen“, wenn Open Headunit dein Launcher ist</string>
     <string name="home_surface_opacity">Deckkraft der Panels</string>

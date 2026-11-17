@@ -1680,6 +1680,8 @@
     <string name="app_drawer_tab_shortcuts">Comenzi rapide</string>
     <string name="home_show_favorite_apps">Aplicații favorite pe ecranul principal</string>
     <string name="home_show_favorite_apps_description">Aplicațiile tale favorite sub butonul principal, când Open Headunit este launcherul tău</string>
+    <string name="home_flat_tiles">Plăci plate pe ecranul de pornire</string>
+    <string name="home_flat_tiles_description">Contururi subțiri și o singură dimensiune a colțurilor pentru panourile și butoanele de pe ecranul de pornire</string>
     <string name="home_show_widgets">Widgeturi pe ecranul principal</string>
     <string name="home_show_widgets_description">Widgeturile tale, paginile lor și cardul Adaugă un widget, când Open Headunit este launcherul tău</string>
     <string name="home_surface_opacity">Opacitatea panourilor</string>

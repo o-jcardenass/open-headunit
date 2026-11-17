@@ -1106,6 +1106,14 @@ class MainActivity : BaseActivity() {
         findViewById<View>(R.id.auto_connect_pill)?.visibility = View.GONE
     }
 
+    // The two pills use the panel drawable straight from the layout, so the flat setting swaps it here.
+    private fun applyPillStyle() {
+        val flat = App.provide(this).settings.homeFlatTiles
+        val background = if (flat) R.drawable.home_panel_bg_flat else R.drawable.home_panel_bg
+        findViewById<View>(R.id.wifi_direct_info)?.setBackgroundResource(background)
+        findViewById<View>(R.id.auto_connect_pill)?.setBackgroundResource(background)
+    }
+
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         if (intent.action == Intent.ACTION_MAIN && intent.hasCategory(Intent.CATEGORY_HOME)) {
@@ -1319,6 +1327,7 @@ class MainActivity : BaseActivity() {
         }
         setFullscreen()
         applyCustomHomeBackground()
+        applyPillStyle()
 
         checkSetupFlow()
 

@@ -1840,6 +1840,8 @@
     <string name="app_drawer_tab_shortcuts">Shortcuts</string>
     <string name="home_show_favorite_apps">Favorite apps on the home screen</string>
     <string name="home_show_favorite_apps_description">Your favorite apps under the main button, when Open Headunit is your launcher</string>
+    <string name="home_flat_tiles">Flat home tiles</string>
+    <string name="home_flat_tiles_description">Thin outlines and one corner size on the home screen\'s panels and buttons</string>
     <string name="home_show_widgets">Widgets on the home screen</string>
     <string name="home_show_widgets_description">Your widgets, their pages and the Add widget tile, when Open Headunit is your launcher</string>
     <string name="home_surface_opacity">Panel opacity</string>

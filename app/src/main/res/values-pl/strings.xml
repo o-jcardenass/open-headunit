@@ -1685,6 +1685,8 @@
     <string name="app_drawer_tab_shortcuts">Skróty</string>
     <string name="home_show_favorite_apps">Ulubione aplikacje na ekranie głównym</string>
     <string name="home_show_favorite_apps_description">Twoje ulubione aplikacje pod głównym przyciskiem, gdy Open Headunit jest Twoim launcherem</string>
+    <string name="home_flat_tiles">Płaskie kafelki na ekranie głównym</string>
+    <string name="home_flat_tiles_description">Cienkie obramowania i jeden rozmiar rogów paneli i przycisków na ekranie głównym</string>
     <string name="home_show_widgets">Widżety na ekranie głównym</string>
     <string name="home_show_widgets_description">Twoje widżety, ich strony i kafelek Dodaj widget, gdy Open Headunit jest Twoim launcherem</string>
     <string name="home_surface_opacity">Przezroczystość paneli</string>

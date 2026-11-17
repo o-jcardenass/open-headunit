@@ -1681,6 +1681,8 @@ Open Headunit предоставляется «как есть» без каки
     <string name="app_drawer_tab_shortcuts">Ярлыки</string>
     <string name="home_show_favorite_apps">Избранные приложения на главном экране</string>
     <string name="home_show_favorite_apps_description">Ваши избранные приложения под главной кнопкой, когда Open Headunit является вашим лаунчером</string>
+    <string name="home_flat_tiles">Плоские плитки на главном экране</string>
+    <string name="home_flat_tiles_description">Тонкие контуры и единый размер углов у панелей и кнопок на главном экране</string>
     <string name="home_show_widgets">Виджеты на главном экране</string>
     <string name="home_show_widgets_description">Ваши виджеты, их страницы и плитка «Добавить виджет», когда Open Headunit является вашим лаунчером</string>
     <string name="home_surface_opacity">Прозрачность панелей</string>

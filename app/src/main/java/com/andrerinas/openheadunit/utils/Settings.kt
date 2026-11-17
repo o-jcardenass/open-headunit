@@ -1881,6 +1881,11 @@ class Settings(private val context: Context) {
         get() = HomeSurfaceOpacityPolicy.clamp(prefs.getInt("home-surface-opacity-percent", HomeSurfaceOpacityPolicy.DEFAULT))
         set(value) { prefs.edit().putInt("home-surface-opacity-percent", HomeSurfaceOpacityPolicy.clamp(value)).apply() }
 
+    /** Thin strokes and one corner radius on the home tiles. Off keeps the original look. */
+    var homeFlatTiles: Boolean
+        get() = prefs.getBoolean("home-flat-tiles", false)
+        set(value) { prefs.edit().putBoolean("home-flat-tiles", value).apply() }
+
     /** Date and time on the home screen. Off by default: the driver asks for them. */
     var showHomeClock: Boolean
         get() = prefs.getBoolean("show-home-clock", false)

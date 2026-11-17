@@ -1684,6 +1684,8 @@
     <string name="app_drawer_tab_shortcuts">Lối tắt</string>
     <string name="home_show_favorite_apps">Ứng dụng yêu thích trên màn hình chính</string>
     <string name="home_show_favorite_apps_description">Ứng dụng yêu thích của bạn dưới nút chính, khi Open Headunit là trình khởi chạy của bạn</string>
+    <string name="home_flat_tiles">Ô màn hình chính dạng phẳng</string>
+    <string name="home_flat_tiles_description">Viền mỏng và một cỡ bo góc cho các bảng và nút trên màn hình chính</string>
     <string name="home_show_widgets">Tiện ích trên màn hình chính</string>
     <string name="home_show_widgets_description">Tiện ích của bạn, các trang của chúng và ô Thêm tiện ích, khi Open Headunit là trình khởi chạy của bạn</string>
     <string name="home_surface_opacity">Độ mờ của bảng</string>

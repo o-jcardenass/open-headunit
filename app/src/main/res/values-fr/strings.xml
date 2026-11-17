@@ -1724,6 +1724,8 @@
     <string name="app_drawer_tab_shortcuts">Raccourcis</string>
     <string name="home_show_favorite_apps">Apps favorites sur l\'écran d\'accueil</string>
     <string name="home_show_favorite_apps_description">Vos apps favorites sous le bouton principal, quand Open Headunit est votre lanceur</string>
+    <string name="home_flat_tiles">Tuiles plates sur l\'écran d\'accueil</string>
+    <string name="home_flat_tiles_description">Contours fins et un seul rayon d\'angle pour les panneaux et les boutons de l\'écran d\'accueil</string>
     <string name="home_show_widgets">Widgets sur l\'écran d\'accueil</string>
     <string name="home_show_widgets_description">Vos widgets, leurs pages et la vignette Ajouter un widget, quand Open Headunit est votre lanceur</string>
     <string name="home_surface_opacity">Opacité des panneaux</string>

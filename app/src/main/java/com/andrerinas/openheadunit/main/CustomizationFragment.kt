@@ -99,6 +99,7 @@ class CustomizationFragment : Fragment() {
     private var switchAutoMonochromeNight: SwitchMaterial? = null
     private var switchShowFavoriteApps: SwitchMaterial? = null
     private var switchShowWidgets: SwitchMaterial? = null
+    private var switchFlatTiles: SwitchMaterial? = null
     private var sliderSurfaceOpacity: com.google.android.material.slider.Slider? = null
     private var txtSurfaceOpacityValue: TextView? = null
     private var switchShowClock: SwitchMaterial? = null
@@ -240,6 +241,7 @@ class CustomizationFragment : Fragment() {
         switchAutoMonochromeNight = view.findViewById(R.id.switch_auto_monochrome_night)
         switchShowFavoriteApps = view.findViewById(R.id.switch_show_favorite_apps)
         switchShowWidgets = view.findViewById(R.id.switch_show_widgets)
+        switchFlatTiles = view.findViewById(R.id.switch_flat_tiles)
         sliderSurfaceOpacity = view.findViewById(R.id.slider_surface_opacity)
         txtSurfaceOpacityValue = view.findViewById(R.id.txt_surface_opacity_value)
         switchShowClock = view.findViewById(R.id.switch_show_clock)
@@ -248,6 +250,7 @@ class CustomizationFragment : Fragment() {
         toggleSwitchFromRow(view.findViewById(R.id.row_auto_monochrome_night), switchAutoMonochromeNight)
         toggleSwitchFromRow(view.findViewById(R.id.row_show_favorite_apps), switchShowFavoriteApps)
         toggleSwitchFromRow(view.findViewById(R.id.row_show_widgets), switchShowWidgets)
+        toggleSwitchFromRow(view.findViewById(R.id.row_flat_tiles), switchFlatTiles)
         toggleSwitchFromRow(view.findViewById(R.id.row_show_clock), switchShowClock)
         toggleSwitchFromRow(view.findViewById(R.id.row_show_speed), switchShowSpeed)
         btnMakeAllMonochrome = view.findViewById(R.id.btn_make_all_monochrome)
@@ -378,6 +381,12 @@ class CustomizationFragment : Fragment() {
         switchShowWidgets?.isChecked = settings.showHomeWidgets
         switchShowWidgets?.setOnCheckedChangeListener { _, isChecked ->
             settings.showHomeWidgets = isChecked
+        }
+
+        switchFlatTiles?.isChecked = settings.homeFlatTiles
+        switchFlatTiles?.setOnCheckedChangeListener { _, isChecked ->
+            settings.homeFlatTiles = isChecked
+            context?.let { renderMiniHome(it) }
         }
 
         val opacity = settings.homeSurfaceOpacityPercent
@@ -870,7 +879,8 @@ class CustomizationFragment : Fragment() {
         return HomeUiHelper.palette(
             ctx,
             HomeThemePolicy.resolve(settings.appTheme, settings.useExtremeDarkMode, isNightActive),
-            settings.homeSurfaceOpacityPercent
+            settings.homeSurfaceOpacityPercent,
+            settings.homeFlatTiles
         )
     }
 

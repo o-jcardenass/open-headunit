@@ -779,9 +779,11 @@ class HomeFragment : Fragment() {
     private fun homePalette(ctx: Context): HomeUiHelper.Palette {
         val appSettings = App.provide(ctx).settings
         // The opacity is changed on another screen, so a palette cached before it is stale.
-        cachedPalette?.takeIf { it.surfaceOpacityPercent == appSettings.homeSurfaceOpacityPercent }?.let { return it }
+        cachedPalette?.takeIf {
+            it.surfaceOpacityPercent == appSettings.homeSurfaceOpacityPercent && it.flat == appSettings.homeFlatTiles
+        }?.let { return it }
         val mode = HomeThemePolicy.resolve(appSettings.appTheme, appSettings.useExtremeDarkMode, isNightActive())
-        return HomeUiHelper.palette(ctx, mode, appSettings.homeSurfaceOpacityPercent).also { cachedPalette = it }
+        return HomeUiHelper.palette(ctx, mode, appSettings.homeSurfaceOpacityPercent, appSettings.homeFlatTiles).also { cachedPalette = it }
     }
 
     private fun updateLauncherViews() {
@@ -1216,7 +1218,7 @@ class HomeFragment : Fragment() {
         val ctx = context ?: return
         actionDialog?.dismiss()
         // The menu stays opaque whatever the home's opacity, or it would vanish over the home.
-        val opaque = HomeUiHelper.palette(ctx, homePalette(ctx).mode)
+        val opaque = HomeUiHelper.palette(ctx, homePalette(ctx).mode, flat = homePalette(ctx).flat)
         actionDialog = HomeActionDialog.show(ctx, title, actions, opaque)
     }
 

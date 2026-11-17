@@ -188,7 +188,9 @@ object HomeUiHelper {
         @ColorInt val self: Int,
         @ColorInt val monochrome: Int,
         @ColorInt val countdownRing: Int,
-        val surfaceOpacityPercent: Int = HomeSurfaceOpacityPolicy.DEFAULT
+        val surfaceOpacityPercent: Int = HomeSurfaceOpacityPolicy.DEFAULT,
+        /** Thin strokes and one corner radius, from the flat-tiles setting. */
+        val flat: Boolean = false
     ) {
         val isDark: Boolean get() = mode != Mode.DAY
 
@@ -204,7 +206,12 @@ object HomeUiHelper {
     }
 
     /** @param surfaceOpacityPercent applied to the fills only, see [HomeSurfaceOpacityPolicy]. */
-    fun palette(context: Context, mode: Mode, surfaceOpacityPercent: Int = HomeSurfaceOpacityPolicy.DEFAULT): Palette {
+    fun palette(
+        context: Context,
+        mode: Mode,
+        surfaceOpacityPercent: Int = HomeSurfaceOpacityPolicy.DEFAULT,
+        flat: Boolean = false
+    ): Palette {
         val extreme = mode == Mode.EXTREME_DARK
         fun color(@ColorRes normal: Int, @ColorRes extremeDark: Int) =
             ContextCompat.getColor(context, if (extreme) extremeDark else normal)
@@ -213,13 +220,22 @@ object HomeUiHelper {
         return Palette(
             mode = mode,
             panel = surface(R.color.home_panel, R.color.home_extreme_panel),
-            panelStroke = surface(R.color.home_panel_stroke, R.color.home_extreme_panel_stroke),
+            panelStroke = surface(
+                if (flat) R.color.home_panel_stroke_flat else R.color.home_panel_stroke,
+                R.color.home_extreme_panel_stroke
+            ),
             tile = surface(R.color.home_tile, R.color.home_extreme_tile),
             tilePressed = HomeSurfaceOpacityPolicy.pressed(
                 color(R.color.home_tile_pressed, R.color.home_extreme_tile_pressed), surfaceOpacityPercent
             ),
-            tileStroke = surface(R.color.home_tile_stroke, R.color.home_extreme_tile_stroke),
-            slotStroke = surface(R.color.home_slot_stroke, R.color.home_extreme_slot_stroke),
+            tileStroke = surface(
+                if (flat) R.color.home_tile_stroke_flat else R.color.home_tile_stroke,
+                R.color.home_extreme_tile_stroke
+            ),
+            slotStroke = surface(
+                if (flat) R.color.home_slot_stroke_flat else R.color.home_slot_stroke,
+                R.color.home_extreme_slot_stroke
+            ),
             text = color(R.color.home_text, R.color.home_extreme_text),
             textMuted = color(R.color.home_text_muted, R.color.home_extreme_text_muted),
             appsTile = surface(R.color.home_apps_tile, R.color.home_extreme_apps_tile),
@@ -232,7 +248,8 @@ object HomeUiHelper {
             self = color(R.color.home_self, R.color.home_extreme_self),
             monochrome = color(R.color.home_monochrome, R.color.home_extreme_monochrome),
             countdownRing = color(R.color.home_countdown_ring, R.color.home_extreme_countdown_ring),
-            surfaceOpacityPercent = surfaceOpacityPercent
+            surfaceOpacityPercent = surfaceOpacityPercent,
+            flat = flat
         )
     }
 
@@ -601,16 +618,24 @@ object HomeUiHelper {
         val resources = context.resources
         val panelRadius = resources.getDimension(R.dimen.home_panel_radius)
         val tileRadius = resources.getDimension(R.dimen.home_tile_radius)
-        // A pill, led by an icon.
-        val ctaRadius = resources.getDimension(R.dimen.home_cta_height) / 2f
-        val cancelRadius = resources.getDimension(R.dimen.home_secondary_cta_height) / 2f
+        val flat = palette.flat
+        // A pill, led by an icon; flat tiles use the tile radius.
+        val ctaRadius = if (flat) tileRadius else resources.getDimension(R.dimen.home_cta_height) / 2f
+        val cancelRadius = if (flat) tileRadius else resources.getDimension(R.dimen.home_secondary_cta_height) / 2f
         val iconTile = rootView.findViewById<View>(R.id.home_primary_icon_tile)
 
         if (!palette.isDark) {
             // Day: the whole card wears the connection's color, as see-through as the panels.
             val shade = ColorUtils.darkenColor(color, 0.78f)
-            card.background = rounded(palette.fill(color), panelRadius)
-            iconTile?.background = rounded(palette.fill(shade), tileRadius)
+            if (flat) {
+                // Flat tiles: 1dp white hairlines on the card and the icon tile.
+                card.background = shape(palette.fill(color), panelRadius, withAlpha(Color.WHITE, 0x38), dp(context, 1))
+                iconTile?.background =
+                    shape(palette.fill(shade), tileRadius, withAlpha(Color.WHITE, 0x2E), dp(context, 1))
+            } else {
+                card.background = rounded(palette.fill(color), panelRadius)
+                iconTile?.background = rounded(palette.fill(shade), tileRadius)
+            }
             icon?.clearColorFilter()
             listOf(kicker, title, subtitle, detail).forEach { it?.setTextColor(Color.WHITE) }
             action?.apply {
@@ -631,7 +656,11 @@ object HomeUiHelper {
         // icon and the button, which is what the driver looks for.
         val strokePx = dp(context, 1)
         card.background = shape(palette.panel, panelRadius, palette.panelStroke, strokePx)
-        iconTile?.background = rounded(withAlpha(color, ACCENT_WASH_ALPHA), tileRadius)
+        iconTile?.background = if (flat) {
+            shape(withAlpha(color, ACCENT_WASH_ALPHA), tileRadius, withAlpha(color, 0x55), strokePx)
+        } else {
+            rounded(withAlpha(color, ACCENT_WASH_ALPHA), tileRadius)
+        }
         icon?.setColorFilter(color, PorterDuff.Mode.SRC_IN)
         kicker?.setTextColor(color)
         title?.setTextColor(palette.text)
