@@ -241,6 +241,7 @@ object SettingsBackupManager {
         "auto-start-wifi-ssid" to ValueType.STRING,
         "listen-for-usb-devices" to ValueType.BOOLEAN,
         "usb-wireless-dongle" to ValueType.BOOLEAN,
+        "usb-try-locked-samsung" to ValueType.BOOLEAN,
         "reopen-on-reconnection" to ValueType.BOOLEAN,
         "auto-connect-priority-order" to ValueType.STRING,
         "auto-start-bt-macs" to ValueType.STRING_SET,
@@ -700,6 +701,7 @@ object SettingsBackupManager {
         Settings.syncAutoStartBtMacsToDeviceStorage(context, settings.autoStartBluetoothDeviceMacs)
         Settings.syncUsbBlacklistToDeviceStorage(context, settings.usbBlacklist)
         Settings.setUsbAttachedActivityEnabled(context, settings.listenForUsbDevices)
+        Settings.applyUsbTryLockedSamsung(context, settings.usbTryLockedSamsung, settings.listenForUsbDevices)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) WifiScanControl.reloadSettings()
         if (applyTheme) AppThemeManager.reapply(context, settings)
     }

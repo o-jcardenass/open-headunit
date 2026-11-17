@@ -241,6 +241,59 @@ class UsbDeviceIdentityPolicyTest {
         }
     }
 
+    private val samsungLockedPair = Device(
+        0x04E8, 0x6860, 0x00, listOf(Interface(0x02, 0x02, 0x01), Interface(0x0A, 0x00, 0x00)),
+    )
+
+    private fun evaluateLocked(device: Device) = UsbDeviceIdentityPolicy.evaluate(device, tryLockedSamsung = true)
+
+    @Test
+    fun `the locked Samsung CDC-ACM pair is refused while the setting is off`() {
+        assertEquals("rejected: CDC-ACM serial device, not a phone", evaluate(samsungLockedPair).toString())
+    }
+
+    @Test
+    fun `the locked Samsung CDC-ACM pair is accepted while the setting is on`() {
+        assertEquals("accepted: locked Samsung (CDC-ACM only)", evaluateLocked(samsungLockedPair).toString())
+    }
+
+    @Test
+    fun `a Samsung in Download mode is refused while the setting is on`() {
+        val odin = samsungLockedPair.copy(productId = 0x685D)
+        assertEquals("rejected: CDC-ACM serial device, not a phone", evaluateLocked(odin).toString())
+    }
+
+    @Test
+    fun `a CDC-ACM pair from another vendor stays refused with the setting on`() {
+        val other = samsungLockedPair.copy(vendorId = 0x1234)
+        assertEquals("rejected: CDC-ACM serial device, not a phone", evaluateLocked(other).toString())
+    }
+
+    @Test
+    fun `Samsung audio and storage shapes stay refused with the setting on`() {
+        val headset = Device(
+            0x04E8, 0xA054, 0x00,
+            listOf(Interface(0x01, 0x01, 0x00), Interface(0x01, 0x02, 0x00), Interface(0x03, 0x00, 0x00)),
+        )
+        val uasSsd = Device(0x04E8, 0x61F5, 0x00, listOf(Interface(0x08, 0x06, 0x62)))
+        val pairPlusAudio = samsungLockedPair.copy(
+            interfaces = samsungLockedPair.interfaces + Interface(0x01, 0x01, 0x00),
+        )
+        for (device in listOf(headset, uasSsd, pairPlusAudio)) {
+            assertFalse(evaluateLocked(device).accepted)
+        }
+    }
+
+    @Test
+    fun `the audio-only identities stay refused and the accepted two stay accepted with the setting on`() {
+        for (pid in listOf(0x2D02, 0x2D03)) {
+            assertFalse(evaluateLocked(Device(0x18D1, pid, 0x00, emptyList())).accepted)
+        }
+        for (pid in listOf(0x2D00, 0x2D01)) {
+            assertTrue(evaluateLocked(Device(0x18D1, pid, 0x00, emptyList())).accepted)
+        }
+    }
+
     @Test
     fun `Apple is refused even when it presents a matching interface`() {
         val device = Device(0x05AC, 0x12A8, 0x00, listOf(vendorClass("Android Accessory Interface")))

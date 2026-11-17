@@ -276,6 +276,9 @@
 
     <string name="listen_for_usb_attach_label">Csatlakoztatott telefonok/AA donglik felismerése</string>
     <string name="listen_for_usb_attach_description">Az Android felkínálhatja az Open Headunit alkalmazást a csatlakoztatott telefonhoz vagy Android Auto donglihoz, és megjegyzi a választást. Kikapcsolt állapotban az Android nem kínálja fel. Használja az USB gombot, és minden alkalommal válaszoljon egy párbeszédablakban.</string>
+    <string name="usb_try_locked_samsung_label">Zárolt Samsung telefon kipróbálása USB-n</string>
+    <string name="usb_try_locked_samsung_summary">Olyan zárolt Samsung telefon elfogadása, amely csak soros portot mutat.</string>
+    <string name="usb_try_locked_samsung_help">A csak töltő módban lévő zárolt Samsung telefon csak soros portot mutat, és az Android Auto nem tud elindulni. Bekapcsolva az Open Headunit mindenképp megpróbálja átkapcsolni, és az Android felkínálja hozzá az alkalmazást. Hagyja kikapcsolva, ha nem kívánt USB-párbeszédablakok jelennek meg. A feloldott, internetmegosztás vagy hibakeresés módban lévő Samsung esetén az alkalmazás kétszer is megjelenhet az Android választójában.</string>
     <string name="listen_for_usb_attach_summary">Az Android felkínálhatja az alkalmazást telefon vagy dongli csatlakoztatásakor.</string>
     <string name="show_toast_messages">Felugró üzenetek megjelenítése</string>
     <string name="show_toast_messages_description">Állapotjelző felugró üzenetek megjelenítése csatlakozáskor, bontáskor és módváltáskor.</string>

@@ -221,6 +221,7 @@ class MainActivity : BaseActivity() {
         // Sync UsbAttachedActivity and CarLauncher component states with settings.
         lifecycleScope.launch(Dispatchers.IO) {
             Settings.setUsbAttachedActivityEnabled(applicationContext, appSettings.listenForUsbDevices)
+            Settings.applyUsbTryLockedSamsung(applicationContext, appSettings.usbTryLockedSamsung, appSettings.listenForUsbDevices)
             val launcherStored = appSettings.enableCarLauncher
             val held = CarLauncherManager.isDefaultLauncher(applicationContext)
             if (OnboardingLauncherPolicy.syncsAlias(launcherStored, held)) {

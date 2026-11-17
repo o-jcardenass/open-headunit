@@ -3,7 +3,7 @@ package com.andrerinas.openheadunit.connection.usb
 import com.andrerinas.openheadunit.connection.usb.UsbDeviceIdentityPolicy.Device
 
 /**
- * A copy of `res/xml/usb_device_filter.xml`, so the app can tell when Android offers it a
+ * A copy of `res/xml/usb_device_filter.xml` and its locked-Samsung twin, so the app can tell when Android offers it a
  * device. [matches] follows AOSP `DeviceFilter.matches`; a test fails when the two files differ.
  */
 object UsbManifestFilter {
@@ -29,7 +29,18 @@ object UsbManifestFilter {
         Entry(deviceClass = 8, subclass = 6, protocol = 1),
     )
 
-    fun matches(device: Device): Boolean = ENTRIES.any { matches(it, device) }
+    /** The entries of `usb_device_filter_locked_samsung.xml`, offered only while its alias is enabled. */
+    val LOCKED_SAMSUNG_ENTRIES: List<Entry> = listOf(
+        Entry(vendorId = 1256, deviceClass = 2, subclass = 2),
+    )
+
+    /** The alias offers the app on plug-in, so "Detect plugged-in phones" off must turn it off too. */
+    fun lockedSamsungAliasEnabled(tryLockedSamsung: Boolean, listenForUsbDevices: Boolean): Boolean =
+        tryLockedSamsung && listenForUsbDevices
+
+    fun matches(device: Device, lockedSamsungEnabled: Boolean = false): Boolean =
+        ENTRIES.any { matches(it, device) } ||
+            (lockedSamsungEnabled && LOCKED_SAMSUNG_ENTRIES.any { matches(it, device) })
 
     private fun matches(entry: Entry, device: Device): Boolean {
         if (entry.vendorId != null && entry.vendorId != device.vendorId) return false

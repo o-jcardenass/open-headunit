@@ -277,6 +277,9 @@
 
     <string name="listen_for_usb_attach_label">Обнаруживать телефоны/адаптеры AA</string>
     <string name="listen_for_usb_attach_description">Android может предложить Open Headunit для подключённого телефона или адаптера Android Auto и запомнить ваш выбор. Если параметр выключен, Android не предлагает приложение. Используйте кнопку USB и каждый раз отвечайте в диалоговом окне.</string>
+    <string name="usb_try_locked_samsung_label">Пробовать заблокированный Samsung по USB</string>
+    <string name="usb_try_locked_samsung_summary">Принимать заблокированный телефон Samsung, у которого виден только последовательный порт.</string>
+    <string name="usb_try_locked_samsung_help">Заблокированный телефон Samsung в режиме только зарядки показывает лишь последовательный порт, и Android Auto не может запуститься. Если включить, Open Headunit всё равно попробует переключить его, а Android предложит приложение для него. Оставьте выключенным, если появляются ненужные диалоги USB. Разблокированный Samsung в режиме модема или отладки может показать приложение дважды в окне выбора Android.</string>
     <string name="listen_for_usb_attach_summary">Android может предложить это приложение при подключении телефона или адаптера.</string>
     <string name="show_toast_messages">Показывать всплывающие сообщения</string>
     <string name="show_toast_messages_description">Отображать всплывающие сообщения о статусе при подключении, отключении и смене режима.</string>

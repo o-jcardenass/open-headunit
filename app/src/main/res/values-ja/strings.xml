@@ -308,6 +308,9 @@
 
     <string name="listen_for_usb_attach_label">接続されたスマートフォン/AAドングルを検出</string>
     <string name="listen_for_usb_attach_description">接続されたスマートフォンやAndroid Autoドングルに対して、AndroidがOpen Headunitを提案し、選択を記憶します。オフの場合、Androidは提案しません。USBボタンを使い、毎回ダイアログに応答します。</string>
+    <string name="usb_try_locked_samsung_label">ロックされたSamsungスマートフォンをUSBで試す</string>
+    <string name="usb_try_locked_samsung_summary">シリアルポートのみ表示されるロック中のSamsungスマートフォンを受け入れます。</string>
+    <string name="usb_try_locked_samsung_help">充電のみモードでロックされたSamsungスマートフォンはシリアルポートしか表示されず、Android Autoを開始できません。オンにすると、Open Headunitがそれでも切り替えを試み、Androidがそのスマートフォンにこのアプリを提案します。不要なUSBダイアログが表示される場合はオフのままにしてください。テザリングまたはデバッグモードでロックが解除されたSamsungでは、Androidの選択画面にアプリが2回表示されることがあります。</string>
     <string name="listen_for_usb_attach_summary">スマートフォンやドングルを差し込んだとき、Androidがこのアプリを提案できるようにします。</string>
     <string name="show_toast_messages">トースト通知を表示</string>
     <string name="show_toast_messages_description">接続・切断・モード切替時にステータスのトースト通知を表示します。</string>

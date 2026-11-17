@@ -539,6 +539,9 @@
     <string name="auto_start_offer_countdown">%1$d सेकंड में नहीं</string>
     <string name="listen_for_usb_attach_label">प्लग इन किए फ़ोन/AA डोंगल पहचानें</string>
     <string name="listen_for_usb_attach_description">Android, प्लग इन किए गए फ़ोन या Android Auto डोंगल के लिए Open Headunit का विकल्प दिखा सकता है और आपकी पसंद याद रखता है। बंद होने पर Android यह विकल्प नहीं दिखाता। USB बटन का उपयोग करें और हर बार एक डायलॉग का जवाब दें।</string>
+    <string name="usb_try_locked_samsung_label">USB से लॉक किए गए Samsung फ़ोन को आज़माएँ</string>
+    <string name="usb_try_locked_samsung_summary">ऐसे लॉक किए गए Samsung फ़ोन को स्वीकार करें जो सिर्फ़ सीरियल पोर्ट दिखाता है।</string>
+    <string name="usb_try_locked_samsung_help">सिर्फ़ चार्ज मोड में लॉक किया गया Samsung फ़ोन केवल सीरियल पोर्ट दिखाता है, और Android Auto शुरू नहीं हो पाता। चालू करने पर, Open Headunit फिर भी उसे बदलने की कोशिश करता है और Android उसके लिए ऐप का विकल्प दिखाता है। अगर USB के अनचाहे डायलॉग दिखें, तो इसे बंद रखें। टेदरिंग या डीबगिंग मोड में अनलॉक किया गया Samsung फ़ोन Android के चयनकर्ता में ऐप को दो बार दिखा सकता है।</string>
     <string name="listen_for_usb_attach_summary">फ़ोन या डोंगल प्लग इन होने पर Android इस ऐप का विकल्प दिखा सकता है।</string>
     <string name="show_toast_messages">टोस्ट संदेश दिखाएं</string>
     <string name="show_toast_messages_description">कनेक्ट, डिसकनेक्ट और मोड बदलने पर स्थिति वाले टोस्ट पॉपअप दिखाएं।</string>

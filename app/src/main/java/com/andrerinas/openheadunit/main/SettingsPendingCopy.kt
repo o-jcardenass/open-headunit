@@ -51,6 +51,7 @@ class SettingsPendingCopy {
     var useLibusb: Boolean? = null
     var listenForUsbDevices: Boolean? = null
     var usbWirelessDongle: Boolean? = null
+    var usbTryLockedSamsung: Boolean? = null
     var audioQueueCapacity: Int? = null
     var showToastMessages: Boolean? = null
     var screenOrientation: Settings.ScreenOrientation? = null
@@ -152,6 +153,7 @@ class SettingsPendingCopy {
         useLibusb = settings.useLibusb
         listenForUsbDevices = settings.listenForUsbDevices
         usbWirelessDongle = settings.usbWirelessDongle
+        usbTryLockedSamsung = settings.usbTryLockedSamsung
         audioQueueCapacity = settings.audioQueueCapacity
         showToastMessages = settings.showToastMessages
         screenOrientation = settings.screenOrientation
@@ -254,6 +256,7 @@ class SettingsPendingCopy {
         useLibusb != settings.useLibusb ||
         listenForUsbDevices != settings.listenForUsbDevices ||
         usbWirelessDongle != settings.usbWirelessDongle ||
+        usbTryLockedSamsung != settings.usbTryLockedSamsung ||
         audioQueueCapacity != settings.audioQueueCapacity ||
         showToastMessages != settings.showToastMessages ||
         screenOrientation != settings.screenOrientation ||

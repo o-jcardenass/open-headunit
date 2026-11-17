@@ -277,6 +277,9 @@
 
     <string name="listen_for_usb_attach_label">Rozpoznávat připojené telefony/AA dongly</string>
     <string name="listen_for_usb_attach_description">Android může nabídnout aplikaci Open Headunit pro zapojený telefon nebo dongl Android Auto a zapamatuje si vaši volbu. Když je vypnuto, Android ji nenabízí. Použijte tlačítko USB a pokaždé odpovězte v dialogu.</string>
+    <string name="usb_try_locked_samsung_label">Zkusit zamčený telefon Samsung přes USB</string>
+    <string name="usb_try_locked_samsung_summary">Přijmout zamčený telefon Samsung, který zobrazuje jen sériový port.</string>
+    <string name="usb_try_locked_samsung_help">Zamčený telefon Samsung v režimu pouze nabíjení zobrazuje jen sériový port a Android Auto se nespustí. Když je funkce zapnutá, Open Headunit se ho přesto pokusí přepnout a Android pro něj nabídne aplikaci. Pokud se objevují nechtěná dialogová okna USB, nechte funkci vypnutou. Odemčený Samsung v režimu tetheringu nebo ladění může v nabídce Androidu zobrazit aplikaci dvakrát.</string>
     <string name="listen_for_usb_attach_summary">Android může nabídnout tuto aplikaci po zapojení telefonu nebo donglu.</string>
     <string name="show_toast_messages">Zobrazovat krátká oznámení</string>
     <string name="show_toast_messages_description">Zobrazit vyskakovací zprávy o stavu při připojení, odpojení a změně režimu.</string>

@@ -142,8 +142,12 @@ class UsbDeviceCompat(val wrappedDevice: UsbDevice) {
          */
         const val BLACKLISTED_REASON = "rejected: blacklisted by the user"
 
+        /** Mirrors `Settings.usbTryLockedSamsung` for callers that hold no Context. */
+        @Volatile
+        var tryLockedSamsung: Boolean = false
+
         private fun evaluate(device: UsbDevice): UsbDeviceIdentityPolicy.Verdict =
-            UsbDeviceIdentityPolicy.evaluate(describe(device))
+            UsbDeviceIdentityPolicy.evaluate(describe(device), tryLockedSamsung)
 
         /** Reads the Android-side facts [UsbPermissionAskPolicy] decides on. Unreadable means ask. */
         internal fun permissionDecisionInputs(
@@ -169,7 +173,7 @@ class UsbDeviceCompat(val wrappedDevice: UsbDevice) {
             return UsbPermissionAskPolicy.Inputs(
                 accessory = isInAccessoryMode(device),
                 mtp = UsbPermissionAskPolicy.isMtp(described),
-                filterMatches = UsbManifestFilter.matches(described),
+                filterMatches = UsbManifestFilter.matches(described, tryLockedSamsung),
                 activityEnabled = activityEnabled,
                 automotive = automotive,
                 sdkInt = Build.VERSION.SDK_INT,

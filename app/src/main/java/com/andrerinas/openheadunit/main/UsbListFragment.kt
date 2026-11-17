@@ -204,7 +204,7 @@ class UsbListFragment : Fragment() {
                         mSettings.addUsbDeviceToBlacklist(device.wrappedDevice)
                         val notes = UsbBlacklistPolicy.notesOnAdd(
                             UsbDeviceCompat.blacklistKey(device.wrappedDevice),
-                            UsbManifestFilter.matches(UsbDeviceCompat.describe(device.wrappedDevice)),
+                            UsbManifestFilter.matches(UsbDeviceCompat.describe(device.wrappedDevice), UsbDeviceCompat.tryLockedSamsung),
                         )
                         for (note in notes) {
                             val text = when (note) {

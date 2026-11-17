@@ -338,6 +338,9 @@
 
     <string name="listen_for_usb_attach_label">Angeschlossene Smartphones/AA-Dongles erkennen</string>
     <string name="listen_for_usb_attach_description">Android kann Open Headunit für ein angeschlossenes Smartphone oder einen Android-Auto-Dongle anbieten und merkt sich deine Wahl. Ist die Option aus, bietet Android die App nicht an. Nutze die USB-Taste und beantworte jedes Mal eine Abfrage.</string>
+    <string name="usb_try_locked_samsung_label">Gesperrtes Samsung-Smartphone über USB versuchen</string>
+    <string name="usb_try_locked_samsung_summary">Ein gesperrtes Samsung-Smartphone akzeptieren, das nur einen seriellen Port zeigt.</string>
+    <string name="usb_try_locked_samsung_help">Ein gesperrtes Samsung-Smartphone im reinen Lademodus zeigt nur einen seriellen Port, und Android Auto kann nicht starten. Wenn aktiviert, versucht Open Headunit trotzdem, es umzuschalten, und Android bietet die App dafür an. Lass die Option aus, wenn unerwünschte USB-Dialoge erscheinen. Ein entsperrtes Samsung im Tethering- oder Debugging-Modus zeigt die App im Android-Auswahldialog eventuell doppelt an.</string>
     <string name="listen_for_usb_attach_summary">Android bietet die App beim Anschließen eines Smartphones oder Dongles an.</string>
     <string name="blacklisted">Blockiert (Blacklist)</string>
     <string name="usb_blacklist_one_mode">Dieses Gerät übermittelt keinen Namen. Die Blacklist gilt deshalb für seine USB-ID: für jedes Gerät mit dieser ID und nur in diesem USB-Modus. Im Android-Auto-Modus kann es sich weiterhin verbinden.</string>

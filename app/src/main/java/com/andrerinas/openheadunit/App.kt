@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat
 import androidx.multidex.MultiDex
 import com.andrerinas.openheadunit.main.BackgroundNotification
 import com.andrerinas.openheadunit.aap.AapNavigation
+import com.andrerinas.openheadunit.connection.usb.UsbDeviceCompat
 import com.andrerinas.openheadunit.connection.usb.UsbPermissionAsks
 import com.andrerinas.openheadunit.ssl.ConscryptInitializer
 import com.andrerinas.openheadunit.utils.AppLog
@@ -79,6 +80,9 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
         if (ConscryptInitializer.isNeededForTls12()) {
             ConscryptInitializer.initialize()
         }
+
+        // The alias survives a reboot, so a plug before unlock must see the same flag.
+        UsbDeviceCompat.tryLockedSamsung = Settings.isUsbTryLockedSamsungEnabled(this)
 
         if (isUserUnlocked()) {
             initUnlockedOnce()
@@ -146,6 +150,7 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
 
         val settings = Settings(this) // Create a Settings instance
         AppLog.init(settings, this) // Initialize AppLog with settings for conditional logging
+        Settings.applyUsbTryLockedSamsung(this, settings.usbTryLockedSamsung, settings.listenForUsbDevices)
 
         // Sync auto-start settings to device-protected storage so that
         // BootCompleteReceiver, UsbAttachedActivity, and AutoStartReceiver

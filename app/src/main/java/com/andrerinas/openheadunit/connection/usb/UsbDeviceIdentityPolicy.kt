@@ -47,6 +47,9 @@ object UsbDeviceIdentityPolicy {
     private const val CARLINKIT_VID = 0x1314
     private const val CARLINKIT_OWN_PROTOCOL_PID = 0x1520
     private const val GOOGLE_VID = 0x18D1
+    private const val SAMSUNG_VID = 0x04E8
+    /** Download (Odin) mode shows the same CDC-ACM pair, but its bootloader does not speak AOA. */
+    private const val SAMSUNG_DOWNLOAD_MODE_PID = 0x685D
 
     /**
      * The four accessory PIDs that carry an accessory interface, matching AOSP's own
@@ -96,7 +99,11 @@ object UsbDeviceIdentityPolicy {
         0x11, // billboard, the alt-mode announcer inside every USB-C dock
     )
 
-    fun evaluate(device: Device): Verdict {
+    /**
+     * [tryLockedSamsung] accepts a Samsung whose every interface is CDC-ACM: a locked phone in
+     * charge-only mode shows only that pair, and ep0 still answers the AOA requests.
+     */
+    fun evaluate(device: Device, tryLockedSamsung: Boolean = false): Verdict {
         // Apple does not support Android Auto.
         if (device.vendorId == APPLE_VID) return Verdict(false, "Apple VID")
 
@@ -128,6 +135,12 @@ object UsbDeviceIdentityPolicy {
             if (isVendorClass(iface) && iface.hasBulkIn && iface.hasBulkOut) {
                 return accessoryVerdict(device, iface)
             }
+        }
+
+        if (tryLockedSamsung && device.vendorId == SAMSUNG_VID && device.productId != SAMSUNG_DOWNLOAD_MODE_PID &&
+            device.interfaces.isNotEmpty() && device.interfaces.all { isCdcSerial(it) }
+        ) {
+            return Verdict(true, "locked Samsung (CDC-ACM only)")
         }
 
         // A device whose interfaces are only a CDC-ACM pair is a serial port: a vendor dongle's own

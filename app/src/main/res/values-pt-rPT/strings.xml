@@ -540,6 +540,9 @@
     <string name="auto_start_offer_countdown">Não (%1$ds)</string>
     <string name="listen_for_usb_attach_label">Detetar telemóveis/dongles AA ligados</string>
     <string name="listen_for_usb_attach_description">O Android pode oferecer o Open Headunit para um telemóvel ou dongle Android Auto ligado e memorizar a sua escolha. Se estiver desativada, o Android não o oferece. Use o botão USB e responda a uma caixa de diálogo todas as vezes.</string>
+    <string name="usb_try_locked_samsung_label">Tentar um Samsung bloqueado por USB</string>
+    <string name="usb_try_locked_samsung_summary">Aceitar um telemóvel Samsung bloqueado que mostra apenas uma porta série.</string>
+    <string name="usb_try_locked_samsung_help">Um telemóvel Samsung bloqueado no modo só de carregamento mostra apenas uma porta série, e o Android Auto não consegue iniciar. Quando ativada, a Open Headunit tenta alterná-lo mesmo assim e o Android oferece a app para ele. Deixe desativada se aparecerem caixas de diálogo USB indesejadas. Um Samsung desbloqueado em modo de partilha de ligação ou depuração pode mostrar a app duas vezes no seletor do Android.</string>
     <string name="listen_for_usb_attach_summary">O Android pode oferecer esta app quando um telemóvel ou dongle é inserido.</string>
     <string name="show_toast_messages">Mostrar mensagens breves</string>
     <string name="show_toast_messages_description">Apresenta mensagens breves de estado ao ligar, desligar e alternar de modo.</string>

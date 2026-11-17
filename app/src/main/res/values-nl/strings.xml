@@ -276,6 +276,9 @@
 
     <string name="listen_for_usb_attach_label">Aangesloten telefoons/AA-dongles detecteren</string>
     <string name="listen_for_usb_attach_description">Android kan Open Headunit aanbieden voor een aangesloten telefoon of Android Auto-dongle en onthoudt je keuze. Als dit uit staat, biedt Android de app niet aan. Gebruik de USB-knop en beantwoord elke keer een dialoogvenster.</string>
+    <string name="usb_try_locked_samsung_label">Vergrendelde Samsung-telefoon proberen via USB</string>
+    <string name="usb_try_locked_samsung_summary">Een vergrendelde Samsung-telefoon accepteren die alleen een seriële poort toont.</string>
+    <string name="usb_try_locked_samsung_help">Een vergrendelde Samsung-telefoon in de modus alleen opladen toont alleen een seriële poort, en Android Auto kan niet starten. Als dit aan staat, probeert Open Headunit de telefoon toch om te schakelen en biedt Android de app ervoor aan. Laat dit uit als je ongewenste USB-dialogen ziet. Een ontgrendelde Samsung in tethering- of debugmodus kan de app twee keer tonen in de Android-keuzelijst.</string>
     <string name="listen_for_usb_attach_summary">Android kan deze app aanbieden als je een telefoon of dongle aansluit.</string>
     <string name="show_toast_messages">Toastberichten tonen</string>
     <string name="show_toast_messages_description">Statuspop-ups tonen bij verbinden, verbreken en moduswissel.</string>

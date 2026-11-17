@@ -305,6 +305,9 @@
 
     <string name="listen_for_usb_attach_label">Takılan telefonları/AA dongle\'larını algıla</string>
     <string name="listen_for_usb_attach_description">Android, takılan telefon veya Android Auto dongle\'ı için Open Headunit\'i önerebilir ve seçiminizi hatırlar. Kapalıyken Android önermez. USB düğmesini kullanın ve her seferinde bir iletişim kutusunu yanıtlayın.</string>
+    <string name="usb_try_locked_samsung_label">Kilitli Samsung telefonu USB ile dene</string>
+    <string name="usb_try_locked_samsung_summary">Yalnızca seri bağlantı noktası gösteren kilitli bir Samsung telefonu kabul et.</string>
+    <string name="usb_try_locked_samsung_help">Yalnızca şarj modundaki kilitli bir Samsung telefon sadece seri bağlantı noktası gösterir ve Android Auto başlatılamaz. Açıkken Open Headunit yine de geçiş yapmayı dener ve Android telefon için uygulamayı önerir. İstenmeyen USB iletişim kutuları görüyorsanız kapalı bırakın. Bağlantı paylaşımı veya hata ayıklama modundaki kilidi açık bir Samsung, Android seçicide uygulamayı iki kez gösterebilir.</string>
     <string name="listen_for_usb_attach_summary">Telefon veya dongle takıldığında Android\'in bu uygulamayı önermesini sağlar.</string>
     <string name="show_toast_messages">Geçici Mesajları Göster</string>
     <string name="show_toast_messages_description">Bağlantı, bağlantı kesilmesi ve mod değiştirme sırasında kısa durum mesajları göster.</string>

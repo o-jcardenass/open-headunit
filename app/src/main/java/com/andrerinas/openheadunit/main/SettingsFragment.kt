@@ -219,6 +219,7 @@ class SettingsFragment : Fragment() {
     private var pendingUseLibusb by pending::useLibusb
     private var pendingListenForUsbDevices by pending::listenForUsbDevices
     private var pendingUsbWirelessDongle by pending::usbWirelessDongle
+    private var pendingUsbTryLockedSamsung by pending::usbTryLockedSamsung
     private var pendingAudioQueueCapacity by pending::audioQueueCapacity
     private var pendingShowToastMessages by pending::showToastMessages
     private var pendingScreenOrientation by pending::screenOrientation
@@ -729,6 +730,7 @@ class SettingsFragment : Fragment() {
             Settings.setUsbAttachedActivityEnabled(requireContext(), it)
         }
         pendingUsbWirelessDongle?.let { if (it != settings.usbWirelessDongle) settings.usbWirelessDongle = it }
+        pendingUsbTryLockedSamsung?.let { if (it != settings.usbTryLockedSamsung) settings.usbTryLockedSamsung = it }
         pendingNarrowBandProfileCap?.let { if (it != settings.narrowBandProfileCap) settings.narrowBandProfileCap = it }
         pendingDebugVideoLowLatency?.let { if (it != settings.debugVideoLowLatency) settings.debugVideoLowLatency = it }
         pendingAllowExternalConfiguration?.let { if (it != settings.allowExternalConfiguration) settings.allowExternalConfiguration = it }
@@ -1042,6 +1044,19 @@ class SettingsFragment : Fragment() {
             isChecked = pendingUsbWirelessDongle ?: false,
             onCheckedChanged = { isChecked ->
                 pendingUsbWirelessDongle = isChecked
+                checkChanges()
+                updateSettingsList()
+            }
+        ))
+
+        items.add(SettingItem.ToggleSettingEntry(
+            stableId = "usbTryLockedSamsung",
+            nameResId = R.string.usb_try_locked_samsung_label,
+            descriptionResId = R.string.usb_try_locked_samsung_summary,
+            helpResId = R.string.usb_try_locked_samsung_help,
+            isChecked = pendingUsbTryLockedSamsung ?: false,
+            onCheckedChanged = { isChecked ->
+                pendingUsbTryLockedSamsung = isChecked
                 checkChanges()
                 updateSettingsList()
             }

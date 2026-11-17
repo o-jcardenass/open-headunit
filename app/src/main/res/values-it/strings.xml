@@ -308,6 +308,9 @@
 
     <string name="listen_for_usb_attach_label">Rileva smartphone/dongle AA collegati</string>
     <string name="listen_for_usb_attach_description">Android può proporre Open Headunit per uno smartphone o un dongle Android Auto collegato e ricorda la tua scelta. Se è disattivata, Android non lo propone. Usa il pulsante USB e rispondi a una finestra di dialogo ogni volta.</string>
+    <string name="usb_try_locked_samsung_label">Prova uno smartphone Samsung bloccato via USB</string>
+    <string name="usb_try_locked_samsung_summary">Accetta uno smartphone Samsung bloccato che mostra solo una porta seriale.</string>
+    <string name="usb_try_locked_samsung_help">Uno smartphone Samsung bloccato in modalità solo ricarica mostra solo una porta seriale e Android Auto non può avviarsi. Se attivi, Open Headunit prova comunque a passare alla modalità giusta e Android propone l\'app per quel dispositivo. Lascia disattivato se vedi finestre USB indesiderate. Un Samsung sbloccato in modalità tethering o debug può mostrare l\'app due volte nel selettore di Android.</string>
     <string name="listen_for_usb_attach_summary">Android può proporre l\'app quando viene collegato uno smartphone o un dongle.</string>
     <string name="show_toast_messages">Mostra messaggi toast</string>
     <string name="show_toast_messages_description">Mostra popup di stato alla connessione, alla disconnessione e al cambio di modalità.</string>

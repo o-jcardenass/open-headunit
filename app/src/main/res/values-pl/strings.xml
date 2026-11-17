@@ -277,6 +277,9 @@
 
     <string name="listen_for_usb_attach_label">Wykrywaj podłączone telefony/dongle AA</string>
     <string name="listen_for_usb_attach_description">Android może zaproponować Open Headunit po podłączeniu telefonu lub dongla Android Auto i zapamiętać twój wybór. Gdy opcja jest wyłączona, Android go nie proponuje. Użyj przycisku USB i za każdym razem odpowiedz w oknie dialogowym.</string>
+    <string name="usb_try_locked_samsung_label">Spróbuj zablokowanego telefonu Samsung przez USB</string>
+    <string name="usb_try_locked_samsung_summary">Akceptuj zablokowany telefon Samsung, który pokazuje tylko port szeregowy.</string>
+    <string name="usb_try_locked_samsung_help">Zablokowany telefon Samsung w trybie samego ładowania pokazuje tylko port szeregowy i Android Auto nie może się uruchomić. Po włączeniu Open Headunit mimo to próbuje go przełączyć, a Android proponuje dla niego aplikację. Pozostaw wyłączone, jeśli pojawiają się niechciane okna USB. Odblokowany Samsung w trybie tetheringu lub debugowania może pokazać aplikację dwa razy w oknie wyboru Androida.</string>
     <string name="listen_for_usb_attach_summary">Android może zaproponować aplikację po podłączeniu telefonu lub dongla.</string>
     <string name="show_toast_messages">Pokazuj krótkie komunikaty</string>
     <string name="show_toast_messages_description">Wyświetlaj krótkie komunikaty o stanie przy łączeniu, rozłączaniu i zmianie trybu.</string>

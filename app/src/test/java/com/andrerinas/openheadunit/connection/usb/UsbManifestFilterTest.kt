@@ -13,9 +13,15 @@ class UsbManifestFilterTest {
     private fun matches(device: Device) = UsbManifestFilter.matches(device)
 
     @Test
-    fun `the Kotlin copy equals the shipped XML`() {
-        val doc = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-            .parse(java.io.File("src/main/res/xml/usb_device_filter.xml"))
+    fun `the locked Samsung alias is on only while both settings are on`() {
+        assertTrue(UsbManifestFilter.lockedSamsungAliasEnabled(tryLockedSamsung = true, listenForUsbDevices = true))
+        assertFalse(UsbManifestFilter.lockedSamsungAliasEnabled(tryLockedSamsung = true, listenForUsbDevices = false))
+        assertFalse(UsbManifestFilter.lockedSamsungAliasEnabled(tryLockedSamsung = false, listenForUsbDevices = true))
+        assertFalse(UsbManifestFilter.lockedSamsungAliasEnabled(tryLockedSamsung = false, listenForUsbDevices = false))
+    }
+
+    private fun shippedEntries(path: String): Set<UsbManifestFilter.Entry> {
+        val doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(java.io.File(path))
         val nodes = doc.getElementsByTagName("usb-device")
         val shipped = HashSet<UsbManifestFilter.Entry>()
         for (i in 0 until nodes.length) {
@@ -29,7 +35,30 @@ class UsbManifestFilterTest {
             )
         }
         assertEquals(nodes.length, shipped.size)
-        assertEquals(shipped, UsbManifestFilter.ENTRIES.toSet())
+        return shipped
+    }
+
+    @Test
+    fun `the Kotlin copy equals the shipped XML`() {
+        assertEquals(shippedEntries("src/main/res/xml/usb_device_filter.xml"), UsbManifestFilter.ENTRIES.toSet())
+    }
+
+    @Test
+    fun `the locked Samsung list equals its shipped XML`() {
+        assertEquals(
+            shippedEntries("src/main/res/xml/usb_device_filter_locked_samsung.xml"),
+            UsbManifestFilter.LOCKED_SAMSUNG_ENTRIES.toSet(),
+        )
+    }
+
+    @Test
+    fun `the locked Samsung pair matches only while its alias is enabled`() {
+        val locked = Device(
+            0x04E8, 0x6860, 0x00, listOf(Interface(0x02, 0x02, 0x01), Interface(0x0A, 0x00, 0x00)),
+        )
+        assertFalse(matches(locked))
+        assertTrue(UsbManifestFilter.matches(locked, lockedSamsungEnabled = true))
+        assertFalse(UsbManifestFilter.matches(locked.copy(vendorId = 0x1234), lockedSamsungEnabled = true))
     }
 
     @Test

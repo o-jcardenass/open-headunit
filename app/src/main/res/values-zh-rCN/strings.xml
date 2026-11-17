@@ -276,6 +276,9 @@
 
     <string name="listen_for_usb_attach_label">检测插入的手机/AA 适配器</string>
     <string name="listen_for_usb_attach_description">Android 会为插入的手机或 Android Auto 适配器推荐 Open Headunit，并记住你的选择。关闭后，Android 不再推荐。请使用 USB 按钮，每次都需要回应一个对话框。</string>
+    <string name="usb_try_locked_samsung_label">通过 USB 尝试已锁定的三星手机</string>
+    <string name="usb_try_locked_samsung_summary">接受仅显示串行端口的已锁定三星手机。</string>
+    <string name="usb_try_locked_samsung_help">处于仅充电模式的已锁定三星手机只显示串行端口，Android Auto 无法启动。开启后，Open Headunit 仍会尝试切换，Android 也会为该手机推荐此应用。如果出现不需要的 USB 对话框，请保持关闭。处于网络共享或调试模式的已解锁三星手机可能会在 Android 选择器中显示此应用两次。</string>
     <string name="listen_for_usb_attach_summary">插入手机或适配器时，Android 可推荐此应用。</string>
     <string name="show_toast_messages">显示 Toast 提示</string>
     <string name="show_toast_messages_description">在连接、断开连接和切换模式时显示状态提示。</string>

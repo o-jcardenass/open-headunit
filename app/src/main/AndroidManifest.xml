@@ -155,6 +155,20 @@
                 android:resource="@xml/usb_device_filter" />
         </activity>
 
+        <!-- Off until "Try a locked Samsung phone over USB" enables it; same target activity. -->
+        <activity-alias
+            android:name=".app.UsbAttachedLockedSamsung"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity=".app.UsbAttachedActivity">
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+            </intent-filter>
+            <meta-data
+                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+                android:resource="@xml/usb_device_filter_locked_samsung" />
+        </activity-alias>
+
 
         <activity
             android:name=".main.MainActivity"

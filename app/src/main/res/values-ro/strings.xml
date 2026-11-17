@@ -303,6 +303,9 @@
 
     <string name="listen_for_usb_attach_label">Detectează telefoanele/dongle-urile AA conectate</string>
     <string name="listen_for_usb_attach_description">Android poate oferi Open Headunit pentru un telefon sau un dongle Android Auto conectat și reține alegerea ta. Când este dezactivată, Android nu îl oferă. Folosește butonul USB și răspunde de fiecare dată la o casetă de dialog.</string>
+    <string name="usb_try_locked_samsung_label">Încearcă un telefon Samsung blocat prin USB</string>
+    <string name="usb_try_locked_samsung_summary">Acceptă un telefon Samsung blocat care arată doar un port serial.</string>
+    <string name="usb_try_locked_samsung_help">Un telefon Samsung blocat în modul doar încărcare arată doar un port serial, iar Android Auto nu poate porni. Când este activată, Open Headunit încearcă totuși să-l comute, iar Android oferă aplicația pentru el. Lasă opțiunea dezactivată dacă apar casete de dialog USB nedorite. Un Samsung deblocat în modul de partajare a conexiunii sau depanare poate arăta aplicația de două ori în selectorul Android.</string>
     <string name="listen_for_usb_attach_summary">Android poate oferi aplicația când este branșat un telefon sau un dongle.</string>
     <string name="show_toast_messages">Afișează mesaje Toast</string>
     <string name="show_toast_messages_description">Afișează mesaje pop-up de stare la conectare, deconectare și schimbarea modului.</string>

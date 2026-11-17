@@ -539,6 +539,9 @@
     <string name="auto_start_offer_countdown">Tidak (%1$ds)</string>
     <string name="listen_for_usb_attach_label">Deteksi ponsel/dongle AA yang dicolokkan</string>
     <string name="listen_for_usb_attach_description">Android dapat menawarkan Open Headunit untuk ponsel atau dongle Android Auto yang dicolokkan dan mengingat pilihan Anda. Jika nonaktif, Android tidak menawarkannya. Gunakan tombol USB dan jawab dialog setiap kali.</string>
+    <string name="usb_try_locked_samsung_label">Coba ponsel Samsung terkunci lewat USB</string>
+    <string name="usb_try_locked_samsung_summary">Terima ponsel Samsung terkunci yang hanya menampilkan port serial.</string>
+    <string name="usb_try_locked_samsung_help">Ponsel Samsung terkunci dalam mode hanya isi daya hanya menampilkan port serial, dan Android Auto tidak dapat dimulai. Jika diaktifkan, Open Headunit tetap mencoba mengalihkannya dan Android menawarkan aplikasi untuk ponsel itu. Biarkan nonaktif jika muncul dialog USB yang tidak diinginkan. Samsung yang tidak terkunci dalam mode tethering atau debugging dapat menampilkan aplikasi dua kali di pemilih Android.</string>
     <string name="listen_for_usb_attach_summary">Android dapat menawarkan aplikasi ini saat ponsel atau dongle dicolokkan.</string>
     <string name="show_toast_messages">Tampilkan Pesan Toast</string>
     <string name="show_toast_messages_description">Tampilkan pesan toast status saat menghubungkan, memutuskan, dan berpindah mode.</string>

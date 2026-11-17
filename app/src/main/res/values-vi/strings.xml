@@ -287,6 +287,9 @@
     <string name="auto_start_offer_countdown">Không sau %1$d giây</string>
     <string name="listen_for_usb_attach_label">Phát hiện điện thoại/dongle AA được cắm</string>
     <string name="listen_for_usb_attach_description">Android có thể đề xuất Open Headunit cho điện thoại hoặc dongle Android Auto được cắm và ghi nhớ lựa chọn của bạn. Khi tắt, Android không đề xuất. Dùng nút USB và trả lời một hộp thoại mỗi lần.</string>
+    <string name="usb_try_locked_samsung_label">Thử điện thoại Samsung bị khóa qua USB</string>
+    <string name="usb_try_locked_samsung_summary">Chấp nhận điện thoại Samsung bị khóa chỉ hiện cổng nối tiếp.</string>
+    <string name="usb_try_locked_samsung_help">Điện thoại Samsung bị khóa ở chế độ chỉ sạc chỉ hiện cổng nối tiếp và Android Auto không thể khởi động. Khi bật, Open Headunit vẫn thử chuyển chế độ và Android đề xuất ứng dụng cho điện thoại đó. Hãy để tắt nếu bạn thấy hộp thoại USB không mong muốn. Samsung đã mở khóa ở chế độ chia sẻ kết nối hoặc gỡ lỗi có thể hiện ứng dụng hai lần trong bộ chọn của Android.</string>
     <string name="listen_for_usb_attach_summary">Android có thể đề xuất ứng dụng này khi cắm điện thoại hoặc dongle.</string>
     <string name="show_toast_messages">Hiển thị thông báo Toast</string>
     <string name="show_toast_messages_description">Hiển thị thông báo trạng thái khi kết nối, ngắt kết nối và chuyển chế độ.</string>

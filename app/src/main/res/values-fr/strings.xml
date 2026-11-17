@@ -495,6 +495,9 @@
     <string name="auto_start_offer_countdown">Non dans %1$d s</string>
     <string name="listen_for_usb_attach_label">Détecter téléphones/dongles AA branchés</string>
     <string name="listen_for_usb_attach_description">Android peut proposer Open Headunit pour un téléphone ou un dongle Android Auto branché et mémoriser votre choix. Si l\'option est désactivée, Android ne le propose pas. Utilisez le bouton USB et répondez à une boîte de dialogue à chaque fois.</string>
+    <string name="usb_try_locked_samsung_label">Essayer un téléphone Samsung verrouillé via USB</string>
+    <string name="usb_try_locked_samsung_summary">Accepter un téléphone Samsung verrouillé qui n\'affiche qu\'un port série.</string>
+    <string name="usb_try_locked_samsung_help">Un téléphone Samsung verrouillé en mode charge seule n\'affiche qu\'un port série, et Android Auto ne peut pas démarrer. Si l\'option est activée, Open Headunit tente quand même de le basculer et Android propose l\'appli pour celui-ci. Laissez l\'option désactivée si des boîtes de dialogue USB indésirables s\'affichent. Un Samsung déverrouillé en mode partage de connexion ou débogage peut afficher l\'appli deux fois dans le sélecteur Android.</string>
     <string name="listen_for_usb_attach_summary">Android propose l\'appli au branchement d\'un téléphone ou d\'un dongle.</string>
     <string name="show_toast_messages">Afficher les messages toast</string>
     <string name="show_toast_messages_description">Afficher des messages d\'état lors de la connexion, de la déconnexion et du changement de mode.</string>

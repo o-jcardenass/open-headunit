@@ -539,6 +539,9 @@
     <string name="auto_start_offer_countdown">ไม่ ในอีก %1$d วินาที</string>
     <string name="listen_for_usb_attach_label">ตรวจหาโทรศัพท์หรือดองเกิล AA ที่เสียบอยู่</string>
     <string name="listen_for_usb_attach_description">Android เสนอ Open Headunit สำหรับโทรศัพท์หรือดองเกิล Android Auto ที่เสียบอยู่ และจดจำตัวเลือกของคุณ เมื่อปิดอยู่ Android จะไม่เสนอ ใช้ปุ่ม USB และตอบกล่องโต้ตอบทุกครั้ง</string>
+    <string name="usb_try_locked_samsung_label">ลองใช้โทรศัพท์ Samsung ที่ล็อกอยู่ผ่าน USB</string>
+    <string name="usb_try_locked_samsung_summary">ยอมรับโทรศัพท์ Samsung ที่ล็อกอยู่และแสดงเฉพาะพอร์ตอนุกรม</string>
+    <string name="usb_try_locked_samsung_help">โทรศัพท์ Samsung ที่ล็อกอยู่ในโหมดชาร์จอย่างเดียวจะแสดงเฉพาะพอร์ตอนุกรม และ Android Auto เริ่มทำงานไม่ได้ เมื่อเปิดใช้ Open Headunit จะลองสลับโหมดให้อยู่ดี และ Android จะเสนอแอปสำหรับโทรศัพท์เครื่องนั้น ให้ปิดไว้หากเห็นกล่องโต้ตอบ USB ที่ไม่ต้องการ Samsung ที่ปลดล็อกแล้วในโหมดการเชื่อมต่ออินเทอร์เน็ตหรือการแก้ไขข้อบกพร่องอาจแสดงแอปสองครั้งในตัวเลือกของ Android</string>
     <string name="listen_for_usb_attach_summary">Android เสนอแอปนี้ได้เมื่อเสียบโทรศัพท์หรือดองเกิล</string>
     <string name="show_toast_messages">แสดงข้อความแจ้งเตือน Toast</string>
     <string name="show_toast_messages_description">แสดงป๊อปอัปสถานะเมื่อเชื่อมต่อ ตัดการเชื่อมต่อ และเปลี่ยนโหมด</string>

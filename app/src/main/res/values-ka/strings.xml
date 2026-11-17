@@ -300,6 +300,9 @@
     <string name="auto_start_offer_countdown">არა %1$d წმ-ში</string>
     <string name="listen_for_usb_attach_label">მიერთებული ტელეფონების/AA დონგლების აღმოჩენა</string>
     <string name="listen_for_usb_attach_description">Android-ს შეუძლია შემოგთავაზოთ Open Headunit მიერთებული ტელეფონისთვის ან Android Auto დონგლისთვის და დაიმახსოვროს თქვენი არჩევანი. გამორთვისას Android ამას არ შემოგთავაზებს. გამოიყენეთ USB ღილაკი და ყოველ ჯერზე უპასუხეთ დიალოგს.</string>
+    <string name="usb_try_locked_samsung_label">დაბლოკილი Samsung ტელეფონის გამოცდა USB-ით</string>
+    <string name="usb_try_locked_samsung_summary">დაბლოკილი Samsung ტელეფონის მიღება, რომელიც მხოლოდ სერიულ პორტს აჩვენებს.</string>
+    <string name="usb_try_locked_samsung_help">მხოლოდ დატენვის რეჟიმში დაბლოკილი Samsung ტელეფონი მხოლოდ სერიულ პორტს აჩვენებს და Android Auto ვერ ირთვება. ჩართვისას Open Headunit მაინც ცდილობს მის გადართვას და Android ტელეფონისთვის აპს გთავაზობთ. გამორთული დატოვეთ, თუ არასასურველი USB დიალოგები გამოჩნდება. განბლოკილი Samsung მოდემის ან გამართვის რეჟიმში Android-ის არჩევანში აპს ორჯერ აჩვენებს.</string>
     <string name="listen_for_usb_attach_summary">Android-ს შეუძლია შემოგთავაზოთ ეს აპი ტელეფონის ან დონგლის მიერთებისას.</string>
     <string name="show_toast_messages">მოკლე შეტყობინებების ჩვენება</string>
     <string name="show_toast_messages_description">სტატუსის შეტყობინებების ჩვენება დაკავშირების, გათიშვის და რეჟიმის შეცვლისას.</string>

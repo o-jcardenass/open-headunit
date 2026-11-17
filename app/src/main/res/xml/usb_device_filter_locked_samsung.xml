@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Offered only while the UsbAttachedLockedSamsung alias is enabled by "Try a locked Samsung
+    phone over USB". Keep in step with UsbManifestFilter.LOCKED_SAMSUNG_ENTRIES.
+-->
+<resources>
+    <usb-device vendor-id="1256" class="2" subclass="2" />  <!-- Samsung CDC-ACM control, locked -->
+</resources>

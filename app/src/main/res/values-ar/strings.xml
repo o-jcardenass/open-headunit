@@ -277,6 +277,9 @@
 
     <string name="listen_for_usb_attach_label">اكتشاف الهاتف أو دونغل AA عند توصيله</string>
     <string name="listen_for_usb_attach_description">يتيح لنظام Android عرض Open Headunit عند توصيل هاتف أو دونغل Android Auto وتذكّر اختيارك. عند الإيقاف، لا يعرضه Android. استخدم زر USB وأجب عن مربع حوار في كل مرة.</string>
+    <string name="usb_try_locked_samsung_label">تجربة هاتف Samsung مقفل عبر USB</string>
+    <string name="usb_try_locked_samsung_summary">قبول هاتف Samsung مقفل لا يعرض سوى منفذ تسلسلي.</string>
+    <string name="usb_try_locked_samsung_help">يعرض هاتف Samsung المقفل في وضع الشحن فقط منفذًا تسلسليًا، ولا يمكن لـ Android Auto أن يبدأ. عند التفعيل، يحاول Open Headunit تبديله على أي حال ويعرض Android التطبيق له. أبقِ الخيار معطّلًا إذا ظهرت لك مربعات حوار USB غير مرغوبة. قد يعرض هاتف Samsung غير المقفل في وضع التوصيل أو تصحيح الأخطاء التطبيق مرتين في قائمة اختيار Android.</string>
     <string name="listen_for_usb_attach_summary">يتيح لنظام Android عرض هذا التطبيق عند توصيل هاتف أو دونغل.</string>
     <string name="show_toast_messages">إظهار الرسائل المنبثقة (Toast)</string>
     <string name="show_toast_messages_description">عرض الرسائل المنبثقة للحالة عند الاتصال والانفصال وتغيير الوضع.</string>

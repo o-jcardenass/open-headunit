@@ -570,6 +570,9 @@
     <string name="auto_start_offer_countdown">No in %1$ds</string>
     <string name="listen_for_usb_attach_label">Detect plugged-in phones/AA dongles</string>
     <string name="listen_for_usb_attach_description">Lets Android offer Open Headunit for a plugged-in phone or Android Auto dongle and remember your choice. When off, Android does not offer it. Use the USB button and answer a dialog each time.</string>
+    <string name="usb_try_locked_samsung_label">Try a locked Samsung phone over USB</string>
+    <string name="usb_try_locked_samsung_summary">Accept a locked Samsung phone that shows only a serial port.</string>
+    <string name="usb_try_locked_samsung_help">A locked Samsung phone in charge-only mode shows only a serial port, and Android Auto cannot start. When on, Open Headunit tries to switch it anyway and Android offers the app for it. Leave off if you see unwanted USB dialogs. An unlocked Samsung in tethering or debugging mode may show the app twice in the Android chooser.</string>
     <string name="listen_for_usb_attach_summary">Lets Android offer this app when a phone or dongle is plugged in.</string>
     <string name="usb_wireless_dongle_label">Wireless USB dongle</string>
     <string name="usb_wireless_dongle_summary">Show wireless labels on the home screen instead of cable for USB connections.</string>

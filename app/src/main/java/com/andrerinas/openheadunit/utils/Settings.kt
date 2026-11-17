@@ -35,6 +35,7 @@ import com.andrerinas.openheadunit.aap.protocol.proto.Control
 import com.andrerinas.openheadunit.app.UsbAttachedActivity
 import com.andrerinas.openheadunit.connection.usb.UsbBlacklistPolicy
 import com.andrerinas.openheadunit.connection.usb.UsbDeviceCompat
+import com.andrerinas.openheadunit.connection.usb.UsbManifestFilter
 import com.andrerinas.openheadunit.connection.wifi.direct.GroupIdentityStability
 import com.andrerinas.openheadunit.connection.wifi.direct.ObservedP2pCredentials
 import com.andrerinas.openheadunit.connection.wifi.direct.ObservedP2pGroup
@@ -1593,6 +1594,14 @@ class Settings(private val context: Context) {
         get() = prefs.getBoolean("listen-for-usb-devices", true)
         set(value) { prefs.edit().putBoolean("listen-for-usb-devices", value).apply() }
 
+    /** Accepts a locked Samsung phone that shows only its CDC-ACM pair; see [UsbDeviceIdentityPolicy]. */
+    var usbTryLockedSamsung: Boolean
+        get() = prefs.getBoolean(KEY_USB_TRY_LOCKED_SAMSUNG, false)
+        set(value) {
+            prefs.edit().putBoolean(KEY_USB_TRY_LOCKED_SAMSUNG, value).apply()
+            applyUsbTryLockedSamsung(context, value, listenForUsbDevices)
+        }
+
     /** When true, the home screen presents USB connections as wireless (for USB wireless dongles). */
     var usbWirelessDongle: Boolean
         get() = prefs.getBoolean(KEY_USB_WIRELESS_DONGLE, false)
@@ -1923,6 +1932,7 @@ class Settings(private val context: Context) {
             syncUsbConnectOnPlugInToDeviceStorage(context, UsbPlugInPolicy.DEFAULT_CONNECT_ON_PLUG_IN)
             syncAutoStartOnWifiToDeviceStorage(context, false)
             syncListenForUsbDevicesToDeviceStorage(context, true)
+            syncUsbTryLockedSamsungToDeviceStorage(context, false)
             syncAutoStartBtMacToDeviceStorage(context, "")
             // The legacy key alone left the set AutoStartReceiver actually reads intact, so a
             // reset kept auto-starting on the old phone.
@@ -2315,6 +2325,7 @@ class Settings(private val context: Context) {
         const val KEY_SCREEN_ORIENTATION = "screen-orientation"
         private const val KEY_LISTEN_FOR_USB_DEVICES = "listen-for-usb-devices"
         private const val KEY_USB_WIRELESS_DONGLE = "usb-wireless-dongle"
+        private const val KEY_USB_TRY_LOCKED_SAMSUNG = "usb-try-locked-samsung"
         private const val KEY_AUTO_START_BT_MAC = "auto-start-bt-mac"
         private const val KEY_AUTO_START_BT_MACS = "auto-start-bt-macs"
 
@@ -2430,6 +2441,49 @@ class Settings(private val context: Context) {
         }
 
 
+        /** Read before unlock too, so a locked-boot plug decides as the alias does. */
+        fun isUsbTryLockedSamsungEnabled(context: Context): Boolean {
+            val prefs = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                val deviceContext = context.createDeviceProtectedStorageContext()
+                deviceContext.getSharedPreferences(DEVICE_PREFS_NAME, Context.MODE_PRIVATE)
+            } else {
+                context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            }
+            return prefs.getBoolean(KEY_USB_TRY_LOCKED_SAMSUNG, false)
+        }
+
+        fun syncUsbTryLockedSamsungToDeviceStorage(context: Context, enabled: Boolean) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                val deviceContext = context.createDeviceProtectedStorageContext()
+                deviceContext.getSharedPreferences(DEVICE_PREFS_NAME, Context.MODE_PRIVATE)
+                    .edit()
+                    .putBoolean(KEY_USB_TRY_LOCKED_SAMSUNG, enabled)
+                    .apply()
+            }
+        }
+
+        /** Mirrors the locked-Samsung setting into the policy flag, device storage and the manifest alias. */
+        fun applyUsbTryLockedSamsung(context: Context, enabled: Boolean, listenForUsbDevices: Boolean) {
+            UsbDeviceCompat.tryLockedSamsung = enabled
+            syncUsbTryLockedSamsungToDeviceStorage(context, enabled)
+            setLockedSamsungAliasEnabled(context, UsbManifestFilter.lockedSamsungAliasEnabled(enabled, listenForUsbDevices))
+        }
+
+        private fun setLockedSamsungAliasEnabled(context: Context, enabled: Boolean) {
+            try {
+                val component = ComponentName(context, "com.andrerinas.openheadunit.app.UsbAttachedLockedSamsung")
+                val newState = if (enabled)
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+                else
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+                if (context.packageManager.getComponentEnabledSetting(component) != newState) {
+                    context.packageManager.setComponentEnabledSetting(component, newState, PackageManager.DONT_KILL_APP)
+                }
+            } catch (e: Exception) {
+                AppLog.w("Settings: Could not switch the locked Samsung USB alias: ${e.message}")
+            }
+        }
+
         fun setUsbAttachedActivityEnabled(context: Context, enabled: Boolean) {
             val component = ComponentName(context, UsbAttachedActivity::class.java)
             val newState = if (enabled)
@@ -2441,6 +2495,9 @@ class Settings(private val context: Context) {
                     component, newState, PackageManager.DONT_KILL_APP
                 )
             }
+            setLockedSamsungAliasEnabled(
+                context, UsbManifestFilter.lockedSamsungAliasEnabled(isUsbTryLockedSamsungEnabled(context), enabled)
+            )
         }
 
         /**
