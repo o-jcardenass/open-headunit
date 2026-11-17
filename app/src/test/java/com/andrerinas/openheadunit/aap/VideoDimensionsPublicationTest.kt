@@ -70,6 +70,9 @@ class VideoDimensionsPublicationTest {
             whenever(component.videoDecoder).thenReturn(decoder)
             AapProjectionActivity::class.java.getDeclaredField("videoDecoder\$delegate")
                 .apply { isAccessible = true }.set(activity, lazyOf(decoder))
+            // enterPiP reads the activity's own settings for the media buttons.
+            AapProjectionActivity::class.java.getDeclaredField("settings\$delegate")
+                .apply { isAccessible = true }.set(activity, lazyOf(settings))
             installView(view)
             doAnswer { ui.put(it.getArgument(0)); null }.whenever(activity).runOnUiThread(any())
             doCallRealMethod().whenever(activity).onVideoDimensionsChanged(any())

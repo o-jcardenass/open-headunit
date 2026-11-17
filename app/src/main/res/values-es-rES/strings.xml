@@ -199,6 +199,9 @@
 
     <string name="start_in_fullscreen_mode">Modo de pantalla</string>
     <string name="start_in_fullscreen_mode_description">Elige cómo se gestionan las barras del sistema (estado y navegación).</string>
+    <string name="pip_media_buttons">Botones multimedia en imagen en imagen</string>
+    <string name="pip_media_buttons_description">Muestra anterior, reproducir/pausar y siguiente en la ventana de imagen en imagen.</string>
+    <string name="pip_media_buttons_help">Añade los botones anterior, reproducir o pausar, y siguiente a la ventana pequeña de imagen en imagen. Al tocar, se envía la tecla multimedia al teléfono. El icono de reproducir o pausar sigue el estado de reproducción del teléfono. Requiere Android 8.0 o posterior. El cambio se aplica la próxima vez que se abra la ventana.</string>
     <string name="start_in_fullscreen_mode_help">Elige cómo se muestran las barras del sistema sobre esta app y la proyección. «Normal» mantiene todas las barras. «Inmersivo» oculta todas las barras, y la imagen puede pasar bajo una muesca. «Ocultar solo barra de estado» mantiene la barra de navegación. «Inmersivo (evitar la muesca)» oculta todas las barras y mantiene la imagen fuera de la muesca. La pantalla se recarga de inmediato para aplicarlo.</string>
 
     <string name="usb_status">Estado USB: %s</string>

@@ -40,6 +40,7 @@ class SettingsPendingCopy {
     var playbackFocusMode: PlaybackFocusPolicy.Mode? = null
     var useAacAudio: Boolean? = null
     var useAAudioOutput: Boolean? = null
+    var pipMediaButtons: Boolean? = null
     var attachHwDspEqualizer: Boolean? = null
     var micInputSource: Int? = null
     var enableRotary: Boolean? = null
@@ -141,6 +142,7 @@ class SettingsPendingCopy {
         playbackFocusMode = settings.playbackFocusMode
         useAacAudio = settings.useAacAudio
         useAAudioOutput = settings.useAAudioOutput
+        pipMediaButtons = settings.pipMediaButtons
         attachHwDspEqualizer = settings.attachHwDspEqualizer
         micInputSource = settings.micInputSource
         enableRotary = settings.enableRotary
@@ -243,6 +245,7 @@ class SettingsPendingCopy {
         playbackFocusMode != settings.playbackFocusMode ||
         useAacAudio != settings.useAacAudio ||
         useAAudioOutput != settings.useAAudioOutput ||
+        pipMediaButtons != settings.pipMediaButtons ||
         attachHwDspEqualizer != settings.attachHwDspEqualizer ||
         micInputSource != settings.micInputSource ||
         enableRotary != settings.enableRotary ||

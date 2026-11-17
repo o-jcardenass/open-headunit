@@ -198,6 +198,9 @@
 
     <string name="start_in_fullscreen_mode">Schermmodus</string>
     <string name="start_in_fullscreen_mode_description">Kies hoe de systeembalken (status- en navigatiebalk) worden weergegeven.</string>
+    <string name="pip_media_buttons">Mediaknoppen in scherm-in-scherm</string>
+    <string name="pip_media_buttons_description">Toon vorige, afspelen/pauzeren en volgende in het scherm-in-schermvenster.</string>
+    <string name="pip_media_buttons_help">Voegt knoppen voor vorige, afspelen of pauzeren en volgende toe aan het kleine scherm-in-schermvenster. Een tik stuurt de mediatoets naar de telefoon. Het pictogram voor afspelen of pauzeren volgt de afspeelstatus van de telefoon. Vereist Android 8.0 of nieuwer. Een wijziging wordt toegepast als het venster de volgende keer opent.</string>
     <string name="start_in_fullscreen_mode_help">Bepaalt hoe de systeembalken boven deze app en de projectie verschijnen. Normaal houdt alle balken. Immersief verbergt alle balken en het beeld kan onder een notch komen. Alleen statusbalk verbergen laat de navigatiebalk staan. Immersief (notch vermijden) verbergt alle balken en houdt het beeld uit de buurt van de notch. Het scherm laadt meteen opnieuw om dit toe te passen.</string>
 
     <string name="usb_status">USB-status: %s</string>

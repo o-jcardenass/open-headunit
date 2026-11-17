@@ -198,6 +198,9 @@
 
     <string name="start_in_fullscreen_mode">屏幕模式</string>
     <string name="start_in_fullscreen_mode_description">选择如何处理系统栏（状态栏和导航栏）。</string>
+    <string name="pip_media_buttons">画中画媒体按钮</string>
+    <string name="pip_media_buttons_description">在画中画窗口中显示上一首、播放/暂停和下一首。</string>
+    <string name="pip_media_buttons_help">在小型画中画窗口中添加上一首、播放或暂停和下一首按钮。点按后会将媒体按键发送到手机。播放或暂停图标会跟随手机的播放状态。需要 Android 8.0 或更高版本。更改将在下次打开窗口时生效。</string>
     <string name="start_in_fullscreen_mode_help">选择系统栏如何显示在本应用和投屏画面上。“正常”保留所有栏。“沉浸式”隐藏所有栏，画面可延伸到刘海下方。“仅隐藏状态栏”保留导航栏。“沉浸式（避开刘海）”隐藏所有栏，并让画面避开刘海。屏幕会立即重新加载以应用设置。</string>
 
     <string name="usb_status">USB 状态：%s</string>

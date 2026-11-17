@@ -402,6 +402,9 @@
 
     <string name="start_in_fullscreen_mode">Mode d\'écran</string>
     <string name="start_in_fullscreen_mode_description">Choisissez comment gérer les barres système (état et navigation).</string>
+    <string name="pip_media_buttons">Boutons multimédia en Picture-in-picture</string>
+    <string name="pip_media_buttons_description">Afficher précédent, lecture/pause et suivant dans la fenêtre Picture-in-picture.</string>
+    <string name="pip_media_buttons_help">Ajoute les boutons précédent, lecture ou pause, et suivant à la petite fenêtre Picture-in-picture. Un appui envoie la touche multimédia au téléphone. L\'icône lecture ou pause suit l\'état de lecture du téléphone. Nécessite Android 8.0 ou version ultérieure. Une modification s\'applique à la prochaine ouverture de la fenêtre.</string>
     <string name="start_in_fullscreen_mode_help">Choisit comment les barres système s\'affichent sur cette application et la projection. « Normal » garde toutes les barres. « Immersif » masque toutes les barres, et l\'image peut passer sous une encoche. « Masquer la barre d\'état » garde la barre de navigation. « Immersif (Éviter l\'encoche) » masque toutes les barres et garde l\'image hors de l\'encoche. L\'écran se recharge aussitôt pour l\'appliquer.</string>
     <string name="fullscreen_none">Normal (toutes les barres visibles)</string>
     <string name="fullscreen_immersive">Immersif (sur l\'encoche)</string>

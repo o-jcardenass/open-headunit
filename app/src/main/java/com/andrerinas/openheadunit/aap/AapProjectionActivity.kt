@@ -203,6 +203,33 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
     private var isFinishReceiverRegistered = false
     private var isKeyEventReceiverRegistered = false
     private var isSettingsReceiverRegistered = false
+    private var isPipMediaReceiverRegistered = false
+    private var pipIsPlaying = false
+    /** True once enterPiP handed params to the system; before that a refresh would turn on auto-enter early. */
+    private var pipParamsHandedOver = false
+
+    private val pipMediaReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (intent.action == AapService.ACTION_PIP_PLAYBACK_STATE_CHANGED) {
+                val isPlaying = intent.getBooleanExtra(AapService.EXTRA_PIP_IS_PLAYING, pipIsPlaying)
+                if (pipIsPlaying != isPlaying) {
+                    pipIsPlaying = isPlaying
+                    refreshPipActions()
+                }
+                return
+            }
+            val keyCode = intent.getIntExtra(EXTRA_PIP_KEY_CODE, 0)
+            if (keyCode == 0) return
+            // sendKey drops a key without a log unless the transport runs, so say which happened.
+            if (commManager.connectionState.value !is CommManager.ConnectionState.TransportStarted) {
+                AppLog.i("PiP media action: dropped keyCode=$keyCode, no session")
+                return
+            }
+            AppLog.i("PiP media action: sending keyCode=$keyCode")
+            commManager.sendKey(keyCode, true, null, "pip-action")
+            commManager.sendKey(keyCode, false, null, "pip-action")
+        }
+    }
 
     /**
      * Asks for video while the surface the decoder holds has never shown a picture.
@@ -1282,6 +1309,15 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
 
         ContextCompat.registerReceiver(this, finishReceiver, android.content.IntentFilter("com.andrerinas.openheadunit.ACTION_FINISH_ACTIVITIES"), ContextCompat.RECEIVER_NOT_EXPORTED)
         isFinishReceiverRegistered = true
+        // Registered whatever the setting, so a change applies the next time the params are built.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val pipFilter = IntentFilter().apply {
+                addAction(ACTION_PIP_MEDIA_CONTROL)
+                addAction(AapService.ACTION_PIP_PLAYBACK_STATE_CHANGED)
+            }
+            ContextCompat.registerReceiver(this, pipMediaReceiver, pipFilter, ContextCompat.RECEIVER_NOT_EXPORTED)
+            isPipMediaReceiverRegistered = true
+        }
 
         // Registered for the activity's whole life, not onResume/onPause: screen-off pauses it,
         // and screen-off is exactly the moment the input hold has to engage.
@@ -1477,6 +1513,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         refreshLockedInput("resume")
         closeCallRaiseEpisode("the projection is back in front")
         AppLog.i("AapProjectionActivity: onResume")
+        refreshPipActions()
         // Show the one-time rename notice even here, on top of an active projection.
         RenameNotice.maybeShow(this, App.provide(this).settings)
         Aa174Notice.maybeShow(this, App.provide(this).settings)
@@ -2131,17 +2168,12 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
                     height = width / 0.418f
                 }
 
-                val paramsBuilder = android.app.PictureInPictureParams.Builder()
-                    .setAspectRatio(android.util.Rational(width.toInt(), height.toInt()))
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    // Smooth transition for Android 12+
-                    paramsBuilder.setAutoEnterEnabled(true)
-                    paramsBuilder.setSeamlessResizeEnabled(true)
-                }
+                pipIsPlaying = AapService.currentPlaybackIsPlaying
+                val paramsBuilder = buildPipParams(width, height)
 
                 App.isPiPActive = true
                 enterPictureInPictureMode(paramsBuilder.build())
+                pipParamsHandedOver = true
             } catch (e: Exception) {
                 AppLog.e("Failed to enter PiP mode: ${e.message}")
                 e.printStackTrace()
@@ -2151,6 +2183,59 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             AppLog.w("PiP mode not supported on this Android version (SDK < 26)")
         }
     }
+
+    @androidx.annotation.RequiresApi(Build.VERSION_CODES.O)
+    private fun buildPipParams(width: Float, height: Float): android.app.PictureInPictureParams.Builder {
+        val paramsBuilder = android.app.PictureInPictureParams.Builder()
+            .setAspectRatio(android.util.Rational(width.toInt(), height.toInt()))
+        // The system merges only the set fields, so an empty list clears buttons from an earlier entry.
+        val mediaActions = buildPipMediaActions()
+        if (mediaActions.isNotEmpty() || pipParamsHandedOver) paramsBuilder.setActions(mediaActions)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            // Smooth transition for Android 12+
+            paramsBuilder.setAutoEnterEnabled(true)
+            paramsBuilder.setSeamlessResizeEnabled(true)
+        }
+        return paramsBuilder
+    }
+
+    /** Rebuilds the held params, in or out of PiP, so an API 31+ auto-enter shows the current icon and setting. */
+    private fun refreshPipActions() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O || !pipParamsHandedOver) return
+        pipIsPlaying = AapService.currentPlaybackIsPlaying
+        try {
+            val dimensions = videoDecoder.videoSize
+            var width = dimensions.width.coerceAtLeast(1).toFloat()
+            var height = dimensions.height.coerceAtLeast(1).toFloat()
+            val ratio = width / height
+            if (ratio > 2.39f) width = height * 2.39f
+            else if (ratio < 0.418f) height = width / 0.418f
+            setPictureInPictureParams(buildPipParams(width, height).build())
+        } catch (e: Exception) {
+            AppLog.w("PiP: Failed to update actions: ${e.message}")
+        }
+    }
+
+    @androidx.annotation.RequiresApi(Build.VERSION_CODES.O)
+    private fun buildPipMediaActions(): List<android.app.RemoteAction> =
+        PipMediaActionsPolicy.actions(settings.pipMediaButtons, Build.VERSION.SDK_INT).map { action ->
+            val (iconRes, titleRes) = when (action.keyCode) {
+                KeyEvent.KEYCODE_MEDIA_PREVIOUS -> android.R.drawable.ic_media_previous to R.string.media_action_previous
+                KeyEvent.KEYCODE_MEDIA_NEXT -> android.R.drawable.ic_media_next to R.string.media_action_next
+                else -> when (PipMediaActionsPolicy.playPauseIcon(pipIsPlaying)) {
+                    PipMediaActionsPolicy.PlayPauseIcon.PAUSE -> android.R.drawable.ic_media_pause to R.string.media_action_pause
+                    PipMediaActionsPolicy.PlayPauseIcon.PLAY -> android.R.drawable.ic_media_play to R.string.media_action_play
+                }
+            }
+            val title = getString(titleRes)
+            val intent = Intent(ACTION_PIP_MEDIA_CONTROL)
+                .setPackage(packageName)
+                .putExtra(EXTRA_PIP_KEY_CODE, action.keyCode)
+            val flags = android.app.PendingIntent.FLAG_UPDATE_CURRENT or
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) android.app.PendingIntent.FLAG_IMMUTABLE else 0
+            val pendingIntent = android.app.PendingIntent.getBroadcast(this, action.keyCode, intent, flags)
+            android.app.RemoteAction(android.graphics.drawable.Icon.createWithResource(this, iconRes), title, title, pendingIntent)
+        }
 
     /**
      * PiP needs both halves: the activity declaring it supports it, which it does in the manifest,
@@ -2988,6 +3073,10 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             unregisterReceiver(finishReceiver)
             isFinishReceiverRegistered = false
         }
+        if (isPipMediaReceiverRegistered) {
+            unregisterReceiver(pipMediaReceiver)
+            isPipMediaReceiverRegistered = false
+        }
         if (isKeyEventReceiverRegistered) {
             unregisterReceiver(keyEventReceiver)
             isKeyEventReceiverRegistered = false
@@ -3027,6 +3116,8 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         /** Shortest gap between two "Locked" hints. */
         private const val LOCKED_HINT_INTERVAL_MS = 5_000L
         const val EXTRA_FOCUS = "focus"
+        const val ACTION_PIP_MEDIA_CONTROL = "com.andrerinas.openheadunit.ACTION_PIP_MEDIA_CONTROL"
+        const val EXTRA_PIP_KEY_CODE = "pip_key_code"
 
         /** Set by a caller that opens this screen just before it starts a session. */
         const val EXTRA_EXPECT_SESSION = "expect_session"

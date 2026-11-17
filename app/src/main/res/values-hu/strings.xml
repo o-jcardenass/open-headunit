@@ -198,6 +198,9 @@
 
     <string name="start_in_fullscreen_mode">Képernyőmód</string>
     <string name="start_in_fullscreen_mode_description">Válassza ki, hogyan kezelje az alkalmazás a rendszersávokat (állapot- és navigációs sáv).</string>
+    <string name="pip_media_buttons">Médiagombok a kép a képben módban</string>
+    <string name="pip_media_buttons_description">Az előző, a lejátszás/szünet és a következő gomb megjelenítése a kép a képben ablakban.</string>
+    <string name="pip_media_buttons_help">Előző, lejátszás vagy szünet, és következő gombot ad a kis kép a képben ablakhoz. Koppintásra a médiabillentyű a telefonra kerül. A lejátszás vagy szünet ikon a telefon lejátszási állapotát követi. Android 8.0 vagy újabb szükséges. A módosítás az ablak következő megnyitásakor lép érvénybe.</string>
     <string name="start_in_fullscreen_mode_help">Megadja, hogyan jelenjenek meg a rendszersávok ezen az alkalmazáson és a vetítésen. A „Normál” minden sávot megtart. Az „Immerzív” minden sávot elrejt, és a kép bemehet a kivágás alá. A „Csak az állapotsor elrejtése” megtartja a navigációs sávot. Az „Immerzív (kivágás elkerülése)” minden sávot elrejt, és a képet távol tartja a kivágástól. A képernyő az alkalmazáshoz azonnal újratöltődik.</string>
 
     <string name="usb_status">USB állapota: %s</string>

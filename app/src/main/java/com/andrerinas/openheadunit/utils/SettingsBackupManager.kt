@@ -91,6 +91,7 @@ object SettingsBackupManager {
         "hide-clock" to ValueType.BOOLEAN,
         "narrow-band-profile-cap" to ValueType.BOOLEAN,
         "use-aaudio-output" to ValueType.BOOLEAN,
+        "pip-media-buttons" to ValueType.BOOLEAN,
         "custom-self-mode-button-color" to ValueType.INT,
         "custom-usb-button-color" to ValueType.INT,
         "custom-wifi-button-color" to ValueType.INT,

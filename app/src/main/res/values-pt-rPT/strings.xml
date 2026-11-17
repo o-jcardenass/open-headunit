@@ -445,6 +445,9 @@
 
     <string name="start_in_fullscreen_mode">Modo de ecrã</string>
     <string name="start_in_fullscreen_mode_description">Escolha como as barras do sistema (estado e navegação) devem ser geridas.</string>
+    <string name="pip_media_buttons">Botões multimédia em ecrã no ecrã</string>
+    <string name="pip_media_buttons_description">Mostrar anterior, reproduzir/pausar e seguinte na janela de ecrã no ecrã.</string>
+    <string name="pip_media_buttons_help">Adiciona os botões anterior, reproduzir ou pausar e seguinte à pequena janela de ecrã no ecrã. Um toque envia a tecla multimédia para o telemóvel. O ícone de reproduzir ou pausar acompanha o estado de reprodução do telemóvel. Requer Android 8.0 ou posterior. Uma alteração é aplicada da próxima vez que a janela for aberta.</string>
     <string name="start_in_fullscreen_mode_help">Escolhe como as barras do sistema aparecem sobre esta aplicação e a projeção. Normal mantém todas as barras. Imersivo oculta todas as barras, e a imagem pode ir por baixo do recorte. Ocultar apenas a barra de estado mantém a barra de navegação. Imersivo (Evitar recorte/notch) oculta todas as barras e mantém a imagem longe do recorte. O ecrã volta a carregar de imediato para aplicar.</string>
     <string name="fullscreen_none">Normal (Todas as barras visíveis)</string>
     <string name="fullscreen_immersive">Imersivo (Sobrepor recorte/notch)</string>

@@ -199,6 +199,9 @@
 
     <string name="start_in_fullscreen_mode">Tryb ekranu</string>
     <string name="start_in_fullscreen_mode_description">Wybierz, jak mają być obsługiwane paski systemowe (stanu i nawigacji).</string>
+    <string name="pip_media_buttons">Przyciski multimediów w trybie obraz w obrazie</string>
+    <string name="pip_media_buttons_description">Pokaż przyciski poprzedniego, odtwarzania/pauzy i następnego w oknie obrazu w obrazie.</string>
+    <string name="pip_media_buttons_help">Dodaje do małego okna obrazu w obrazie przyciski poprzedniego, odtwarzania lub pauzy i następnego utworu. Dotknięcie wysyła klawisz multimedialny do telefonu. Ikona odtwarzania lub pauzy odzwierciedla stan odtwarzania w telefonie. Wymaga Androida 8.0 lub nowszego. Zmiana zostanie zastosowana po następnym otwarciu okna.</string>
     <string name="start_in_fullscreen_mode_help">Określa, jak paski systemowe pokazują się nad tą aplikacją i projekcją. Normalny zachowuje wszystkie paski. Pełny ekran ukrywa wszystkie paski, a obraz może wejść pod wycięcie. Ukryj tylko pasek stanu zostawia pasek nawigacji. Pełny ekran (omijaj wycięcie) ukrywa wszystkie paski i trzyma obraz z dala od wycięcia. Ekran od razu się ładuje ponownie, aby to zastosować.</string>
 
     <string name="usb_status">Status USB: %s</string>

@@ -198,6 +198,9 @@
 
     <string name="start_in_fullscreen_mode">螢幕模式</string>
     <string name="start_in_fullscreen_mode_description">選擇系統列（狀態列與導覽列）的顯示方式。</string>
+    <string name="pip_media_buttons">子母畫面媒體按鈕</string>
+    <string name="pip_media_buttons_description">在子母畫面視窗中顯示上一首、播放/暫停和下一首。</string>
+    <string name="pip_media_buttons_help">在小型子母畫面視窗中新增上一首、播放或暫停和下一首按鈕。輕觸後會將媒體按鍵傳送到手機。播放或暫停圖示會跟隨手機的播放狀態。需要 Android 8.0 以上版本。變更會在下次開啟視窗時生效。</string>
     <string name="start_in_fullscreen_mode_help">選擇系統列如何顯示在本應用程式和投影畫面上。「一般」保留所有列。「沉浸模式」隱藏所有列，畫面可延伸到瀏海下方。「僅隱藏狀態列」保留導覽列。「沉浸模式（避開瀏海）」隱藏所有列，並讓畫面避開瀏海。螢幕會立即重新載入以套用設定。</string>
 
     <string name="usb_status">USB 狀態：%s</string>

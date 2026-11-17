@@ -204,6 +204,9 @@
 
     <string name="start_in_fullscreen_mode">画面モード</string>
     <string name="start_in_fullscreen_mode_description">システムバー（ステータスバーとナビゲーションバー）の表示方法を選択します。</string>
+    <string name="pip_media_buttons">ピクチャー イン ピクチャーのメディアボタン</string>
+    <string name="pip_media_buttons_description">ピクチャー イン ピクチャーのウィンドウに、前へ、再生/一時停止、次へを表示します。</string>
+    <string name="pip_media_buttons_help">小さなピクチャー イン ピクチャーのウィンドウに、前へ、再生または一時停止、次へのボタンを追加します。タップすると、メディアキーがスマートフォンに送信されます。再生または一時停止のアイコンは、スマートフォンの再生状態に合わせて切り替わります。Android 8.0 以降が必要です。変更は、次にウィンドウを開いたときに反映されます。</string>
     <string name="start_in_fullscreen_mode_help">システムバーをこのアプリと投影の上にどう表示するかを選びます。「標準」はすべてのバーを表示します。「イマーシブ」はすべてのバーを隠し、映像がノッチの下に入ることがあります。「ステータスバーのみ非表示」はナビゲーションバーを残します。「イマーシブ (ノッチ回避)」はすべてのバーを隠し、映像をノッチから離します。反映のため、画面はすぐに再読み込みされます。</string>
     <string name="fullscreen_none">標準 (すべてのバーを表示)</string>
     <string name="fullscreen_immersive">イマーシブ (ノッチに重ねて表示)</string>

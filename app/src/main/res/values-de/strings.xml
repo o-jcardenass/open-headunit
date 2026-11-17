@@ -234,6 +234,9 @@
 
     <string name="start_in_fullscreen_mode">Vollbildmodus</string>
     <string name="start_in_fullscreen_mode_description">Legt fest, wie Systemleisten (Status- und Navigationsleiste) behandelt werden.</string>
+    <string name="pip_media_buttons">Medientasten im Bild-im-Bild</string>
+    <string name="pip_media_buttons_description">Zurück, Wiedergabe/Pause und Weiter im Bild-im-Bild-Fenster anzeigen.</string>
+    <string name="pip_media_buttons_help">Fügt dem kleinen Bild-im-Bild-Fenster Tasten für Zurück, Wiedergabe oder Pause und Weiter hinzu. Ein Tippen sendet die Medientaste an das Smartphone. Das Symbol für Wiedergabe oder Pause folgt dem Wiedergabestatus des Smartphones. Erfordert Android 8.0 oder neuer. Eine Änderung gilt, sobald das Fenster das nächste Mal geöffnet wird.</string>
     <string name="start_in_fullscreen_mode_help">Legt fest, wie die Systemleisten über dieser App und der Projektion erscheinen. „Normal“ behält alle Leisten. „Vollbild“ blendet alle Leisten aus, und das Bild kann unter eine Aussparung reichen. „Nur Statusleiste ausblenden“ behält die Navigationsleiste. „Vollbild (Notch aussparen)“ blendet alle Leisten aus und hält das Bild von der Aussparung frei. Der Bildschirm lädt sofort neu, um es anzuwenden.</string>
     <string name="fullscreen_none">Normal (Alle Leisten sichtbar)</string>
     <string name="fullscreen_immersive">Vollbild (Notch überlagern)</string>

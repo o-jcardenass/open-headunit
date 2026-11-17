@@ -1535,6 +1535,10 @@ class Settings(private val context: Context) {
         get() = prefs.getBoolean("use-aaudio-output", false)
         set(value) { prefs.edit().putBoolean("use-aaudio-output", value).apply() }
 
+    var pipMediaButtons: Boolean
+        get() = prefs.getBoolean("pip-media-buttons", false)
+        set(value) { prefs.edit().putBoolean("pip-media-buttons", value).apply() }
+
     var micEchoCanceler: Boolean
         get() = prefs.getBoolean("mic-echo-canceler", false)
         set(value) { prefs.edit().putBoolean("mic-echo-canceler", value).apply() }

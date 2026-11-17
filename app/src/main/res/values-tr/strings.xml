@@ -205,6 +205,9 @@
 
     <string name="start_in_fullscreen_mode">Ekran modu</string>
     <string name="start_in_fullscreen_mode_description">Sistem çubuklarının (durum ve navigasyon) nasıl işleneceğini seçin.</string>
+    <string name="pip_media_buttons">Pencere içinde pencerede medya düğmeleri</string>
+    <string name="pip_media_buttons_description">Pencere içinde pencere görünümünde önceki, oynat/duraklat ve sonraki düğmelerini göster.</string>
+    <string name="pip_media_buttons_help">Küçük pencere içinde pencere görünümüne önceki, oynat veya duraklat ve sonraki düğmelerini ekler. Dokunulduğunda medya tuşu telefona gönderilir. Oynat veya duraklat simgesi telefonun oynatma durumunu izler. Android 8.0 veya daha yenisi gerekir. Değişiklik pencere bir sonraki açılışta uygulanır.</string>
     <string name="start_in_fullscreen_mode_help">Sistem çubuklarının bu uygulamanın ve yansıtmanın üzerinde nasıl görüneceğini seçer. Normal tüm çubukları tutar. Tam Ekran (Çentik Üstü) tüm çubukları gizler ve görüntü çentiğin altına geçebilir. Sadece durum çubuğunu gizle gezinme çubuğunu tutar. Tam Ekran (Çentiği Koru) tüm çubukları gizler ve görüntüyü çentikten uzak tutar. Uygulamak için ekran hemen yeniden yüklenir.</string>
     <string name="fullscreen_none">Normal (Tüm çubuklar görünür)</string>
     <string name="fullscreen_immersive">Tam Ekran (Çentik Üstü)</string>

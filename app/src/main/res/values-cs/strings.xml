@@ -199,6 +199,9 @@
 
     <string name="start_in_fullscreen_mode">Režim obrazovky</string>
     <string name="start_in_fullscreen_mode_description">Určete, jak se mají chovat systémové lišty (stavová a navigační).</string>
+    <string name="pip_media_buttons">Tlačítka médií v obraze v obraze</string>
+    <string name="pip_media_buttons_description">Zobrazit v okně obrazu v obraze tlačítka Předchozí, Přehrát/Pozastavit a Další.</string>
+    <string name="pip_media_buttons_help">Přidá do malého okna obrazu v obraze tlačítka předchozí, přehrát nebo pozastavit a další. Klepnutí odešle mediální klávesu do telefonu. Ikona přehrávání nebo pozastavení odpovídá stavu přehrávání v telefonu. Vyžaduje Android 8.0 nebo novější. Změna se projeví při dalším otevření okna.</string>
     <string name="start_in_fullscreen_mode_help">Určuje, jak se systémové lišty zobrazují nad touto aplikací a projekcí. „Normální“ ponechá všechny lišty. „Imerzivní“ skryje všechny lišty a obraz může zasáhnout pod výřez. „Skrýt pouze stavovou lištu“ ponechá navigační lištu. „Imerzivní (vyhnout se výřezu)“ skryje všechny lišty a obraz drží mimo výřez. Obrazovka se pro použití ihned znovu načte.</string>
 
     <string name="usb_status">Stav USB: %s</string>

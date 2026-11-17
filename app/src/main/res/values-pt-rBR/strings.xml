@@ -199,6 +199,9 @@
 
     <string name="start_in_fullscreen_mode">Modo de tela</string>
     <string name="start_in_fullscreen_mode_description">Escolha como as barras do sistema (de status e de navegação) são tratadas.</string>
+    <string name="pip_media_buttons">Botões de mídia no picture-in-picture</string>
+    <string name="pip_media_buttons_description">Mostrar anterior, reproduzir/pausar e próxima na janela de picture-in-picture.</string>
+    <string name="pip_media_buttons_help">Adiciona os botões anterior, reproduzir ou pausar e próxima à janela pequena de picture-in-picture. Um toque envia a tecla de mídia ao smartphone. O ícone de reproduzir ou pausar acompanha o estado de reprodução do smartphone. Requer Android 8.0 ou mais recente. A mudança é aplicada na próxima vez que a janela for aberta.</string>
     <string name="start_in_fullscreen_mode_help">Escolhe como as barras do sistema aparecem sobre este app e a projeção. Normal mantém todas as barras. Imersivo oculta todas as barras, e a imagem pode ir sob o entalhe. Ocultar apenas a barra de status mantém a barra de navegação. Imersivo (evitar o entalhe) oculta todas as barras e mantém a imagem longe do entalhe. A tela recarrega na hora para aplicar.</string>
 
     <string name="usb_status">Status do USB: %s</string>

@@ -86,6 +86,7 @@ class SettingsBackupManagerTest {
             "dpi-auto-layout" to "ONE_APP",
             "hide-battery-level" to true,
             "use-aaudio-output" to true,
+            "pip-media-buttons" to true,
             "native-driver-selection-timeout" to 20,
             "external-bt-zbt-transport" to true,
             "device-specific-head-unit-model" to "adayo_haval",

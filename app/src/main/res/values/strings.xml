@@ -474,6 +474,9 @@
 
     <string name="start_in_fullscreen_mode">Screen mode</string>
     <string name="start_in_fullscreen_mode_description">Choose how system bars (status and navigation) should be handled.</string>
+    <string name="pip_media_buttons">Media buttons in picture-in-picture</string>
+    <string name="pip_media_buttons_description">Show previous, play/pause and next in the picture-in-picture window.</string>
+    <string name="pip_media_buttons_help">Adds previous, play or pause, and next buttons to the small picture-in-picture window. A tap sends the media key to the phone. The play or pause icon follows the phone\'s playback state. Needs Android 8.0 or newer. A change applies the next time the window opens.</string>
     <string name="start_in_fullscreen_mode_help">Chooses how the system bars show over this app and the projection. Normal keeps all bars. Immersive hides all bars, and the picture can go under a notch. Hide status bar only keeps the navigation bar. Immersive (Avoid Notch) hides all bars and keeps the picture clear of the notch. The screen reloads at once to apply it.</string>
     <string name="fullscreen_none">Normal (All bars visible)</string>
     <string name="fullscreen_immersive">Immersive (Overlay Notch)</string>

@@ -199,6 +199,9 @@
 
     <string name="start_in_fullscreen_mode">Mod ecran</string>
     <string name="start_in_fullscreen_mode_description">Alege cum vrei să fie afișate barele de sistem (status și navigație).</string>
+    <string name="pip_media_buttons">Butoane media în picture-in-picture</string>
+    <string name="pip_media_buttons_description">Afișează butoanele anterior, redare/pauză și următorul în fereastra picture-in-picture.</string>
+    <string name="pip_media_buttons_help">Adaugă butoanele anterior, redare sau pauză și următorul în fereastra mică picture-in-picture. O atingere trimite tasta media către telefon. Pictograma de redare sau pauză urmează starea de redare a telefonului. Necesită Android 8.0 sau mai nou. Modificarea se aplică la următoarea deschidere a ferestrei.</string>
     <string name="start_in_fullscreen_mode_help">Alege cum apar barele de sistem peste această aplicație și proiecție. Normal păstrează toate barele. Imersiv ascunde toate barele, iar imaginea poate intra sub decupaj. Ascunde doar bara de status păstrează bara de navigare. Imersiv (evită decupajul) ascunde toate barele și ține imaginea departe de decupaj. Ecranul se reîncarcă imediat pentru a aplica opțiunea.</string>
     <string name="fullscreen_none">Normal (Toate barele vizibile)</string>
     <string name="fullscreen_immersive">Imersiv (peste decupaj)</string>

@@ -212,6 +212,9 @@
 
     <string name="start_in_fullscreen_mode">화면 모드</string>
     <string name="start_in_fullscreen_mode_description">시스템 표시줄(상태 표시줄 및 내비게이션 바)을 표시하는 방식을 선택합니다.</string>
+    <string name="pip_media_buttons">PIP 모드 미디어 버튼</string>
+    <string name="pip_media_buttons_description">PIP 창에 이전, 재생/일시중지, 다음 버튼을 표시합니다.</string>
+    <string name="pip_media_buttons_help">작은 PIP 창에 이전, 재생 또는 일시중지, 다음 버튼을 추가합니다. 탭하면 미디어 키가 휴대전화로 전송됩니다. 재생 또는 일시중지 아이콘은 휴대전화의 재생 상태에 따라 바뀝니다. Android 8.0 이상이 필요합니다. 변경사항은 창을 다음에 열 때 적용됩니다.</string>
     <string name="start_in_fullscreen_mode_help">이 앱과 프로젝션 위에 시스템 표시줄을 어떻게 표시할지 선택합니다. 기본은 모든 표시줄을 유지합니다. 전체 화면은 모든 표시줄을 숨기며 화면이 노치 아래까지 들어갈 수 있습니다. 상태 표시줄만 숨김은 탐색 표시줄을 유지합니다. 전체 화면(노치 제외)은 모든 표시줄을 숨기고 화면이 노치를 피하게 합니다. 적용을 위해 화면이 즉시 다시 로드됩니다.</string>
     <string name="fullscreen_none">기본(모든 표시줄 보임)</string>
     <string name="fullscreen_immersive">전체 화면(노치 포함)</string>

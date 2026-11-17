@@ -444,6 +444,9 @@
 
     <string name="start_in_fullscreen_mode">Mode layar</string>
     <string name="start_in_fullscreen_mode_description">Pilih bagaimana bilah sistem (status dan navigasi) harus ditangani.</string>
+    <string name="pip_media_buttons">Tombol media di picture-in-picture</string>
+    <string name="pip_media_buttons_description">Tampilkan tombol sebelumnya, putar/jeda, dan berikutnya di jendela picture-in-picture.</string>
+    <string name="pip_media_buttons_help">Menambahkan tombol sebelumnya, putar atau jeda, dan berikutnya ke jendela picture-in-picture yang kecil. Ketukan mengirim tombol media ke ponsel. Ikon putar atau jeda mengikuti status pemutaran di ponsel. Memerlukan Android 8.0 atau yang lebih baru. Perubahan berlaku saat jendela dibuka berikutnya.</string>
     <string name="start_in_fullscreen_mode_help">Memilih cara bilah sistem tampil di atas aplikasi ini dan proyeksi. Normal mempertahankan semua bilah. Imersif menyembunyikan semua bilah, dan gambar bisa masuk ke bawah notch. Sembunyikan bilah status saja mempertahankan bilah navigasi. Imersif (Hindari Notch) menyembunyikan semua bilah dan menjauhkan gambar dari notch. Layar dimuat ulang seketika untuk menerapkannya.</string>
     <string name="fullscreen_none">Normal (Semua bilah terlihat)</string>
     <string name="fullscreen_immersive">Imersif (Melapisi Notch)</string>

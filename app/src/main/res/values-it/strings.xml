@@ -204,6 +204,9 @@
 
     <string name="start_in_fullscreen_mode">Modalità schermo</string>
     <string name="start_in_fullscreen_mode_description">Scegli come gestire le barre di sistema (stato e navigazione).</string>
+    <string name="pip_media_buttons">Pulsanti multimediali in Picture in picture</string>
+    <string name="pip_media_buttons_description">Mostra precedente, riproduci/pausa e successivo nella finestra Picture in picture.</string>
+    <string name="pip_media_buttons_help">Aggiunge i pulsanti precedente, riproduci o pausa, e successivo alla piccola finestra Picture in picture. Un tocco invia il tasto multimediale al telefono. L\'icona di riproduzione o pausa segue lo stato di riproduzione del telefono. Richiede Android 8.0 o versioni successive. La modifica viene applicata alla prossima apertura della finestra.</string>
     <string name="start_in_fullscreen_mode_help">Sceglie come le barre di sistema appaiono sopra questa app e la proiezione. Normale mantiene tutte le barre. Immersiva nasconde tutte le barre e l\'immagine può andare sotto il notch. Nascondi solo barra di stato mantiene la barra di navigazione. Immersiva (evita notch) nasconde tutte le barre e tiene l\'immagine lontana dal notch. La schermata si ricarica subito per applicare la scelta.</string>
     <string name="fullscreen_none">Normale (tutte le barre visibili)</string>
     <string name="fullscreen_immersive">Immersiva (sovrapponi notch)</string>

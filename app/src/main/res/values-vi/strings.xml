@@ -205,6 +205,9 @@
 
     <string name="start_in_fullscreen_mode">Chế độ màn hình</string>
     <string name="start_in_fullscreen_mode_description">Chọn cách xử lý thanh hệ thống (trạng thái và điều hướng).</string>
+    <string name="pip_media_buttons">Nút phương tiện trong chế độ hình trong hình</string>
+    <string name="pip_media_buttons_description">Hiện nút trước, phát/tạm dừng và tiếp theo trong cửa sổ hình trong hình.</string>
+    <string name="pip_media_buttons_help">Thêm các nút trước, phát hoặc tạm dừng và tiếp theo vào cửa sổ hình trong hình nhỏ. Khi nhấn, phím phương tiện sẽ được gửi đến điện thoại. Biểu tượng phát hoặc tạm dừng thay đổi theo trạng thái phát của điện thoại. Yêu cầu Android 8.0 trở lên. Thay đổi có hiệu lực vào lần mở cửa sổ tiếp theo.</string>
     <string name="start_in_fullscreen_mode_help">Chọn cách các thanh hệ thống hiện trên ứng dụng này và hình chiếu. Bình thường giữ mọi thanh. Toàn màn hình ẩn mọi thanh, và hình ảnh có thể đi xuống dưới phần notch. Chỉ ẩn thanh trạng thái giữ lại thanh điều hướng. Toàn màn hình (Tránh Notch) ẩn mọi thanh và giữ hình ảnh tránh phần notch. Màn hình tải lại ngay để áp dụng.</string>
     <string name="fullscreen_none">Bình thường (Hiện tất cả thanh)</string>
     <string name="fullscreen_immersive">Toàn màn hình (Phủ lên Notch)</string>

@@ -168,7 +168,7 @@ class SettingsFragment : Fragment() {
         // Navigation
         "gpsNavigation",
         // Graphic
-        "resolution", "dpiPixelDensity", "viewMode", "screenOrientation", "startInFullscreenMode",
+        "resolution", "dpiPixelDensity", "viewMode", "screenOrientation", "startInFullscreenMode", "pipMediaButtons",
         // Theming
         "loadingScreen", "customization",
         // Video
@@ -208,6 +208,7 @@ class SettingsFragment : Fragment() {
     private var pendingPlaybackFocusMode by pending::playbackFocusMode
     private var pendingUseAacAudio by pending::useAacAudio
     private var pendingUseAAudioOutput by pending::useAAudioOutput
+    private var pendingPipMediaButtons by pending::pipMediaButtons
     private var pendingAttachHwDspEqualizer by pending::attachHwDspEqualizer
     private var pendingMicInputSource by pending::micInputSource
     private var pendingEnableRotary by pending::enableRotary
@@ -672,6 +673,7 @@ class SettingsFragment : Fragment() {
         if (focusModeChanged) settings.playbackFocusSelfDefeating = false
         pendingUseAacAudio?.let { if (it != settings.useAacAudio) settings.useAacAudio = it }
         pendingUseAAudioOutput?.let { if (it != settings.useAAudioOutput) settings.useAAudioOutput = it }
+        pendingPipMediaButtons?.let { if (it != settings.pipMediaButtons) settings.pipMediaButtons = it }
         pendingAttachHwDspEqualizer?.let { if (it != settings.attachHwDspEqualizer) settings.attachHwDspEqualizer = it }
         pendingMicInputSource?.let { if (it != settings.micInputSource) settings.micInputSource = it }
         pendingEnableRotary?.let { if (it != settings.enableRotary) settings.enableRotary = it }
@@ -850,6 +852,7 @@ class SettingsFragment : Fragment() {
                           pendingPlaybackFocusMode != settings.playbackFocusMode ||
                           pendingUseAacAudio != settings.useAacAudio ||
                           pendingUseAAudioOutput != settings.useAAudioOutput ||
+                          pendingPipMediaButtons != settings.pipMediaButtons ||
                           pendingAttachHwDspEqualizer != settings.attachHwDspEqualizer ||
                           pendingAudioLatencyMultiplier != settings.audioLatencyMultiplier ||
                           pendingAudioTimeCorrectionMode != settings.audioMatchingMode ||
@@ -1607,6 +1610,21 @@ class SettingsFragment : Fragment() {
                     .show()
             }
         ))
+
+        if (Build.VERSION.SDK_INT >= 26) {
+            items.add(SettingItem.ToggleSettingEntry(
+                stableId = "pipMediaButtons",
+                nameResId = R.string.pip_media_buttons,
+                descriptionResId = R.string.pip_media_buttons_description,
+                helpResId = R.string.pip_media_buttons_help,
+                isChecked = pendingPipMediaButtons ?: settings.pipMediaButtons,
+                onCheckedChanged = { isChecked ->
+                    pendingPipMediaButtons = isChecked
+                    checkChanges()
+                    updateSettingsList()
+                }
+            ))
+        }
 
         // Video fit: how a mismatched-aspect video is fitted into the panel (object-fit style).
         items.add(SettingItem.SettingEntry(
