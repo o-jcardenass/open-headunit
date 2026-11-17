@@ -909,7 +909,7 @@ class AapService : Service() {
 
         if (BootScreenPolicy.opensScreen(settings.autoStartOnBoot, settings.autoStartOnBootInBackground)) {
             AppLog.i("WakeDetect: launching UI (trigger=$trigger)")
-            launchMainActivityOnBoot()
+            raiseMainActivity("Wake detect ($trigger)")
         } else if (settings.autoStartOnBoot) {
             AppLog.i("WakeDetect: waiting in the background, the screen opens when a phone connects (trigger=$trigger)")
         }
@@ -1077,7 +1077,7 @@ class AapService : Service() {
 
         // Not connected — launch UI (which triggers auto-connect via HomeFragment)
         AppLog.i("WakeDetect: launching UI on screen on")
-        launchMainActivityOnBoot()
+        raiseMainActivity("Screen on")
 
         val settings = App.provide(this).settings
         if (settings.effectiveAutoStartOnUsb) {
@@ -3783,7 +3783,7 @@ class AapService : Service() {
             lastWakeHandledTimestamp = SystemClock.elapsedRealtime()
             val settings = App.provide(this).settings
             if (BootScreenPolicy.opensScreen(settings.autoStartOnBoot, settings.autoStartOnBootInBackground)) {
-                launchMainActivityOnBoot()
+                raiseMainActivity("Boot")
             } else {
                 AppLog.i("Boot auto-start: waiting in the background, the screen opens when a phone connects")
             }
@@ -4303,10 +4303,11 @@ class AapService : Service() {
         }
 
         AppLog.i("Reopen on reconnection: launching MainActivity ($source)")
-        launchMainActivityOnBoot()
+        raiseMainActivity("USB reopen")
     }
 
     private val lastBtRaiseAt = HashMap<String, Long>()
+    private val btRaiseHandler by lazy { android.os.Handler(Looper.getMainLooper()) }
 
     /** Raises the app for an auto-start phone's Bluetooth arrival, as [BtRaisePolicy] allows. */
     private fun raiseForBluetooth(mac: String?) {
@@ -4327,49 +4328,71 @@ class AapService : Service() {
         lastBtRaiseAt[key] = now
         AppLog.i("AapService: Bluetooth raise: $action for $mac")
         when (action) {
-            BtRaisePolicy.Action.RAISE_HOME -> launchMainActivityOnBoot()
+            BtRaisePolicy.Action.RAISE_HOME -> raiseMainActivityForBluetooth()
             BtRaisePolicy.Action.RAISE_PROJECTION -> launchAapProjectionActivity(allowNotificationFallback = true)
             BtRaisePolicy.Action.NONE -> {}
         }
     }
 
-    private fun launchMainActivityOnBoot() {
+    /**
+     * [source] names the caller in the log. [launchSource] is the intent extra MainActivity reads,
+     * so it stays one of its automatic sources.
+     */
+    private fun raiseMainActivity(source: String, launchSource: String = "Boot auto-start") {
         // Android < 10: no background activity start restrictions
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            AppLog.i("Boot auto-start: launching directly (API ${Build.VERSION.SDK_INT} < 29)")
-            launchDirectly()
+            AppLog.i("AapService: raise ($source): launching directly (API ${Build.VERSION.SDK_INT} < 29)")
+            launchDirectly(source, launchSource)
             return
         }
 
         // Android 10+: try overlay trampoline (bypasses all known OEM restrictions)
         if (AppPermissions.isOverlayGranted(this)) {
-            AppLog.i("Boot auto-start: launching via overlay window trampoline")
-            if (launchViaOverlayTrampoline()) return
+            AppLog.i("AapService: raise ($source): launching via overlay window trampoline")
+            if (launchViaOverlayTrampoline(launchSource)) return
         }
 
         // Fallback: full-screen intent notification
-        AppLog.i("Boot auto-start: falling back to full-screen intent notification")
-        launchViaFullScreenIntent()
+        AppLog.i("AapService: raise ($source): falling back to full-screen intent notification")
+        launchViaFullScreenIntent(launchSource)
     }
 
-    private fun launchDirectly() {
+    /** Android may drop a background start without an exception, so the Bluetooth raise is checked. */
+    private fun raiseMainActivityForBluetooth() {
+        raiseMainActivity(BT_RAISE_SOURCE, MainActivity.LAUNCH_SOURCE_BLUETOOTH)
+        if (App.hasStartedActivity) return
+        val deadline = SystemClock.elapsedRealtime() + BT_RAISE_CHECK_MS
+        val check = object : Runnable {
+            override fun run() {
+                if (isDestroying || App.hasStartedActivity) return
+                val left = deadline - SystemClock.elapsedRealtime()
+                if (left > 0) { btRaiseHandler.postDelayed(this, left); return }
+                AppLog.w("AapService: Bluetooth raise was dropped by Android (API ${Build.VERSION.SDK_INT}, " +
+                    "overlay=${AppPermissions.isOverlayGranted(this@AapService)}), using the full-screen intent")
+                launchViaFullScreenIntent(MainActivity.LAUNCH_SOURCE_BLUETOOTH)
+            }
+        }
+        btRaiseHandler.postDelayed(check, BT_RAISE_CHECK_MS)
+    }
+
+    private fun launchDirectly(source: String, launchSource: String) {
         try {
             val launchIntent = Intent(this, MainActivity::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                putExtra(MainActivity.EXTRA_LAUNCH_SOURCE, "Boot auto-start")
+                putExtra(MainActivity.EXTRA_LAUNCH_SOURCE, launchSource)
             }
             startActivity(launchIntent)
-            AppLog.i("Boot auto-start: direct startActivity succeeded")
+            AppLog.i("AapService: raise ($source): direct start sent")
         } catch (e: Exception) {
-            AppLog.e("Boot auto-start: direct startActivity failed: ${e.message}")
-            launchViaFullScreenIntent()
+            AppLog.e("AapService: raise ($source): direct startActivity failed: ${e.message}")
+            launchViaFullScreenIntent(launchSource)
         }
     }
 
-    private fun launchViaOverlayTrampoline(): Boolean {
+    private fun launchViaOverlayTrampoline(launchSource: String): Boolean {
         val launchIntent = Intent(this, MainActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            putExtra(MainActivity.EXTRA_LAUNCH_SOURCE, "Boot auto-start")
+            putExtra(MainActivity.EXTRA_LAUNCH_SOURCE, launchSource)
         }
         return launchViaOverlayTrampoline(launchIntent)
     }
@@ -4393,7 +4416,7 @@ class AapService : Service() {
         return try {
             wm.addView(view, params)
             startActivity(launchIntent)
-            AppLog.i("Overlay trampoline: startActivity succeeded")
+            AppLog.i("Overlay trampoline: start sent")
             true
         } catch (e: Exception) {
             AppLog.e("Overlay trampoline failed: ${e.message}")
@@ -4403,10 +4426,10 @@ class AapService : Service() {
         }
     }
 
-    private fun launchViaFullScreenIntent() {
+    private fun launchViaFullScreenIntent(launchSource: String = "Boot auto-start") {
         val launchIntent = Intent(this, MainActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            putExtra(MainActivity.EXTRA_LAUNCH_SOURCE, "Boot auto-start")
+            putExtra(MainActivity.EXTRA_LAUNCH_SOURCE, launchSource)
         }
         val piFlags = PendingIntent.FLAG_UPDATE_CURRENT or
             (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0)
@@ -4528,6 +4551,9 @@ class AapService : Service() {
         @Volatile
         var instance: AapService? = null
             private set
+
+        private const val BT_RAISE_SOURCE = "Bluetooth connect"
+        private const val BT_RAISE_CHECK_MS = 2_000L
 
         /** Set when Exit sent the projection to the car launcher; a Bluetooth raise must not undo it. */
         @Volatile
