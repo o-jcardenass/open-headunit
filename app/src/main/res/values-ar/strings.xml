@@ -614,6 +614,10 @@
     <string name="reopen_on_reconnection_label">إعادة الفتح عند إعادة الاتصال</string>
     <string name="reopen_on_reconnection_description">عند الضغط على زر الخروج، يبقى التطبيق يعمل في الخلفية ويستمر في مراقبة اتصالات USB. إذا أُعيد اتصال جهاز، يُفتح التطبيق تلقائيًا.</string>
     <string name="reopen_on_reconnection_summary">بعد «خروج»، يواصل مراقبة USB ويعيد الفتح عند إعادة اتصال جهاز.</string>
+    <string name="bt_raise_on_connect_label">إظهار التطبيق في المقدمة عند اتصال الهاتف عبر Bluetooth</string>
+    <string name="bt_raise_on_connect_summary">إظهار التطبيق عند اتصال هاتف من قائمة التشغيل التلقائي.</string>
+    <string name="bt_raise_on_connect_description">عند اتصال هاتف من قائمة التشغيل التلقائي عبر Bluetooth، ينتقل التطبيق إلى المقدمة. وإذا كانت هناك جلسة نشطة في الخلفية، يعود العرض. لا يظهر التطبيق فوق شاشة الإعدادات، ولا بعد الضغط على X في شارة الحالة، ولا بعد الخروج إلى مشغّل السيارة.</string>
+    <string name="bt_raise_on_connect_needs_device">اختر أولاً جهازًا للتشغيل التلقائي عبر Bluetooth.</string>
 
     <string name="category_input">إعدادات الإدخال</string>
     <string name="enable_rotary">تفعيل وحدة التحكم الدوارة (Rotary)</string>

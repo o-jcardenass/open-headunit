@@ -671,6 +671,10 @@
     <string name="reopen_on_reconnection_label">Bei Neuverbindung erneut öffnen</string>
     <string name="reopen_on_reconnection_description">Wenn du auf „Beenden“ tippst, läuft die App im Hintergrund weiter und überwacht USB-Verbindungen. Wird ein Gerät erneut verbunden, öffnet sich die App automatisch.</string>
     <string name="reopen_on_reconnection_summary">Nach Beenden weiter auf USB achten und neu öffnen, sobald ein Gerät wieder verbunden wird.</string>
+    <string name="bt_raise_on_connect_label">In den Vordergrund holen, wenn sich das Smartphone per Bluetooth verbindet</string>
+    <string name="bt_raise_on_connect_summary">App nach vorn holen, wenn sich ein Smartphone aus der Autostart-Liste verbindet.</string>
+    <string name="bt_raise_on_connect_description">Wenn sich ein Smartphone aus der Bluetooth-Autostart-Liste verbindet, kommt die App in den Vordergrund. Läuft im Hintergrund noch eine Sitzung, kehrt die Projektion zurück. Die App erscheint nicht über den Einstellungen, nicht nach dem X der Statusanzeige und nicht nach „Beenden“ zum Fahrzeug-Launcher.</string>
+    <string name="bt_raise_on_connect_needs_device">Wähle zuerst ein Gerät für den Bluetooth-Autostart aus.</string>
     <string name="overlay_permission_required">Autostart erfordert die Berechtigung „Über anderen Apps einblenden“</string>
     <string name="usb_access_needed">Open Headunit hat keinen Zugriff auf dieses USB-Gerät. Drücke USB, um den Zugriff zu erlauben. Falls dafür eine andere App geöffnet wird, lösche deren USB-Standard in den Android-Einstellungen.</string>
     <string name="usb_permission_denied">USB-Berechtigung verweigert. Erlaube den USB-Zugriff, damit die Verbindung automatisch hergestellt werden kann.</string>

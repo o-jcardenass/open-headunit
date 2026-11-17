@@ -610,6 +610,10 @@
     <string name="reopen_on_reconnection_label">Redeschide la reconectare</string>
     <string name="reopen_on_reconnection_description">Când apeși butonul Ieșire, aplicația rămâne activă în fundal și continuă să monitorizeze conexiunile USB. Dacă un dispozitiv se reconectează, aplicația se redeschide automat.</string>
     <string name="reopen_on_reconnection_summary">După Ieșire, continuă să urmărească USB și redeschide când un dispozitiv se reconectează.</string>
+    <string name="bt_raise_on_connect_label">Adu în prim-plan când telefonul se conectează prin Bluetooth</string>
+    <string name="bt_raise_on_connect_summary">Aduce aplicația în prim-plan când se conectează un telefon din lista de pornire automată.</string>
+    <string name="bt_raise_on_connect_description">Când se conectează un telefon din lista de pornire automată Bluetooth, aplicația trece în prim-plan. Dacă există o sesiune activă în fundal, proiecția revine. Aplicația nu apare peste ecranul de setări, după X-ul de pe pastila de stare sau după Ieșire în launcherul mașinii.</string>
+    <string name="bt_raise_on_connect_needs_device">Alege mai întâi un dispozitiv pentru pornirea automată Bluetooth.</string>
     <string name="show_performance_overlay_description">Afișează FPS, încărcarea procesorului, temperatura și vechimea cadrului peste proiecție.</string>
     <string name="show_performance_overlay_help">Arată o casetă mică de valori în timp real peste imaginea Android Auto, de exemplu rata de cadre, încărcarea procesorului și temperatura. Folosește-o ca să afli de ce imaginea este lentă. Alege valorile în rândurile de mai jos. Caseta apare doar pe această unitate, nu pe telefon.</string>
 

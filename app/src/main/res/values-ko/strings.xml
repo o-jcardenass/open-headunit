@@ -686,6 +686,10 @@
     <string name="reopen_on_reconnection_label">재연결 시 앱 다시 열기</string>
     <string name="reopen_on_reconnection_description">종료 버튼을 누르면 앱이 백그라운드에서 계속 실행되며 USB 연결을 계속 확인합니다. 기기가 다시 연결되면 앱이 자동으로 다시 열립니다.</string>
     <string name="reopen_on_reconnection_summary">종료한 뒤에도 USB를 계속 감시하여 기기가 다시 연결되면 앱을 다시 엽니다.</string>
+    <string name="bt_raise_on_connect_label">휴대전화가 블루투스로 연결되면 앞으로 가져오기</string>
+    <string name="bt_raise_on_connect_summary">자동 시작 목록의 휴대전화가 연결되면 앱을 앞으로 가져옵니다.</string>
+    <string name="bt_raise_on_connect_description">블루투스 자동 시작 목록의 휴대전화가 연결되면 앱이 앞으로 나옵니다. 백그라운드에 활성 세션이 있으면 프로젝션이 다시 표시됩니다. 설정 화면 위, 상태 알약의 X를 누른 후, 종료 후 차량 런처로 나간 경우에는 앞으로 나오지 않습니다.</string>
+    <string name="bt_raise_on_connect_needs_device">먼저 블루투스 자동 시작에 사용할 기기를 선택하세요.</string>
     <string name="overlay_permission_required">자동 시작을 사용하려면 \'다른 앱 위에 표시\' 권한이 필요합니다.</string>
     <string name="usb_access_needed">Open Headunit이 이 USB 기기에 접근할 수 없습니다. 허용하려면 USB를 누르세요. 이 기기 때문에 다른 앱이 열리면 Android 설정에서 그 앱의 USB 기본값을 삭제하세요.</string>
     <string name="usb_permission_denied">USB 권한이 거부되었습니다. 자동으로 연결하려면 USB 접근 권한을 허용하세요.</string>

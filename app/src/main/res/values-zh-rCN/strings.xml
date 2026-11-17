@@ -609,6 +609,10 @@
     <string name="reopen_on_reconnection_label">重新连接时重新打开</string>
     <string name="reopen_on_reconnection_description">按下“退出”按钮后，应用会继续在后台运行并监控 USB 连接。设备重新连接时，应用会自动重新打开。</string>
     <string name="reopen_on_reconnection_summary">退出后继续监视 USB，并在设备重新连接时再次打开。</string>
+    <string name="bt_raise_on_connect_label">手机通过蓝牙连接时切换到前台</string>
+    <string name="bt_raise_on_connect_summary">自动启动列表中的手机连接时，将应用切换到前台。</string>
+    <string name="bt_raise_on_connect_description">当自动启动列表中的手机通过蓝牙连接时，应用会切换到前台。若后台有进行中的会话，投屏会恢复。在设置界面上、点按状态标签的 X 之后，或退出到车机启动器之后，不会切换到前台。</string>
+    <string name="bt_raise_on_connect_needs_device">请先为蓝牙自动启动选择设备。</string>
     <string name="show_performance_overlay_description">在投屏画面上显示 FPS、CPU 负载、温度和帧时间。</string>
     <string name="show_performance_overlay_help">在 Android Auto 画面上方显示一个包含实时读数的小框，例如帧率、处理器负载和温度。可用来查找画面变慢的原因。读数在下方各行中选择。该框只显示在本机上，不显示在手机上。</string>
 

@@ -609,6 +609,10 @@
     <string name="reopen_on_reconnection_label">Heropenen bij herverbinding</string>
     <string name="reopen_on_reconnection_description">Als je op de knop Afsluiten drukt, blijft de app op de achtergrond draaien en blijft hij USB-verbindingen controleren. Als een apparaat opnieuw verbinding maakt, wordt de app automatisch geopend.</string>
     <string name="reopen_on_reconnection_summary">Blijft na Afsluiten USB in de gaten houden en opent opnieuw als een apparaat weer verbinding maakt.</string>
+    <string name="bt_raise_on_connect_label">Naar voren halen als de telefoon via Bluetooth verbindt</string>
+    <string name="bt_raise_on_connect_summary">Haal de app naar voren als een telefoon uit de autostartlijst verbindt.</string>
+    <string name="bt_raise_on_connect_description">Als een telefoon uit de Bluetooth-autostartlijst verbindt, komt de app naar voren. Loopt er op de achtergrond nog een sessie, dan komt de projectie terug. De app komt niet boven het instellingenscherm, niet na de X van de statuspil en niet na Afsluiten naar de launcher van de auto.</string>
+    <string name="bt_raise_on_connect_needs_device">Kies eerst een apparaat voor Bluetooth-autostart.</string>
     <string name="show_performance_overlay_description">Toont FPS, CPU-belasting, temperatuur en frameleeftijd over de projectie.</string>
     <string name="show_performance_overlay_help">Toont een klein vak met live meetwaarden over het beeld van Android Auto, zoals framerate, processorbelasting en temperatuur. Gebruik dit om te vinden waarom het beeld traag is. Kies de meetwaarden in de rijen hieronder. Het vak verschijnt alleen op deze unit, niet op de telefoon.</string>
 

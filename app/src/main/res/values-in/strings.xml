@@ -1175,6 +1175,10 @@
     <string name="reopen_on_reconnection_label">Buka kembali saat terhubung ulang</string>
     <string name="reopen_on_reconnection_description">Saat Anda menekan tombol Keluar, aplikasi tetap berjalan di latar belakang dan terus memantau koneksi USB. Jika perangkat tersambung kembali, aplikasi akan terbuka kembali secara otomatis.</string>
     <string name="reopen_on_reconnection_summary">Setelah Keluar, terus memantau USB dan membuka ulang saat perangkat terhubung kembali.</string>
+    <string name="bt_raise_on_connect_label">Tampilkan di depan saat ponsel terhubung lewat Bluetooth</string>
+    <string name="bt_raise_on_connect_summary">Tampilkan aplikasi saat ponsel dari daftar mulai otomatis terhubung.</string>
+    <string name="bt_raise_on_connect_description">Saat ponsel dari daftar mulai otomatis Bluetooth terhubung, aplikasi muncul di depan. Jika ada sesi aktif di latar belakang, proyeksi kembali. Aplikasi tidak muncul di atas layar pengaturan, setelah menekan X pada pil status, atau setelah Keluar ke peluncur mobil.</string>
+    <string name="bt_raise_on_connect_needs_device">Pilih perangkat untuk mulai otomatis Bluetooth terlebih dahulu.</string>
     <string name="overlay_permission_required">Mulai otomatis memerlukan izin \'Tampilkan di atas apl lain\'</string>
     <string name="usb_access_needed">Open Headunit tidak punya akses ke perangkat USB ini. Tekan USB untuk mengizinkan. Jika aplikasi lain terbuka untuk perangkat ini, hapus pengaturan default USB aplikasi tersebut di pengaturan Android.</string>
     <string name="usb_permission_denied">Izin USB ditolak. Izinkan akses USB agar terhubung otomatis.</string>

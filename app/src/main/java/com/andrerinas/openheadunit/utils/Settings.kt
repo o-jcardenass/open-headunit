@@ -1658,6 +1658,10 @@ class Settings(private val context: Context) {
         get() = prefs.getBoolean("reopen-on-reconnection", true)
         set(value) { prefs.edit().putBoolean("reopen-on-reconnection", value).apply() }
 
+    var btRaiseOnConnect: Boolean
+        get() = prefs.getBoolean("bt-raise-on-connect", false)
+        set(value) { prefs.edit().putBoolean("bt-raise-on-connect", value).apply() }
+
     var autoConnectPriorityOrder: List<String>
         get() {
             val stored = prefs.getString("auto-connect-priority-order", null)

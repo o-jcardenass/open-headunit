@@ -1175,6 +1175,10 @@
     <string name="reopen_on_reconnection_label">เปิดใหม่เมื่อเชื่อมต่ออีกครั้ง</string>
     <string name="reopen_on_reconnection_description">เมื่อคุณกดปุ่มออก แอปจะยังคงทำงานในพื้นหลังและติดตามการเชื่อมต่อ USB ต่อไป หากอุปกรณ์เชื่อมต่อใหม่ แอปจะเปิดขึ้นมาใหม่โดยอัตโนมัติ</string>
     <string name="reopen_on_reconnection_summary">หลังออก จะเฝ้าดู USB ต่อและเปิดใหม่เมื่ออุปกรณ์เชื่อมต่ออีกครั้ง</string>
+    <string name="bt_raise_on_connect_label">นำแอปมาแสดงด้านหน้าเมื่อโทรศัพท์เชื่อมต่อผ่าน Bluetooth</string>
+    <string name="bt_raise_on_connect_summary">นำแอปมาแสดงด้านหน้าเมื่อโทรศัพท์ในรายการเริ่มอัตโนมัติเชื่อมต่อ</string>
+    <string name="bt_raise_on_connect_description">เมื่อโทรศัพท์ในรายการเริ่มอัตโนมัติผ่าน Bluetooth เชื่อมต่อ แอปจะแสดงด้านหน้า หากมีเซสชันที่ทำงานอยู่เบื้องหลัง การฉายภาพจะกลับมา แอปจะไม่แสดงทับหน้าจอการตั้งค่า หลังกด X บนป้ายสถานะ หรือหลังออกไปยังตัวเรียกใช้งานของรถ</string>
+    <string name="bt_raise_on_connect_needs_device">เลือกอุปกรณ์สำหรับเริ่มอัตโนมัติผ่าน Bluetooth ก่อน</string>
     <string name="overlay_permission_required">การเริ่มอัตโนมัติต้องใช้สิทธิ์ \'แสดงทับบนแอปอื่นๆ\'</string>
     <string name="usb_access_needed">Open Headunit ไม่มีสิทธิ์เข้าถึงอุปกรณ์ USB นี้ กด USB เพื่ออนุญาต หากมีแอปอื่นเปิดขึ้นมาสำหรับอุปกรณ์นี้ ให้ล้างค่าเริ่มต้น USB ของแอปนั้นในการตั้งค่า Android</string>
     <string name="usb_permission_denied">สิทธิ์ USB ถูกปฏิเสธ โปรดอนุญาตการเข้าถึง USB เพื่อเชื่อมต่อโดยอัตโนมัติ</string>

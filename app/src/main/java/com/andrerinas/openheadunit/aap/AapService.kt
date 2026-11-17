@@ -40,6 +40,7 @@ import com.andrerinas.openheadunit.app.ActivityLaunchPolicy
 import com.andrerinas.openheadunit.app.BootCompleteReceiver
 import com.andrerinas.openheadunit.app.BootLoopPolicy
 import com.andrerinas.openheadunit.app.BootScreenPolicy
+import com.andrerinas.openheadunit.app.BtRaisePolicy
 import com.andrerinas.openheadunit.app.BtAutoDisconnectArm
 import com.andrerinas.openheadunit.app.BtAutoDisconnectPolicy
 import com.andrerinas.openheadunit.app.ExternalPowerArm
@@ -1951,6 +1952,7 @@ class AapService : Service() {
         nightModeManager?.stop()
 
         carKeysManager.onSessionEnded()
+        projectionSentToOemLauncher = false
 
         if (!isDestroying) updateNotification()
         autoResumePlaybackJob?.cancel()
@@ -4126,7 +4128,9 @@ class AapService : Service() {
                     AppLog.i("AapService: Bluetooth auto-start: Native AA is armed with a live group, leaving it alone.")
                     launcher?.triggerWifiDirectRefresh()
                 }
+                raiseForBluetooth(intent?.getStringExtra(EXTRA_MAC))
             }
+            ACTION_BT_RAISE               -> raiseForBluetooth(intent?.getStringExtra(EXTRA_MAC))
             ACTION_NEARBY_CONNECT         -> {
                 val endpointId = intent?.getStringExtra(EXTRA_ENDPOINT_ID)
                 if (endpointId != null) {
@@ -4300,6 +4304,33 @@ class AapService : Service() {
 
         AppLog.i("Reopen on reconnection: launching MainActivity ($source)")
         launchMainActivityOnBoot()
+    }
+
+    private val lastBtRaiseAt = HashMap<String, Long>()
+
+    /** Raises the app for an auto-start phone's Bluetooth arrival, as [BtRaisePolicy] allows. */
+    private fun raiseForBluetooth(mac: String?) {
+        if (mac == null) return
+        val key = mac.uppercase()
+        val now = SystemClock.elapsedRealtime()
+        val action = BtRaisePolicy.decide(
+            settingOn = settings.btRaiseOnConnect,
+            macInAutoStartList = settings.autoStartBluetoothDeviceMacs.any { it.equals(mac, ignoreCase = true) },
+            sessionLive = commManager.isConnected,
+            appVisible = App.hasStartedActivity,
+            settingsVisible = SettingsActivity.isVisible,
+            userExitedToOemLauncher = projectionSentToOemLauncher,
+            cancelledByUser = wifiLauncherManager.cancelledByUser,
+            sinceLastRaiseMs = lastBtRaiseAt[key]?.let { now - it },
+        )
+        if (action == BtRaisePolicy.Action.NONE) return
+        lastBtRaiseAt[key] = now
+        AppLog.i("AapService: Bluetooth raise: $action for $mac")
+        when (action) {
+            BtRaisePolicy.Action.RAISE_HOME -> launchMainActivityOnBoot()
+            BtRaisePolicy.Action.RAISE_PROJECTION -> launchAapProjectionActivity(allowNotificationFallback = true)
+            BtRaisePolicy.Action.NONE -> {}
+        }
     }
 
     private fun launchMainActivityOnBoot() {
@@ -4498,6 +4529,10 @@ class AapService : Service() {
         var instance: AapService? = null
             private set
 
+        /** Set when Exit sent the projection to the car launcher; a Bluetooth raise must not undo it. */
+        @Volatile
+        var projectionSentToOemLauncher = false
+
         /** Apply the wireless part of Save before its caller starts audio retirement/reconnect. */
         @androidx.annotation.MainThread
         internal fun applyWirelessSettings(context: Context, startWireless: Boolean) {
@@ -4548,6 +4583,8 @@ class AapService : Service() {
         const val ACTION_STOP_SELF_MODE            = "com.andrerinas.openheadunit.ACTION_STOP_SELF_MODE"
         const val ACTION_START_WIRELESS            = "com.andrerinas.openheadunit.ACTION_START_WIRELESS"
         const val ACTION_BT_AUTO_START              = "com.andrerinas.openheadunit.ACTION_BT_AUTO_START"
+        /** A live session in the background: only raise the projection, no re-arm and no poke. */
+        const val ACTION_BT_RAISE                   = "com.andrerinas.openheadunit.ACTION_BT_RAISE"
         const val ACTION_START_WIRELESS_SCAN       = "com.andrerinas.openheadunit.ACTION_START_WIRELESS_SCAN"
         const val ACTION_STOP_WIRELESS             = "com.andrerinas.openheadunit.ACTION_STOP_WIRELESS"
         const val ACTION_CANCEL_WIRELESS           = "com.andrerinas.openheadunit.ACTION_CANCEL_WIRELESS"

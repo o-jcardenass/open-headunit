@@ -612,6 +612,10 @@
     <string name="reopen_on_reconnection_label">Відкривати при повторному підключенні</string>
     <string name="reopen_on_reconnection_description">Коли ви натискаєте кнопку «Вихід», додаток продовжує працювати у фоновому режимі та відстежує USB-підключення. Якщо пристрій підключається повторно, додаток відкривається автоматично.</string>
     <string name="reopen_on_reconnection_summary">Після виходу далі стежить за USB і знову відкриває застосунок, коли пристрій підключається повторно.</string>
+    <string name="bt_raise_on_connect_label">Виводити на передній план, коли телефон підключається через Bluetooth</string>
+    <string name="bt_raise_on_connect_summary">Виводить застосунок на передній план, коли підключається телефон зі списку автозапуску.</string>
+    <string name="bt_raise_on_connect_description">Коли підключається телефон зі списку автозапуску Bluetooth, застосунок виходить на передній план. Якщо у фоні є активний сеанс, проєкція повертається. Застосунок не виходить на передній план поверх екрана налаштувань, після натискання X на індикаторі стану та після виходу в лаунчер автомобіля.</string>
+    <string name="bt_raise_on_connect_needs_device">Спершу виберіть пристрій для автозапуску через Bluetooth.</string>
 
     <string name="category_input">Налаштування введення</string>
     <string name="enable_rotary">Увімкнути поворотний регулятор</string>

@@ -611,6 +611,10 @@
     <string name="reopen_on_reconnection_label">Újranyitás újracsatlakozáskor</string>
     <string name="reopen_on_reconnection_description">A Kilépés gomb megnyomásakor az alkalmazás a háttérben fut tovább, és folyamatosan figyeli az USB-kapcsolatokat. Ha egy eszköz újracsatlakozik, az alkalmazás automatikusan megnyílik.</string>
     <string name="reopen_on_reconnection_summary">A Kilépés után tovább figyeli az USB-t, és újra megnyitja az alkalmazást, ha egy eszköz újra csatlakozik.</string>
+    <string name="bt_raise_on_connect_label">Előtérbe hozás, ha a telefon Bluetooth-on csatlakozik</string>
+    <string name="bt_raise_on_connect_summary">Az alkalmazás előtérbe hozása, ha az automatikus indítási lista egyik telefonja csatlakozik.</string>
+    <string name="bt_raise_on_connect_description">Ha a Bluetooth automatikus indítási lista egyik telefonja csatlakozik, az alkalmazás előtérbe kerül. Ha a háttérben aktív munkamenet van, a vetítés visszatér. Az alkalmazás nem kerül a beállítások képernyő fölé, az állapotjelző X gombja után, sem a Kilépés utáni autós indítófelületen.</string>
+    <string name="bt_raise_on_connect_needs_device">Először válasszon eszközt a Bluetooth automatikus indításhoz.</string>
     <string name="show_performance_overlay_description">Megjeleníti az FPS-t, a CPU-terhelést, a hőmérsékletet és a képkocka korát a vetítés felett.</string>
     <string name="show_performance_overlay_help">Kis dobozt mutat élő mérőértékekkel az Android Auto képe fölött, például képkockasebességgel, processzorterheléssel és hőmérséklettel. Használja annak kiderítésére, miért lassú a kép. A mérőértékeket az alatta lévő sorokban választhatja ki. A doboz csak ezen az egységen jelenik meg, a telefonon nem.</string>
 

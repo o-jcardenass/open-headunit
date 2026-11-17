@@ -613,6 +613,10 @@
     <string name="reopen_on_reconnection_label">再接続時にアプリを開く</string>
     <string name="reopen_on_reconnection_description">終了ボタンを押しても、アプリはバックグラウンドで実行され続け、USB接続の監視を続けます。デバイスが再接続されると、アプリは自動的に再び開きます。</string>
     <string name="reopen_on_reconnection_summary">終了後も USB を監視し、デバイスが再接続されたらアプリを開き直します。</string>
+    <string name="bt_raise_on_connect_label">スマートフォンがBluetoothで接続したら前面に表示</string>
+    <string name="bt_raise_on_connect_summary">自動起動リストのスマートフォンが接続したら、アプリを前面に表示します。</string>
+    <string name="bt_raise_on_connect_description">Bluetoothの自動起動リストにあるスマートフォンが接続すると、アプリが前面に表示されます。バックグラウンドにセッションが残っている場合は、投影が再開されます。設定画面の上、ステータスピルのXを押した後、および終了して車のランチャーに戻った後は、前面に表示されません。</string>
+    <string name="bt_raise_on_connect_needs_device">先にBluetooth自動起動のデバイスを選択してください。</string>
     <string name="overlay_permission_required">自動起動には「他のアプリの上に重ねて表示」権限が必要です</string>
     <string name="usb_access_needed">Open HeadunitはこのUSBデバイスにアクセスできません。許可するには、USBを押してください。別のアプリが開く場合は、Androidの設定でそのアプリのUSBのデフォルト設定を消去してください。</string>
     <string name="usb_permission_denied">USBの権限が拒否されました。自動接続するには、USBアクセスを許可してください。</string>

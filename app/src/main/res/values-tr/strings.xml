@@ -609,6 +609,10 @@
     <string name="reopen_on_reconnection_label">Yeniden bağlanınca tekrar aç</string>
     <string name="reopen_on_reconnection_description">Çıkış düğmesine bastığınızda, uygulama arka planda çalışmaya devam eder ve USB bağlantılarını izlemeyi sürdürür. Bir cihaz yeniden bağlandığında uygulama otomatik olarak tekrar açılır.</string>
     <string name="reopen_on_reconnection_summary">Çıkış sonrasında USB\'yi izlemeyi sürdürür ve bir cihaz yeniden bağlanınca açar.</string>
+    <string name="bt_raise_on_connect_label">Telefon Bluetooth ile bağlanınca öne getir</string>
+    <string name="bt_raise_on_connect_summary">Otomatik başlatma listesindeki bir telefon bağlanınca uygulamayı öne getirir.</string>
+    <string name="bt_raise_on_connect_description">Bluetooth otomatik başlatma listesindeki bir telefon bağlandığında uygulama öne gelir. Arka planda etkin bir oturum varsa projeksiyon geri gelir. Uygulama ayarlar ekranının üstüne, durum hapındaki X\'ten sonra veya araç başlatıcısına Çıkış yapıldıktan sonra öne gelmez.</string>
+    <string name="bt_raise_on_connect_needs_device">Önce Bluetooth otomatik başlatma için bir cihaz seçin.</string>
     <string name="overlay_permission_required">Otomatik başlatma için \'Diğer uygulamaların üzerinde göster\' izni gerekir</string>
     <string name="usb_access_needed">Open Headunit bu USB cihazına erişemiyor. İzin vermek için USB düğmesine basın. Cihaz için başka bir uygulama açılırsa Android ayarlarından o uygulamanın USB varsayılanını temizleyin.</string>
     <string name="usb_permission_denied">USB izni reddedildi. Otomatik bağlanmak için lütfen USB erişimine izin verin.</string>

@@ -667,6 +667,10 @@
     <string name="reopen_on_reconnection_label">ხელახალი კავშირისას გახსნა</string>
     <string name="reopen_on_reconnection_description">\"გასვლა\" ღილაკზე დაჭერისას აპლიკაცია აგრძელებს მუშაობას ფონურ რეჟიმში და აკონტროლებს USB კავშირებს. მოწყობილობის ხელახალი შეერთებისას აპი ავტომატურად გაიხსნება.</string>
     <string name="reopen_on_reconnection_summary">„გასვლის“ შემდეგ კვლავ აკვირდება USB-ს და ხსნის აპს, როცა მოწყობილობა თავიდან დაუკავშირდება.</string>
+    <string name="bt_raise_on_connect_label">წინა პლანზე გამოტანა, როცა ტელეფონი Bluetooth-ით დაუკავშირდება</string>
+    <string name="bt_raise_on_connect_summary">აპს წინა პლანზე გამოაქვს, როცა ავტოგაშვების სიის ტელეფონი დაუკავშირდება.</string>
+    <string name="bt_raise_on_connect_description">როცა Bluetooth-ის ავტოგაშვების სიის ტელეფონი დაუკავშირდება, აპი წინა პლანზე გამოდის. თუ ფონში აქტიური სესიაა, პროექცია ბრუნდება. აპი არ გამოდის პარამეტრების ეკრანის თავზე, სტატუსის ბეჯის X-ის შემდეგ და გასვლის შემდეგ მანქანის ლაუნჩერზე.</string>
+    <string name="bt_raise_on_connect_needs_device">ჯერ აირჩიეთ მოწყობილობა Bluetooth-ის ავტოგაშვებისთვის.</string>
     <string name="overlay_permission_required">ავტოგაშვებისთვის საჭიროა ნებართვა „სხვა აპების ზემოდან გამოჩენა“</string>
     <string name="usb_access_needed">Open Headunit-ს ამ USB მოწყობილობაზე წვდომა არ აქვს. დასაშვებად დააჭირეთ USB-ს. თუ ამ მოწყობილობისთვის სხვა აპი იხსნება, Android-ის პარამეტრებში გაასუფთავეთ ამ აპის USB-ის ნაგულისხმევი პარამეტრი.</string>
     <string name="usb_permission_denied">USB ნებართვა უარყოფილია. ავტომატური დაკავშირებისთვის დაუშვით USB წვდომა.</string>

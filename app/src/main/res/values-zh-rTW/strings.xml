@@ -609,6 +609,10 @@
     <string name="reopen_on_reconnection_label">重新連線時重新開啟</string>
     <string name="reopen_on_reconnection_description">按下「結束」按鈕後，應用程式會繼續在背景執行並監控 USB 連線。裝置重新連線時，應用程式會自動重新開啟。</string>
     <string name="reopen_on_reconnection_summary">離開後繼續監看 USB，並在裝置重新連線時再次開啟。</string>
+    <string name="bt_raise_on_connect_label">手機透過藍牙連線時切換到前景</string>
+    <string name="bt_raise_on_connect_summary">自動啟動清單中的手機連線時，將應用程式切換到前景。</string>
+    <string name="bt_raise_on_connect_description">當自動啟動清單中的手機透過藍牙連線時，應用程式會切換到前景。若背景有進行中的工作階段，投影會恢復。在設定畫面上、點選狀態標籤的 X 之後，或結束至車用啟動器之後，不會切換到前景。</string>
+    <string name="bt_raise_on_connect_needs_device">請先為藍牙自動啟動選擇裝置。</string>
     <string name="show_performance_overlay_description">在投影畫面上顯示 FPS、CPU 負載、溫度與影格時間。</string>
     <string name="show_performance_overlay_help">在 Android Auto 畫面上方顯示一個包含即時讀數的小方塊，例如影格速率、處理器負載和溫度。可用來找出畫面變慢的原因。讀數在下方各列中選擇。該方塊只顯示在本裝置上，不顯示在手機上。</string>
 

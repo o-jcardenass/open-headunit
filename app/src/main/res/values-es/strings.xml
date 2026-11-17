@@ -615,6 +615,10 @@
     <string name="reopen_on_reconnection_label">Reabrir al reconectar</string>
     <string name="reopen_on_reconnection_description">Al presionar el botón Salir, la app sigue ejecutándose en segundo plano y continúa monitoreando las conexiones USB. Si un dispositivo se reconecta, la app se reabre automáticamente.</string>
     <string name="reopen_on_reconnection_summary">Tras Salir, sigue vigilando el USB y vuelve a abrir cuando se reconecta un dispositivo.</string>
+    <string name="bt_raise_on_connect_label">Traer al frente cuando el teléfono se conecte por Bluetooth</string>
+    <string name="bt_raise_on_connect_summary">Trae la app al frente cuando se conecta un teléfono de la lista de inicio automático.</string>
+    <string name="bt_raise_on_connect_description">Cuando se conecta un teléfono de la lista de inicio automático por Bluetooth, la app pasa al frente. Si hay una sesión activa en segundo plano, la proyección vuelve. No se muestra sobre la pantalla de ajustes, tras tocar la X de la píldora de estado ni después de Salir al launcher del auto.</string>
+    <string name="bt_raise_on_connect_needs_device">Primero elige un dispositivo para el inicio automático por Bluetooth.</string>
 
     <string name="category_input">Configuración de entrada</string>
     <string name="enable_rotary">Activar controlador giratorio (Rotary)</string>

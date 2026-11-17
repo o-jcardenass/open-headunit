@@ -1174,6 +1174,10 @@
     <string name="reopen_on_reconnection_label">फिर से कनेक्ट होने पर दोबारा खोलें</string>
     <string name="reopen_on_reconnection_description">बाहर निकलें बटन दबाने पर ऐप बैकग्राउंड में चलता रहता है और USB कनेक्शन पर नज़र रखता है। अगर कोई डिवाइस दोबारा कनेक्ट होता है, तो ऐप अपने-आप फिर से खुल जाता है।</string>
     <string name="reopen_on_reconnection_summary">बाहर निकलें के बाद भी USB पर नज़र रखता है और डिवाइस दोबारा कनेक्ट होने पर ऐप्लिकेशन फिर खोलता है।</string>
+    <string name="bt_raise_on_connect_label">फ़ोन के Bluetooth से कनेक्ट होने पर ऐप को सामने लाएं</string>
+    <string name="bt_raise_on_connect_summary">ऑटो-स्टार्ट सूची का फ़ोन कनेक्ट होने पर ऐप को सामने लाएं।</string>
+    <string name="bt_raise_on_connect_description">Bluetooth ऑटो-स्टार्ट सूची का कोई फ़ोन कनेक्ट होने पर ऐप सामने आ जाता है। अगर बैकग्राउंड में सत्र चल रहा है, तो प्रोजेक्शन वापस आ जाता है। सेटिंग स्क्रीन पर, स्टेटस पिल के X के बाद या कार लॉन्चर पर बाहर निकलने के बाद ऐप सामने नहीं आता।</string>
+    <string name="bt_raise_on_connect_needs_device">पहले Bluetooth ऑटो-स्टार्ट के लिए कोई डिवाइस चुनें।</string>
     <string name="overlay_permission_required">अपने-आप शुरू होने के लिए \'अन्य ऐप्लिकेशन के ऊपर दिखाएं\' की अनुमति ज़रूरी है</string>
     <string name="usb_access_needed">Open Headunit के पास इस USB डिवाइस का एक्सेस नहीं है। अनुमति देने के लिए USB दबाएँ। अगर इसके लिए कोई दूसरा ऐप खुलता है, तो Android सेटिंग में उस ऐप का USB डिफ़ॉल्ट हटा दें।</string>
     <string name="usb_permission_denied">USB की अनुमति नहीं मिली। अपने-आप कनेक्ट होने के लिए USB एक्सेस की अनुमति दें।</string>

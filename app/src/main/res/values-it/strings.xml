@@ -612,6 +612,10 @@
     <string name="reopen_on_reconnection_label">Riapri alla riconnessione</string>
     <string name="reopen_on_reconnection_description">Quando premi il pulsante Esci, l\'app rimane in esecuzione in background e continua a monitorare le connessioni USB. Se un dispositivo si riconnette, l\'app si riapre automaticamente.</string>
     <string name="reopen_on_reconnection_summary">Dopo Esci, continua a controllare l\'USB e riapre l\'app quando un dispositivo si ricollega.</string>
+    <string name="bt_raise_on_connect_label">Porta in primo piano quando il telefono si connette via Bluetooth</string>
+    <string name="bt_raise_on_connect_summary">Porta l\'app in primo piano quando si connette un telefono dell\'elenco di avvio automatico.</string>
+    <string name="bt_raise_on_connect_description">Quando si connette un telefono dell\'elenco di avvio automatico Bluetooth, l\'app passa in primo piano. Se c\'è una sessione attiva in background, la proiezione riprende. L\'app non passa davanti alle impostazioni, dopo la X della pillola di stato né dopo Esci verso il launcher dell\'auto.</string>
+    <string name="bt_raise_on_connect_needs_device">Scegli prima un dispositivo per l\'avvio automatico Bluetooth.</string>
     <string name="overlay_permission_required">L\'avvio automatico richiede il permesso \'Mostra sopra altre app\'</string>
     <string name="usb_access_needed">Open Headunit non ha accesso a questo dispositivo USB. Premi USB per consentirlo. Se si apre un\'altra app per questo dispositivo, cancella l\'impostazione predefinita USB di quell\'app nelle impostazioni di Android.</string>
     <string name="usb_permission_denied">Permesso USB negato. Consenti l\'accesso USB per connetterti automaticamente.</string>

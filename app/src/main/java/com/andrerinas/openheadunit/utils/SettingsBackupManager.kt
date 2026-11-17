@@ -242,6 +242,7 @@ object SettingsBackupManager {
         "listen-for-usb-devices" to ValueType.BOOLEAN,
         "usb-wireless-dongle" to ValueType.BOOLEAN,
         "reopen-on-reconnection" to ValueType.BOOLEAN,
+        "bt-raise-on-connect" to ValueType.BOOLEAN,
         "auto-connect-priority-order" to ValueType.STRING,
         "auto-start-bt-macs" to ValueType.STRING_SET,
         "auto-start-bt-name" to ValueType.STRING,

@@ -628,6 +628,10 @@
     <string name="reopen_on_reconnection_label">Mở lại khi kết nối lại</string>
     <string name="reopen_on_reconnection_description">Khi bạn nhấn nút Thoát, ứng dụng vẫn chạy ngầm và tiếp tục theo dõi kết nối USB. Nếu thiết bị kết nối lại, ứng dụng sẽ tự mở lại.</string>
     <string name="reopen_on_reconnection_summary">Sau khi Thoát, tiếp tục theo dõi USB và mở lại khi thiết bị kết nối lại.</string>
+    <string name="bt_raise_on_connect_label">Đưa lên trước khi điện thoại kết nối qua Bluetooth</string>
+    <string name="bt_raise_on_connect_summary">Đưa ứng dụng lên trước khi điện thoại trong danh sách tự động khởi động kết nối.</string>
+    <string name="bt_raise_on_connect_description">Khi điện thoại trong danh sách tự động khởi động Bluetooth kết nối, ứng dụng sẽ được đưa lên trước. Nếu có phiên đang chạy nền, phần chiếu sẽ quay lại. Ứng dụng không hiện lên trên màn hình cài đặt, sau khi nhấn X trên thẻ trạng thái hoặc sau khi Thoát về trình chạy của xe.</string>
+    <string name="bt_raise_on_connect_needs_device">Hãy chọn thiết bị cho tính năng tự động khởi động Bluetooth trước.</string>
     <string name="overlay_permission_required">Tự khởi động cần quyền \'Hiện trên các ứng dụng khác\'</string>
     <string name="usb_access_needed">Open Headunit không có quyền truy cập thiết bị USB này. Hãy nhấn USB để cho phép. Nếu một ứng dụng khác mở ra cho thiết bị này, hãy xóa mặc định USB của ứng dụng đó trong cài đặt Android.</string>
     <string name="usb_permission_denied">Đã từ chối quyền USB. Hãy cho phép truy cập USB để tự kết nối.</string>

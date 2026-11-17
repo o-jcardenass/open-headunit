@@ -950,6 +950,10 @@
     <string name="reopen_on_reconnection_label">Rouvrir à la reconnexion</string>
     <string name="reopen_on_reconnection_description">Lorsque vous appuyez sur le bouton Quitter, l\'application reste active en arrière-plan et continue de surveiller les connexions USB. Si un appareil se reconnecte, l\'application se rouvre automatiquement.</string>
     <string name="reopen_on_reconnection_summary">Après Quitter, continue de surveiller l\'USB et rouvre l\'application quand un appareil se reconnecte.</string>
+    <string name="bt_raise_on_connect_label">Passer au premier plan quand le téléphone se connecte en Bluetooth</string>
+    <string name="bt_raise_on_connect_summary">Ramène l\'appli au premier plan quand un téléphone de la liste de démarrage automatique se connecte.</string>
+    <string name="bt_raise_on_connect_description">Quand un téléphone de la liste de démarrage automatique Bluetooth se connecte, l\'appli passe au premier plan. Si une session reste active en arrière-plan, la projection revient. L\'appli ne passe pas devant l\'écran des paramètres, après le X de la pastille d\'état, ni après Quitter vers le lanceur de la voiture.</string>
+    <string name="bt_raise_on_connect_needs_device">Choisissez d\'abord un appareil pour le démarrage automatique Bluetooth.</string>
     <string name="overlay_permission_required">Le démarrage automatique nécessite l\'autorisation « Superposition sur d\'autres applis »</string>
     <string name="usb_access_needed">Open Headunit n\'a pas accès à cet appareil USB. Appuyez sur USB pour l\'autoriser. Si une autre application s\'ouvre pour cet appareil, effacez sa valeur par défaut USB dans les réglages Android.</string>
     <string name="usb_permission_denied">Autorisation USB refusée. Autorisez l\'accès USB pour vous connecter automatiquement.</string>

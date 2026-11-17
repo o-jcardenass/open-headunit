@@ -62,6 +62,7 @@ class AutoStartFragment : Fragment() {
     private var btPickerTarget = BtPickerTarget.AUTO_START
     private var pendingAutoStartWifiSsid: String? = null
     private var pendingReopenOnReconnection: Boolean? = null
+    private var pendingBtRaiseOnConnect: Boolean? = null
 
     private var hasChanges = false
     private val SAVE_ITEM_ID = 1001
@@ -109,6 +110,7 @@ class AutoStartFragment : Fragment() {
         pendingAutoStartOnWifi = settings.autoStartOnWifi
         pendingAutoStartWifiSsid = settings.autoStartWifiSsid
         pendingReopenOnReconnection = settings.rawReopenOnReconnection
+        pendingBtRaiseOnConnect = settings.btRaiseOnConnect
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -229,6 +231,7 @@ class AutoStartFragment : Fragment() {
             Settings.syncAutoStartWifiSsidToDeviceStorage(requireContext(), it)
         }
         pendingReopenOnReconnection?.let { if (it != settings.rawReopenOnReconnection) settings.rawReopenOnReconnection = it }
+        pendingBtRaiseOnConnect?.let { if (it != settings.btRaiseOnConnect) settings.btRaiseOnConnect = it }
         settings.autoDisconnectBluetoothDeviceMacs = pendingAutoDisconnectBtMacs.toSet()
         pendingAutoDisconnectBtDelaySeconds?.let { if (it != settings.autoDisconnectBtDelaySeconds) settings.autoDisconnectBtDelaySeconds = it }
         pendingExternalPowerDisconnect?.let { if (it != settings.externalPowerDisconnect) settings.externalPowerDisconnect = it }
@@ -296,7 +299,8 @@ class AutoStartFragment : Fragment() {
                 pendingExternalPowerScreenOff != settings.externalPowerScreenOff ||
                 pendingAutoStartOnWifi != settings.autoStartOnWifi ||
                 pendingAutoStartWifiSsid != settings.autoStartWifiSsid ||
-                pendingReopenOnReconnection != settings.rawReopenOnReconnection
+                pendingReopenOnReconnection != settings.rawReopenOnReconnection ||
+                pendingBtRaiseOnConnect != settings.btRaiseOnConnect
 
         updateSaveButtonState()
     }
@@ -426,6 +430,21 @@ class AutoStartFragment : Fragment() {
             value = getBluetoothSummaryText(),
             onClick = {
                 showBluetoothDeviceSelector(BtPickerTarget.AUTO_START)
+            }
+        ))
+
+        val hasAutoStartPhone = pendingAutoStartBtMacs.isNotEmpty()
+        items.add(SettingItem.ToggleSettingEntry(
+            stableId = "btRaiseOnConnect",
+            nameResId = R.string.bt_raise_on_connect_label,
+            descriptionResId = R.string.bt_raise_on_connect_summary,
+            helpResId = R.string.bt_raise_on_connect_description,
+            isChecked = pendingBtRaiseOnConnect ?: settings.btRaiseOnConnect,
+            isEnabled = hasAutoStartPhone,
+            descriptionOverride = if (hasAutoStartPhone) null else getString(R.string.bt_raise_on_connect_needs_device),
+            onCheckedChanged = { isChecked ->
+                pendingBtRaiseOnConnect = isChecked
+                checkChanges()
             }
         ))
 

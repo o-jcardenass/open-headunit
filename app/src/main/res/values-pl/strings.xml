@@ -610,6 +610,10 @@
     <string name="reopen_on_reconnection_label">Otwórz ponownie po ponownym połączeniu</string>
     <string name="reopen_on_reconnection_description">Po naciśnięciu przycisku Wyjdź aplikacja kontynuuje działanie w tle i monitoruje połączenia USB. Jeśli urządzenie połączy się ponownie, aplikacja otworzy się automatycznie.</string>
     <string name="reopen_on_reconnection_summary">Po Wyjdź nadal obserwuje USB i otwiera aplikację ponownie, gdy urządzenie się połączy.</string>
+    <string name="bt_raise_on_connect_label">Przenieś na pierwszy plan po połączeniu telefonu przez Bluetooth</string>
+    <string name="bt_raise_on_connect_summary">Przenosi aplikację na pierwszy plan, gdy połączy się telefon z listy autostartu.</string>
+    <string name="bt_raise_on_connect_description">Gdy połączy się telefon z listy autostartu Bluetooth, aplikacja przechodzi na pierwszy plan. Jeśli w tle działa aktywna sesja, projekcja wraca. Aplikacja nie pojawia się nad ekranem ustawień, po kliknięciu X na pastylce stanu ani po Wyjdź do launchera samochodu.</string>
+    <string name="bt_raise_on_connect_needs_device">Najpierw wybierz urządzenie do autostartu Bluetooth.</string>
     <string name="show_performance_overlay_description">Wyświetla FPS, obciążenie procesora, temperaturę i wiek klatki na projekcji.</string>
     <string name="show_performance_overlay_help">Pokazuje nad obrazem Android Auto małe pole z pomiarami na żywo, na przykład liczbą klatek, obciążeniem procesora i temperaturą. Użyj tego, aby znaleźć przyczynę wolnego obrazu. Pomiary wybierasz w wierszach poniżej. Pole pojawia się tylko na tej stacji, nie na telefonie.</string>
 

@@ -621,6 +621,10 @@ Open Headunit предоставляется «как есть» без каки
     <string name="reopen_on_reconnection_label">Открывать при повторном подключении</string>
     <string name="reopen_on_reconnection_description">При нажатии кнопки «Выход» приложение продолжает работать в фоновом режиме и отслеживает USB-подключения. Если устройство подключается повторно, приложение открывается автоматически.</string>
     <string name="reopen_on_reconnection_summary">После выхода продолжает следить за USB и снова открывает приложение при повторном подключении устройства.</string>
+    <string name="bt_raise_on_connect_label">Выводить на передний план при подключении телефона по Bluetooth</string>
+    <string name="bt_raise_on_connect_summary">Выводить приложение на передний план при подключении телефона из списка автозапуска.</string>
+    <string name="bt_raise_on_connect_description">Когда подключается телефон из списка автозапуска Bluetooth, приложение выходит на передний план. Если в фоне есть активный сеанс, проекция возвращается. Приложение не выходит на передний план поверх экрана настроек, после нажатия X на индикаторе состояния и после выхода в лаунчер автомобиля.</string>
+    <string name="bt_raise_on_connect_needs_device">Сначала выберите устройство для автозапуска по Bluetooth.</string>
 
     <string name="category_input">Настройки ввода</string>
     <string name="enable_rotary">Включить поворотный контроллер (Rotary)</string>

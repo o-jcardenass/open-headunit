@@ -1175,6 +1175,10 @@
     <string name="reopen_on_reconnection_label">Reabrir ao religar</string>
     <string name="reopen_on_reconnection_description">Quando prime o botão Sair, a aplicação continua em execução em segundo plano e monitoriza as ligações USB. Se um dispositivo voltar a ligar-se, a aplicação abre novamente.</string>
     <string name="reopen_on_reconnection_summary">Depois de Sair, continua a vigiar o USB e reabre quando um dispositivo volta a ligar.</string>
+    <string name="bt_raise_on_connect_label">Trazer para primeiro plano quando o telemóvel ligar por Bluetooth</string>
+    <string name="bt_raise_on_connect_summary">Traz a app para primeiro plano quando um telemóvel da lista de início automático liga.</string>
+    <string name="bt_raise_on_connect_description">Quando um telemóvel da lista de início automático por Bluetooth liga, a app passa para primeiro plano. Se existir uma sessão ativa em segundo plano, a projeção volta. A app não aparece sobre o ecrã das definições, depois do X da pílula de estado nem depois de Sair para o launcher do carro.</string>
+    <string name="bt_raise_on_connect_needs_device">Escolha primeiro um dispositivo para o início automático por Bluetooth.</string>
     <string name="overlay_permission_required">O arranque automático requer a permissão \"Sobrepor a outras apps\"</string>
     <string name="usb_access_needed">O Open Headunit não tem acesso a este dispositivo USB. Toque em USB para permitir. Se outra app abrir para ele, limpe a predefinição de USB dessa app nas definições do Android.</string>
     <string name="usb_permission_denied">Permissão USB recusada. Conceda acesso USB para ligar automaticamente.</string>

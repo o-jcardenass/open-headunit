@@ -92,6 +92,7 @@ class VideoDecoder { var stops=0; fun stop(reason: String) { stops++ } }
 class SelfManager { var isActive=false }
 class Service {
     var hctParks=0
+    var projectionSentToOemLauncher=false
     private fun parkRetainedHct(onlyCompleted: Boolean) { hctParks++ }
     val main=Queued()
     val serviceScope=CoroutineScope(SupervisorJob()+main)

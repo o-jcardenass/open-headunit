@@ -71,6 +71,7 @@ internal class AapControlMedia(
                     when (settings.aaExitAction) {
                         Settings.ExitAction.OEM_LAUNCHER -> {
                             AppLog.i("ExitAction: Minimizing projection to OEM Launcher")
+                            AapService.projectionSentToOemLauncher = true
                             AapProjectionActivity.minimizeToHome(ctx)
                         }
                         Settings.ExitAction.APP_HOME -> {

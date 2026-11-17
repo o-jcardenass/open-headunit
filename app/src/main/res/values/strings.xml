@@ -1287,6 +1287,10 @@
     <string name="reopen_on_reconnection_label">Reopen on reconnection</string>
     <string name="reopen_on_reconnection_description">When you press the Exit button, the app stays running in the background and continues monitoring USB connections. If a device reconnects, the app reopens automatically.</string>
     <string name="reopen_on_reconnection_summary">After Exit, keep watching USB and reopen when a device reconnects.</string>
+    <string name="bt_raise_on_connect_label">Bring to front when the phone connects over Bluetooth</string>
+    <string name="bt_raise_on_connect_summary">Raise the app when a phone from the auto-start list connects.</string>
+    <string name="bt_raise_on_connect_description">When a phone from the Bluetooth auto-start list connects, the app comes to the front. With a live session in the background, the projection comes back. It does not raise over the settings screen, after the status pill\'s X, or after Exit to the car launcher.</string>
+    <string name="bt_raise_on_connect_needs_device">Choose a device for Bluetooth auto-start first.</string>
     <string name="overlay_permission_required">Auto-start requires \'Display over other apps\' permission</string>
     <string name="usb_access_needed">Open Headunit has no access to this USB device. Press USB to allow it. If another app opens for it, clear that app\'s USB default in Android settings.</string>
     <string name="usb_permission_denied">USB permission denied. Please allow USB access to connect automatically.</string>

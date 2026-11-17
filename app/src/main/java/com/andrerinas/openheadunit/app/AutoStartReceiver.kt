@@ -34,7 +34,12 @@ class AutoStartReceiver : BroadcastReceiver() {
 
         // [FIX] Don't trigger auto-start if we are already connected!
         // This prevents activity restarts if BT reconnects during a session.
-        if (com.andrerinas.openheadunit.App.provide(context).commManager.isConnected) {
+        val appGraph = com.andrerinas.openheadunit.App.provide(context)
+        val commConnected = appGraph.commManager.isConnected
+        // With the raise setting on, a live session in the background still gets the projection back.
+        val forwardsRaise = commConnected && appGraph.settings.btRaiseOnConnect &&
+            !com.andrerinas.openheadunit.App.hasStartedActivity
+        if (commConnected && !forwardsRaise) {
             AppLog.d("AutoStartReceiver: Already connected to Android Auto. Ignoring BT event.")
             return
         }
@@ -50,6 +55,17 @@ class AutoStartReceiver : BroadcastReceiver() {
             AppLog.i("BT Device connected: ${device?.name} (${device?.address})")
 
             if (device != null && targetMacs.contains(device.address)) {
+                if (forwardsRaise) {
+                    AppLog.i("AutoStartReceiver: Live session in the background, forwarding a Bluetooth raise.")
+                    val raiseIntent = Intent(context, AapService::class.java).setAction(AapService.ACTION_BT_RAISE)
+                        .putExtra(AapService.EXTRA_MAC, device.address)
+                    try {
+                        androidx.core.content.ContextCompat.startForegroundService(context, raiseIntent)
+                    } catch (e: Exception) {
+                        AppLog.e("AutoStartReceiver: Failed to forward the raise to AapService: ${e.message}")
+                    }
+                    return
+                }
                 AppLog.i("MATCH! Starting AapService via Bluetooth Auto-start...")
 
                 // Start the service to make the app alive. Explicit action so onStartCommand
@@ -60,6 +76,7 @@ class AutoStartReceiver : BroadcastReceiver() {
                 val uiHeld = SettingsActivity.isVisible
                 val serviceIntent = Intent(context, AapService::class.java).setAction(AapService.ACTION_BT_AUTO_START)
                     .putExtra(AapService.EXTRA_UI_HELD, uiHeld)
+                    .putExtra(AapService.EXTRA_MAC, device.address)
                 try {
                     androidx.core.content.ContextCompat.startForegroundService(context, serviceIntent)
                 } catch (e: Exception) {

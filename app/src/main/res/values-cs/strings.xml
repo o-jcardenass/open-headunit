@@ -614,6 +614,10 @@
     <string name="reopen_on_reconnection_label">Znovu otevřít při opětovném připojení</string>
     <string name="reopen_on_reconnection_description">Po stisknutí tlačítka Ukončit aplikace zůstane běžet na pozadí a nadále sleduje USB připojení. Pokud se zařízení znovu připojí, aplikace se automaticky otevře.</string>
     <string name="reopen_on_reconnection_summary">Po Ukončit dál sleduje USB a znovu se otevře, když se zařízení znovu připojí.</string>
+    <string name="bt_raise_on_connect_label">Přenést do popředí při připojení telefonu přes Bluetooth</string>
+    <string name="bt_raise_on_connect_summary">Přenést aplikaci do popředí, když se připojí telefon ze seznamu automatického spuštění.</string>
+    <string name="bt_raise_on_connect_description">Když se připojí telefon ze seznamu automatického spuštění přes Bluetooth, aplikace se přesune do popředí. Pokud na pozadí běží aktivní relace, projekce se vrátí. Aplikace se nezobrazí přes obrazovku nastavení, po klepnutí na X ve stavovém štítku ani po ukončení do launcheru autorádia.</string>
+    <string name="bt_raise_on_connect_needs_device">Nejprve vyberte zařízení pro automatické spuštění přes Bluetooth.</string>
 
     <string name="category_input">Nastavení vstupu</string>
     <string name="enable_rotary">Povolit otočný ovladač (Rotary)</string>
