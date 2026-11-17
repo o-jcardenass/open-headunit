@@ -198,6 +198,7 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
         startedActivityCount++
         if (startedActivityCount == 1) {
             hasStartedActivity = true
+            lastForegroundAt = SystemClock.elapsedRealtime()
             FloatingButtonManager.onAppForegroundChanged(this, isForeground = true)
         }
     }
@@ -231,6 +232,11 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
          */
         @Volatile
         var hasStartedActivity = false
+            private set
+
+        /** elapsedRealtime of the last move from no started activity to one. */
+        @Volatile
+        var lastForegroundAt = 0L
             private set
 
         @Volatile

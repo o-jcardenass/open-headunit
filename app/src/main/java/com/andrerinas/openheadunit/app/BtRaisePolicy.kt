@@ -13,6 +13,9 @@ object BtRaisePolicy {
     /** An ACL can flap, so one phone raises at most once in this time. */
     const val MIN_RAISE_INTERVAL_MS = 10_000L
 
+    /** A raise check that fires this late slept through its deadline, so its arrival is stale. */
+    const val STALE_CHECK_MS = 3_000L
+
     fun decide(
         settingOn: Boolean,
         macInAutoStartList: Boolean,
@@ -22,8 +25,11 @@ object BtRaisePolicy {
         userExitedToOemLauncher: Boolean,
         cancelledByUser: Boolean,
         sinceLastRaiseMs: Long?,
+        pokeInFlight: Boolean,
     ): Action = when {
         !settingOn || !macInAutoStartList -> Action.NONE
+        // Our own poke opens an ACL to the phone, so that arrival is not the phone's.
+        pokeInFlight -> Action.NONE
         !AutoConnectHoldPolicy.raisesUi(settingsVisible, cancelledByUser) -> Action.NONE
         sinceLastRaiseMs != null && sinceLastRaiseMs < MIN_RAISE_INTERVAL_MS -> Action.NONE
         appVisible -> Action.NONE
@@ -31,4 +37,11 @@ object BtRaisePolicy {
         userExitedToOemLauncher -> Action.NONE
         else -> Action.RAISE_PROJECTION
     }
+
+    /**
+     * After a raise from the background: true when the fallback must run. A foreground start
+     * since the raise means it landed, even if the user left again before the check.
+     */
+    fun needsFallback(lastForegroundAtMs: Long, raisedAtMs: Long, checkDeadlineMs: Long, nowMs: Long): Boolean =
+        lastForegroundAtMs < raisedAtMs && nowMs - checkDeadlineMs < STALE_CHECK_MS
 }

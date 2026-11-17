@@ -4323,6 +4323,7 @@ class AapService : Service() {
             userExitedToOemLauncher = projectionSentToOemLauncher,
             cancelledByUser = wifiLauncherManager.cancelledByUser,
             sinceLastRaiseMs = lastBtRaiseAt[key]?.let { now - it },
+            pokeInFlight = (wifiLauncherManager.active as? WifiLauncherNative)?.handshakeManager?.isAttemptInFlight() == true,
         )
         if (action == BtRaisePolicy.Action.NONE) return
         lastBtRaiseAt[key] = now
@@ -4359,14 +4360,16 @@ class AapService : Service() {
 
     /** Android may drop a background start without an exception, so the Bluetooth raise is checked. */
     private fun raiseMainActivityForBluetooth() {
+        val raisedAt = SystemClock.elapsedRealtime()
         raiseMainActivity(BT_RAISE_SOURCE, MainActivity.LAUNCH_SOURCE_BLUETOOTH)
         if (App.hasStartedActivity) return
-        val deadline = SystemClock.elapsedRealtime() + BT_RAISE_CHECK_MS
+        val deadline = raisedAt + BT_RAISE_CHECK_MS
         val check = object : Runnable {
             override fun run() {
-                if (isDestroying || App.hasStartedActivity) return
-                val left = deadline - SystemClock.elapsedRealtime()
-                if (left > 0) { btRaiseHandler.postDelayed(this, left); return }
+                if (isDestroying) return
+                val now = SystemClock.elapsedRealtime()
+                if (now < deadline) { btRaiseHandler.postDelayed(this, deadline - now); return }
+                if (!BtRaisePolicy.needsFallback(App.lastForegroundAt, raisedAt, deadline, now)) return
                 AppLog.w("AapService: Bluetooth raise was dropped by Android (API ${Build.VERSION.SDK_INT}, " +
                     "overlay=${AppPermissions.isOverlayGranted(this@AapService)}), using the full-screen intent")
                 launchViaFullScreenIntent(MainActivity.LAUNCH_SOURCE_BLUETOOTH)
@@ -4426,7 +4429,7 @@ class AapService : Service() {
         }
     }
 
-    private fun launchViaFullScreenIntent(launchSource: String = "Boot auto-start") {
+    private fun launchViaFullScreenIntent(launchSource: String) {
         val launchIntent = Intent(this, MainActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
             putExtra(MainActivity.EXTRA_LAUNCH_SOURCE, launchSource)
