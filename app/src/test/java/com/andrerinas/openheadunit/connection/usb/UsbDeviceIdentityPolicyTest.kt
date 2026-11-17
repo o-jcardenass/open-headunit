@@ -234,6 +234,14 @@ class UsbDeviceIdentityPolicyTest {
     }
 
     @Test
+    fun `an audio-only accessory identity is refused even with an accessory interface`() {
+        for (pid in listOf(0x2D02, 0x2D03)) {
+            val device = Device(0x18D1, pid, 0x00, listOf(vendorClass("Android Accessory Interface")))
+            assertEquals("rejected: no Android interface", evaluate(device).toString())
+        }
+    }
+
+    @Test
     fun `Apple is refused even when it presents a matching interface`() {
         val device = Device(0x05AC, 0x12A8, 0x00, listOf(vendorClass("Android Accessory Interface")))
         assertEquals("rejected: Apple VID", evaluate(device).toString())

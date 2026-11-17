@@ -59,6 +59,12 @@ object UsbDeviceIdentityPolicy {
         0x2D05, // accessory + audio + ADB
     )
 
+    /** The audio-only accessory modes carry no accessory interface, whatever else is on the device. */
+    private val AUDIO_ONLY_ACCESSORY_PIDS = setOf(
+        0x2D02, // audio only
+        0x2D03, // audio + ADB
+    )
+
     /**
      * `iInterface` on the vendor-class interface. Three different products present the identical
      * FF/FF/00 triple, and only this string tells them apart: the accessory gadget names itself,
@@ -96,6 +102,10 @@ object UsbDeviceIdentityPolicy {
 
         if (isInAccessoryMode(device.vendorId, device.productId)) {
             return Verdict(true, "already in accessory mode")
+        }
+
+        if (device.vendorId == GOOGLE_VID && device.productId in AUDIO_ONLY_ACCESSORY_PIDS) {
+            return Verdict(false, "no Android interface")
         }
 
         // Rarely fires, because a composite device reports class 0 and defers to its interfaces.
