@@ -1412,6 +1412,9 @@
     <string name="native_poke_all_paired_label">喚醒所有已配對的裝置</string>
     <string name="native_poke_all_paired_description">未選擇特定裝置時，會短暫連線至每個已配對的裝置以啟動 Android Auto。關閉此選項後，在您選擇裝置前不會喚醒任何裝置。</string>
     <string name="native_poke_all_paired_summary">未選取裝置時，喚醒所有已配對的裝置。</string>
+    <string name="bt_hid_wake_label">以藍牙鍵盤按鍵喚醒手機</string>
+    <string name="bt_hid_wake_summary">向所選的螢幕已關閉的手機傳送一次短暫的按鍵。</string>
+    <string name="bt_hid_wake_description">需要 Android 9 以上版本，且上方裝置清單中有已配對的手機。本機會以鍵盤身分連線，傳送一次按鍵，並在 3 秒後中斷連線，因此手機的螢幕鍵盤仍可正常使用。本機不會進行配對，也無法將通話音訊轉移到本機。</string>
     <string name="auto_disconnect_bt_delay_label">中斷前的等待時間</string>
     <string name="auto_disconnect_bt_delay_help">設定受監看裝置的藍牙消失後，應用程式要等多久才結束工作階段。裝置在這段時間內回來，工作階段就會繼續。如果裝置設定檔重新連線時連線會短暫中斷，可設為幾秒。0 表示立即結束工作階段。上限為 3600 秒。</string>
     <string name="auto_disconnect_bt_delay_value">%1$d 秒</string>

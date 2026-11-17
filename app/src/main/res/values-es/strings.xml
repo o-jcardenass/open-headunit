@@ -1475,6 +1475,9 @@
     <string name="native_poke_all_paired_label">Despertar todos los dispositivos vinculados</string>
     <string name="native_poke_all_paired_description">Si no hay un dispositivo elegido arriba, se conecta brevemente a cada dispositivo vinculado para iniciar Android Auto. Desactívalo para no despertar ninguno hasta que elijas uno.</string>
     <string name="native_poke_all_paired_summary">Si no hay un dispositivo elegido, activa todos los dispositivos vinculados.</string>
+    <string name="bt_hid_wake_label">Despertar el teléfono con una tecla Bluetooth</string>
+    <string name="bt_hid_wake_summary">Envía una pulsación de tecla breve a un teléfono elegido con la pantalla apagada.</string>
+    <string name="bt_hid_wake_description">Requiere Android 9 o superior y un teléfono vinculado en la lista de dispositivos de arriba. La unidad se conecta como teclado, envía una pulsación de tecla y se desconecta después de 3 segundos para que el teclado en pantalla del teléfono siga funcionando. Nunca vincula. No puede pasar el audio de las llamadas a esta unidad.</string>
     <string name="auto_disconnect_bt_delay_label">Espera antes de desconectar</string>
     <string name="auto_disconnect_bt_delay_help">Define cuánto espera la app, después de que desaparece el Bluetooth de un dispositivo vigilado, antes de finalizar la sesión. Si el dispositivo vuelve en ese tiempo, la sesión continúa. Configura unos segundos si la conexión se corta un momento mientras se reconectan sus perfiles. Con 0, la sesión termina de inmediato. El límite es de 3600 segundos.</string>
     <string name="auto_disconnect_bt_delay_value">%1$d s</string>

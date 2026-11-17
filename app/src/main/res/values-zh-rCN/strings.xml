@@ -1412,6 +1412,9 @@
     <string name="native_poke_all_paired_label">唤醒所有已配对的设备</string>
     <string name="native_poke_all_paired_description">未在上方选择设备时，短暂连接每个已配对的设备以启动 Android Auto。关闭此项后，在您选择设备之前不会唤醒任何设备。</string>
     <string name="native_poke_all_paired_summary">未选择设备时，唤醒所有已配对的设备。</string>
+    <string name="bt_hid_wake_label">用蓝牙键盘按键唤醒手机</string>
+    <string name="bt_hid_wake_summary">向所选的熄屏手机发送一次短暂的按键。</string>
+    <string name="bt_hid_wake_description">需要 Android 9 或更高版本，且上方设备列表中有已配对的手机。本机会以键盘身份连接，发送一次按键，并在 3 秒后断开，因此手机的屏幕键盘仍可正常使用。本机不会进行配对，也无法将通话音频转移到本机。</string>
     <string name="auto_disconnect_bt_delay_label">断开前等待时间</string>
     <string name="auto_disconnect_bt_delay_help">设置受监视设备的蓝牙消失后，应用等待多久才结束会话。设备在此时间内回来，会话会继续。如果设备配置文件重新连接时连接会短暂中断，可设置几秒。0 表示立即结束会话。上限为 3600 秒。</string>
     <string name="auto_disconnect_bt_delay_value">%1$d 秒</string>

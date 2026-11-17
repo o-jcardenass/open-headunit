@@ -574,6 +574,9 @@
     <string name="native_poke_all_paired_label">Bangunkan setiap perangkat tersanding</string>
     <string name="native_poke_all_paired_description">Jika tidak ada perangkat yang dipilih di atas, hubungkan sebentar ke setiap perangkat tersanding untuk memulai Android Auto. Matikan ini agar tidak membangunkan perangkat apa pun sampai Anda memilihnya.</string>
     <string name="native_poke_all_paired_summary">Jika tidak ada perangkat yang dipilih, membangunkan semua perangkat yang dipasangkan.</string>
+    <string name="bt_hid_wake_label">Bangunkan ponsel dengan tombol keyboard Bluetooth</string>
+    <string name="bt_hid_wake_summary">Kirim penekanan tombol singkat ke ponsel pilihan yang layarnya mati.</string>
+    <string name="bt_hid_wake_description">Memerlukan Android 9 atau lebih baru dan ponsel yang dipasangkan di daftar perangkat di atas. Unit terhubung sebagai keyboard, mengirim satu penekanan tombol, lalu memutus koneksi setelah 3 detik agar keyboard di layar ponsel tetap berfungsi. Unit tidak pernah memasangkan perangkat. Unit tidak dapat memindahkan audio panggilan ke unit ini.</string>
     <string name="auto_disconnect_bt_delay_label">Tunggu sebelum memutuskan</string>
     <string name="auto_disconnect_bt_delay_help">Mengatur berapa lama aplikasi menunggu setelah Bluetooth perangkat yang dipantau hilang, sebelum mengakhiri sesi. Jika perangkat kembali dalam waktu itu, sesi berlanjut. Atur beberapa detik jika koneksi sempat putus sebentar saat profilnya tersambung ulang. Nilai 0 mengakhiri sesi seketika. Batasnya 3600 detik.</string>
     <string name="auto_disconnect_bt_delay_value">%1$d dtk</string>

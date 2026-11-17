@@ -1416,6 +1416,9 @@
     <string name="native_poke_all_paired_label">Đánh thức tất cả thiết bị đã ghép nối</string>
     <string name="native_poke_all_paired_description">Nếu không chọn thiết bị ở trên, ứng dụng sẽ kết nối ngắn tới mọi thiết bị đã ghép nối để khởi động Android Auto. Hãy tắt tùy chọn này để không đánh thức thiết bị nào cho đến khi bạn chọn một thiết bị.</string>
     <string name="native_poke_all_paired_summary">Khi chưa chọn thiết bị, đánh thức mọi thiết bị đã ghép nối.</string>
+    <string name="bt_hid_wake_label">Đánh thức điện thoại bằng phím Bluetooth</string>
+    <string name="bt_hid_wake_summary">Gửi một lần nhấn phím ngắn tới điện thoại đã chọn có màn hình đang tắt.</string>
+    <string name="bt_hid_wake_description">Cần Android 9 trở lên và một điện thoại đã ghép nối trong danh sách thiết bị ở trên. Thiết bị kết nối như một bàn phím, gửi một lần nhấn phím rồi ngắt kết nối sau 3 giây để bàn phím trên màn hình của điện thoại vẫn dùng được. Thiết bị không bao giờ ghép nối. Không thể chuyển âm thanh cuộc gọi sang thiết bị này.</string>
     <string name="auto_disconnect_bt_delay_label">Chờ trước khi ngắt kết nối</string>
     <string name="auto_disconnect_bt_delay_help">Đặt thời gian ứng dụng chờ sau khi Bluetooth của thiết bị được theo dõi biến mất, trước khi kết thúc phiên. Nếu thiết bị quay lại trong thời gian đó, phiên vẫn tiếp tục. Đặt vài giây nếu kết nối ngắt chốc lát trong lúc các hồ sơ kết nối lại. 0 kết thúc phiên ngay. Giới hạn là 3600 giây.</string>
     <string name="auto_disconnect_bt_delay_value">%1$d giây</string>

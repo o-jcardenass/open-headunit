@@ -1409,6 +1409,9 @@
     <string name="native_poke_all_paired_label">페어링된 모든 기기 깨우기</string>
     <string name="native_poke_all_paired_description">위에서 기기를 선택하지 않은 경우 페어링된 모든 기기에 잠시 연결하여 Android Auto를 시작합니다. 기기를 선택하기 전까지 아무 기기도 깨우지 않으려면 이 설정을 사용 중지하세요.</string>
     <string name="native_poke_all_paired_summary">선택한 기기가 없으면 페어링된 모든 기기를 깨웁니다.</string>
+    <string name="bt_hid_wake_label">블루투스 키보드 입력으로 휴대전화 깨우기</string>
+    <string name="bt_hid_wake_summary">화면이 꺼진 선택한 휴대전화에 짧은 키 입력을 보냅니다.</string>
+    <string name="bt_hid_wake_description">Android 9 이상과 위 기기 목록에 페어링된 휴대전화가 필요합니다. 본체가 키보드로 연결해 키 입력을 한 번 보내고 3초 후 연결을 끊으므로 휴대전화의 화면 키보드는 계속 작동합니다. 페어링은 하지 않습니다. 통화 오디오를 이 본체로 옮길 수는 없습니다.</string>
     <string name="auto_disconnect_bt_delay_label">Android Auto 자동 종료 대기 시간</string>
     <string name="auto_disconnect_bt_delay_help">감시 중인 기기의 블루투스 연결이 끊긴 뒤, 앱이 세션을 종료하기까지 기다리는 시간을 정합니다. 그 시간 안에 기기가 돌아오면 세션이 계속됩니다. 프로필이 다시 연결되는 동안 연결이 잠깐 끊긴다면 몇 초로 설정하세요. 0이면 즉시 종료합니다. 최대 3600초입니다.</string>
     <string name="auto_disconnect_bt_delay_value">%1$d초</string>

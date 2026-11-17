@@ -249,6 +249,7 @@ object SettingsBackupManager {
         "auto-disconnect-bt-macs" to ValueType.STRING_SET,
         "native-poke-bt-macs" to ValueType.STRING_SET,
         "native-poke-all-paired" to ValueType.BOOLEAN,
+        "bt-hid-wake-trigger" to ValueType.BOOLEAN,
         "auto-disconnect-bt-delay-seconds" to ValueType.INT,
         "external-power-disconnect" to ValueType.BOOLEAN,
         "external-power-disconnect-delay-seconds" to ValueType.INT,

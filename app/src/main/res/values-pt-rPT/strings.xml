@@ -575,6 +575,9 @@
     <string name="native_poke_all_paired_label">Acordar todos os dispositivos emparelhados</string>
     <string name="native_poke_all_paired_description">Sem nenhum dispositivo escolhido acima, liga brevemente a cada dispositivo emparelhado para iniciar o Android Auto. Desative isto para não acordar nada até escolher um.</string>
     <string name="native_poke_all_paired_summary">Sem dispositivo escolhido, ativa todos os dispositivos emparelhados.</string>
+    <string name="bt_hid_wake_label">Acordar o telemóvel com um toque de teclado Bluetooth</string>
+    <string name="bt_hid_wake_summary">Envia um breve toque de tecla a um telemóvel escolhido com o ecrã desligado.</string>
+    <string name="bt_hid_wake_description">Requer Android 9 ou posterior e um telemóvel emparelhado na lista de dispositivos acima. A unidade liga-se como teclado, envia um toque de tecla e desliga-se após 3 segundos, para que o teclado no ecrã do telemóvel continue a funcionar. Nunca emparelha. Não pode transferir o áudio das chamadas para esta unidade.</string>
     <string name="auto_disconnect_bt_delay_label">Aguardar antes de desligar</string>
     <string name="auto_disconnect_bt_delay_help">Define quanto tempo a aplicação espera, depois de o Bluetooth de um dispositivo vigiado desaparecer, antes de terminar a sessão. Se o dispositivo voltar nesse tempo, a sessão continua. Defina alguns segundos se a ligação cai por instantes enquanto os perfis voltam a ligar. Com 0, a sessão termina de imediato. O limite é 3600 segundos.</string>
     <string name="auto_disconnect_bt_delay_value">%1$d s</string>

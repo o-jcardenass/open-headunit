@@ -1409,6 +1409,9 @@
     <string name="native_poke_all_paired_label">Eşlenen tüm cihazları uyandır</string>
     <string name="native_poke_all_paired_description">Yukarıda cihaz seçilmediğinde, Android Auto\'yu başlatmak için eşlenen tüm cihazlara kısa süreli bağlanır. Siz bir cihaz seçene kadar hiçbirini uyandırmaması için bunu kapatın.</string>
     <string name="native_poke_all_paired_summary">Cihaz seçilmediyse eşleşmiş tüm cihazları uyandırır.</string>
+    <string name="bt_hid_wake_label">Telefonu Bluetooth klavye tuşuyla uyandır</string>
+    <string name="bt_hid_wake_summary">Ekranı kapalı seçili telefona kısa bir tuş basışı gönderir.</string>
+    <string name="bt_hid_wake_description">Android 9 veya üstü ile yukarıdaki cihaz listesinde eşlenmiş bir telefon gerekir. Ünite klavye olarak bağlanır, bir tuş basışı gönderir ve 3 saniye sonra bağlantıyı keser; böylece telefonun ekran klavyesi çalışmaya devam eder. Hiçbir zaman eşleşme yapmaz. Çağrı sesini bu üniteye aktaramaz.</string>
     <string name="auto_disconnect_bt_delay_label">Bağlantıyı kesmeden önce bekle</string>
     <string name="auto_disconnect_bt_delay_help">İzlenen cihazın Bluetooth bağlantısı kaybolduktan sonra uygulamanın oturumu bitirmeden önce ne kadar bekleyeceğini belirler. Cihaz bu sürede geri gelirse oturum devam eder. Profiller yeniden bağlanırken bağlantı kısa süre kopuyorsa birkaç saniye ayarlayın. 0, oturumu hemen bitirir. Sınır 3600 saniyedir.</string>
     <string name="auto_disconnect_bt_delay_value">%1$d sn</string>

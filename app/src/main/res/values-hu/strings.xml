@@ -1412,6 +1412,9 @@
     <string name="native_poke_all_paired_label">Összes párosított eszköz felébresztése</string>
     <string name="native_poke_all_paired_description">Ha fent nincs eszköz kiválasztva, az Android Auto elindításához röviden csatlakozik az összes párosított eszközhöz. Kapcsolja ki, ha nem szeretne egyetlen eszközt sem ébreszteni, amíg ki nem választ egyet.</string>
     <string name="native_poke_all_paired_summary">Ha nincs kiválasztott eszköz, felébreszti az összes párosított eszközt.</string>
+    <string name="bt_hid_wake_label">Telefon felébresztése Bluetooth-billentyűvel</string>
+    <string name="bt_hid_wake_summary">Rövid billentyűlenyomást küld a kiválasztott, kikapcsolt képernyőjű telefonnak.</string>
+    <string name="bt_hid_wake_description">Android 9 vagy újabb rendszer, valamint egy párosított telefon szükséges a fenti eszközlistában. Az egység billentyűzetként csatlakozik, egy billentyűlenyomást küld, majd 3 másodperc után bontja a kapcsolatot, így a telefon képernyő-billentyűzete tovább működik. Soha nem párosít. A hanghívás hangját nem tudja átvinni erre az egységre.</string>
     <string name="auto_disconnect_bt_delay_label">Várakozás leválasztás előtt</string>
     <string name="auto_disconnect_bt_delay_help">Megadja, meddig vár az alkalmazás, miután egy figyelt eszköz Bluetooth-kapcsolata megszűnt, mielőtt befejezi a munkamenetet. Ha az eszköz ez alatt visszatér, a munkamenet folytatódik. Állítson be néhány másodpercet, ha a kapcsolat rövid időre megszakad, miközben a profiljai újracsatlakoznak. A 0 azonnal befejezi a munkamenetet. A korlát 3600 másodperc.</string>
     <string name="auto_disconnect_bt_delay_value">%1$d mp</string>

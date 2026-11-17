@@ -1417,6 +1417,9 @@
     <string name="native_poke_all_paired_label">Wybudź wszystkie sparowane urządzenia</string>
     <string name="native_poke_all_paired_description">Gdy powyżej nie wybrano urządzenia, łączy się krótko z każdym sparowanym urządzeniem, aby uruchomić Android Auto. Wyłącz tę opcję, aby nic nie wybudzać, dopóki nie wybierzesz urządzenia.</string>
     <string name="native_poke_all_paired_summary">Gdy nie wybrano urządzenia, wybudza wszystkie sparowane urządzenia.</string>
+    <string name="bt_hid_wake_label">Obudź telefon klawiszem Bluetooth</string>
+    <string name="bt_hid_wake_summary">Wysyła krótkie naciśnięcie klawisza do wybranego telefonu z wyłączonym ekranem.</string>
+    <string name="bt_hid_wake_description">Wymaga Androida 9 lub nowszego i sparowanego telefonu na liście urządzeń powyżej. Urządzenie łączy się jako klawiatura, wysyła jedno naciśnięcie klawisza i rozłącza się po 3 sekundach, dzięki czemu klawiatura ekranowa telefonu nadal działa. Nigdy nie paruje urządzeń. Nie może przenieść dźwięku połączeń na to urządzenie.</string>
     <string name="auto_disconnect_bt_delay_label">Czas oczekiwania przed rozłączeniem</string>
     <string name="auto_disconnect_bt_delay_help">Ustawia, jak długo aplikacja czeka po zaniku Bluetooth obserwowanego urządzenia, zanim zakończy sesję. Jeśli urządzenie wróci w tym czasie, sesja trwa dalej. Ustaw kilka sekund, jeśli połączenie na chwilę zanika, gdy jego profile łączą się ponownie. Wartość 0 kończy sesję od razu. Limit to 3600 sekund.</string>
     <string name="auto_disconnect_bt_delay_value">%1$d s</string>

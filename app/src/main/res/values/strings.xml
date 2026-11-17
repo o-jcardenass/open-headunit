@@ -608,6 +608,9 @@
     <string name="native_poke_all_paired_label">Wake every paired device</string>
     <string name="native_poke_all_paired_description">With no device chosen above, connect briefly to every paired device to start Android Auto. Turn this off to wake nothing until you choose one.</string>
     <string name="native_poke_all_paired_summary">With no device chosen, wake every paired device.</string>
+    <string name="bt_hid_wake_label">Wake the phone with a Bluetooth keyboard nudge</string>
+    <string name="bt_hid_wake_summary">Send a brief key press to a chosen phone whose screen is off.</string>
+    <string name="bt_hid_wake_description">Needs Android 9 or later and a paired phone in the device list above. The unit connects as a keyboard, sends one key press, and disconnects after 3 seconds so the phone\'s on-screen keyboard still works. It never pairs. It cannot move call audio to this unit.</string>
     <string name="auto_disconnect_bt_delay_label">Wait before disconnecting</string>
     <string name="auto_disconnect_bt_delay_help">Sets how long the app waits after a watched device\'s Bluetooth goes away before it ends the session. If the device comes back in that time, the session continues. Set a few seconds if the link drops for a moment while its profiles reconnect. 0 ends the session at once. The limit is 3600 seconds.</string>
     <string name="auto_disconnect_bt_delay_value">%1$d s</string>

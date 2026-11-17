@@ -45,6 +45,7 @@ import com.andrerinas.openheadunit.aap.AapService
 import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.esp32.Esp32RelaySession
 import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.esp32.Esp32RelayStore
 import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.CredentialField
+import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.HidWakePolicy
 import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.NativeAaWakeDamagePolicy
 import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.zbt.ZbtProbe
 import com.andrerinas.openheadunit.input.MediaKeyRoutingPolicy
@@ -255,6 +256,7 @@ class SettingsFragment : Fragment() {
     private var pendingNativePreferredDeviceMac by pending::nativePreferredDeviceMac
     private var pendingNativePokeBtMacs by pending::nativePokeBtMacs
     private var pendingNativePokeAllPaired by pending::nativePokeAllPaired
+    private var pendingBtHidWakeTrigger by pending::btHidWakeTrigger
     private var pendingWifiDirectBand by pending::wifiDirectBand
     private var pendingWifiDirectStableIdentity by pending::wifiDirectStableIdentity
     // The pair and its provenance move together; null on the second means neither was edited,
@@ -752,6 +754,7 @@ class SettingsFragment : Fragment() {
         pendingNativePreferredDeviceMac?.let { if (it != settings.nativePreferredDeviceMac) settings.nativePreferredDeviceMac = it }
         pendingNativePokeBtMacs?.let { if (it != settings.nativePokeBtMacs) settings.nativePokeBtMacs = it }
         pendingNativePokeAllPaired?.let { if (it != settings.nativePokeAllPairedDevices) settings.nativePokeAllPairedDevices = it }
+        pendingBtHidWakeTrigger?.let { if (it != settings.btHidWakeTrigger) settings.btHidWakeTrigger = it }
         pendingWifiDirectBand?.let { if (it != settings.wifiDirectBand) settings.wifiDirectBand = it }
         pendingWifiDirectStableIdentity?.let { if (it != settings.wifiDirectStableIdentity) settings.wifiDirectStableIdentity = it }
         // The pair is written whole, null included, so a Reset really does hand the choice back.
@@ -4621,6 +4624,20 @@ class SettingsFragment : Fragment() {
                     isChecked = pendingNativePokeAllPaired ?: settings.nativePokeAllPairedDevices,
                     onCheckedChanged = { isChecked ->
                         pendingNativePokeAllPaired = isChecked
+                        checkChanges()
+                    }
+                ))
+            }
+
+            if (Build.VERSION.SDK_INT >= HidWakePolicy.MIN_API) {
+                items.add(SettingItem.ToggleSettingEntry(
+                    stableId = "btHidWakeTrigger",
+                    nameResId = R.string.bt_hid_wake_label,
+                    descriptionResId = R.string.bt_hid_wake_summary,
+                    helpResId = R.string.bt_hid_wake_description,
+                    isChecked = pendingBtHidWakeTrigger ?: settings.btHidWakeTrigger,
+                    onCheckedChanged = { isChecked ->
+                        pendingBtHidWakeTrigger = isChecked
                         checkChanges()
                     }
                 ))

@@ -112,6 +112,7 @@ import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.esp32.Esp32Rel
 import com.andrerinas.openheadunit.connection.wifi.LinkLossTeardownPolicy
 import com.andrerinas.openheadunit.connection.wifi.LinkLossTrigger
 import com.andrerinas.openheadunit.connection.wifi.modes.helper.HelperStrategy
+import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.BtHidMouseTrigger
 import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.ConnectByNameGate
 import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.NamedPhonePolicy
 import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.ExternalBtTransportPolicy
@@ -3490,6 +3491,7 @@ class AapService : Service() {
         com.andrerinas.openheadunit.connection.bluetooth.xyauto.XyAutoMediaSession.close(this)
         if (Build.VERSION.SDK_INT >= 26) WifiScanControl.end(this)
         ConnectionArbiter.actions = null
+        btHidMouseTrigger.stop()
         // The hold outlives this instance; the next one arms from its own onCreate.
         WirelessSleepHold.clear()
         sleepReplayJob?.cancel()
@@ -4305,6 +4307,9 @@ class AapService : Service() {
         AppLog.i("Reopen on reconnection: launching MainActivity ($source)")
         raiseMainActivity("USB reopen")
     }
+
+    /** The single HID wake owner. Native AA reaches it through the handshake manager. */
+    val btHidMouseTrigger by lazy { BtHidMouseTrigger(this) }
 
     private val lastBtRaiseAt = HashMap<String, Long>()
     private val btRaiseHandler by lazy { android.os.Handler(Looper.getMainLooper()) }

@@ -1416,6 +1416,9 @@
     <string name="native_poke_all_paired_label">Alle gekoppelde apparaten wekken</string>
     <string name="native_poke_all_paired_description">Als hierboven geen apparaat is gekozen, wordt kort verbinding gemaakt met elk gekoppeld apparaat om Android Auto te starten. Zet dit uit om niets te wekken tot je een apparaat kiest.</string>
     <string name="native_poke_all_paired_summary">Als er geen apparaat is gekozen, worden alle gekoppelde apparaten gewekt.</string>
+    <string name="bt_hid_wake_label">Telefoon wekken met een Bluetooth-toetsaanslag</string>
+    <string name="bt_hid_wake_summary">Stuurt een korte toetsaanslag naar een gekozen telefoon met een uitgeschakeld scherm.</string>
+    <string name="bt_hid_wake_description">Vereist Android 9 of hoger en een gekoppelde telefoon in de apparatenlijst hierboven. De unit verbindt als toetsenbord, stuurt één toetsaanslag en verbreekt de verbinding na 3 seconden, zodat het schermtoetsenbord van de telefoon blijft werken. Er wordt nooit gekoppeld. Gespreksaudio kan niet naar deze unit worden verplaatst.</string>
     <string name="auto_disconnect_bt_delay_label">Wachten vóór verbreken</string>
     <string name="auto_disconnect_bt_delay_help">Bepaalt hoe lang de app wacht nadat de Bluetooth van een bewaakt apparaat wegvalt, voordat de sessie stopt. Komt het apparaat in die tijd terug, dan gaat de sessie door. Stel een paar seconden in als de verbinding even wegvalt terwijl de profielen opnieuw verbinden. Bij 0 stopt de sessie meteen. De limiet is 3600 seconden.</string>
     <string name="auto_disconnect_bt_delay_value">%1$d s</string>

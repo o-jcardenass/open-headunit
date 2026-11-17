@@ -1418,6 +1418,9 @@
     <string name="native_poke_all_paired_label">ペアリング済み全デバイスを起動</string>
     <string name="native_poke_all_paired_description">上でデバイスを選択していない場合、ペア設定済みのすべてのデバイスに短時間接続して、Android Autoを開始します。オフにすると、デバイスを選択するまで何も起動しません。</string>
     <string name="native_poke_all_paired_summary">デバイスを選んでいない場合は、ペア設定済みのすべてのデバイスを起こします。</string>
+    <string name="bt_hid_wake_label">Bluetoothキーボード入力でスマートフォンを起こす</string>
+    <string name="bt_hid_wake_summary">画面がオフの選択したスマートフォンに、短いキー入力を送信します。</string>
+    <string name="bt_hid_wake_description">Android 9以降と、上のデバイスリストにあるペア設定済みのスマートフォンが必要です。本機はキーボードとして接続してキー入力を1回送信し、3秒後に切断します。そのため、スマートフォンの画面上のキーボードも引き続き使えます。ペア設定は行いません。通話音声を本機に切り替えることはできません。</string>
     <string name="auto_disconnect_bt_delay_label">切断前の待機時間</string>
     <string name="auto_disconnect_bt_delay_help">監視中のデバイスの Bluetooth が切れてから、アプリがセッションを終了するまでの待ち時間を設定します。この間にデバイスが戻れば、セッションは続きます。プロファイルの再接続中に接続が一瞬切れる場合は、数秒に設定してください。0 にするとすぐに終了します。上限は 3600 秒です。</string>
     <string name="auto_disconnect_bt_delay_value">%1$d 秒</string>

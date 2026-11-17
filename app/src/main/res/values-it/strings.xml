@@ -1418,6 +1418,9 @@
     <string name="native_poke_all_paired_label">Risveglia tutti i dispositivi associati</string>
     <string name="native_poke_all_paired_description">Se sopra non hai scelto nessun dispositivo, si connette brevemente a tutti i dispositivi associati per avviare Android Auto. Disattiva questa opzione per non risvegliare nulla finché non ne scegli uno.</string>
     <string name="native_poke_all_paired_summary">Se non è scelto alcun dispositivo, riattiva tutti i dispositivi associati.</string>
+    <string name="bt_hid_wake_label">Riattiva il telefono con un tasto Bluetooth</string>
+    <string name="bt_hid_wake_summary">Invia una breve pressione di un tasto a un telefono scelto con lo schermo spento.</string>
+    <string name="bt_hid_wake_description">Richiede Android 9 o versioni successive e un telefono associato nell\'elenco dei dispositivi qui sopra. L\'unità si connette come tastiera, invia la pressione di un tasto e si disconnette dopo 3 secondi, così la tastiera sullo schermo del telefono continua a funzionare. Non associa mai dispositivi. Non può spostare l\'audio delle chiamate su questa unità.</string>
     <string name="auto_disconnect_bt_delay_label">Attesa prima della disconnessione</string>
     <string name="auto_disconnect_bt_delay_help">Imposta quanto aspetta l\'app, dopo che il Bluetooth di un dispositivo controllato sparisce, prima di chiudere la sessione. Se il dispositivo torna in questo tempo, la sessione continua. Imposta qualche secondo se il collegamento cade per un attimo mentre i suoi profili si riconnettono. Con 0 la sessione termina subito. Il limite è 3600 secondi.</string>
     <string name="auto_disconnect_bt_delay_value">%1$d s</string>

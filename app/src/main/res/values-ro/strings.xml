@@ -1412,6 +1412,9 @@
     <string name="native_poke_all_paired_label">Trezește toate dispozitivele asociate</string>
     <string name="native_poke_all_paired_description">Dacă nu ai ales un dispozitiv mai sus, aplicația se conectează scurt la fiecare dispozitiv asociat pentru a porni Android Auto. Dezactivează opțiunea ca să nu fie trezit niciun dispozitiv până alegi unul.</string>
     <string name="native_poke_all_paired_summary">Dacă nu este ales niciun dispozitiv, trezește toate dispozitivele asociate.</string>
+    <string name="bt_hid_wake_label">Trezește telefonul cu o tastă Bluetooth</string>
+    <string name="bt_hid_wake_summary">Trimite o apăsare scurtă de tastă către un telefon ales, cu ecranul stins.</string>
+    <string name="bt_hid_wake_description">Necesită Android 9 sau mai nou și un telefon asociat în lista de dispozitive de mai sus. Unitatea se conectează ca tastatură, trimite o apăsare de tastă și se deconectează după 3 secunde, ca tastatura de pe ecranul telefonului să funcționeze în continuare. Nu asociază niciodată dispozitive. Nu poate muta sunetul apelurilor pe această unitate.</string>
     <string name="auto_disconnect_bt_delay_label">Așteaptă înainte de deconectare</string>
     <string name="auto_disconnect_bt_delay_help">Stabilește cât așteaptă aplicația, după ce Bluetooth-ul unui dispozitiv urmărit dispare, înainte să încheie sesiunea. Dacă dispozitivul revine în acest timp, sesiunea continuă. Setează câteva secunde dacă legătura cade scurt cât timp se reconectează profilurile. 0 încheie sesiunea imediat. Limita este de 3600 de secunde.</string>
     <string name="auto_disconnect_bt_delay_value">%1$d s</string>

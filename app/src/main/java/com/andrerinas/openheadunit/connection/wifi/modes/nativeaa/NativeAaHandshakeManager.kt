@@ -1505,6 +1505,8 @@ class NativeAaHandshakeManager(
      */
     private fun closeAaListeners() {
         aaListenersClosedForSession = true
+        // The phone's keyboard returns only once the HID link is gone.
+        context.btHidMouseTrigger.releaseAll()
         try { aaServerSocket?.close() } catch (e: Exception) {}
         hfpServerSocket?.let {
             AppLog.i("NativeAA: session is live, so the stand-in hands-free record is withdrawn until it ends.")
@@ -2183,6 +2185,27 @@ class NativeAaHandshakeManager(
         return false
     }
 
+    /** A HID nudge for [device] where [HidWakePolicy] allows it; it takes no hands-free slot. */
+    private fun wakeWithHid(device: BluetoothDevice, standDown: Boolean) {
+        if (!settings.btHidWakeTrigger) return
+        val address = device.address ?: return
+        val mayWake = HidWakePolicy.mayWake(
+            settingOn = true,
+            apiLevel = Build.VERSION.SDK_INT,
+            mode = launcher.mode,
+            bonded = bondReadingFor(device) == BluetoothWakePolicy.BondReading.BONDED,
+            inWakeList = settings.nativePokeBtMacs.any { it.equals(address, ignoreCase = true) },
+            sessionLive = commManager.isConnected || isHandshakeInFlight() || isHandoffSettling(),
+            standDown = standDown,
+            wakesInWindow = context.btHidMouseTrigger.wakesInWindow(address),
+        )
+        if (!mayWake) return
+        val adapter = BluetoothHelper.getBluetoothAdapter(context)?.takeIf { it.isEnabled } ?: return
+        if (context.btHidMouseTrigger.wake(adapter, device)) {
+            AppLog.i("NativeAA-HID: wake requested for ${device.name ?: "unnamed"} ($address)")
+        }
+    }
+
     /**
      * Tries each of [BluetoothWakePolicy.POKE_TARGETS] in turn, holding whichever connects for
      * [holdMs]. Both poke entry points come through here, so one check covers the retry loop and the
@@ -2297,6 +2320,8 @@ class NativeAaHandshakeManager(
                 "with a hands-free link up: $why.$cost")
         }
         handsFreeSkipLoggedFor = null
+
+        wakeWithHid(device, standDown = !decision.poke)
 
         // connect() against an unpaired device makes the OS solicit pairing as a side effect, and
         // the user meant "wake my phone", not "ask to pair with it again".
@@ -4558,6 +4583,7 @@ class NativeAaHandshakeManager(
         Esp32RelaySession.onGiveUp = null
         wppTcpServer?.stop()
         wppTcpServer = null
+        context.btHidMouseTrigger.stop()
         try { aaServerSocket?.close() } catch (e: Exception) {}
         try { hfpServerSocket?.close() } catch (e: Exception) {}
         synchronized(extraAaServerSockets) {

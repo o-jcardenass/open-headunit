@@ -1416,6 +1416,9 @@
     <string name="native_poke_all_paired_label">Ativar todos os dispositivos pareados</string>
     <string name="native_poke_all_paired_description">Sem nenhum dispositivo escolhido acima, conecta brevemente a todos os dispositivos pareados para iniciar o Android Auto. Desative para não ativar nenhum até você escolher um.</string>
     <string name="native_poke_all_paired_summary">Sem dispositivo escolhido, desperta todos os dispositivos pareados.</string>
+    <string name="bt_hid_wake_label">Acordar o smartphone com um toque de teclado Bluetooth</string>
+    <string name="bt_hid_wake_summary">Envia um breve pressionamento de tecla a um smartphone escolhido com a tela desligada.</string>
+    <string name="bt_hid_wake_description">Requer Android 9 ou mais recente e um smartphone pareado na lista de dispositivos acima. A unidade se conecta como teclado, envia um pressionamento de tecla e se desconecta após 3 segundos para que o teclado na tela do smartphone continue funcionando. Ela nunca faz pareamento. Não é possível transferir o áudio de chamadas para esta unidade.</string>
     <string name="auto_disconnect_bt_delay_label">Aguardar antes de desconectar</string>
     <string name="auto_disconnect_bt_delay_help">Define quanto tempo o app espera, depois que o Bluetooth de um dispositivo monitorado some, antes de encerrar a sessão. Se o dispositivo voltar nesse tempo, a sessão continua. Defina alguns segundos se a conexão cai por um instante enquanto os perfis se reconectam. Com 0, a sessão termina na hora. O limite é 3600 segundos.</string>
     <string name="auto_disconnect_bt_delay_value">%1$d s</string>

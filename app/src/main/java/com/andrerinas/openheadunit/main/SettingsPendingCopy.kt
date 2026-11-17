@@ -79,6 +79,7 @@ class SettingsPendingCopy {
     var nativePreferredDeviceMac: String? = null
     var nativePokeBtMacs: Set<String>? = null
     var nativePokeAllPaired: Boolean? = null
+    var btHidWakeTrigger: Boolean? = null
     var wifiDirectBand: Int? = null
     var wifiDirectStableIdentity: Boolean? = null
     var wifiDirectGroupIdentity: StoredP2pIdentity? = null
@@ -180,6 +181,7 @@ class SettingsPendingCopy {
         nativePreferredDeviceMac = settings.nativePreferredDeviceMac
         nativePokeBtMacs = settings.nativePokeBtMacs
         nativePokeAllPaired = settings.nativePokeAllPairedDevices
+        btHidWakeTrigger = settings.btHidWakeTrigger
         wifiDirectBand = settings.wifiDirectBand
         wifiDirectStableIdentity = settings.wifiDirectStableIdentity
         wifiDirectGroupIdentity = settings.wifiDirectGroupIdentity
@@ -282,6 +284,7 @@ class SettingsPendingCopy {
         nativePreferredDeviceMac != settings.nativePreferredDeviceMac ||
         nativePokeBtMacs != settings.nativePokeBtMacs ||
         nativePokeAllPaired != settings.nativePokeAllPairedDevices ||
+        btHidWakeTrigger != settings.btHidWakeTrigger ||
         wifiDirectBand != settings.wifiDirectBand ||
         wifiDirectStableIdentity != settings.wifiDirectStableIdentity ||
         wifiDirectGroupIdentity != settings.wifiDirectGroupIdentity ||

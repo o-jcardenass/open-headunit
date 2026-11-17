@@ -1415,6 +1415,9 @@
     <string name="native_poke_all_paired_label">Alle gekoppelten Geräte aufwecken</string>
     <string name="native_poke_all_paired_description">Wenn oben kein Gerät ausgewählt ist, kurz mit jedem gekoppelten Gerät verbinden, um Android Auto zu starten. Deaktiviere dies, um kein Gerät aufzuwecken, bis du eines auswählst.</string>
     <string name="native_poke_all_paired_summary">Ohne gewähltes Gerät alle gekoppelten Geräte aufwecken.</string>
+    <string name="bt_hid_wake_label">Smartphone per Bluetooth-Tastendruck aufwecken</string>
+    <string name="bt_hid_wake_summary">Sendet einen kurzen Tastendruck an ein gewähltes Smartphone mit ausgeschaltetem Display.</string>
+    <string name="bt_hid_wake_description">Erfordert Android 9 oder neuer und ein gekoppeltes Smartphone in der Geräteliste oben. Das Gerät verbindet sich als Tastatur, sendet einen Tastendruck und trennt die Verbindung nach 3 Sekunden, damit die Bildschirmtastatur des Smartphones weiter funktioniert. Es koppelt nie. Gesprächsaudio kann nicht auf dieses Gerät übertragen werden.</string>
     <string name="auto_disconnect_bt_delay_label">Wartezeit vor dem Trennen</string>
     <string name="auto_disconnect_bt_delay_help">Legt fest, wie lange die App wartet, nachdem das Bluetooth eines überwachten Geräts verschwindet, bevor sie die Sitzung beendet. Kommt das Gerät in dieser Zeit zurück, läuft die Sitzung weiter. Stelle ein paar Sekunden ein, wenn die Verbindung kurz abbricht, während sich die Profile neu verbinden. Bei 0 endet die Sitzung sofort. Das Maximum sind 3600 Sekunden.</string>
     <string name="auto_disconnect_bt_delay_value">%1$d s</string>

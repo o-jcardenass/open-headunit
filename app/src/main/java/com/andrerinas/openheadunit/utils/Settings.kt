@@ -1756,6 +1756,11 @@ class Settings(private val context: Context) {
         get() = prefs.getBoolean("native-poke-all-paired", true)
         set(value) { prefs.edit().putBoolean("native-poke-all-paired", value).apply() }
 
+    /** Native AA: wake a wake-list phone with a short Bluetooth HID nudge (API 28+). Off by default. */
+    var btHidWakeTrigger: Boolean
+        get() = prefs.getBoolean("bt-hid-wake-trigger", false)
+        set(value) { prefs.edit().putBoolean("bt-hid-wake-trigger", value).apply() }
+
     /**
      * Devices whose Bluetooth link going away ends a session. Deliberately not the auto-start list,
      * which doubles as the wake-poke targets. Read after unlock only, so no device-protected mirror.

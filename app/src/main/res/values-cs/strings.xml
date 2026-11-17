@@ -1416,6 +1416,9 @@
     <string name="native_poke_all_paired_label">Probudit všechna spárovaná zařízení</string>
     <string name="native_poke_all_paired_description">Není-li výše vybráno žádné zařízení, krátce se připojí ke každému spárovanému zařízení a spustí Android Auto. Po vypnutí se neprobudí nic, dokud nějaké zařízení nevyberete.</string>
     <string name="native_poke_all_paired_summary">Když není vybráno žádné zařízení, probudí všechna spárovaná zařízení.</string>
+    <string name="bt_hid_wake_label">Probudit telefon klávesou Bluetooth</string>
+    <string name="bt_hid_wake_summary">Odeslat krátký stisk klávesy do vybraného telefonu s vypnutou obrazovkou.</string>
+    <string name="bt_hid_wake_description">Vyžaduje Android 9 nebo novější a spárovaný telefon v seznamu zařízení výše. Jednotka se připojí jako klávesnice, odešle jeden stisk klávesy a po 3 sekundách se odpojí, aby fungovala i klávesnice na displeji telefonu. Nikdy nepáruje. Nemůže přesměrovat zvuk hovoru do této jednotky.</string>
     <string name="auto_disconnect_bt_delay_label">Čekání před odpojením</string>
     <string name="auto_disconnect_bt_delay_help">Určuje, jak dlouho aplikace po zmizení Bluetooth sledovaného zařízení čeká, než ukončí relaci. Pokud se zařízení v této době vrátí, relace pokračuje. Nastavte několik sekund, pokud spojení na chvíli vypadne, zatímco se znovu připojují jeho profily. Při 0 relace skončí hned. Limit je 3600 sekund.</string>
     <string name="auto_disconnect_bt_delay_value">%1$d s</string>

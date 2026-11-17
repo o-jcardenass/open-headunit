@@ -1416,6 +1416,9 @@
     <string name="native_poke_all_paired_label">إيقاظ جميع الأجهزة المقترنة</string>
     <string name="native_poke_all_paired_description">في حال عدم تحديد جهاز أعلاه، يتصل لفترة وجيزة بكل جهاز مقترن لبدء Android Auto. أوقف هذا الخيار كي لا يُوقَظ أي جهاز حتى تختار جهازًا.</string>
     <string name="native_poke_all_paired_summary">عند عدم اختيار جهاز، يوقظ كل الأجهزة المقترنة.</string>
+    <string name="bt_hid_wake_label">إيقاظ الهاتف بنقرة لوحة مفاتيح Bluetooth</string>
+    <string name="bt_hid_wake_summary">إرسال ضغطة مفتاح قصيرة إلى هاتف محدد شاشته مطفأة.</string>
+    <string name="bt_hid_wake_description">يتطلب Android 9 أو أحدث وهاتفًا مقترنًا في قائمة الأجهزة أعلاه. تتصل الوحدة كلوحة مفاتيح، وترسل ضغطة مفتاح واحدة، ثم تقطع الاتصال بعد 3 ثوانٍ حتى تظل لوحة المفاتيح على شاشة الهاتف تعمل. ولا تقوم بالاقتران أبدًا. ولا يمكنها نقل صوت المكالمة إلى هذه الوحدة.</string>
     <string name="auto_disconnect_bt_delay_label">الانتظار قبل قطع الاتصال</string>
     <string name="auto_disconnect_bt_delay_help">يحدد المدة التي ينتظرها التطبيق بعد اختفاء Bluetooth لجهاز مراقَب قبل إنهاء الجلسة. إذا عاد الجهاز خلال هذه المدة، تستمر الجلسة. اضبط بضع ثوانٍ إذا انقطع الاتصال لحظة أثناء إعادة اتصال ملفات التعريف. القيمة 0 تنهي الجلسة فورًا. الحد الأقصى 3600 ثانية.</string>
     <string name="auto_disconnect_bt_delay_value">%1$d ث</string>

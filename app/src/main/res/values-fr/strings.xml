@@ -1468,6 +1468,9 @@
     <string name="native_poke_all_paired_label">Réveiller tous les appareils associés</string>
     <string name="native_poke_all_paired_description">Si aucun appareil n\'est choisi ci-dessus, l\'application se connecte brièvement à chaque appareil associé pour lancer Android Auto. Désactivez cette option pour ne réveiller aucun appareil tant que vous n\'en avez pas choisi un.</string>
     <string name="native_poke_all_paired_summary">Si aucun appareil n\'est choisi, réveille tous les appareils associés.</string>
+    <string name="bt_hid_wake_label">Réveiller le téléphone par une touche Bluetooth</string>
+    <string name="bt_hid_wake_summary">Envoie un bref appui sur une touche à un téléphone choisi dont l\'écran est éteint.</string>
+    <string name="bt_hid_wake_description">Nécessite Android 9 ou version ultérieure et un téléphone associé dans la liste des appareils ci-dessus. L\'unité se connecte comme un clavier, envoie un appui sur une touche, puis se déconnecte après 3 secondes afin que le clavier à l\'écran du téléphone continue de fonctionner. Elle n\'associe jamais d\'appareil. Elle ne peut pas transférer l\'audio des appels vers cette unité.</string>
     <string name="auto_disconnect_bt_delay_label">Délai avant déconnexion</string>
     <string name="auto_disconnect_bt_delay_help">Définit combien de temps l\'application attend, après la disparition du Bluetooth d\'un appareil surveillé, avant de terminer la session. Si l\'appareil revient dans ce délai, la session continue. Réglez quelques secondes si la liaison coupe un instant pendant que ses profils se reconnectent. 0 termine la session aussitôt. La limite est de 3600 secondes.</string>
     <string name="auto_disconnect_bt_delay_value">%1$d s</string>
