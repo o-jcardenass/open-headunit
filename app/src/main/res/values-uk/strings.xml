@@ -815,7 +815,7 @@
     <string name="settings_rail_collapse">Сховати назви розділів</string>
     <string name="settings_rail_expand">Показати назви розділів</string>
     <string name="export_settings">Експортувати налаштування</string>
-    <string name="export_settings_description">Зберегти резервну копію налаштувань як файл JSON.</string>
+    <string name="export_settings_description">Зберігає резервну копію налаштувань у файлі JSON. У ній є збережені місця й адреса Bluetooth телефона.</string>
     <string name="export_settings_app_folder">Зберегти у папку резервних копій застосунку</string>
     <string name="onb_restore_settings">Відновити налаштування з резервної копії</string>
     <string name="export_settings_downloads">Зберегти у Завантаження</string>

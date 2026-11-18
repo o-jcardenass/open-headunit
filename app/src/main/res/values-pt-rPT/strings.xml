@@ -968,7 +968,7 @@
     <string name="settings_rail_collapse">Ocultar os nomes das secções</string>
     <string name="settings_rail_expand">Mostrar os nomes das secções</string>
     <string name="export_settings">Exportar definições</string>
-    <string name="export_settings_description">Guardar cópia de segurança das definições em formato JSON.</string>
+    <string name="export_settings_description">Guarda uma cópia de segurança das definições num ficheiro JSON. Inclui os seus locais guardados e o endereço Bluetooth do telemóvel.</string>
     <string name="export_settings_choose_location">Escolher local para guardar</string>
     <string name="export_settings_downloads">Guardar em Transferências</string>
     <string name="export_settings_app_folder">Guardar na pasta de cópias da aplicação</string>

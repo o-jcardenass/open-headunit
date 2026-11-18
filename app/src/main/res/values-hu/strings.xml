@@ -807,7 +807,7 @@
     <string name="settings_rail_collapse">Szakasznevek elrejtése</string>
     <string name="settings_rail_expand">Szakasznevek megjelenítése</string>
     <string name="export_settings">Beállítások exportálása</string>
-    <string name="export_settings_description">Beállítások biztonsági mentése JSON-fájlként.</string>
+    <string name="export_settings_description">A beállítások biztonsági mentését JSON-fájlba menti. Tartalmazza a mentett helyeket és a telefon Bluetooth-címét.</string>
     <string name="export_settings_app_folder">Mentés az alkalmazás mentési mappájába</string>
     <string name="onb_restore_settings">Beállítások visszaállítása biztonsági mentésből</string>
     <string name="export_settings_downloads">Mentés a Letöltésekbe</string>

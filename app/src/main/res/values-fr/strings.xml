@@ -802,7 +802,7 @@
     <string name="settings_rail_collapse">Masquer le nom des sections</string>
     <string name="settings_rail_expand">Afficher le nom des sections</string>
     <string name="export_settings">Exporter les paramètres</string>
-    <string name="export_settings_description">Enregistrer une copie de vos paramètres dans un fichier JSON.</string>
+    <string name="export_settings_description">Enregistre une sauvegarde des réglages dans un fichier JSON. Elle contient vos lieux enregistrés et l\'adresse Bluetooth du téléphone.</string>
     <string name="export_settings_choose_location">Choisir où enregistrer</string>
     <string name="export_settings_downloads">Enregistrer dans Téléchargements</string>
     <string name="export_settings_app_folder">Enregistrer dans le dossier de sauvegarde de l\'appli</string>

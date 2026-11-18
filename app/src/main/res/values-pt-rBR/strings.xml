@@ -815,7 +815,7 @@
     <string name="settings_rail_collapse">Ocultar os nomes das seções</string>
     <string name="settings_rail_expand">Mostrar os nomes das seções</string>
     <string name="export_settings">Exportar configurações</string>
-    <string name="export_settings_description">Salvar um backup das configurações como arquivo JSON.</string>
+    <string name="export_settings_description">Salva um backup das configurações em um arquivo JSON. Ele contém seus lugares salvos e o endereço Bluetooth do celular.</string>
     <string name="export_settings_app_folder">Salvar na pasta de backup do app</string>
     <string name="onb_restore_settings">Restaurar configurações de um backup</string>
     <string name="export_settings_downloads">Salvar em Downloads</string>

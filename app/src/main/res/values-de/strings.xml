@@ -862,7 +862,7 @@
     <string name="settings_rail_collapse">Abschnittsnamen ausblenden</string>
     <string name="settings_rail_expand">Abschnittsnamen einblenden</string>
     <string name="export_settings">Einstellungen exportieren</string>
-    <string name="export_settings_description">Speichere eine Sicherung der Einstellungen als JSON-Datei.</string>
+    <string name="export_settings_description">Speichert eine Einstellungssicherung als JSON-Datei. Die Sicherung enthält deine gespeicherten Orte und die Bluetooth-Adresse des Smartphones.</string>
     <string name="export_settings_app_folder">In App-Sicherungsordner speichern</string>
     <string name="onb_restore_settings">Einstellungen aus Sicherung wiederherstellen</string>
     <string name="export_settings_downloads">In Downloads speichern</string>

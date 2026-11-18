@@ -814,7 +814,7 @@
     <string name="settings_rail_collapse">Sectienamen verbergen</string>
     <string name="settings_rail_expand">Sectienamen tonen</string>
     <string name="export_settings">Instellingen exporteren</string>
-    <string name="export_settings_description">Sla een back-up van je instellingen op als JSON-bestand.</string>
+    <string name="export_settings_description">Slaat een back-up van de instellingen op als JSON-bestand. Die bevat je opgeslagen plaatsen en het Bluetooth-adres van de telefoon.</string>
     <string name="export_settings_app_folder">Opslaan in back-upmap van app</string>
     <string name="onb_restore_settings">Instellingen herstellen vanuit een back-up</string>
     <string name="export_settings_downloads">Opslaan in Downloads</string>

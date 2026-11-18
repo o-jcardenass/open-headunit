@@ -818,7 +818,7 @@
     <string name="settings_rail_collapse">Ocultar los nombres de las secciones</string>
     <string name="settings_rail_expand">Mostrar los nombres de las secciones</string>
     <string name="export_settings">Exportar ajustes</string>
-    <string name="export_settings_description">Guardar una copia de seguridad como archivo JSON.</string>
+    <string name="export_settings_description">Guarda una copia de seguridad de los ajustes como archivo JSON. Incluye tus lugares guardados y la dirección Bluetooth del móvil.</string>
     <string name="export_settings_choose_location">Elegir ubicación para guardar</string>
     <string name="export_settings_downloads">Guardar en Descargas</string>
     <string name="export_settings_app_folder">Guardar en la carpeta de copias de la app</string>

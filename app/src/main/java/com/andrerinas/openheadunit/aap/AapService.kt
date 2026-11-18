@@ -60,6 +60,7 @@ import com.andrerinas.openheadunit.connection.wifi.WirelessBringUpDeferralPolicy
 import com.andrerinas.openheadunit.connection.wifi.WirelessSleepHold
 import com.andrerinas.openheadunit.connection.wifi.UserExitHotspotPolicy
 import com.andrerinas.openheadunit.main.MainActivity
+import com.andrerinas.openheadunit.main.WirelessGrantRearmPolicy
 import com.andrerinas.openheadunit.R
 import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.NotRunningNoticePolicy
 import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.zbt.ZbtDaemonReachability
@@ -3620,7 +3621,8 @@ class AapService : Service() {
         }
     }
 
-    private fun startWirelessForSettings() {
+    /** @param force rebuild a launcher that started without a grant; never under a live session. */
+    private fun startWirelessForSettings(force: Boolean = false) {
         releaseParkedHct()
         // Asked for from the UI, so the user is present: release the boot-loop pause
         // rather than silently ignoring them.
@@ -3632,7 +3634,9 @@ class AapService : Service() {
             AppLog.i("AapService: a wireless setting was saved while the settings screen " +
                 "is open; re-arming when it closes.")
         } else {
-            wifiLauncherManager.setActiveFromSettings()
+            val sessionLive = commManager.isConnected ||
+                commManager.connectionState.value is CommManager.ConnectionState.Connecting
+            wifiLauncherManager.setActiveFromSettings(force = WirelessGrantRearmPolicy.forces(force, sessionLive))
         }
     }
 
@@ -4519,13 +4523,13 @@ class AapService : Service() {
 
         /** Apply the wireless part of Save before its caller starts audio retirement/reconnect. */
         @androidx.annotation.MainThread
-        internal fun applyWirelessSettings(context: Context, startWireless: Boolean) {
+        internal fun applyWirelessSettings(context: Context, startWireless: Boolean, forceRearm: Boolean = false) {
             val service = instance
             if (service != null) {
                 // A queued service Intent can arrive after legacy Self has reopened its listener.
                 // Both settings UI and service lifecycle run on Main, so finish this stop/rearm
                 // inline before applyAudioSettings is allowed to launch the replacement session.
-                if (startWireless) service.startWirelessForSettings()
+                if (startWireless) service.startWirelessForSettings(forceRearm)
                 else service.stopWirelessForCommand(fromSettings = true)
             } else {
                 context.startService(Intent(context, AapService::class.java).apply {

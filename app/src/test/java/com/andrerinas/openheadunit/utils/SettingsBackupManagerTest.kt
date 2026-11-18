@@ -219,4 +219,39 @@ class SettingsBackupManagerTest {
         assertFalse(SettingsBackupManager.requiresProjectionRestart(setOf("show-home-clock")))
         assertEquals(1, JSONObject(json).getJSONObject("settings").length())
     }
+
+    @Test fun `an absent key restored at its default is not a change, another value is`() {
+        val existing = mapOf<String, Any>("fps-limit" to 30)
+        val imported = mapOf<String, Any>("video-codec" to "Auto", "enable-audio-sink" to false, "fps-limit" to 30)
+        val changed = SettingsBackupManager.changedKeys(existing, imported, SettingsBackupManager.restartDefaults)
+        assertEquals(setOf("enable-audio-sink"), changed)
+    }
+
+    @Test fun `a present key compares as before and a key with no default counts as changed`() {
+        val existing = mapOf<String, Any>("fps-limit" to 60)
+        val imported = mapOf<String, Any>("fps-limit" to 30, "theme" to 1)
+        val changed = SettingsBackupManager.changedKeys(existing, imported, SettingsBackupManager.restartDefaults)
+        assertEquals(setOf("fps-limit", "theme"), changed)
+        assertEquals(emptySet<String>(), SettingsBackupManager.changedKeys(existing, mapOf("fps-limit" to 60), SettingsBackupManager.restartDefaults))
+    }
+
+    @Test fun `restartDefaults covers exactly the projection restart keys`() {
+        assertEquals(SettingsBackupManager.projectionRestartKeys, SettingsBackupManager.restartDefaults.keys)
+    }
+
+    @Test fun `an absent fit mode reads the legacy stretch key, so fill over a contain unit is a change`() {
+        val existing = mapOf<String, Any>("stretch_to_fill" to false)
+        val defaults = SettingsBackupManager.restartDefaultsFor(existing)
+        assertEquals(Settings.VideoFitMode.CONTAIN.value, defaults["video-fit-mode"])
+        assertEquals(setOf("video-fit-mode"),
+            SettingsBackupManager.changedKeys(existing, mapOf("video-fit-mode" to Settings.VideoFitMode.FILL.value), defaults))
+        assertEquals(Settings.VideoFitMode.FILL.value, SettingsBackupManager.restartDefaultsFor(emptyMap<String, Any>())["video-fit-mode"])
+    }
+
+    @Test fun `an absent wireless mode reads the legacy keys the getter migrates`() {
+        assertEquals(2, SettingsBackupManager.restartDefaultsFor(mapOf("wifi-launcher-mode" to true))["wifi-connection-mode"])
+        assertEquals(1, SettingsBackupManager.restartDefaultsFor(mapOf("wifi-launcher-mode" to false))["wifi-connection-mode"])
+        assertEquals(3, SettingsBackupManager.restartDefaultsFor(mapOf("native-aa-wireless" to true))["wifi-connection-mode"])
+        assertEquals(3, SettingsBackupManager.restartDefaultsFor(emptyMap<String, Any>())["wifi-connection-mode"])
+    }
 }
