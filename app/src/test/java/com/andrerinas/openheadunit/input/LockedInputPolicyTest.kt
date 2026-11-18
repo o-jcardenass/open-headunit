@@ -78,4 +78,67 @@ class LockedInputPolicyTest {
             assertTrue("$it", LockedInputPolicy.allowsBoundAction(engaged = true, action = InputAction.Local(it)))
         }
     }
+
+    @Test
+    fun `volume keys pass while engaged and other keys still drop`() {
+        assertTrue(LockedInputPolicy.allows(engaged = true, keycode = KeyEvent.KEYCODE_VOLUME_UP))
+        assertTrue(LockedInputPolicy.allows(engaged = true, keycode = KeyEvent.KEYCODE_VOLUME_DOWN))
+        assertFalse(LockedInputPolicy.allows(engaged = true, keycode = KeyEvent.KEYCODE_VOLUME_MUTE))
+        assertFalse(LockedInputPolicy.allows(engaged = true, keycode = null))
+    }
+
+    @Test
+    fun `the option is supported from API 26`() {
+        assertFalse(LockedInputPolicy.supported(25))
+        assertTrue(LockedInputPolicy.supported(26))
+    }
+
+    @Test
+    fun `a new owner adopts a hold the old screen set, and the old release keeps it`() {
+        val old = Any()
+        val new = Any()
+        try {
+            assertTrue(LockedInputPolicy.update(old, true, claim = true))
+            assertFalse(LockedInputPolicy.update(new, true, claim = true))
+            assertFalse(LockedInputPolicy.release(old))
+            assertTrue(LockedInputPolicy.engaged)
+            assertTrue(LockedInputPolicy.release(new))
+            assertFalse(LockedInputPolicy.engaged)
+        } finally {
+            LockedInputPolicy.release(new)
+        }
+    }
+
+    @Test
+    fun `a replaced screen's late screen-off cannot take the hold back and clear it`() {
+        val old = Any()
+        val new = Any()
+        try {
+            LockedInputPolicy.update(old, false, claim = true)
+            assertFalse(LockedInputPolicy.update(new, false, claim = true))
+            assertFalse(LockedInputPolicy.update(old, true))
+            assertFalse(LockedInputPolicy.engaged)
+            assertTrue(LockedInputPolicy.update(new, true))
+            assertFalse(LockedInputPolicy.update(old, false))
+            assertFalse(LockedInputPolicy.release(old))
+            assertTrue(LockedInputPolicy.engaged)
+        } finally {
+            LockedInputPolicy.release(new)
+        }
+    }
+
+    @Test
+    fun `the sole owner's release clears the hold, a second release changes nothing`() {
+        val a = Any()
+        assertTrue(LockedInputPolicy.update(a, true, claim = true))
+        assertTrue(LockedInputPolicy.release(a))
+        assertFalse(LockedInputPolicy.engaged)
+        assertFalse(LockedInputPolicy.release(a))
+    }
+
+    @Test
+    fun `the map key goes out with a running transport and is owed without one`() {
+        assertEquals(LockedInputPolicy.MapKey.SEND, LockedInputPolicy.mapKey(transportStarted = true))
+        assertEquals(LockedInputPolicy.MapKey.OWE, LockedInputPolicy.mapKey(transportStarted = false))
+    }
 }

@@ -115,6 +115,8 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
     private var exitDialog: androidx.appcompat.app.AlertDialog? = null
     private var lastLockedHintMs = 0L
     private var isLockStateReceiverRegistered = false
+    // The hold went on before the transport ran, so the map key is sent when it starts.
+    private var mapKeyOwed = false
     private val lockStateReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.action) {
@@ -1169,6 +1171,13 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         // complete in the background without creating a new Surface.
         lifecycleScope.launch {
             commManager.connectionState.collect { state ->
+                if (state is CommManager.ConnectionState.TransportStarted && mapKeyOwed) {
+                    mapKeyOwed = false
+                    if (LockedInputPolicy.engaged) {
+                        AppLog.i("AapProjectionActivity: sending the map key now that the session is up")
+                        sendMapKey()
+                    }
+                }
                 if (state is CommManager.ConnectionState.Disconnected ||
                     state is CommManager.ConnectionState.Connecting ||
                     state is CommManager.ConnectionState.HandshakeComplete) {
@@ -1291,7 +1300,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             addAction(Intent.ACTION_USER_PRESENT)
         }, ContextCompat.RECEIVER_NOT_EXPORTED)
         isLockStateReceiverRegistered = true
-        refreshLockedInput("create")
+        refreshLockedInput("create", claim = true)
 
         AppLog.i("HeadUnit for Android Auto (tm) - Copyright 2011-2015 Michael A. Reid., since 2025 André Rinas All Rights Reserved...")
 
@@ -1474,12 +1483,14 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         userLeftDeliberately = false
         // Again here: the setting may have changed in the settings screen.
         applyShowOverLockScreen()
-        refreshLockedInput("resume")
+        refreshLockedInput("resume", claim = true)
         closeCallRaiseEpisode("the projection is back in front")
         AppLog.i("AapProjectionActivity: onResume")
         // Show the one-time rename notice even here, on top of an active projection.
-        RenameNotice.maybeShow(this, App.provide(this).settings)
-        Aa174Notice.maybeShow(this, App.provide(this).settings)
+        if (!LockedInputPolicy.engaged) {
+            RenameNotice.maybeShow(this, App.provide(this).settings)
+            Aa174Notice.maybeShow(this, App.provide(this).settings)
+        }
         // The whole rule, not only the session hold: an orientation changed in Settings while this
         // was paused arrived while its receiver was unregistered.
         applyOrientationSettings()
@@ -1538,7 +1549,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             launchIntent?.getBooleanExtra(EXTRA_TURN_SCREEN_ON, false) == true) {
             setTurnScreenOn(true)
             // Shown over the lock screen, the map needs no unlock; Back asks for it when wanted.
-            if (!settings.showOverLockScreen) {
+            if (!lockHoldEnabled()) {
                 ScreenPower.requestDismissKeyguard(this, "AapProjectionActivity")
             }
         }
@@ -1546,7 +1557,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
 
     /** Lets the window cover the keyguard when "Show over lock screen" is on. */
     private fun applyShowOverLockScreen() {
-        val on = settings.showOverLockScreen
+        val on = lockHoldEnabled()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             setShowWhenLocked(on)
         } else {
@@ -1569,14 +1580,16 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
      * Turns the input hold on or off from the current lock state. Turning it on closes this
      * screen's dialogs and brings Android Auto's map to the front.
      */
-    private fun refreshLockedInput(reason: String, screenOff: Boolean = false) {
-        val enabled = settings.showOverLockScreen
+    private fun refreshLockedInput(reason: String, screenOff: Boolean = false, claim: Boolean = false) {
+        val enabled = lockHoldEnabled()
         val deviceLocked = if (LockedInputPolicy.needsLockState(enabled, screenOff)) isDeviceLockedNow() else null
         val engage = LockedInputPolicy.shouldEngage(enabled, deviceLocked, screenOff)
-        if (engage == LockedInputPolicy.engaged) return
-        LockedInputPolicy.engaged = engage
+        // Releases go first: once the hold is on, the transport drops anything that follows.
+        if (engage && !LockedInputPolicy.engaged) releaseTouchAndKeys()
+        if (!LockedInputPolicy.update(this, engage, claim)) return
         AppLog.i("AapProjectionActivity: locked-unit input hold ${if (engage) "on" else "off"} ($reason)")
         if (!engage) {
+            mapKeyOwed = false
             syncLockedView()
             return
         }
@@ -1584,11 +1597,34 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         exitDialog = null
         (supportFragmentManager.findFragmentByTag("quick_settings") as? androidx.fragment.app.DialogFragment)
             ?.dismissAllowingStateLoss()
+        RenameNotice.dismiss()
+        Aa174Notice.dismiss()
         clearTwoFingerTracking()
         // Straight to the transport, past the keymap: this is Android Auto's own map key.
+        val started = commManager.connectionState.value is CommManager.ConnectionState.TransportStarted
+        when (LockedInputPolicy.mapKey(started)) {
+            LockedInputPolicy.MapKey.SEND -> sendMapKey()
+            LockedInputPolicy.MapKey.OWE -> mapKeyOwed = true
+        }
+        syncLockedView()
+    }
+
+    /** The setting as the lock hold reads it: off where Back cannot ask for the unlock. */
+    private fun lockHoldEnabled(): Boolean =
+        settings.showOverLockScreen && LockedInputPolicy.supported(Build.VERSION.SDK_INT)
+
+    private fun releaseTouchAndKeys() {
+        val ups = remoteTouch.releaseAll()
+        if (ups.isNotEmpty()) {
+            AppLog.i("AapProjectionActivity: releasing ${ups.first().pointers.size} touch pointer(s) before the input hold")
+            remoteGeometry()?.let { sendRemote(ups, it, SystemClock.elapsedRealtime()) }
+        }
+        commManager.releaseHeldKeys()
+    }
+
+    private fun sendMapKey() {
         commManager.send(LockedInputPolicy.KEYCODE_AA_NAVIGATION, true)
         commManager.send(LockedInputPolicy.KEYCODE_AA_NAVIGATION, false)
-        syncLockedView()
     }
 
     /**
@@ -2888,15 +2924,18 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             return super.dispatchKeyEvent(event)
         }
 
-        // Locked: Back goes on to the back callback (which asks to unlock), volume stays local,
-        // everything else is dropped here. The transport would drop it too.
+        // A lock with no broadcast is caught on the next press, as a touch does.
+        if (action == KeyEvent.ACTION_DOWN) refreshLockedInput("key")
+
+        // Locked: Back goes on to the back callback (which asks to unlock), mute stays local,
+        // volume takes the normal routing below, everything else is dropped here.
         if (LockedInputPolicy.engaged) {
-            return when (event.keyCode) {
+            when (event.keyCode) {
                 KeyEvent.KEYCODE_BACK,
+                KeyEvent.KEYCODE_VOLUME_MUTE -> return super.dispatchKeyEvent(event)
                 KeyEvent.KEYCODE_VOLUME_UP,
-                KeyEvent.KEYCODE_VOLUME_DOWN,
-                KeyEvent.KEYCODE_VOLUME_MUTE -> super.dispatchKeyEvent(event)
-                else -> true
+                KeyEvent.KEYCODE_VOLUME_DOWN -> Unit
+                else -> return true
             }
         }
 
@@ -2938,6 +2977,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
 
     private fun onKeyEvent(keyCode: Int, isPress: Boolean) {
         // Broadcasts (e.g. from CarKeyReceiver) still use this path.
+        if (isPress) refreshLockedInput("key broadcast")
         if (LockedInputPolicy.engaged) {
             AppLog.i("AapProjectionActivity: key broadcast $keyCode ignored, the unit is locked")
             return
@@ -2992,8 +3032,9 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             unregisterReceiver(keyEventReceiver)
             isKeyEventReceiverRegistered = false
         }
-        // The input hold keeps its last state on purpose: a unit that was locked stays held
-        // until the next projection screen reads the lock state again.
+        if (LockedInputPolicy.release(this)) {
+            AppLog.i("AapProjectionActivity: locked-unit input hold off (projection closed)")
+        }
         if (isLockStateReceiverRegistered) {
             unregisterReceiver(lockStateReceiver)
             isLockStateReceiverRegistered = false

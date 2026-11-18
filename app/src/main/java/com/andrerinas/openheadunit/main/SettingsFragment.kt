@@ -2226,33 +2226,36 @@ class SettingsFragment : Fragment() {
         }
 
         // Map and directions over a locked unit; nothing a person at the unit does reaches the phone.
-        items.add(SettingItem.ToggleSettingEntry(
-            stableId = "showOverLockScreen",
-            nameResId = R.string.show_over_lock_screen,
-            descriptionResId = R.string.show_over_lock_screen_summary,
-            helpResId = R.string.show_over_lock_screen_help,
-            isChecked = pendingShowOverLockScreen ?: settings.showOverLockScreen,
-            onCheckedChanged = { isChecked ->
-                pendingShowOverLockScreen = isChecked
-                checkChanges()
-                updateSettingsList()
-            }
-        ))
-
-        // The night overlay in place of the picture: no map, no saved places, no pop-ups.
-        if (pendingShowOverLockScreen ?: settings.showOverLockScreen) {
+        // Both rows hidden below Android 8: Back cannot ask for the unlock there.
+        if (com.andrerinas.openheadunit.input.LockedInputPolicy.supported(android.os.Build.VERSION.SDK_INT)) {
             items.add(SettingItem.ToggleSettingEntry(
-                stableId = "nightOverlayWhileLocked",
-                nameResId = R.string.night_overlay_while_locked,
-                descriptionResId = R.string.night_overlay_while_locked_summary,
-                helpResId = R.string.night_overlay_while_locked_help,
-                isChecked = pendingNightOverlayWhileLocked ?: settings.nightOverlayWhileLocked,
+                stableId = "showOverLockScreen",
+                nameResId = R.string.show_over_lock_screen,
+                descriptionResId = R.string.show_over_lock_screen_summary,
+                helpResId = R.string.show_over_lock_screen_help,
+                isChecked = pendingShowOverLockScreen ?: settings.showOverLockScreen,
                 onCheckedChanged = { isChecked ->
-                    pendingNightOverlayWhileLocked = isChecked
+                    pendingShowOverLockScreen = isChecked
                     checkChanges()
                     updateSettingsList()
                 }
             ))
+
+            // The night overlay in place of the picture: no map, no saved places, no pop-ups.
+            if (pendingShowOverLockScreen ?: settings.showOverLockScreen) {
+                items.add(SettingItem.ToggleSettingEntry(
+                    stableId = "nightOverlayWhileLocked",
+                    nameResId = R.string.night_overlay_while_locked,
+                    descriptionResId = R.string.night_overlay_while_locked_summary,
+                    helpResId = R.string.night_overlay_while_locked_help,
+                    isChecked = pendingNightOverlayWhileLocked ?: settings.nightOverlayWhileLocked,
+                    onCheckedChanged = { isChecked ->
+                        pendingNightOverlayWhileLocked = isChecked
+                        checkChanges()
+                        updateSettingsList()
+                    }
+                ))
+            }
         }
 
         if (!isCarLauncherActive) {

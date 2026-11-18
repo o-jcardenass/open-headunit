@@ -62,6 +62,18 @@ class RemoteTouchPolicy {
         return forwardWithheld()
     }
 
+    /** The phone gets an UP for each finger it saw down; withheld fingers it never saw send nothing. */
+    fun releaseAll(): List<Send> {
+        val sends = ArrayList<Send>()
+        while (held.isNotEmpty()) {
+            val first = held.values.first()
+            sends += if (held.size > 1) Send(Action.POINTER_UP, 0, snapshot()) else Send(Action.UP, 0, listOf(first))
+            held.remove(first.id)
+        }
+        reset()
+        return sends
+    }
+
     /** A recognised gesture: the phone sees nothing of this touch, now or until every finger is up. */
     fun recognise() {
         reset()
