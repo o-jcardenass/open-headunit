@@ -1421,6 +1421,17 @@ class CommManager(
         _transport?.send(logicalCode, isPress)
     }
 
+    /** Sends the release of every key still held, before the lock hold drops the releases that would follow. */
+    fun releaseHeldKeys() {
+        val held = KeyDebouncePolicy.heldKeys(keyStates)
+        if (held.isEmpty()) return
+        AppLog.i("CommManager: releasing ${held.size} held key(s) before the input hold")
+        for (code in held) {
+            _transport?.send(code, false)
+            keyStates[code]?.let { keyStates[code] = KeyDebouncePolicy.released(it) }
+        }
+    }
+
     private fun runBoundAction(action: InputAction, keyCode: Int) {
         if (!LockedInputPolicy.allowsBoundAction(LockedInputPolicy.engaged, action)) {
             AppLog.i("CommManager: Key $keyCode bound action ${InputActionCodec.encode(action)} held: unit is locked")

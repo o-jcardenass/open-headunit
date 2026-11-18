@@ -142,6 +142,13 @@ object KeyDebouncePolicy {
         )
     }
 
+    /** The keys whose press went out and whose release did not. */
+    fun heldKeys(states: Map<Int, KeyState>): List<Int> =
+        states.entries.filter { it.value.down }.map { it.key }
+
+    /** The state after the caller sent the owed release of a held press. */
+    fun released(state: KeyState): KeyState = state.copy(down = false)
+
     private fun decideRelease(state: KeyState): Result {
         if (state.pressDropped) {
             return Result(

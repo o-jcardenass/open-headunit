@@ -174,4 +174,20 @@ class KeyDebouncePolicyTest {
         key.deliver(isPress = true, now = 5)
         assertEquals(listOf(true), key.edges())
     }
+
+    @Test
+    fun `heldKeys lists only the keys with a press outstanding`() {
+        val held = KeyState(down = true, downAt = 5)
+        val states = mapOf(24 to held, 25 to KeyState(), 26 to KeyState(pressDropped = true))
+        assertEquals(listOf(24), KeyDebouncePolicy.heldKeys(states))
+    }
+
+    @Test
+    fun `a release after released is dropped, no press is outstanding`() {
+        val held = KeyState(down = true, downAt = 5, lastForwardedDownTime = 9)
+        val after = KeyDebouncePolicy.released(held)
+        val result = KeyDebouncePolicy.decide(after, isPress = false, downTime = 9, isMediaKey = false, now = 50)
+        assertFalse(result.forward)
+        assertEquals("no press is outstanding", result.dropReason)
+    }
 }

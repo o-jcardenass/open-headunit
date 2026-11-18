@@ -1329,8 +1329,8 @@
     <string name="raise_projection_during_call_description">仅限本机模式。将投屏画面重新显示在手机的通话界面之上，这样就能在 Android Auto 界面中接听和结束通话。</string>
     <string name="raise_projection_during_call_summary">仅限独立模式。在手机的通话界面上方显示投屏。</string>
     <string name="show_over_lock_screen">在锁屏上显示</string>
-    <string name="show_over_lock_screen_summary">锁定时仍显示地图和路线指引。触摸和按键无效。</string>
-    <string name="show_over_lock_screen_help">在锁屏上方显示 Android Auto 画面，无需解锁即可查看地图和路线指引。此设备锁定期间，不会有任何操作传到手机：触摸、按键、旋钮控制器和语音键都会被拦下，并把地图切换到前台。按“返回”可用 PIN 码、图案或密码解锁；之后一切照常工作。手机本身的音乐、通话和语音助理不受影响。</string>
+    <string name="show_over_lock_screen_summary">锁定时仍显示地图和导航。只有音量键可用。</string>
+    <string name="show_over_lock_screen_help">在锁屏界面上方显示 Android Auto 画面，无需解锁即可查看地图和导航。本设备锁定期间，手机收不到任何操作：触摸、按键、旋转控制器和语音键都会被拦截，地图会置于最前。按返回键，再用 PIN、图案或密码解锁。之后一切恢复正常。音量键仍然可用。手机本身的音乐、通话和语音助手不受影响，因此来电和消息卡片在锁定时仍会显示在画面上。</string>
     <string name="show_over_lock_screen_locked_toast">已锁定：仅显示地图。按“返回”解锁。</string>
     <string name="audio_stream_settings">音频流</string>
     <string name="audio_stream_settings_description">选择每个 Android Auto 通道使用哪个系统流播放。</string>

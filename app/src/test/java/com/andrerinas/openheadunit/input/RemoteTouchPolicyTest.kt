@@ -39,6 +39,26 @@ class RemoteTouchPolicyTest {
         assertTrue(policy.mayStartGesture)
     }
 
+    @Test fun releaseAllLiftsEveryPointerThePhoneSaw() {
+        feed(Local.DOWN, 0, false, p(0, 60f, 452f))
+        feed(Local.POINTER_DOWN, 1, false, p(0, 60f, 452f), p(1, 200f, 300f))
+        out.clear()
+        out += policy.releaseAll()
+        assertEquals(listOf(Action.POINTER_UP, Action.UP), out.map { it.action })
+        assertEquals(listOf(listOf(0, 1), listOf(1)), out.map { ids(it) })
+        assertTrue(policy.releaseAll().isEmpty())
+    }
+
+    @Test fun releaseAllSendsNothingForAWithheldFinger() {
+        holdFirst()
+        assertTrue(policy.releaseAll().isEmpty())
+        assertFalse(policy.mayStartGesture)
+    }
+
+    @Test fun releaseAllWhenIdleSendsNothing() {
+        assertTrue(policy.releaseAll().isEmpty())
+    }
+
     @Test fun aWithheldTapSendsDownAndUpAtTheDownPoint() {
         holdFirst()
         feed(Local.MOVE, 0, false, p(0, 66f, 455f))
