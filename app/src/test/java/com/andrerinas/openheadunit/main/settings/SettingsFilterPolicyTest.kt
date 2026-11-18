@@ -152,13 +152,14 @@ class SettingsFilterPolicyTest {
     }
 
     @Test
-    fun `search matches word prefixes but not the middle of words`() {
+    fun `search matches word prefixes, and the middle of words only when no word start matches`() {
         val darkMode = language.copy(nameOverride = "Тёмный режим", value = "")
         val audioMode = debug.copy(nameOverride = "Выберите этот режим. Не затрагивает системный аудиофокус.")
 
         assertEquals(listOf("general", "language"), helpFilter(darkMode, audioMode, query = "режим темный"))
         assertEquals(listOf("general", "language"), helpFilter(darkMode, audioMode, query = "темн реж"))
-        assertEquals(emptyList<String>(), helpFilter(audioMode, query = "темный"))
+        assertEquals(listOf("general", "debug"), helpFilter(audioMode, query = "темный"))
+        assertEquals(listOf("general", "language"), helpFilter(darkMode, audioMode, query = "темный"))
         assertEquals(listOf("general", "debug"), helpFilter(audioMode, query = "режим систем"))
     }
 
@@ -172,9 +173,10 @@ class SettingsFilterPolicyTest {
         for (query in listOf("темный режим", "fi wi", "h.264", "264", "«темн")) {
             assertEquals(query, listOf("general", "language"), helpFilter(row, query = query))
         }
-        for (query in listOf("истемный", "264x", "i-fi")) {
-            assertEquals(query, emptyList<String>(), helpFilter(row, query = query))
+        for (query in listOf("истемный", "i-fi")) {
+            assertEquals(query, listOf("general", "language"), helpFilter(row, query = query))
         }
+        assertEquals(emptyList<String>(), helpFilter(row, query = "264x"))
     }
 
     @Test
@@ -197,7 +199,9 @@ class SettingsFilterPolicyTest {
     fun `Latin and Cyrillic word boundaries apply per term in multilingual text`() {
         val row = language.copy(nameOverride = "深色模式（Android Auto）", value = "")
         assertEquals(listOf("general", "language"), helpFilter(row, query = "auto 模式"))
-        assertEquals(emptyList<String>(), helpFilter(row, query = "droid 模式"))
+        val other = debug.copy(nameOverride = "Droid 模式", value = "")
+        assertEquals(listOf("general", "debug"), helpFilter(row, other, query = "droid 模式"))
+        assertEquals(listOf("general", "language"), helpFilter(row, query = "droid 模式"))
 
         for ((name, query) in listOf(
             "Übertragung" to "ber",
@@ -207,10 +211,31 @@ class SettingsFilterPolicyTest {
         )) {
             assertEquals(
                 name,
-                emptyList<String>(),
+                listOf("general", "language"),
                 helpFilter(language.copy(nameOverride = name, value = ""), query = query)
             )
         }
+    }
+
+    @Test
+    fun `a compound word is found inside the word when no word starts with the query`() {
+        val dark = language.copy(nameOverride = "Dunkelmodus", value = "")
+        val lang = debug.copy(nameOverride = "Modus wechseln", value = "")
+        assertEquals(listOf("general", "language"), helpFilter(dark, query = "modus"))
+        assertEquals(listOf("general", "debug"), helpFilter(dark, lang, query = "modus"))
+        assertEquals(listOf("general", "language"), helpFilter(dark, query = "dunkel"))
+    }
+
+    @Test
+    fun `the no results note shows only when both passes find nothing`() {
+        val dark = language.copy(nameOverride = "Dunkelmodus", value = "")
+        val found = SettingsFilterPolicy.filter(
+            listOf(notice, dark), "modus", true, true, true, emptySet(), ::text
+        )
+        assertEquals(found, SettingsFilterPolicy.withNoResultsNote(found, "modus", noResults))
+        val none = SettingsFilterPolicy.filter(listOf(notice, dark), "zzzz", true, true, true, emptySet(), ::text)
+        assertEquals(listOf("scopeNotice", "searchNoResults"),
+            SettingsFilterPolicy.withNoResultsNote(none, "zzzz", noResults).map { it.stableId })
     }
 
     @Test

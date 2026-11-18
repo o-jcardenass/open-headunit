@@ -27,7 +27,8 @@ object SettingsFilterPolicy {
      * string resource, so the caller keeps the fragment's `getString` and the rules stay pure.
      * A section header, and a sub-header inside it, survives only when at least one of its rows does.
      * Search matches all whitespace-separated terms within one field in any order,
-     * ignoring case and Russian yo/e. Latin and Cyrillic terms must start at a word boundary.
+     * ignoring case and Russian yo/e. Latin and Cyrillic terms must start at a word boundary; when
+     * no row matches that way, the whole search runs again inside words, for compound words.
      */
     fun filter(
         items: List<SettingItem>,
@@ -37,6 +38,21 @@ object SettingsFilterPolicy {
         showsWifi: Boolean,
         basicIds: Set<String>,
         text: (Int) -> String
+    ): List<SettingItem> {
+        val byWordStart = filterPass(items, query, advanced, showsUsb, showsWifi, basicIds, text, inWords = false)
+        if (query.isBlank() || byWordStart.any { !standsAlone(it) }) return byWordStart
+        return filterPass(items, query, advanced, showsUsb, showsWifi, basicIds, text, inWords = true)
+    }
+
+    private fun filterPass(
+        items: List<SettingItem>,
+        query: String,
+        advanced: Boolean,
+        showsUsb: Boolean,
+        showsWifi: Boolean,
+        basicIds: Set<String>,
+        text: (Int) -> String,
+        inWords: Boolean
     ): List<SettingItem> {
         val search = normalizeSearchText(query).split(SEARCH_WHITESPACE).filter { it.isNotEmpty() }
         val result = mutableListOf<SettingItem>()
@@ -51,7 +67,7 @@ object SettingsFilterPolicy {
                 pendingHeader = item
                 categoryId = item.stableId
                 headerMatches = search.isNotEmpty() &&
-                    matchesSearch(text(item.titleResId), search)
+                    matchesSearch(text(item.titleResId), search, inWords)
                 pendingSubHeader = null
                 subHeaderMatches = false
                 continue
@@ -59,10 +75,10 @@ object SettingsFilterPolicy {
             if (item is SettingItem.SubHeader) {
                 pendingSubHeader = item
                 subHeaderMatches = search.isNotEmpty() &&
-                    matchesSearch(text(item.titleResId), search)
+                    matchesSearch(text(item.titleResId), search, inWords)
                 continue
             }
-            if (!shows(item, search, headerMatches || subHeaderMatches, advanced, showsUsb, showsWifi, basicIds, categoryId, text)) {
+            if (!shows(item, search, headerMatches || subHeaderMatches, advanced, showsUsb, showsWifi, basicIds, categoryId, text, inWords)) {
                 continue
             }
             if (!standsAlone(item)) {
@@ -96,7 +112,8 @@ object SettingsFilterPolicy {
         showsWifi: Boolean,
         basicIds: Set<String>,
         categoryId: String?,
-        text: (Int) -> String
+        text: (Int) -> String,
+        inWords: Boolean
     ): Boolean {
         // The bottom Save action is always relevant when present.
         if (item is SettingItem.ActionButton && item.stableId == BOTTOM_SAVE_ID) return true
@@ -108,7 +125,7 @@ object SettingsFilterPolicy {
         if (item.stableId == DEVICE_SPECIFIC_ID && !advanced) return false
 
         if (search.isNotEmpty()) {
-            return headerMatches || searchableFields(item, text).any { matchesSearch(it, search) }
+            return headerMatches || searchableFields(item, text).any { matchesSearch(it, search, inWords) }
         }
 
         if (advanced) return true
@@ -122,11 +139,11 @@ object SettingsFilterPolicy {
     private fun normalizeSearchText(text: String): String =
         text.replace('\u0451', '\u0435').replace('\u0401', '\u0415')
 
-    /** Matches all terms in one field; only Latin and Cyrillic terms require a word start. */
-    private fun matchesSearch(text: String, terms: List<String>): Boolean {
+    /** Matches all terms in one field; only Latin and Cyrillic terms require a word start, unless [inWords]. */
+    private fun matchesSearch(text: String, terms: List<String>, inWords: Boolean): Boolean {
         val normalized = normalizeSearchText(text)
         return terms.all { term ->
-            if (!requiresWordStart(term)) {
+            if (inWords || !requiresWordStart(term)) {
                 normalized.contains(term, ignoreCase = true)
             } else {
                 normalized.indices.any { index ->
