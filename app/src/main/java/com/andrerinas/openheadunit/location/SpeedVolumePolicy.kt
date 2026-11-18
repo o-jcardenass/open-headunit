@@ -52,4 +52,30 @@ object SpeedVolumePolicy {
         }
         return target.coerceIn(0, mode.maxSteps)
     }
+
+    /** Where the added steps go: the phone's volume keys, or one stream of this head unit. */
+    data class Placement(val onPhone: Boolean, val stream: Int, val phone: String? = null)
+
+    enum class Carry { KEEP, DROP, WAIT }
+
+    /**
+     * Phone steps carry only to the same phone; another phone starts at 0. A step bound for the
+     * phone waits until the session names it, so no step records a null phone. [toPhoneNow] is the setting.
+     */
+    fun carry(steps: Int, pinned: Placement?, phoneNow: String?, toPhoneNow: Boolean): Carry {
+        val onPhone = if (steps != 0 && pinned != null) pinned.onPhone else toPhoneNow
+        return when {
+            !onPhone -> Carry.KEEP
+            phoneNow == null -> Carry.WAIT
+            steps == 0 || pinned?.phone == phoneNow -> Carry.KEEP
+            else -> Carry.DROP
+        }
+    }
+
+    /**
+     * Where the next step goes. While steps are on, the target and stream they went to stay, so a
+     * setting changed mid-drive still takes them off the same place.
+     */
+    fun placement(steps: Int, pinned: Placement?, phoneNow: Boolean, streamNow: Int, phone: String? = null): Placement =
+        if (steps != 0 && pinned != null) pinned else Placement(phoneNow, streamNow, phone)
 }

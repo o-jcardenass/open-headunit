@@ -261,6 +261,8 @@ class CommManager(
     private var physicalConnectionReached = false
     /** @Volatile: written on IO thread, read on Main and IO threads. */
     @Volatile private var _transport: AapTransport? = null
+    /** The live session's phone, as its service discovery request named it. */
+    val sessionPhone: String? get() = _transport?.phoneIdentity
     @Volatile private var projectionVideoFocusSuppressed = false
     val isProjectionVideoFocusSuppressed: Boolean
         get() = projectionVideoFocusSuppressed

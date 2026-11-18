@@ -352,6 +352,7 @@ internal class AapControlService(
 
     private fun serviceDiscoveryRequest(request: Control.ServiceDiscoveryRequest): Int {
         AppLog.i("Service Discovery Request: %s", request.phoneName)
+        aapTransport.phoneIdentity = "${request.phoneBrand} ${request.phoneName}"
 
         val msg = ServiceDiscoveryResponse(context, aapAudio.sessionConfig, aapTransport)
         aapTransport.send(msg)

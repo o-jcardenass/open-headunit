@@ -183,6 +183,8 @@ class AapTransport(
 
     /** Set by [AapControl] when VIDEO_FOCUS_NATIVE triggers a stop (user tapped Exit). */
     @Volatile var wasUserExit: Boolean = false
+    /** Brand and name from the phone's service discovery request; null until it arrives. */
+    @Volatile var phoneIdentity: String? = null
     @Volatile var onQuit: ((Boolean) -> Unit)? = null
     private val quitLock = Any()
     private var peerRequestedClose = false

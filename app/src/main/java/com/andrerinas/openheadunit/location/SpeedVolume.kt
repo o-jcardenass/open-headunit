@@ -19,23 +19,29 @@ import com.andrerinas.openheadunit.utils.AppLog
 class SpeedVolume(private val context: Context) {
     private val component by lazy { App.provide(context) }
 
-    /** Steps currently added on top of the driver's own level. */
-    private var steps = 0
-
-    /** Where [steps] went, so they come back off the same place even if the setting changes. */
-    private var onPhone = false
-
     fun onFix(location: Location) {
         if (!location.hasSpeed()) return
+        // A restart with no session has nothing to step, on either target.
+        if (component.commManager.connectionState.value !is CommManager.ConnectionState.TransportStarted) return
         val settings = component.settings
+        val phone = component.commManager.sessionPhone
+        when (SpeedVolumePolicy.carry(steps, pinned, phone, settings.volumeKeysToPhone)) {
+            SpeedVolumePolicy.Carry.WAIT -> return
+            SpeedVolumePolicy.Carry.DROP -> {
+                AppLog.i("SpeedVolume: another phone connected, dropping $steps step(s) left on the last one")
+                steps = 0
+                pinned = null
+            }
+            SpeedVolumePolicy.Carry.KEEP -> Unit
+        }
         val speedKmh = location.speed * 3.6f
         val target = SpeedVolumePolicy.targetSteps(settings.speedVolumeMode, speedKmh, steps)
         if (target == steps) return
-        if (steps == 0) onPhone = settings.volumeKeysToPhone
+        pinned = SpeedVolumePolicy.placement(steps, pinned, settings.volumeKeysToPhone, settings.mediaAudioStream, phone)
         val raise = target > steps
         if (!step(raise)) return
         steps += if (raise) 1 else -1
-        AppLog.i("SpeedVolume: ${speedKmh.toInt()} km/h, +$steps step(s) on the ${if (onPhone) "phone" else "head unit"}")
+        AppLog.i("SpeedVolume: ${speedKmh.toInt()} km/h, +$steps step(s) on the ${if (pinned?.onPhone == true) "phone" else "head unit"}")
     }
 
     /**
@@ -43,13 +49,15 @@ class SpeedVolume(private val context: Context) {
      * already gone - but a session normally ends parked, where they have come off already.
      */
     fun reset() {
-        if (!onPhone) repeat(steps) { step(raise = false) }
+        if (pinned?.onPhone == true) return
+        repeat(steps) { step(raise = false) }
         steps = 0
     }
 
     /** One volume step; false when it could not be applied, so it is not counted. */
     private fun step(raise: Boolean): Boolean {
-        if (onPhone) {
+        val placement = pinned ?: return false
+        if (placement.onPhone) {
             val commManager = component.commManager
             if (commManager.connectionState.value !is CommManager.ConnectionState.TransportStarted) return false
             val keyCode = if (raise) KeyEvent.KEYCODE_VOLUME_UP else KeyEvent.KEYCODE_VOLUME_DOWN
@@ -62,7 +70,7 @@ class SpeedVolume(private val context: Context) {
             return true
         }
         val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        val stream = component.settings.mediaAudioStream
+        val stream = placement.stream
         return try {
             val before = audioManager.getStreamVolume(stream)
             audioManager.adjustStreamVolume(stream, if (raise) AudioManager.ADJUST_RAISE else AudioManager.ADJUST_LOWER, 0)
@@ -73,5 +81,11 @@ class SpeedVolume(private val context: Context) {
             AppLog.w("SpeedVolume: stream $stream refused the volume step: ${e.message}")
             false
         }
+    }
+
+    private companion object {
+        // Held outside the instance: the service rebuilds GpsLocation, and the phone's steps outlive it.
+        @Volatile var steps = 0
+        @Volatile var pinned: SpeedVolumePolicy.Placement? = null
     }
 }

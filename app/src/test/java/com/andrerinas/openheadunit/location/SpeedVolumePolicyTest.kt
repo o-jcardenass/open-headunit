@@ -59,4 +59,48 @@ class SpeedVolumePolicyTest {
         assertEquals(Mode.OFF, Mode.fromInt(99))
         assertEquals(Mode.OFF, Mode.fromInt(-1))
     }
+
+    @Test
+    fun `placement keeps the pinned target and stream while steps are non-zero`() {
+        val pinned = SpeedVolumePolicy.Placement(onPhone = true, stream = 3)
+        assertEquals(pinned, SpeedVolumePolicy.placement(2, pinned, phoneNow = false, streamNow = 5))
+    }
+
+    @Test
+    fun `placement reads the setting again at zero steps or with nothing pinned`() {
+        val pinned = SpeedVolumePolicy.Placement(onPhone = true, stream = 3)
+        val now = SpeedVolumePolicy.Placement(onPhone = false, stream = 5)
+        assertEquals(now, SpeedVolumePolicy.placement(0, pinned, phoneNow = false, streamNow = 5))
+        assertEquals(now, SpeedVolumePolicy.placement(2, null, phoneNow = false, streamNow = 5))
+    }
+
+    @Test
+    fun `phone steps carry to the same phone only`() {
+        val onA = SpeedVolumePolicy.Placement(onPhone = true, stream = 3, phone = "Google Pixel 7")
+        assertEquals(SpeedVolumePolicy.Carry.KEEP, SpeedVolumePolicy.carry(4, onA, "Google Pixel 7", toPhoneNow = true))
+        assertEquals(SpeedVolumePolicy.Carry.DROP, SpeedVolumePolicy.carry(4, onA, "motorola edge", toPhoneNow = true))
+        assertEquals(SpeedVolumePolicy.Carry.WAIT, SpeedVolumePolicy.carry(4, onA, null, toPhoneNow = true))
+    }
+
+    @Test
+    fun `a first phone step waits for the phone's name, so it never records a null phone`() {
+        assertEquals(SpeedVolumePolicy.Carry.WAIT, SpeedVolumePolicy.carry(0, null, null, toPhoneNow = true))
+        val stale = SpeedVolumePolicy.Placement(onPhone = false, stream = 3)
+        assertEquals(SpeedVolumePolicy.Carry.WAIT, SpeedVolumePolicy.carry(0, stale, null, toPhoneNow = true))
+        assertEquals(SpeedVolumePolicy.Carry.KEEP, SpeedVolumePolicy.carry(0, null, "Google Pixel 7", toPhoneNow = true))
+    }
+
+    @Test
+    fun `head unit steps never wait or drop`() {
+        val onA = SpeedVolumePolicy.Placement(onPhone = true, stream = 3, phone = "Google Pixel 7")
+        val onUnit = SpeedVolumePolicy.Placement(onPhone = false, stream = 3)
+        assertEquals(SpeedVolumePolicy.Carry.KEEP, SpeedVolumePolicy.carry(0, onA, null, toPhoneNow = false))
+        assertEquals(SpeedVolumePolicy.Carry.KEEP, SpeedVolumePolicy.carry(2, onUnit, null, toPhoneNow = true))
+    }
+
+    @Test
+    fun `a new placement records the phone it steps on`() {
+        assertEquals("Google Pixel 7",
+            SpeedVolumePolicy.placement(0, null, phoneNow = true, streamNow = 3, phone = "Google Pixel 7").phone)
+    }
 }
