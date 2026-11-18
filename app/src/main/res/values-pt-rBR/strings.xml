@@ -1335,6 +1335,9 @@
     <string name="night_overlay_while_locked">Sobreposição noturna com bloqueio</string>
     <string name="night_overlay_while_locked_summary">Relógio, próxima curva e faixa no lugar do mapa.</string>
     <string name="night_overlay_while_locked_help">Enquanto esta unidade estiver bloqueada, ela mostra a sobreposição noturna no lugar da imagem do Android Auto: o relógio, a próxima curva e a faixa em reprodução sobre um fundo escuro. O mapa, os lugares salvos e os pop-ups do Android Auto, como o nome de quem liga, ficam cobertos. Ao desbloquear, a imagem volta. Isso muda apenas o que esta unidade mostra e não envia nada ao telefone. O tamanho do texto, o fundo e as linhas mostradas são as configurações da sobreposição noturna em “Gestos”.</string>
+    <string name="allow_embedded_projection">Permitir que outros apps mostrem a projeção</string>
+    <string name="allow_embedded_projection_summary">Desativado: a projeção abre só na tela desta unidade.</string>
+    <string name="allow_embedded_projection_help">Outro app pode mostrar a projeção na própria janela ou em outra tela. Isso fica desativado por padrão para que nenhum outro app assuma a imagem. Launchers de tela dividida e algumas telas secundárias precisam disso ativado. Ative só se você usar um deles.</string>
     <string name="audio_stream_settings">Fluxos de áudio</string>
     <string name="audio_stream_settings_description">Escolha o fluxo do sistema em que cada canal do Android Auto toca.</string>
     <string name="audio_stream_settings_info">O Android Auto envia áudio em três canais: Mídia, Orientação e Sons do sistema. Cada um chega à central multimídia por um fluxo do sistema, e o fluxo escolhido define a tecla de volume que ele segue e, em muitas centrais, se o amplificador é ativado para ele. Use o botão do alto-falante para ouvir um tom de teste no fluxo antes de salvar.</string>

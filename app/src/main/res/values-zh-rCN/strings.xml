@@ -1331,6 +1331,9 @@
     <string name="night_overlay_while_locked">锁定时的夜间叠加层</string>
     <string name="night_overlay_while_locked_summary">以时钟、下一个转弯和曲目代替地图。</string>
     <string name="night_overlay_while_locked_help">此设备锁定期间，会以夜间叠加层代替 Android Auto 画面：在深色背景上显示时钟、下一个转弯和正在播放的曲目。地图、已保存的地点以及 Android Auto 的弹出提示（例如来电者姓名）会被遮住。解锁后重新显示画面。这只改变此设备显示的内容，不会向手机发送任何信息。文字大小、背景和显示的行由“手势”中的夜间叠加层设置决定。</string>
+    <string name="allow_embedded_projection">允许其他应用显示投屏内容</string>
+    <string name="allow_embedded_projection_summary">关闭：投屏内容只在本设备自己的屏幕上打开。</string>
+    <string name="allow_embedded_projection_help">其他应用可以在自己的窗口或其他屏幕上显示投屏内容。此选项默认关闭，以免其他应用接管画面。分屏启动器和部分副屏需要开启此选项。仅在使用此类功能时开启。</string>
     <string name="audio_stream_settings">音频流</string>
     <string name="audio_stream_settings_description">选择每个 Android Auto 通道使用哪个系统流播放。</string>
     <string name="audio_stream_settings_info">Android Auto 通过媒体、导航语音和系统提示音三个通道传送音频。每个通道都会以某个系统流交给车机，所选的流决定它跟随哪个音量键，在许多车机上还决定功放是否会为它取消静音。保存前，可点按喇叭按钮在该流上播放测试音。</string>

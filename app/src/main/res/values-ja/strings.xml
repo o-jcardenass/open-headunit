@@ -1337,6 +1337,9 @@
     <string name="night_overlay_while_locked">ロック中のナイトオーバーレイ</string>
     <string name="night_overlay_while_locked_summary">地図の代わりに時計、次の曲がり角、曲名を表示。</string>
     <string name="night_overlay_while_locked_help">このユニットがロックされている間、Android Auto の映像の代わりにナイトオーバーレイを表示します。暗い背景に時計、次の曲がり角、再生中の曲が表示されます。地図、保存した場所、発信者名などの Android Auto のポップアップは隠れます。ロックを解除すると映像に戻ります。このユニットの表示だけを変え、スマートフォンには何も送りません。文字サイズ、背景、表示する行は“ジェスチャー”のナイトオーバーレイ設定で決まります。</string>
+    <string name="allow_embedded_projection">他のアプリによる投影の表示を許可</string>
+    <string name="allow_embedded_projection_summary">オフ：投影はこのユニット自身の画面にのみ表示されます。</string>
+    <string name="allow_embedded_projection_help">他のアプリが自身のウィンドウや別の画面に投影を表示できます。他のアプリに映像を乗っ取られないよう、デフォルトではオフです。分割画面ランチャーや一部のセカンドスクリーンではオンにする必要があります。そうしたものを使う場合のみオンにしてください。</string>
     <string name="audio_stream_settings">オーディオストリーム</string>
     <string name="audio_stream_settings_description">Android Auto の各チャンネルを再生するシステムストリームを選択します。</string>
     <string name="audio_stream_settings_info">Android Auto は音声を「メディア」「音声案内」「システム音」の 3 チャンネルで送信します。各チャンネルはシステムストリーム経由でヘッドユニットに届き、選んだストリームによって連動する音量キーが決まります。多くのヘッドユニットでは、そもそもアンプが作動するかどうかも左右します。保存する前にスピーカーボタンでテスト音を鳴らして確認してください。</string>

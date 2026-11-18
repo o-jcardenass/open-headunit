@@ -1,5 +1,6 @@
 package com.andrerinas.openheadunit.aap
 
+import com.andrerinas.openheadunit.app.EmbeddedDisplayPolicy
 import com.andrerinas.openheadunit.input.KeySource
 import android.content.BroadcastReceiver
 import android.app.KeyguardManager
@@ -116,6 +117,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
     private var exitDialog: androidx.appcompat.app.AlertDialog? = null
     private var lastLockedHintMs = 0L
     private var isLockStateReceiverRegistered = false
+    private var refusedDisplay = false
     // The hold went on before the transport ran, so the map key is sent when it starts.
     private var mapKeyOwed = false
     private val lockStateReceiver = object : BroadcastReceiver() {
@@ -1133,6 +1135,11 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (refusesEmbeddedDisplay()) {
+            refusedDisplay = true
+            finish()
+            return
+        }
         applyShowOverLockScreen()
         applyTurnScreenOn(intent)
         // [FIX] applyOrientationSettings() must be called AFTER super.onCreate() so that the
@@ -1556,6 +1563,42 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
                 ScreenPower.requestDismissKeyguard(this, "AapProjectionActivity")
             }
         }
+    }
+
+    /** The projection is asked to open on a display that is another app's, and the setting is off. */
+    @Suppress("DEPRECATION")
+    private fun refusesEmbeddedDisplay(): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return false
+        return try {
+            val d = windowManager.defaultDisplay
+            val flags = d.flags
+            val trusted = when {
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> (flags and DISPLAY_FLAG_TRUSTED) != 0
+                (flags and android.view.Display.FLAG_PRIVATE) != 0 -> false
+                else -> null
+            }
+            val ownerUid = displayOwnerUid(d)
+            val foreignOwner = ownerUid?.let { it >= android.os.Process.FIRST_APPLICATION_UID && it != android.os.Process.myUid() }
+            val refuse = EmbeddedDisplayPolicy.refuses(
+                settings.allowEmbeddedProjection, d.displayId == android.view.Display.DEFAULT_DISPLAY, trusted, foreignOwner, d.name
+            )
+            if (refuse) {
+                // A split-screen launcher or a second screen lands here too; the log names the remedy.
+                AppLog.i("AapProjectionActivity: refusing to show on display ${d.displayId} (${d.name}, owner uid $ownerUid, trusted $trusted), " +
+                    "another app's display or one whose owner is unknown. To allow it, turn on Settings > " +
+                    "\"Allow other apps to show the projection\" (allow-embedded-projection)")
+            }
+            refuse
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    /** `Display.getOwnerUid()` is hidden; 0 means no owner (a system display), null that it is unreadable. */
+    private fun displayOwnerUid(d: android.view.Display): Int? = try {
+        android.view.Display::class.java.getMethod("getOwnerUid").invoke(d) as? Int
+    } catch (e: Exception) {
+        null
     }
 
     /** Lets the window cover the keyguard when "Show over lock screen" is on. */
@@ -3014,6 +3057,11 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
     }
 
     override fun onDestroy() {
+        // A refused instance never set anything up; it must not clear the live screen's state.
+        if (refusedDisplay) {
+            super.onDestroy()
+            return
+        }
         clearTwoFingerTracking()
         // TextureView/GLES destruction can arrive after this activity removes its callback.
         // Stop our target now, while it is still valid, without touching a replacement owner.
@@ -3070,6 +3118,8 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
     }
 
     companion object {
+        /** `Display.FLAG_TRUSTED`, hidden before API 33; the bit is the same from API 30. */
+        private const val DISPLAY_FLAG_TRUSTED = 1 shl 7
         /** Long enough for a surface callback to arrive first on a return, short enough to beat the stall window. */
         private const val RETURN_REARM_DELAY_MS = 300L
         /** Shortest gap between two "Locked" hints. */

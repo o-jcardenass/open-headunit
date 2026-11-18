@@ -1328,6 +1328,9 @@
     <string name="night_overlay_while_locked">Kilitliyken gece katmanı</string>
     <string name="night_overlay_while_locked_summary">Harita yerine saat, sonraki dönüş ve parça.</string>
     <string name="night_overlay_while_locked_help">Bu cihaz kilitliyken Android Auto görüntüsü yerine gece katmanını gösterir: koyu arka planda saat, sonraki dönüş ve çalan parça. Harita, kayıtlı yerler ve arayanın adı gibi Android Auto açılır pencereleri örtülür. Kilit açıldığında görüntü yeniden gösterilir. Bu yalnızca bu cihazın gösterdiğini değiştirir ve telefona hiçbir şey göndermez. Metin boyutu, arka plan ve gösterilen satırlar “Hareketler” menüsündeki gece katmanı ayarlarıdır.</string>
+    <string name="allow_embedded_projection">Diğer uygulamaların yansıtmayı göstermesine izin ver</string>
+    <string name="allow_embedded_projection_summary">Kapalı: yansıtma yalnızca bu ünitenin kendi ekranında açılır.</string>
+    <string name="allow_embedded_projection_help">Başka bir uygulama yansıtmayı kendi penceresinde veya başka bir ekranda gösterebilir. Başka hiçbir uygulamanın görüntüyü ele geçirememesi için bu ayar varsayılan olarak kapalıdır. Bölünmüş ekran başlatıcıları ve bazı ikinci ekranlar bunun açık olmasını gerektirir. Yalnızca böyle bir şey kullanıyorsanız açın.</string>
     <string name="audio_stream_settings">Ses akışları</string>
     <string name="audio_stream_settings_description">Her Android Auto kanalının hangi sistem akışında çalacağını seçin.</string>
     <string name="audio_stream_settings_info">Android Auto sesi üç kanaldan gönderir: Medya, Yönlendirme ve Sistem sesleri. Her biri ana üniteye bir sistem akışı üzerinden iletilir. Seçtiğiniz akış, hangi ses tuşunu izleyeceğini ve birçok ana ünitede amplifikatörün onun için hiç açılıp açılmayacağını belirler. Kaydetmeden önce akışta test tonu dinlemek için hoparlör düğmesini kullanın.</string>

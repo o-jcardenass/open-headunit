@@ -1335,6 +1335,9 @@
     <string name="night_overlay_while_locked">Lớp phủ ban đêm khi đang khóa</string>
     <string name="night_overlay_while_locked_summary">Đồng hồ, chỗ rẽ tiếp theo và bài hát thay cho bản đồ.</string>
     <string name="night_overlay_while_locked_help">Khi thiết bị này đang khóa, thiết bị hiển thị lớp phủ ban đêm thay cho hình ảnh Android Auto: đồng hồ, chỗ rẽ tiếp theo và bài đang phát trên nền tối. Bản đồ, địa điểm đã lưu và cửa sổ bật lên của Android Auto, chẳng hạn tên người gọi, bị che đi. Khi mở khóa, hình ảnh hiển thị lại. Tùy chọn này chỉ thay đổi nội dung thiết bị này hiển thị và không gửi gì tới điện thoại. Cỡ chữ, nền và các dòng hiển thị là cài đặt lớp phủ ban đêm trong “Cử chỉ”.</string>
+    <string name="allow_embedded_projection">Cho phép ứng dụng khác hiển thị phần chiếu</string>
+    <string name="allow_embedded_projection_summary">Tắt: phần chiếu chỉ mở trên màn hình của chính thiết bị này.</string>
+    <string name="allow_embedded_projection_help">Ứng dụng khác có thể hiển thị phần chiếu trong cửa sổ riêng hoặc trên màn hình khác. Tùy chọn này tắt theo mặc định để không ứng dụng nào khác chiếm được hình ảnh. Trình chạy chia đôi màn hình và một số màn hình phụ cần bật tùy chọn này. Chỉ bật nếu bạn dùng những thứ đó.</string>
     <string name="audio_stream_settings">Luồng âm thanh</string>
     <string name="audio_stream_settings_description">Chọn luồng hệ thống mà mỗi kênh Android Auto sẽ phát trên đó.</string>
     <string name="audio_stream_settings_info">Android Auto gửi âm thanh qua ba kênh: Đa phương tiện, Chỉ dẫn và Âm thanh hệ thống. Mỗi kênh được chuyển tới đầu máy qua một luồng hệ thống. Luồng bạn chọn quyết định kênh đó theo phím âm lượng nào và, trên nhiều đầu máy, có bật tiếng bộ khuếch đại cho kênh đó hay không. Hãy dùng nút loa để nghe âm thanh thử trên luồng trước khi lưu.</string>

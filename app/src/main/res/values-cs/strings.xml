@@ -1335,6 +1335,9 @@
     <string name="night_overlay_while_locked">Noční překrytí při zamčení</string>
     <string name="night_overlay_while_locked_summary">Hodiny, další odbočka a skladba místo mapy.</string>
     <string name="night_overlay_while_locked_help">Dokud je tato jednotka zamčená, zobrazuje místo obrazu Android Auto noční překrytí: hodiny, další odbočku a přehrávanou skladbu na tmavém pozadí. Mapa, uložená místa a vyskakovací okna Android Auto, například jméno volajícího, jsou zakryta. Po odemčení se obraz zobrazí znovu. Mění se jen to, co tato jednotka zobrazuje, a do telefonu se nic neposílá. Velikost textu, pozadí a zobrazené řádky se nastavují v nastavení nočního překrytí v nabídce “Gesta”.</string>
+    <string name="allow_embedded_projection">Povolit jiným aplikacím zobrazit projekci</string>
+    <string name="allow_embedded_projection_summary">Vypnuto: projekce se otevře jen na displeji tohoto autorádia.</string>
+    <string name="allow_embedded_projection_help">Jiná aplikace může zobrazit projekci ve vlastním okně nebo na jiném displeji. Ve výchozím nastavení je to vypnuto, aby žádná jiná aplikace nemohla převzít obraz. Spouštěče s rozdělenou obrazovkou a některé druhé displeje to potřebují zapnuté. Zapněte to, jen pokud něco takového používáte.</string>
     <string name="audio_stream_settings">Zvukové streamy</string>
     <string name="audio_stream_settings_description">Vyberte systémový stream, na kterém hraje každý kanál Android Auto.</string>
     <string name="audio_stream_settings_info">Android Auto posílá zvuk třemi kanály: Média, Navigace a Systémové zvuky. Každý se do autorádia dostane určitým systémovým streamem a zvolený stream určuje, kterým tlačítkem hlasitosti se řídí a u řady autorádií i to, zda se pro něj vůbec zapne zesilovač. Tlačítkem reproduktoru si před uložením přehrajte na streamu zkušební tón.</string>

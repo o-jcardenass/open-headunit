@@ -1336,6 +1336,9 @@
     <string name="night_overlay_while_locked">Nakładka nocna przy blokadzie</string>
     <string name="night_overlay_while_locked_summary">Zegar, następny skręt i utwór zamiast mapy.</string>
     <string name="night_overlay_while_locked_help">Gdy to urządzenie jest zablokowane, zamiast obrazu Android Auto pokazuje nakładkę nocną: zegar, następny skręt i odtwarzany utwór na ciemnym tle. Mapa, zapisane miejsca i wyskakujące okna Android Auto, na przykład nazwa dzwoniącego, są zasłonięte. Po odblokowaniu obraz wraca. Zmienia to tylko to, co pokazuje to urządzenie, i niczego nie wysyła do telefonu. Rozmiar tekstu, tło i pokazywane wiersze to ustawienia nakładki nocnej w menu “Gesty”.</string>
+    <string name="allow_embedded_projection">Zezwalaj innym aplikacjom na wyświetlanie projekcji</string>
+    <string name="allow_embedded_projection_summary">Wyłączone: projekcja otwiera się tylko na ekranie tej stacji.</string>
+    <string name="allow_embedded_projection_help">Inna aplikacja może wyświetlać projekcję we własnym oknie lub na innym ekranie. Domyślnie ta opcja jest wyłączona, aby żadna inna aplikacja nie mogła przejąć obrazu. Launchery z podzielonym ekranem i niektóre drugie ekrany jej wymagają. Włącz ją tylko wtedy, gdy z takiego korzystasz.</string>
     <string name="audio_stream_settings">Strumienie dźwięku</string>
     <string name="audio_stream_settings_description">Wybierz strumień systemowy, na którym odtwarzany jest każdy kanał Android Auto.</string>
     <string name="audio_stream_settings_info">Android Auto wysyła dźwięk trzema kanałami: Multimedia, Wskazówki i Dźwięki systemowe. Każdy trafia do radia samochodowego określonym strumieniem systemowym, a wybrany strumień decyduje, którym przyciskiem głośności jest sterowany i — w wielu radiach — czy wzmacniacz w ogóle się dla niego włączy. Użyj przycisku głośnika, aby przed zapisaniem usłyszeć ton testowy na danym strumieniu.</string>

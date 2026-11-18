@@ -313,6 +313,11 @@ class Settings(private val context: Context) {
             prefs.edit().putBoolean("night-overlay-while-locked", value).apply()
         }
 
+    /** Whether another app may show the projection on its own display. Off by default. */
+    var allowEmbeddedProjection: Boolean
+        get() = prefs.getBoolean("allow-embedded-projection", false)
+        set(value) { prefs.edit().putBoolean("allow-embedded-projection", value).apply() }
+
     var nightMode: NightMode
         get() {
             val value = prefs.getInt("night-mode", 0)
