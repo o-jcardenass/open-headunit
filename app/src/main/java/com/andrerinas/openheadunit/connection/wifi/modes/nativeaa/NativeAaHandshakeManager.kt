@@ -81,6 +81,8 @@ class NativeAaHandshakeManager(
     private val scope: CoroutineScope
 ) {
     companion object {
+        // Process-wide, so a rebuilt mode cannot turn the radio back on inside the gap.
+        @Volatile private var lastAdapterReenableAtMs: Long? = null
         /** Where the BLINK daemon keeps its module's Bluetooth address. BLINK only. */
         private const val BLINK_MODULE_ADDRESS_PROPERTY = "persist.blinkbt.addr"
         private val AA_UUID = UUID.fromString("4de17a00-52cb-11e6-bdf4-0800200c9a66")
@@ -278,6 +280,9 @@ class NativeAaHandshakeManager(
     // Bumped by stop() so a measurement that outlives its arming cannot start the next one.
     @Volatile private var measureGeneration = 0
     @Volatile private var wakeAwaitingModule = false
+
+    // The selected adapter is asked to come back once per listener loss, not on every retry.
+    @Volatile private var adapterReenableAsked = false
     // Set by closeAaListeners() so the AA accept loops can tell "we closed this on purpose
     // after a successful handoff" apart from a real socket error, for logging only.
     @Volatile private var aaListenersClosedForSession = false
@@ -1242,31 +1247,28 @@ class NativeAaHandshakeManager(
         AppLog.i("NativeAA: enabling the selected Android Bluetooth adapter before the handshake.")
         bluetoothStartupJob = scope.launch {
             try {
-                val result = withContext(Dispatchers.IO) {
-                    BluetoothAdapterStartup.awaitOn(
-                        Build.VERSION.SDK_INT,
-                        readState = {
-                            when (adapter.state) {
-                                BluetoothAdapter.STATE_OFF -> BluetoothAdapterStartup.State.OFF
-                                BluetoothAdapter.STATE_TURNING_ON -> BluetoothAdapterStartup.State.TURNING_ON
-                                BluetoothAdapter.STATE_ON -> BluetoothAdapterStartup.State.ON
-                                BluetoothAdapter.STATE_TURNING_OFF -> BluetoothAdapterStartup.State.TURNING_OFF
-                                else -> BluetoothAdapterStartup.State.UNAVAILABLE
-                            }
-                        },
-                        requestEnable = { adapter.enable() },
-                    )
-                }
-                if (measureGeneration != generation || !settings.nativeAaEnableBluetooth) return@launch
+                val result = withContext(Dispatchers.IO) { awaitAdapterOn(adapter) }
+                val after = BluetoothAdapterStartup.afterWait(
+                    measureGeneration == generation, settings.nativeAaEnableBluetooth, result
+                )
+                if (after == BluetoothAdapterStartup.AfterWait.IGNORE) return@launch
                 enablingAndroidBluetooth = false
                 bluetoothStartupJob = null
-                if (result == BluetoothAdapterStartup.Result.READY) {
-                    AppLog.i("NativeAA: the selected Android Bluetooth adapter is ON; starting the handshake.")
-                    resumeAfterDaemonMeasurement(generation)
-                } else {
-                    notStartedReason = "the selected Android Bluetooth adapter did not turn on ($result); enable it in system Settings"
-                    AppLog.w("NativeAA: $notStartedReason")
-                    wakeAwaitingModule = false
+                when (after) {
+                    BluetoothAdapterStartup.AfterWait.RESUME -> {
+                        AppLog.i("NativeAA: the selected Android Bluetooth adapter is ON; starting the handshake.")
+                        resumeAfterDaemonMeasurement(generation)
+                    }
+                    BluetoothAdapterStartup.AfterWait.ABANDONED -> {
+                        notStartedReason = "the option to turn on the selected Android Bluetooth adapter was turned off"
+                        AppLog.i("NativeAA: $notStartedReason")
+                        wakeAwaitingModule = false
+                    }
+                    else -> {
+                        notStartedReason = "the selected Android Bluetooth adapter did not turn on ($result); enable it in system Settings"
+                        AppLog.w("NativeAA: $notStartedReason")
+                        wakeAwaitingModule = false
+                    }
                 }
             } catch (e: CancellationException) {
                 throw e
@@ -1285,6 +1287,24 @@ class NativeAaHandshakeManager(
         }
     }
 
+    /** Waits for the selected adapter to be ON, asking it to turn on when it is OFF. */
+    @SuppressLint("MissingPermission")
+    @Suppress("DEPRECATION")
+    private suspend fun awaitAdapterOn(adapter: BluetoothAdapter): BluetoothAdapterStartup.Result =
+        BluetoothAdapterStartup.awaitOn(
+            Build.VERSION.SDK_INT,
+            readState = {
+                when (adapter.state) {
+                    BluetoothAdapter.STATE_OFF -> BluetoothAdapterStartup.State.OFF
+                    BluetoothAdapter.STATE_TURNING_ON -> BluetoothAdapterStartup.State.TURNING_ON
+                    BluetoothAdapter.STATE_ON -> BluetoothAdapterStartup.State.ON
+                    BluetoothAdapter.STATE_TURNING_OFF -> BluetoothAdapterStartup.State.TURNING_OFF
+                    else -> BluetoothAdapterStartup.State.UNAVAILABLE
+                }
+            },
+            requestEnable = { adapter.enable() },
+        )
+
     private fun unregisterBtStateReceiver() {
         if (!btStateReceiverRegistered) return
         btStateReceiverRegistered = false
@@ -1299,6 +1319,7 @@ class NativeAaHandshakeManager(
     private fun onAaListenerLost() {
         if (aaListenerLost) return
         aaListenerLost = true
+        adapterReenableAsked = false
         aaServerSocket = null
         AppLog.w(
             "NativeAA: the Android Auto listener is down, so nothing can answer the phone. " +
@@ -1315,6 +1336,20 @@ class NativeAaHandshakeManager(
                 delay(AaListenerRecoveryPolicy.REOPEN_DELAY_MS)
                 val adapter = BluetoothHelper.getBluetoothAdapter(context)
                 val enabled = try { adapter != null && adapter.isEnabled } catch (e: Exception) { false }
+                val now = SystemClock.elapsedRealtime()
+                if (adapter != null && AaListenerRecoveryPolicy.enablesAdapter(
+                        enabled, settings.nativeAaEnableBluetooth,
+                        BluetoothAdapterStartup.supported(Build.VERSION.SDK_INT), adapterReenableAsked,
+                        now, lastAdapterReenableAtMs)) {
+                    adapterReenableAsked = true
+                    lastAdapterReenableAtMs = now
+                    AppLog.i("NativeAA: this unit's Bluetooth is off; enabling the selected Android Bluetooth adapter once.")
+                    val result = awaitAdapterOn(adapter)
+                    if (result != BluetoothAdapterStartup.Result.READY) {
+                        AppLog.w("NativeAA: the selected Android Bluetooth adapter did not turn on ($result).")
+                    }
+                    continue
+                }
                 if (!AaListenerRecoveryPolicy.mayReopen(enabled, aaReopenAttempts)) {
                     if (!enabled) continue
                     AppLog.w(
@@ -4478,6 +4513,7 @@ class NativeAaHandshakeManager(
         standingInForHfp = false
         aaReopenJob?.cancel()
         aaReopenJob = null
+        adapterReenableAsked = false
         aaListenerLost = false
         aaReopenAttempts = 0
         unregisterBtStateReceiver()

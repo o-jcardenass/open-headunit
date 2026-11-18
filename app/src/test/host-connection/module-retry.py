@@ -91,6 +91,7 @@ class Manager {
  val commManager=Comm()
  class Comm {var isConnected=false}
  fun isMeasuringDaemon()=measuringDaemon
+ fun isAttemptInFlight()=enablingAndroidBluetooth
  // Replace only route selection/measurement; all downstream production methods are below.
  fun start(){starts++;if(measurementRequired)measuringDaemon=true else startOverExternalModule()}
  private fun start(resumingMeasurement:Boolean){start()}
@@ -157,6 +158,9 @@ code = code.replace('// BUTTON_BRANCH', member('aap/AapService.kt',
 (OUT / 'Fixture.kt').write_text(code)
 policy = (SRC / 'connection/wifi/modes/nativeaa/ModuleRearmPolicy.kt').read_text()
 (OUT / 'ModuleRearmPolicy.kt').write_text(policy.replace(
+    'package com.andrerinas.openheadunit.connection.wifi.modes.nativeaa', 'package moduleretry'))
+notice = (SRC / 'connection/wifi/modes/nativeaa/NotRunningNoticePolicy.kt').read_text()
+(OUT / 'NotRunningNoticePolicy.kt').write_text(notice.replace(
     'package com.andrerinas.openheadunit.connection.wifi.modes.nativeaa', 'package moduleretry'))
 (OUT / 'extracted-method-sha256.json').write_text(json.dumps(methods, indent=2))
 toolchain = json.loads((OUT.parent / 'toolchain.json').read_text())

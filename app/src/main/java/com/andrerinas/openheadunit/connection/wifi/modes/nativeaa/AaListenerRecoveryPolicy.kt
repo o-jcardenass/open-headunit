@@ -42,4 +42,19 @@ object AaListenerRecoveryPolicy {
      */
     fun mayReopen(adapterEnabled: Boolean, attemptsSoFar: Int): Boolean =
         adapterEnabled && attemptsSoFar < MAX_REOPEN_ATTEMPTS
+
+    /** The shortest gap between two re-enables, so a unit that turns its radio off at ACC off can sleep. */
+    const val ADAPTER_REENABLE_GAP_MS = 60_000L
+
+    /**
+     * Whether a lost listener's radio is asked to turn back on. While the option is on, this also
+     * reverses a user's own switch-off: at most once per loss, and never twice within
+     * [ADAPTER_REENABLE_GAP_MS]. [lastAskedAtMs] is elapsedRealtime of the last ask, null for none.
+     */
+    fun enablesAdapter(
+        enabled: Boolean, optionOn: Boolean, supported: Boolean, alreadyAsked: Boolean,
+        nowMs: Long, lastAskedAtMs: Long?,
+    ): Boolean =
+        !enabled && optionOn && supported && !alreadyAsked &&
+            (lastAskedAtMs == null || nowMs - lastAskedAtMs >= ADAPTER_REENABLE_GAP_MS)
 }

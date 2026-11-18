@@ -61,6 +61,7 @@ import com.andrerinas.openheadunit.connection.wifi.WirelessSleepHold
 import com.andrerinas.openheadunit.connection.wifi.UserExitHotspotPolicy
 import com.andrerinas.openheadunit.main.MainActivity
 import com.andrerinas.openheadunit.R
+import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.NotRunningNoticePolicy
 import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.zbt.ZbtDaemonReachability
 import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.zjsocket.ZjSocketProbe
 import com.andrerinas.openheadunit.utils.AppLog
@@ -3899,8 +3900,10 @@ class AapService : Service() {
                             )
                             activeLauncher.handshakeManager?.start()
                             // start() logs why it gave up; the person who pressed the button gets told too.
-                            if (activeLauncher.handshakeManager?.isMeasuringDaemon() != true &&
-                                activeLauncher.handshakeManager?.notStartedReason() != null) {
+                            if (NotRunningNoticePolicy.shows(
+                                    activeLauncher.handshakeManager?.isMeasuringDaemon() == true,
+                                    activeLauncher.handshakeManager?.isAttemptInFlight(),
+                                    activeLauncher.handshakeManager?.notStartedReason())) {
                                 ToastUtils.showToast(this, getString(R.string.native_aa_poke_not_running))
                             }
                         } else if (activeLauncher is WifiLauncherNative && activeLauncher.handshakeManager?.isActive() != true) {
@@ -3957,10 +3960,11 @@ class AapService : Service() {
                             // it to a carrier started immediately, without another credential event.
                             native?.handshakeManager?.wakeOverModule()
                             // A press that started the measurement is working, not failing.
-                            if (native?.handshakeManager?.isMeasuringDaemon() != true) {
-                                native?.handshakeManager?.notStartedReason()?.let {
-                                    ToastUtils.showToast(this, getString(R.string.native_aa_poke_not_running))
-                                }
+                            if (NotRunningNoticePolicy.shows(
+                                    native?.handshakeManager?.isMeasuringDaemon() == true,
+                                    native?.handshakeManager?.isAttemptInFlight(),
+                                    native?.handshakeManager?.notStartedReason())) {
+                                ToastUtils.showToast(this, getString(R.string.native_aa_poke_not_running))
                             }
                         }
                         ModuleRearmPolicy.Action.WAKE_PHONE ->
