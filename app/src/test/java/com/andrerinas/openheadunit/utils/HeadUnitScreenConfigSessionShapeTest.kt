@@ -8,7 +8,19 @@ import org.junit.Test
 class HeadUnitScreenConfigSessionShapeTest {
 
     @After
-    fun endSession() = HeadUnitScreenConfig.unlockResolution()
+    fun endSession() {
+        HeadUnitScreenConfig.unlockResolution()
+        HeadUnitScreenConfig.resetShapeGuard()
+    }
+
+    @Test
+    fun `a session start advances the redraw guard`() {
+        HeadUnitScreenConfig.noteShapeRedraw(ScreenOrientationPolicy.Normalisation.LANDSCAPE)
+        HeadUnitScreenConfig.recordSessionShape(2094, 1080)
+        assertEquals(ScreenOrientationPolicy.Normalisation.LANDSCAPE, HeadUnitScreenConfig.shapeRedrawnFor())
+        HeadUnitScreenConfig.recordSessionShape(2094, 1080)
+        assertNull(HeadUnitScreenConfig.shapeRedrawnFor())
+    }
 
     @Test
     fun `the session is announced in the shape of its canvas`() {

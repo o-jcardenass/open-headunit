@@ -207,7 +207,20 @@ class ScreenOrientationPolicyTest {
         window: ScreenOrientationPolicy.Normalisation? = ScreenOrientationPolicy.Normalisation.LANDSCAPE,
         readingIsOurs: Boolean = true,
         alreadyRedrawnFor: ScreenOrientationPolicy.Normalisation? = null,
-    ) = ScreenOrientationPolicy.redrawsSession(negotiated, window, readingIsOurs, alreadyRedrawnFor)
+        selfModeSession: Boolean = false,
+    ) = ScreenOrientationPolicy.redrawsSession(negotiated, window, readingIsOurs, alreadyRedrawnFor, selfModeSession)
+
+    // merged-bughunt-probe round 1 RS: after the redraw's reconnect Android Auto 18.2 took the socket
+    // and never answered, and the Self Mode session ended for good.
+    @Test
+    fun `a Self Mode session is never redrawn`() {
+        assertFalse(redraws(selfModeSession = true))
+        assertFalse(redraws(
+            negotiated = ScreenOrientationPolicy.Normalisation.LANDSCAPE,
+            window = ScreenOrientationPolicy.Normalisation.PORTRAIT,
+            selfModeSession = true,
+        ))
+    }
 
     @Test
     fun `a session whose own window turns to the other shape is redrawn`() {
@@ -270,5 +283,47 @@ class ScreenOrientationPolicyTest {
                 ScreenOrientationPolicy.sessionOrientation(setting, negotiatedLandscape = true)
             )
         }
+    }
+
+    @Test
+    fun `our window shown over the keyguard describes the projection`() {
+        assertTrue(ScreenOrientationPolicy.describesProjection(
+            startedActivity = true, pictureInPicture = false, screenInteractive = true, keyguardLocked = true,
+            shownOverKeyguard = true,
+        ))
+        assertFalse(ScreenOrientationPolicy.describesProjection(
+            startedActivity = true, pictureInPicture = false, screenInteractive = true, keyguardLocked = true,
+            shownOverKeyguard = false,
+        ))
+        assertFalse(ScreenOrientationPolicy.describesProjection(
+            startedActivity = true, pictureInPicture = false, screenInteractive = false, keyguardLocked = true,
+            shownOverKeyguard = true,
+        ))
+    }
+
+    private val landscape = ScreenOrientationPolicy.Normalisation.LANDSCAPE
+    private val portrait = ScreenOrientationPolicy.Normalisation.PORTRAIT
+
+    @Test
+    fun `the next session shape follows a fixed setting, not the window`() {
+        assertEquals(landscape, ScreenOrientationPolicy.nextSessionShape(Settings.ScreenOrientation.LANDSCAPE, landscape))
+        assertEquals(landscape, ScreenOrientationPolicy.nextSessionShape(Settings.ScreenOrientation.LANDSCAPE, portrait))
+        assertEquals(portrait, ScreenOrientationPolicy.nextSessionShape(Settings.ScreenOrientation.PORTRAIT_REVERSE, landscape))
+        assertEquals(portrait, ScreenOrientationPolicy.nextSessionShape(Settings.ScreenOrientation.SYSTEM, portrait))
+        assertNull(ScreenOrientationPolicy.nextSessionShape(Settings.ScreenOrientation.SYSTEM, null))
+    }
+
+    @Test
+    fun `a fixed landscape setting under a portrait window never redraws into the same shape`() {
+        val next = ScreenOrientationPolicy.nextSessionShape(Settings.ScreenOrientation.LANDSCAPE, portrait)
+        assertFalse(redraws(negotiated = landscape, window = next))
+    }
+
+    @Test
+    fun `system follows a real turn and a setting changed mid-session still redraws`() {
+        val turned = ScreenOrientationPolicy.nextSessionShape(Settings.ScreenOrientation.SYSTEM, portrait)
+        assertTrue(redraws(negotiated = landscape, window = turned))
+        val changed = ScreenOrientationPolicy.nextSessionShape(Settings.ScreenOrientation.PORTRAIT, landscape)
+        assertTrue(redraws(negotiated = landscape, window = changed))
     }
 }
