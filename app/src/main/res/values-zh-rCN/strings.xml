@@ -1259,7 +1259,7 @@
     <string name="stand_down_station_auto">自动</string>
     <string name="stand_down_station_always">始终</string>
     <string name="stand_down_station_never">从不</string>
-    <string name="stand_down_station_hint">决定手机连接期间本车机是否离开自己的 Wi-Fi 网络，以便 WiFi Direct 群组使用 5 GHz 信道。“自动”仅在无线模块支持 5 GHz 频段且网络处于 2.4 GHz 时离开，或在群组被强制使用 2.4 GHz 且旁边有 5 GHz 网络时离开。仅支持 2.4 GHz 的车机会保持连接，因为离开只会触发网络扫描。会话结束时会重新加入网络。画面卡顿时请尝试“始终”或“从不”。</string>
+    <string name="stand_down_station_hint">决定手机连接期间，本设备是否退出自己的 Wi-Fi 网络，以便 Wi-Fi Direct 群组使用无线电。自动模式会在群组能多获得一个频段时退出，或在 Android 7.1 及更低版本上，仅支持 2.4 GHz 的无线电需要为旧版 Wi-Fi Direct 释放站点连接时退出。在较新的 Android 版本上，仅支持 2.4 GHz 的设备会保持连接，因为退出只会触发扫描。无线模式停止后会重新加入该网络。如果画面卡顿，请试试始终或从不。</string>
     <string name="stand_down_station_needs_overlay">在此 Android 版本上，需要“显示在其他应用的上层”权限。</string>
     <string name="connection_issue_banner_bt_silent">您的手机已通过蓝牙连接，但本机的蓝牙未能向其发送任何数据。点按可选择无需蓝牙的模式，例如 Wireless Helper。</string>
     <string name="connection_issue_banner_bssid">本机不肯提供其 WLAN 地址，因此手机不知道该加入哪个网络。请开启位置信息，或点按手动输入地址。</string>

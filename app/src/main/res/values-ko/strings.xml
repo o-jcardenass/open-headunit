@@ -1256,7 +1256,7 @@
     <string name="stand_down_station_auto">자동</string>
     <string name="stand_down_station_always">항상</string>
     <string name="stand_down_station_never">안 함</string>
-    <string name="stand_down_station_hint">휴대전화가 연결되는 동안 이 기기가 자체 Wi-Fi 네트워크에서 나갈지 정합니다. 이렇게 하면 Wi-Fi Direct 그룹이 5 GHz 채널을 쓸 수 있습니다. 자동은 무선 장치에 5 GHz 대역이 있고 네트워크가 2.4 GHz일 때, 또는 5 GHz 네트워크 옆에서 그룹이 2.4 GHz로 고정될 때만 나갑니다. 2.4 GHz만 지원하는 기기는 나가도 네트워크만 검색하므로 연결을 유지합니다. 세션이 끝나면 네트워크에 다시 연결됩니다. 화면이 끊기면 항상 또는 안 함을 시도해 보세요.</string>
+    <string name="stand_down_station_hint">휴대폰이 연결되는 동안 이 기기가 자체 Wi-Fi 네트워크에서 나갈지 정합니다. Wi-Fi Direct 그룹이 무선 장치를 사용할 수 있게 하기 위한 것입니다. 자동은 그룹이 대역을 더 얻을 수 있을 때 나갑니다. Android 7.1 이하에서 2.4 GHz만 지원하는 무선 장치가 기존 Wi-Fi Direct를 위해 스테이션 연결을 비워야 할 때도 나갑니다. 더 최신 Android에서는 나가도 검색만 시작되므로, 2.4 GHz만 지원하는 기기는 연결을 유지합니다. 무선 모드가 중지되면 네트워크에 다시 연결합니다. 화면이 끊기면 항상 또는 안 함을 시도해 보세요.</string>
     <string name="stand_down_station_needs_overlay">이 Android 버전에서는 \"다른 앱 위에 표시\" 권한이 필요합니다.</string>
     <string name="connection_issue_banner_bt_silent">휴대전화가 블루투스로 연결되었지만 이 기기의 블루투스로 휴대전화에 데이터를 전송하지 못했습니다. 블루투스가 필요 없는 모드(예: Wireless Helper)를 선택하려면 탭하세요.</string>
     <string name="connection_issue_banner_bssid">이 기기의 Wi-Fi 주소를 확인할 수 없어 휴대전화에 연결할 네트워크 정보를 보내지 못했습니다. 위치 서비스를 켜거나, 주소를 직접 입력하려면 탭하세요.</string>
