@@ -15,6 +15,16 @@ internal object BluetoothAdapterStartup {
 
     fun supported(sdkInt: Int): Boolean = sdkInt <= LAST_SUPPORTED_SDK
 
+    enum class AfterWait { IGNORE, ABANDONED, RESUME, FAILED }
+
+    /** What the caller does once [awaitOn] returns: a replaced wait does nothing, a turned-off option stops it. */
+    fun afterWait(sameGeneration: Boolean, optionOn: Boolean, result: Result): AfterWait = when {
+        !sameGeneration -> AfterWait.IGNORE
+        !optionOn -> AfterWait.ABANDONED
+        result == Result.READY -> AfterWait.RESUME
+        else -> AfterWait.FAILED
+    }
+
     /**
      * Only OFF accepts an enable request. Wait out a transition, retry a refused request within
      * a fixed budget, and propagate cancellation so a stopped wireless mode never starts later.

@@ -106,4 +106,21 @@ class BluetoothAdapterStartupTest {
         assertEquals(1, requests)
         assertFalse(completed)
     }
+
+    @Test
+    fun `afterWait ignores a replaced generation and abandons a turned-off option`() {
+        val ready = BluetoothAdapterStartup.Result.READY
+        assertEquals(BluetoothAdapterStartup.AfterWait.IGNORE, BluetoothAdapterStartup.afterWait(false, true, ready))
+        assertEquals(BluetoothAdapterStartup.AfterWait.IGNORE, BluetoothAdapterStartup.afterWait(false, false, ready))
+        assertEquals(BluetoothAdapterStartup.AfterWait.ABANDONED, BluetoothAdapterStartup.afterWait(true, false, ready))
+    }
+
+    @Test
+    fun `afterWait resumes on ready and fails on any other result`() {
+        assertEquals(BluetoothAdapterStartup.AfterWait.RESUME,
+            BluetoothAdapterStartup.afterWait(true, true, BluetoothAdapterStartup.Result.READY))
+        for (r in BluetoothAdapterStartup.Result.values().filter { it != BluetoothAdapterStartup.Result.READY }) {
+            assertEquals(BluetoothAdapterStartup.AfterWait.FAILED, BluetoothAdapterStartup.afterWait(true, true, r))
+        }
+    }
 }
