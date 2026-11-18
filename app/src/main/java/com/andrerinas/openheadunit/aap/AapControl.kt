@@ -453,6 +453,7 @@ internal class AapControlService(
 
     private fun serviceDiscoveryRequest(request: Control.ServiceDiscoveryRequest): Int {
         AppLog.i("Service Discovery Request: %s", request.phoneName)
+        aapTransport.phoneIdentity = "${request.phoneBrand} ${request.phoneName}"
 
         val msg = discoveryResponse ?: run {
             val contract = checkNotNull(aapTransport.galContract) { "Service discovery before GAL agreement" }
