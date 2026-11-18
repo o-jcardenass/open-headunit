@@ -1391,6 +1391,9 @@
     <string name="show_over_lock_screen">Afficher sur l\'écran de verrouillage</string>
     <string name="show_over_lock_screen_summary">Carte et guidage visibles verrouillé. Seules les touches de volume marchent.</string>
     <string name="show_over_lock_screen_help">Affiche l\'image d\'Android Auto sur l\'écran de verrouillage, pour lire la carte et le guidage sans déverrouiller. Tant que cet appareil est verrouillé, rien n\'atteint le téléphone : les appuis, les touches, le contrôleur rotatif et la touche vocale sont bloqués, et la carte passe au premier plan. Appuyez sur Retour pour déverrouiller avec votre code PIN, schéma ou mot de passe. Ensuite, tout fonctionne comme d\'habitude. Les touches de volume restent actives. La musique, les appels et l\'assistant vocal du téléphone ne sont pas touchés. Les cartes d\'appel et de message s\'affichent donc aussi sur l\'image pendant le verrouillage.</string>
+    <string name="allow_embedded_projection">Autoriser d\'autres applications à afficher la projection</string>
+    <string name="allow_embedded_projection_summary">Désactivé : la projection s\'ouvre uniquement sur l\'écran de cet appareil.</string>
+    <string name="allow_embedded_projection_help">Une autre application peut afficher la projection dans sa propre fenêtre ou sur un autre écran. Cette option est désactivée par défaut pour qu\'aucune autre application ne puisse s\'emparer de l\'image. Les lanceurs en écran partagé et certains écrans secondaires en ont besoin. Activez-la uniquement si vous en utilisez un.</string>
     <string name="show_over_lock_screen_locked_toast">Verrouillé : carte uniquement. Appuyez sur Retour pour déverrouiller.</string>
     <string name="audio_stream_settings">Flux audio</string>
     <string name="audio_stream_settings_description">Choisissez le flux système sur lequel joue chaque canal Android Auto.</string>

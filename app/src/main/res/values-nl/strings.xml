@@ -1339,6 +1339,9 @@
     <string name="show_over_lock_screen">Boven vergrendelscherm tonen</string>
     <string name="show_over_lock_screen_summary">Kaart en route zichtbaar bij vergrendeling. Alleen volumetoetsen werken.</string>
     <string name="show_over_lock_screen_help">Toont het Android Auto-beeld boven het vergrendelscherm, zodat je kaart en route kunt lezen zonder te ontgrendelen. Zolang deze unit vergrendeld is, komt er niets door naar de telefoon: aanrakingen, toetsen, de draaiknop en de spraaktoets worden tegengehouden en de kaart komt op de voorgrond. Druk op Terug om met je pincode, patroon of wachtwoord te ontgrendelen. Daarna werkt alles weer zoals gewoonlijk. De volumetoetsen blijven werken. Muziek, gesprekken en de spraakassistent op de telefoon zelf blijven ongemoeid, dus gesprek- en berichtkaarten staan ook vergrendeld in beeld.</string>
+    <string name="allow_embedded_projection">Andere apps de projectie laten tonen</string>
+    <string name="allow_embedded_projection_summary">Uit: de projectie opent alleen op het eigen scherm van deze unit.</string>
+    <string name="allow_embedded_projection_help">Een andere app kan de projectie in een eigen venster of op een ander scherm tonen. Dit staat standaard uit, zodat geen andere app het beeld kan overnemen. Launchers met gesplitst scherm en sommige tweede schermen hebben dit nodig. Zet het alleen aan als je zoiets gebruikt.</string>
     <string name="show_over_lock_screen_locked_toast">Vergrendeld: alleen kaart. Druk op Terug om te ontgrendelen.</string>
     <string name="audio_stream_settings">Audiostreams</string>
     <string name="audio_stream_settings_description">Kies via welke systeemstream elk Android Auto-kanaal wordt afgespeeld.</string>

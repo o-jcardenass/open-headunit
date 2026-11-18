@@ -1328,6 +1328,9 @@
     <string name="show_over_lock_screen">Kilit ekranının üzerinde göster</string>
     <string name="show_over_lock_screen_summary">Harita ve yol tarifi kilitliyken görünür. Yalnızca ses tuşları çalışır.</string>
     <string name="show_over_lock_screen_help">Android Auto görüntüsünü kilit ekranının üzerinde gösterir. Böylece kilidi açmadan harita ve yol tarifini okuyabilirsiniz. Bu ünite kilitliyken telefona hiçbir şey ulaşmaz: dokunmalar, tuşlar, döner denetleyici ve ses tuşu tutulur, harita ise öne getirilir. PIN, desen veya parolayla kilidi açmak için Geri tuşuna basın. Bundan sonra her şey her zamanki gibi çalışır. Ses tuşları çalışmaya devam eder. Telefonun kendisindeki müzik, aramalar ve sesli asistan etkilenmez. Bu yüzden arama ve mesaj kartları kilitliyken de görüntüde görünür.</string>
+    <string name="allow_embedded_projection">Diğer uygulamaların yansıtmayı göstermesine izin ver</string>
+    <string name="allow_embedded_projection_summary">Kapalı: yansıtma yalnızca bu ünitenin kendi ekranında açılır.</string>
+    <string name="allow_embedded_projection_help">Başka bir uygulama yansıtmayı kendi penceresinde veya başka bir ekranda gösterebilir. Başka hiçbir uygulamanın görüntüyü ele geçirememesi için bu ayar varsayılan olarak kapalıdır. Bölünmüş ekran başlatıcıları ve bazı ikinci ekranlar bunun açık olmasını gerektirir. Yalnızca böyle bir şey kullanıyorsanız açın.</string>
     <string name="show_over_lock_screen_locked_toast">Kilitli: yalnızca harita. Kilidi açmak için Geri tuşuna basın.</string>
     <string name="audio_stream_settings">Ses akışları</string>
     <string name="audio_stream_settings_description">Her Android Auto kanalının hangi sistem akışında çalacağını seçin.</string>

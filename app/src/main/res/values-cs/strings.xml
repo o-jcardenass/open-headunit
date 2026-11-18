@@ -1335,6 +1335,9 @@
     <string name="show_over_lock_screen">Zobrazit na zamykací obrazovce</string>
     <string name="show_over_lock_screen_summary">Mapa a navigace jsou vidět i při zamknutí. Fungují jen tlačítka hlasitosti.</string>
     <string name="show_over_lock_screen_help">Zobrazí obraz Android Auto nad zamykací obrazovkou, takže mapu a navigaci přečtete bez odemknutí. Dokud je autorádio zamknuté, do telefonu se nic nedostane: dotyky, tlačítka, otočný ovladač i hlasové tlačítko se zadrží a mapa se přenese do popředí. Stisknutím Zpět odemknete PINem, gestem nebo heslem. Poté vše funguje jako obvykle. Tlačítka hlasitosti fungují i nadále. Hudba, hovory a hlasový asistent na samotném telefonu zůstávají beze změny, takže karty hovorů a zpráv se v obraze zobrazují i při zamknutí.</string>
+    <string name="allow_embedded_projection">Povolit jiným aplikacím zobrazit projekci</string>
+    <string name="allow_embedded_projection_summary">Vypnuto: projekce se otevře jen na displeji tohoto autorádia.</string>
+    <string name="allow_embedded_projection_help">Jiná aplikace může zobrazit projekci ve vlastním okně nebo na jiném displeji. Ve výchozím nastavení je to vypnuto, aby žádná jiná aplikace nemohla převzít obraz. Spouštěče s rozdělenou obrazovkou a některé druhé displeje to potřebují zapnuté. Zapněte to, jen pokud něco takového používáte.</string>
     <string name="show_over_lock_screen_locked_toast">Zamčeno: jen mapa. Stiskem Zpět odemknete.</string>
     <string name="audio_stream_settings">Zvukové streamy</string>
     <string name="audio_stream_settings_description">Vyberte systémový stream, na kterém hraje každý kanál Android Auto.</string>

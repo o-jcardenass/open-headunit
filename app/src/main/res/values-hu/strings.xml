@@ -1335,6 +1335,9 @@
     <string name="show_over_lock_screen">Megjelenítés a lezárási képernyőn</string>
     <string name="show_over_lock_screen_summary">A térkép és az útvonal zároláskor is látszik. Csak a hangerőgombok működnek.</string>
     <string name="show_over_lock_screen_help">Az Android Auto képét a zárolási képernyő fölött mutatja, így a térkép és az útvonal feloldás nélkül olvasható. Amíg az egység zárolt, semmi sem jut el a telefonra: az érintések, a gombok, a forgatógomb és a hanggomb visszatartva marad, a térkép pedig előtérbe kerül. A feloldáshoz nyomja meg a Vissza gombot, majd adja meg a PIN-kódot, a mintát vagy a jelszót. Utána minden a szokásos módon működik. A hangerőgombok továbbra is működnek. A telefonon futó zene, hívások és hangsegéd nem érintettek, ezért a hívás- és üzenetkártyák zároláskor is megjelennek a képen.</string>
+    <string name="allow_embedded_projection">Más alkalmazások megjeleníthetik a vetítést</string>
+    <string name="allow_embedded_projection_summary">Ki: a vetítés csak ennek az egységnek a saját képernyőjén nyílik meg.</string>
+    <string name="allow_embedded_projection_help">Egy másik alkalmazás a saját ablakában vagy egy másik képernyőn is megjelenítheti a vetítést. Ez alapértelmezetten ki van kapcsolva, hogy más alkalmazás ne vehesse át a képet. Az osztott képernyős indítóknak és egyes második képernyőknek szükségük van rá. Csak akkor kapcsolja be, ha ilyet használ.</string>
     <string name="show_over_lock_screen_locked_toast">Zárolva: csak térkép. Feloldáshoz nyomja meg a Vissza gombot.</string>
     <string name="audio_stream_settings">Hangfolyamok</string>
     <string name="audio_stream_settings_description">Válassza ki, melyik rendszerfolyamon szóljon az egyes Android Auto-csatornák hangja.</string>

@@ -1335,6 +1335,9 @@
     <string name="show_over_lock_screen">Mostrar sobre a tela de bloqueio</string>
     <string name="show_over_lock_screen_summary">Mapa e rotas aparecem com a tela bloqueada. Só as teclas de volume funcionam.</string>
     <string name="show_over_lock_screen_help">Mostra a imagem do Android Auto sobre a tela de bloqueio, para ler o mapa e as rotas sem desbloquear. Enquanto esta unidade está bloqueada, nada chega ao celular: toques, teclas, o controle giratório e a tecla de voz ficam retidos, e o mapa vai para o primeiro plano. Pressione Voltar para desbloquear com PIN, padrão ou senha. Depois disso, tudo funciona como de costume. As teclas de volume continuam funcionando. Música, chamadas e o assistente de voz do próprio celular não são afetados, então os cartões de chamadas e mensagens também aparecem na imagem com a unidade bloqueada.</string>
+    <string name="allow_embedded_projection">Permitir que outros apps mostrem a projeção</string>
+    <string name="allow_embedded_projection_summary">Desativado: a projeção abre só na tela desta unidade.</string>
+    <string name="allow_embedded_projection_help">Outro app pode mostrar a projeção na própria janela ou em outra tela. Isso fica desativado por padrão para que nenhum outro app assuma a imagem. Launchers de tela dividida e algumas telas secundárias precisam disso ativado. Ative só se você usar um deles.</string>
     <string name="show_over_lock_screen_locked_toast">Bloqueado: só o mapa. Pressione Voltar para desbloquear.</string>
     <string name="audio_stream_settings">Fluxos de áudio</string>
     <string name="audio_stream_settings_description">Escolha o fluxo do sistema em que cada canal do Android Auto toca.</string>

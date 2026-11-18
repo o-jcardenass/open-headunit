@@ -1340,6 +1340,9 @@
     <string name="show_over_lock_screen">Pokaż na ekranie blokady</string>
     <string name="show_over_lock_screen_summary">Mapa i wskazówki widać po blokadzie. Działają tylko przyciski głośności.</string>
     <string name="show_over_lock_screen_help">Pokazuje obraz Android Auto nad ekranem blokady, aby można było czytać mapę i wskazówki bez odblokowywania. Gdy ta stacja jest zablokowana, nic nie trafia do telefonu: dotyk, przyciski, pokrętło i przycisk głosowy są wstrzymane, a mapa wychodzi na pierwszy plan. Naciśnij Wstecz, aby odblokować kodem PIN, wzorem lub hasłem. Potem wszystko działa jak zwykle. Przyciski głośności nadal działają. Muzyka, połączenia i asystent głosowy na samym telefonie nie są ruszane, więc karty połączeń i wiadomości pojawiają się na obrazie także przy blokadzie.</string>
+    <string name="allow_embedded_projection">Zezwalaj innym aplikacjom na wyświetlanie projekcji</string>
+    <string name="allow_embedded_projection_summary">Wyłączone: projekcja otwiera się tylko na ekranie tej stacji.</string>
+    <string name="allow_embedded_projection_help">Inna aplikacja może wyświetlać projekcję we własnym oknie lub na innym ekranie. Domyślnie ta opcja jest wyłączona, aby żadna inna aplikacja nie mogła przejąć obrazu. Launchery z podzielonym ekranem i niektóre drugie ekrany jej wymagają. Włącz ją tylko wtedy, gdy z takiego korzystasz.</string>
     <string name="show_over_lock_screen_locked_toast">Zablokowane: tylko mapa. Naciśnij Wstecz, aby odblokować.</string>
     <string name="audio_stream_settings">Strumienie dźwięku</string>
     <string name="audio_stream_settings_description">Wybierz strumień systemowy, na którym odtwarzany jest każdy kanał Android Auto.</string>

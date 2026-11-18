@@ -1337,6 +1337,9 @@
     <string name="show_over_lock_screen">ロック画面の上に表示</string>
     <string name="show_over_lock_screen_summary">ロック中も地図と案内を表示します。操作できるのは音量キーのみです。</string>
     <string name="show_over_lock_screen_help">Android Autoの映像をロック画面の上に表示します。ロックを解除せずに地図と案内を読めます。このユニットがロックされている間、スマートフォンには何も届きません。タッチ、キー、ロータリーコントローラー、音声キーは保留され、地図が前面に表示されます。戻るを押し、PIN、パターン、パスワードでロックを解除します。その後は通常どおりに使えます。音量キーは引き続き使えます。スマートフォン本体の音楽、通話、音声アシスタントは影響を受けません。そのため、通話やメッセージのカードはロック中も映像に表示されます。</string>
+    <string name="allow_embedded_projection">他のアプリによる投影の表示を許可</string>
+    <string name="allow_embedded_projection_summary">オフ：投影はこのユニット自身の画面にのみ表示されます。</string>
+    <string name="allow_embedded_projection_help">他のアプリが自身のウィンドウや別の画面に投影を表示できます。他のアプリに映像を乗っ取られないよう、デフォルトではオフです。分割画面ランチャーや一部のセカンドスクリーンではオンにする必要があります。そうしたものを使う場合のみオンにしてください。</string>
     <string name="show_over_lock_screen_locked_toast">ロック中: 地図のみ。「戻る」でロック解除。</string>
     <string name="audio_stream_settings">オーディオストリーム</string>
     <string name="audio_stream_settings_description">Android Auto の各チャンネルを再生するシステムストリームを選択します。</string>

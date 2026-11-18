@@ -1335,6 +1335,9 @@
     <string name="show_over_lock_screen">عرض فوق شاشة القفل</string>
     <string name="show_over_lock_screen_summary">تظهر الخريطة والتوجيهات أثناء القفل. تعمل مفاتيح الصوت فقط.</string>
     <string name="show_over_lock_screen_help">يعرض صورة Android Auto فوق شاشة القفل، لتقرأ الخريطة والتوجيهات دون فتح القفل. ما دامت هذه الوحدة مقفلة، لا يصل أي شيء إلى الهاتف: تُحجب اللمسات والمفاتيح ومتحكم الدوران ومفتاح الصوت، وتُنقل الخريطة إلى الواجهة. اضغط رجوع لفتح القفل برمز PIN أو النمط أو كلمة المرور. بعد ذلك يعمل كل شيء كالمعتاد. تبقى مفاتيح مستوى الصوت تعمل. لا يتأثر الصوت والمكالمات والمساعد الصوتي على الهاتف نفسه، لذا تظهر بطاقات المكالمات والرسائل على الصورة أثناء القفل.</string>
+    <string name="allow_embedded_projection">السماح للتطبيقات الأخرى بعرض الإسقاط</string>
+    <string name="allow_embedded_projection_summary">معطّل: يُفتح الإسقاط على شاشة هذه الوحدة فقط.</string>
+    <string name="allow_embedded_projection_help">يمكن لتطبيق آخر عرض الإسقاط في نافذته الخاصة أو على شاشة أخرى. هذا الخيار متوقف تلقائيًا كي لا يتمكن أي تطبيق آخر من الاستيلاء على الصورة. تحتاج إليه مشغّلات الشاشة المقسّمة وبعض الشاشات الثانية. فعّله فقط إذا كنت تستخدم أحدها.</string>
     <string name="show_over_lock_screen_locked_toast">مقفل: الخريطة فقط. اضغط رجوع لفتح القفل.</string>
     <string name="audio_stream_settings">تدفقات الصوت</string>
     <string name="audio_stream_settings_description">اختر تدفق النظام الذي تُشغَّل عليه كل قناة من قنوات Android Auto.</string>

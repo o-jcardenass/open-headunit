@@ -1331,6 +1331,9 @@
     <string name="show_over_lock_screen">在锁屏上显示</string>
     <string name="show_over_lock_screen_summary">锁定时仍显示地图和导航。只有音量键可用。</string>
     <string name="show_over_lock_screen_help">在锁屏界面上方显示 Android Auto 画面，无需解锁即可查看地图和导航。本设备锁定期间，手机收不到任何操作：触摸、按键、旋转控制器和语音键都会被拦截，地图会置于最前。按返回键，再用 PIN、图案或密码解锁。之后一切恢复正常。音量键仍然可用。手机本身的音乐、通话和语音助手不受影响，因此来电和消息卡片在锁定时仍会显示在画面上。</string>
+    <string name="allow_embedded_projection">允许其他应用显示投屏内容</string>
+    <string name="allow_embedded_projection_summary">关闭：投屏内容只在本设备自己的屏幕上打开。</string>
+    <string name="allow_embedded_projection_help">其他应用可以在自己的窗口或其他屏幕上显示投屏内容。此选项默认关闭，以免其他应用接管画面。分屏启动器和部分副屏需要开启此选项。仅在使用此类功能时开启。</string>
     <string name="show_over_lock_screen_locked_toast">已锁定：仅显示地图。按“返回”解锁。</string>
     <string name="audio_stream_settings">音频流</string>
     <string name="audio_stream_settings_description">选择每个 Android Auto 通道使用哪个系统流播放。</string>

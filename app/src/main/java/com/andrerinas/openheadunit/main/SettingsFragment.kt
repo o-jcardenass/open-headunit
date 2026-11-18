@@ -282,6 +282,7 @@ class SettingsFragment : Fragment() {
     private var pendingAutoKillOemApps by pending::autoKillOemApps
     private var pendingRaiseProjectionDuringCall by pending::raiseProjectionDuringCall
     private var pendingShowOverLockScreen by pending::showOverLockScreen
+    private var pendingAllowEmbeddedProjection by pending::allowEmbeddedProjection
 
     // Custom Insets
     private var pendingInsetLeft by pending::insetLeft
@@ -709,6 +710,7 @@ class SettingsFragment : Fragment() {
         pendingAutoKillOemApps?.let { if (it != settings.autoKillOemApps) settings.autoKillOemApps = it }
         pendingRaiseProjectionDuringCall?.let { if (it != settings.raiseProjectionDuringCall) settings.raiseProjectionDuringCall = it }
         pendingShowOverLockScreen?.let { if (it != settings.showOverLockScreen) settings.showOverLockScreen = it }
+        pendingAllowEmbeddedProjection?.let { if (it != settings.allowEmbeddedProjection) settings.allowEmbeddedProjection = it }
         pendingAutoEnableHotspot?.let { if (it != settings.autoEnableHotspot) settings.autoEnableHotspot = it }
         // Read by every discovery sweep and by the home, so neither needs a restart. Written even
         // when unchanged: a unit that never chose reads its choice off "Auto-Enable Hotspot", and
@@ -2218,6 +2220,19 @@ class SettingsFragment : Fragment() {
                 }
             ))
         }
+
+        items.add(SettingItem.ToggleSettingEntry(
+            stableId = "allowEmbeddedProjection",
+            nameResId = R.string.allow_embedded_projection,
+            descriptionResId = R.string.allow_embedded_projection_summary,
+            helpResId = R.string.allow_embedded_projection_help,
+            isChecked = pendingAllowEmbeddedProjection ?: settings.allowEmbeddedProjection,
+            onCheckedChanged = { isChecked ->
+                pendingAllowEmbeddedProjection = isChecked
+                checkChanges()
+                updateSettingsList()
+            }
+        ))
 
         if (!isCarLauncherActive) {
             val exitActions = arrayOf(
