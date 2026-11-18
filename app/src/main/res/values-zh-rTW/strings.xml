@@ -1263,7 +1263,7 @@
     <string name="stand_down_station_auto">自動</string>
     <string name="stand_down_station_always">一律</string>
     <string name="stand_down_station_never">從不</string>
-    <string name="stand_down_station_hint">決定手機連線期間本車機是否離開自己的 Wi-Fi 網路，讓 WiFi Direct 群組可以使用 5 GHz 頻道。「自動」只會在無線模組支援 5 GHz 頻段且網路處於 2.4 GHz 時離開，或在群組被強制使用 2.4 GHz 且旁邊有 5 GHz 網路時離開。僅支援 2.4 GHz 的車機會保持連線，因為離開只會觸發網路掃描。工作階段結束時會重新加入網路。畫面卡頓時請嘗試「一律」或「從不」。</string>
+    <string name="stand_down_station_hint">決定手機連線期間，本機是否離開自己的 Wi-Fi 網路，讓 Wi-Fi Direct 群組可以使用無線電。自動模式會在群組能多取得一個頻段時離開，或在 Android 7.1 以下版本中，僅支援 2.4 GHz 的無線電需要為舊版 Wi-Fi Direct 釋放基地台連線時離開。在較新的 Android 版本中，僅支援 2.4 GHz 的裝置會保持連線，因為離開只會觸發掃描。無線模式停止後會重新加入該網路。如果畫面卡頓，請試試一律或從不。</string>
     <string name="stand_down_station_needs_overlay">在此 Android 版本上，需要「重疊顯示於其他應用程式上方」權限。</string>
     <string name="connection_issue_banner_bt_silent">手機已透過藍牙連線，但本機的藍牙無法傳送任何資料給它。輕觸以選擇不需要藍牙的模式，例如 Wireless Helper。</string>
     <string name="connection_issue_banner_bssid">手機不知道要加入哪個網路，因為本機不願分享其 Wi-Fi 位址。請開啟位置功能，或輕觸以手動輸入位址。</string>

@@ -1269,7 +1269,7 @@
     <string name="stand_down_station_auto">自動</string>
     <string name="stand_down_station_always">常に</string>
     <string name="stand_down_station_never">しない</string>
-    <string name="stand_down_station_hint">スマートフォンの接続中に、この機器が自身の Wi-Fi ネットワークから離れるかを決めます。これにより WiFi Direct グループが 5 GHz チャンネルを使えます。自動では、無線が 5 GHz 帯に対応していてネットワークが 2.4 GHz の場合と、5 GHz のネットワークの横でグループが 2.4 GHz に固定される場合にだけ離れます。2.4 GHz のみの機器は、離れてもネットワークをスキャンするだけなので接続を維持します。ネットワークにはセッション終了時に再参加します。映像がカクつくときは、常に、またはしないを試してください。</string>
+    <string name="stand_down_station_hint">スマートフォンの接続中に、このユニットが自身のWi-Fiネットワークから切断するかどうかを決めます。Wi-Fi Directグループが無線を使えるようにするためです。自動では、グループが帯域を得られる場合に切断します。Android 7.1以前で2.4 GHzのみの無線が、従来のWi-Fi Direct用にステーション接続を解放する必要がある場合も切断します。新しいAndroidでは、切断してもスキャンが始まるだけなので、2.4 GHzのみのユニットは接続したままにします。ワイヤレスモードが止まると、ネットワークに再接続します。映像がカクつく場合は、常にまたはしないを試してください。</string>
     <string name="stand_down_station_needs_overlay">このAndroidバージョンでは「他のアプリの上に重ねて表示」の権限が必要です。</string>
     <string name="connection_issue_banner_bt_silent">スマートフォンはBluetoothで接続されましたが、この機器のBluetoothは何も送信できませんでした。タップして、Wireless Helperなど、それを必要としないモードを選択してください。</string>
     <string name="connection_issue_banner_bssid">この機器がWiFiアドレスを共有しなかったため、スマートフォンはどのネットワークに接続すべきか分かりませんでした。位置情報をオンにするか、タップしてアドレスを手動で入力してください。</string>
