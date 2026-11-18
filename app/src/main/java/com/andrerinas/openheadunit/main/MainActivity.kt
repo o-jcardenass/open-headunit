@@ -1301,6 +1301,11 @@ class MainActivity : BaseActivity() {
             hasRequestedPermissionsThisSession = true
             AppLog.i("MainActivity: Permissions request completed.")
         }
+        // Only this screen's own request: fragment launcher results also land here.
+        if (requestCode != permissionRequestCode) return
+        // The request asks only for missing permissions, so a grant here was missing before.
+        val granted = permissions.filterIndexed { i, _ -> grantResults.getOrNull(i) == PackageManager.PERMISSION_GRANTED }
+        WirelessGrantRearm.afterGrant(this, granted, "MainActivity")
     }
 
     private fun setFullscreen() {

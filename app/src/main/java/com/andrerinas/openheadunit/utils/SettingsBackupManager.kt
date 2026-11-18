@@ -331,7 +331,7 @@ object SettingsBackupManager {
         "wifi-scan-fyt-auto-start" to "fyt-auto-start"
     )
 
-    private val projectionRestartKeys = setOf(
+    internal val projectionRestartKeys = setOf(
         "resolutionId",
         "video-fit-mode",
         "video-codec",
@@ -373,6 +373,77 @@ object SettingsBackupManager {
         "wifi-scan-enabled",
         "wifi-scan-fyt-auto-start"
     )
+
+    /** Each restart key's default, read from its `Settings` getter; a key unset in prefs reads this. */
+    internal val restartDefaults: Map<String, Any> = mapOf(
+        "resolutionId" to 0,
+        "video-fit-mode" to 0,
+        "video-codec" to "Auto",
+        "gal-compatibility-mode" to false,
+        "fps-limit" to 60,
+        "dpi-pixel-density" to 0,
+        "dpi-auto-layout" to "",
+        "pixel-aspect-ratio-e4" to 10000,
+        "force-software-decoding" to false,
+        "software-video-decoder" to 1,
+        "enable-rotary" to false,
+        "enable-audio-sink" to true,
+        "use-head-unit-microphone" to true,
+        "static-audio-focus" to false,
+        "playback-focus-mode" to 0,
+        "separate-audio-streams" to false,
+        "media-audio-stream" to android.media.AudioManager.STREAM_MUSIC,
+        "guidance-audio-stream" to android.media.AudioManager.STREAM_VOICE_CALL,
+        "system-audio-stream" to android.media.AudioManager.STREAM_NOTIFICATION,
+        "use-aac-audio" to false,
+        "attach_hw_dsp_equalizer" to false,
+        "audio-latency-multiplier" to com.andrerinas.openheadunit.decoder.audio.AudioJitterBufferPolicy.DEFAULT_MULTIPLIER,
+        "audio-queue-capacity" to 50,
+        "use-native-ssl" to false,
+        "inset-left" to 0,
+        "inset-top" to 0,
+        "inset-right" to 0,
+        "inset-bottom" to 0,
+        "wifi-connection-mode" to 3,
+        "use-libusb" to false,
+        "dpi-floor-override" to false,
+        "hide-battery-level" to false,
+        "hide-phone-signal" to false,
+        "hide-clock" to false,
+        "narrow-band-profile-cap" to true,
+        "use-aaudio-output" to false,
+        "device-specific-head-unit-model" to "none",
+        "device-specific-pause-projection-on-reverse" to false,
+        "wifi-scan-enabled" to false,
+        "wifi-scan-fyt-auto-start" to false
+    )
+
+    /** [restartDefaults] with the keys whose getter falls back to a legacy key read as that getter reads them. */
+    internal fun restartDefaultsFor(existing: Map<String, *>): Map<String, Any> {
+        val fit = VideoFitPolicy.resolve(
+            storedFitMode = null,
+            legacyStretch = existing["stretch_to_fill"] as? Boolean,
+            legacyForcedScale = existing["forced_scale"] as? Boolean ?: false,
+            legacyViewMode = existing["view-mode"] as? Int ?: 1,
+        )
+        val wifiMode = when {
+            "wifi-launcher-mode" in existing -> if (existing["wifi-launcher-mode"] == true) 2 else 1
+            existing["native-aa-wireless"] == true -> 3
+            else -> restartDefaults.getValue("wifi-connection-mode")
+        }
+        return restartDefaults + mapOf("video-fit-mode" to fit.value, "wifi-connection-mode" to wifiMode)
+    }
+
+    /**
+     * The imported keys whose value differs from what the unit has now. A key not stored yet reads
+     * its default, so a backup that repeats the default changes nothing; a key with no entry in
+     * [restartDefaults] counts as changed.
+     */
+    fun changedKeys(existing: Map<String, *>, imported: Map<String, Any>, restartDefaults: Map<String, Any>): Set<String> =
+        imported.filter { (key, value) ->
+            if (key in existing) existing[key] != value
+            else restartDefaults[key]?.let { it != value } ?: true
+        }.keys
 
     fun defaultFileName(): String {
         val timestamp = SimpleDateFormat("yyyyMMdd-HHmmss", Locale.US).format(Date())
@@ -467,7 +538,7 @@ object SettingsBackupManager {
         val importData = parseImportJson(json)
         val existing = backupPreferences(context)
         val values = withLayoutCleared(importData.values, existing)
-        val changedKeys = values.filter { (key, value) -> existing[key] != value }.keys
+        val changedKeys = changedKeys(existing, values, restartDefaultsFor(existing))
 
         removeSupersededKeys(prefs, values.keys)
         applyValues(prefs, values.filterKeys { it !in wifiScanBackupKeys })

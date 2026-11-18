@@ -964,7 +964,7 @@
     <string name="settings_rail_collapse">ซ่อนชื่อหมวด</string>
     <string name="settings_rail_expand">แสดงชื่อหมวด</string>
     <string name="export_settings">ส่งออกการตั้งค่า</string>
-    <string name="export_settings_description">บันทึกข้อมูลสำรองการตั้งค่าเป็นไฟล์ JSON</string>
+    <string name="export_settings_description">บันทึกข้อมูลสำรองของการตั้งค่าเป็นไฟล์ JSON ซึ่งมีสถานที่ที่บันทึกไว้และที่อยู่ Bluetooth ของโทรศัพท์</string>
     <string name="export_settings_choose_location">เลือกตำแหน่งที่บันทึก</string>
     <string name="export_settings_downloads">บันทึกลงในดาวน์โหลด</string>
     <string name="export_settings_app_folder">บันทึกลงในโฟลเดอร์สำรองของแอป</string>

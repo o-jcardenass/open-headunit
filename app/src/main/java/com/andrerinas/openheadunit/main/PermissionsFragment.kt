@@ -24,7 +24,10 @@ class PermissionsFragment : Fragment() {
 
     private val normalLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
-    ) { binder?.rebind() }
+    ) { results ->
+        context?.let { WirelessGrantRearm.afterGrant(it, results.filterValues { granted -> granted }.keys, "PermissionsFragment") }
+        binder?.rebind()
+    }
     private val specialLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { binder?.rebind() }

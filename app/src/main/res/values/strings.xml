@@ -1066,7 +1066,7 @@
     <string name="settings_rail_collapse">Hide section names</string>
     <string name="settings_rail_expand">Show section names</string>
     <string name="export_settings">Export settings</string>
-    <string name="export_settings_description">Save a settings backup as a JSON file.</string>
+    <string name="export_settings_description">Save a settings backup as a JSON file. It holds your saved places and the phone\'s Bluetooth address.</string>
     <string name="export_settings_choose_location">Choose save location</string>
     <string name="export_settings_downloads">Save to Downloads</string>
     <string name="export_settings_app_folder">Save to app backup folder</string>

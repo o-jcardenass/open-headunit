@@ -792,7 +792,7 @@
     <string name="settings_rail_collapse">Bölüm adlarını gizle</string>
     <string name="settings_rail_expand">Bölüm adlarını göster</string>
     <string name="export_settings">Ayarları dışa aktar</string>
-    <string name="export_settings_description">Ayarların yedeğini bir JSON dosyası olarak kaydet.</string>
+    <string name="export_settings_description">Ayarların yedeğini JSON dosyası olarak kaydeder. Yedek, kayıtlı yerlerinizi ve telefonun Bluetooth adresini içerir.</string>
     <string name="export_settings_app_folder">Uygulama yedek klasörüne kaydet</string>
     <string name="onb_restore_settings">Ayarları yedekten geri yükle</string>
     <string name="export_settings_downloads">İndirilenlere kaydet</string>

@@ -964,7 +964,7 @@
     <string name="settings_rail_collapse">Sembunyikan nama bagian</string>
     <string name="settings_rail_expand">Tampilkan nama bagian</string>
     <string name="export_settings">Ekspor setelan</string>
-    <string name="export_settings_description">Simpan cadangan setelan sebagai file JSON.</string>
+    <string name="export_settings_description">Menyimpan cadangan pengaturan sebagai file JSON. Isinya tempat tersimpan Anda dan alamat Bluetooth ponsel.</string>
     <string name="export_settings_choose_location">Pilih lokasi penyimpanan</string>
     <string name="export_settings_downloads">Simpan ke Unduhan</string>
     <string name="export_settings_app_folder">Simpan ke folder cadangan aplikasi</string>

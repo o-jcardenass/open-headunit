@@ -122,9 +122,14 @@ class OnboardingActivity : BaseActivity() {
 
     // Permissions step (registered here, before the activity is RESUMED).
     private var permissionBinder: PermissionRowBinder? = null
+    // After a restore the wizard shows only the permission page, then opens the main screen.
+    private var permissionsOnly = false
     private val permNormalLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissionBinder?.rebind() }
+    ) { results ->
+        rearmWirelessAfterGrant(results.filterValues { it }.keys)
+        permissionBinder?.rebind()
+    }
     private val permSpecialLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { permissionBinder?.rebind() }
@@ -161,6 +166,7 @@ class OnboardingActivity : BaseActivity() {
         setContentView(R.layout.activity_onboarding)
 
         step = savedInstanceState?.getInt(KEY_STEP, 0) ?: 0
+        permissionsOnly = savedInstanceState?.getBoolean(KEY_PERMISSIONS_ONLY, false) ?: false
         launcherRequestPending = savedInstanceState?.getBoolean(KEY_LAUNCHER_PENDING, false) ?: false
 
         flipper = findViewById(R.id.onb_flipper)
@@ -215,9 +221,14 @@ class OnboardingActivity : BaseActivity() {
                                 Toast.LENGTH_LONG, force = true
                             )
                             sendBroadcast(Intent(MainActivity.ACTION_RECREATE_MAIN).setPackage(packageName))
-                            startActivity(Intent(this@OnboardingActivity, MainActivity::class.java)
-                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                            finish()
+                            if (requiredPermissionMissing()) {
+                                // A restore brings settings, not grants: show the permission page, skip the rest.
+                                permissionsOnly = true
+                                step = STEP_PERMISSIONS
+                                render()
+                            } else {
+                                openMainAfterRestore()
+                            }
                         }
                         is OnboardingRestoreViewModel.State.Failed -> {
                             AppLog.e("Onboarding settings restore failed", state.error)
@@ -238,6 +249,7 @@ class OnboardingActivity : BaseActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt(KEY_STEP, step)
+        outState.putBoolean(KEY_PERMISSIONS_ONLY, permissionsOnly)
         audioStep?.save(outState)
         outState.putBoolean(KEY_LAUNCHER_PENDING, launcherRequestPending)
     }
@@ -643,12 +655,12 @@ class OnboardingActivity : BaseActivity() {
 
     private fun render() {
         flipper.displayedChild = step
-        backBtn.visibility = if (step == 0) View.INVISIBLE else View.VISIBLE
+        backBtn.visibility = if (step == 0 || permissionsOnly) View.INVISIBLE else View.VISIBLE
         // GONE (not INVISIBLE) so its dedicated row collapses on the final step.
-        skipBtn.visibility = if (step == STEP_COUNT - 1) View.GONE else View.VISIBLE
+        skipBtn.visibility = if (step == STEP_COUNT - 1 || permissionsOnly) View.GONE else View.VISIBLE
         restoreBtn.visibility = if (step == 0) View.VISIBLE else View.GONE
         compactFooterOnShortScreens()
-        nextBtn.text = getString(if (step == STEP_COUNT - 1) R.string.onb_ready_finish else R.string.onb_next)
+        nextBtn.text = getString(if (step == STEP_COUNT - 1 || permissionsOnly) R.string.onb_ready_finish else R.string.onb_next)
         nextBtn.isEnabled = !restoringSettings && when (step) {
             STEP_SAFETY -> findViewById<MaterialCheckBox>(R.id.onb_safety_accept).isChecked
             STEP_CONNECTION -> settings.connectionModes.isNotEmpty()
@@ -666,6 +678,10 @@ class OnboardingActivity : BaseActivity() {
         if (step == STEP_DPI) followSizeWithPicker()
         updateStepperDots()
     }
+
+    /** A restore can start wireless before its grants; once one lands, the mode starts again. */
+    private fun rearmWirelessAfterGrant(granted: Collection<String>) =
+        WirelessGrantRearm.afterGrant(this, granted, "OnboardingActivity")
 
     /** Wire the permissions checklist. Rows are rendered from the AppPermissions registry, so a
      * future permission only needs a registry entry, not changes here. */
@@ -782,6 +798,7 @@ class OnboardingActivity : BaseActivity() {
     }
 
     private fun onNext() {
+        if (permissionsOnly) { openMainAfterRestore(); return }
         if (step == STEP_SAFETY) settings.hasAcceptedDisclaimer = true
         if (step == STEP_VIDEO) {
             val run = videoRun
@@ -833,8 +850,18 @@ class OnboardingActivity : BaseActivity() {
 
     override fun onBackPressed() {
         if (restoringSettings) return
+        if (permissionsOnly) { openMainAfterRestore(); return }
         // Back walks the steps; from the first step it behaves like "Do it later".
         if (step > 0) goBack() else onDoItLater()
+    }
+
+    private fun requiredPermissionMissing(): Boolean =
+        AppPermissions.visible().any { !it.optional && !it.isGranted(this) }
+
+    private fun openMainAfterRestore() {
+        startActivity(Intent(this, MainActivity::class.java)
+            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP))
+        finish()
     }
 
     private fun onRestoreSettings() {
@@ -1523,6 +1550,7 @@ class OnboardingActivity : BaseActivity() {
         @Volatile
         var deferredThisSession = false
         private const val KEY_STEP = "onb_step"
+        private const val KEY_PERMISSIONS_ONLY = "onb_permissions_only"
         private const val KEY_LAUNCHER_PENDING = "onb_launcher_pending"
         private const val STEP_COUNT = 14
         /** Below this available height (dp) the footer goes to a single row. 800x480 lands

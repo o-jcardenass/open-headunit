@@ -547,7 +547,7 @@
     <string name="settings_rail_collapse">섹션 이름 숨기기</string>
     <string name="settings_rail_expand">섹션 이름 표시</string>
     <string name="export_settings">설정 내보내기</string>
-    <string name="export_settings_description">설정 백업을 JSON 파일로 저장합니다.</string>
+    <string name="export_settings_description">설정 백업을 JSON 파일로 저장합니다. 저장한 장소와 휴대폰의 블루투스 주소가 포함됩니다.</string>
     <string name="export_settings_choose_location">저장 위치 선택</string>
     <string name="export_settings_downloads">다운로드 폴더에 저장</string>
     <string name="export_settings_app_folder">앱 백업 폴더에 저장</string>

@@ -827,7 +827,7 @@
     <string name="settings_rail_collapse">セクション名を隠す</string>
     <string name="settings_rail_expand">セクション名を表示</string>
     <string name="export_settings">設定をエクスポート</string>
-    <string name="export_settings_description">設定のバックアップを JSON ファイルとして保存。</string>
+    <string name="export_settings_description">設定のバックアップをJSONファイルとして保存します。保存した場所とスマートフォンのBluetoothアドレスが含まれます。</string>
     <string name="export_settings_app_folder">アプリのバックアップフォルダに保存</string>
     <string name="onb_restore_settings">バックアップから設定を復元</string>
     <string name="export_settings_downloads">ダウンロードに保存</string>
