@@ -5,6 +5,7 @@ import com.andrerinas.openheadunit.input.KeyBindingPolicy.Resolution
 import com.andrerinas.openheadunit.main.FavoriteTarget
 import com.andrerinas.openheadunit.utils.Settings
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class InputActionTest {
@@ -79,5 +80,17 @@ class InputActionTest {
             ),
             KeyBindingPolicy.fromLegacy(legacy)
         )
+    }
+
+    @Test fun bindingsApplyToRealKeysAndNotToSyntheticOnes() {
+        val synthetic = setOf(KeySource.AUTO_RESUME, KeySource.ASSISTANT, KeySource.REMOTE_COMMAND)
+        val all = KeySource::class.java.declaredFields
+            .filter { java.lang.reflect.Modifier.isStatic(it.modifiers) && it.type == String::class.java }
+            .map { it.get(null) as String }
+        assertTrue(all.size >= 12)
+        for (source in all) {
+            assertEquals(source, source !in synthetic, KeyBindingPolicy.appliesTo(source))
+        }
+        assertTrue(KeyBindingPolicy.appliesTo(KeySource.TRANSPORT_CONTROL))
     }
 }

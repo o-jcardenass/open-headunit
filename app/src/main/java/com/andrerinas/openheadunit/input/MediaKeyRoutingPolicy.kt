@@ -52,6 +52,9 @@ object MediaKeyRoutingPolicy {
         }
     }
 
+    /** A gesture or the auto-resume play is no media button the unit's own Bluetooth side has seen. */
+    fun appliesTo(source: String): Boolean = source != KeySource.GESTURE && source != KeySource.AUTO_RESUME
+
     /**
      * @param isMediaKey       the key is one of the transport controls. Everything else — the rotary
      *                         controller, D-pad, Back, Enter — is always forwarded, whatever the

@@ -1,5 +1,6 @@
 package com.andrerinas.openheadunit.connection.carkey
 
+import com.andrerinas.openheadunit.input.KeySource
 import android.content.Context
 import android.content.Intent
 import android.view.KeyEvent
@@ -57,7 +58,7 @@ interface CarKeyReceiver {
                 )
             },
         )
-        commManager.sendKey(keyCode, isDown, null, "carkey")
+        commManager.sendKey(keyCode, isDown, null, KeySource.CARKEY)
     }
 
     fun handleKey(context: Context, keyCode: Int, isDown: Boolean) {

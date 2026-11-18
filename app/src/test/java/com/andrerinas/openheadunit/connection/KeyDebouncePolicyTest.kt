@@ -190,4 +190,54 @@ class KeyDebouncePolicyTest {
         assertFalse(result.forward)
         assertEquals("no press is outstanding", result.dropReason)
     }
+
+    // A bound key reaches the service by carkey and by broadcast; the CommManager debounces both edges.
+    private fun boundClick(first: Long?, second: Long?): List<Boolean> {
+        var state = KeyState()
+        val forwarded = mutableListOf<Boolean>()
+        val edges = listOf(true to first, true to second, false to first, false to second)
+        var now = 0L
+        for ((press, id) in edges) {
+            val r = KeyDebouncePolicy.decide(state, press, id, isMediaKey = false, now = now)
+            state = r.state
+            if (r.forward) forwarded.add(press)
+            now += 20
+        }
+        return forwarded
+    }
+
+    @Test
+    fun `carkey then broadcast of one bound press forwards one press and one release`() {
+        assertEquals(listOf(true, false), boundClick(first = null, second = 100))
+    }
+
+    @Test
+    fun `broadcast then carkey of one bound press forwards one press and one release`() {
+        assertEquals(listOf(true, false), boundClick(first = 100, second = null))
+    }
+
+    @Test
+    fun `a repeat of the held press forwards after releasing it first`() {
+        val held = KeyState(down = true, downAt = 5, lastForwardedDownTime = 100)
+        val r = KeyDebouncePolicy.decideRepeat(held, downTime = 100)
+        assertTrue(r.forward)
+        assertTrue(r.releaseFirst)
+        assertTrue(r.state.down)
+    }
+
+    @Test
+    fun `a repeat with no held press is dropped`() {
+        val r = KeyDebouncePolicy.decideRepeat(KeyState(), downTime = 100)
+        assertFalse(r.forward)
+        val other = KeyDebouncePolicy.decideRepeat(KeyState(down = true, lastForwardedDownTime = 7), downTime = 100)
+        assertFalse(other.forward)
+    }
+
+    @Test
+    fun `a redelivery of the held press with repeat off is still dropped`() {
+        val held = KeyState(down = true, downAt = 5, lastForwardedDownTime = 100)
+        val r = KeyDebouncePolicy.decide(held, isPress = true, downTime = 100, isMediaKey = false, now = 50)
+        assertFalse(r.forward)
+        assertEquals("another delivery of the same key event", r.dropReason)
+    }
 }

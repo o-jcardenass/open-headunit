@@ -1,5 +1,6 @@
 package com.andrerinas.openheadunit.aap
 
+import com.andrerinas.openheadunit.input.KeySource
 import android.content.BroadcastReceiver
 import android.app.KeyguardManager
 import android.content.Context
@@ -2533,8 +2534,8 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         InputAction.None -> false
         is InputAction.Local -> performLocalAction(action.kind)
         is InputAction.AaKey -> {
-            commManager.sendLogicalKey(action.keyCode, true, source = "gesture")
-            commManager.sendLogicalKey(action.keyCode, false, source = "gesture")
+            commManager.sendLogicalKey(action.keyCode, true, source = KeySource.GESTURE)
+            commManager.sendLogicalKey(action.keyCode, false, source = KeySource.GESTURE)
             true
         }
         is InputAction.LaunchApp -> AppLauncher.launch(this, action.target)
@@ -2901,11 +2902,11 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         }
 
         // 1. Let the system handle volume keys and unmapped back keys.
-        // If Back was explicitly learned in Keymap and transport is running,
-        // route it through CommManager so it can be remapped and sent to Android Auto.
+        // If Back or a volume key was explicitly bound in Keymap and transport is running,
+        // route it through CommManager so its binding runs.
         if (commManager.connectionState.value is CommManager.ConnectionState.TransportStarted &&
-            ProjectionKeyPolicy.shouldRouteBackKeyToProjection(cachedKeyBindings, event.keyCode)) {
-            commManager.sendKey(event.keyCode, action == KeyEvent.ACTION_DOWN, event.downTime, "projection")
+            ProjectionKeyPolicy.routesBoundKeyToProjection(cachedKeyBindings, event.keyCode)) {
+            commManager.sendKey(event.keyCode, action == KeyEvent.ACTION_DOWN, event.downTime, KeySource.PROJECTION)
             return true
         }
 
@@ -2922,8 +2923,12 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         // does not hear this head unit's volume.
         if (settings.volumeKeysToPhone &&
             commManager.connectionState.value is CommManager.ConnectionState.TransportStarted &&
-            ProjectionKeyPolicy.isVolumeKey(event.keyCode)) {
-            commManager.sendKey(event.keyCode, action == KeyEvent.ACTION_DOWN, event.downTime, "volume-to-phone")
+            ProjectionKeyPolicy.sendsVolumeToPhone(event.keyCode)) {
+            // A held key repeats: each repeat is one more click on the phone.
+            commManager.sendKey(
+                event.keyCode, action == KeyEvent.ACTION_DOWN, event.downTime, KeySource.VOLUME_TO_PHONE,
+                repeat = event.repeatCount > 0
+            )
             return true
         }
 
@@ -2932,7 +2937,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         }
 
         // 2. Funnel all other keys to CommManager
-        commManager.sendKey(event.keyCode, event.action == KeyEvent.ACTION_DOWN, event.downTime, "projection")
+        commManager.sendKey(event.keyCode, event.action == KeyEvent.ACTION_DOWN, event.downTime, KeySource.PROJECTION)
         return true
     }
 
@@ -2950,7 +2955,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             }
             return
         }
-        commManager.sendKey(keyCode, isPress, null, "key-broadcast")
+        commManager.sendKey(keyCode, isPress, null, KeySource.KEY_BROADCAST)
     }
 
     /** Holds a locked session to the shape it negotiated; true when that hold is in force. */

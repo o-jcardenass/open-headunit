@@ -92,6 +92,10 @@ object KeyBindingPolicy {
         object Swallow : Resolution()
     }
 
+    /** Synthetic keys name the Android Auto key they want, so a user's binding must not rewrite them. */
+    fun appliesTo(source: String): Boolean =
+        source != KeySource.AUTO_RESUME && source != KeySource.ASSISTANT && source != KeySource.REMOTE_COMMAND
+
     fun resolve(bindings: Map<Int, InputAction>, keyCode: Int, isPress: Boolean): Resolution =
         when (val action = bindings[keyCode]) {
             null, InputAction.None -> Resolution.Unbound

@@ -1,5 +1,6 @@
 package com.andrerinas.openheadunit.aap
 
+import com.andrerinas.openheadunit.input.KeySource
 import com.andrerinas.openheadunit.connection.wifi.scan.WifiScanControl
 import com.andrerinas.openheadunit.connection.SettingsRestartRecovery
 import android.Manifest
@@ -1517,8 +1518,8 @@ class AapService : Service() {
                     // Confirm that the connection is still alive and in TransportStarted before sending keys
                     if (commManager.connectionState.value is CommManager.ConnectionState.TransportStarted) {
                         AppLog.i("AapService: Dispatching auto-resume play key")
-                        commManager.sendKey(android.view.KeyEvent.KEYCODE_MEDIA_PLAY, true, null, "auto-resume")
-                        commManager.sendKey(android.view.KeyEvent.KEYCODE_MEDIA_PLAY, false, null, "auto-resume")
+                        commManager.sendKey(android.view.KeyEvent.KEYCODE_MEDIA_PLAY, true, null, KeySource.AUTO_RESUME)
+                        commManager.sendKey(android.view.KeyEvent.KEYCODE_MEDIA_PLAY, false, null, KeySource.AUTO_RESUME)
                     } else {
                         AppLog.w("AapService: Connection state changed before auto-resume could dispatch")
                     }
@@ -1757,8 +1758,8 @@ class AapService : Service() {
                         if (keyEvent.action == android.view.KeyEvent.ACTION_DOWN && keyEvent.repeatCount == 0) {
                             AppLog.i("MediaButtonEvent: Processing key ${keyEvent.keyCode}")
                             // Send a complete click sequence (press + release) immediately
-                            commManager.sendKey(keyEvent.keyCode, true, keyEvent.downTime, "mediasession")
-                            commManager.sendKey(keyEvent.keyCode, false, keyEvent.downTime, "mediasession")
+                            commManager.sendKey(keyEvent.keyCode, true, keyEvent.downTime, KeySource.MEDIA_SESSION)
+                            commManager.sendKey(keyEvent.keyCode, false, keyEvent.downTime, KeySource.MEDIA_SESSION)
                             return true
                         }
 
@@ -1773,32 +1774,32 @@ class AapService : Service() {
 
                 override fun onPause() {
                     AppLog.i("MediaSession: Processing transport control action = KEYCODE_MEDIA_PAUSE")
-                    commManager.sendKey(android.view.KeyEvent.KEYCODE_MEDIA_PAUSE, true, null, "transport-control")
-                    commManager.sendKey(android.view.KeyEvent.KEYCODE_MEDIA_PAUSE, false, null, "transport-control")
+                    commManager.sendKey(android.view.KeyEvent.KEYCODE_MEDIA_PAUSE, true, null, KeySource.TRANSPORT_CONTROL)
+                    commManager.sendKey(android.view.KeyEvent.KEYCODE_MEDIA_PAUSE, false, null, KeySource.TRANSPORT_CONTROL)
                 }
 
                 override fun onPlay() {
                     AppLog.i("MediaSession: Processing transport control action = KEYCODE_MEDIA_PLAY")
-                    commManager.sendKey(android.view.KeyEvent.KEYCODE_MEDIA_PLAY, true, null, "transport-control")
-                    commManager.sendKey(android.view.KeyEvent.KEYCODE_MEDIA_PLAY, false, null, "transport-control")
+                    commManager.sendKey(android.view.KeyEvent.KEYCODE_MEDIA_PLAY, true, null, KeySource.TRANSPORT_CONTROL)
+                    commManager.sendKey(android.view.KeyEvent.KEYCODE_MEDIA_PLAY, false, null, KeySource.TRANSPORT_CONTROL)
                 }
 
                 override fun onSkipToNext() {
                     AppLog.i("MediaSession: Processing transport control action = KEYCODE_MEDIA_NEXT")
-                    commManager.sendKey(android.view.KeyEvent.KEYCODE_MEDIA_NEXT, true, null, "transport-control")
-                    commManager.sendKey(android.view.KeyEvent.KEYCODE_MEDIA_NEXT, false, null, "transport-control")
+                    commManager.sendKey(android.view.KeyEvent.KEYCODE_MEDIA_NEXT, true, null, KeySource.TRANSPORT_CONTROL)
+                    commManager.sendKey(android.view.KeyEvent.KEYCODE_MEDIA_NEXT, false, null, KeySource.TRANSPORT_CONTROL)
                 }
 
                 override fun onSkipToPrevious() {
                     AppLog.i("MediaSession: Processing transport control action = KEYCODE_MEDIA_PREVIOUS")
-                    commManager.sendKey(android.view.KeyEvent.KEYCODE_MEDIA_PREVIOUS, true, null, "transport-control")
-                    commManager.sendKey(android.view.KeyEvent.KEYCODE_MEDIA_PREVIOUS, false, null, "transport-control")
+                    commManager.sendKey(android.view.KeyEvent.KEYCODE_MEDIA_PREVIOUS, true, null, KeySource.TRANSPORT_CONTROL)
+                    commManager.sendKey(android.view.KeyEvent.KEYCODE_MEDIA_PREVIOUS, false, null, KeySource.TRANSPORT_CONTROL)
                 }
 
                 override fun onStop() {
                     AppLog.i("MediaSession: Processing transport control action = KEYCODE_MEDIA_STOP")
-                    commManager.sendKey(android.view.KeyEvent.KEYCODE_MEDIA_STOP, true, null, "transport-control")
-                    commManager.sendKey(android.view.KeyEvent.KEYCODE_MEDIA_STOP, false, null, "transport-control")
+                    commManager.sendKey(android.view.KeyEvent.KEYCODE_MEDIA_STOP, true, null, KeySource.TRANSPORT_CONTROL)
+                    commManager.sendKey(android.view.KeyEvent.KEYCODE_MEDIA_STOP, false, null, KeySource.TRANSPORT_CONTROL)
                 }
             })
             setPlaybackToLocal(android.media.AudioManager.STREAM_MUSIC)

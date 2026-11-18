@@ -89,6 +89,7 @@ class CommManager {
  private var silentPeerFailures=0
  private var lastAttemptedEndpoint:String?=null
  private val keyStates=mutableMapOf<Int,Int>()
+ private val boundKeyStates=mutableMapOf<Int,Int>()
  private var btMediaLinkCached:Boolean?=null
  private var btMediaLinkCheckedAt:Long?=null
  private fun dropOwedScans(){}
