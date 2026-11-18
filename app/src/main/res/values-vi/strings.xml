@@ -305,7 +305,7 @@
     <string name="auto_start_on_boot_label">Khởi động khi mở máy</string>
     <string name="auto_start_on_boot_description">Tự động mở ứng dụng khi thiết bị khởi động. Cần quyền \"Hiện trên các ứng dụng khác\" trên Android 10 trở lên.</string>
     <string name="auto_start_on_boot_background_label">Chờ ở chế độ nền</string>
-    <string name="auto_start_on_boot_background_description">Khi mở máy, chỉ khởi động dịch vụ mà không mở ứng dụng. Ứng dụng sẽ hiện ra khi điện thoại kết nối.</string>
+    <string name="auto_start_on_boot_background_description">Chỉ khởi động dịch vụ khi bật máy, không mở ứng dụng. Ứng dụng sẽ hiện khi điện thoại kết nối. Chế độ độc lập và việc kết nối lại phiên Headunit Server gần nhất vẫn mở ứng dụng, vì chúng chạy từ màn hình chính của ứng dụng. Các kết nối tự động khác chạy ở chế độ nền.</string>
     <string name="auto_start_on_boot_background_summary">Chỉ khởi động dịch vụ, không mở ứng dụng.</string>
     <string name="auto_start_on_boot_summary">Mở ứng dụng khi thiết bị khởi động.</string>
     <string name="auto_start_screen_on_label">Khởi động khi bật màn hình</string>

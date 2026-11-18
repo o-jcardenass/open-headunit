@@ -326,7 +326,7 @@
     <string name="auto_start_on_boot_label">起動時に開始</string>
     <string name="auto_start_on_boot_description">端末の起動時にアプリを自動的に開きます。Android 10以降では「他のアプリの上に重ねて表示」の権限が必要です。</string>
     <string name="auto_start_on_boot_background_label">バックグラウンドで待機</string>
-    <string name="auto_start_on_boot_background_description">起動時はアプリを開かずにサービスだけを開始します。スマートフォンが接続されるとアプリが表示されます。</string>
+    <string name="auto_start_on_boot_background_description">起動時にアプリを開かずにサービスだけを開始します。スマートフォンが接続されるとアプリが表示されます。セルフモードと前回の Headunit Server セッションへの再接続はホーム画面から実行されるため、この場合もアプリが開きます。その他の自動接続はバックグラウンドで実行されます。</string>
     <string name="auto_start_on_boot_background_summary">アプリを開かずにサービスだけを開始します。</string>
     <string name="auto_start_on_boot_summary">機器の起動時にアプリを開きます。</string>
     <string name="auto_start_screen_on_label">画面ON時に開始</string>

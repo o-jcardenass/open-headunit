@@ -557,7 +557,7 @@
     <string name="auto_start_on_boot_label">बूट पर शुरू करें</string>
     <string name="auto_start_on_boot_description">डिवाइस चालू होने पर ऐप अपने आप खोलें। Android 10+ पर \"दूसरे ऐप्लिकेशन के ऊपर दिखाएं\" की अनुमति ज़रूरी है।</string>
     <string name="auto_start_on_boot_background_label">बैकग्राउंड में इंतज़ार करें</string>
-    <string name="auto_start_on_boot_background_description">बूट पर ऐप खोले बिना सिर्फ़ सर्विस शुरू करें। फ़ोन कनेक्ट होने पर ऐप दिखाई देगा।</string>
+    <string name="auto_start_on_boot_background_description">बूट पर ऐप खोले बिना सिर्फ़ सेवा शुरू करता है. फ़ोन कनेक्ट होने पर ऐप दिखता है. सेल्फ़ मोड और पिछले हेडयूनिट सर्वर सेशन से दोबारा कनेक्ट होना फिर भी ऐप खोलते हैं, क्योंकि ये उसकी होम स्क्रीन से चलते हैं. बाकी ऑटो-कनेक्ट बैकग्राउंड में चलते हैं.</string>
     <string name="auto_start_on_boot_background_summary">ऐप खोले बिना केवल सेवा शुरू करें।</string>
     <string name="auto_start_on_boot_summary">डिवाइस चालू होने पर ऐप्लिकेशन खोलता है।</string>
     <string name="auto_start_screen_on_label">स्क्रीन ऑन होने पर शुरू करें</string>

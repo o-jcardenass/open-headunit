@@ -908,7 +908,7 @@ class AapService : Service() {
 
         val settings = App.provide(this).settings
 
-        if (BootScreenPolicy.opensScreen(settings.autoStartOnBoot, settings.autoStartOnBootInBackground)) {
+        if (bootOpensScreen(settings, "WakeDetect")) {
             AppLog.i("WakeDetect: launching UI (trigger=$trigger)")
             launchMainActivityOnBoot()
         } else if (settings.autoStartOnBoot) {
@@ -919,6 +919,20 @@ class AapService : Service() {
             AppLog.i("WakeDetect: checking USB devices (trigger=$trigger)")
             usbLauncherManager.checkAlreadyConnected(force = true, trigger = UsbPlugInPolicy.Trigger.WAKE)
         }
+    }
+
+    /** [BootScreenPolicy] with its inputs; logs when an auto-connect overrides "Wait in the background". */
+    private fun bootOpensScreen(settings: Settings, tag: String): Boolean {
+        val auto = BootScreenPolicy.homeScreenAutoConnect(
+            settings.autoStartSelfMode, settings.autoConnectLastSession,
+            settings.lastConnectionType == Settings.CONNECTION_TYPE_WIFI,
+            settings.wifiConnectionMode == WifiLauncherMode.AUTO,
+        )
+        val opens = BootScreenPolicy.opensScreen(settings.autoStartOnBoot, settings.autoStartOnBootInBackground, auto)
+        if (opens && settings.autoStartOnBootInBackground) {
+            AppLog.i("$tag: opening the screen despite Wait in the background, because Self Mode or the Wi-Fi server reconnect runs only from it")
+        }
+        return opens
     }
 
     /**
@@ -3782,7 +3796,7 @@ class AapService : Service() {
             // Mark wake as handled so the dynamic wakeDetectReceiver doesn't double-trigger
             lastWakeHandledTimestamp = SystemClock.elapsedRealtime()
             val settings = App.provide(this).settings
-            if (BootScreenPolicy.opensScreen(settings.autoStartOnBoot, settings.autoStartOnBootInBackground)) {
+            if (bootOpensScreen(settings, "Boot auto-start")) {
                 launchMainActivityOnBoot()
             } else {
                 AppLog.i("Boot auto-start: waiting in the background, the screen opens when a phone connects")

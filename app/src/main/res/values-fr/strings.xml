@@ -513,7 +513,7 @@
     <string name="auto_start_on_boot_label">Démarrer au lancement du système</string>
     <string name="auto_start_on_boot_description">Ouvrir l\'application automatiquement au démarrage de l\'appareil. Nécessite l\'autorisation « Superposition sur d\'autres applis » sous Android 10 et versions ultérieures.</string>
     <string name="auto_start_on_boot_background_label">Attendre en arrière-plan</string>
-    <string name="auto_start_on_boot_background_description">Au démarrage, lancer seulement le service sans ouvrir l\'application. L\'application apparaît quand votre téléphone se connecte.</string>
+    <string name="auto_start_on_boot_background_description">Démarre uniquement le service au démarrage, sans ouvrir l\'application. L\'application s\'affiche lorsque votre téléphone se connecte. Le mode autonome et la reconnexion à la dernière session Serveur Headunit ouvrent quand même l\'application, car ils s\'exécutent depuis son écran d\'accueil. Les autres connexions automatiques s\'exécutent en arrière-plan.</string>
     <string name="auto_start_on_boot_background_summary">Démarre seulement le service, sans ouvrir l\'app.</string>
     <string name="auto_start_on_boot_summary">Ouvre l\'application au démarrage de l\'appareil.</string>
     <string name="auto_start_screen_on_label">Démarrer à l\'allumage de l\'écran</string>

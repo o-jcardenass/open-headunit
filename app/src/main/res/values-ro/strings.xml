@@ -321,7 +321,7 @@
     <string name="auto_start_on_boot_label">Pornire la boot</string>
     <string name="auto_start_on_boot_description">Deschide aplicația automat când dispozitivul pornește. Necesită permisiunea \'Afișare peste alte aplicații\' pe Android 10+.</string>
     <string name="auto_start_on_boot_background_label">Așteaptă în fundal</string>
-    <string name="auto_start_on_boot_background_description">La pornire, pornește doar serviciul, fără a deschide aplicația. Aplicația apare când se conectează telefonul.</string>
+    <string name="auto_start_on_boot_background_description">La pornire, pornește doar serviciul, fără să deschidă aplicația. Aplicația apare când se conectează telefonul. Modul autonom și reconectarea la ultima sesiune Headunit Server deschid totuși aplicația, deoarece rulează din ecranul ei de pornire. Celelalte conectări automate rulează în fundal.</string>
     <string name="auto_start_on_boot_background_summary">Pornește doar serviciul, fără a deschide aplicația.</string>
     <string name="auto_start_on_boot_summary">Deschide aplicația la pornirea dispozitivului.</string>
     <string name="auto_start_screen_on_label">Pornire la aprinderea ecranului</string>
