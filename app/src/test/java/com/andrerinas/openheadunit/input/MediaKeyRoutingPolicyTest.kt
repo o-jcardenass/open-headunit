@@ -55,4 +55,13 @@ class MediaKeyRoutingPolicyTest {
         assertEquals(Mode.AUTO, Mode.fromInt(1))
         assertEquals(Mode.NEVER, Mode.fromInt(2))
     }
+
+    @Test
+    fun `routing applies to real presses and not to gesture or auto-resume keys`() {
+        assertFalse(MediaKeyRoutingPolicy.appliesTo(KeySource.GESTURE))
+        assertFalse(MediaKeyRoutingPolicy.appliesTo(KeySource.AUTO_RESUME))
+        assertTrue(MediaKeyRoutingPolicy.appliesTo(KeySource.MEDIA_SESSION))
+        assertTrue(MediaKeyRoutingPolicy.appliesTo(KeySource.CARKEY))
+        assertTrue(MediaKeyRoutingPolicy.appliesTo(KeySource.TRANSPORT_CONTROL))
+    }
 }

@@ -142,6 +142,18 @@ object KeyDebouncePolicy {
         )
     }
 
+    /**
+     * A held key's auto-repeat (same [downTime]): the phone gets one more click, so the held press
+     * is closed out first. No held press, or another press, forwards nothing.
+     */
+    fun decideRepeat(state: KeyState, downTime: Long?): Result {
+        val id = downTime?.takeIf { it > 0L }
+        if (!state.down || id == null || id != state.lastForwardedDownTime) {
+            return Result(forward = false, dropReason = "no held press to repeat", state = state)
+        }
+        return Result(forward = true, releaseFirst = true, state = state)
+    }
+
     /** The keys whose press went out and whose release did not. */
     fun heldKeys(states: Map<Int, KeyState>): List<Int> =
         states.entries.filter { it.value.down }.map { it.key }

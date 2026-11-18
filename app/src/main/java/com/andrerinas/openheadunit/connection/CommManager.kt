@@ -1,5 +1,6 @@
 package com.andrerinas.openheadunit.connection
 
+import com.andrerinas.openheadunit.input.KeySource
 import android.app.Application
 import android.content.Context
 import android.hardware.usb.UsbDevice
@@ -10,7 +11,11 @@ import com.andrerinas.openheadunit.aap.AaPresentationSession
 import com.andrerinas.openheadunit.aap.AapTransport
 import com.andrerinas.openheadunit.aap.NarrowBandProfilePolicy
 import com.andrerinas.openheadunit.input.InputAction
+import com.andrerinas.openheadunit.App
+import com.andrerinas.openheadunit.app.ActivityLaunchPolicy
+import com.andrerinas.openheadunit.input.BoundActionPolicy
 import com.andrerinas.openheadunit.input.InputActionCodec
+import com.andrerinas.openheadunit.utils.AppPermissions
 import com.andrerinas.openheadunit.input.KeyBindingPolicy
 import com.andrerinas.openheadunit.input.LocalAction
 import com.andrerinas.openheadunit.input.LockedInputPolicy
@@ -1327,6 +1332,25 @@ class CommManager(
 
     private val keyStates = mutableMapOf<Int, KeyDebouncePolicy.KeyState>()
 
+    // Bound actions are debounced per physical key: one press reaches us by carkey and broadcast.
+    private val boundKeyStates = mutableMapOf<Int, KeyDebouncePolicy.KeyState>()
+
+    /** True when this edge of a bound key is the first delivery; later copies are dropped. */
+    private fun firstBoundDelivery(keyCode: Int, isPress: Boolean, downTime: Long?): Boolean {
+        val decision = KeyDebouncePolicy.decide(
+            state = boundKeyStates[keyCode] ?: KeyDebouncePolicy.KeyState(),
+            isPress = isPress,
+            downTime = downTime,
+            isMediaKey = isMediaKey(keyCode),
+            now = SystemClock.elapsedRealtime()
+        )
+        boundKeyStates[keyCode] = decision.state
+        if (!decision.forward) {
+            AppLog.v("CommManager: Dropping bound key $keyCode (isPress=$isPress) - ${decision.dropReason}")
+        }
+        return decision.forward
+    }
+
     /**
      * Sends a key press or release event to the phone with remapping and de-duplication.
      * This is the single entry point for all key events in the application.
@@ -1339,17 +1363,31 @@ class CommManager(
      *                 sources is the normal case on these head units, and naming them is what makes
      *                 a user's log readable.
      */
-    fun sendKey(keyCode: Int, isPress: Boolean, downTime: Long? = null, source: String = "unknown") {
+    fun sendKey(
+        keyCode: Int,
+        isPress: Boolean,
+        downTime: Long? = null,
+        source: String = KeySource.UNKNOWN,
+        repeat: Boolean = false
+    ) {
         if (_connectionState.value !is ConnectionState.TransportStarted) {
             return
         }
 
         // 1. Bindings (physical key -> action). An unbound key goes on as itself.
-        val logicalCode = when (val resolution = KeyBindingPolicy.resolve(settings.keyBindings, keyCode, isPress)) {
+        val resolution = if (KeyBindingPolicy.appliesTo(source)) {
+            KeyBindingPolicy.resolve(settings.keyBindings, keyCode, isPress)
+        } else {
+            KeyBindingPolicy.Resolution.Unbound
+        }
+        val logicalCode = when (resolution) {
             is KeyBindingPolicy.Resolution.SendToAa -> resolution.logicalCode
-            is KeyBindingPolicy.Resolution.Swallow -> return
+            is KeyBindingPolicy.Resolution.Swallow -> {
+                firstBoundDelivery(keyCode, true, downTime)
+                return
+            }
             is KeyBindingPolicy.Resolution.Run -> {
-                runBoundAction(resolution.action, keyCode)
+                if (firstBoundDelivery(keyCode, false, downTime)) runBoundAction(resolution.action, keyCode)
                 return
             }
             KeyBindingPolicy.Resolution.Unbound -> {
@@ -1363,14 +1401,20 @@ class CommManager(
                 keyCode
             }
         }
-        sendLogicalKey(logicalCode, isPress, downTime, source)
+        sendLogicalKey(logicalCode, isPress, downTime, source, repeat)
     }
 
     /**
      * Sends an Android Auto key as is, without looking at key bindings. For gestures bound to an
      * Android Auto key, and for [sendKey] once a binding was resolved.
      */
-    fun sendLogicalKey(code: Int, isPress: Boolean, downTime: Long? = null, source: String = "unknown") {
+    fun sendLogicalKey(
+        code: Int,
+        isPress: Boolean,
+        downTime: Long? = null,
+        source: String = KeySource.UNKNOWN,
+        repeat: Boolean = false
+    ) {
         if (_connectionState.value !is ConnectionState.TransportStarted) {
             return
         }
@@ -1389,7 +1433,7 @@ class CommManager(
         // Only media keys can be held back, so nothing else pays for the Bluetooth probe.
         if (isMedia) {
             val routing = settings.mediaKeyRouting
-            if (source != "auto-resume" && !MediaKeyRoutingPolicy.shouldForward(routing, true, btMediaLinkForKeys())) {
+            if (MediaKeyRoutingPolicy.appliesTo(source) && !MediaKeyRoutingPolicy.shouldForward(routing, true, btMediaLinkForKeys())) {
                 AppLog.v("CommManager: Not sending media key $logicalCode to Android Auto " +
                         "(routing=$routing, src=$source)")
                 return
@@ -1398,13 +1442,17 @@ class CommManager(
 
         // 4. De-duplication: one press reaches us from several delivery paths at once.
         val state = keyStates[logicalCode] ?: KeyDebouncePolicy.KeyState()
-        val decision = KeyDebouncePolicy.decide(
-            state = state,
-            isPress = isPress,
-            downTime = downTime,
-            isMediaKey = isMedia,
-            now = SystemClock.elapsedRealtime()
-        )
+        val decision = if (repeat && isPress) {
+            KeyDebouncePolicy.decideRepeat(state, downTime)
+        } else {
+            KeyDebouncePolicy.decide(
+                state = state,
+                isPress = isPress,
+                downTime = downTime,
+                isMediaKey = isMedia,
+                now = SystemClock.elapsedRealtime()
+            )
+        }
         keyStates[logicalCode] = decision.state
 
         if (!decision.forward) {
@@ -1412,8 +1460,11 @@ class CommManager(
             return
         }
 
+        // A held key's repeat is a normal release and press, not a lost release, so it logs at v.
+        val isRepeat = repeat && isPress
         if (decision.releaseFirst) {
-            AppLog.i("CommManager: Key $logicalCode was still held from an earlier press with no release - releasing it first")
+            if (isRepeat) AppLog.v("CommManager: Key $logicalCode repeat, sent as a release and a press")
+            else AppLog.i("CommManager: Key $logicalCode was still held from an earlier press with no release - releasing it first")
             _transport?.send(logicalCode, false)
         }
 
@@ -1433,15 +1484,26 @@ class CommManager(
     }
 
     private fun runBoundAction(action: InputAction, keyCode: Int) {
-        if (!LockedInputPolicy.allowsBoundAction(LockedInputPolicy.engaged, action)) {
-            AppLog.i("CommManager: Key $keyCode bound action ${InputActionCodec.encode(action)} held: unit is locked")
-            return
-        }
-        AppLog.i("CommManager: Key $keyCode runs bound action ${InputActionCodec.encode(action)}")
-        when (action) {
-            is InputAction.Local -> _localActions.tryEmit(action.kind)
-            is InputAction.LaunchApp -> AppLauncher.launch(context, action.target)
-            is InputAction.AaKey, InputAction.None -> Unit
+        val name = InputActionCodec.encode(action)
+        val strategy = ActivityLaunchPolicy.chooseLaunchStrategy(
+            Build.VERSION.SDK_INT, AppPermissions.isOverlayGranted(context), App.hasStartedActivity
+        )
+        val hasScreen = _localActions.subscriptionCount.value > 0
+        when (BoundActionPolicy.decide(action, LockedInputPolicy.engaged, hasScreen, strategy)) {
+            BoundActionPolicy.Outcome.HELD_LOCKED ->
+                AppLog.i("CommManager: Key $keyCode bound action $name held: unit is locked")
+            BoundActionPolicy.Outcome.NO_SCREEN ->
+                AppLog.i("CommManager: Key $keyCode bound action $name not run: no projection screen")
+            BoundActionPolicy.Outcome.BLOCKED_BACKGROUND ->
+                AppLog.i("CommManager: Key $keyCode bound action $name not run: Android blocks an app start from the background")
+            BoundActionPolicy.Outcome.RUN -> {
+                AppLog.i("CommManager: Key $keyCode runs bound action $name")
+                when (action) {
+                    is InputAction.Local -> _localActions.tryEmit(action.kind)
+                    is InputAction.LaunchApp -> AppLauncher.launch(context, action.target)
+                    is InputAction.AaKey, InputAction.None -> Unit
+                }
+            }
         }
     }
 
@@ -1511,14 +1573,14 @@ class CommManager(
 
         // close
         if (transport.isAssistantActive) {
-            sendKey(KeyEvent.KEYCODE_BACK, true, null, "assistant")
-            sendKey(KeyEvent.KEYCODE_BACK, false, null, "assistant")
+            sendKey(KeyEvent.KEYCODE_BACK, true, null, KeySource.ASSISTANT)
+            sendKey(KeyEvent.KEYCODE_BACK, false, null, KeySource.ASSISTANT)
             loseFocus() // otherwise button stays marked
 
         // open
         } else {
-            sendKey(KeyEvent.KEYCODE_SEARCH, false, null, "assistant") // up/down must be reversed
-            sendKey(KeyEvent.KEYCODE_SEARCH, true, null, "assistant")
+            sendKey(KeyEvent.KEYCODE_SEARCH, false, null, KeySource.ASSISTANT) // up/down must be reversed
+            sendKey(KeyEvent.KEYCODE_SEARCH, true, null, KeySource.ASSISTANT)
         }
     }
 
@@ -1775,6 +1837,7 @@ class CommManager(
         }
         settleSessionClaim(formed = false)
         keyStates.clear()
+        boundKeyStates.clear()
         btMediaLinkCached = null
         btMediaLinkCheckedAt = null
         // Counts frames over the whole session rather than reading lastFrameRenderedMs, which the

@@ -1,5 +1,6 @@
 package com.andrerinas.openheadunit
 
+import com.andrerinas.openheadunit.input.KeySource
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -63,7 +64,7 @@ class AapBroadcastReceiver : BroadcastReceiver() {
             }
             event?.let {
                 component.commManager.sendKey(
-                    it.keyCode, it.action == KeyEvent.ACTION_DOWN, it.downTime, "media-key-intent"
+                    it.keyCode, it.action == KeyEvent.ACTION_DOWN, it.downTime, KeySource.MEDIA_KEY_INTENT
                 )
             }
         } else if (intent.action == ProjectionActivityRequest.action){
