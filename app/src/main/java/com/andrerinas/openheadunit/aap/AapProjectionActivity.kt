@@ -117,7 +117,10 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             when (intent.action) {
                 Intent.ACTION_SCREEN_OFF -> refreshLockedInput("screen off", screenOff = true)
                 Intent.ACTION_SCREEN_ON -> refreshLockedInput("screen on")
-                Intent.ACTION_USER_PRESENT -> refreshLockedInput("unlocked")
+                Intent.ACTION_USER_PRESENT -> {
+                    refreshLockedInput("unlocked")
+                    scheduleShapeCheck()
+                }
             }
         }
     }
@@ -397,7 +400,6 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
     private val warmRelaunchCheckRunnable = Runnable { maybeRecoverWarmRelaunch() }
 
     /** The window shape the session was last redrawn for while this stayed in front, or null. */
-    private var shapeRedrawnFor: ScreenOrientationPolicy.Normalisation? = null
     private val shapeCheckRunnable = Runnable { redrawIfTurned() }
 
     /** Starts the no-picture window afresh, for a new surface or a return to a kept one. */
@@ -1406,6 +1408,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         clearTwoFingerTracking()
         isForeground = false
         AppLog.i("AapProjectionActivity: onPause")
+        HeadUnitScreenConfig.projectionShownOverKeyguard = false
         super.onPause()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) setTurnScreenOn(false)
         RenameNotice.dismiss()
@@ -1489,8 +1492,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         // The whole rule, not only the session hold: an orientation changed in Settings while this
         // was paused arrived while its receiver was unregistered.
         applyOrientationSettings()
-        // Back in front, a window turned while it was away (behind the keyguard, say) is a new turn.
-        shapeRedrawnFor = null
+        HeadUnitScreenConfig.projectionShownOverKeyguard = lockHoldEnabled()
         scheduleShapeCheck()
         if (!isProjectionPausedByDevice && isSurfaceSet && commManager.connectionState.value is CommManager.ConnectionState.TransportStarted) {
             commManager.retakeVideoFocusForKeyframe()
@@ -3096,21 +3098,23 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         }
         val connected = commManager.isConnected
         val ours = HeadUnitScreenConfig.readingDescribesProjection(this)
-        if (!connected || !ScreenOrientationPolicy.redrawsSession(negotiated, window, ours, shapeRedrawnFor)) {
+        val next = ScreenOrientationPolicy.nextSessionShape(settings.screenOrientation, window)
+        val redrawnFor = HeadUnitScreenConfig.shapeRedrawnFor()
+        if (!connected || !ScreenOrientationPolicy.redrawsSession(negotiated, next, ours, redrawnFor)) {
             // Only when the two disagree: the same shape is the common case and has nothing to say.
-            if (window != null && window != negotiated) {
+            if (next != null && next != negotiated) {
                 AppLog.i(
                     "[AapProjectionActivity] The window is $window and the stream ${negotiated ?: "unknown"}, " +
-                        "not redrawing: connected=$connected, our window=$ours, already redrawn for ${shapeRedrawnFor ?: "nothing"}."
+                        "not redrawing: connected=$connected, our window=$ours, next session ${next ?: "unknown"}, already redrawn for ${redrawnFor ?: "nothing"}."
                 )
             }
             return
         }
         AppLog.i(
             "[AapProjectionActivity] The window turned $window under a session drawn $negotiated: " +
-                "reconnecting so Android Auto draws it $window."
+                "reconnecting so Android Auto draws it $next."
         )
-        shapeRedrawnFor = window
+        HeadUnitScreenConfig.noteShapeRedraw(next ?: return)
         commManager.disconnect(
             isUserExit = false,
             honorKillOnDisconnect = false,

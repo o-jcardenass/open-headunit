@@ -65,14 +65,17 @@ object ScreenOrientationPolicy {
      * Whether a configuration or surface read now describes the projection as it will be shown:
      * one of this app's windows started, lit and unlocked, and not shrunk into picture-in-picture.
      * Behind the keyguard everything reads the keyguard's portrait, and our activity is resumed
-     * for a moment even there. A state that cannot be read is not held against the reading.
+     * for a moment even there, unless [shownOverKeyguard]: our window is on top of it, so it reads
+     * true. A state that cannot be read is not held against the reading.
      */
     fun describesProjection(
         startedActivity: Boolean,
         pictureInPicture: Boolean,
         screenInteractive: Boolean?,
         keyguardLocked: Boolean?,
-    ): Boolean = startedActivity && !pictureInPicture && screenInteractive != false && keyguardLocked != true
+        shownOverKeyguard: Boolean = false,
+    ): Boolean = startedActivity && !pictureInPicture && screenInteractive != false &&
+        (keyguardLocked != true || shownOverKeyguard)
 
     /** The shape a stored canvas was drawn in, or null when it is missing or square. */
     fun shapeOf(width: Int, height: Int): Normalisation? = when {
@@ -106,17 +109,22 @@ object ScreenOrientationPolicy {
      * A session cannot change its resolution, so this is the only way the stream follows a window
      * that turned: under SYSTEM when the system turns, and under any setting when the setting itself
      * is changed mid-session. AUTO holds the window in the session's shape, so it never differs there.
-     * Only for a window that is ours: the keyguard reads portrait whatever the mount. Only to the
-     * other shape: reverse landscape is still landscape. And once per window shape, so a session that
-     * comes back in the old shape is not redrawn on every landing.
+     * [next] is the shape the next session would announce ([nextSessionShape]), not the window: a
+     * fixed setting never redraws into the shape it already has. Only for a window that is ours, only
+     * to the other shape, and once per shape ([ShapeRedrawGuard]).
      */
     fun redrawsSession(
         negotiated: Normalisation?,
-        window: Normalisation?,
+        next: Normalisation?,
         readingIsOurs: Boolean,
         alreadyRedrawnFor: Normalisation?,
     ): Boolean = readingIsOurs &&
-        negotiated != null && window != null && window != negotiated && window != alreadyRedrawnFor
+        negotiated != null && next != null && next != negotiated && next != alreadyRedrawnFor
+
+    /** The shape a session started now would announce; null when the window gives no shape. */
+    fun nextSessionShape(setting: Settings.ScreenOrientation, window: Normalisation?): Normalisation? =
+        normalisation(setting, window == Normalisation.LANDSCAPE, window == Normalisation.PORTRAIT)
+            .takeIf { it != Normalisation.AS_READ }
 
     private fun fixedShape(landscape: Boolean): Int =
         if (landscape) ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE else ActivityInfo.SCREEN_ORIENTATION_PORTRAIT

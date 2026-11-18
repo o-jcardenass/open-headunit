@@ -190,7 +190,24 @@ object HeadUnitScreenConfig {
 
     internal fun recordSessionShape(width: Int, height: Int) {
         sessionShape = ScreenOrientationPolicy.shapeOf(width, height)
+        shapeGuard = shapeGuard.atSessionStart()
     }
+
+    // The once-per-shape redraw guard; it outlives the activity, which the redraw's reconnect recreates.
+    @Volatile private var shapeGuard = ShapeRedrawGuard()
+
+    fun shapeRedrawnFor(): ScreenOrientationPolicy.Normalisation? = shapeGuard.redrawnFor
+
+    fun noteShapeRedraw(shape: ScreenOrientationPolicy.Normalisation) {
+        shapeGuard = shapeGuard.afterRedraw(shape)
+    }
+
+    internal fun resetShapeGuard() {
+        shapeGuard = ShapeRedrawGuard()
+    }
+
+    /** True while our projection window is resumed on top of the keyguard (show over lock screen). */
+    @Volatile var projectionShownOverKeyguard = false
 
     /** True when the live margins are already on the wire, so sending them again would only repeat it. */
     @Synchronized
@@ -389,6 +406,7 @@ object HeadUnitScreenConfig {
         pictureInPicture = App.isPiPActive,
         screenInteractive = ScreenPower.isInteractive(context),
         keyguardLocked = ScreenPower.isKeyguardLocked(context),
+        shownOverKeyguard = projectionShownOverKeyguard,
     )
 
     /**
@@ -400,6 +418,7 @@ object HeadUnitScreenConfig {
         pictureInPicture = App.isPiPActive,
         screenInteractive = ScreenPower.isInteractive(context),
         keyguardLocked = ScreenPower.isKeyguardLocked(context),
+        shownOverKeyguard = projectionShownOverKeyguard,
     )
 
     /** The canvas an earlier session measured, normalised to the orientation now in force. */
