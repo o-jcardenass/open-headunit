@@ -293,7 +293,7 @@
     <string name="auto_start_on_boot_label">Starten bij opstarten</string>
     <string name="auto_start_on_boot_description">Open de app automatisch wanneer het apparaat opstart. Vereist de machtiging \'Weergeven vóór andere apps\' op Android 10+.</string>
     <string name="auto_start_on_boot_background_label">Wachten op de achtergrond</string>
-    <string name="auto_start_on_boot_background_description">Start bij het opstarten alleen de service, zonder de app te openen. De app verschijnt zodra je telefoon verbinding maakt.</string>
+    <string name="auto_start_on_boot_background_description">Start bij het opstarten alleen de service, zonder de app te openen. De app verschijnt als je telefoon verbinding maakt. De zelfstandige modus en het opnieuw verbinden met de laatste Headunit Server-sessie openen de app toch, omdat ze vanaf het startscherm van de app werken. De andere automatische verbindingen draaien op de achtergrond.</string>
     <string name="auto_start_on_boot_background_summary">Alleen de dienst starten, zonder de app te openen.</string>
     <string name="auto_start_on_boot_summary">Opent de app wanneer het apparaat opstart.</string>
     <string name="auto_start_screen_on_label">Starten bij scherm aan</string>

@@ -363,7 +363,7 @@
     <string name="auto_start_on_boot_label">Start beim Hochfahren</string>
     <string name="auto_start_on_boot_description">Die App automatisch öffnen, wenn das Gerät startet. Erfordert ab Android 10 die Berechtigung „Über anderen Apps einblenden“.</string>
     <string name="auto_start_on_boot_background_label">Im Hintergrund warten</string>
-    <string name="auto_start_on_boot_background_description">Beim Hochfahren nur den Dienst starten, ohne die App zu öffnen. Die App erscheint, sobald sich dein Handy verbindet.</string>
+    <string name="auto_start_on_boot_background_description">Startet beim Hochfahren nur den Dienst, ohne die App zu öffnen. Die App erscheint, sobald sich dein Smartphone verbindet. Self Mode und die erneute Verbindung zur letzten Headunit-Server-Sitzung öffnen die App trotzdem, weil sie von ihrem Startbildschirm aus laufen. Die anderen automatischen Verbindungen laufen im Hintergrund.</string>
     <string name="auto_start_on_boot_background_summary">Nur den Dienst starten, ohne die App zu öffnen.</string>
     <string name="auto_start_on_boot_summary">App öffnen, sobald das Gerät startet.</string>
     <string name="auto_start_screen_on_label">Start beim Einschalten des Bildschirms</string>

@@ -294,7 +294,7 @@
     <string name="auto_start_on_boot_label">Uruchom po starcie systemu</string>
     <string name="auto_start_on_boot_description">Automatycznie otwórz aplikację po uruchomieniu urządzenia. Wymaga uprawnienia „Wyświetlanie nad innymi aplikacjami” na Androidzie 10+.</string>
     <string name="auto_start_on_boot_background_label">Czekaj w tle</string>
-    <string name="auto_start_on_boot_background_description">Po starcie uruchom tylko usługę, bez otwierania aplikacji. Aplikacja pojawi się, gdy telefon się połączy.</string>
+    <string name="auto_start_on_boot_background_description">Przy uruchomieniu startuje tylko usługa, bez otwierania aplikacji. Aplikacja pojawi się, gdy połączy się telefon. Tryb samodzielny i ponowne połączenie z ostatnią sesją Headunit Server nadal otwierają aplikację, bo działają z jej ekranu głównego. Pozostałe automatyczne połączenia działają w tle.</string>
     <string name="auto_start_on_boot_background_summary">Uruchamia tylko usługę, bez otwierania aplikacji.</string>
     <string name="auto_start_on_boot_summary">Otwiera aplikację po uruchomieniu urządzenia.</string>
     <string name="auto_start_screen_on_label">Uruchom po włączeniu ekranu</string>

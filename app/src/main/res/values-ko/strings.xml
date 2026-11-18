@@ -331,7 +331,7 @@
     <string name="auto_start_on_boot_label">부팅 시 자동 시작</string>
     <string name="auto_start_on_boot_description">기기가 부팅될 때 앱을 자동으로 실행합니다. Android 10 이상에서는 \'다른 앱 위에 표시\' 권한이 필요합니다.</string>
     <string name="auto_start_on_boot_background_label">백그라운드에서 대기</string>
-    <string name="auto_start_on_boot_background_description">부팅 시 앱을 열지 않고 서비스만 시작합니다. 휴대폰이 연결되면 앱이 나타납니다.</string>
+    <string name="auto_start_on_boot_background_description">부팅 시 앱을 열지 않고 서비스만 시작합니다. 휴대전화가 연결되면 앱이 표시됩니다. 단독 모드와 마지막 헤드유닛 서버 세션 재연결은 앱의 홈 화면에서 실행되므로 이 경우에도 앱이 열립니다. 그 밖의 자동 연결은 백그라운드에서 실행됩니다.</string>
     <string name="auto_start_on_boot_background_summary">앱을 열지 않고 서비스만 시작합니다.</string>
     <string name="auto_start_on_boot_summary">기기가 시작되면 앱을 엽니다.</string>
     <string name="auto_start_screen_on_label">화면 켜짐 시 자동 시작</string>

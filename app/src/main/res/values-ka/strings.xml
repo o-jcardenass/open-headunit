@@ -317,7 +317,7 @@
     <string name="auto_start_on_boot_label">გაშვება ჩატვირთვისას</string>
     <string name="auto_start_on_boot_description">აპის ავტომატური გახსნა მოწყობილობის ჩართვისას. Android 10+ ვერსიაზე საჭიროა „სხვა აპების ზემოდან გამოჩენის“ ნებართვა.</string>
     <string name="auto_start_on_boot_background_label">ფონურ რეჟიმში ლოდინი</string>
-    <string name="auto_start_on_boot_background_description">ჩატვირთვისას გაეშვება მხოლოდ სერვისი, აპის გახსნის გარეშე. აპი გამოჩნდება, როცა ტელეფონი დაუკავშირდება.</string>
+    <string name="auto_start_on_boot_background_description">ჩართვისას უშვებს მხოლოდ სერვისს, აპის გახსნის გარეშე. აპი გამოჩნდება, როცა ტელეფონი დაუკავშირდება. ავტონომიური რეჟიმი და ბოლო Headunit Server სესიასთან ხელახლა დაკავშირება მაინც ხსნის აპს, რადგან ისინი მისი მთავარი ეკრანიდან მუშაობს. დანარჩენი ავტომატური დაკავშირებები ფონურ რეჟიმში მუშაობს.</string>
     <string name="auto_start_on_boot_background_summary">მხოლოდ სერვისის გაშვება, აპის გახსნის გარეშე.</string>
     <string name="auto_start_on_boot_summary">მოწყობილობის ჩართვისას ხსნის აპს.</string>
     <string name="auto_start_screen_on_label">გაშვება ეკრანის ჩართვისას</string>

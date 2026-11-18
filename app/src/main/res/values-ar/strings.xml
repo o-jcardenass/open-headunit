@@ -294,7 +294,7 @@
     <string name="auto_start_on_boot_label">التشغيل عند الإقلاع</string>
     <string name="auto_start_on_boot_description">فتح التطبيق تلقائيًا عند بدء تشغيل الجهاز. يتطلب إذن \"الإظهار فوق التطبيقات الأخرى\" على Android 10+.</string>
     <string name="auto_start_on_boot_background_label">الانتظار في الخلفية</string>
-    <string name="auto_start_on_boot_background_description">عند الإقلاع، شغّل الخدمة فقط دون فتح التطبيق. يظهر التطبيق عند اتصال هاتفك.</string>
+    <string name="auto_start_on_boot_background_description">يشغّل الخدمة فقط عند بدء التشغيل، بدون فتح التطبيق. يظهر التطبيق عند اتصال هاتفك. يفتح الوضع الذاتي وإعادة الاتصال بآخر جلسة خادم الوحدة الرئيسية التطبيق مع ذلك، لأنهما يعملان من شاشته الرئيسية. تعمل عمليات الاتصال التلقائي الأخرى في الخلفية.</string>
     <string name="auto_start_on_boot_background_summary">تشغيل الخدمة فقط دون فتح التطبيق.</string>
     <string name="auto_start_on_boot_summary">يفتح التطبيق عند تشغيل الجهاز.</string>
     <string name="auto_start_screen_on_label">التشغيل عند تشغيل الشاشة</string>

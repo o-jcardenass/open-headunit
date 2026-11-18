@@ -293,7 +293,7 @@
     <string name="auto_start_on_boot_label">开机时启动</string>
     <string name="auto_start_on_boot_description">设备启动时自动打开应用。Android 10 及以上版本需要“显示在其他应用的上层”权限。</string>
     <string name="auto_start_on_boot_background_label">在后台等待</string>
-    <string name="auto_start_on_boot_background_description">开机时只启动服务，不打开应用。手机连接后应用才会出现。</string>
+    <string name="auto_start_on_boot_background_description">开机时仅启动服务，不打开应用。手机连接后应用才会显示。独立模式和重新连接上次的车机服务器会话仍会打开应用，因为它们在应用主屏幕上运行。其他自动连接在后台运行。</string>
     <string name="auto_start_on_boot_background_summary">仅启动服务，不打开应用。</string>
     <string name="auto_start_on_boot_summary">设备启动时打开应用。</string>
     <string name="auto_start_screen_on_label">亮屏时启动</string>

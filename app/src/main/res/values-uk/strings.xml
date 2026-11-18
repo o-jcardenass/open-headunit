@@ -294,7 +294,7 @@
     <string name="auto_start_on_boot_label">Запуск під час завантаження</string>
     <string name="auto_start_on_boot_description">Автоматично відкривати застосунок під час запуску пристрою. Для Android 10+ потрібен дозвіл «Показувати поверх інших застосунків».</string>
     <string name="auto_start_on_boot_background_label">Чекати у фоні</string>
-    <string name="auto_start_on_boot_background_description">Під час завантаження запускати лише службу, не відкриваючи застосунок. Застосунок з\'явиться, коли підключиться телефон.</string>
+    <string name="auto_start_on_boot_background_description">Під час завантаження запускається лише служба, без відкриття застосунку. Застосунок з’явиться, коли підключиться телефон. Автономний режим і повторне підключення до останнього сеансу Headunit Server однаково відкривають застосунок, бо працюють з його головного екрана. Інші автопідключення виконуються у фоновому режимі.</string>
     <string name="auto_start_on_boot_background_summary">Запускати лише службу, не відкриваючи застосунок.</string>
     <string name="auto_start_on_boot_summary">Відкриває застосунок під час увімкнення пристрою.</string>
     <string name="auto_start_screen_on_label">Запуск після ввімкнення екрана</string>

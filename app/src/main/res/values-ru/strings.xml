@@ -294,7 +294,7 @@
     <string name="auto_start_on_boot_label">Запуск при загрузке</string>
     <string name="auto_start_on_boot_description">Автоматически открывать приложение при запуске устройства. На Android 10 и выше требуется разрешение «Поверх других приложений».</string>
     <string name="auto_start_on_boot_background_label">Ждать в фоне</string>
-    <string name="auto_start_on_boot_background_description">При загрузке запускать только службу, не открывая приложение. Приложение появится, когда подключится телефон.</string>
+    <string name="auto_start_on_boot_background_description">При загрузке запускается только служба, приложение не открывается. Приложение появится, когда подключится телефон. Автономный режим и повторное подключение к последнему сеансу Headunit Server всё равно открывают приложение, так как работают с его главного экрана. Остальные автоподключения выполняются в фоновом режиме.</string>
     <string name="auto_start_on_boot_background_summary">Запускать только службу, не открывая приложение.</string>
     <string name="auto_start_on_boot_summary">Открывает приложение при включении устройства.</string>
     <string name="auto_start_screen_on_label">Запуск при включении экрана</string>

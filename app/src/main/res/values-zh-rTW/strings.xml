@@ -293,7 +293,7 @@
     <string name="auto_start_on_boot_label">開機時啟動</string>
     <string name="auto_start_on_boot_description">裝置啟動時自動開啟應用程式。Android 10 以上需要「重疊顯示於其他應用程式上方」權限。</string>
     <string name="auto_start_on_boot_background_label">在背景等待</string>
-    <string name="auto_start_on_boot_background_description">開機時只啟動服務，不開啟應用程式。手機連線後應用程式才會出現。</string>
+    <string name="auto_start_on_boot_background_description">開機時只啟動服務，不開啟應用程式。手機連線後才會顯示應用程式。本機模式和重新連線至上次的 Headunit Server 工作階段仍會開啟應用程式，因為它們是從應用程式的主畫面執行。其他自動連線會在背景執行。</string>
     <string name="auto_start_on_boot_background_summary">只啟動服務，不開啟應用程式。</string>
     <string name="auto_start_on_boot_summary">裝置啟動時開啟應用程式。</string>
     <string name="auto_start_screen_on_label">螢幕亮起時啟動</string>

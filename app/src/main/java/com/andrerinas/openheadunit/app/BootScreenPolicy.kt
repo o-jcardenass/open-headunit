@@ -5,10 +5,15 @@ package com.andrerinas.openheadunit.app
  *
  * "Start on boot" always starts the service. With "Wait in the background" on, it stops there: the
  * service keeps listening, and the screen only shows up once a phone connects and the projection
- * opens. That is how the app behaved up to 2.0.2, before the boot start also raised the home screen.
+ * opens. Self Mode and the Wi-Fi server reconnect run only from the home screen, so they open it
+ * anyway. USB and Nearby auto-connects run from the service and leave it closed.
  */
 object BootScreenPolicy {
 
-    fun opensScreen(startOnBoot: Boolean, waitInBackground: Boolean): Boolean =
-        startOnBoot && !waitInBackground
+    fun opensScreen(startOnBoot: Boolean, waitInBackground: Boolean, homeScreenAutoConnect: Boolean): Boolean =
+        startOnBoot && (!waitInBackground || homeScreenAutoConnect)
+
+    /** What only `HomeFragment` runs: Self Mode, and the last-session reconnect to a Wi-Fi server. */
+    fun homeScreenAutoConnect(selfMode: Boolean, lastSession: Boolean, lastWasWifi: Boolean, wifiServerMode: Boolean): Boolean =
+        selfMode || (lastSession && lastWasWifi && wifiServerMode)
 }
