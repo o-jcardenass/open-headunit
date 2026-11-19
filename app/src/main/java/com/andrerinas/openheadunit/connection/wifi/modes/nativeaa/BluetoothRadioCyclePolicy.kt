@@ -35,24 +35,43 @@ object BluetoothRadioCyclePolicy {
     const val ADAPTER_OFF_WAIT_MS = 10_000L
     const val ADAPTER_ON_WAIT_MS = 20_000L
 
+    /** How long a cycle may keep the radio off: the OFF wait, then the ON wait. */
+    const val CYCLE_RADIO_DOWN_MS = ADAPTER_OFF_WAIT_MS + ADAPTER_ON_WAIT_MS
+
     /**
-     * The wake reasons a cycle may answer.
-     *
-     * `TARGET_CONNECTED` is the stand-down case this policy was written for: a hands-free link is
-     * up, Android Auto will not start, and the cycle hands that link back rather than taking it.
-     *
-     * `NO_LINK` and `TARGET_ABSENT` are the dead-link case: the phone holds no connection to this
-     * unit, so the wake loop pokes instead of standing down — and on a stack that will not raise
-     * the link by itself, every poke fails and the phone is never given an event to notice. That
-     * is the "Waking your phone" wedge; the only cure was to cycle the radio by hand.
-     *
-     * Both kinds are still bounded by every gate in [cycleDecision]: one cycle per arming, never
-     * on a call, never while a session or handshake is up, never on a unit measured STRANDS.
+     * How long a start() that finds the radio off waits for a cycle to bring it back, from the
+     * cycle's [radioBackByMs] stamp (0 when none runs). 0 means start() gives up at once.
+     */
+    fun startWaitMs(now: Long, radioBackByMs: Long): Long =
+        if (radioBackByMs <= 0L) 0L else (radioBackByMs - now).coerceIn(0L, CYCLE_RADIO_DOWN_MS)
+
+    /** The most a start() waits: a cancel can run its own OFF and ON waits after the cycle's. */
+    const val CYCLED_RADIO_WAIT_CAP_MS = 2 * CYCLE_RADIO_DOWN_MS
+
+    /**
+     * The start() wait's next deadline. A cancelled cycle can push [radioBackByMs] later, so the
+     * deadline follows it, capped from [startedAtMs]. 0 means the cycle is over: stop waiting.
+     */
+    fun cycleWaitDeadline(startedAtMs: Long, deadlineMs: Long, radioBackByMs: Long): Long =
+        if (radioBackByMs <= 0L) 0L
+        else maxOf(deadlineMs, radioBackByMs).coerceAtMost(startedAtMs + CYCLED_RADIO_WAIT_CAP_MS)
+
+    enum class AfterCycleWait { RESUME, ENABLE, GIVE_UP }
+
+    /** The wait never turns the radio on: only the user's enable option, where supported, does. */
+    fun afterCycleWait(radioOn: Boolean, enableOption: Boolean, enableSupported: Boolean): AfterCycleWait = when {
+        radioOn -> AfterCycleWait.RESUME
+        enableOption && enableSupported -> AfterCycleWait.ENABLE
+        else -> AfterCycleWait.GIVE_UP
+    }
+
+    /**
+     * `TARGET_CONNECTED` and `NO_LINK` may cycle. `TARGET_ABSENT` may not: another device holds the
+     * link, and the adapter-wide cycle would drop it. Every gate in [cycleDecision] still applies.
      */
     val CYCLEABLE_REASONS: Set<BluetoothWakePolicy.WakeReason> = setOf(
         BluetoothWakePolicy.WakeReason.TARGET_CONNECTED,
         BluetoothWakePolicy.WakeReason.NO_LINK,
-        BluetoothWakePolicy.WakeReason.TARGET_ABSENT,
     )
 
     /** What this unit is known to do with its own Bluetooth after a cycle. */
@@ -95,6 +114,7 @@ object BluetoothRadioCyclePolicy {
      * @param pairingHasRunAaHere a phone paired only for calls is never disturbed.
      * @param callActive a call rides on the link this would drop.
      * @param sessionInProgress a session up, handshaking or settling; nothing touches the radio then.
+     * @param standingInForHfp the cycle closes the stand-in Hands-Free record the phone needs here.
      * @param waitMs how long the evidence has to have been accumulating. [CYCLE_AFTER_MS] for the
      *   stand-down case, whose link deserves its run; the dead-link path passes its own, shorter
      *   floor because there is no link there to give a run to.
@@ -106,13 +126,14 @@ object BluetoothRadioCyclePolicy {
         pairingHasRunAaHere: Boolean,
         callActive: Boolean,
         sessionInProgress: Boolean,
+        standingInForHfp: Boolean,
         standDownSinceMs: Long,
         lastCycleMs: Long,
         cyclesUsed: Int,
         now: Long,
         waitMs: Long = CYCLE_AFTER_MS,
     ): Boolean = blocker(
-        sdkInt, verdict, reason, pairingHasRunAaHere, callActive, sessionInProgress,
+        sdkInt, verdict, reason, pairingHasRunAaHere, callActive, sessionInProgress, standingInForHfp,
         standDownSinceMs, lastCycleMs, cyclesUsed, now, waitMs,
     ) == null
 
@@ -130,6 +151,7 @@ object BluetoothRadioCyclePolicy {
         PAIRING_NEVER_RAN_AA,
         CALL_ACTIVE,
         SESSION_IN_PROGRESS,
+        STANDING_IN_FOR_HFP,
         BUDGET_SPENT,
         TOO_SOON,
         COOLDOWN,
@@ -142,6 +164,7 @@ object BluetoothRadioCyclePolicy {
         pairingHasRunAaHere: Boolean,
         callActive: Boolean,
         sessionInProgress: Boolean,
+        standingInForHfp: Boolean,
         standDownSinceMs: Long,
         lastCycleMs: Long,
         cyclesUsed: Int,
@@ -154,6 +177,7 @@ object BluetoothRadioCyclePolicy {
         if (!pairingHasRunAaHere) return Blocker.PAIRING_NEVER_RAN_AA
         if (callActive) return Blocker.CALL_ACTIVE
         if (sessionInProgress) return Blocker.SESSION_IN_PROGRESS
+        if (standingInForHfp) return Blocker.STANDING_IN_FOR_HFP
         if (cyclesUsed >= MAX_CYCLES_PER_ARMING) return Blocker.BUDGET_SPENT
         if (standDownSinceMs <= 0L || now - standDownSinceMs < waitMs) return Blocker.TOO_SOON
         if (lastCycleMs > 0L && now - lastCycleMs < CYCLE_COOLDOWN_MS) return Blocker.COOLDOWN
@@ -164,17 +188,9 @@ object BluetoothRadioCyclePolicy {
     fun isProbe(verdict: Verdict): Boolean = verdict == Verdict.UNKNOWN
 
     /**
-     * What the cycle did. A radio that never came back is the worst outcome there is, so it is
-     * recorded even when the link cannot be read; anything else unreadable stays unmeasured rather
-     * than condemning the unit on a reading the adapter refused to give.
-     *
-     * @param linkWasAbsent the cycle was taken because the phone held no link to this unit at all
-     *   (`NO_LINK` / `TARGET_ABSENT`), not to hand back one it held. There the phone may simply not
-     *   be there — its own radio off, out of range, switched off for the night — so a link that is
-     *   still missing afterwards says nothing about this unit's radio and must not condemn it. That
-     *   reading is what latched a healthy unit to `STRANDS` on the rig: one cycle taken while the
-     *   phone's Bluetooth was off permanently disabled the only recovery that works there, and the
-     *   latch survives reinstalls because it lives in the settings.
+     * What the cycle did. A radio that never came back is recorded even when the link cannot be read.
+     * @param linkWasAbsent the cycle answered `NO_LINK`: the phone may be off or away, so a link still
+     *   missing afterwards says nothing about this unit's radio and must not record `STRANDS`.
      */
     fun verdictFrom(
         adapterCameBackOn: Boolean?,
