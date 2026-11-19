@@ -104,6 +104,21 @@ object HomeWifiStatusPolicy {
     /** Whether the wait the main button started is over because the unit joined a network. */
     fun waitJoined(facts: Facts): Boolean = facts.wifiEnabled && facts.connected
 
+    enum class ResumedWait { JOINED, EXPIRED, WAITING }
+
+    /** A join heard on return later than this belongs to no press the user still waits on. */
+    const val RESUMED_JOIN_CAP_MS = 5 * JOIN_WAIT_MS
+
+    /**
+     * A wait the home picks up again, [waitedMs] after it started. A join within the cap still
+     * searches. A wait that ran out while off screen ends with no toast and no search.
+     */
+    fun resumedWait(joined: Boolean, waitedMs: Long): ResumedWait = when {
+        joined && waitedMs < RESUMED_JOIN_CAP_MS -> ResumedWait.JOINED
+        !joined && waitedMs < JOIN_WAIT_MS -> ResumedWait.WAITING
+        else -> ResumedWait.EXPIRED
+    }
+
     /**
      * Whether the home scans by itself now: only when the user turned that on, and only while there
      * is a hotspot to find and nothing else in the way.

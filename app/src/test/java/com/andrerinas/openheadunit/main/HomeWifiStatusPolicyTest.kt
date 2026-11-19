@@ -91,6 +91,23 @@ class HomeWifiStatusPolicyTest {
     }
 
     @Test
+    fun `a wait picked up again after the home was off screen`() {
+        val limit = HomeWifiStatusPolicy.JOIN_WAIT_MS
+        assertEquals(HomeWifiStatusPolicy.ResumedWait.WAITING, HomeWifiStatusPolicy.resumedWait(false, limit - 1))
+        // Ran out while off screen: end it with no toast about an old press.
+        assertEquals(HomeWifiStatusPolicy.ResumedWait.EXPIRED, HomeWifiStatusPolicy.resumedWait(false, limit))
+        assertEquals(HomeWifiStatusPolicy.ResumedWait.EXPIRED, HomeWifiStatusPolicy.resumedWait(false, 8 * 3_600_000L))
+        assertEquals(HomeWifiStatusPolicy.ResumedWait.JOINED, HomeWifiStatusPolicy.resumedWait(true, 1_000L))
+        // Joined in system settings after the minute ran out: still search, do not say it failed.
+        assertEquals(HomeWifiStatusPolicy.ResumedWait.JOINED, HomeWifiStatusPolicy.resumedWait(true, limit * 3))
+        val cap = HomeWifiStatusPolicy.RESUMED_JOIN_CAP_MS
+        assertEquals(HomeWifiStatusPolicy.ResumedWait.JOINED, HomeWifiStatusPolicy.resumedWait(true, cap - 1))
+        // A join heard the next morning starts no search for yesterday's press.
+        assertEquals(HomeWifiStatusPolicy.ResumedWait.EXPIRED, HomeWifiStatusPolicy.resumedWait(true, cap))
+        assertEquals(HomeWifiStatusPolicy.ResumedWait.EXPIRED, HomeWifiStatusPolicy.resumedWait(true, 8 * 3_600_000L))
+    }
+
+    @Test
     fun `the home scans by itself only when asked to and only while it can help`() {
         assertTrue(HomeWifiStatusPolicy.shouldAutoScan(true, noWifi, unitHotspotUp = false, sessionActive = false))
         assertFalse("not turned on", HomeWifiStatusPolicy.shouldAutoScan(false, noWifi, false, false))

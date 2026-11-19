@@ -22,8 +22,8 @@ import com.andrerinas.openheadunit.utils.HotspotManager
 /**
  * The WiFi facts behind the home's WiFi line, kept current while the home is on screen; the main
  * button's wait for the phone's hotspot; and the scans the home makes by itself when the user
- * turned them on. [start] in onStart, [stop] in onStop, which ends the wait and the automatic
- * scans too; [onChanged] and every callback run on the main thread. Rules: [HomeWifiStatusPolicy].
+ * turned them on. [start] in onStart, [stop] in onStop, which ends the automatic scans and pauses
+ * the wait; [onChanged] and every callback run on the main thread. Rules: [HomeWifiStatusPolicy].
  */
 class HomeWifiStatus(context: Context, private val onChanged: () -> Unit) {
 
@@ -62,6 +62,7 @@ class HomeWifiStatus(context: Context, private val onChanged: () -> Unit) {
 
     private var waitJoined: (() -> Unit)? = null
     private var waitTimedOut: (() -> Unit)? = null
+    private var waitStartedAt = 0L
 
     /** The main button is waiting for this unit to join the phone's hotspot. */
     val isWaitingForHotspot: Boolean get() = waitJoined != null
@@ -83,13 +84,14 @@ class HomeWifiStatus(context: Context, private val onChanged: () -> Unit) {
 
     /**
      * Waits up to [HomeWifiStatusPolicy.JOIN_WAIT_MS] for this unit to join a WiFi network, scanning
-     * now when [scanNow] and again every [HomeWifiStatusPolicy.RESCAN_MS]. Exactly one of the two
-     * callbacks runs, unless [cancelWait] or [stop] comes first.
+     * now when [scanNow] and again every [HomeWifiStatusPolicy.RESCAN_MS]. At most one callback runs.
+     * A [stop] pauses the wait; [start] resumes it, or ends it silently if it ran out meanwhile.
      */
     fun waitForHotspot(scanNow: Boolean, onJoined: () -> Unit, onTimedOut: () -> Unit) {
         clearWait()
         waitJoined = onJoined
         waitTimedOut = onTimedOut
+        waitStartedAt = SystemClock.elapsedRealtime()
         if (scanNow) requestScan()
         handler.postDelayed(waitRescan, HomeWifiStatusPolicy.RESCAN_MS)
         handler.postDelayed(waitTimeout, HomeWifiStatusPolicy.JOIN_WAIT_MS)
@@ -106,8 +108,34 @@ class HomeWifiStatus(context: Context, private val onChanged: () -> Unit) {
     private fun clearWait() {
         waitJoined = null
         waitTimedOut = null
+        pauseWait()
+    }
+
+    private fun pauseWait() {
         handler.removeCallbacks(waitRescan)
         handler.removeCallbacks(waitTimeout)
+    }
+
+    /** The wait can send the user to the full WiFi screen, which stops the home: pick it up again here. */
+    private fun resumeWait() {
+        if (waitJoined == null) return
+        val waited = SystemClock.elapsedRealtime() - waitStartedAt
+        when (HomeWifiStatusPolicy.resumedWait(HomeWifiStatusPolicy.waitJoined(facts()), waited)) {
+            HomeWifiStatusPolicy.ResumedWait.JOINED -> handler.post {
+                val joined = waitJoined ?: return@post
+                clearWait()
+                joined()
+                onChanged()
+            }
+            HomeWifiStatusPolicy.ResumedWait.EXPIRED -> {
+                clearWait()
+                handler.post { onChanged() }
+            }
+            HomeWifiStatusPolicy.ResumedWait.WAITING -> {
+                handler.postDelayed(waitRescan, HomeWifiStatusPolicy.RESCAN_MS)
+                handler.postDelayed(waitTimeout, HomeWifiStatusPolicy.JOIN_WAIT_MS - waited)
+            }
+        }
     }
 
     private var autoScanAllowed: (() -> Boolean)? = null
@@ -188,6 +216,7 @@ class HomeWifiStatus(context: Context, private val onChanged: () -> Unit) {
                 AppLog.w("HomeWifiStatus: no network callback, broadcasts only: ${e.message}")
             }
         }
+        resumeWait()
     }
 
     fun stop() {
@@ -197,7 +226,7 @@ class HomeWifiStatus(context: Context, private val onChanged: () -> Unit) {
         callback = null
         handler.removeCallbacks(scanTimeout)
         scanning = false
-        clearWait()
+        pauseWait()
         stopAutoScan()
     }
 
