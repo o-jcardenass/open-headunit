@@ -24,8 +24,9 @@ class DeadLinkRecoveryPolicyTest {
     @Test
     fun `two failed passes at a phone with no link is evidence enough`() {
         assertTrue(DeadLinkRecoveryPolicy.shouldCycle(2, WakeReason.NO_LINK, ripe))
-        assertTrue(DeadLinkRecoveryPolicy.shouldCycle(2, WakeReason.TARGET_ABSENT, ripe))
-        assertTrue(DeadLinkRecoveryPolicy.shouldCycle(5, WakeReason.TARGET_ABSENT, ripe))
+        assertTrue(DeadLinkRecoveryPolicy.shouldCycle(5, WakeReason.NO_LINK, ripe))
+        // Another device holds the hands-free link: the adapter-wide cycle would drop it.
+        assertFalse(DeadLinkRecoveryPolicy.shouldCycle(5, WakeReason.TARGET_ABSENT, ripe))
     }
 
     /** A burst of fast errors inside one round is not a streak yet. */
@@ -70,7 +71,7 @@ class DeadLinkRecoveryPolicyTest {
     @Test
     fun `a link that is somebody else's is never evidence for a cycle`() {
         for (reason in WakeReason.entries) {
-            val expected = reason == WakeReason.NO_LINK || reason == WakeReason.TARGET_ABSENT
+            val expected = reason == WakeReason.NO_LINK
             assertTrue(
                 reason.name,
                 expected == DeadLinkRecoveryPolicy.shouldCycle(9, reason, ripe)

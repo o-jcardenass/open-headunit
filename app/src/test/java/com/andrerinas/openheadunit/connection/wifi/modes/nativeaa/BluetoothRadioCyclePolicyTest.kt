@@ -19,12 +19,13 @@ class BluetoothRadioCyclePolicyTest {
         pairingHasRunAaHere: Boolean = true,
         callActive: Boolean = false,
         sessionInProgress: Boolean = false,
+        standingInForHfp: Boolean = false,
         standDownSinceMs: Long = standDown,
         lastCycleMs: Long = 0L,
         cyclesUsed: Int = 0,
         waitMs: Long = BluetoothRadioCyclePolicy.CYCLE_AFTER_MS,
     ) = BluetoothRadioCyclePolicy.cycleDecision(
-        sdkInt, verdict, reason, pairingHasRunAaHere, callActive, sessionInProgress,
+        sdkInt, verdict, reason, pairingHasRunAaHere, callActive, sessionInProgress, standingInForHfp,
         standDownSinceMs, lastCycleMs, cyclesUsed, now, waitMs
     )
 
@@ -55,11 +56,12 @@ class BluetoothRadioCyclePolicyTest {
             pairingHasRunAaHere: Boolean = true,
             callActive: Boolean = false,
             sessionInProgress: Boolean = false,
+            standingInForHfp: Boolean = false,
             standDownSinceMs: Long = standDown,
             lastCycleMs: Long = 0L,
             cyclesUsed: Int = 0,
         ) = BluetoothRadioCyclePolicy.blocker(
-            sdkInt, verdict, reason, pairingHasRunAaHere, callActive, sessionInProgress,
+            sdkInt, verdict, reason, pairingHasRunAaHere, callActive, sessionInProgress, standingInForHfp,
             standDownSinceMs, lastCycleMs, cyclesUsed, now
         )
 
@@ -84,6 +86,10 @@ class BluetoothRadioCyclePolicyTest {
         assertEquals(
             BluetoothRadioCyclePolicy.Blocker.SESSION_IN_PROGRESS,
             blockerOf(sessionInProgress = true)
+        )
+        assertEquals(
+            BluetoothRadioCyclePolicy.Blocker.STANDING_IN_FOR_HFP,
+            blockerOf(standingInForHfp = true)
         )
         assertEquals(
             BluetoothRadioCyclePolicy.Blocker.BUDGET_SPENT,
@@ -120,19 +126,25 @@ class BluetoothRadioCyclePolicyTest {
      * TARGET_UNREADABLE could not tell whose link it is, and a guess is not a reason to drop one.
      * GATEWAY_ONLY and SWITCH_TARGET name a link that belongs to somebody else.
      *
-     * TARGET_CONNECTED is the stand-down this policy was written for. NO_LINK and TARGET_ABSENT are
-     * the dead-link case: the phone holds no connection, so the wake loop pokes, and on a stack that
-     * will not raise the link it pokes forever. All three are bounded by the gates below.
+     * TARGET_CONNECTED is the stand-down this policy was written for. NO_LINK is the dead-link case.
+     * TARGET_ABSENT means another device holds the link, which the adapter-wide cycle would drop.
      */
     @Test
     fun `the target's link and a link that is absent are worth a cycle`() {
         val cycleable = setOf(
             BluetoothWakePolicy.WakeReason.TARGET_CONNECTED,
             BluetoothWakePolicy.WakeReason.NO_LINK,
-            BluetoothWakePolicy.WakeReason.TARGET_ABSENT,
         )
         for (reason in BluetoothWakePolicy.WakeReason.entries) {
             assertEquals(reason.name, reason in cycleable, decide(reason = reason))
+        }
+    }
+
+    /** The radio going off closes the stand-in Hands-Free record, and nothing publishes it again. */
+    @Test
+    fun `a unit standing in for hands-free is never cycled`() {
+        for (reason in BluetoothRadioCyclePolicy.CYCLEABLE_REASONS) {
+            assertFalse(reason.name, decide(reason = reason, standingInForHfp = true))
         }
     }
 
@@ -305,5 +317,35 @@ class BluetoothRadioCyclePolicyTest {
                 adapterCameBackOn = false, linkReturned = false, linkWasAbsent = true
             )
         )
+    }
+
+    @Test
+    fun `a start during a cycle waits for the radio, bounded`() {
+        val bound = BluetoothRadioCyclePolicy.CYCLE_RADIO_DOWN_MS
+        assertEquals("no cycle runs", 0L, BluetoothRadioCyclePolicy.startWaitMs(now, 0L))
+        assertEquals(5_000L, BluetoothRadioCyclePolicy.startWaitMs(now, now + 5_000L))
+        assertEquals("the cycle's bound has passed", 0L, BluetoothRadioCyclePolicy.startWaitMs(now, now - 1L))
+        assertEquals("never longer than one cycle", bound, BluetoothRadioCyclePolicy.startWaitMs(now, now + 10 * bound))
+    }
+
+    @Test
+    fun `the start wait follows a later stamp, capped, and ends with the cycle`() {
+        val cap = now + BluetoothRadioCyclePolicy.CYCLED_RADIO_WAIT_CAP_MS
+        val first = now + 21_000L
+        assertEquals("the cycle ended", 0L, BluetoothRadioCyclePolicy.cycleWaitDeadline(now, first, 0L))
+        assertEquals("same stamp", first, BluetoothRadioCyclePolicy.cycleWaitDeadline(now, first, first))
+        assertEquals("an older stamp never shortens it", first, BluetoothRadioCyclePolicy.cycleWaitDeadline(now, first, now + 1_000L))
+        assertEquals("the cancel path refreshed it", now + 40_000L, BluetoothRadioCyclePolicy.cycleWaitDeadline(now, first, now + 40_000L))
+        assertEquals("capped", cap, BluetoothRadioCyclePolicy.cycleWaitDeadline(now, first, now + 10 * BluetoothRadioCyclePolicy.CYCLED_RADIO_WAIT_CAP_MS))
+    }
+
+    @Test
+    fun `after the start wait only the enable option turns the radio on`() {
+        val p = BluetoothRadioCyclePolicy
+        assertEquals(BluetoothRadioCyclePolicy.AfterCycleWait.RESUME, p.afterCycleWait(radioOn = true, enableOption = false, enableSupported = false))
+        assertEquals(BluetoothRadioCyclePolicy.AfterCycleWait.RESUME, p.afterCycleWait(radioOn = true, enableOption = true, enableSupported = true))
+        assertEquals(BluetoothRadioCyclePolicy.AfterCycleWait.ENABLE, p.afterCycleWait(radioOn = false, enableOption = true, enableSupported = true))
+        assertEquals(BluetoothRadioCyclePolicy.AfterCycleWait.GIVE_UP, p.afterCycleWait(radioOn = false, enableOption = true, enableSupported = false))
+        assertEquals(BluetoothRadioCyclePolicy.AfterCycleWait.GIVE_UP, p.afterCycleWait(radioOn = false, enableOption = false, enableSupported = true))
     }
 }

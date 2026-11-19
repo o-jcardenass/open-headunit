@@ -83,6 +83,9 @@ class NativeAaHandshakeManager(
     companion object {
         // Process-wide, so a rebuilt mode cannot turn the radio back on inside the gap.
         @Volatile private var lastAdapterReenableAtMs: Long? = null
+        // When a cycle's radio should be back (elapsedRealtime, 0 for none). Process-wide, since
+        // a start() inside the cycle runs on a new manager.
+        @Volatile private var radioCycleBackByMs = 0L
         /** Where the BLINK daemon keeps its module's Bluetooth address. BLINK only. */
         private const val BLINK_MODULE_ADDRESS_PROPERTY = "persist.blinkbt.addr"
         private val AA_UUID = UUID.fromString("4de17a00-52cb-11e6-bdf4-0800200c9a66")
@@ -333,6 +336,8 @@ class NativeAaHandshakeManager(
     @Volatile private var radioCycles = 0
     @Volatile private var lastRadioCycleAt = 0L
     @Volatile private var radioCycleJob: Job? = null
+    /** Set for the length of [cycleOwnRadio], so the listener reopen does not turn the radio on inside it. */
+    @Volatile private var radioCycleInProgress = false
     // Until when each device is left alone after a cycle, so the ordinary loop does not poke away
     // the very link the cycle handed back 15 s later.
     private val radioCycleQuietUntil = ConcurrentHashMap<String, Long>()
@@ -1054,6 +1059,11 @@ class NativeAaHandshakeManager(
 
         val adapter = BluetoothHelper.getBluetoothAdapter(context)
         if (adapter == null || !adapter.isEnabled) {
+            val cycleWaitMs = BluetoothRadioCyclePolicy.startWaitMs(SystemClock.elapsedRealtime(), radioCycleBackByMs)
+            if (adapter != null && cycleWaitMs > 0L) {
+                awaitCycledRadio(adapter, cycleWaitMs)
+                return
+            }
             if (adapter != null && settings.nativeAaEnableBluetooth &&
                 BluetoothAdapterStartup.supported(Build.VERSION.SDK_INT)) {
                 startSelectedAndroidBluetooth(adapter)
@@ -1200,6 +1210,8 @@ class NativeAaHandshakeManager(
                         // After the gate, not at the log line above: a refused connection is not
                         // the phone answering.
                         wakeStoodDown = false
+                        // The phone reached us by itself, so its failed pokes are no longer evidence.
+                        clearDeadLinkRecord(remoteAddress)
                         ConnectionStageTracker.report(ConnectionStage.PHONE_ANSWERED)
                         // [FIX] Launch handshake in a separate coroutine so the server can accept the next connection!
                         scope.launch(Dispatchers.IO + CoroutineName("NativeAa-Handshake-${socket.remoteDevice.address}")) {
@@ -1287,6 +1299,59 @@ class NativeAaHandshakeManager(
         }
     }
 
+    /** A cycle of an earlier arming has the radio down: wait for its enable instead of giving up. */
+    private fun awaitCycledRadio(adapter: BluetoothAdapter, boundMs: Long) {
+        val generation = measureGeneration
+        enablingAndroidBluetooth = true
+        notStartedReason = "waiting for this unit's Bluetooth to come back after a radio cycle"
+        AppLog.i("NativeAA: this unit's Bluetooth is down for a radio cycle; waiting up to ${boundMs / 1000}s for it.")
+        bluetoothStartupJob = scope.launch {
+            try {
+                val on = withContext(Dispatchers.IO) { awaitCycleEnd(adapter, boundMs) }
+                if (measureGeneration != generation) return@launch
+                enablingAndroidBluetooth = false
+                bluetoothStartupJob = null
+                val enableOption = settings.nativeAaEnableBluetooth
+                val supported = BluetoothAdapterStartup.supported(Build.VERSION.SDK_INT)
+                when (BluetoothRadioCyclePolicy.afterCycleWait(on, enableOption, supported)) {
+                    BluetoothRadioCyclePolicy.AfterCycleWait.RESUME -> {
+                        AppLog.i("NativeAA: this unit's Bluetooth is back after the radio cycle; starting the handshake.")
+                        resumeAfterDaemonMeasurement(generation)
+                    }
+                    BluetoothRadioCyclePolicy.AfterCycleWait.ENABLE -> {
+                        AppLog.i("NativeAA: this unit's Bluetooth is still off after the radio cycle; the enable option asks it on.")
+                        startSelectedAndroidBluetooth(adapter)
+                    }
+                    BluetoothRadioCyclePolicy.AfterCycleWait.GIVE_UP -> {
+                        notStartedReason = "this unit's Bluetooth did not come back after a radio cycle"
+                        AppLog.w("NativeAA: $notStartedReason")
+                        wakeAwaitingModule = false
+                    }
+                }
+            } finally {
+                if (measureGeneration == generation && bluetoothStartupJob === coroutineContext[Job]) {
+                    enablingAndroidBluetooth = false
+                    bluetoothStartupJob = null
+                }
+            }
+        }
+    }
+
+    /** Polls for STATE_ON while a cycle holds the radio down; never asks the radio on. */
+    private suspend fun awaitCycleEnd(adapter: BluetoothAdapter, boundMs: Long): Boolean {
+        val startedAt = SystemClock.elapsedRealtime()
+        var deadline = startedAt + boundMs
+        while (true) {
+            val state = try { adapter.state } catch (e: Exception) { null }
+            if (state == BluetoothAdapter.STATE_ON) return true
+            deadline = BluetoothRadioCyclePolicy.cycleWaitDeadline(startedAt, deadline, radioCycleBackByMs)
+            if (SystemClock.elapsedRealtime() >= deadline) {
+                return try { adapter.state == BluetoothAdapter.STATE_ON } catch (e: Exception) { false }
+            }
+            delay(250)
+        }
+    }
+
     /** Waits for the selected adapter to be ON, asking it to turn on when it is OFF. */
     @SuppressLint("MissingPermission")
     @Suppress("DEPRECATION")
@@ -1334,6 +1399,8 @@ class NativeAaHandshakeManager(
         aaReopenJob = scope.launch(Dispatchers.IO + CoroutineName("NativeAa-ListenerReopen")) {
             while (isRunning && isActive && aaListenerLost) {
                 delay(AaListenerRecoveryPolicy.REOPEN_DELAY_MS)
+                // Our own cycle took the radio down and turns it on itself; it reopens the listener.
+                if (radioCycleInProgress) continue
                 val adapter = BluetoothHelper.getBluetoothAdapter(context)
                 val enabled = try { adapter != null && adapter.isEnabled } catch (e: Exception) { false }
                 val now = SystemClock.elapsedRealtime()
@@ -1945,6 +2012,7 @@ class NativeAaHandshakeManager(
         ),
         callActive = isCallActiveNow(),
         sessionInProgress = commManager.isConnected || isHandshakeInFlight() || isHandoffSettling(),
+        standingInForHfp = standingInForHfp,
         standDownSinceMs = standDownSince,
         lastCycleMs = lastRadioCycleAt,
         cyclesUsed = radioCycles,
@@ -1993,29 +2061,51 @@ class NativeAaHandshakeManager(
         // The reconnect this produces is a real ACL_CONNECTED, so AutoStartReceiver will fire once,
         // as it does for a poke. Once per arming against the poke loop's every 15 s.
         var disableCalled = false
+        var enableAsked = false
+        var onWaitCut = false
+        radioCycleInProgress = true
+        radioCycleBackByMs = SystemClock.elapsedRealtime() + BluetoothRadioCyclePolicy.CYCLE_RADIO_DOWN_MS
         // Cancellation is rethrown rather than caught as a failure. stop() cancels this job on every
         // mode change and user exit, and reading that as "the radio never came back" condemned a
         // healthy unit for the life of the install, which is the latch this policy exists to avoid.
-        val offReached = try {
-            adapter.disable()
-            disableCalled = true
-            awaitAdapterState(adapter, BluetoothAdapter.STATE_OFF, BluetoothRadioCyclePolicy.ADAPTER_OFF_WAIT_MS)
-        } catch (e: CancellationException) {
-            throw e
-        } catch (e: Exception) {
-            AppLog.w("NativeAA: this unit would not turn its Bluetooth off: ${e.message}")
-            false
-        }
-        // Unconditional after a disable() that did not throw: the radio may still be on its way
-        // down, and leaving it there would cost the user Bluetooth entirely.
-        val onReached = if (!disableCalled) false else try {
-            adapter.enable()
-            awaitAdapterState(adapter, BluetoothAdapter.STATE_ON, BluetoothRadioCyclePolicy.ADAPTER_ON_WAIT_MS)
-        } catch (e: CancellationException) {
-            throw e
-        } catch (e: Exception) {
-            AppLog.w("NativeAA: this unit would not turn its Bluetooth back on: ${e.message}")
-            false
+        val offReached: Boolean
+        val onReached: Boolean
+        try {
+            offReached = try {
+                adapter.disable()
+                disableCalled = true
+                awaitAdapterState(adapter, BluetoothAdapter.STATE_OFF, BluetoothRadioCyclePolicy.ADAPTER_OFF_WAIT_MS)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                AppLog.w("NativeAA: this unit would not turn its Bluetooth off: ${e.message}")
+                false
+            }
+            // Unconditional after a disable() that did not throw: the radio may still be on its way
+            // down, and leaving it there would cost the user Bluetooth entirely.
+            onReached = if (!disableCalled) false else try {
+                enableAsked = true
+                adapter.enable()
+                awaitAdapterState(adapter, BluetoothAdapter.STATE_ON, BluetoothRadioCyclePolicy.ADAPTER_ON_WAIT_MS)
+            } catch (e: CancellationException) {
+                onWaitCut = enableAsked
+                throw e
+            } catch (e: Exception) {
+                AppLog.w("NativeAA: this unit would not turn its Bluetooth back on: ${e.message}")
+                false
+            }
+        } finally {
+            // A cancel (a Wake tap, stop()) must not leave the radio off, nor clear the flag at TURNING_ON.
+            if (disableCalled && !enableAsked) {
+                withContext(NonCancellable) { enableAfterCancelledCycle(adapter) }
+            } else if (onWaitCut) {
+                radioCycleBackByMs = SystemClock.elapsedRealtime() + BluetoothRadioCyclePolicy.ADAPTER_ON_WAIT_MS
+                withContext(NonCancellable) {
+                    awaitAdapterState(adapter, BluetoothAdapter.STATE_ON, BluetoothRadioCyclePolicy.ADAPTER_ON_WAIT_MS)
+                }
+            }
+            radioCycleInProgress = false
+            radioCycleBackByMs = 0L
         }
         if (onReached) {
             reopenListenersAfterCycle()
@@ -2024,6 +2114,24 @@ class NativeAaHandshakeManager(
         }
         // Null where the radio never went down: nothing was cycled, so nothing was measured either.
         noteRadioCycleOutcome(verdict, if (offReached) onReached else null, linkWasAbsent)
+    }
+
+    /**
+     * Lets the radio finish going down, asks it back on, then waits for ON: the caller clears the
+     * cycle flag after this, and a flag cleared at TURNING_ON lets the listener reopen spend its enable.
+     */
+    @SuppressLint("MissingPermission")
+    @Suppress("DEPRECATION")
+    private suspend fun enableAfterCancelledCycle(adapter: BluetoothAdapter) {
+        try {
+            radioCycleBackByMs = SystemClock.elapsedRealtime() + BluetoothRadioCyclePolicy.CYCLE_RADIO_DOWN_MS
+            awaitAdapterState(adapter, BluetoothAdapter.STATE_OFF, BluetoothRadioCyclePolicy.ADAPTER_OFF_WAIT_MS)
+            adapter.enable()
+            val on = awaitAdapterState(adapter, BluetoothAdapter.STATE_ON, BluetoothRadioCyclePolicy.ADAPTER_ON_WAIT_MS)
+            AppLog.i("NativeAA: the Bluetooth cycle was cancelled with the radio down; turned it back on (on=$on).")
+        } catch (e: Exception) {
+            AppLog.w("NativeAA: could not turn this unit's Bluetooth back on after a cancelled cycle: ${e.message}")
+        }
     }
 
     /**
@@ -2375,7 +2483,8 @@ class NativeAaHandshakeManager(
                     // saw the attempt and never its outcome. Address as well as name, because
                     // getName() is null for an unbonded device.
                     AppLog.i("NativeAA: Poke via $profile to ${device.name ?: "unnamed"} (${device.address}) failed: ${e.message}")
-                    noteDeadLinkFailure(device.address)
+                    // A connect() stranded by a cancel can fail after the session cleared the streak.
+                    if (currentCoroutineContext().isActive) noteDeadLinkFailure(device.address)
                 } finally {
                     pokeConnectingTo = null
                     socket?.let { closePhoneSocket(it) }
@@ -4492,6 +4601,10 @@ class NativeAaHandshakeManager(
         // The phone is on the network, which is the only thing that retires the stale-group count.
         pokesSinceLastAccept = 0
         escalationSpentLoggedFor = null
+        // A session ends with rearmForNextSession, not stop(): the streak must not outlive it.
+        deadLinkFailures.clear()
+        deadLinkSince.clear()
+        deadLinkBlockedLoggedFor = null
         if (pokeJob?.isActive == true) {
             AppLog.i("NativeAA: session is up — cancelling the poke retry loop")
         }

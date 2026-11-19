@@ -42,12 +42,9 @@ object DeadLinkRecoveryPolicy {
     const val MIN_STREAK_MS = 30_000L
 
     /**
-     * Only the reasons that mean "there is no link to take" qualify. `TARGET_CONNECTED` is the
-     * stand-down path's own case and reaches the cycle through [BluetoothRadioCyclePolicy] directly.
-     *
-     * The remaining reasons describe a link that belongs to somebody else (`GATEWAY_ONLY`,
-     * `SWITCH_TARGET`) or could not be read (`TARGET_UNREADABLE`); dropping this unit's radio for
-     * those would be a guess, and the existing policy already refuses them.
+     * Only `NO_LINK` qualifies: no device holds a hands-free link here, so the cycle drops nobody.
+     * `TARGET_ABSENT` means another device holds that link now, and the cycle is adapter-wide.
+     * `TARGET_CONNECTED` reaches the cycle through [BluetoothRadioCyclePolicy] directly.
      */
     fun shouldCycle(
         failedPokes: Int,
@@ -56,6 +53,5 @@ object DeadLinkRecoveryPolicy {
     ): Boolean =
         failedPokes >= MIN_FAILED_POKES &&
             streakAgeMs >= MIN_STREAK_MS &&
-            (reason == BluetoothWakePolicy.WakeReason.NO_LINK ||
-                reason == BluetoothWakePolicy.WakeReason.TARGET_ABSENT)
+            reason == BluetoothWakePolicy.WakeReason.NO_LINK
 }
