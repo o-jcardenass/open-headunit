@@ -34,20 +34,39 @@ class HeadunitServerNetworkTest {
     }
 
     @Test
+    fun `a Save stores the network only where it was shown or changed`() {
+        // The AUTO page showed SHARED; Auto-Enable moved the default to UNIT_HOTSPOT: keep the shown choice.
+        assertTrue(HeadunitServerNetwork.saveStores(SHARED, SHARED, UNIT_HOTSPOT, pickerShown = true))
+        assertFalse(HeadunitServerNetwork.saveStores(SHARED, SHARED, SHARED, pickerShown = true))
+        // A Native AA or Helper page never showed it: the moved default stays live.
+        assertFalse(HeadunitServerNetwork.saveStores(SHARED, SHARED, UNIT_HOTSPOT, pickerShown = false))
+        assertFalse(HeadunitServerNetwork.saveStores(SHARED, null, SHARED, pickerShown = false))
+        assertTrue(HeadunitServerNetwork.saveStores(PHONE_HOTSPOT, SHARED, SHARED, pickerShown = false))
+    }
+
+    @Test
     fun `the sweep waits only on the phone's hotspot with no WiFi joined`() {
-        assertTrue(HeadunitServerNetwork.sweepWaitsForWifi(WifiLauncherMode.AUTO, PHONE_HOTSPOT, wifiJoined = false))
-        assertFalse(HeadunitServerNetwork.sweepWaitsForWifi(WifiLauncherMode.AUTO, PHONE_HOTSPOT, wifiJoined = true))
+        assertTrue(HeadunitServerNetwork.sweepWaitsForWifi(WifiLauncherMode.AUTO, PHONE_HOTSPOT, wifiJoined = false, unitHotspotUp = { false }))
+        assertFalse(HeadunitServerNetwork.sweepWaitsForWifi(WifiLauncherMode.AUTO, PHONE_HOTSPOT, wifiJoined = true, unitHotspotUp = { false }))
+    }
+
+    @Test
+    fun `the unit's own access point sweeps on the phone's hotspot too`() {
+        // The phone can join this unit's AP whatever was chosen; waiting would never find it.
+        assertFalse(HeadunitServerNetwork.sweepWaitsForWifi(WifiLauncherMode.AUTO, PHONE_HOTSPOT, wifiJoined = false, unitHotspotUp = { true }))
     }
 
     @Test
     fun `the other networks and every other mode sweep as they always did`() {
+        // The access point is not read where the answer cannot depend on it.
+        val apNotRead: () -> Boolean = { throw AssertionError("unitHotspotUp read") }
         for (joined in listOf(true, false)) {
-            assertFalse(HeadunitServerNetwork.sweepWaitsForWifi(WifiLauncherMode.AUTO, SHARED, joined))
+            assertFalse(HeadunitServerNetwork.sweepWaitsForWifi(WifiLauncherMode.AUTO, SHARED, joined, apNotRead))
             // Its own access point leaves the unit on no WiFi network: waiting would never end.
-            assertFalse(HeadunitServerNetwork.sweepWaitsForWifi(WifiLauncherMode.AUTO, UNIT_HOTSPOT, joined))
+            assertFalse(HeadunitServerNetwork.sweepWaitsForWifi(WifiLauncherMode.AUTO, UNIT_HOTSPOT, joined, apNotRead))
             for (mode in WifiLauncherMode.entries.filter { it != WifiLauncherMode.AUTO }) {
                 for (n in HeadunitServerNetwork.entries) {
-                    assertFalse("$mode $n", HeadunitServerNetwork.sweepWaitsForWifi(mode, n, joined))
+                    assertFalse("$mode $n", HeadunitServerNetwork.sweepWaitsForWifi(mode, n, joined, apNotRead))
                 }
             }
         }

@@ -30,11 +30,25 @@ enum class HeadunitServerNetwork(val id: Int) {
             entries.firstOrNull { it.id == id } ?: if (autoEnableHotspot) UNIT_HOTSPOT else SHARED
 
         /**
-         * Whether a discovery sweep is pointless right now: on the phone's hotspot, with this unit
-         * on no WiFi network, there is no network the phone could be on. The sweep would probe
-         * whatever else is up, a cellular bridge typically, and find nothing.
+         * Whether a Save stores [pending]. With the picker on the page the shown choice wins. Elsewhere
+         * the page never showed it, so only a change from [loaded] is stored and the default stays live.
          */
-        fun sweepWaitsForWifi(mode: WifiLauncherMode, network: HeadunitServerNetwork, wifiJoined: Boolean): Boolean =
-            mode == WifiLauncherMode.AUTO && network == PHONE_HOTSPOT && !wifiJoined
+        fun saveStores(
+            pending: HeadunitServerNetwork,
+            loaded: HeadunitServerNetwork?,
+            stored: HeadunitServerNetwork,
+            pickerShown: Boolean,
+        ): Boolean = pending != stored && (pickerShown || pending != loaded)
+
+        /**
+         * No sweep when on the phone's hotspot with no WiFi joined: the phone has no network to be on.
+         * The unit's own access point counts as one, so the sweep runs. [unitHotspotUp] is read last.
+         */
+        fun sweepWaitsForWifi(
+            mode: WifiLauncherMode,
+            network: HeadunitServerNetwork,
+            wifiJoined: Boolean,
+            unitHotspotUp: () -> Boolean,
+        ): Boolean = mode == WifiLauncherMode.AUTO && network == PHONE_HOTSPOT && !wifiJoined && !unitHotspotUp()
     }
 }

@@ -8,6 +8,7 @@ import com.andrerinas.openheadunit.App
 import com.andrerinas.openheadunit.connection.HeldServerSocket
 import com.andrerinas.openheadunit.connection.SameEndpointConnectPolicy
 import com.andrerinas.openheadunit.utils.AppLog
+import com.andrerinas.openheadunit.utils.HotspotManager
 import com.andrerinas.openheadunit.utils.NetworkAddresses
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -254,7 +255,8 @@ class NetworkDiscovery(private val context: Context, private val listener: Liste
         val settings = App.provide(context).settings
         HeadunitServerNetwork.sweepWaitsForWifi(
             settings.wifiConnectionMode, settings.headunitServerNetwork,
-            wifiJoined = NetworkAddresses.stationIpv4(context) != null
+            wifiJoined = NetworkAddresses.stationIpv4(context) != null,
+            unitHotspotUp = { HotspotManager.isApUp(context) },
         )
     } catch (e: Exception) {
         AppLog.d("NetworkDiscovery: could not read the Headunit Server network, sweeping anyway")

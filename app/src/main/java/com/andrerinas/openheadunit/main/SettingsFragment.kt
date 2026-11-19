@@ -183,6 +183,8 @@ class SettingsFragment : Fragment() {
 
     // Local state to hold changes before saving
     private val pending = SettingsPendingCopy()
+    /** The network [pending] loaded, so a page without the picker stores only a real change. */
+    private var loadedHeadunitServerNetwork: HeadunitServerNetwork? = null
     /** The ESP32 relay keeps its own store, so its master switch is held here until Save. */
     private var pendingEsp32RelayEnabled: Boolean? = null
     private var pendingUseGps by pending::useGps
@@ -411,6 +413,7 @@ class SettingsFragment : Fragment() {
         }
         // Initialize local state with current values
         pending.loadFrom(settings)
+        loadedHeadunitServerNetwork = pending.headunitServerNetwork
 
         // Loading screen settings are handled in LoadingScreenFragment (saves directly)
 
@@ -466,6 +469,7 @@ class SettingsFragment : Fragment() {
 
     private fun reloadPendingStateFromSettings() {
         pending.loadFrom(settings)
+        loadedHeadunitServerNetwork = pending.headunitServerNetwork
         CarLauncherManager.syncWithSettings(requireContext(), settings.enableCarLauncher)
     }
 
@@ -718,10 +722,16 @@ class SettingsFragment : Fragment() {
         pendingNightOverlayWhileLocked?.let { if (it != settings.nightOverlayWhileLocked) settings.nightOverlayWhileLocked = it }
         pendingAllowEmbeddedProjection?.let { if (it != settings.allowEmbeddedProjection) settings.allowEmbeddedProjection = it }
         pendingAutoEnableHotspot?.let { if (it != settings.autoEnableHotspot) settings.autoEnableHotspot = it }
-        // Read by every discovery sweep and by the home, so neither needs a restart. Written even
-        // when unchanged: a unit that never chose reads its choice off "Auto-Enable Hotspot", and
-        // turning that off must not move it to another network behind the user's back.
-        pendingHeadunitServerNetwork?.let { settings.headunitServerNetwork = it }
+        // After the Auto-Enable Hotspot write, which can move the default; only the AUTO page shows the picker.
+        pendingHeadunitServerNetwork?.let {
+            val pickerShown = pendingWifiConnectionMode == WifiLauncherMode.AUTO
+            if (HeadunitServerNetwork.saveStores(it, loadedHeadunitServerNetwork, settings.headunitServerNetwork, pickerShown)) {
+                settings.headunitServerNetwork = it
+            }
+            // A skipped write leaves the derived default live: follow it, or checkChanges sees a false change.
+            pendingHeadunitServerNetwork = settings.headunitServerNetwork
+            loadedHeadunitServerNetwork = pendingHeadunitServerNetwork
+        }
         pendingHeadunitServerAutoWifiScan?.let { if (it != settings.headunitServerAutoWifiScan) settings.headunitServerAutoWifiScan = it }
         pendingAutoRestartWifi?.let { if (it != settings.autoRestartWifiWhenP2pStuck) settings.autoRestartWifiWhenP2pStuck = it }
         pendingUseLibusb?.let { if (it != settings.useLibusb) settings.useLibusb = it }
