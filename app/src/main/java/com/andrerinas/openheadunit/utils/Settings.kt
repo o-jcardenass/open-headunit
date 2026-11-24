@@ -2,6 +2,7 @@ package com.andrerinas.openheadunit.utils
 
 import com.andrerinas.openheadunit.connection.usb.UsbAutoStartPolicy
 import com.andrerinas.openheadunit.connection.usb.UsbPlugInPolicy
+import com.andrerinas.openheadunit.connection.usb.UsbSelectionPolicy
 import android.annotation.SuppressLint
 import com.andrerinas.openheadunit.app.ExternalPowerDisconnectPolicy
 import android.content.ComponentName
@@ -1327,6 +1328,7 @@ class Settings(private val context: Context) {
         }
         set(value) {
             prefs.edit().putStringSet("connection-modes", value.map { it.key }.toSet()).apply()
+            syncUsbSelectedToDeviceStorage(context, UsbSelectionPolicy.usbSelected(value))
         }
 
     private fun migrateLegacyConnectionModes(): Set<ConnectionMode> = when (primaryConnection) {
@@ -1338,7 +1340,7 @@ class Settings(private val context: Context) {
     }
 
     /** Whether USB-related settings should be shown (empty selection shows everything). */
-    fun showsUsb(): Boolean = connectionModes.isEmpty() || ConnectionMode.USB in connectionModes
+    fun showsUsb(): Boolean = UsbSelectionPolicy.usbSelected(connectionModes)
     /** Whether WiFi/wireless settings should be shown (empty selection shows everything). */
     fun showsWifi(): Boolean = connectionModes.isEmpty() || ConnectionMode.WIFI in connectionModes
     /** The external-GPS choice only applies when a phone is connected; false only for Self-only. */
@@ -1899,6 +1901,7 @@ class Settings(private val context: Context) {
             syncAutoStartOnScreenOnToDeviceStorage(context, false)
             syncAutoStartOnUsbToDeviceStorage(context, false)
             syncUsbConnectOnPlugInToDeviceStorage(context, UsbPlugInPolicy.DEFAULT_CONNECT_ON_PLUG_IN)
+            syncUsbSelectedToDeviceStorage(context, true)
             syncAutoStartOnWifiToDeviceStorage(context, false)
             syncListenForUsbDevicesToDeviceStorage(context, true)
             syncAutoStartBtMacToDeviceStorage(context, "")
@@ -2340,6 +2343,29 @@ class Settings(private val context: Context) {
                 deviceContext.getSharedPreferences(DEVICE_PREFS_NAME, Context.MODE_PRIVATE)
                     .edit()
                     .putBoolean(KEY_USB_CONNECT_ON_PLUG_IN, enabled)
+                    .apply()
+            }
+        }
+
+        private const val KEY_USB_SELECTED = "usb-selected"
+
+        /** Reads whether USB is a chosen connection type; safe during locked boot. */
+        fun isUsbSelected(context: Context): Boolean {
+            val prefs = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                val deviceContext = context.createDeviceProtectedStorageContext()
+                deviceContext.getSharedPreferences(DEVICE_PREFS_NAME, Context.MODE_PRIVATE)
+            } else {
+                context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            }
+            return prefs.getBoolean(KEY_USB_SELECTED, true)
+        }
+
+        fun syncUsbSelectedToDeviceStorage(context: Context, selected: Boolean) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                val deviceContext = context.createDeviceProtectedStorageContext()
+                deviceContext.getSharedPreferences(DEVICE_PREFS_NAME, Context.MODE_PRIVATE)
+                    .edit()
+                    .putBoolean(KEY_USB_SELECTED, selected)
                     .apply()
             }
         }

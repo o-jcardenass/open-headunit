@@ -104,6 +104,12 @@ class SettingsBackupManagerTest {
         assertEquals(-122.123456789, Settings(context).fixedSunriseLongitude, 0.0)
     }
 
+    @Test fun `a restore to Wi-Fi only clears the USB mirror`() {
+        val json = SettingsBackupManager.exportToJson(mapOf("connection-modes" to setOf("wifi")), "test", 1)
+        SettingsBackupManager.importFromJson(context, json, applyTheme = false)
+        assertFalse(Settings.isUsbSelected(context))
+    }
+
     @Test fun `an older backup's key mappings and gestures replace the newer ones`() {
         prefs.edit().clear()
             .putStringSet(Settings.KEY_BINDINGS, setOf("140=local:dim"))

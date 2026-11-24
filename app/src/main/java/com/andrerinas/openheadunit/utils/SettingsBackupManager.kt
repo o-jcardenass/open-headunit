@@ -681,6 +681,7 @@ object SettingsBackupManager {
         Settings.syncAutoStartOnScreenOnToDeviceStorage(context, settings.autoStartOnScreenOn)
         Settings.syncAutoStartOnUsbToDeviceStorage(context, settings.autoStartOnUsb)
         Settings.syncUsbConnectOnPlugInToDeviceStorage(context, settings.usbConnectOnPlugIn)
+        Settings.syncUsbSelectedToDeviceStorage(context, settings.showsUsb())
         Settings.syncAutoStartOnWifiToDeviceStorage(context, settings.autoStartOnWifi)
         Settings.syncAutoStartWifiSsidToDeviceStorage(context, settings.autoStartWifiSsid)
         Settings.syncListenForUsbDevicesToDeviceStorage(context, settings.listenForUsbDevices)
