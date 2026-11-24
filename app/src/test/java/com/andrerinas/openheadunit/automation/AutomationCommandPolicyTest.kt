@@ -3,6 +3,7 @@ package com.andrerinas.openheadunit.automation
 import com.andrerinas.openheadunit.aap.AapService
 import com.andrerinas.openheadunit.contract.HeadUnitCommand
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -144,27 +145,43 @@ class AutomationCommandPolicyTest {
         }
     }
 
-    private val userUsbCheck = AutomationCommandPolicy.Effect.StartService(
+    private val genericUsbCheck = AutomationCommandPolicy.Effect.StartService(
         AapService.ACTION_CHECK_USB,
         flagExtras = mapOf(AapService.EXTRA_USER_REQUESTED to true)
+    )
+    private val namedUsbCheck = AutomationCommandPolicy.Effect.StartService(
+        AapService.ACTION_CHECK_USB,
+        flagExtras = mapOf(AapService.EXTRA_USER_REQUESTED to true, AapService.EXTRA_USB_NAMED to true)
     )
 
     @Test
     fun `a USB check is asked for by hand, so it lifts the status pill's X`() {
-        assertEquals(userUsbCheck, single(HeadUnitCommand.ACTION_CHECK_USB))
+        assertEquals(namedUsbCheck, single(HeadUnitCommand.ACTION_CHECK_USB))
+    }
+
+    @Test
+    fun `a USB check names USB, so it passes the connection type gate`() {
+        val extras = (single(HeadUnitCommand.ACTION_CHECK_USB) as AutomationCommandPolicy.Effect.StartService).flagExtras
+        assertEquals(true, extras[AapService.EXTRA_USB_NAMED])
     }
 
     // --- connect --------------------------------------------------------------------------------
 
     @Test
     fun `connect without an address checks USB instead`() {
-        assertEquals(userUsbCheck, single(HeadUnitCommand.ACTION_CONNECT))
+        assertEquals(genericUsbCheck, single(HeadUnitCommand.ACTION_CONNECT))
         // A blank address is the same as none; a shortcut with an empty field must not try to
         // open a socket to "".
         assertEquals(
-            userUsbCheck,
+            genericUsbCheck,
             single(HeadUnitCommand.ACTION_CONNECT, mapOf(HeadUnitCommand.EXTRA_IP to "  "))
         )
+    }
+
+    @Test
+    fun `connect without an address does not name USB`() {
+        val extras = (single(HeadUnitCommand.ACTION_CONNECT) as AutomationCommandPolicy.Effect.StartService).flagExtras
+        assertFalse(extras.containsKey(AapService.EXTRA_USB_NAMED))
     }
 
     @Test
@@ -261,7 +278,7 @@ class AutomationCommandPolicyTest {
     @Test
     fun `blank phone targets fall back to the USB check`() {
         assertEquals(
-            userUsbCheck,
+            genericUsbCheck,
             single(
                 HeadUnitCommand.ACTION_CONNECT,
                 mapOf(HeadUnitCommand.EXTRA_PHONE_MAC to " ", HeadUnitCommand.EXTRA_DEVICE_NAME to " ")

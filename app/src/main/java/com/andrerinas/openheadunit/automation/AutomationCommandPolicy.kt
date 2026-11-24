@@ -115,7 +115,7 @@ object AutomationCommandPolicy {
 
         return when (action) {
             HeadUnitCommand.ACTION_CONNECT -> connect(extras)
-            HeadUnitCommand.ACTION_CHECK_USB -> listOf(checkUsb())
+            HeadUnitCommand.ACTION_CHECK_USB -> listOf(checkUsb(named = true))
             // Not a plain relay: the service honours no_ui on this action, and relaying it without
             // the extra silently dropped the one thing the caller asked for.
             HeadUnitCommand.ACTION_START_WIRELESS -> listOf(
@@ -162,12 +162,12 @@ object AutomationCommandPolicy {
 
     /**
      * With `ip` this opens a TCP session to Android Auto's head unit server; with a phone MAC or
-     * name it wakes that phone; with none it is the USB check.
+     * name it wakes that phone; with none it is a USB check that connects only when USB is chosen.
      */
     private fun connect(extras: Extras): List<Effect> {
         val ip = extras.string(HeadUnitCommand.EXTRA_IP)?.trim()
         if (ip.isNullOrEmpty()) {
-            val target = phoneTarget(extras) ?: return listOf(checkUsb())
+            val target = phoneTarget(extras) ?: return listOf(checkUsb(named = false))
             return listOf(namedWake(target, extras.flag(HeadUnitCommand.EXTRA_NO_UI)))
         }
         return listOf(
@@ -180,9 +180,10 @@ object AutomationCommandPolicy {
     }
 
     /** An explicit command, so it lifts the status pill's X like the USB button does. */
-    private fun checkUsb() = Effect.StartService(
+    private fun checkUsb(named: Boolean) = Effect.StartService(
         AapService.ACTION_CHECK_USB,
-        flagExtras = mapOf(AapService.EXTRA_USER_REQUESTED to true)
+        flagExtras = if (named) mapOf(AapService.EXTRA_USER_REQUESTED to true, AapService.EXTRA_USB_NAMED to true)
+        else mapOf(AapService.EXTRA_USER_REQUESTED to true)
     )
 
     private fun nightMode(extras: Extras): List<Effect> {
