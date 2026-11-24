@@ -32,6 +32,7 @@ class UsbSettingsRestartTest {
         val saved = CommManager.ConnectionState.Disconnected(reason = CommManager.DisconnectReason.SETTINGS_RESTART, settingsRestartUntilMs = Long.MAX_VALUE)
         doReturn(saved).`when`(manager).pendingSettingsRestart()
         doNothing().`when`(manager).checkAlreadyConnected(anyBoolean(), anyBoolean(), anyOrNull(), anyBoolean(), anyValue())
+        doReturn(true).`when`(manager).usbChosen()
         manager.checkOnRequest(userRequested = false)
         verify(manager).checkAlreadyConnected(force = true, userRequested = false, settingsRestart = saved, accessoryOnly = false)
     }
@@ -41,6 +42,7 @@ class UsbSettingsRestartTest {
         val saved = CommManager.ConnectionState.Disconnected(reason = CommManager.DisconnectReason.SETTINGS_RESTART, settingsRestartUntilMs = Long.MAX_VALUE)
         doReturn(saved).`when`(manager).pendingSettingsRestart()
         doNothing().`when`(manager).checkAlreadyConnected(anyBoolean(), anyBoolean(), anyOrNull(), anyBoolean(), anyValue())
+        doReturn(true).`when`(manager).usbChosen()
         manager.checkOnRequest(userRequested = true)
         verify(manager).checkAlreadyConnected(force = true, userRequested = true, settingsRestart = null, accessoryOnly = false,
             trigger = UsbPlugInPolicy.Trigger.USER)

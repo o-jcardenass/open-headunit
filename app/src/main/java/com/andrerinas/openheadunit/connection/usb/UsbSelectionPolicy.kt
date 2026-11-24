@@ -12,6 +12,10 @@ object UsbSelectionPolicy {
     /** One plug-in episode, the same span as the USB episode budget. */
     const val USER_ASK_WINDOW_MS = 60_000L
 
+    /** The grep strings the rig reads in the refusal and pass-on-ask log lines. */
+    const val SELECTION_REFUSAL = "USB is not in the connection type selection"
+    const val SELECTION_ASK_PASS = "connects after a USB switch the user asked for"
+
     enum class AutoVerdict { PASS, PASS_ON_ASK, REFUSE }
 
     fun usbSelected(modes: Set<ConnectionMode>): Boolean =

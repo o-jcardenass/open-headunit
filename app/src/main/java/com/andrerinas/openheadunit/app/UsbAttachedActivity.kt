@@ -26,7 +26,9 @@ import com.andrerinas.openheadunit.connection.usb.UsbDeviceCompat
 import com.andrerinas.openheadunit.connection.usb.UsbDeviceDiagnostics
 import com.andrerinas.openheadunit.connection.usb.UsbPermissionAsks
 import com.andrerinas.openheadunit.connection.usb.UsbPlugInPolicy
+import com.andrerinas.openheadunit.connection.usb.UsbSelectionPolicy
 import com.andrerinas.openheadunit.connection.usb.UsbSwitchClaim
+import com.andrerinas.openheadunit.connection.usb.UsbUserAsk
 import com.andrerinas.openheadunit.utils.AppLog
 import com.andrerinas.openheadunit.utils.DeviceIntent
 import com.andrerinas.openheadunit.utils.LocaleHelper
@@ -117,6 +119,20 @@ class UsbAttachedActivity : Activity() {
                 finish()
                 return
             }
+        }
+
+        val usbSelected = settings?.showsUsb() ?: Settings.isUsbSelected(this)
+        val askAgeMs = UsbUserAsk.ageMs()
+        when (UsbSelectionPolicy.automaticVerdict(usbSelected, userRequested = false, userAskAgeMs = askAgeMs)) {
+            UsbSelectionPolicy.AutoVerdict.REFUSE -> {
+                AppLog.i("UsbAttachedActivity: not connecting ${UsbDeviceCompat(device).uniqueName}: " +
+                    UsbSelectionPolicy.SELECTION_REFUSAL)
+                finish()
+                return
+            }
+            UsbSelectionPolicy.AutoVerdict.PASS_ON_ASK -> AppLog.i("UsbAttachedActivity: " +
+                "${UsbDeviceCompat(device).uniqueName} ${UsbSelectionPolicy.SELECTION_ASK_PASS} ($askAgeMs ms ago)")
+            UsbSelectionPolicy.AutoVerdict.PASS -> Unit
         }
 
         val accessory = UsbDeviceCompat.isInAccessoryMode(device)

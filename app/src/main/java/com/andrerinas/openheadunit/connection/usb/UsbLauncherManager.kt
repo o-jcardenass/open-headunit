@@ -517,6 +517,7 @@ class UsbLauncherManager(val service: AapService) {
      */
     fun onUsbHandshakeEnded(outcome: CommManager.UsbHandshakeOutcome) {
         val commManager = App.provide(service).commManager
+        if (outcome.failure == AapTransport.HandshakeFailure.NONE) UsbUserAsk.clear()
         if (!commManager.ownsUsbRecheck(outcome.recoveryOwner)) return
         val failure = outcome.failure
         if (failure == AapTransport.HandshakeFailure.NONE) {
@@ -696,14 +697,25 @@ class UsbLauncherManager(val service: AapService) {
         if (!cancelledByUser) checkAlreadyConnected(force = true, settingsRestart = state)
     }
 
+    internal fun usbChosen(): Boolean = App.provide(service).settings.showsUsb()
+
     /** A scan sent to the service, such as the attach screen's hand-off. An open Save still owns it. */
-    fun checkOnRequest(userRequested: Boolean, trigger: UsbPlugInPolicy.Trigger = UsbPlugInPolicy.Trigger.APP_START) =
+    fun checkOnRequest(
+        userRequested: Boolean,
+        trigger: UsbPlugInPolicy.Trigger = UsbPlugInPolicy.Trigger.APP_START,
+        usbNamed: Boolean = false,
+    ) {
+        if (UsbSelectionPolicy.refusesRequest(usbChosen(), userRequested, usbNamed)) {
+            AppLog.i("UsbLauncher: a connect that named no USB device is refused: ${UsbSelectionPolicy.SELECTION_REFUSAL}")
+            return
+        }
         checkAlreadyConnected(
             force = true,
             userRequested = userRequested,
             settingsRestart = if (userRequested) null else pendingSettingsRestart(),
             trigger = if (userRequested) UsbPlugInPolicy.Trigger.USER else trigger,
         )
+    }
 
     /**
      * Scans currently connected USB devices and connects to any that are already in
@@ -718,6 +730,7 @@ class UsbLauncherManager(val service: AapService) {
      *                      may connect the new accessory, but must not switch the old device again.
      * @param trigger What started the scan. A plug-in switches a normal-mode phone only when
      *                [UsbPlugInPolicy] allows it; an accessory identity is always connected.
+     *                The connection type selection is asked first, for every trigger.
      */
     fun checkAlreadyConnected(
         force: Boolean = false,
@@ -737,6 +750,10 @@ class UsbLauncherManager(val service: AapService) {
         // A new button press may lift an earlier X even while cancelled work is unwinding.
         // A later X clears the pending request again before it can replay.
         if (userRequested) liftUserCancel("a USB connection was asked for")
+        val askAgeMs = UsbUserAsk.ageMs()
+        val selection = UsbSelectionPolicy.automaticVerdict(settings.showsUsb(), userRequested, askAgeMs)
+        logSelectionVerdict(trigger, selection, askAgeMs)
+        if (selection == UsbSelectionPolicy.AutoVerdict.REFUSE) return
         // Refused before any deferral: a held plug-in would come back as an ungated check.
         if (refusesPlugIn(trigger, settings)) return
         if (commManager.isConnected) {
@@ -888,6 +905,21 @@ class UsbLauncherManager(val service: AapService) {
                 performSingleConnect(candidates[0], tier, settingsRestart)
             } else if (candidates.isNotEmpty()) {
                 AppLog.i("Fallback: force=true but ${candidates.size} candidate USB devices are attached; not guessing which is the phone")
+            }
+        }
+    }
+
+    /** Logs one line per connectable device when the connection type selection refused or let through a check. */
+    private fun logSelectionVerdict(trigger: UsbPlugInPolicy.Trigger, verdict: UsbSelectionPolicy.AutoVerdict, ageMs: Long?) {
+        if (verdict == UsbSelectionPolicy.AutoVerdict.PASS) return
+        val devices = UsbDeviceCompat.usbManager(service)?.deviceList?.values
+            ?.filter { UsbDeviceCompat.isConnectable(service, it) }.orEmpty()
+        for (device in devices) {
+            val name = UsbDeviceCompat(device).uniqueName
+            if (verdict == UsbSelectionPolicy.AutoVerdict.REFUSE) {
+                AppLog.i("UsbLauncher: not connecting $name ($trigger): ${UsbSelectionPolicy.SELECTION_REFUSAL}")
+            } else {
+                AppLog.i("UsbLauncher: $name ($trigger) ${UsbSelectionPolicy.SELECTION_ASK_PASS} ($ageMs ms ago)")
             }
         }
     }

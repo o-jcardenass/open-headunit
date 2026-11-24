@@ -50,6 +50,7 @@ class UsbDeferredRecheckTest {
             `when`(service.getSharedPreferences(anyString(), anyInt())).thenReturn(mock(android.content.SharedPreferences::class.java))
             `when`(usb.deviceList).thenReturn(hashMapOf())
             `when`(settings.allowedDevices).thenReturn(emptySet())
+            `when`(settings.showsUsb()).thenReturn(true)
             App::class.java.getDeclaredField("component\$delegate").apply { isAccessible = true }.set(app, lazyOf(component))
             `when`(component.commManager).thenReturn(comm)
             `when`(component.settings).thenReturn(settings)
@@ -177,6 +178,14 @@ class UsbDeferredRecheckTest {
                 }
             }
         }
+    }
+
+    @Test fun aNamedUsbRequestWithAnEmptyBusLeavesNoUserAskStamp() = fixture { f ->
+        UsbUserAsk.resetForTest()
+        `when`(f.settings.showsUsb()).thenReturn(false)
+        f.launcher.checkOnRequest(userRequested = true, usbNamed = true)
+        f.queue.drain()
+        assertNull(UsbUserAsk.ageMs())
     }
 
     @Test fun aNewButtonPressAfterXCanRequestOneDeferredScan() = fixture { f ->
@@ -975,6 +984,7 @@ class UsbDeferredRecheckTest {
         mockStatic(AppCompatDelegate::class.java).use {
             val oldLogger = AppLog.LOGGER
             val oldClock = ConnectionArbiter.clock
+            val oldAskClock = UsbUserAsk.clock
             AppLog.LOGGER = object : AppLog.Logger {
                 override fun println(priority: Int, tag: String, msg: String) = Unit
             }
@@ -982,12 +992,14 @@ class UsbDeferredRecheckTest {
             ConnectionArbiter.clock = { 1000L }
             UsbPermissionAsks.resetForTest()
             val f = Fixture()
+            UsbUserAsk.clock = { f.now }
             clock.`when`<Long> { SystemClock.elapsedRealtime() }.thenAnswer { f.now }
             try { block(f) } finally {
                 f.scope.cancel()
                 f.queue.drain()
                 ConnectionArbiter.reset()
                 ConnectionArbiter.clock = oldClock
+                UsbUserAsk.clock = oldAskClock
                 AppLog.LOGGER = oldLogger
             }
         }

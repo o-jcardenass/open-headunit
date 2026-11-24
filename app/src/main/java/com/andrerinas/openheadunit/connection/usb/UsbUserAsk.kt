@@ -9,18 +9,24 @@ import androidx.annotation.VisibleForTesting
  */
 object UsbUserAsk {
 
-    @Volatile
-    private var stampedAtMs = 0L
+    private const val NONE = -1L
 
-    fun stamp() { stampedAtMs = SystemClock.elapsedRealtime() }
+    /** A test replaces it: the stamp is set on an IO thread, where a static SystemClock mock is not live. */
+    @VisibleForTesting
+    var clock: () -> Long = { SystemClock.elapsedRealtime() }
+
+    @Volatile
+    private var stampedAtMs = NONE
+
+    fun stamp() { stampedAtMs = clock() }
 
     /** Milliseconds since the last stamp, or null when none is set. */
     fun ageMs(): Long? {
         val at = stampedAtMs
-        return if (at == 0L) null else SystemClock.elapsedRealtime() - at
+        return if (at == NONE) null else clock() - at
     }
 
-    fun clear() { stampedAtMs = 0L }
+    fun clear() { stampedAtMs = NONE }
 
     @VisibleForTesting
     fun resetForTest() = clear()

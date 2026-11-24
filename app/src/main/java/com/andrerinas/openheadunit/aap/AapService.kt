@@ -4171,6 +4171,7 @@ class AapService : Service() {
                 userRequested = intent?.getBooleanExtra(EXTRA_USER_REQUESTED, false) == true,
                 trigger = if (intent?.getStringExtra(EXTRA_USB_TRIGGER) == USB_TRIGGER_PLUG_IN)
                     UsbPlugInPolicy.Trigger.PLUG_IN else UsbPlugInPolicy.Trigger.APP_START,
+                usbNamed = intent?.getBooleanExtra(EXTRA_USB_NAMED, false) == true,
             )
             else                         -> {
                 if (intent?.action == null || intent.action == Intent.ACTION_MAIN) {
@@ -4642,6 +4643,8 @@ class AapService : Service() {
         const val EXTRA_SETTINGS_REARM = "settings_rearm"
         /** On [ACTION_CHECK_USB]: the user asked by hand, which lifts the status pill's X. */
         const val EXTRA_USER_REQUESTED = "user_requested"
+        /** On [ACTION_CHECK_USB]: the USB automation verb sets it; a generic connect does not. */
+        const val EXTRA_USB_NAMED = "usb_named"
         /** On [ACTION_CHECK_USB]: [USB_TRIGGER_PLUG_IN] when the attach screen handed a plug-in on. */
         const val EXTRA_USB_TRIGGER = "usb_trigger"
         const val USB_TRIGGER_PLUG_IN = "plug_in"

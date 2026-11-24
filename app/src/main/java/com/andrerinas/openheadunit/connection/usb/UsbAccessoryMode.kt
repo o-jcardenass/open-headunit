@@ -30,6 +30,7 @@ class UsbAccessoryMode(private val usbMgr: UsbManager) {
             val native = UsbNative()
             if (native.wrap(connection, 0, 0)) {
                 val code = native.accModeSwitch()
+                if (code == 0) UsbUserAsk.stamp()
                 native.close()
                 // The code only reaches raw logcat from the native side, and an APPLOG_FILE export
                 // carries none of it. Say what it means where the reporter's log will have it.
@@ -117,6 +118,8 @@ class UsbAccessoryMode(private val usbMgr: UsbManager) {
         // len == 0: clean ACK before re-enumeration (expected path).
         // len < 0: phone disconnected before the ACK because it started re-enumerating
         //          immediately upon receipt — the command was still received. Treat as success.
+        // Stamp before the wait: the accessory can attach and meet the selection gate before this returns.
+        UsbUserAsk.stamp()
         AppLog.i("Acc start sent (len=$len). Waiting for re-enumeration...")
         ConnectionStageTracker.report(ConnectionStage.USB_SWITCHING)
         try { Thread.sleep(500) } catch (e: Exception) {}

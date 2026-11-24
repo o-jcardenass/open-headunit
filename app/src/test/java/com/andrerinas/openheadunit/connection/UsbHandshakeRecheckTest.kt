@@ -8,6 +8,7 @@ import com.andrerinas.openheadunit.connection.CommManager.ConnectionState
 import com.andrerinas.openheadunit.connection.ConnectionPriorityPolicy.Owner
 import com.andrerinas.openheadunit.connection.ConnectionPriorityPolicy.Tier
 import com.andrerinas.openheadunit.connection.usb.UsbLauncherManager
+import com.andrerinas.openheadunit.connection.usb.UsbUserAsk
 import com.andrerinas.openheadunit.utils.AppLog
 import com.andrerinas.openheadunit.utils.Settings
 import kotlinx.coroutines.CoroutineDispatcher
@@ -55,6 +56,15 @@ class UsbHandshakeRecheckTest {
 
     @Test fun disabledAutomaticUsbScanDoesNotBecomeAForcedRetry() {
         scenario(ConnectionState.Connected, force = false) { scan, claim, returned, settle ->
+            scan()
+            ConnectionArbiter.release(claim, sessionFormed = false)
+            settle()
+            assertTrue(returned.isEmpty())
+        }
+    }
+
+    @Test fun usbOutsideTheConnectionTypesOwesNoScanAfterAFailedWirelessHandshake() {
+        scenario(ConnectionState.StartingTransport, usbChosen = false) { scan, claim, returned, settle ->
             scan()
             ConnectionArbiter.release(claim, sessionFormed = false)
             settle()
@@ -122,6 +132,7 @@ class UsbHandshakeRecheckTest {
         force: Boolean = true,
         claimOwner: Owner = Owner.WIRELESS_STACK,
         standsDown: Boolean = false,
+        usbChosen: Boolean = true,
         body: (() -> Unit, ConnectionArbiter.Claim, MutableList<Pair<Boolean, Boolean>>, () -> Unit) -> Unit,
     ) {
         val savedLogger = AppLog.LOGGER
@@ -133,6 +144,7 @@ class UsbHandshakeRecheckTest {
             override fun println(priority: Int, tag: String, msg: String) = Unit
         }
         ConnectionArbiter.reset()
+        UsbUserAsk.resetForTest()
         ConnectionArbiter.clock = { 1000L }
         ConnectionArbiter.actions = object : ConnectionArbiter.Actions {
             override fun preempt(loser: ConnectionArbiter.Claim) = Unit
@@ -160,7 +172,9 @@ class UsbHandshakeRecheckTest {
                     .apply { isAccessible = true }.set(app, lazyOf(component))
                 `when`(service.applicationContext).thenReturn(app)
                 `when`(component.commManager).thenReturn(manager)
-                `when`(component.settings).thenReturn(mock(Settings::class.java))
+                val settings = mock(Settings::class.java)
+                `when`(settings.showsUsb()).thenReturn(usbChosen)
+                `when`(component.settings).thenReturn(settings)
                 val launcher = UsbLauncherManager(service)
                 val claim = checkNotNull(ConnectionArbiter.claim(if (claimOwner == Owner.USB) Tier.USB else Tier.WIRELESS_HANDSHAKE, claimOwner, "handshake"))
                 val release = CommManager::class.java.getDeclaredMethod("releaseClaim", ConnectionArbiter.Claim::class.java)
