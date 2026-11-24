@@ -939,7 +939,7 @@
     <string name="settings_search_clear">Șterge căutarea</string>
     <string name="settings_search_no_results">Nicio setare nu corespunde cu „%1$s”.</string>
     <string name="connection_mode">Mod de conectare</string>
-    <string name="connection_mode_help">Alege cum se conectează această unitate la telefon: USB, Wi-Fi, Mod autonom sau orice combinație. Ecranul principal și setările arată doar opțiunile pentru modurile alese. Dacă Wi-Fi nu este ales, aplicația nu pornește conexiunea wireless în fundal.</string>
+    <string name="connection_mode_help">Alege cum se conectează această unitate la telefon: USB, Wi-Fi, Mod autonom sau orice combinație. Ecranul principal și setările arată doar opțiunile pentru modurile alese. Dacă Wi-Fi nu este ales, aplicația nu pornește conexiunea wireless în fundal. Dacă USB nu este ales, aplicația nu conectează singură un telefon introdus în port. Un adaptor wireless în portul USB necesită alegerea USB.</string>
     <string name="connection_kind_usb_cable">Cablu USB (direct)</string>
     <string name="connection_kind_usb_wireless_adapter">Adaptor wireless USB</string>
     <string name="connection_kind_wifi">Wi-Fi</string>

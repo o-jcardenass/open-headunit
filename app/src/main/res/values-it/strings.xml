@@ -945,7 +945,7 @@
     <string name="settings_search_clear">Cancella ricerca</string>
     <string name="settings_search_no_results">Nessuna impostazione corrisponde a \"%1$s\".</string>
     <string name="connection_mode">Modalità di connessione</string>
-    <string name="connection_mode_help">Sceglie come questa unità si collega al telefono: USB, Wi-Fi, Modalità autonoma o una combinazione. La schermata iniziale e le impostazioni mostrano solo le opzioni dei modi scelti. Se Wi-Fi non è scelto, l\'app non avvia il wireless in background.</string>
+    <string name="connection_mode_help">Sceglie come questa unità si collega al telefono: USB, Wi-Fi, Modalità autonoma o una combinazione. La schermata iniziale e le impostazioni mostrano solo le opzioni dei modi scelti. Se Wi-Fi non è scelto, l\'app non avvia il wireless in background. Se USB non è scelto, l\'app non collega da sola un telefono inserito nella porta. Un adattatore wireless sulla porta USB richiede che USB sia scelto.</string>
     <string name="connection_kind_usb_cable">Cavo USB (diretto)</string>
     <string name="connection_kind_usb_wireless_adapter">Adattatore wireless USB</string>
     <string name="connection_kind_wifi">WiFi</string>

@@ -17,7 +17,7 @@
 
     <!-- Connection mode selector -->
     <string name="connection_mode">Modo de ligação</string>
-    <string name="connection_mode_help">Escolhe como esta unidade se liga ao telemóvel: USB, Wi-Fi, Modo Próprio ou qualquer combinação. O ecrã inicial e as definições mostram só as opções dos modos escolhidos. Se o Wi-Fi não estiver escolhido, a aplicação não inicia a ligação sem fios em segundo plano.</string>
+    <string name="connection_mode_help">Escolhe como esta unidade se liga ao telemóvel: USB, Wi-Fi, Modo Próprio ou qualquer combinação. O ecrã inicial e as definições mostram só as opções dos modos escolhidos. Se o Wi-Fi não estiver escolhido, a aplicação não inicia a ligação sem fios em segundo plano. Se o USB não estiver escolhido, a aplicação não faz sozinha a ligação a um telemóvel inserido na porta. Um adaptador sem fios na porta USB exige que o USB esteja escolhido.</string>
     <string name="connection_kind_usb_cable">Cabo USB (direto)</string>
     <string name="connection_kind_usb_wireless_adapter">Adaptador sem fios USB</string>
     <string name="connection_kind_wifi">Wi-Fi</string>

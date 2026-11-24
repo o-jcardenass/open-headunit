@@ -940,7 +940,7 @@
     <string name="settings_search_clear">검색어 지우기</string>
     <string name="settings_search_no_results">\"%1$s\"과(와) 일치하는 설정이 없습니다.</string>
     <string name="connection_mode">연결 방식</string>
-    <string name="connection_mode_help">이 기기가 휴대전화에 연결하는 방식을 USB, Wi-Fi, 단독 모드 또는 여러 방식의 조합 중에서 선택합니다. 홈 화면과 설정에는 선택한 방식의 항목만 표시됩니다. Wi-Fi를 선택하지 않으면 앱이 백그라운드에서 무선 연결을 시작하지 않습니다.</string>
+    <string name="connection_mode_help">이 기기가 휴대전화에 연결하는 방식을 USB, Wi-Fi, 단독 모드 또는 여러 방식의 조합 중에서 선택합니다. 홈 화면과 설정에는 선택한 방식의 항목만 표시됩니다. Wi-Fi를 선택하지 않으면 앱이 백그라운드에서 무선 연결을 시작하지 않습니다. USB를 선택하지 않으면 앱이 USB 포트에 꽂은 휴대전화에 자동으로 연결하지 않습니다. USB 포트의 무선 어댑터를 사용하려면 USB를 선택해야 합니다.</string>
     <string name="connection_kind_usb_cable">USB 케이블(직접 연결)</string>
     <string name="connection_kind_usb_wireless_adapter">USB 무선 어댑터</string>
     <string name="connection_kind_wifi">Wi-Fi</string>

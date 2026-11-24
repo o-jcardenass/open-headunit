@@ -937,7 +937,7 @@
     <string name="settings_search_clear">Zoekopdracht wissen</string>
     <string name="settings_search_no_results">Geen instellingen gevonden voor \"%1$s\".</string>
     <string name="connection_mode">Verbindingsmodus</string>
-    <string name="connection_mode_help">Bepaalt hoe deze unit verbinding maakt met de telefoon: USB, wifi, Zelfstandige modus of een combinatie. Het startscherm en de instellingen tonen alleen de opties voor de gekozen manieren. Is wifi niet gekozen, dan start de app geen draadloze verbinding op de achtergrond.</string>
+    <string name="connection_mode_help">Bepaalt hoe deze unit verbinding maakt met de telefoon: USB, wifi, Zelfstandige modus of een combinatie. Het startscherm en de instellingen tonen alleen de opties voor de gekozen manieren. Is wifi niet gekozen, dan start de app geen draadloze verbinding op de achtergrond. Is USB niet gekozen, dan verbindt de app een aangesloten telefoon niet uit zichzelf. Voor een draadloze adapter op de USB-poort moet USB gekozen zijn.</string>
     <string name="connection_kind_usb_cable">USB-kabel (direct)</string>
     <string name="connection_kind_usb_wireless_adapter">Draadloze USB-adapter</string>
     <string name="connection_kind_wifi">WiFi</string>

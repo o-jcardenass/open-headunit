@@ -941,7 +941,7 @@
     <string name="settings_search_clear">مسح البحث</string>
     <string name="settings_search_no_results">لا توجد إعدادات تطابق \"%1$s\".</string>
     <string name="connection_mode">وضع الاتصال</string>
-    <string name="connection_mode_help">يحدد كيف تتصل هذه الوحدة بالهاتف: USB أو WiFi أو الوضع الذاتي أو مزيج منها. تعرض الشاشة الرئيسية والإعدادات خيارات الطرق المختارة فقط. إذا لم تختر WiFi، لا يبدأ التطبيق الاتصال اللاسلكي في الخلفية.</string>
+    <string name="connection_mode_help">يحدد كيف تتصل هذه الوحدة بالهاتف: USB أو WiFi أو الوضع الذاتي أو مزيج منها. تعرض الشاشة الرئيسية والإعدادات خيارات الطرق المختارة فقط. إذا لم تختر WiFi، لا يبدأ التطبيق الاتصال اللاسلكي في الخلفية. إذا لم تختر USB، لا يوصل التطبيق الهاتف المتصل بالمنفذ تلقائيًا. يتطلب المحوّل اللاسلكي على منفذ USB اختيار USB.</string>
     <string name="connection_kind_usb_cable">كابل USB (مباشر)</string>
     <string name="connection_kind_usb_wireless_adapter">محول USB لاسلكي</string>
     <string name="connection_kind_wifi">WiFi</string>

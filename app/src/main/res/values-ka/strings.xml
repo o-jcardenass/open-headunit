@@ -865,7 +865,7 @@
     <string name="settings_search_clear">ძებნის გასუფთავება</string>
     <string name="settings_search_no_results">„%1$s“-ს არცერთი პარამეტრი არ ემთხვევა.</string>
     <string name="connection_mode">კავშირის რეჟიმი</string>
-    <string name="connection_mode_help">ირჩევს, როგორ უკავშირდება ეს მოწყობილობა ტელეფონს: USB, Wi-Fi, ავტონომიური რეჟიმი ან მათი ნებისმიერი კომბინაცია. მთავარი ეკრანი და პარამეტრები მხოლოდ არჩეული გზების ვარიანტებს აჩვენებს. თუ Wi-Fi არჩეული არ არის, აპი ფონზე უსადენო კავშირს არ იწყებს.</string>
+    <string name="connection_mode_help">ირჩევს, როგორ უკავშირდება ეს მოწყობილობა ტელეფონს: USB, Wi-Fi, ავტონომიური რეჟიმი ან მათი ნებისმიერი კომბინაცია. მთავარი ეკრანი და პარამეტრები მხოლოდ არჩეული გზების ვარიანტებს აჩვენებს. თუ Wi-Fi არჩეული არ არის, აპი ფონზე უსადენო კავშირს არ იწყებს. თუ USB არჩეული არ არის, აპი ჩართულ ტელეფონს თავისით არ აკავშირებს. USB პორტზე მიერთებული უსადენო ადაპტერისთვის საჭიროა USB-ის არჩევა.</string>
     <string name="connection_kind_usb_cable">USB კაბელი (პირდაპირი)</string>
     <string name="connection_kind_usb_wireless_adapter">USB უსადენო ადაპტერი</string>
     <string name="connection_kind_wifi">WiFi</string>

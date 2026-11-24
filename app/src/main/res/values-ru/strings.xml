@@ -937,7 +937,7 @@ Open Headunit предоставляется «как есть» без каки
     <string name="settings_search_clear">Очистить поиск</string>
     <string name="settings_search_no_results">Нет настроек по запросу «%1$s».</string>
     <string name="connection_mode">Режим подключения</string>
-    <string name="connection_mode_help">Выбирает, как это устройство подключается к телефону: USB, Wi-Fi, автономный режим или любое сочетание. Главный экран и настройки показывают только варианты для выбранных способов. Если Wi-Fi не выбран, приложение не запускает беспроводное подключение в фоне.</string>
+    <string name="connection_mode_help">Выбирает, как это устройство подключается к телефону: USB, Wi-Fi, автономный режим или любое сочетание. Главный экран и настройки показывают только варианты для выбранных способов. Если Wi-Fi не выбран, приложение не запускает беспроводное подключение в фоне. Если USB не выбран, приложение не подключает вставленный в порт телефон автоматически. Для беспроводного адаптера в USB-порту нужно выбрать USB.</string>
     <string name="connection_kind_usb_cable">USB-кабель (напрямую)</string>
     <string name="connection_kind_usb_wireless_adapter">Беспроводной USB-адаптер</string>
     <string name="connection_kind_wifi">WiFi</string>

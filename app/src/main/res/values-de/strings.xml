@@ -983,7 +983,7 @@
     <string name="settings_search_clear">Suche löschen</string>
     <string name="settings_search_no_results">Keine Einstellung passt zu „%1$s“.</string>
     <string name="connection_mode">Verbindungsart</string>
-    <string name="connection_mode_help">Legt fest, wie sich dieses Gerät mit dem Smartphone verbindet: USB, WLAN, Self-Modus oder eine Mischung. Startseite und Einstellungen zeigen nur die Optionen für die gewählten Verbindungsarten. Ist WLAN nicht gewählt, startet die App Wireless nicht im Hintergrund.</string>
+    <string name="connection_mode_help">Legt fest, wie sich dieses Gerät mit dem Smartphone verbindet: USB, WLAN, Self-Modus oder eine Mischung. Startseite und Einstellungen zeigen nur die Optionen für die gewählten Verbindungsarten. Ist WLAN nicht gewählt, startet die App Wireless nicht im Hintergrund. Ist USB nicht gewählt, verbindet die App ein angeschlossenes Smartphone nicht von selbst. Für einen Funkadapter am USB-Anschluss muss USB gewählt sein.</string>
     <string name="connection_kind_usb_cable">USB-Kabel (direkt)</string>
     <string name="connection_kind_usb_wireless_adapter">Kabelloser USB-Adapter</string>
     <string name="connection_kind_wifi">WLAN</string>

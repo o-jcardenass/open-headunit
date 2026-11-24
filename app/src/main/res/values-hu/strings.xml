@@ -936,7 +936,7 @@
     <string name="settings_search_clear">Keresés törlése</string>
     <string name="settings_search_no_results">Egy beállítás sem felel meg ennek: „%1$s”.</string>
     <string name="connection_mode">Csatlakozási mód</string>
-    <string name="connection_mode_help">Megadja, hogyan csatlakozik ez az egység a telefonhoz: USB, Wi-Fi, Önálló mód vagy ezek keveréke. A kezdőképernyő és a beállítások csak a kiválasztott módokhoz tartozó lehetőségeket mutatják. Ha a Wi-Fi nincs kiválasztva, az alkalmazás nem indítja el a vezeték nélküli módot a háttérben.</string>
+    <string name="connection_mode_help">Megadja, hogyan csatlakozik ez az egység a telefonhoz: USB, Wi-Fi, Önálló mód vagy ezek keveréke. A kezdőképernyő és a beállítások csak a kiválasztott módokhoz tartozó lehetőségeket mutatják. Ha a Wi-Fi nincs kiválasztva, az alkalmazás nem indítja el a vezeték nélküli módot a háttérben. Ha az USB nincs kiválasztva, az alkalmazás nem csatlakoztatja magától a bedugott telefont. Az USB-porton lévő vezeték nélküli adapterhez ki kell választani az USB-t.</string>
     <string name="connection_kind_usb_cable">USB-kábel (közvetlen)</string>
     <string name="connection_kind_usb_wireless_adapter">USB-s vezeték nélküli adapter</string>
     <string name="connection_kind_wifi">Wi-Fi</string>

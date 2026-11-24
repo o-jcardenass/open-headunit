@@ -26,7 +26,7 @@
 
     <!-- Connection mode selector -->
     <string name="connection_mode">Connection mode</string>
-    <string name="connection_mode_help">Chooses how this unit connects to the phone: USB, Wi-Fi, Self Mode, or any mix. The home screen and the settings show only the options for the ways you choose. If Wi-Fi is not chosen, the app does not start wireless in the background.</string>
+    <string name="connection_mode_help">Chooses how this unit connects to the phone: USB, Wi-Fi, Self Mode, or any mix. The home screen and the settings show only the options for the ways you choose. If Wi-Fi is not chosen, the app does not start wireless in the background. If USB is not chosen, the app does not connect a plugged-in phone on its own. A wireless adapter on the USB port needs USB chosen.</string>
     <string name="connection_kind_usb_cable">USB cable (direct)</string>
     <string name="connection_kind_usb_wireless_adapter">USB wireless adapter</string>
     <string name="connection_kind_wifi">WiFi</string>

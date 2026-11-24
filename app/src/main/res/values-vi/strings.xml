@@ -942,7 +942,7 @@
     <string name="settings_search_clear">Xóa tìm kiếm</string>
     <string name="settings_search_no_results">Không có cài đặt nào khớp với \"%1$s\".</string>
     <string name="connection_mode">Chế độ kết nối</string>
-    <string name="connection_mode_help">Chọn cách thiết bị này kết nối với điện thoại: USB, Wi-Fi, Chế độ độc lập, hoặc kết hợp bất kỳ. Màn hình chính và phần cài đặt chỉ hiện các tùy chọn của những cách bạn chọn. Nếu không chọn Wi-Fi, ứng dụng không khởi động kết nối không dây ở chế độ nền.</string>
+    <string name="connection_mode_help">Chọn cách thiết bị này kết nối với điện thoại: USB, Wi-Fi, Chế độ độc lập, hoặc kết hợp bất kỳ. Màn hình chính và phần cài đặt chỉ hiện các tùy chọn của những cách bạn chọn. Nếu không chọn Wi-Fi, ứng dụng không khởi động kết nối không dây ở chế độ nền. Nếu không chọn USB, ứng dụng không tự kết nối điện thoại đã cắm. Bộ chuyển đổi không dây trên cổng USB cần chọn USB.</string>
     <string name="connection_kind_usb_cable">Cáp USB (trực tiếp)</string>
     <string name="connection_kind_usb_wireless_adapter">Bộ chuyển không dây USB</string>
     <string name="connection_kind_wifi">WiFi</string>

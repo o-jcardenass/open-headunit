@@ -16,7 +16,7 @@
 
     <!-- Connection mode selector -->
     <string name="connection_mode">Mode koneksi</string>
-    <string name="connection_mode_help">Memilih cara unit ini tersambung ke ponsel: USB, Wi-Fi, Mode Mandiri, atau campurannya. Layar utama dan setelan hanya menampilkan opsi untuk cara yang dipilih. Jika Wi-Fi tidak dipilih, aplikasi tidak memulai koneksi nirkabel di latar belakang.</string>
+    <string name="connection_mode_help">Memilih cara unit ini tersambung ke ponsel: USB, Wi-Fi, Mode Mandiri, atau campurannya. Layar utama dan setelan hanya menampilkan opsi untuk cara yang dipilih. Jika Wi-Fi tidak dipilih, aplikasi tidak memulai koneksi nirkabel di latar belakang. Jika USB tidak dipilih, aplikasi tidak menyambungkan ponsel yang dicolokkan secara otomatis. Adaptor nirkabel di port USB memerlukan USB yang dipilih.</string>
     <string name="connection_kind_usb_cable">Kabel USB (langsung)</string>
     <string name="connection_kind_usb_wireless_adapter">Adaptor nirkabel USB</string>
     <string name="connection_kind_wifi">Wi-Fi</string>

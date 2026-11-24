@@ -16,7 +16,7 @@
 
     <!-- Connection mode selector -->
     <string name="connection_mode">โหมดการเชื่อมต่อ</string>
-    <string name="connection_mode_help">เลือกวิธีที่อุปกรณ์นี้เชื่อมต่อกับโทรศัพท์ ได้แก่ USB, Wi-Fi, โหมดตนเอง หรือผสมกัน หน้าจอหลักและการตั้งค่าจะแสดงเฉพาะตัวเลือกของวิธีที่คุณเลือก หากไม่ได้เลือก Wi-Fi แอปจะไม่เริ่มการเชื่อมต่อไร้สายในเบื้องหลัง</string>
+    <string name="connection_mode_help">เลือกวิธีที่อุปกรณ์นี้เชื่อมต่อกับโทรศัพท์ ได้แก่ USB, Wi-Fi, โหมดตนเอง หรือผสมกัน หน้าจอหลักและการตั้งค่าจะแสดงเฉพาะตัวเลือกของวิธีที่คุณเลือก หากไม่ได้เลือก Wi-Fi แอปจะไม่เริ่มการเชื่อมต่อไร้สายในเบื้องหลัง หากไม่ได้เลือก USB แอปจะไม่เชื่อมต่อโทรศัพท์ที่เสียบอยู่โดยอัตโนมัติ อะแดปเตอร์ไร้สายที่เสียบกับพอร์ต USB ต้องเลือก USB ไว้</string>
     <string name="connection_kind_usb_cable">สาย USB (โดยตรง)</string>
     <string name="connection_kind_usb_wireless_adapter">อะแดปเตอร์ไร้สาย USB</string>
     <string name="connection_kind_wifi">Wi-Fi</string>

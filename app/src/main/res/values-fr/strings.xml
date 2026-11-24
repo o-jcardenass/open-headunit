@@ -16,7 +16,7 @@
 
     <!-- Connection mode selector -->
     <string name="connection_mode">Mode de connexion</string>
-    <string name="connection_mode_help">Choisit comment cet appareil se connecte au téléphone : USB, Wi-Fi, Mode autonome, ou un mélange. L\'écran d\'accueil et les réglages n\'affichent que les options des modes choisis. Si le Wi-Fi n\'est pas choisi, l\'application ne lance pas le mode sans fil en arrière-plan.</string>
+    <string name="connection_mode_help">Choisit comment cet appareil se connecte au téléphone : USB, Wi-Fi, Mode autonome, ou un mélange. L\'écran d\'accueil et les réglages n\'affichent que les options des modes choisis. Si le Wi-Fi n\'est pas choisi, l\'application ne lance pas le mode sans fil en arrière-plan. Si l\'USB n\'est pas choisi, l\'application ne connecte pas d\'elle-même un téléphone branché. Un adaptateur sans fil sur le port USB nécessite que l\'USB soit choisi.</string>
     <string name="connection_kind_usb_cable">Câble USB (direct)</string>
     <string name="connection_kind_usb_wireless_adapter">Adaptateur USB sans fil</string>
     <string name="connection_kind_wifi">Wi-Fi</string>

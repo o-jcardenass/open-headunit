@@ -934,7 +934,7 @@
     <string name="settings_search_clear">Aramayı temizle</string>
     <string name="settings_search_no_results">\"%1$s\" ile eşleşen ayar yok.</string>
     <string name="connection_mode">Bağlantı modu</string>
-    <string name="connection_mode_help">Bu ünitenin telefona nasıl bağlanacağını seçer: USB, Wi-Fi, Bağımsız Mod veya bunların herhangi bir karışımı. Ana ekran ve ayarlar yalnızca seçtiğiniz yollara ait seçenekleri gösterir. Wi-Fi seçilmediyse uygulama kablosuz bağlantıyı arka planda başlatmaz.</string>
+    <string name="connection_mode_help">Bu ünitenin telefona nasıl bağlanacağını seçer: USB, Wi-Fi, Bağımsız Mod veya bunların herhangi bir karışımı. Ana ekran ve ayarlar yalnızca seçtiğiniz yollara ait seçenekleri gösterir. Wi-Fi seçilmediyse uygulama kablosuz bağlantıyı arka planda başlatmaz. USB seçilmediyse uygulama takılı telefonu kendiliğinden bağlamaz. USB portundaki kablosuz adaptör için USB seçilmiş olmalıdır.</string>
     <string name="connection_kind_usb_cable">USB kablosu (doğrudan)</string>
     <string name="connection_kind_usb_wireless_adapter">USB kablosuz adaptör</string>
     <string name="connection_kind_wifi">WiFi</string>

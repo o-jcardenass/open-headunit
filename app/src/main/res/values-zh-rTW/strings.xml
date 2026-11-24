@@ -935,7 +935,7 @@
     <string name="settings_search_clear">清除搜尋</string>
     <string name="settings_search_no_results">沒有符合「%1$s」的設定。</string>
     <string name="connection_mode">連線方式</string>
-    <string name="connection_mode_help">選擇本裝置連線到手機的方式：USB、Wi-Fi、本機模式，或任意組合。主畫面和設定只會顯示您所選方式的選項。如果未選擇 Wi-Fi，應用程式不會在背景啟動無線連線。</string>
+    <string name="connection_mode_help">選擇本裝置連線到手機的方式：USB、Wi-Fi、本機模式，或任意組合。主畫面和設定只會顯示您所選方式的選項。如果未選擇 Wi-Fi，應用程式不會在背景啟動無線連線。如果未選擇 USB，應用程式不會自動連線已插入的手機。接在 USB 連接埠上的無線轉接器需要選擇 USB。</string>
     <string name="connection_kind_usb_cable">USB 連接線（直連）</string>
     <string name="connection_kind_usb_wireless_adapter">USB 無線轉接器</string>
     <string name="connection_kind_wifi">Wi-Fi</string>

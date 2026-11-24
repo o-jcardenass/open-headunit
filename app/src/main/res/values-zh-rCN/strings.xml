@@ -935,7 +935,7 @@
     <string name="settings_search_clear">清除搜索</string>
     <string name="settings_search_no_results">没有与“%1$s”匹配的设置。</string>
     <string name="connection_mode">连接方式</string>
-    <string name="connection_mode_help">选择本机连接手机的方式：USB、Wi-Fi、独立模式，或任意组合。主屏幕和设置只会显示您所选方式的选项。如果未选择 Wi-Fi，应用不会在后台启动无线连接。</string>
+    <string name="connection_mode_help">选择本机连接手机的方式：USB、Wi-Fi、独立模式，或任意组合。主屏幕和设置只会显示您所选方式的选项。如果未选择 Wi-Fi，应用不会在后台启动无线连接。如果未选择 USB，应用不会自动连接已插入的手机。接在 USB 端口上的无线适配器需要选择 USB。</string>
     <string name="connection_kind_usb_cable">USB 线缆（直连）</string>
     <string name="connection_kind_usb_wireless_adapter">USB 无线适配器</string>
     <string name="connection_kind_wifi">WiFi</string>

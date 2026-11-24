@@ -941,7 +941,7 @@
     <string name="settings_search_clear">Очистити пошук</string>
     <string name="settings_search_no_results">Немає налаштувань за запитом «%1$s».</string>
     <string name="connection_mode">Режим підключення</string>
-    <string name="connection_mode_help">Вибирає, як цей пристрій підключається до телефону: USB, Wi-Fi, автономний режим або будь-яке поєднання. Головний екран і налаштування показують лише варіанти для вибраних способів. Якщо Wi-Fi не вибрано, додаток не запускає бездротове підключення у фоні.</string>
+    <string name="connection_mode_help">Вибирає, як цей пристрій підключається до телефону: USB, Wi-Fi, автономний режим або будь-яке поєднання. Головний екран і налаштування показують лише варіанти для вибраних способів. Якщо Wi-Fi не вибрано, додаток не запускає бездротове підключення у фоні. Якщо USB не вибрано, додаток не підключає вставлений у порт телефон автоматично. Для бездротового адаптера в USB-порту потрібно вибрати USB.</string>
     <string name="connection_kind_usb_cable">USB-кабель (напряму)</string>
     <string name="connection_kind_usb_wireless_adapter">USB бездротовий адаптер</string>
     <string name="connection_kind_wifi">Wi-Fi</string>
