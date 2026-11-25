@@ -237,6 +237,8 @@ class CustomizationFragment : Fragment() {
         indicatorBgColor = view.findViewById(R.id.indicator_bg_color)
         txtBgColorValue = view.findViewById(R.id.txt_bg_color_value)
         rowBgColor?.setOnClickListener { showBackgroundColorDialog() }
+        // No window has bar colors below Android 5, so the row would do nothing there.
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) rowBgColor?.visibility = View.GONE
         switchAutoMonochromeNight = view.findViewById(R.id.switch_auto_monochrome_night)
         switchShowFavoriteApps = view.findViewById(R.id.switch_show_favorite_apps)
         switchShowWidgets = view.findViewById(R.id.switch_show_widgets)
@@ -1036,9 +1038,11 @@ class CustomizationFragment : Fragment() {
         val saved = settings.systemBarColor
         var color = if (saved != 0) saved else Color.parseColor("#999999")
         var syncing = false
+        var changed = false
         var committed = false
 
         fun show(newColor: Int, skip: View?) {
+            changed = true
             color = 0xFF000000.toInt() or (newColor and 0xFFFFFF)
             syncing = true
             val channels = intArrayOf(Color.red(color), Color.green(color), Color.blue(color))
@@ -1081,12 +1085,15 @@ class CustomizationFragment : Fragment() {
         }
 
         show(color, null)
+        changed = false
         // The first show() only filled the dialog: nothing is previewed until the user changes it.
         if (saved == 0) host?.previewSystemBarColor(0)
 
         MaterialAlertDialogBuilder(ctx)
             .setView(view)
             .setPositiveButton(android.R.string.ok) { _, _ ->
+                // An OK with no change stores nothing, so "not set" stays not set.
+                if (!changed) return@setPositiveButton
                 committed = true
                 settings.systemBarColor = color
                 notifyMainActivityBackgroundChanged()

@@ -152,6 +152,16 @@ class SettingsBackupManagerTest {
         assertFalse(prefs.contains("night-overlay-background"))
     }
 
+    @Test fun `the system bar color is exported and restored and reset`() {
+        val color = 0xFF336699.toInt()
+        val json = SettingsBackupManager.exportToJson(mapOf("system-bar-color" to color), "test", 1)
+        val result = SettingsBackupManager.importFromJson(context, json, applyTheme = false)
+        assertEquals(setOf("system-bar-color"), result.changedKeys)
+        assertEquals(color, Settings(context).systemBarColor)
+        assertTrue(result.changedKeys.intersect(SettingsBackupManager.projectionRestartKeys).isEmpty())
+        assertTrue("system-bar-color" in SettingsBackupManager.backupKeys)
+    }
+
     @Test fun `a backup with a density and no layout clears the stored layout`() {
         prefs.edit().putString("dpi-auto-layout", "ONE_APP").commit()
         val older = SettingsBackupManager.exportToJson(mapOf("dpi-pixel-density" to 0), "test", 1)

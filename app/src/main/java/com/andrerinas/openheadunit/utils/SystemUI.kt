@@ -113,9 +113,7 @@ object SystemUI {
                     }
                     // Keep FLAG_FULLSCREEN on API < 30 so system overlays (e.g. volume bar on
                     // Android 6 / PX5 head units) do not pull the status bar back down (#1257).
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-                        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-                    }
+                    addFullscreenFlag(window)
                 }
                 Settings.FullscreenMode.STATUS_ONLY -> {
                     flags = flags or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_FULLSCREEN
@@ -124,9 +122,7 @@ object SystemUI {
                     } else {
                         flags = flags or View.SYSTEM_UI_FLAG_LOW_PROFILE
                     }
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-                        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-                    }
+                    addFullscreenFlag(window)
                 }
                 Settings.FullscreenMode.NONE -> {
                     // Reset flags for normal mode
@@ -146,8 +142,15 @@ object SystemUI {
                 if (Build.VERSION.SDK_INT < 35) {
                     // Paints the bars and sets their icons to match the own color, when there is one.
                     val barColor = Settings(window.context).systemBarColor
-                    applyBarColors(window, barColor, mode)
-                    if (barColor != 0) return
+                    if (barColor != 0) {
+                        applyBarColors(window, barColor, mode)
+                        return
+                    }
+                    // Black under the light icons set below; the theme's own colors can be light.
+                    window.statusBarColor = Color.BLACK
+                    if (mode == Settings.FullscreenMode.NONE || mode == Settings.FullscreenMode.STATUS_ONLY) {
+                        window.navigationBarColor = Color.BLACK
+                    }
                 }
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -157,6 +160,14 @@ object SystemUI {
             }
             controllerCompat.isAppearanceLightStatusBars = false
             controllerCompat.isAppearanceLightNavigationBars = false
+        }
+    }
+
+    private fun addFullscreenFlag(window: Window) {
+        val adjust = window.attributes.softInputMode and WindowManager.LayoutParams.SOFT_INPUT_MASK_ADJUST
+        val resizes = adjust == WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
+        if (FullscreenFlagPolicy.adds(Build.VERSION.SDK_INT, resizes)) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         }
     }
 

@@ -270,6 +270,7 @@ object SettingsBackupManager {
         "home-background-night-mode" to ValueType.INT,
         "use-extreme-dark-mode" to ValueType.BOOLEAN,
         "use-gradient-background" to ValueType.BOOLEAN,
+        "system-bar-color" to ValueType.INT,
         "aa-monochrome-enabled" to ValueType.BOOLEAN,
         "aa-desaturation-level" to ValueType.INT,
         "app-theme" to ValueType.INT,
