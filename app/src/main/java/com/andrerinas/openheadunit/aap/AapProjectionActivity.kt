@@ -773,10 +773,20 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
     private var autoStartOfferResolved = false
     private var autoStartOfferTimer: CountDownTimer? = null
     private var rendererConfirmResolved = false
-    private val rendererBannerAutoDismissMs = 10_000L
-    private val rendererBannerDismissRunnable = Runnable {
-        rendererConfirmResolved = true
-        dismissRendererConfirmBanner()
+    private var rendererBannerRemainingMs = 0L
+    private val rendererBannerTick = object : Runnable {
+        override fun run() {
+            val bar = rendererBanner ?: return
+            val seen = RendererConfirmPolicy.seen(
+                onScreen = lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED),
+                frameRendered = videoDecoder.lastFrameRenderedMs > 0L,
+                noticeUp = overlayState != OverlayState.HIDDEN,
+                nightOverlayUp = nightOverlay?.visibility == View.VISIBLE,
+            )
+            rendererBannerRemainingMs = RendererConfirmPolicy.remainingMs(rendererBannerRemainingMs, seen)
+            if (rendererBannerRemainingMs > 0L) bar.postDelayed(this, RendererConfirmPolicy.TICK_MS)
+            else answerRendererConfirm()
+        }
     }
 
     private fun maybeRecoverFromDisplayStall() {
@@ -851,9 +861,6 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             AppLog.w("Display stall ($reason) again on $effectiveMode. Falling back to SurfaceView for this session. See issue #650.")
             forcedViewModeOverride = Settings.ViewMode.SURFACE
             com.andrerinas.openheadunit.utils.ToastUtils.showToast(this, R.string.renderer_fallback_surface, duration = android.widget.Toast.LENGTH_LONG, force = true)
-            // SurfaceView can't be observed for stalls (issue #767); if it too shows black, offer the
-            // manual escape so the user isn't stranded on the terminal fallback.
-            showRendererConfirmBanner("the SurfaceView fallback is also showing black")
         } else {
             AppLog.w("Display stall ($reason). Rebuilding projection view (attempt $displayStallRecoveries). See issue #650.")
         }
@@ -864,12 +871,18 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         longFrameTickWindow.fill(0L)
         longFrameTickTimes.fill(0L)
         recreateProjectionView()
+        if (shouldFallBack) {
+            // A SurfaceView cannot be watched for stalls. If it also shows black, offer the manual
+            // escape after the rebuild, or the new view covers the bar.
+            rendererConfirmResolved = false
+            showRendererConfirmBanner("the SurfaceView fallback is also showing black")
+        }
     }
 
     /**
      * A dismissible bottom bar: "Do you see the screen?" with Yes / Switch renderer.
-     * Shown only after an explicit renderer change or fallback, and auto-dismissed after
-     * [rendererBannerAutoDismissMs] so it never stays stuck on screen (#1324).
+     * Shown only after an explicit renderer change or fallback, and closed by itself once it was
+     * seen for [RendererConfirmPolicy.SHOW_MS], so it never stays stuck on screen.
      *
      * @param reason which situation armed it, for the log.
      */
@@ -900,11 +913,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             }
             val yes = Button(this).apply {
                 text = getString(R.string.renderer_confirm_yes)
-                setOnClickListener {
-                    settings.pendingRendererConfirm = false
-                    rendererConfirmResolved = true
-                    dismissRendererConfirmBanner()
-                }
+                setOnClickListener { answerRendererConfirm() }
             }
             val switch = Button(this).apply {
                 text = getString(R.string.renderer_confirm_switch)
@@ -922,18 +931,30 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             rendererBanner = bar
             bar.bringToFront()
             nightOverlay?.takeIf { it.visibility == View.VISIBLE }?.bringToFront()
-            // One-shot: offering the escape once is enough. Clearing the flag here (not only on
-            // "Yes") stops the banner from re-appearing on every future session if the user drives
-            // off without tapping. Auto-dismiss after 10 s so it never blocks the bottom bar (#1324).
-            settings.pendingRendererConfirm = false
-            bar.postDelayed(rendererBannerDismissRunnable, rendererBannerAutoDismissMs)
+            // Owed until it is answered or was on screen long enough, so a dropped session asks again.
+            settings.pendingRendererConfirm = true
+            rendererBannerRemainingMs = RendererConfirmPolicy.SHOW_MS
+            bar.postDelayed(rendererBannerTick, RendererConfirmPolicy.TICK_MS)
+        }
+    }
+
+    private fun answerRendererConfirm() {
+        settings.pendingRendererConfirm = false
+        rendererConfirmResolved = true
+        dismissRendererConfirmBanner()
+    }
+
+    /** The renderer was changed and the picture is up, so ask the user to confirm it. */
+    private fun offerPendingRendererConfirm() {
+        if (settings.pendingRendererConfirm && !rendererConfirmResolved) {
+            showRendererConfirmBanner("the setup wizard changed the renderer")
         }
     }
 
     private fun dismissRendererConfirmBanner() {
         runOnUiThread {
             rendererBanner?.let {
-                it.removeCallbacks(rendererBannerDismissRunnable)
+                it.removeCallbacks(rendererBannerTick)
                 (it.parent as? FrameLayout)?.removeView(it)
             }
             rendererBanner = null
@@ -1086,6 +1107,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         // cycling if this one is also blank (the new backend may decode frames yet still show black,
         // which nothing can detect automatically).
         dismissRendererConfirmBanner()
+        rendererConfirmResolved = false
         recreateProjectionView()
         showRendererConfirmBanner("the renderer was just switched and may still be blank")
     }
@@ -1227,7 +1249,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
                         is CommManager.ConnectionState.Disconnected -> {
                             watchdogHandler.removeCallbacksAndMessages(null)
                             // Don't leave the renderer bar floating over the reconnecting/exit UI;
-                            // if the renderer is still broken after a reconnect it re-offers itself.
+                            // an unanswered one is asked again at the next session's first frame.
                             dismissRendererConfirmBanner()
                             if (!state.isClean && !state.isUserExit && !state.isSettingsRestart) {
                                 AppLog.w("AapProjectionActivity: Disconnected unexpectedly.")
@@ -1257,6 +1279,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
                                 videoDecoder.onFirstFrameListener = {
                                     runOnUiThread {
                                         hideReconnectingOverlay("frames resumed")
+                                        offerPendingRendererConfirm()
                                     }
                                 }
 
@@ -1394,11 +1417,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             runOnUiThread {
                 hideLoadingOverlay(loadingOverlay)
 
-                // The wizard changed the renderer: the picture is up, so ask the user to confirm it
-                // (issue #767). If they don't, the auto-offer above still catches a broken renderer.
-                if (settings.pendingRendererConfirm && !rendererConfirmResolved) {
-                    showRendererConfirmBanner("the setup wizard changed the renderer")
-                }
+                offerPendingRendererConfirm()
 
                 // Show one-time gesture hint
                 if (!settings.gestureHintShown) {
@@ -3072,6 +3091,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         isSurfaceSet = false
         super.onDestroy()
         ActivityState.release(this, findViewById(R.id.loading_custom_image))
+        rendererBanner?.removeCallbacks(rendererBannerTick)
         autoStartOfferTimer?.cancel()
         autoStartOfferTimer = null
         HeadUnitScreenConfig.onMarginsDiverged = null
@@ -3282,6 +3302,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         projectionView.addCallback(this)
         placeDimmer()
         performanceOverlay.bringToFront()
+        rendererBanner?.bringToFront()
         nightOverlay?.takeIf { it.visibility == View.VISIBLE }?.bringToFront()
     }
 
