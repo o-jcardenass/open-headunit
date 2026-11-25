@@ -26,6 +26,7 @@ import com.andrerinas.openheadunit.aap.NightOverlayOptions
 import com.andrerinas.openheadunit.aap.NightOverlayRows
 import com.andrerinas.openheadunit.aap.NightOverlaySizes
 import com.andrerinas.openheadunit.aap.NightOverlayState
+import com.andrerinas.openheadunit.input.LockedInputPolicy
 import java.util.Date
 
 /** Covers the picture without hiding or detaching the decoder's surface. */
@@ -82,7 +83,8 @@ class NightProjectionOverlay(context: Context) : FrameLayout(context) {
             elevation = 201f
         }
         applyDebugNavColors()
-        setOnClickListener { hide() }
+        // An accessibility click skips the touch hold, and a locked unit must keep the cover.
+        setOnClickListener { if (!LockedInputPolicy.engaged) hide() }
     }
 
     private fun bindViews() {

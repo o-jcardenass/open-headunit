@@ -1,5 +1,6 @@
 package com.andrerinas.openheadunit.main.settings
 
+import android.app.Dialog
 import android.content.Context
 import android.graphics.PorterDuff
 import android.view.MenuItem
@@ -9,17 +10,28 @@ import com.andrerinas.openheadunit.R
 import com.andrerinas.openheadunit.utils.AppLog
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import java.lang.ref.WeakReference
 
 /** The dialog a (?) opens. The message scrolls inside the dialog, so a long text fits any panel. */
 object SettingHelpDialog {
 
+    private var shown: WeakReference<Dialog>? = null
+
+    /** Closes the help a screen left open over the projection. */
+    fun dismiss() {
+        shown?.get()?.let { if (it.isShowing) it.dismiss() }
+        shown = null
+    }
+
     fun show(context: Context, title: CharSequence, @StringRes helpResId: Int, id: String) {
         AppLog.d("SettingHelpDialog: help opened for $id")
-        MaterialAlertDialogBuilder(context, R.style.DarkAlertDialog)
-            .setTitle(title)
-            .setMessage(helpResId)
-            .setPositiveButton(android.R.string.ok, null)
-            .show()
+        shown = WeakReference(
+            MaterialAlertDialogBuilder(context, R.style.DarkAlertDialog)
+                .setTitle(title)
+                .setMessage(helpResId)
+                .setPositiveButton(android.R.string.ok, null)
+                .show()
+        )
     }
 
     /** Adds a (?) action to the toolbar that opens the help for the whole screen, before Save or Reset. */

@@ -1324,7 +1324,7 @@
     <string name="raise_projection_during_call_summary">단독 모드 및 FYT 기기. 통화 화면을 숨깁니다. 일부 기기에서는 작동하지 않을 수 있습니다.</string>
     <string name="show_over_lock_screen">잠금 화면 위에 표시</string>
     <string name="show_over_lock_screen_summary">잠금 중에도 지도와 길 안내가 표시됩니다. 볼륨 키만 작동합니다.</string>
-    <string name="show_over_lock_screen_help">잠금 화면 위에 Android Auto 화면을 표시하여, 잠금 해제 없이 지도와 길 안내를 볼 수 있습니다. 이 기기가 잠겨 있는 동안에는 휴대폰에 아무것도 전달되지 않습니다. 터치, 키, 로터리 컨트롤러, 음성 키는 차단되고 지도가 맨 앞으로 나옵니다. 뒤로를 눌러 PIN, 패턴 또는 비밀번호로 잠금을 해제하세요. 그 후에는 모든 것이 평소처럼 작동합니다. 볼륨 키는 계속 작동합니다. 휴대폰 자체의 음악, 통화, 음성 비서에는 영향이 없으므로, 통화와 메시지 카드는 잠금 중에도 화면에 표시됩니다.</string>
+    <string name="show_over_lock_screen_help">잠금 화면 위에 Android Auto 화면을 표시하여, 잠금 해제 없이 지도와 길 안내를 볼 수 있습니다. 이 기기가 잠겨 있는 동안에는 휴대폰에 아무것도 전달되지 않습니다. 터치, 키, 로터리 컨트롤러, 음성 키는 차단되고 지도가 맨 앞으로 나옵니다. 뒤로를 눌러 PIN, 패턴 또는 비밀번호로 잠금을 해제하세요. 그 후에는 모든 것이 평소처럼 작동합니다. 볼륨 키는 계속 작동합니다. 휴대폰 자체의 음악, 통화, 음성 비서에는 영향이 없으므로, 통화와 메시지 카드는 잠금 중에도 화면에 표시됩니다. 단 \"잠금 중 야간 오버레이\"가 덮고 있으면 표시되지 않습니다.</string>
     <string name="show_over_lock_screen_locked_toast">잠김. 잠금 해제하려면 뒤로를 누르세요.</string>
     <string name="night_overlay_while_locked">잠금 중 야간 오버레이</string>
     <string name="night_overlay_while_locked_summary">지도 대신 시계, 다음 회전, 곡을 표시.</string>

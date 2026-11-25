@@ -1,6 +1,8 @@
 package com.andrerinas.openheadunit.main
 
+import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
@@ -18,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.andrerinas.openheadunit.App
 import com.andrerinas.openheadunit.R
 import com.andrerinas.openheadunit.aap.AapService
+import com.andrerinas.openheadunit.main.settings.SettingHelpDialog
 import com.andrerinas.openheadunit.main.settings.SettingItem
 import com.andrerinas.openheadunit.main.settings.SettingsAdapter
 import com.andrerinas.openheadunit.utils.Settings
@@ -73,6 +76,25 @@ class QuickSettingsFragment : DialogFragment() {
 
         updateSettingsList()
         applyHudMirroring(view)
+    }
+
+    // Windows of their own: they outlive this screen unless it closes them, so a unit that locked
+    // with one open would still take its taps.
+    private val childDialogs = ArrayList<Dialog>()
+
+    private fun showChild(dialog: Dialog) {
+        childDialogs.removeAll { !it.isShowing }
+        childDialogs.add(dialog)
+        dialog.show()
+    }
+
+    private fun MaterialAlertDialogBuilder.showChild() = showChild(create())
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        childDialogs.forEach { it.dismiss() }
+        childDialogs.clear()
+        SettingHelpDialog.dismiss()
     }
 
     override fun onStart() {
@@ -279,7 +301,7 @@ class QuickSettingsFragment : DialogFragment() {
                 dialog.dismiss()
                 updateSettingsList()
             }
-            .show()
+            .showChild()
     }
 
     private fun showVideoFitModeDialog() {
@@ -293,7 +315,7 @@ class QuickSettingsFragment : DialogFragment() {
                 dialog.dismiss()
                 updateSettingsList()
             }
-            .show()
+            .showChild()
     }
 
     private fun showFullscreenDialog() {
@@ -307,7 +329,7 @@ class QuickSettingsFragment : DialogFragment() {
                 dialog.dismiss()
                 updateSettingsList()
             }
-            .show()
+            .showChild()
     }
 
     private fun showAudioOffsetsDialog() {
@@ -367,7 +389,7 @@ class QuickSettingsFragment : DialogFragment() {
                 dialog.dismiss()
             }
             .setNegativeButton(android.R.string.cancel, null)
-            .show()
+            .showChild()
     }
 
     private fun showNumericInputDialog(
@@ -411,7 +433,7 @@ class QuickSettingsFragment : DialogFragment() {
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
             WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM
         )
-        dialog.show()
+        showChild(dialog)
         editView.requestFocus()
     }
 
@@ -431,7 +453,7 @@ class QuickSettingsFragment : DialogFragment() {
                 dialog.dismiss()
                 updateSettingsList()
             }
-            .show()
+            .showChild()
     }
 
     private fun showAudioQueueCapacityDialog() {
@@ -449,7 +471,7 @@ class QuickSettingsFragment : DialogFragment() {
                 updateSettingsList()
             }
             .setNegativeButton(R.string.cancel, null)
-            .show()
+            .showChild()
     }
 
     private fun showNightModeDialog() {
@@ -464,7 +486,7 @@ class QuickSettingsFragment : DialogFragment() {
                 dialog.dismiss()
                 updateSettingsList()
             }
-            .show()
+            .showChild()
     }
 
     private fun showViewModeDialog() {
@@ -480,7 +502,7 @@ class QuickSettingsFragment : DialogFragment() {
                 dialog.dismiss()
                 updateSettingsList()
             }
-            .show()
+            .showChild()
     }
 
     private fun triggerLogExport() {
@@ -520,7 +542,7 @@ class QuickSettingsFragment : DialogFragment() {
                                     .setTitle(R.string.success)
                                     .setMessage(msg)
                                     .setPositiveButton(R.string.close, null)
-                                    .show()
+                                    .showChild()
                             } else {
                                 ToastUtils.showToast(requireContext(), getString(R.string.logs_copy_to_clipboard_failed), Toast.LENGTH_LONG, force = true)
                             }
@@ -529,7 +551,7 @@ class QuickSettingsFragment : DialogFragment() {
                     .setNegativeButton(R.string.close) { dialog, _ ->
                         dialog.dismiss()
                     }
-                    .show()
+                    .showChild()
             } else {
                 ToastUtils.showToast(context, getString(R.string.failed_export_logs), Toast.LENGTH_SHORT, force = true)
             }
