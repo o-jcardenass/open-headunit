@@ -54,7 +54,7 @@ class VideoTimedOutputRegressionTest {
         } finally { decoder.stop("test cleanup") }
     }
 
-    @Test fun `late arrival does not discard startup repair or delta frames`() =
+    @Test fun `late window batch skips superseded delta but presents repair and newest picture`() =
         releaseLateBatch(syncToAudio = false)
 
     @Test fun `late A-V batch skips superseded delta but presents repair and newest picture`() =
@@ -109,9 +109,11 @@ class VideoTimedOutputRegressionTest {
         val loop = VideoDecoder::class.java.getDeclaredMethod("outputThreadLoop").apply { isAccessible = true }
         try {
             loop.invoke(decoder)
-            assertEquals(listOf(0 to true, 1 to !syncToAudio, 2 to true), releases)
+            // The window arm skips slot 1 in catch-up, the A-V arm drops it in admission.
+            assertEquals(listOf(0 to true, 1 to false, 2 to true), releases)
             assertTrue(tracker.keyframeDecoded)
-            assertEquals(if (syncToAudio) 2L else 3L, decoder.framesRenderedThisSession)
+            assertEquals(2L, decoder.framesRenderedThisSession)
+            assertEquals(if (syncToAudio) 1L else 0L, field(bridge, "timingDroppedCount").getLong(bridge))
             assertEquals(1, firstFrames)
         } finally { decoder.stop("test cleanup") }
     }

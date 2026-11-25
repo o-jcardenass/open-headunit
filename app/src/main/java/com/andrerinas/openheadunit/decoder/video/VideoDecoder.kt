@@ -1140,9 +1140,11 @@ class VideoDecoder(
                 // Bound repeated cold-start failures, but never change the stream's codec to
                 // recover a decoder. That would feed the same bytes to an incompatible decoder.
                 // A session that already rendered is excluded from this cold-start limit.
+                // A GAL Start that replaced the stream leaves the connection proven.
+                val projectionHasRendered = renderedThisSession || renderedBeforeMediaReplacement
                 if (DecoderRestartPolicy.countsTowardFailure(
                         renderedSinceLastStart = lastFrameRenderedMs != 0L,
-                        renderedThisSession = renderedThisSession
+                        renderedThisSession = projectionHasRendered
                     )
                 ) {
                     restartsSinceLastFrame++
@@ -1150,7 +1152,7 @@ class VideoDecoder(
                         AppLog.e("${currentCodecType.displayName} failed $restartsSinceLastFrame times without rendering a frame. Stopping initialization retries for this codec.")
                         decoderPermanentlyFailed = true
                     }
-                } else if (lastFrameRenderedMs != 0L || renderedThisSession) {
+                } else if (lastFrameRenderedMs != 0L || projectionHasRendered) {
                     // Decoder was healthy before this restart, or the session has already proven
                     // the codec type; don't count it against the pin.
                     restartsSinceLastFrame = 0
@@ -2569,11 +2571,12 @@ class VideoDecoder(
                                 sessionHasRendered = renderedThisSession,
                             )
                         } ?: break@outputLoop
-                        // Intentional timing buffers are not evidence of backlog. With timing
-                        // active, the controller's deadline/drop decision owns lateness.
-                        var render = outcome.renders &&
-                            (timing?.controlsPresentation() == true || readyCount <= 2 || i == readyCount - 1)
+                        // A held frame with a future deadline is not backlog; a late one in a burst is skipped.
                         var deadline = timing?.deadline(outputPts) ?: 0L
+                        var render = outcome.renders && VideoCatchUpPolicy.offers(
+                            readyCount, i, timing?.controlsPresentation() == true, deadline,
+                            repairEligible, renderedThisSession,
+                        )
                         val hasReplacement = i + 1 < readyCount && readyTimestamps[i + 1] > outputPts
                         // Texture/ImageReader targets do not promise to honor buffer timestamps.
                         // Pace availability on this cancellable output worker on every API level.
