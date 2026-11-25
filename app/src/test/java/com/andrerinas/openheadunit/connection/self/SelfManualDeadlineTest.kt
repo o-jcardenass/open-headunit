@@ -12,6 +12,8 @@ import org.mockito.Mockito.*
 
 class SelfManualDeadlineTest {
     @Test fun `manual launch deadline retires on live state or conflated Save terminal`() {
+        // App's initializer reads the clock, so mock it before the first App mock loads the class.
+        mockStatic(android.os.SystemClock::class.java).use {
         mockStatic(androidx.appcompat.app.AppCompatDelegate::class.java).use {
             for (terminalOnly in listOf(false, true)) {
                 val service = mock(AapService::class.java)
@@ -39,6 +41,7 @@ class SelfManualDeadlineTest {
                 assertEquals(true, SelfLauncherManager::class.java.getDeclaredField("launchConnected")
                     .apply { isAccessible = true }.get(manager))
             }
+        }
         }
     }
 }
