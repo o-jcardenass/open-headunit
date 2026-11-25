@@ -273,6 +273,16 @@ class SoftApEndpointStabilityPolicyTest {
     }
 
     @Test
+    fun `a moved identity that adopts its BSSID does not read a repeat in that boot as a restart`() {
+        val old = SoftApAddressRecord("192.168.43.1", digest, 100, spannedBoot = true)
+        val first = SoftApEndpointStabilityPolicy.grade(CHANGED, "192.168.43.1", psk, 150, old, bssid = "00:11:22:33:44:55")
+        assertEquals(CHANGED, first.stability)
+        assertEquals(SoftApAddressRecord("192.168.43.1", digest, 150, spannedBoot = false, bssid = "00:11:22:33:44:55"), first.remember)
+        assertEquals(UNPROVEN, SoftApEndpointStabilityPolicy.grade(STABLE, "192.168.43.1", psk, 150, first.remember, bssid = "00:11:22:33:44:55").stability)
+        assertEquals(STABLE, SoftApEndpointStabilityPolicy.grade(STABLE, "192.168.43.1", psk, 151, first.remember, bssid = "00:11:22:33:44:55").stability)
+    }
+
+    @Test
     fun `BSSID case does not count as a move`() {
         val first = SoftApAddressRecord("192.168.43.1", digest, 7, spannedBoot = true, bssid = "9E:00:00:EA:B0:10")
         assertEquals(STABLE, SoftApEndpointStabilityPolicy.grade(STABLE, "192.168.43.1", psk, 8, first, bssid = "9e:00:00:ea:b0:10").stability)

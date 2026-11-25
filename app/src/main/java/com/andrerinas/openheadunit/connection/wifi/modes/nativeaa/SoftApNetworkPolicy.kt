@@ -86,13 +86,13 @@ object SoftApNetworkPolicy {
     ): List<ApInterfaceCandidate> = candidates.filter { isEligible(it, stationIpv4) }
 
     /**
-     * Whether [candidate] is an access point this device is hosting.
+     * Whether [candidate] is an access point this device is hosting right now.
      *
-     * Same rules as [pickApInterface] applied to one interface, for callers asking "is there an
-     * access point at all" rather than "which of these is it".
+     * Only a live interface counts. One that is down and keeps its address is either waiting for
+     * its first station or switched off, and a caller asking "is the hotspot up" must not guess.
      */
     fun isApHost(candidate: ApInterfaceCandidate, stationIpv4: String? = null): Boolean =
-        isEligible(candidate, stationIpv4) || isWaitingForFirstStation(candidate, stationIpv4)
+        isEligible(candidate, stationIpv4)
 
     /**
      * An access point that is configured but has no station yet, on drivers that raise the link only

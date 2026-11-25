@@ -97,11 +97,16 @@ object SoftApEndpointStabilityPolicy {
             (bootCount == null || previous.bootCount == null || bootCount != previous.bootCount))
         // A record from before the BSSID was tracked earned its proof on an unknown BSSID: start it again on
         // this one. A stable access point pays one more restart; a per-boot one never gets a free pass.
+        // The boot moves with it whatever the identity said, or a repeat in this boot reads as a restart.
         val adopts = bssid != null && previous.bssid == null
-        val record = previous.copy(spannedBoot = spanned && !adopts, bssid = bssid ?: previous.bssid)
+        val record = previous.copy(
+            bootCount = if (adopts) bootCount else previous.bootCount,
+            spannedBoot = spanned && !adopts,
+            bssid = bssid ?: previous.bssid,
+        )
         if (adopts && identity == GroupIdentityStability.STABLE) {
             return Verdict(
-                GroupIdentityStability.UNPROVEN, record.copy(bootCount = bootCount),
+                GroupIdentityStability.UNPROVEN, record,
                 "the $network's BSSID $bssid is tracked from now on; it has to come back after a restart",
             )
         }

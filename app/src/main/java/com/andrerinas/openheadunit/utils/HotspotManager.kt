@@ -451,9 +451,8 @@ object HotspotManager {
     }
 
     /**
-     * Whether any interface is one this device is hosting an access point on. Uses the same policy
-     * object SoftApCredentialsProvider uses to find the AP it will advertise, so the two cannot
-     * disagree about whether one exists.
+     * Whether any live interface is one this device is hosting an access point on. Narrower than the
+     * pick SoftApCredentialsProvider advertises, which also takes one waiting for its first station.
      */
     private fun hasApInterface(context: Context): Boolean = try {
         val stationIpv4 = NetworkAddresses.stationIpv4(context)

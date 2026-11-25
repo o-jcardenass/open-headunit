@@ -217,7 +217,15 @@ class SoftApNetworkPolicyTest {
         )
 
         assertEquals("wlan0", picked?.name)
-        assertTrue(SoftApNetworkPolicy.isApHost(iface("wlan0", up = false, ipv4 = "192.168.43.1")))
+    }
+
+    @Test
+    fun `a down interface that keeps its address is advertised but is not a running hotspot`() {
+        val down = iface("wlan0", up = false, ipv4 = "192.168.43.1")
+
+        assertEquals("wlan0", SoftApNetworkPolicy.pickApInterface(listOf(down))?.name)
+        assertFalse(SoftApNetworkPolicy.isApHost(down))
+        assertTrue(SoftApNetworkPolicy.isApHost(iface("wlan0", ipv4 = "192.168.43.1")))
     }
 
     @Test
