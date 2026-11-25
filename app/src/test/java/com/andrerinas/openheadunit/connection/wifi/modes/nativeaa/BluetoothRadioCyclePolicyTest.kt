@@ -348,4 +348,23 @@ class BluetoothRadioCyclePolicyTest {
         assertEquals(BluetoothRadioCyclePolicy.AfterCycleWait.GIVE_UP, p.afterCycleWait(radioOn = false, enableOption = true, enableSupported = false))
         assertEquals(BluetoothRadioCyclePolicy.AfterCycleWait.GIVE_UP, p.afterCycleWait(radioOn = false, enableOption = false, enableSupported = true))
     }
+
+    @Test
+    fun `a chosen wake waits past the probe only, the automatic loop the whole quiet`() {
+        val cycledAt = 100_000L
+        val until = cycledAt + BluetoothRadioCyclePolicy.POST_CYCLE_QUIET_MS
+        fun left(now: Long, chosen: Boolean) = BluetoothRadioCyclePolicy.quietLeftMs(until, now, chosen)
+        val probeAt = cycledAt + BluetoothRadioCyclePolicy.RECOVERY_WINDOW_MS
+        assertTrue(left(probeAt, chosen = true) > 0L)
+        assertEquals(0L, left(probeAt + 1_000L, chosen = true))
+        assertTrue(left(probeAt + 1_000L, chosen = false) > 0L)
+        assertEquals(0L, left(until, chosen = false))
+        assertEquals(0L, BluetoothRadioCyclePolicy.quietLeftMs(0L, cycledAt, chosenWake = true))
+    }
+
+    // Two dead records at 18 s each, the cycle at 51 s and back at 60 s: the pick still gets a poke.
+    @Test
+    fun `a dead-link cycle leaves a chosen wake time for a poke`() {
+        assertTrue(60_000L + BluetoothRadioCyclePolicy.CHOSEN_QUIET_MS < NativeDriverSelectionPolicy.CHOSEN_EXCLUSIVE_MAX_MS)
+    }
 }

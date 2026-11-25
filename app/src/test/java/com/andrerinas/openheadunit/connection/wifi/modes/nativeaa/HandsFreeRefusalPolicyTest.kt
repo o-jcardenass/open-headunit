@@ -1,9 +1,11 @@
 package com.andrerinas.openheadunit.connection.wifi.modes.nativeaa
 
 import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.BluetoothWakePolicy.TargetLink
+import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.BluetoothWakePolicy.WakeOutcome
 import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.HfpSlcInitiator.Stage
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -36,42 +38,73 @@ class HandsFreeRefusalPolicyTest {
         }
     }
 
-    // Putting the earbuds away has to be all it takes: the chosen phone is asked again after it
-    // refuses, so the session comes up without anybody pressing the button a second time.
+    private val listB = PokeTargets.Selected(setOf("B"))
+    private fun offListA(list: PokeTargets = listB) = HandsFreeRefusalPolicy.offListPick("A", list, 1_000L)
+
     @Test
-    fun `a phone that refused is asked again until patience runs out`() {
-        val refusedAt = 1_000L
-        assertTrue(HandsFreeRefusalPolicy.keepsAsking(firstRefusalAtMs = refusedAt, nowMs = refusedAt))
-        assertTrue(
-            HandsFreeRefusalPolicy.keepsAsking(refusedAt, refusedAt + HandsFreeRefusalPolicy.SLOW_PATIENCE_MS - 1)
-        )
-        assertFalse(HandsFreeRefusalPolicy.keepsAsking(refusedAt, refusedAt + HandsFreeRefusalPolicy.SLOW_PATIENCE_MS))
+    fun `only a pick the wake list leaves out is kept at the hand-over`() {
+        assertEquals("A", offListA()?.mac)
+        assertEquals("A", offListA(PokeTargets.None)?.mac)
+        assertNull(offListA(PokeTargets.Selected(setOf("A", "B"))))
+        assertNull(offListA(PokeTargets.AllPaired))
     }
 
-    // Measured 2026-10-24: the asking stopped ten minutes after the first refusal (11:18), the
-    // earbuds went into their case at 11:20, and nothing was asking any more. It slows down instead.
     @Test
-    fun `after the fast ten minutes the asking slows instead of stopping`() {
+    fun `an off-list pick is asked for ten minutes from the pick and no longer`() {
+        val pick = offListA()!!
+        fun asks(age: Long) = HandsFreeRefusalPolicy.asksOffList(pick, "A", listB, stillRefuses = true, pickAgeMs = age)
+        assertTrue(asks(0L))
+        assertTrue(asks(HandsFreeRefusalPolicy.PATIENCE_MS - 1))
+        assertFalse(asks(HandsFreeRefusalPolicy.PATIENCE_MS))
+        assertFalse(asks(55 * 60_000L))
+    }
+
+    @Test
+    fun `a changed list, another pick or a taken link ends the off-list asks`() {
+        val pick = offListA()!!
+        assertFalse(HandsFreeRefusalPolicy.asksOffList(pick, "A", PokeTargets.None, true, 0L))
+        assertFalse(HandsFreeRefusalPolicy.asksOffList(pick, "A", PokeTargets.Selected(setOf("A", "B")), true, 0L))
+        assertFalse(HandsFreeRefusalPolicy.asksOffList(pick, "B", listB, true, 0L))
+        assertFalse(HandsFreeRefusalPolicy.asksOffList(pick, null, listB, true, 0L))
+        assertFalse(HandsFreeRefusalPolicy.asksOffList(pick, "A", listB, false, 0L))
+    }
+
+    // The list is the one at the pick: a listed phone taken off it during the wake is not stored,
+    // and one picked off it is dropped once the list is another.
+    @Test
+    fun `a pick and a list that changed during its wake are never asked off the list`() {
+        assertNull(offListA(PokeTargets.Selected(setOf("A", "B"))))
+        val pick = offListA(PokeTargets.Selected(setOf("B", "C")))!!
+        assertFalse(HandsFreeRefusalPolicy.asksOffList(pick, "A", listB, stillRefuses = true, pickAgeMs = 60_000L))
+    }
+
+    @Test
+    fun `a refusal holds the issue only while it is live`() {
+        val old = HandsFreeRefusalPolicy.Refusals(firstAtMs = 1_000L, lastAtMs = 2_000L)
+        val edge = 2_000L + HandsFreeRefusalPolicy.PATIENCE_MS
+        assertFalse(HandsFreeRefusalPolicy.anyLive(emptyList(), edge))
+        assertTrue(HandsFreeRefusalPolicy.anyLive(listOf(old), edge))
+        assertFalse(HandsFreeRefusalPolicy.anyLive(listOf(old), edge + 1))
+        // One that still refuses is asked every 2 min at most, so it stays live.
+        val still = HandsFreeRefusalPolicy.Refusals(1_000L, edge + 1 - HandsFreeRefusalPolicy.SLOW_RETRY_GAP_MS)
+        assertTrue(HandsFreeRefusalPolicy.anyLive(listOf(old, still), edge + 1))
+    }
+
+    @Test
+    fun `an off-list ask is spaced from the last ask, and a dead dial waits longer beside other phones`() {
+        assertEquals(1_000L + HandsFreeRefusalPolicy.RETRY_GAP_MS, offListA()!!.nextAskAtMs)
+        assertEquals(HandsFreeRefusalPolicy.RETRY_GAP_MS, HandsFreeRefusalPolicy.offListGapMs(unanswered = false, othersListed = true))
+        assertEquals(HandsFreeRefusalPolicy.RETRY_GAP_MS, HandsFreeRefusalPolicy.offListGapMs(unanswered = true, othersListed = false))
+        assertEquals(HandsFreeRefusalPolicy.SLOW_RETRY_GAP_MS, HandsFreeRefusalPolicy.offListGapMs(unanswered = true, othersListed = true))
+    }
+
+    // The automatic loop keeps asking a listed phone, at the slower gap once ten minutes are over.
+    @Test
+    fun `after the fast ten minutes the asking slows`() {
         val refusedAt = 1_000L
         val tenMinutesOn = refusedAt + HandsFreeRefusalPolicy.PATIENCE_MS
-        assertTrue(HandsFreeRefusalPolicy.keepsAsking(refusedAt, tenMinutesOn + 2 * 60_000L))
         assertEquals(HandsFreeRefusalPolicy.RETRY_GAP_MS, HandsFreeRefusalPolicy.gapMs(refusedAt, tenMinutesOn - 1, 15_000L))
         assertEquals(HandsFreeRefusalPolicy.SLOW_RETRY_GAP_MS, HandsFreeRefusalPolicy.gapMs(refusedAt, tenMinutesOn, 15_000L))
-    }
-
-    // Measured 2026-10-24 on the Fold: the ask after a refusal failed to connect at all, and the
-    // wake stopped there because only a take-and-drop round kept it going. Fifteen minutes later the
-    // earbuds were in their case and nothing was asking. The refusal, not the last round, decides.
-    @Test
-    fun `later rounds that fail another way do not end the asking`() {
-        val refusedAt = 1_000L
-        val aRoundLater = refusedAt + HandsFreeRefusalPolicy.RETRY_GAP_MS
-        assertTrue(HandsFreeRefusalPolicy.keepsAsking(firstRefusalAtMs = refusedAt, nowMs = aRoundLater))
-    }
-
-    @Test
-    fun `a phone that never refused earns no extra asking`() {
-        assertFalse(HandsFreeRefusalPolicy.keepsAsking(firstRefusalAtMs = 0L, nowMs = 1_000L))
     }
 
     // Each ask opens Android Auto on the phone for about 5 s, so asking is spaced well apart.
@@ -90,5 +123,60 @@ class HandsFreeRefusalPolicyTest {
     @Test
     fun `the link is read after the phone has had time to drop it`() {
         assertTrue(HandsFreeRefusalPolicy.LINK_PROBE_MS >= 1_000L)
+    }
+
+    @Test
+    fun `the automatic loop keeps the refusal gap through a run of refusals`() {
+        var refusals: HandsFreeRefusalPolicy.Refusals? = null
+        var now = 1_000L
+        var asks = 0
+        while (now < 1_000L + HandsFreeRefusalPolicy.PATIENCE_MS) {
+            val noted = HandsFreeRefusalPolicy.noted(refusals, now)
+            assertTrue(HandsFreeRefusalPolicy.askAgainAtMs(noted) - now >= HandsFreeRefusalPolicy.RETRY_GAP_MS)
+            assertEquals(1_000L, noted.firstAtMs)
+            refusals = noted
+            now = HandsFreeRefusalPolicy.askAgainAtMs(noted)
+            asks++
+        }
+        assertEquals(20, asks)
+        val slow = HandsFreeRefusalPolicy.noted(refusals, now)
+        assertEquals(HandsFreeRefusalPolicy.SLOW_RETRY_GAP_MS, HandsFreeRefusalPolicy.askAgainAtMs(slow) - now)
+    }
+
+    @Test
+    fun `a refusal after a long silence starts the cadence again`() {
+        val old = HandsFreeRefusalPolicy.Refusals(firstAtMs = 1_000L, lastAtMs = 2_000L)
+        val later = 2_000L + HandsFreeRefusalPolicy.PATIENCE_MS + 1
+        assertEquals(HandsFreeRefusalPolicy.Refusals(later, later), HandsFreeRefusalPolicy.noted(old, later))
+        assertEquals(1_000L, HandsFreeRefusalPolicy.noted(old, later - 1).firstAtMs)
+    }
+
+    @Test
+    fun `a refused pick hands over once its ordinary rounds are over and never before`() {
+        assertTrue(HandsFreeRefusalPolicy.handsOver(true, WakeOutcome.ANSWERED, ordinaryRoundsLeft = false))
+        assertTrue(HandsFreeRefusalPolicy.handsOver(true, WakeOutcome.DIALLED, ordinaryRoundsLeft = false))
+        assertFalse(HandsFreeRefusalPolicy.handsOver(true, WakeOutcome.ANSWERED, ordinaryRoundsLeft = true))
+    }
+
+    @Test
+    fun `an unpaired phone or one that never refused ends its wake without a hand-over`() {
+        assertFalse(HandsFreeRefusalPolicy.handsOver(true, WakeOutcome.NOT_PAIRED, ordinaryRoundsLeft = false))
+        assertFalse(HandsFreeRefusalPolicy.handsOver(false, WakeOutcome.DIALLED, ordinaryRoundsLeft = false))
+    }
+
+    // Three refused rounds: 2 s each with 30 s between, then the other phones get their turn.
+    @Test
+    fun `the ordinary rounds of a refusing pick are over after three asks`() {
+        var rounds = 0
+        var elapsed = 0L
+        while (NativeDriverSelectionPolicy.chosenWakeContinues(WakeOutcome.ANSWERED, rounds, elapsed)) {
+            elapsed += HandsFreeRefusalPolicy.LINK_PROBE_MS
+            rounds++
+            if (NativeDriverSelectionPolicy.chosenWakeContinues(WakeOutcome.ANSWERED, rounds, elapsed)) {
+                elapsed += HandsFreeRefusalPolicy.gapMs(1_000L, 1_000L + elapsed, 15_000L)
+            }
+        }
+        assertEquals(3, rounds)
+        assertEquals(66_000L, elapsed)
     }
 }

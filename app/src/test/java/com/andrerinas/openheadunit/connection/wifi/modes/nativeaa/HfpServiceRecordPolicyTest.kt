@@ -107,15 +107,12 @@ class HfpServiceRecordPolicyTest {
         assertTrue(why!!, why.contains("answered nothing"))
     }
 
-    // Measured on a Z Fold3 back in the car: its own log said "okToAcceptConnection: Blocked by
-    // isNewConnectionAcceptable" for every poke while the car's Bluetooth and a pair of earbuds held
-    // its two audio-device places (MaxConnectedAudioDevices: 2). The reason has to say what to do.
+    // A phone that keeps its link up has not run out of audio places, so this line must not say so.
     @Test
-    fun `a phone that answered nothing is told what usually makes it refuse`() {
+    fun `a phone that answered nothing is not told to put an audio device away`() {
         val why = HfpServiceRecordPolicy.standInRefusalReason(true, HfpSlcInitiator.Stage.BRSF)!!
-        assertTrue(why, why.contains("audio devices"))
-        assertTrue(why, why.contains("earbuds"))
-        assertTrue(why, why.contains("Calls"))
+        assertFalse(why, why.contains("earbuds"))
+        assertFalse(why, why.contains("Calls"))
     }
 
     @Test

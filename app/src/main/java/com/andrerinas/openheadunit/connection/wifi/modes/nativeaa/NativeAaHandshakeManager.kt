@@ -70,6 +70,7 @@ import java.io.DataInputStream
 import java.io.OutputStream
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * Manages the official Android Auto Wireless Bluetooth handshake.
@@ -478,8 +479,14 @@ class NativeAaHandshakeManager(
     @Volatile private var selectionCanceledAt = 0L
     /** Whether a poke aimed at one chosen phone owns the poke slot. */
     @Volatile private var manualPokeInFlight = false
+    /** Names the chosen wake that owns [manualPokeInFlight], so a replaced one cannot clear it. */
+    private val manualPokeToken = AtomicInteger()
     /** The phone the last connected poke was refused by, or null. Read by the chosen phone's wake loop. */
     @Volatile private var lastPokeRefusedMac: String? = null
+    /** Per device, so the gap after a refusal outlives a restart of the automatic loop. */
+    private val handsFreeRefusals = ConcurrentHashMap<String, HandsFreeRefusalPolicy.Refusals>()
+    /** The refusing pick the automatic loop asks although its wake list leaves it out, or null. */
+    @Volatile private var offListPick: HandsFreeRefusalPolicy.OffListPick? = null
     /** When a target device is selected, only this MAC is allowed to proceed. */
     @Volatile var pendingSelectionTargetMac: String? = null
         private set
@@ -500,6 +507,7 @@ class NativeAaHandshakeManager(
 
     /** Forgets the chosen driver and everything its wake learned. */
     private fun clearChosenDriver() {
+        offListPick = null
         pendingSelectionTargetMac = null
         selectionTargetSetAt = 0L
         chosenExplicit = false
@@ -1772,6 +1780,12 @@ class NativeAaHandshakeManager(
                         write(step.writes)
 
                         if (step.establishedNow && keepAlive == null) {
+                            // Here, not after a hold: the phone opening Android Auto cancels the hold.
+                            handsFreeRefusals.remove(socket.remoteDevice.address)
+                            // One issue for the unit: another phone can still be refusing.
+                            if (!HandsFreeRefusalPolicy.anyLive(handsFreeRefusals.values, SystemClock.elapsedRealtime())) {
+                                ConnectionIssues.clear(context, ConnectionIssue.PHONE_REFUSED_HANDS_FREE)
+                            }
                             // Warning, not info: this is the moment the cost lands, and a reporter
                             // whose calls stop being heard needs it in a log exported at the
                             // default level.
@@ -1950,6 +1964,9 @@ class NativeAaHandshakeManager(
             lastEscalationMs = lastEscalatedWakeAt,
             escalationsUsed = escalatedWakes,
             now = now,
+            cycleQuietLeftMs = BluetoothRadioCyclePolicy.quietLeftMs(
+                radioCycleQuietUntil[device.address] ?: 0L, now, chosenWake = false
+            ),
         )
         if (!escalate) return false
         escalatedWakes++
@@ -2478,6 +2495,10 @@ class NativeAaHandshakeManager(
                     pokesSinceLastAccept++
                     val refused = holdPoke(socket, device, profile, uuid, holdMs)
                     lastPokeRefusedMac = if (refused) device.address else null
+                    if (refused) {
+                        // A refusal is an answer: counted as silence it blames another device's Bluetooth.
+                        pokesSinceLastAccept = (pokesSinceLastAccept - 1).coerceAtLeast(0)
+                    }
                     return BluetoothWakePolicy.WakeOutcome.ANSWERED
                 } catch (e: CancellationException) {
                     // Rethrow instead of falling through to the next UUID: a cancelled poke (e.g.
@@ -2579,18 +2600,25 @@ class NativeAaHandshakeManager(
             }
         }
         val stage = reached.get()
-        if (stage == HfpSlcInitiator.Stage.ESTABLISHED) {
-            ConnectionIssues.clear(context, ConnectionIssue.PHONE_REFUSED_HANDS_FREE)
-            return false
-        }
+        if (stage == HfpSlcInitiator.Stage.ESTABLISHED) return false
         if (HandsFreeRefusalPolicy.refused(stage, linkAfterProbe)) {
             AppLog.w(
                 "NativeAA: ${device.name ?: "unnamed"} (${device.address}) took the hands-free " +
                     "connection and dropped its whole link at once, so it is refusing another Bluetooth " +
                     "audio device. Phones hold two at a time, and the car's own Bluetooth plus earbuds " +
-                    "or a headset fill them: disconnect one and this unit connects by itself."
+                    "or a headset fill them: disconnect one and this unit connects by itself. If none " +
+                    "is connected, check that Calls is on for this unit in the phone's Bluetooth settings."
             )
-            ConnectionIssues.raiseOnce(context, ConnectionIssue.PHONE_REFUSED_HANDS_FREE)
+            // Raised again by the first refusal of a wake only: a stamp that moved on every ask would
+            // put the banner back in front of a user who had just dismissed it.
+            val before = handsFreeRefusals[device.address]
+            val refusals = HandsFreeRefusalPolicy.noted(before, SystemClock.elapsedRealtime())
+            handsFreeRefusals[device.address] = refusals
+            if (refusals.firstAtMs != before?.firstAtMs) {
+                ConnectionIssues.raise(context, ConnectionIssue.PHONE_REFUSED_HANDS_FREE)
+            } else {
+                ConnectionIssues.raiseOnce(context, ConnectionIssue.PHONE_REFUSED_HANDS_FREE)
+            }
             return true
         }
         HfpServiceRecordPolicy.standInRefusalReason(initiated = true, stage = stage)?.let { why ->
@@ -2835,8 +2863,13 @@ class NativeAaHandshakeManager(
                 if (staleMacs.isNotEmpty()) {
                     AppLog.w("NativeAA: Dropping wake poke MAC(s) no longer paired: $staleMacs")
                     settings.nativePokeBtMacs = selectedMacs - staleMacs
+                    // This drop is the app's, so it is not the user changing the list.
+                    offListPick?.let {
+                        if (it.list == wakeList(selectedMacs)) offListPick = it.copy(list = wakeList(selectedMacs - staleMacs))
+                    }
                 }
-                val devicesToPoke = when (val target = PokeTargetPolicy.targets(
+                val refusedPick = refusedPickOutside(wakeList(selectedMacs - staleMacs), adapter)
+                val listedToPoke = when (val target = PokeTargetPolicy.targets(
                     selectedMacs - staleMacs, settings.nativePokeAllPairedDevices, notPhones
                 )) {
                     is PokeTargets.Selected -> {
@@ -2865,10 +2898,15 @@ class NativeAaHandshakeManager(
                     }
                     PokeTargets.None -> {
                         noteDroppedPokeTargets(notPhones, chosen)
-                        AppLog.w("NativeAA: No wake poke phone selected, so nothing is poked. Choose one in Auto Start settings.")
+                        if (refusedPick == null) {
+                            AppLog.w("NativeAA: No wake poke phone selected, so nothing is poked. Choose one in Auto Start settings.")
+                        }
                         emptyList()
                     }
                 }
+                val devicesToPoke =
+                    if (refusedPick == null || listedToPoke.any { it.address == refusedPick.address }) listedToPoke
+                    else listedToPoke + refusedPick
 
                 if (devicesToPoke.isEmpty()) {
                     if (manufacturerPairing.peers.isNotEmpty()) {
@@ -2920,9 +2958,10 @@ class NativeAaHandshakeManager(
                     // An escalated wake has just taken this phone's hands-free slot. The guard now
                     // reads no link to defer to, so without this the ordinary loop re-takes the slot
                     // every pass and the link never gets a window in which to come back.
-                    val cycleQuietUntil = radioCycleQuietUntil[device.address] ?: 0L
-                    if (cycleQuietUntil > SystemClock.elapsedRealtime()) {
-                        val leftMs = cycleQuietUntil - SystemClock.elapsedRealtime()
+                    val leftMs = BluetoothRadioCyclePolicy.quietLeftMs(
+                        radioCycleQuietUntil[device.address] ?: 0L, SystemClock.elapsedRealtime(), chosenWake = false
+                    )
+                    if (leftMs > 0) {
                         AppLog.i("NativeAA: leaving ${device.name ?: "unnamed"} (${device.address}) " +
                             "unpoked for another ${leftMs / 1000}s after cycling this unit's " +
                             "Bluetooth, so the phone can act on the connection it just saw.")
@@ -2939,6 +2978,24 @@ class NativeAaHandshakeManager(
                         continue
                     }
                     escalationProbeUntil.remove(device.address)
+
+                    // Each ask of a refusing phone opens Android Auto on it for 5 s and raises a
+                    // connect event on this unit, so it is asked at the refusal cadence, not this loop's.
+                    val refusalLeftMs = handsFreeRefusals[device.address]
+                        ?.let { HandsFreeRefusalPolicy.askAgainAtMs(it) - SystemClock.elapsedRealtime() } ?: 0L
+                    if (refusalLeftMs > 0) {
+                        AppLog.i("NativeAA: leaving ${device.name ?: "unnamed"} (${device.address}) " +
+                            "unpoked for another ${refusalLeftMs / 1000}s, because it refused the " +
+                            "hands-free connection.")
+                        continue
+                    }
+                    val offListLeftMs = offListPick?.takeIf { it.mac == device.address }
+                        ?.let { it.nextAskAtMs - SystemClock.elapsedRealtime() } ?: 0L
+                    if (offListLeftMs > 0) {
+                        AppLog.i("NativeAA: leaving ${device.name ?: "unnamed"} (${device.address}) unpoked for " +
+                            "another ${offListLeftMs / 1000}s: it refused, and it is not on the wake list.")
+                        continue
+                    }
 
                     // An escalated wake took this phone's hands-free slot and bought nothing. The
                     // ordinary loop would keep re-taking it, so the link would never come back.
@@ -2957,7 +3014,13 @@ class NativeAaHandshakeManager(
                     if (!wakesPhone()) break
                     AppLog.i("NativeAA: Attempting active poke to device: ${device.name} (${device.address})...")
                     ConnectionStageTracker.report(ConnectionStage.WAKING_PHONE)
-                    pokeDevice(device, holdMs = 15000)
+                    // Stamped on both sides of the ask: a cancelled one counts as an ask too.
+                    noteOffListAsk(device, HandsFreeRefusalPolicy.offListGapMs(false, othersListed = false))
+                    val outcome = pokeDevice(device, holdMs = 15000)
+                    noteOffListAsk(device, HandsFreeRefusalPolicy.offListGapMs(
+                        unanswered = outcome == BluetoothWakePolicy.WakeOutcome.DIALLED,
+                        othersListed = listedToPoke.isNotEmpty()
+                    ))
                 }
 
                 // [BUG_FIX] Say out loud that the phone answers but never calls back. Untold, that
@@ -2999,6 +3062,31 @@ class NativeAaHandshakeManager(
         }
     }
 
+
+    /** A refused pick the wake list leaves out is still asked after its wake handed over. */
+    private fun refusedPickOutside(list: PokeTargets, adapter: BluetoothAdapter): BluetoothDevice? {
+        val pick = offListPick ?: return null
+        val asks = HandsFreeRefusalPolicy.asksOffList(
+            pick, pendingSelectionTargetMac, list,
+            stillRefuses = handsFreeRefusals.containsKey(pick.mac),
+            pickAgeMs = SystemClock.elapsedRealtime() - selectionTargetSetAt,
+        )
+        if (!asks) {
+            AppLog.i("NativeAA: ${pick.mac} is not on the wake list and is no longer asked.")
+            offListPick = null
+            return null
+        }
+        if (!BluetoothWakePolicy.mayPoke(bondReadingFor(adapter, pick.mac))) return null
+        return try { adapter.getRemoteDevice(pick.mac) } catch (e: Exception) { null }
+    }
+
+    private fun noteOffListAsk(device: BluetoothDevice, gapMs: Long) {
+        val pick = offListPick ?: return
+        if (pick.mac == device.address) offListPick = pick.copy(nextAskAtMs = SystemClock.elapsedRealtime() + gapMs)
+    }
+
+    private fun wakeList(macs: Set<String>): PokeTargets =
+        PokeTargetPolicy.targets(macs, settings.nativePokeAllPairedDevices)
 
     /** The WiFi button on the module route: there is no Android device to name, only the module. */
     fun wakeOverModule(): Boolean {
@@ -3054,6 +3142,7 @@ class NativeAaHandshakeManager(
             }
         }
         val adapter = BluetoothHelper.getBluetoothAdapter(context) ?: return
+        var token: Int? = null
         try {
             val device = adapter.getRemoteDevice(address)
             AppLog.i("NativeAA: Manual poke requested for ${device.name} ($address)")
@@ -3061,15 +3150,23 @@ class NativeAaHandshakeManager(
             // gesture the UI offers, and it means they want another attempt whatever we concluded.
             resetHandshakeBackoff()
             resetJoinRefusals()
+            handsFreeRefusals.remove(device.address)
+            offListPick = null
+            // As it is now: a pick the user takes off the list during its wake was on it.
+            val listAtPick = wakeList(settings.nativePokeBtMacs)
 
             pokeJob?.cancel()
             // The manual job takes the slot the retry loop uses, so forget what the loop last poked
             // for. Left set, a redelivery of unchanged credentials during this poke reads as "the
             // loop is already running for these" and the loop is never started again.
             lastPokeTriggerCredentials = null
+            val ownToken = manualPokeToken.incrementAndGet()
+            token = ownToken
             manualPokeInFlight = true
             pokeJob = scope.launch(Dispatchers.IO + CoroutineName("NativeAa-ManualWakeup")) {
+                var handOver = false
                 try {
+                    awaitRadioCycleEnd()
                     // Pre-flight: Ensure WiFi credentials (SSID/IP) are ready before connecting RFCOMM to phone.
                     if (credentials == null) {
                         AppLog.i("NativeAA: WiFi credentials not ready before manual poke. Requesting WiFi refresh...")
@@ -3093,19 +3190,30 @@ class NativeAaHandshakeManager(
                     val wakeStartedAt = SystemClock.elapsedRealtime()
                     var roundsDialled = 0
                     var outcome = BluetoothWakePolicy.WakeOutcome.STOOD_DOWN
-                    // A phone that refused the link is asked again, slowly, past the ordinary rounds
-                    // and whatever later rounds do, so the driver putting earbuds away is all it
-                    // takes. See HandsFreeRefusalPolicy.
+                    // A phone that refused the link is asked again, slowly. Past the ordinary rounds
+                    // the automatic loop asks it, so this wake does not hold every other phone off.
                     var firstRefusalAt = 0L
                     val pickStamp = selectionTargetSetAt
                     fun keepWaking() = NativeDriverSelectionPolicy.chosenWakeContinues(
                         outcome, roundsDialled, SystemClock.elapsedRealtime() - wakeStartedAt
-                    ) || HandsFreeRefusalPolicy.keepsAsking(firstRefusalAt, SystemClock.elapsedRealtime())
+                    )
                     while (keepWaking()) {
                         if (!isActive() || !isActive || isHandshakeInFlight() || isHandoffSettling()) break
                         if (usesHctCarrier()) {
                             reportHctNetworkReady()
                             break
+                        }
+                        // A poke here takes back the link a cycle just returned, and the cycle's own
+                        // reading would then condemn this unit's radio for good.
+                        val quietLeftMs = BluetoothRadioCyclePolicy.quietLeftMs(
+                            radioCycleQuietUntil[device.address] ?: 0L, SystemClock.elapsedRealtime(), chosenWake = true
+                        )
+                        if (quietLeftMs > 0) {
+                            AppLog.i("NativeAA: leaving ${device.name ?: "unnamed"} (${device.address}) " +
+                                "unpoked for another ${quietLeftMs / 1000}s after cycling this unit's " +
+                                "Bluetooth, so the phone can act on the connection it just saw.")
+                            delay(minOf(quietLeftMs, POKE_RETRY_GAP_MS))
+                            continue
                         }
                         // The escalation now fires on this path too, so its give-back has to hold
                         // here as well: re-poking inside the window is what it exists to prevent.
@@ -3123,9 +3231,8 @@ class NativeAaHandshakeManager(
                         // runs, back to waiting after one the phone did not answer.
                         ConnectionStageTracker.report(ConnectionStage.WAKING_PHONE)
                         outcome = pokeDevice(device, holdMs = 20000)
-                        if (firstRefusalAt == 0L && lastPokeRefusedMac.equals(device.address, ignoreCase = true)) {
-                            firstRefusalAt = SystemClock.elapsedRealtime()
-                        }
+                        val refused = lastPokeRefusedMac.equals(device.address, ignoreCase = true)
+                        if (firstRefusalAt == 0L && refused) firstRefusalAt = SystemClock.elapsedRealtime()
                         AppLog.i("NativeAA: Manual poke to ${device.name} finished.")
                         // A cancelled job's blocking connect can return after a newer pick.
                         if (selectionTargetSetAt == pickStamp &&
@@ -3144,27 +3251,52 @@ class NativeAaHandshakeManager(
                                 }
                             }
                         }
-                        if (outcome != BluetoothWakePolicy.WakeOutcome.ANSWERED) {
+                        if (refused || outcome != BluetoothWakePolicy.WakeOutcome.ANSWERED) {
                             ConnectionStageTracker.retreat(ConnectionStage.WAKING_PHONE, ConnectionStage.WAITING_FOR_PHONE)
                         }
                         if (NativeDriverSelectionPolicy.wakeRoundSpent(outcome)) roundsDialled++
                         if (keepWaking()) {
                             val gap = HandsFreeRefusalPolicy.gapMs(firstRefusalAt, SystemClock.elapsedRealtime(), POKE_RETRY_GAP_MS)
-                            // Only when that ask will happen: the window can close during the gap.
-                            if (HandsFreeRefusalPolicy.keepsAsking(firstRefusalAt, SystemClock.elapsedRealtime() + gap)) {
+                            if (firstRefusalAt != 0L) {
                                 AppLog.i("NativeAA: asking ${device.name ?: "unnamed"} again in ${gap / 1000}s, " +
                                     "until it has a free Bluetooth audio place for this unit.")
                             }
                             delay(gap)
                         }
                     }
+                    handOver = HandsFreeRefusalPolicy.handsOver(firstRefusalAt != 0L, outcome, keepWaking())
                 } finally {
-                    manualPokeInFlight = false
+                    releaseManualPoke(ownToken)
+                }
+                if (handOver && isActive && manualPokeToken.get() == ownToken) {
+                    AppLog.i("NativeAA: ${device.name ?: "unnamed"} (${device.address}) still refuses the hands-free " +
+                        "connection, so the automatic wake takes over and the other phones get their turn.")
+                    offListPick = HandsFreeRefusalPolicy.offListPick(
+                        device.address, listAtPick, SystemClock.elapsedRealtime()
+                    )
+                    triggerPoke()
                 }
             }
         } catch (e: Exception) {
-            manualPokeInFlight = false
+            token?.let { releaseManualPoke(it) }
             AppLog.e("NativeAA: Manual poke error", e)
+        }
+    }
+
+    private fun releaseManualPoke(token: Int) {
+        if (manualPokeToken.get() == token) manualPokeInFlight = false
+    }
+
+    /** A pick made during a radio cycle has no radio to wake with until the cycle ends. */
+    private suspend fun awaitRadioCycleEnd() {
+        if (!radioCycleInProgress) return
+        AppLog.i("NativeAA: this unit's Bluetooth is down for a radio cycle, so the chosen phone's wake waits for it.")
+        while (radioCycleInProgress) delay(POKE_READY_POLL_MS)
+        // The reopen loop can be one whole delay behind the radio.
+        var waitedMs = 0L
+        while (!isActive() && isRunning && waitedMs < AaListenerRecoveryPolicy.REOPEN_DELAY_MS + POKE_READY_WAIT_MS) {
+            delay(POKE_READY_POLL_MS)
+            waitedMs += POKE_READY_POLL_MS
         }
     }
 
@@ -4664,6 +4796,7 @@ class NativeAaHandshakeManager(
         deadLinkFailures.clear()
         deadLinkSince.clear()
         deadLinkBlockedLoggedFor = null
+        handsFreeRefusals.clear()
         if (pokeJob?.isActive == true) {
             AppLog.i("NativeAA: session is up — cancelling the poke retry loop")
         }
@@ -4758,6 +4891,7 @@ class NativeAaHandshakeManager(
         // The escalated-wake budget is per arming, so it comes back with the next start(). The
         // damage verdict is not: it is a measurement of this unit and outlives every arming.
         handsFreeStandDownSince.clear()
+        handsFreeRefusals.clear()
         escalatedWakes = 0
         lastEscalatedWakeAt = 0L
         escalationSpentLoggedFor = null

@@ -41,6 +41,8 @@ object HandsFreeWakeEscalationPolicy {
      *   phone paired only for calls is never disturbed.
      * @param sessionInProgress a session up, handshaking or settling; nothing touches the radio then.
      * @param standDownSinceMs when this device's stand-down began, or zero if it has not.
+     * @param cycleQuietLeftMs what is left of the quiet after a radio cycle; a wake inside it takes
+     *   back the link the cycle just returned.
      * @param lastEscalationMs when the last escalated wake went out, or zero if none has.
      */
     fun shouldEscalate(
@@ -52,8 +54,10 @@ object HandsFreeWakeEscalationPolicy {
         lastEscalationMs: Long,
         escalationsUsed: Int,
         now: Long,
+        cycleQuietLeftMs: Long,
     ): Boolean {
         if (!unitAllowsWake) return false
+        if (cycleQuietLeftMs > 0L) return false
         if (reason != BluetoothWakePolicy.WakeReason.TARGET_CONNECTED) return false
         if (!phoneEverOpenedAaChannel) return false
         if (sessionInProgress) return false

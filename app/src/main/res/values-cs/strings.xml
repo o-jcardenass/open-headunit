@@ -1280,6 +1280,7 @@
     <string name="connection_issue_banner_five_ghz_channel_refused">Tato jednotka odmítla použít vámi zvolený kanál 5 GHz a vybrala kanál, který některé telefony nevidí. Klepnutím přepněte Wi-Fi Direct na 2,4 GHz, které funguje všude.</string>
     <string name="connection_issue_banner_headunit_server_deaf">Server autorádia služby Android Auto ve vašem telefonu přestal odpovídat. V telefonu ho zastavte a znovu spusťte ve vývojářských nastaveních Android Auto.</string>
     <string name="connection_issue_banner_hands_free_held">Jiné zařízení používá handsfree připojení této jednotky, které Android Auto potřebuje. Odpojte to zařízení a tato jednotka to zkusí znovu.</string>
+    <string name="connection_issue_banner_phone_refused_hands_free">Telefon odmítl připojení Bluetooth tohoto autorádia, které Android Auto potřebuje. Telefon podporuje dvě zvuková zařízení Bluetooth současně a ta obsadí Bluetooth samotného auta spolu se sluchátky nebo headsetem. Odpojte jedno z nich a autorádio se připojí samo. Pokud není připojeno žádné, zapněte v nastavení Bluetooth v telefonu pro autorádio možnost „Volání“.</string>
     <string name="connection_issue_banner_dismiss">Zavřít</string>
     <string name="auto_connect_pill_cancel">Zastavit připojování</string>
     <string name="connection_issue_remedy_hotspot_query">Název a heslo hotspotu</string>

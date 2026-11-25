@@ -19,10 +19,25 @@ class HandsFreeWakeEscalationPolicyTest {
         lastEscalationMs: Long = 0L,
         escalationsUsed: Int = 0,
         now: Long = ripe,
+        cycleQuietLeftMs: Long = 0L,
     ) = HandsFreeWakeEscalationPolicy.shouldEscalate(
         unitAllowsWake, reason, phoneEverOpenedAaChannel, sessionInProgress,
-        standDownSinceMs, lastEscalationMs, escalationsUsed, now
+        standDownSinceMs, lastEscalationMs, escalationsUsed, now, cycleQuietLeftMs
     )
+
+    // A pick polls again 31 s after a cycle, while the phone may need the rest of the 90 s.
+    @Test
+    fun `a wake over a held link waits for the quiet after a radio cycle`() {
+        val cycledAt = 200_000L
+        val quietUntil = cycledAt + BluetoothRadioCyclePolicy.POST_CYCLE_QUIET_MS
+        fun at(now: Long) = escalate(
+            now = now,
+            cycleQuietLeftMs = BluetoothRadioCyclePolicy.quietLeftMs(quietUntil, now, chosenWake = false),
+        )
+        assertFalse(at(cycledAt + BluetoothRadioCyclePolicy.CHOSEN_QUIET_MS))
+        assertFalse(at(quietUntil - 1))
+        assertTrue(at(quietUntil))
+    }
 
     @Test
     fun `a stand-down that has run its course wakes the phone anyway`() {

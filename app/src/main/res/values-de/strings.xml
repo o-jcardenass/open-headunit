@@ -1287,6 +1287,7 @@
     <string name="connection_issue_banner_five_ghz_channel_refused">Dieses Gerät wollte den gewählten 5-GHz-Kanal nicht nutzen und hat einen gewählt, den manche Telefone nicht sehen. Tippe hier, um WiFi Direct auf 2,4 GHz umzustellen, das überall funktioniert.</string>
     <string name="connection_issue_banner_headunit_server_deaf">Der Head-Unit-Server von Android Auto auf deinem Telefon antwortet nicht mehr. Stoppe ihn auf dem Telefon und starte ihn in den Entwicklereinstellungen von Android Auto erneut.</string>
     <string name="connection_issue_banner_hands_free_held">Ein anderes Gerät nutzt die Freisprechverbindung dieses Geräts, die Android Auto braucht. Trenne das andere Gerät, dann versucht dieses Gerät es erneut.</string>
+    <string name="connection_issue_banner_phone_refused_hands_free">Dein Smartphone hat die Bluetooth-Verbindung dieses Geräts abgelehnt, die Android Auto braucht. Smartphones nehmen zwei Bluetooth-Audiogeräte gleichzeitig an, und das Bluetooth des Autos selbst plus Ohrhörer oder ein Headset belegen beide. Trenne eines, dann verbindet sich dieses Gerät von selbst. Ist keines verbunden, aktiviere in den Bluetooth-Einstellungen des Smartphones „Anrufe“ für dieses Gerät.</string>
     <string name="connection_issue_banner_dismiss">Schließen</string>
     <string name="auto_connect_pill_cancel">Verbinden abbrechen</string>
     <string name="connection_issue_remedy_hotspot_query">Hotspot-Name und Passwort</string>

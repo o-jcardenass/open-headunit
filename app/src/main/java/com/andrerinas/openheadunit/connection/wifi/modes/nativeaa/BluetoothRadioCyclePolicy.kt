@@ -31,6 +31,15 @@ object BluetoothRadioCyclePolicy {
      */
     const val POST_CYCLE_QUIET_MS = 90_000L
 
+    /** The same for a pick: past the probe's reading, so it stays honest, and inside the wake's ceiling. */
+    const val CHOSEN_QUIET_MS = RECOVERY_WINDOW_MS + 1_000L
+
+    /** What is left of the quiet that ends at [quietUntilMs] for the automatic loop. */
+    fun quietLeftMs(quietUntilMs: Long, nowMs: Long, chosenWake: Boolean): Long {
+        val until = if (chosenWake) quietUntilMs - POST_CYCLE_QUIET_MS + CHOSEN_QUIET_MS else quietUntilMs
+        return (until - nowMs).coerceAtLeast(0L)
+    }
+
     /** Bounds on the two adapter transitions, so a radio that never answers cannot hang the loop. */
     const val ADAPTER_OFF_WAIT_MS = 10_000L
     const val ADAPTER_ON_WAIT_MS = 20_000L
