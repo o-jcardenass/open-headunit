@@ -160,7 +160,8 @@ class SettingsAdapter : ListAdapter<SettingItem, RecyclerView.ViewHolder>(Settin
         internal val WARM_PLAN: List<Pair<Int, Int>> = listOf(
             VIEW_TYPE_TOGGLE to 8,
             VIEW_TYPE_SETTING to 6,
-            VIEW_TYPE_SEGMENTED to 2,
+            VIEW_TYPE_SEGMENTED to 4,
+            VIEW_TYPE_SLIDER to 1,
             VIEW_TYPE_HEADER to 2,
             VIEW_TYPE_INFO_BANNER to 2
         )
@@ -173,8 +174,11 @@ class SettingsAdapter : ListAdapter<SettingItem, RecyclerView.ViewHolder>(Settin
                 button.setOnClickListener(null)
                 return
             }
-            button.setImageResource(if (colors.filledIcons) R.drawable.ic_sym_help_fill else R.drawable.ic_sym_help)
-            button.setColorFilter(colors.onSurfaceVariant, PorterDuff.Mode.SRC_IN)
+            // The icon is the same for the life of the row, so only the first bind loads it.
+            if (button.drawable == null) {
+                button.setImageResource(if (colors.filledIcons) R.drawable.ic_sym_help_fill else R.drawable.ic_sym_help)
+                button.setColorFilter(colors.onSurfaceVariant, PorterDuff.Mode.SRC_IN)
+            }
             button.contentDescription = button.context.getString(R.string.setting_help_for, name)
             button.setOnClickListener { SettingHelpDialog.show(button.context, name, helpResId, item.stableId) }
             button.visibility = View.VISIBLE
@@ -534,6 +538,9 @@ class SettingsAdapter : ListAdapter<SettingItem, RecyclerView.ViewHolder>(Settin
             itemView.findViewById(R.id.btnOption3)
         )
 
+        // The option count the corners were last built for. A rebind with the same count keeps them.
+        private var shapedCount = -1
+
         init {
             val background = SettingsDrawables.checkedColors(colors.secondaryContainer, Color.TRANSPARENT)
             val text = SettingsDrawables.checkedColors(colors.onSecondaryContainer, colors.onSurface)
@@ -552,23 +559,26 @@ class SettingsAdapter : ListAdapter<SettingItem, RecyclerView.ViewHolder>(Settin
 
             val visibleButtons = buttons.filterIndexed { index, _ -> index < setting.options.size }
             buttons.forEachIndexed { index, button ->
-                if (index < setting.options.size) {
-                    button.text = setting.options[index]
-                    button.visibility = View.VISIBLE
-                } else {
-                    button.visibility = View.GONE
-                }
+                val shown = index < setting.options.size
+                // A text or visibility write forces a new layout pass, so an equal value is skipped.
+                if (shown && button.text.toString() != setting.options[index]) button.text = setting.options[index]
+                val visibility = if (shown) View.VISIBLE else View.GONE
+                if (button.visibility != visibility) button.visibility = visibility
             }
 
             // Pill ends on the outer buttons, square joints between them.
+            val reshape = shapedCount != visibleButtons.size
+            shapedCount = visibleButtons.size
             val radius = itemView.resources.getDimension(R.dimen.settings_segment_radius)
             visibleButtons.forEachIndexed { index, button ->
-                val start = if (index == 0) radius else 0f
-                val end = if (index == visibleButtons.size - 1) radius else 0f
-                button.shapeAppearanceModel = ShapeAppearanceModel.builder()
-                    .setTopLeftCornerSize(start).setBottomLeftCornerSize(start)
-                    .setTopRightCornerSize(end).setBottomRightCornerSize(end)
-                    .build()
+                if (reshape) {
+                    val start = if (index == 0) radius else 0f
+                    val end = if (index == visibleButtons.size - 1) radius else 0f
+                    button.shapeAppearanceModel = ShapeAppearanceModel.builder()
+                        .setTopLeftCornerSize(start).setBottomLeftCornerSize(start)
+                        .setTopRightCornerSize(end).setBottomRightCornerSize(end)
+                        .build()
+                }
                 button.isChecked = index == setting.selectedIndex
 
                 button.setOnClickListener {

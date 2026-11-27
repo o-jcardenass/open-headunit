@@ -5,6 +5,7 @@ import android.view.ContextThemeWrapper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.andrerinas.openheadunit.R
+import com.google.android.material.button.MaterialButton
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotSame
@@ -77,5 +78,32 @@ class SettingsAdapterPoolTest {
 
         adapter.bindViewHolder(holder, 0)
         assertNotSame(middle, holder.itemView.background)
+    }
+
+    private fun segmented(id: String, vararg options: String) = SettingItem.SegmentedButtonSettingEntry(
+        stableId = id,
+        nameResId = R.string.wireless_mode,
+        options = options.toList(),
+        selectedIndex = 0,
+        onOptionSelected = {}
+    )
+
+    @Test
+    fun `a rebind with the same option count keeps the segment corners`() {
+        val adapter = SettingsAdapter()
+        val list = listWith(adapter)
+        adapter.submitList(listOf(segmented("a", "1", "2", "3"), segmented("b", "x", "y", "z"), segmented("c", "p", "q")))
+        val holder = adapter.createViewHolder(list, adapter.getItemViewType(0))
+        val first = holder.itemView.findViewById<MaterialButton>(R.id.btnOption1)
+        val second = holder.itemView.findViewById<MaterialButton>(R.id.btnOption2)
+
+        adapter.bindViewHolder(holder, 0)
+        val corners = second.shapeAppearanceModel
+        adapter.bindViewHolder(holder, 1)
+        assertSame(corners, second.shapeAppearanceModel)
+        assertEquals("x", first.text.toString())
+
+        adapter.bindViewHolder(holder, 2)
+        assertNotSame(corners, second.shapeAppearanceModel)
     }
 }
