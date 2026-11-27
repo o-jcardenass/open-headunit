@@ -166,6 +166,14 @@ class SettingsAdapter : ListAdapter<SettingItem, RecyclerView.ViewHolder>(Settin
             VIEW_TYPE_INFO_BANNER to 2
         )
 
+        /**
+         * A flat button casts no shadow, but the framework still asks its Material background for
+         * an outline on each invalidation, and that path math is slow on weak head units.
+         */
+        private fun dropOutline(button: MaterialButton) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) button.outlineProvider = null
+        }
+
         /** Shows the (?) when the row has help and hides it otherwise: holders are recycled. */
         private fun bindHelp(button: ImageButton, item: SettingItem, name: CharSequence, colors: SettingsPalette) {
             val helpResId = SettingHelpPolicy.helpResId(item)
@@ -378,6 +386,7 @@ class SettingsAdapter : ListAdapter<SettingItem, RecyclerView.ViewHolder>(Settin
             testButton.strokeColor = ColorStateList.valueOf(colors.outline)
             testButton.iconTint = ColorStateList.valueOf(colors.onSurfaceVariant)
             testButton.rippleColor = ColorStateList.valueOf(colors.secondaryContainer)
+            dropOutline(testButton)
         }
 
         fun bind(setting: SettingItem.StreamSettingEntry) {
@@ -550,6 +559,7 @@ class SettingsAdapter : ListAdapter<SettingItem, RecyclerView.ViewHolder>(Settin
                 button.setTextColor(text)
                 button.strokeColor = stroke
                 button.rippleColor = ColorStateList.valueOf(colors.secondaryContainer)
+                dropOutline(button)
             }
         }
 
