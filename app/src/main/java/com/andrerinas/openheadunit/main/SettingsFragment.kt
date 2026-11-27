@@ -424,6 +424,7 @@ class SettingsFragment : Fragment() {
         setupHeader(view)
 
         updateSettingsList()
+        settingsAdapter.warmPool(settingsRecyclerView)
         if (Build.VERSION.SDK_INT >= 26) viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {

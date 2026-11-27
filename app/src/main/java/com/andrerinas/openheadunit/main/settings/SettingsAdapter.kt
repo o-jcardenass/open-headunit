@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.LayerDrawable
 import android.os.Build
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.andrerinas.openheadunit.R
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.shape.ShapeAppearanceModel
+import java.util.WeakHashMap
 
 // Sealed class to represent different types of items in the settings list
 sealed class SettingItem {
@@ -151,6 +153,18 @@ class SettingsAdapter : ListAdapter<SettingItem, RecyclerView.ViewHolder>(Settin
         /** Rebind payload that only refreshes a row's group corners. */
         private const val PAYLOAD_GROUP_SHAPE = "groupShape"
 
+        // A long run of one row type leaves the screen at once; the default pool of 5 dropped the rest.
+        private const val COMMON_ROW_POOL_SIZE = 16
+
+        /** Spare rows built while the screen is idle, as view type to count. */
+        internal val WARM_PLAN: List<Pair<Int, Int>> = listOf(
+            VIEW_TYPE_TOGGLE to 8,
+            VIEW_TYPE_SETTING to 6,
+            VIEW_TYPE_SEGMENTED to 2,
+            VIEW_TYPE_HEADER to 2,
+            VIEW_TYPE_INFO_BANNER to 2
+        )
+
         /** Shows the (?) when the row has help and hides it otherwise: holders are recycled. */
         private fun bindHelp(button: ImageButton, item: SettingItem, name: CharSequence, colors: SettingsPalette) {
             val helpResId = SettingHelpPolicy.helpResId(item)
@@ -172,6 +186,36 @@ class SettingsAdapter : ListAdapter<SettingItem, RecyclerView.ViewHolder>(Settin
 
     private fun palette(parent: View): SettingsPalette =
         palette ?: SettingsPalette.from(parent.context).also { palette = it }
+
+    // The shape each row view last got, so a rebind to the same shape builds no new background.
+    private val appliedShapes = WeakHashMap<View, Pair<GroupPosition, Int>>()
+
+    /**
+     * The first scroll after the screen opened inflated every row cold and stuttered. This builds
+     * spare rows one at a time while the main thread is idle, so the scroll finds them ready.
+     */
+    fun warmPool(recyclerView: RecyclerView) {
+        raisePoolLimits(recyclerView)
+        val pending = warmQueue()
+        Looper.myQueue().addIdleHandler { warmStep(recyclerView, pending) }
+    }
+
+    internal fun raisePoolLimits(recyclerView: RecyclerView) {
+        val pool = recyclerView.recycledViewPool
+        pool.setMaxRecycledViews(VIEW_TYPE_TOGGLE, COMMON_ROW_POOL_SIZE)
+        pool.setMaxRecycledViews(VIEW_TYPE_SETTING, COMMON_ROW_POOL_SIZE)
+    }
+
+    internal fun warmQueue(): MutableList<Int> =
+        WARM_PLAN.flatMap { (type, count) -> List(count) { type } }.toMutableList()
+
+    /** Builds one spare row. Returns false when the plan is done or the list has another adapter. */
+    internal fun warmStep(recyclerView: RecyclerView, pending: MutableList<Int>): Boolean {
+        if (pending.isEmpty() || recyclerView.adapter !== this) return false
+        val type = pending.removeAt(pending.lastIndex)
+        recyclerView.recycledViewPool.putRecycledView(createViewHolder(recyclerView, type))
+        return pending.isNotEmpty()
+    }
 
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
@@ -253,8 +297,12 @@ class SettingsAdapter : ListAdapter<SettingItem, RecyclerView.ViewHolder>(Settin
         val groupPosition = GroupPosition.of(isFirst = !isGroupRow(prev), isLast = !isGroupRow(next))
         val colors = palette(view)
         val fill = if (item is SettingItem.InfoBanner) colors.containerHighest else colors.container
-        val radius = view.resources.getDimension(R.dimen.settings_group_radius)
-        view.background = SettingsDrawables.groupItem(view.context, colors, groupPosition, radius, fill)
+        val shape = groupPosition to fill
+        if (appliedShapes[view] != shape) {
+            val radius = view.resources.getDimension(R.dimen.settings_group_radius)
+            view.background = SettingsDrawables.groupItem(view.context, colors, groupPosition, radius, fill)
+            appliedShapes[view] = shape
+        }
         // A group right under the scope note (the "no results" note, say) has no section header
         // to space it, so it takes the header's gap itself. Reset otherwise: holders are recycled.
         (view.layoutParams as? ViewGroup.MarginLayoutParams)?.let { params ->
